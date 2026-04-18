@@ -248,6 +248,17 @@
     .sop-all-done-emoji { font-size: 48px; margin-bottom: 8px; }
     .sop-all-done-text { font-size: 16px; font-weight: 700; color: #2e7d32; margin-bottom: 4px; }
     .sop-all-done-sub { font-size: 13px; color: #558b2f; }
+    /* ===== SOP 清单多选模式 ===== */
+    .sop-list-container { display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto; }
+    .sop-item { background: #f8f9fa; border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; }
+    .sop-item.sop-item-yes { background: #e8f5e9; border: 1px solid #a5d6a7; }
+    .sop-item.sop-item-no { background: #fff3f3; border: 1px solid #ffcdd2; }
+    .sop-item-text { flex: 1; font-size: 14px; color: #2b5a7a; line-height: 1.4; margin-right: 12px; }
+    .sop-item-btns { display: flex; gap: 6px; }
+    .sop-check-btn { padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #d0d8e0; background: white; color: #8f9eae; transition: all 0.15s; display: flex; align-items: center; gap: 3px; }
+    .sop-check-btn:active { transform: scale(0.95); }
+    .sop-check-btn.yes-checked { background: #43a047; color: white; border-color: #43a047; }
+    .sop-check-btn.no-checked { background: #ef5350; color: white; border-color: #ef5350; }
 
     /* ===== SOP 完成弹窗 ===== */
     .sop-finish-overlay {
@@ -736,7 +747,7 @@ function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) 
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
 function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
 function saveWeightData(d) { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(d)); if(window.saveWeightToFirebase) saveWeightToFirebase(d); }
-function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"positives":[],"negatives":[],"done":false,"date":null}'); }
+function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null}'); }
 function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); if(window.saveSOPToFirebase) saveSOPToFirebase(d); }
 function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
 function saveSOPStreaks(d) { localStorage.setItem(STORAGE.SOP_STREAKS, JSON.stringify(d)); if(window.saveSOPStreaksToFirebase) saveSOPStreaksToFirebase(d); }
@@ -1715,133 +1726,82 @@ function renderWeightRecords() {
 // ==================== SOP 游戏模块 ====================
 const SOP_CATEGORIES = [
   { id: 'sport', name: '运动', icon: '🏃', color: '#2196f3',
-    tips: '运动是消耗热量的核心。目标是每周150分钟中等强度有氧+力量训练。',
-    positives: [
-      { text: '晨跑/夜跑3公里以上', icon: '🏃', pts: 14 },
-      { text: '力量训练（哑铃/自重）30分钟', icon: '💪', pts: 14 },
-      { text: '步行超过8000步', icon: '👟', pts: 10 },
-      { text: '瑜伽/拉伸15分钟以上', icon: '🧘', pts: 8 },
-      { text: 'HIIT高强度燃脂训练', icon: '🔥', pts: 16 },
-      { text: '爬楼梯代替电梯10层+', icon: '⬆', pts: 8 },
-      { text: '游泳或骑行30分钟', icon: '🚴', pts: 12 },
-      { text: 'Keep/健身APP跟练15分钟', icon: '📱', pts: 10 },
-      { text: '户外徒步/快走45分钟', icon: '🌲', pts: 12 },
-      { text: '打球/跳舞等运动30分钟', icon: '⚽', pts: 12 }
-    ],
-    negatives: [
-      { text: '久坐超过3小时没起身活动', icon: '⚠️', pts: -10 },
-      { text: '完全没进行任何运动', icon: '❌', pts: -15 },
-      { text: '吃多了想靠运动弥补', icon: '⚠️', pts: -8 },
-      { text: '久躺不起超过4小时', icon: '🛋️', pts: -8 },
-      { text: '运动时拉伤/扭伤', icon: '🩹', pts: -12 }
+    tips: '运动是消耗热量的核心。每周150分钟中等强度有氧+力量训练。',
+    items: [
+      { text: '晨跑/夜跑3公里以上', pts: 14 },
+      { text: '力量训练（哑铃/自重）30分钟', pts: 14 },
+      { text: '步行超过8000步', pts: 10 },
+      { text: '瑜伽/拉伸15分钟以上', pts: 8 },
+      { text: '游泳或骑行30分钟', pts: 12 },
+      { text: 'HIIT/燃脂操20分钟', pts: 16 },
+      { text: '户外徒步/快走45分钟', pts: 12 }
     ]
   },
   { id: 'diet', name: '饮食', icon: '🥗', color: '#4caf50',
     tips: '减肥80%靠饮食。制造300-500大卡热量缺口，不饿肚子才是关键。',
-    positives: [
-      { text: '每餐只吃七八分饱就停筷', icon: '🍽️', pts: 12 },
-      { text: '没有喝奶茶/含糖饮料/果汁', icon: '☕', pts: 12 },
-      { text: '细嚼慢咽（每口15次以上）', icon: '🐢', pts: 8 },
-      { text: '每餐都有大量蔬菜（半盘以上）', icon: '🥬', pts: 10 },
-      { text: '晚餐后没有再吃东西', icon: '🌙', pts: 10 },
-      { text: '吃了低糖水果（苹果/柚子等）', icon: '🍎', pts: 6 },
-      { text: '完全没吃油炸/高糖/高盐食品', icon: '🥗', pts: 10 },
-      { text: '使用APP记录了饮食', icon: '📓', pts: 6 },
-      { text: '吃了优质蛋白（鸡蛋/鱼/豆制品）', icon: '🥚', pts: 8 },
-      { text: '控制了碳水摄入（米饭减半）', icon: '🍚', pts: 10 }
-    ],
-    negatives: [
-      { text: '喝了奶茶/含糖饮料/奶茶', icon: '🧋', pts: -12 },
-      { text: '暴饮暴食（吃撑到难受）', icon: '😱', pts: -15 },
-      { text: '吃了油炸食品（炸鸡/薯条等）', icon: '🍟', pts: -10 },
-      { text: '睡前2小时内进食', icon: '🌙', pts: -8 },
-      { text: '吃了很多甜食（蛋糕/饼干等）', icon: '🍰', pts: -10 },
-      { text: '叫了外卖（热量通常较高）', icon: '📦', pts: -6 },
-      { text: '吃了宵夜（烧烤/小龙虾等）', icon: '🦞', pts: -10 }
+    items: [
+      { text: '每餐只吃七八分饱就停筷', pts: 12 },
+      { text: '完全没喝奶茶/含糖饮料', pts: 12 },
+      { text: '细嚼慢咽（每口15次以上）', pts: 8 },
+      { text: '每餐都有大量蔬菜（半盘以上）', pts: 10 },
+      { text: '晚餐后没有再吃东西', pts: 10 },
+      { text: '吃了优质蛋白（鸡蛋/鱼/豆制品）', pts: 8 },
+      { text: '控制了碳水摄入（米饭减半）', pts: 10 }
     ]
   },
   { id: 'water', name: '喝水', icon: '💧', color: '#03a9f4',
     tips: '每天1.5~2L水能提升基础代谢10%，还能减少假性饥饿感。',
-    positives: [
-      { text: '喝水超过1500ml（约8杯）', icon: '💧', pts: 10 },
-      { text: '用杯子/水瓶量化记录喝水量', icon: '📏', pts: 6 },
-      { text: '饭前15分钟喝了一杯水', icon: '🥛', pts: 6 },
-      { text: '完全没喝任何含糖饮料', icon: '🚫', pts: 10 },
-      { text: '起床后先喝了一杯温水', icon: '🌅', pts: 6 },
-      { text: '运动后及时补充了水分', icon: '🏃', pts: 6 },
-      { text: '没有喝浓茶/咖啡（利尿）', icon: '🍵', pts: 4 }
-    ],
-    negatives: [
-      { text: '喝水少于800ml（明显口渴）', icon: '⚠️', pts: -10 },
-      { text: '用奶茶/饮料代替白开水', icon: '🧋', pts: -12 },
-      { text: '喝了超过2杯含糖饮料', icon: '🥤', pts: -14 },
-      { text: '喝了很多浓茶/咖啡（利尿）', icon: '☕', pts: -6 },
-      { text: '口渴到头晕才喝水', icon: '😵', pts: -12 }
+    items: [
+      { text: '喝水超过1500ml（约8杯）', pts: 10 },
+      { text: '用杯子量化记录喝水量', pts: 6 },
+      { text: '饭前15分钟喝了一杯水', pts: 6 },
+      { text: '起床后先喝了一杯温水', pts: 6 },
+      { text: '完全没喝任何含糖饮料', pts: 10 },
+      { text: '运动后及时补充了水分', pts: 6 },
+      { text: '没有喝浓茶/咖啡（利尿）', pts: 4 }
     ]
   },
   { id: 'sleep', name: '睡眠', icon: '😴', color: '#9c27b0',
     tips: '每天7-8小时高质量睡眠能提升代谢、减少皮质醇，是减肥的隐形加速器。',
-    positives: [
-      { text: '晚上11点前上床睡觉', icon: '🛏️', pts: 14 },
-      { text: '睡眠质量很好（醒来精神）', icon: '😊', pts: 10 },
-      { text: '午休小睡20-30分钟', icon: '☀️', pts: 6 },
-      { text: '睡前1小时不看手机/电视', icon: '📵', pts: 8 },
-      { text: '睡眠时长达到7-8小时', icon: '💤', pts: 10 },
-      { text: '保持规律作息（固定时间起床）', icon: '⏰', pts: 8 },
-      { text: '睡前泡脚/热敷/放松拉伸', icon: '🫧', pts: 6 }
-    ],
-    negatives: [
-      { text: '熬夜到凌晨1点以后才睡', icon: '🌙', pts: -14 },
-      { text: '睡眠不足6小时（明显疲惫）', icon: '😫', pts: -12 },
-      { text: '睡前2小时还在刷手机', icon: '📱', pts: -8 },
-      { text: '睡眠断断续续（频繁醒来）', icon: '😵', pts: -10 },
-      { text: '凌晨3-4点才睡/通宵', icon: '⏳', pts: -16 },
-      { text: '白天午睡超过2小时', icon: '😴', pts: -6 }
+    items: [
+      { text: '晚上11点前上床睡觉', pts: 14 },
+      { text: '睡眠时长达到7-8小时', pts: 10 },
+      { text: '睡眠质量很好（醒来精神）', pts: 10 },
+      { text: '午休小睡20-30分钟', pts: 6 },
+      { text: '睡前1小时不看手机/电视', pts: 8 },
+      { text: '保持规律作息（固定时间起床）', pts: 8 },
+      { text: '睡前泡脚/热敷/放松拉伸', pts: 6 }
     ]
   },
   { id: 'emotion', name: '情绪', icon: '🌿', color: '#ff9800',
     tips: '情绪压力升高皮质醇，会导致脂肪堆积和暴饮暴食。保持好心情才能高效减肥。',
-    positives: [
-      { text: '全天心情愉快平和', icon: '😊', pts: 8 },
-      { text: '冥想/深呼吸/正念练习10分钟', icon: '🧘', pts: 10 },
-      { text: '完全没有情绪性进食', icon: '💚', pts: 12 },
-      { text: '做了自己喜欢的事情（兴趣）', icon: '🎉', pts: 6 },
-      { text: '和朋友/家人愉快聊天', icon: '👫', pts: 6 },
-      { text: '化解了一次情绪波动', icon: '🌈', pts: 8 },
-      { text: '进行了户外活动（晒太阳）', icon: '☀️', pts: 6 }
-    ],
-    negatives: [
-      { text: '感到压力大/焦虑/紧张', icon: '😰', pts: -8 },
-      { text: '情绪性进食（不开心就吃）', icon: '🍔', pts: -12 },
-      { text: '因为无聊/孤独想吃东西', icon: '🍿', pts: -8 },
-      { text: '暴饮暴食后感到后悔', icon: '😢', pts: -10 },
-      { text: '情绪低落超过2小时', icon: '😞', pts: -8 },
-      { text: '和人生气/大吵了一架', icon: '😤', pts: -10 },
-      { text: '因为减肥失败而自我否定', icon: '😔', pts: -8 }
+    items: [
+      { text: '全天心情愉快平和', pts: 8 },
+      { text: '冥想/深呼吸/正念练习10分钟', pts: 10 },
+      { text: '完全没有情绪性进食', pts: 12 },
+      { text: '做了自己喜欢的事情（兴趣）', pts: 6 },
+      { text: '和朋友/家人愉快聊天', pts: 6 },
+      { text: '化解了一次情绪波动', pts: 8 },
+      { text: '进行了户外活动（晒太阳）', pts: 6 }
     ]
   }
 ];
 
 let sopScore = 0, sopCatIdx = 0;
-let sopPositives = [], sopNegatives = [];
+let sopSelected = {}; // catId -> array of item indices
 let sopDone = false;
-// 每个分类当前的习惯队列
-let sopCatQueue = {}; // catId -> array of {type, item, answered}
-let sopCurrentIdx = {}; // catId -> current index
 
 function initSOP() {
   let d = getSOPData();
   let today = getToday();
   if (d.date !== today) {
     sopScore = 0;
-    sopPositives = []; sopNegatives = []; sopDone = false;
-    sopCatQueue = {}; sopCurrentIdx = {};
+    sopSelected = {};
+    sopDone = false;
   } else {
     sopScore = d.score || 0;
-    sopPositives = d.positives || [];
-    sopNegatives = d.negatives || [];
+    sopSelected = d.selected || {};
     sopDone = d.done || false;
-    sopCatQueue = {}; sopCurrentIdx = {};
   }
   updateSOPDisplay();
   renderSOPCats();
@@ -1849,11 +1809,10 @@ function initSOP() {
   if (sopDone) {
     renderSOPDoneState();
   } else {
-    buildCatQueues();
     if (!localStorage.getItem('sop_guide_shown')) {
       showSOPGuideOverlay();
     } else {
-      renderSOPCard();
+      renderSOPList();
     }
   }
 }
@@ -1867,10 +1826,10 @@ function showSOPGuideOverlay() {
       <div style="font-size:56px;margin-bottom:16px;">👆</div>
       <div style="color:white;font-size:18px;font-weight:700;margin-bottom:12px;">减肥第一性原理 · 复盘</div>
       <div style="color:rgba(255,255,255,0.8);font-size:14px;line-height:1.8;margin-bottom:20px;text-align:left;">
-        <div style="margin-bottom:10px;">📋 每个分类有<span style="color:#4caf50;font-weight:700;">2题</span>：</div>
-        <div style="margin-bottom:8px;">✅ <span style="color:#4caf50;font-weight:700;">绿色按钮</span> = 今天做到了 / 没有这个情况</div>
-        <div style="margin-bottom:8px;">⚠️ <span style="color:#ff9800;font-weight:700;">橙色按钮</span> = 没做到 / 有这个问题</div>
-        <div style="margin-top:16px;color:rgba(255,255,255,0.6);font-size:12px;">全部做完解锁今日成就 🎉</div>
+        <div style="margin-bottom:10px;">📋 每个维度至少<span style="color:#4caf50;font-weight:700;">5题</span>：</div>
+        <div style="margin-bottom:8px;">✅ <span style="color:#4caf50;font-weight:700;">绿色勾选</span> = 今天做到了</div>
+        <div style="margin-bottom:8px;">❌ <span style="color:#ef5350;font-weight:700;">红色取消</span> = 没做到/有问题</div>
+        <div style="margin-top:16px;color:rgba(255,255,255,0.6);font-size:12px;">点击选项即可打分，全部完成解锁成就 🎉</div>
       </div>
       <button onclick="closeSOPGuide()" style="background:#3de882;color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;margin-top:4px;">我知道了，开始！</button>
     </div>
@@ -1883,40 +1842,30 @@ function closeSOPGuide() {
   localStorage.setItem('sop_guide_shown', '1');
   let overlay = document.getElementById('sopGuideOverlay');
   if (overlay) overlay.remove();
-  renderSOPCard();
+  renderSOPList();
 }
 
-function buildCatQueues() {
-  SOP_CATEGORIES.forEach(cat => {
-    // 随机选取一个正向习惯和一个负向习惯
-    let pos = cat.positives[Math.floor(Math.random() * cat.positives.length)];
-    let neg = cat.negatives[Math.floor(Math.random() * cat.negatives.length)];
-    sopCatQueue[cat.id] = [
-      { type: 'pos', item: pos },
-      { type: 'neg', item: neg }
-    ].sort(() => Math.random() - 0.5); // 随机顺序
-    sopCurrentIdx[cat.id] = 0;
-  });
+function getCatSelected(catId) {
+  return sopSelected[catId] || {};
 }
 
-function getCatAnswered(catId) {
-  let pos = sopPositives.filter(p => p.cat === catId).length;
-  let neg = sopNegatives.filter(n => n.cat === catId).length;
-  return { pos, neg };
+function getCatDoneCount(catId) {
+  let selected = getCatSelected(catId);
+  return Object.keys(selected).length;
 }
 
 function renderSOPCats() {
   let tabs = document.getElementById('sopCatTabs');
   tabs.innerHTML = SOP_CATEGORIES.map((c, i) => {
-    let { pos, neg } = getCatAnswered(c.id);
-    let total = pos + neg;
-    let allDone = total >= 2;
+    let doneCount = getCatDoneCount(c.id);
+    let totalCount = c.items.length;
+    let allDone = doneCount >= totalCount;
     let dot = allDone
       ? `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#4caf50;margin-left:4px;vertical-align:middle;"></span>`
-      : total > 0
+      : doneCount > 0
       ? `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff9800;margin-left:4px;vertical-align:middle;"></span>`
       : '';
-    return `<button class="sop-cat-tab${i===sopCatIdx?' active':''}" onclick="switchSOPCat(${i})">${c.emoji} ${c.name}${dot}</button>`;
+    return `<button class="sop-cat-tab${i===sopCatIdx?' active':''}" onclick="switchSOPCat(${i})">${c.icon} ${c.name}${dot}</button>`;
   }).join('');
 }
 
@@ -1925,176 +1874,201 @@ function switchSOPCat(idx) {
   sopCatIdx = idx;
   renderSOPCats();
   renderSOPTips();
-  renderSOPCard();
+  renderSOPList();
 }
 
 function renderSOPTips() {
   document.getElementById('sopTipText').innerText = SOP_CATEGORIES[sopCatIdx].tips;
 }
 
-function renderSOPCard() {
+function renderSOPList() {
   let card = document.getElementById('sopGameCard');
   let cat = SOP_CATEGORIES[sopCatIdx];
-  let { pos: catPos, neg: catNeg } = getCatAnswered(cat.id);
-  let totalDone = catPos + catNeg;
+  let selected = getCatSelected(cat.id);
+  let doneCount = Object.keys(selected).length;
+  let totalCount = cat.items.length;
+  let allAnswered = doneCount >= totalCount;
 
   // 分类进度
-  let pct = Math.min(100, (totalDone / 2) * 100);
-  let progressFill = pct > 0
-    ? `<div class="sop-cat-progress-fill" style="width:${pct}%"></div>`
-    : `<div class="sop-cat-progress-fill" style="width:0%"></div>`;
+  let pct = Math.min(100, (doneCount / totalCount) * 100);
+  let progressFill = `<div class="sop-cat-progress-fill" style="width:${pct}%;background:${cat.color}"></div>`;
 
-  // 如果该分类两个都回答完了 → 显示总结
-  if (totalDone >= 2) {
+  // 如果该分类全部回答完了 → 显示总结
+  if (allAnswered) {
     let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+    // 计算本维度分数
+    let catScore = 0;
+    cat.items.forEach((item, idx) => {
+      let state = selected[idx];
+      if (state === 'yes') {
+        catScore += item.pts;
+      } else if (state === 'no') {
+        catScore += Math.floor(item.pts * 0.5); // 没做到给一半分鼓励
+      }
+    });
+    
+    // 生成客观反馈和鼓励语
+    let yesCount = Object.values(selected).filter(v => v === 'yes').length;
+    let noCount = totalCount - yesCount;
+    let feedback = '';
+    if (yesCount === totalCount) {
+      feedback = streak > 0 ? `太棒了！${cat.name}满分保持中，坚持${streak}天！🌟` : `完美！${cat.name}全部做到，给自己点赞！💯`;
+    } else if (yesCount >= totalCount * 0.7) {
+      feedback = `${cat.name}做得不错！${noCount > 0 ? `还有${noCount}项可以加强，继续保持！` : `继续保持这个状态！`}💪`;
+    } else if (yesCount >= totalCount * 0.5) {
+      feedback = `${cat.name}有进步空间哦，${yesCount}项做到，继续加油！🌱`;
+    } else {
+      feedback = `${cat.name}今天有点困难没关系，明天重新开始！不要放弃！🔥`;
+    }
+    
     card.innerHTML = `
       <div class="sop-cat-progress" style="margin-bottom:12px;">
         <span style="font-size:18px;">${cat.icon}</span>
         <span style="font-weight:700;color:${cat.color};">${cat.name}</span>
         <div class="sop-cat-progress-bar">${progressFill}</div>
-        <span style="font-size:11px;color:#8f9eae;">完成</span>
+        <span style="font-size:11px;color:#8f9eae;">完成 ✅</span>
       </div>
       <div class="sop-cat-summary">
         <div class="sop-cat-summary-icon">${cat.icon}</div>
-        <div class="sop-cat-summary-title">${cat.name} · 复盘完成 ✅</div>
-        <div style="display:flex;justify-content:center;gap:16px;margin-top:8px;">
-          <div style="text-align:center;">
-            <div style="font-size:18px;font-weight:800;color:#43a047;">+${catPos}</div>
-            <div style="font-size:10px;color:#8f9eae;">做到了</div>
-          </div>
-          <div style="text-align:center;">
-            <div style="font-size:18px;font-weight:800;color:#ef5350;">-${catNeg}</div>
-            <div style="font-size:10px;color:#8f9eae;">需注意</div>
-          </div>
-        </div>
-        ${streak > 0 ? `<div style="margin-top:10px;font-size:13px;color:${cat.color};font-weight:700;">🔥 坚持${streak}天了！</div>` : ''}
+        <div class="sop-cat-summary-title">${cat.name} · 复盘完成</div>
+        <div style="font-size:24px;font-weight:800;color:${cat.color};margin-top:8px;">${catScore > 0 ? '+' : ''}${catScore}分</div>
+        <div style="font-size:12px;color:#8f9eae;margin-top:4px;">做到了 ${yesCount} 项 · 需注意 ${noCount} 项</div>
+        <div style="margin-top:12px;padding:12px;background:linear-gradient(135deg, ${cat.color}11, ${cat.color}22);border-radius:12px;font-size:13px;color:#555;line-height:1.6;">${feedback}</div>
+        ${streak > 0 ? `<div style="margin-top:10px;font-size:13px;color:${cat.color};font-weight:700;">🔥 已坚持 ${streak} 天</div>` : ''}
       </div>
     `;
     return;
   }
 
-  // 渲染当前习惯
-  let queue = sopCatQueue[cat.id] || [];
-  let current = null;
-  for (let i = 0; i < queue.length; i++) {
-    let entry = queue[i];
-    let already = entry.type === 'pos'
-      ? sopPositives.some(p => p.cat === cat.id && p.text === entry.item.text)
-      : sopNegatives.some(n => n.cat === cat.id && n.text === entry.item.text);
-    if (!already) { current = entry; break; }
-  }
-
-  // 如果全部回答完 → 检查是否所有分类都完
-  if (!current) {
-    // 检查全局完成
-    let allDone = SOP_CATEGORIES.every(c => {
-      let { pos, neg } = getCatAnswered(c.id);
-      return pos + neg >= 2;
-    });
-    if (allDone && !sopDone) {
-      sopDone = true;
-      saveSOPData({ score: sopScore, positives: sopPositives, negatives: sopNegatives, done: true, date: getToday() });
-      showSOPFinish();
-    }
-    renderSOPCats();
-    renderSOPCard();
-    return;
-  }
-
-  let isPos = current.type === 'pos';
-  let label = isPos ? '✅ 今天做到了吗？' : '⚠️ 今天有这个情况吗？';
-  let labelClass = isPos ? 'pos' : 'neg';
-  let btnYesText = isPos ? '✅ 做到了' : '⚠️ 有，今天注意了';
-  let btnNoText = isPos ? '❌ 没做到' : '✅ 没有！很好！';
+  // 渲染清单列表
+  let listItems = cat.items.map((item, idx) => {
+    let state = selected[idx]; // undefined | 'yes' | 'no'
+    let yesClass = state === 'yes' ? 'sop-item-yes' : '';
+    let noClass = state === 'no' ? 'sop-item-no' : '';
+    let yesBtnClass = state === 'yes' ? 'sop-check-btn yes-checked' : 'sop-check-btn';
+    let noBtnClass = state === 'no' ? 'sop-check-btn no-checked' : 'sop-check-btn';
+    
+    return `
+      <div class="sop-item ${yesClass} ${noClass}" data-idx="${idx}">
+        <div class="sop-item-text">${item.text}</div>
+        <div class="sop-item-btns">
+          <button class="${yesBtnClass}" onclick="toggleSOPItem(${idx}, 'yes')">
+            <span>✅</span><span>做到了</span>
+          </button>
+          <button class="${noBtnClass}" onclick="toggleSOPItem(${idx}, 'no')">
+            <span>❌</span><span>没做到</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
 
   card.innerHTML = `
     <div class="sop-cat-progress" style="margin-bottom:16px;">
       <span style="font-size:18px;">${cat.icon}</span>
       <span style="font-weight:700;color:${cat.color};">${cat.name}</span>
       <div class="sop-cat-progress-bar">${progressFill}</div>
-      <span style="font-size:11px;color:#8f9eae;">${totalDone}/2</span>
+      <span style="font-size:11px;color:#8f9eae;">${doneCount}/${totalCount}</span>
     </div>
-    <div class="sop-habit-card">
-      <div class="sop-habit-label ${labelClass}">${label}</div>
-      <span class="sop-habit-emoji">${current.item.icon}</span>
-      <div class="sop-habit-text">${current.item.text}</div>
-      <div class="sop-habit-sub">${isPos ? '做对了加' + current.item.pts + '分，漏掉不扣分' : '没这个情况加' + Math.abs(current.item.pts) + '分，有则扣' + Math.abs(current.item.pts) + '分'}</div>
-      <div class="sop-btn-row">
-        <button class="sop-btn yes" onclick="answerSOP('pos', ${isPos ? 1 : 0})">
-          <span>${btnYesText}</span>
-          <span class="sop-btn-pts">${isPos ? '+' + current.item.pts : '+' + Math.abs(current.item.pts)}</span>
-        </button>
-        <button class="sop-btn no" onclick="answerSOP('neg', ${isPos ? 1 : 0})">
-          <span>${btnNoText}</span>
-          <span class="sop-btn-pts">${isPos ? '+0' : '+' + Math.abs(current.item.pts)}</span>
-        </button>
-      </div>
+    <div class="sop-list-container">
+      ${listItems}
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <div style="font-size:12px;color:#8f9eae;margin-bottom:8px;">点击上方选项确认，每项可单独打分</div>
+      ${doneCount > 0 ? `<button onclick="submitSOPCat()" style="background:${cat.color};color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;">确认本维度 ✓</button>` : ''}
     </div>
   `;
 }
 
-function answerSOP(type, isPositiveQuestion) {
+function toggleSOPItem(idx, state) {
   let cat = SOP_CATEGORIES[sopCatIdx];
-  let queue = sopCatQueue[cat.id] || [];
-  let current = null;
-  for (let i = 0; i < queue.length; i++) {
-    let entry = queue[i];
-    let already = entry.type === 'pos'
-      ? sopPositives.some(p => p.cat === cat.id && p.text === entry.item.text)
-      : sopNegatives.some(n => n.cat === cat.id && n.text === entry.item.text);
-    if (!already) { current = entry; break; }
-  }
-  if (!current) return;
-
-  let item = current.item;
-  if (type === 'pos') {
-    // 用户选择了"做到了"
-    if (current.type === 'pos') {
-      sopScore += item.pts;
-      sopPositives.push({ text: item.text, icon: item.icon, pts: item.pts, cat: cat.id });
-      showToast(`${item.icon} ${item.text} +${item.pts}分！`, '#43a047');
-    } else {
-      // 用户承认"有这个情况"，扣分
-      sopScore += item.pts; // pts is negative
-      sopNegatives.push({ text: item.text, icon: item.icon, pts: item.pts, cat: cat.id });
-      showToast(`${item.icon} ${item.text} ${item.pts}分`, '#ef5350');
-    }
+  if (!sopSelected[cat.id]) sopSelected[cat.id] = {};
+  
+  if (sopSelected[cat.id][idx] === state) {
+    // 取消选择
+    delete sopSelected[cat.id][idx];
   } else {
-    // 用户选择了"没做到"或"没有"
-    if (current.type === 'neg') {
-      // 用户没有这个坏习惯，加分！
-      sopScore += Math.abs(item.pts);
-      sopPositives.push({ text: item.icon + ' 无' + item.text, icon: item.icon, pts: Math.abs(item.pts), cat: cat.id });
-      showToast(`${item.icon} 做到了！ +${Math.abs(item.pts)}分`, '#43a047');
-    } else {
-      // 用户没做到这个好习惯，不扣分但记下来
-      sopNegatives.push({ text: item.text, icon: item.icon, pts: 0, cat: cat.id });
-      showToast(`${item.icon} 没做到，下次加油！`, '#ff9800');
-    }
+    // 选择该状态
+    sopSelected[cat.id][idx] = state;
   }
+  
+  renderSOPList();
+}
 
-  updateSOPDisplay();
-  renderSOPCats();
-  renderSOPCard();
-  saveSOPData({ score: sopScore, positives: sopPositives, negatives: sopNegatives, done: sopDone, date: getToday() });
-
-  // 检查是否所有分类都完成了
-  let allDone = SOP_CATEGORIES.every(c => {
-    let { pos, neg } = getCatAnswered(c.id);
-    return pos + neg >= 2;
+function submitSOPCat() {
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  let selected = sopSelected[cat.id] || {};
+  let catScore = 0;
+  
+  // 计算分数
+  cat.items.forEach((item, idx) => {
+    let state = selected[idx];
+    if (state === 'yes') {
+      catScore += item.pts;
+    } else if (state === 'no') {
+      catScore += Math.floor(item.pts * 0.5); // 没做到给一半分鼓励
+    }
   });
+  
+  sopScore += catScore;
+  
+  // 检查所有分类是否完成
+  let allDone = SOP_CATEGORIES.every(c => {
+    let sel = sopSelected[c.id] || {};
+    return Object.keys(sel).length >= c.items.length;
+  });
+  
   if (allDone && !sopDone) {
     sopDone = true;
-    saveSOPData({ score: sopScore, positives: sopPositives, negatives: sopNegatives, done: true, date: getToday() });
+    saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: getToday() });
     setTimeout(() => showSOPFinish(), 600);
+  } else {
+    saveSOPData({ score: sopScore, selected: sopSelected, done: sopDone, date: getToday() });
+  }
+  
+  updateSOPDisplay();
+  renderSOPCats();
+  
+  showToast(`${cat.icon} ${cat.name} 确认完成！+${catScore}分`, cat.color);
+  
+  // 切换到下一个未完成的分类
+  let nextCat = SOP_CATEGORIES.findIndex((c, i) => {
+    if (i <= sopCatIdx) return false;
+    let sel = sopSelected[c.id] || {};
+    return Object.keys(sel).length < c.items.length;
+  });
+  
+  if (nextCat >= 0) {
+    setTimeout(() => {
+      sopCatIdx = nextCat;
+      renderSOPCats();
+      renderSOPTips();
+      renderSOPList();
+    }, 800);
+  } else {
+    renderSOPList();
   }
 }
+
+
 
 function renderSOPDoneState() {
   let card = document.getElementById('sopGameCard');
   let score = Math.max(0, Math.min(100, sopScore));
   let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌱' : '😊';
   let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
+  
+  // 统计完成情况
+  let totalItems = 0, doneItems = 0, yesItems = 0;
+  SOP_CATEGORIES.forEach(cat => {
+    totalItems += cat.items.length;
+    let sel = sopSelected[cat.id] || {};
+    Object.keys(sel).forEach(idx => {
+      doneItems++;
+      if (sel[idx] === 'yes') yesItems++;
+    });
+  });
+  
   card.innerHTML = `
     <div style="text-align:center;padding:24px 0;">
       <div style="font-size:72px;margin-bottom:16px;">${emoji}</div>
@@ -2106,11 +2080,11 @@ function renderSOPDoneState() {
           <div style="font-size:11px;color:#8f9eae;">今日得分</div>
         </div>
         <div style="text-align:center;">
-          <div style="font-size:28px;font-weight:800;color:#43a047;">+${sopPositives.length}</div>
+          <div style="font-size:28px;font-weight:800;color:#43a047;">${yesItems}</div>
           <div style="font-size:11px;color:#8f9eae;">做到了</div>
         </div>
         <div style="text-align:center;">
-          <div style="font-size:28px;font-weight:800;color:#ef5350;">${sopNegatives.length}</div>
+          <div style="font-size:28px;font-weight:800;color:#ef5350;">${doneItems - yesItems}</div>
           <div style="font-size:11px;color:#8f9eae;">需注意</div>
         </div>
       </div>
@@ -2124,8 +2098,20 @@ function updateSOPDisplay() {
   let maxScore = 100;
   let displayScore = Math.max(0, Math.min(maxScore, sopScore));
   document.getElementById('sopScore').innerText = displayScore;
-  document.getElementById('sopPosCount').innerText = sopPositives.length;
-  document.getElementById('sopNegCount').innerText = sopNegatives.length;
+  
+  // 统计完成情况
+  let totalItems = 0, doneItems = 0, yesItems = 0;
+  SOP_CATEGORIES.forEach(cat => {
+    totalItems += cat.items.length;
+    let sel = sopSelected[cat.id] || {};
+    Object.keys(sel).forEach(idx => {
+      doneItems++;
+      if (sel[idx] === 'yes') yesItems++;
+    });
+  });
+  
+  document.getElementById('sopPosCount').innerText = yesItems;
+  document.getElementById('sopNegCount').innerText = doneItems - yesItems;
   let pct = Math.max(0, Math.min(100, (displayScore / maxScore) * 100));
   let bar = document.getElementById('sopScoreBar');
   let ptext = document.getElementById('sopProgressText');
@@ -2141,28 +2127,39 @@ function updateSOPDisplay() {
 // ===== 今日完成弹窗 =====
 function showSOPFinish() {
   let score = Math.max(0, Math.min(100, sopScore));
-  // 更新每个类别的坚持天数
-  SOP_CATEGORIES.forEach(catId => {
-    let catPos = sopPositives.filter(p => p.cat === catId).length;
-    let catNeg = sopNegatives.filter(n => n.cat === catId).length;
-    let catScore = catPos * 10 + catNeg * 5;
-    updateSOPCatStreak(catId, catScore);
+  
+  // 统计总数据
+  let totalYes = 0, totalNo = 0;
+  SOP_CATEGORIES.forEach(cat => {
+    let sel = sopSelected[cat.id] || {};
+    cat.items.forEach((item, idx) => {
+      let state = sel[idx];
+      if (state === 'yes') totalYes++;
+      else if (state === 'no') totalNo++;
+    });
+    // 更新每个类别的坚持天数
+    let catYes = Object.values(sel).filter(v => v === 'yes').length;
+    updateSOPCatStreak(cat.id, catYes);
   });
+  
   let streaks = getSOPStreaks();
   let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌱' : '😊';
   let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
+  
   let catStats = SOP_CATEGORIES.map(cat => {
     let st = streaks[cat.id] || { streak: 0 };
-    let catPos = sopPositives.filter(p => p.cat === cat.id).length;
-    let catNeg = sopNegatives.filter(n => n.cat === cat.id).length;
+    let sel = sopSelected[cat.id] || {};
+    let catYes = Object.values(sel).filter(v => v === 'yes').length;
+    let catNo = cat.items.length - catYes;
     return `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px dashed #f0f0f0;">
       <span style="font-size:18px;">${cat.icon}</span>
       <span style="font-size:13px;color:#555;flex:1;">${cat.name}</span>
-      <span style="font-size:12px;color:#43a047;">+${catPos}</span>
-      <span style="font-size:12px;color:#ef5350;margin-left:4px;">-${catNeg}</span>
+      <span style="font-size:12px;color:#43a047;">+${catYes}</span>
+      <span style="font-size:12px;color:#ef5350;margin-left:4px;">-${catNo}</span>
       ${st.streak > 0 ? `<span style="font-size:12px;font-weight:700;color:${cat.color};margin-left:8px;">🔥${st.streak}天</span>` : ''}
     </div>`;
   }).join('');
+  
   let overlay = document.getElementById('sopFinishOverlay');
   overlay.innerHTML = `
     <div style="text-align:center;margin-bottom:16px;"><div style="font-size:72px;">${emoji}</div></div>
@@ -2174,11 +2171,11 @@ function showSOPFinish() {
         <div style="font-size:11px;color:#8f9eae;">今日得分</div>
       </div>
       <div style="text-align:center;">
-        <div style="font-size:28px;font-weight:800;color:#43a047;">${sopPositives.length}</div>
+        <div style="font-size:28px;font-weight:800;color:#43a047;">${totalYes}</div>
         <div style="font-size:11px;color:#8f9eae;">做到了</div>
       </div>
       <div style="text-align:center;">
-        <div style="font-size:28px;font-weight:800;color:#ef5350;">${sopNegatives.length}</div>
+        <div style="font-size:28px;font-weight:800;color:#ef5350;">${totalNo}</div>
         <div style="font-size:11px;color:#8f9eae;">需注意</div>
       </div>
     </div>
@@ -2188,7 +2185,7 @@ function showSOPFinish() {
   `;
   overlay.classList.add('show');
   sopDone = true;
-  saveSOPData({ score: sopScore, positives: sopPositives, negatives: sopNegatives, done: true, date: getToday() });
+  saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: getToday() });
 }
 
 function closeSOPFinish() {
