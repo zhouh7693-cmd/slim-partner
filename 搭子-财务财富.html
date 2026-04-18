@@ -161,7 +161,7 @@
 
     footer { font-size: 12px; text-align: center; color: #8f9eae; margin-top: 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
 
-    /* ===== 体重记录页面 ===== */
+    /* ===== 财富记录页面 ===== */
     .weight-page { max-width: 420px; margin: 0 auto; }
     .weight-header { background: white; border-radius: 32px; padding: 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
     .weight-title { font-size: 20px; font-weight: 700; color: #2b5a7a; margin-bottom: 4px; }
@@ -441,7 +441,7 @@
   </div>
   <div class="tab-item" onclick="switchTab('weight')">
     <div class="tab-icon">⚖️</div>
-    <div class="tab-label">体重</div>
+    <div class="tab-label">财富</div>
   </div>
   <div class="tab-item" onclick="switchTab('sop')">
     <div class="tab-icon">🎯</div>
@@ -458,7 +458,7 @@
 
   <!-- 搭子选择器 -->
   <div id="partnerSelector" class="partner-selector">
-    <div class="selector-title">选个减肥搭子</div>
+    <div class="selector-title">选个财富搭子</div>
     <div class="selector-sub">陪你一起瘦，不再孤单</div>
     <div class="partner-grid" id="partnerGrid">
       <div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')">
@@ -525,9 +525,9 @@
 
     <!-- 分享入口 -->
     <div class="share-inline-card">
-      <div class="share-inline-label">📣 推荐给想一起减肥的朋友</div>
+      <div class="share-inline-label">📣 推荐给一起变富的朋友</div>
       <div class="share-inline-preview">
-        🏃‍♀️ 减肥搭子 · 4种性格陪你瘦
+        🏃‍♀️ 财务财富搭子 · 4种性格陪你瘦
       </div>
       <div class="share-copy-row">
         <button class="share-copy-btn" onclick="copyShareLink()">📋 复制邀请链接</button>
@@ -539,11 +539,11 @@
   </div>
 </div>
 
-<!-- ===== Page: 体重 ===== -->
+<!-- ===== Page: 财富 ===== -->
 <div id="page-weight" class="page">
   <div class="weight-page">
     <div class="weight-header">
-      <div class="weight-title">⚖️ 体重记录</div>
+      <div class="weight-title">⚖️ 财富记录</div>
       <div class="weight-sub" id="weightSummary">记录你的每一次变化</div>
       <div class="weight-input-row">
         <input class="weight-input" id="weightInput" type="number" step="0.1" min="20" max="300" placeholder="--">
@@ -553,7 +553,7 @@
     </div>
 
     <div class="weight-chart-card">
-      <div class="chart-title">📈 体重曲线</div>
+      <div class="chart-title">📈 财富曲线</div>
       <div class="chart-sub" id="chartSub">坚持记录，趋势一目了然</div>
       <canvas id="weightCanvas" width="380" height="200"></canvas>
       <div class="weight-stats" id="weightStats"></div>
@@ -636,7 +636,7 @@
         </div>
         <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;">
           <div style="font-size:20px;font-weight:700;color:#3de882;" id="shareWeight">-</div>
-          <div style="font-size:11px;color:#888;margin-top:2px;">目标体重</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">目标财富</div>
         </div>
       </div>
     </div>
@@ -780,47 +780,47 @@ let partnerIdx = 0;
 const QA_DATA = {
   pos: [
     { icon: '🏃', tag: '突破', question: '平台期终于突破了！', answer: '平台期是大BOSS，你赢了！说明身体的代谢已经适应了新节奏，继续保持，脂肪会继续掉的。', score: 0 },
-    { icon: '🚫', tag: '自律', question: '今天成功忍住了没吃夜宵！', answer: '夜宵是减肥的头号敌人，你今晚赢了。睡前两小时不吃东西能让燃脂效率提升30%，真的。', score: 0 },
+    { icon: '🚫', tag: '自律', question: '今天成功控制住了非必要支出！', answer: '冲动消费是财富的大敌，你今晚赢了。控制非必要支出能让储蓄率提升30%，真的。', score: 0 },
     { icon: '💧', tag: '坚持', question: '今天喝了足量的水，感觉代谢顺畅多了', answer: '水喝够了吗？成年人每天需要1.5~2L水。喝水能让基础代谢提升10%，还能减少假性饥饿感，做得好！', score: 0 },
-    { icon: '⚖️', tag: '变化', question: '衣服变松了，感觉自己瘦了一圈！', answer: '体重不变但衣服松了？恭喜你，这说明你减掉的是纯脂肪，不是肌肉！肌肉密度比脂肪高4倍，看起来瘦才是真的瘦。', score: 0 },
-    { icon: '😴', tag: '早睡', question: '今天早睡了1小时，感觉精神很好', answer: '睡眠是最好的减脂补剂。每晚7~9小时能让脂肪燃烧效率提升20%，皮质醇水平降低，食欲也会更稳定。早睡绝对值得！', score: 0 },
+    { icon: '⚖️', tag: '变化', question: '存款变多了，感觉自己富了一圈！', answer: '财富不变但衣服松了？恭喜你，这说明你积累的是真财富，不是泡沫！肌肉密度比脂肪高4倍，看起来瘦才是真的瘦。', score: 0 },
+    { icon: '😴', tag: '储蓄', question: '今天储蓄了1小时，感觉精神很好', answer: '睡眠是最好的财富增值补剂。每晚7~9小时能让脂肪燃烧效率提升20%，皮质醇水平降低，食欲也会更稳定。储蓄绝对值得！', score: 0 },
     { icon: '🧘', tag: '平静', question: '今天心情平和，没有情绪性进食', answer: '情绪稳定本身就是一种自律。你能不被情绪带着走，这比跑5公里还难得。继续守住这份平静，你会越来越好的。', score: 0 },
     { icon: '🥗', tag: '控制', question: '这顿饭吃得很饱但没有吃撑，感觉刚好', answer: '七分饱是最理想的进食状态。你今天找到了这个感觉，这就是"吃得聪明"的开始。记住这个感觉，每天复制它。', score: 0 },
-    { icon: '📉', tag: '减重', question: '本周体重终于降了一点！', answer: '下降一点点也是胜利。减肥不是直线下降的，它是在波动中向下的。每一次小小的降低都在证明你的方向是对的！', score: 0 }
+    { icon: '📉', tag: '减重', question: '本周财富终于降了一点！', answer: '下降一点点也是胜利。财富不是直线上升的，它是在波动中向下的。每一次小小的降低都在证明你的方向是对的！', score: 0 }
   ],
   neg: [
-    { icon: '🍔', tag: '诱惑', question: '又吃多了，炸鸡汉堡真的太好吃了', answer: '炸鸡汉堡不会因为你吃一次就毁掉一切，但会吃一次就有第二次。偶尔放纵一次没问题，但第二天一定要回到正轨。关键是不要连续放纵超过3天。', score: 0 },
-    { icon: '🏋️', tag: '偷懒', question: '运动有点偷懒，今天只做了3天', answer: '3天也比0天强。不过减脂效率会随着运动频率提升而增加。每周运动3~5次、每次30分钟以上是理想状态。找到适合自己的节奏，比硬撑更重要。', score: 0 },
-    { icon: '😩', tag: '疲惫', question: '肌肉酸痛得厉害，想放弃运动了', answer: '肌肉酸痛说明肌纤维在修复和增长，这是好事。通常酸痛会在48~72小时内消失。可以换成低强度的运动（散步、拉伸），但不要完全停下来。', score: 0 },
-    { icon: '📈', tag: '焦虑', question: '经期前体重涨了2斤，好焦虑', answer: '经期前体重波动是因为体内水分滞留，这是完全正常的生理现象。通常经期结束后1~2周体重会自然回落。这不是脂肪，别担心。', score: 0 },
-    { icon: '😫', tag: '迷茫', question: '感觉怎么减都没效果，想放弃了', answer: '减肥最难的不是方法，是坚持。效果不好时先问自己三个问题：热量控制了吗？运动够了吗？睡眠够了吗？如果都做到了，效果只是还没到而已。', score: 0 },
-    { icon: '🕐', tag: '拖延', question: '太晚了，今天没来得及运动', answer: '运动没有"最佳时间"，只有"能动的时间"。就算只有10分钟，做一组HIIT或者快走30分钟都比不动强。把运动排在起床后第一件事，就不会有借口了。', score: 0 },
-    { icon: '🥤', tag: '误区', question: '喝了杯奶茶，觉得前面的努力白费了', answer: '一杯奶茶的热量大约300~500大卡，需要慢跑40分钟才能消耗掉。但一次不会毁掉一切，第二天回到正轨就好。关键是不要有"反正今天废了"的想法。', score: 0 },
-    { icon: '😰', tag: '压力', question: '最近压力大，很想暴饮暴食', answer: '压力会引发皮质醇升高，进而促进脂肪堆积在腹部。压力大时试试这招：喝一杯温水、深呼吸10次、或者出门散步10分钟。暴饮暴食不能减压，只会增加内疚感。', score: 0 }
+    { icon: '🍔', tag: '诱惑', question: '又买多了，促销真的太好划算', answer: '购物不会因为你买一次就毁掉一切，但会买一次就有第二次。偶尔超支一次没问题，但第二天一定要回到正轨。关键是不要连续超支超过3天。', score: 0 },
+    { icon: '🏋️', tag: '偷懒', question: '投资有点保守，今天只做了3天', answer: '3天也比0天强。不过财富增值效率会随着运动频率提升而增加。每周投资3~5个渠道、每次30分钟以上是理想状态。找到适合自己的节奏，比硬撑更重要。', score: 0 },
+    { icon: '😩', tag: '疲惫', question: '收益波动得厉害，想放弃理财了', answer: '收益波动说明投资组合在调整，这是好事。通常波动会在1~2周内稳定。可以换成稳健的投资（债券、定存），但不要完全停下来。', score: 0 },
+    { icon: '📈', tag: '焦虑', question: '市场波动资产少了2万，好焦虑', answer: '经期前财富波动是因为市场短期调整，这是完全正常的市场现象。通常市场恢复后财富会自然回落。这不是亏损，别担心。', score: 0 },
+    { icon: '😫', tag: '迷茫', question: '感觉怎么存都没结余，想放弃了', answer: '理财最难的不是方法，是坚持。效果不好时先问自己三个问题：收益控制了吗？运动够了吗？睡眠够了吗？如果都做到了，存款只是还没到而已。', score: 0 },
+    { icon: '🕐', tag: '拖延', question: '太忙了，今天没来得及理财', answer: '理财没有"最佳时机"，只有"能动的时候"。就算只有100元，定投一次也比不动强。把运动排在起床后第一件事，就不会有借口了。', score: 0 },
+    { icon: '🥤', tag: '误区', question: '买了件衣服，觉得前面的节省白费了', answer: '一件衣服的钱大约300~500元，需要多存400元才能补回来。但一次不会毁掉一切，第二天回到正轨就好。关键是不要有"反正今天废了"的想法。', score: 0 },
+    { icon: '😰', tag: '压力', question: '最近压力大，很想冲动消费', answer: '压力会引发肾上腺素升高，进而导致冲动消费。压力大时试试这招：喝一杯水、冷静10分钟、或者出门散步10分钟。冲动消费不能减压，只会增加内疚感。', score: 0 }
   ]
 };
 
 // ==================== 进展数据 ====================
 const PROGRESS_DATA = {
   pos: [
-    { icon: '🔥', tag: '突破', scenario: '突破了平台期，体重终于降了！', feedback: '平台期是身体在适应新体重，不是没效果。你用正确的方法渡过了它，这是能力。继续按现在的计划走，下一个平台期也会被你打败。' },
-    { icon: '🏃', tag: '坚持', scenario: '本周运动4次以上，状态很好！', feedback: '运动频率上来了，身体也在适应。每周4次以上的规律运动能让基础代谢保持在一个较高水平，这是长期保持体重的关键。你的身体正在感谢你。' },
-    { icon: '🥗', tag: '控制', scenario: '这周成功控制住了饮食，没有暴食', feedback: '饮食是减肥的核心，你能在日常中守住这一关，说明习惯已经逐渐养成了。不用每顿都完美，只要大部分时间吃对了，大方向就没问题。' },
-    { icon: '😴', tag: '睡眠', scenario: '最近睡眠质量提升了，起床也不累了', feedback: '睡眠质量好意味着皮质醇水平稳定、肌肉修复正常、食欲激素平衡。这是减肥的隐形加速器。睡得好比多跑两圈还重要，你的选择很明智。' },
-    { icon: '📊', tag: '数据', scenario: '体重虽然只降了一点，但腰围变小了', feedback: '腰围变小意味着内脏脂肪在减少，这是比体重更重要指标。内脏脂肪和心血管健康、代谢水平直接相关，这个进展比体重数字更有价值。' },
-    { icon: '🧘', tag: '心态', scenario: '今天心情平稳，没有情绪性进食', feedback: '情绪稳定是最高级的自律。很多人减肥失败不是输在运动和饮食，而是输在情绪上。你今天守住了，这是很大的进步，值得肯定。' },
-    { icon: '💧', tag: '饮水', scenario: '每天喝够水了，感觉代谢在变好', feedback: '水是代谢的基础反应物，喝够水能让脂肪代谢效率提升10~15%。而且多喝水能减少"口渴误报成饥饿"的情况，帮你减少不必要的热量摄入。' },
-    { icon: '📉', tag: '减重', scenario: '本周体重下降了，虽然只有一点点', feedback: '每周能减0.5~1kg是健康减脂的理想速度。下降太快反而容易反弹和肌肉流失。这个节奏刚刚好，身体能接受，效果也会更持久。' }
+    { icon: '🔥', tag: '突破', scenario: '突破了瓶颈期，存款终于涨了！', feedback: '瓶颈期是财富在积累沉淀，不是没效果。你用正确的方法渡过了它，这是能力。继续按现在的计划走，下一个平台期也会被你打败。' },
+    { icon: '🏃', tag: '坚持', scenario: '本周投资了4次以上，状态很好！', feedback: '投资频率上来了，收益也在积累。每周4次以上的规律投资能让被动收入持续增长，这是长期保持财富的关键。你的身体正在感谢你。' },
+    { icon: '🥗', tag: '控制', scenario: '这周成功控制住了支出，没有超支', feedback: '支出管理是财富的核心，你能在日常中守住这一关，说明习惯已经逐渐养成了。不用每笔都完美，只要大部分时间花对了，大方向就没问题。' },
+    { icon: '😴', tag: '睡眠', scenario: '最近理财习惯了，精神也好多了', feedback: '财务稳定意味着生活质量提升、状态良好、心态平和。这是财富的隐形加速器。理得好比多赚一w还重要，你的选择很明智。' },
+    { icon: '📊', tag: '数据', scenario: '财富虽然只涨了一点，但储蓄率提高了', feedback: '储蓄率提高意味着不必要支出在减少，这是比数字更重要指标。财务健康和心理健康、生活质量直接相关，这个进展比财富数字更有价值。' },
+    { icon: '🧘', tag: '心态', scenario: '今天心情平稳，没有冲动消费', feedback: '财务自律是最高级的成熟。很多人理财失败不是输在知识和行动，而是输在情绪上。你今天守住了，这是很大的进步，值得肯定。' },
+    { icon: '💧', tag: '饮水', scenario: '每天存够钱了，感觉财务在变好', feedback: '储蓄是财富的基础反应，存够钱能让财务安全度提升30%。而且多存钱能减少"欲望误报成需求"的情况，帮你减少不必要的收益摄入。' },
+    { icon: '📉', tag: '减重', scenario: '本周存款上涨了，虽然只有一点点', feedback: '每月能存1000~3000元是健康储蓄的理想速度。增长太快反而容易冲动和本金流失。这个节奏刚刚好，财务能承受，效果也会更持久。' }
   ],
   neg: [
-    { icon: '🍕', tag: '失控', scenario: '没忍住吃了一整块披萨，撑得很难受', feedback: '一块披萨的热量可能超过800大卡，但这不是世界末日。关键是不要连续失控超过3天。明天选择清淡饮食、多走路，就能把这次的影响降到最低。' },
-    { icon: '😩', tag: '疲惫', scenario: '最近训练强度太大，全身酸痛', feedback: '训练过度反而会让皮质醇升高，抑制脂肪燃烧。建议减量不减频率：把每次的强度降低，但保持运动次数，让身体有时间恢复。休息也是训练的一部分。' },
-    { icon: '📈', tag: '波动', scenario: '体重连续两天涨了，感觉在反弹', feedback: '体重每天波动2~3斤是正常的，跟饮食量、饮水量、钠摄入量都有关。先不要慌，连续观察一周再看。如果一周后仍然持续上升，再调整计划也不迟。' },
-    { icon: '🏠', tag: '借口', scenario: '下雨了/太忙了/太累了，没运动', feedback: '借口永远找得到，但结果不会骗人。下雨天可以室内跳绳，太忙可以早起20分钟，太累可以做5分钟拉伸。不运动的原因永远不是客观条件，而是决心。' },
-    { icon: '🧋', tag: '饮料', scenario: '朋友请了奶茶，不好意思拒绝就喝了', feedback: '社交场合偶尔喝一杯问题不大，但奶茶的糖分会让血糖剧烈波动，引发更多饥饿感。下次可以提前说"我在减肥，只喝无糖的"，或者点最小杯、无糖款。' },
-    { icon: '🍿', tag: '追剧', scenario: '追剧时不知不觉吃了一整包薯片', feedback: '这是典型的"无意识进食"。追剧时把零食放在够不到的地方，或者换成零热量的饮品（无糖茶、水）。意识到的瞬间就是改变的开始。' },
-    { icon: '🛌', tag: '熬夜', scenario: '最近睡得很晚，睡眠不足影响代谢', feedback: '每天睡眠少于6小时的人，瘦素会减少18%，饥饿素增加28%。这就是为什么睡不好的人更容易饿、更想吃高热量食物。试着把睡觉时间往前挪15分钟开始。' },
-    { icon: '😰', tag: '焦虑', scenario: '压力太大，很想通过吃东西来缓解', feedback: '情绪性进食是减肥的大敌。压力时会想吃碳水，因为它们能快速提升血清素，让人感觉好。但这种好是短暂的，之后是内疚和更深的焦虑。换一种解压方式：散步、倾诉、写日记。' }
+    { icon: '🍕', tag: '失控', scenario: '没忍住买了一堆东西，花得很难受', feedback: '一堆东西的钱可能超过800元，但这不是世界末日。关键是不要连续失控超过3天。明天选择清淡饮食、多走路，就能把这次的影响降到最低。' },
+    { icon: '😩', tag: '疲惫', scenario: '最近投资风格太大，波动很大', feedback: '投资过度反而会让风险升高，抑制财富增长。建议稳健不减频率：把每次的金额控制，但保持运动次数，让身体有时间恢复。休息也是训练的一部分。' },
+    { icon: '📈', tag: '波动', scenario: '支出连续两天超了，感觉在失控', feedback: '支出每天波动几百元是正常的，跟消费场景、促销活动、情绪都有关。先不要慌，连续观察一周再看。如果一周后仍然持续上升，再调整计划也不迟。' },
+    { icon: '🏠', tag: '借口', scenario: '太忙了/太累了/太诱惑了，没理财', feedback: '借口永远找得到，但账单不会骗人。忙时可以设自动定投，太忙可以设闹钟提醒，太累可以先存10元。不理财的原因永远不是客观条件，而是决心。' },
+    { icon: '🧋', tag: '饮料', scenario: '朋友推荐了产品，不好意思拒绝就买了', feedback: '社交场合偶尔买一次问题不大，但产品的价格会让预算超支，引发更多消费欲。下次可以提前说"我在存钱，只买需要的"，或者点最小杯、无糖款。' },
+    { icon: '🍿', tag: '追剧', scenario: '刷手机时不知不觉下了一整单', feedback: '这是典型的"无意识消费"。购物时把APP放在够不到的地方，或者换成不花钱的活动（散步、读书）。意识到的瞬间就是改变的开始。' },
+    { icon: '🛌', tag: '熬夜', scenario: '最近花得很多，超支影响储蓄', feedback: '每月月光的人，储蓄会减少100%，消费欲增加50%。这就是为什么月光的人更容易透支、更想买高促销产品。试着把睡觉时间往前挪15分钟开始。' },
+    { icon: '😰', tag: '焦虑', scenario: '压力太大，很想通过购物来缓解', feedback: '冲动消费是财富的大敌。压力时会想购物，因为购物能快速带来快感，让人感觉好。但这种好是短暂的，之后是内疚和更深的焦虑。换一种解压方式：散步、倾诉、记账。' }
   ]
 };
 
@@ -834,7 +834,7 @@ function switchTab(tab) {
   if (tab === 'weight') {
     drawWeightChart();
     renderWeeklyReport();
-    // 自动填入上次体重
+    // 自动填入上次财富
     let data = getWeightData();
     if (data.length > 0) {
       let last = data[data.length - 1].value;
@@ -1146,7 +1146,7 @@ function copyStats() {
   let history = getHistory(), continuous = document.getElementById('continuousDays').innerText;
   let partner = currentPartner || PARTNERS[0];
   let today = getToday();
-  let text = `🏆 减肥搭子战绩\n搭子：${partner.name} ${partner.emoji}\n连续打卡：${continuous}天\n总打卡：${history.length}天\n${today} 继续加油！`;
+  let text = `🏆 财务财富搭子战绩\n搭子：${partner.name} ${partner.emoji}\n连续打卡：${continuous}天\n总打卡：${history.length}天\n${today} 继续加油！`;
   navigator.clipboard.writeText(text).then(() => showToast('✅ 战绩已复制，快去分享')).catch(() => showToast('复制失败，手动复制吧'));
 }
 
@@ -1411,10 +1411,10 @@ function previewShareCard() {
   window.open(fullUrl, '_blank');
 }
 
-// ==================== 体重模块 ====================
+// ==================== 财富模块 ====================
 function addWeight() {
   let val = parseFloat(document.getElementById('weightInput').value);
-  if (!val || val < 20 || val > 300) { showToast('请输入有效的体重值'); return; }
+  if (!val || val < 20 || val > 300) { showToast('请输入有效的财富值'); return; }
   let data = getWeightData();
   let today = getToday();
   // 删除今天的旧记录（如果有）
@@ -1490,7 +1490,7 @@ function drawWeightChart() {
 
 function renderWeightStats(data) {
   let stats = document.getElementById('weightStats');
-  if (!data || data.length === 0) { stats.innerHTML='<div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">当前体重</div></div><div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">本周变化</div></div><div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">总记录</div></div>'; return; }
+  if (!data || data.length === 0) { stats.innerHTML='<div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">当前财富</div></div><div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">本周变化</div></div><div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">总记录</div></div>'; return; }
   let latest = data[data.length-1].value;
   let first = data[0].value;
   let weekData = data.filter(d => { let diff=(new Date()-new Date(d.date))/86400000; return diff<=7; });
@@ -1524,7 +1524,7 @@ function renderWeeklyReport() {
   let lastWeekEnd = new Date(weekAgo); lastWeekEnd.setDate(lastWeekEnd.getDate() - 1);
   let lastWeekHistory = history.filter(h => new Date(h) >= lastWeekStart && new Date(h) <= lastWeekEnd);
 
-  // 本周体重变化
+  // 本周财富变化
   let weekWeight = weight.filter(w => {
     let d = new Date(w.date); return d >= weekAgo;
   }).sort((a,b) => a.date.localeCompare(b.date));
@@ -1551,13 +1551,13 @@ function renderWeeklyReport() {
     <div style="display:flex;align-items:center;gap:6px;"><span style="font-weight:700;font-size:15px;">${thisWeekDays}天</span><span style="font-size:12px;color:${checkinColor};">${checkinIcon} ${checkinChange > 0 ? '+' : ''}${checkinChange}天</span></div>
   </div>`);
 
-  // 体重变化
+  // 财富变化
   if (weekChange !== null) {
     let wc = parseFloat(weekChange);
     let wcColor = wc < 0 ? '#4caf50' : wc > 0 ? '#ef5350' : '#888';
     let wcIcon = wc < 0 ? '⬇️' : wc > 0 ? '⬆️' : '➡️';
     items.push(`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;">
-    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">⚖️</span><span style="font-size:13px;color:#666;">本周体重</span></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">⚖️</span><span style="font-size:13px;color:#666;">本周财富</span></div>
     <div style="display:flex;align-items:center;gap:6px;"><span style="font-weight:700;font-size:15px;">${wc > 0 ? '+' : ''}${weekChange}kg</span><span style="font-size:12px;color:${wcColor};">${wcIcon}</span></div>
   </div>`);
   }
@@ -1635,7 +1635,7 @@ function shareWeeklyReport() {
   ctx.fillStyle = 'white';
   ctx.font = 'bold 48px sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('🏃 减肥搭子', 375, 100);
+  ctx.fillText('🏃 财务财富搭子', 375, 100);
   ctx.font = '32px sans-serif';
   ctx.fillText('本周进展报告', 375, 160);
 
@@ -1663,7 +1663,7 @@ function shareWeeklyReport() {
   ctx.fillStyle = '#666';
   ctx.fillText('本周打卡次数', 375, y += 50);
 
-  // 体重变化
+  // 财富变化
   if (weekChange !== null) {
     let wc = parseFloat(weekChange);
     ctx.font = 'bold 48px sans-serif';
@@ -1671,7 +1671,7 @@ function shareWeeklyReport() {
     ctx.fillText((wc > 0 ? '⬆️ +' : '⬇️ ') + weekChange + 'kg', 375, y += 100);
     ctx.font = '28px sans-serif';
     ctx.fillStyle = '#666';
-    ctx.fillText('本周体重变化', 375, y += 50);
+    ctx.fillText('本周财富变化', 375, y += 50);
   }
 
   // SOP得分
@@ -1693,7 +1693,7 @@ function shareWeeklyReport() {
   // 生成图片
   let dataUrl = canvas.toDataURL('image/png');
   let link = document.createElement('a');
-  link.download = '减肥搭子-本周进展.png';
+  link.download = '财务财富搭子-本周进展.png';
   link.href = dataUrl;
   link.click();
 }
@@ -2324,20 +2324,20 @@ function closeCatSummary() {
 
 // 根据不同维度生成个性化反馈
 function getCatFeedback(catId, yesItems, noItems, pct) {
-  let feedback = { emoji: '💪', positive: '', negative: '', guide: '' };
+  let feedback = { emoji: '💰', positive: '', negative: '', guide: '' };
   
-  if (catId === 'sport') {
-    // 运动维度
+  if (catId === 'income') {
+    // 收入增长维度
     if (pct >= 80) {
-      feedback.emoji = '🏃‍♂️';
-      feedback.positive = '太棒了！今天的运动表现非常出色！';
-      if (yesItems.some(i => i.text.includes('30分钟'))) {
-        feedback.positive += ' 有氧运动完成，继续保持燃烧卡路里！';
+      feedback.emoji = '📈';
+      feedback.positive = '太棒了！今天的收入增长表现非常出色！';
+      if (yesItems.some(i => i.text.includes('新的收入渠道') || i.text.includes('副业'))) {
+        feedback.positive += ' 多元化收入渠道正在形成，财务自由更近一步！';
       }
-      if (yesItems.some(i => i.text.includes('力量'))) {
-        feedback.positive += ' 力量训练也在坚持，肌肉保护很重要！';
+      if (yesItems.some(i => i.text.includes('技能'))) {
+        feedback.positive += ' 不断提升自己，竞争力越来越强！';
       }
-      feedback.guide = '🌟 建议：坚持就是胜利！可以尝试增加一些柔韧性训练。';
+      feedback.guide = '🌟 建议：继续保持开疆拓土的精神，考虑将副业收入进行再投资。';
     } else if (pct >= 50) {
       feedback.emoji = '💪';
       feedback.positive = '做得不错！';
@@ -2346,99 +2346,114 @@ function getCatFeedback(catId, yesItems, noItems, pct) {
         feedback.positive += ` 已完成：${yesTexts}`;
       }
       feedback.negative = noItems.length > 0 ? `⚠️ 未完成：${noItems.map(i => i.text).join('、')}，明天记得补上哦！` : '';
-      feedback.guide = '💡 建议：适当提高运动强度，或者利用碎片时间活动身体。';
+      feedback.guide = '💡 建议：尝试每天花30分钟学习新技能，或拓展一个新客户。';
     } else {
       feedback.emoji = '🌱';
-      feedback.positive = '今天运动量较少，但没关系，明天是新的开始！';
-      feedback.guide = '💡 建议：从简单的10分钟运动开始，循序渐进增加时长。';
+      feedback.positive = '今天收入增长方面较少，但没关系，明天是新的开始！';
+      feedback.guide = '💡 建议：从每天学习30分钟理财或职业技能开始，积少成多。';
       if (noItems.length > 0) {
         feedback.negative = `今天未完成的：${noItems.map(i => i.text).join('、')}`;
       }
     }
-  } else if (catId === 'diet') {
-    // 饮食维度
+  } else if (catId === 'expense') {
+    // 支出管理维度
     if (pct >= 80) {
-      feedback.emoji = '🥗';
-      feedback.positive = '太棒了！饮食控制得非常好！';
-      if (yesItems.some(i => i.text.includes('早餐') || i.text.includes('蔬菜'))) {
-        feedback.positive += ' 营养均衡搭配，为身体提供充足能量！';
+      feedback.emoji = '💸';
+      feedback.positive = '太棒了！今天的支出管理得非常好！';
+      if (yesItems.some(i => i.text.includes('记录') || i.text.includes('预算'))) {
+        feedback.positive += ' 记账和预算习惯非常好，财务状况一目了然！';
       }
-      feedback.guide = '🌟 建议：继续保持这个饮食习惯，胜利就在眼前！';
+      if (yesItems.some(i => i.text.includes('冲动') || i.text.includes('消费'))) {
+        feedback.positive += ' 没有冲动消费，每分钱都花在刀刃上！';
+      }
+      feedback.guide = '🌟 建议：继续保持这个消费习惯，可以考虑把省下的钱用于投资。';
     } else if (pct >= 50) {
-      feedback.emoji = '🍽️';
-      feedback.positive = '饮食控制得还行！';
+      feedback.emoji = '🧾';
+      feedback.positive = '支出控制得还行！';
       if (yesItems.length > 0) {
         feedback.positive += ` ✅ 已做到：${yesItems.map(i => i.text).join('、')}`;
       }
       feedback.negative = noItems.length > 0 ? `⚠️ 需要改进：${noItems.map(i => i.text).join('、')}` : '';
-      feedback.guide = '💡 建议：记录每一餐，避免不知不觉吃多。';
+      feedback.guide = '💡 建议：下载一个记账APP，坚持记录每一笔支出。';
     } else {
       feedback.emoji = '🌱';
-      feedback.positive = '今天饮食有点放飞？别担心，明天重新开始！';
-      feedback.guide = '💡 建议：记住"吃饱不吃撑"的原则，细嚼慢咽有助于控制食量。';
+      feedback.positive = '今天支出有点失控？别担心，明天重新开始！';
+      feedback.guide = '💡 建议：记住"想要"和"需要"的区别，购买前先冷静3分钟。';
     }
-  } else if (catId === 'water') {
-    // 喝水维度
+  } else if (catId === 'investment') {
+    // 投资理财维度
     if (pct >= 80) {
-      feedback.emoji = '💧';
-      feedback.positive = '太棒了！今天喝水量充足！';
-      if (yesItems.some(i => i.text.includes('8杯') || i.text.includes('2000'))) {
-        feedback.positive += ' 达标喝水量，新陈代谢棒棒的！';
+      feedback.emoji = '📊';
+      feedback.positive = '太棒了！今天投资理财做得非常出色！';
+      if (yesItems.some(i => i.text.includes('定投') || i.text.includes('基金'))) {
+        feedback.positive += ' 定投习惯很好，时间复利正在为你工作！';
       }
-      feedback.guide = '🌟 建议：可以试试早起先喝一杯温水，促进肠胃蠕动。';
-    } else if (pct >= 50) {
-      feedback.emoji = '🥤';
-      feedback.positive = '喝水量还可以！';
-      feedback.negative = noItems.length > 0 ? `⚠️ 还差：${noItems.map(i => i.text).join('、')}` : '';
-      feedback.guide = '💡 建议：设置喝水提醒，或者准备一个大水杯放在手边。';
-    } else {
-      feedback.emoji = '🌱';
-      feedback.positive = '今天喝水不够，明天多提醒自己！';
-      feedback.guide = '💡 建议：养成习惯，饭前喝一杯水，既补水又控制食欲。';
-    }
-  } else if (catId === 'sleep') {
-    // 睡眠维度
-    if (pct >= 80) {
-      feedback.emoji = '😴';
-      feedback.positive = '太棒了！睡眠质量很高！';
-      if (yesItems.some(i => i.text.includes('7小时') || i.text.includes('8小时'))) {
-        feedback.positive += ' 时长充足，身体得到充分休息！';
+      if (yesItems.some(i => i.text.includes('分散') || i.text.includes('风险'))) {
+        feedback.positive += ' 风险意识很强，投资组合更加稳健！';
       }
-      feedback.guide = '🌟 建议：继续保持规律的作息时间，身体状态会越来越好！';
+      feedback.guide = '🌟 建议：坚持定投不要停，复利是世界上最强大的力量！';
     } else if (pct >= 50) {
-      feedback.emoji = '🛏️';
-      feedback.positive = '睡眠还行！';
+      feedback.emoji = '💹';
+      feedback.positive = '投资理财做得还行！';
       if (yesItems.length > 0) {
         feedback.positive += ` ✅ 好习惯：${yesItems.map(i => i.text).join('、')}`;
       }
       feedback.negative = noItems.length > 0 ? `⚠️ 需要改进：${noItems.map(i => i.text).join('、')}` : '';
-      feedback.guide = '💡 建议：睡前1小时远离手机，试试深呼吸或冥想。';
+      feedback.guide = '💡 建议：每天花15分钟学习投资知识，了解更多投资工具。';
     } else {
       feedback.emoji = '🌱';
-      feedback.positive = '今天睡眠不足？别灰心，明天早点休息！';
-      feedback.guide = '💡 建议：固定睡觉时间，即使周末也尽量不要睡懒觉超过1小时。';
+      feedback.positive = '今天投资方面较少，但没关系，明天是新的开始！';
+      feedback.guide = '💡 建议：从每月定投500元开始，养成投资的习惯比金额更重要。';
     }
-  } else if (catId === 'emotion') {
-    // 情绪维度
+  } else if (catId === 'planning') {
+    // 财务规划维度
     if (pct >= 80) {
-      feedback.emoji = '😊';
-      feedback.positive = '太棒了！今天情绪管理得很好！';
-      if (yesItems.some(i => i.text.includes('心情好'))) {
-        feedback.positive += ' 保持好心情，减肥效率更高！';
+      feedback.emoji = '🎯';
+      feedback.positive = '太棒了！今天的财务规划做得非常出色！';
+      if (yesItems.some(i => i.text.includes('应急') || i.text.includes('储备'))) {
+        feedback.positive += ' 应急储备金很重要，财务安全垫正在建立！';
       }
-      feedback.guide = '🌟 建议：继续保持这种积极的心态，你是最棒的！';
+      if (yesItems.some(i => i.text.includes('目标') || i.text.includes('目标'))) {
+        feedback.positive += ' 目标明确，财务规划更有方向！';
+      }
+      feedback.guide = '🌟 建议：定期检视规划，确保自己走在实现财务目标的路上。';
     } else if (pct >= 50) {
-      feedback.emoji = '🙂';
-      feedback.positive = '情绪还算稳定！';
+      feedback.emoji = '📋';
+      feedback.positive = '财务规划做得还行！';
+      if (yesItems.length > 0) {
+        feedback.positive += ` ✅ 好习惯：${yesItems.map(i => i.text).join('、')}`;
+      }
+      feedback.negative = noItems.length > 0 ? `⚠️ 需要改进：${noItems.map(i => i.text).join('、')}` : '';
+      feedback.guide = '💡 建议：设定3个财务目标（短期、中期、长期），并制定行动计划。';
+    } else {
+      feedback.emoji = '🌱';
+      feedback.positive = '今天财务规划较少，但没关系，明天是新的开始！';
+      feedback.guide = '💡 建议：先设定一个小目标，比如6个月内存下1万元。';
+    }
+  } else if (catId === 'habit') {
+    // 财务习惯维度
+    if (pct >= 80) {
+      feedback.emoji = '🏆';
+      feedback.positive = '太棒了！今天的财务习惯非常好！';
+      if (yesItems.some(i => i.text.includes('储蓄') || i.text.includes('存下'))) {
+        feedback.positive += ' 储蓄习惯很棒，财富正在积累！';
+      }
+      if (yesItems.some(i => i.text.includes('债务') || i.text.includes('信用卡'))) {
+        feedback.positive += ' 没有新债务，信用记录越来越健康！';
+      }
+      feedback.guide = '🌟 建议：继续保持这些好习惯，建议储蓄率至少保持在收入的20%以上。';
+    } else if (pct >= 50) {
+      feedback.emoji = '👍';
+      feedback.positive = '财务习惯做得还行！';
       if (yesItems.length > 0) {
         feedback.positive += ` ✅ 做得好：${yesItems.map(i => i.text).join('、')}`;
       }
       feedback.negative = noItems.length > 0 ? `⚠️ 需要关注：${noItems.map(i => i.text).join('、')}` : '';
-      feedback.guide = '💡 建议：遇到压力时，试试深呼吸或散步来缓解。';
+      feedback.guide = '💡 建议：发工资后先存钱再消费，养成先存后花的习惯。';
     } else {
       feedback.emoji = '🌱';
-      feedback.positive = '今天情绪有点波动？没关系，每个人都有情绪低落的时候！';
-      feedback.guide = '💡 建议：试试听音乐、看喜剧，或者找朋友聊聊天，放松心情。';
+      feedback.positive = '今天财务习惯有点欠缺？没关系，每个人都有需要改进的地方！';
+      feedback.guide = '💡 建议：从今天开始记录一笔支出，哪怕只是一杯咖啡的钱。';
     }
   }
   
@@ -2476,8 +2491,8 @@ function renderSharePage() {
   let weightData = JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]');
   let latest = weightData.length > 0 ? weightData[weightData.length-1].w : null;
   let text = latest
-    ? `我在用「减肥搭子」${cp.emoji}${cp.name}陪我减肥！已坚持${streak}天，当前体重${latest}kg。搭子每天会给我鼓励和建议，超暖心～快来一起变瘦吧！\n\n👉 ${url}`
-    : `我刚发现了一个超好用的「减肥搭子」小程序！${cp.emoji}${cp.name}陪我每天打卡，互相监督不偷懒～4种性格可选，总有一款适合你！\n\n👉 ${url}`;
+    ? `我在用「财务财富搭子」${cp.emoji}${cp.name}帮我理财！已坚持${streak}天，当前财富${latest}kg。搭子每天会给我鼓励和建议，超暖心～快来一起变富吧！\n\n👉 ${url}`
+    : `我刚发现了一个超好用的「财务财富搭子」小程序！${cp.emoji}${cp.name}陪我每天打卡，互相监督不乱花～4种性格可选，总有一款适合你！\n\n👉 ${url}`;
   document.getElementById('shareTextBox').innerText = text;
 
   // 搭子选择
@@ -2622,7 +2637,7 @@ function copyShareText() {
       }
     });
 
-    // 加载体重数据
+    // 加载财富数据
     userRef.collection('weight').doc('main').get().then(doc => {
       if (doc.exists && doc.data().records) {
         const records = doc.data().records;
@@ -2655,7 +2670,7 @@ function copyShareText() {
     db.collection('users').doc(currentUid).collection('history').doc('main').set({ records: records });
   };
 
-  // 保存体重数据到Firebase
+  // 保存财富数据到Firebase
   window.saveWeightToFirebase = function(records) {
     if (!FB.ready) return;
     db.collection('users').doc(currentUid).collection('weight').doc('main').set({ records: records });
