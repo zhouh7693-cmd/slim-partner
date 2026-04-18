@@ -2263,6 +2263,31 @@ function showCatSummary(cat, selected, catScore) {
 
 function closeCatSummary() {
   document.getElementById('catSummaryOverlay').classList.remove('show');
+  
+  // 检查是否所有维度都完成了
+  let allDone = SOP_CATEGORIES.every(cat => {
+    let sel = sopSelected[cat.id] || {};
+    return Object.keys(sel).length >= cat.items.length;
+  });
+  
+  if (allDone) {
+    // 所有维度都完成了，显示总总结
+    setTimeout(() => showSOPFinish(), 500);
+  } else {
+    // 切换到下一个未完成的维度
+    let nextCat = SOP_CATEGORIES.findIndex((c, i) => {
+      if (i <= sopCatIdx) return false;
+      let sel = sopSelected[c.id] || {};
+      return Object.keys(sel).length < c.items.length;
+    });
+    
+    if (nextCat >= 0) {
+      sopCatIdx = nextCat;
+      renderSOPCats();
+      renderSOPTips();
+      renderSOPList();
+    }
+  }
 }
 
 // 根据不同维度生成个性化反馈
