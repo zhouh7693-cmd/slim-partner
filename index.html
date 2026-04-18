@@ -1823,6 +1823,26 @@ function initSOP() {
   }
 }
 
+// 从localStorage刷新SOP状态（Firebase加载后调用）
+function refreshSOPState() {
+  let d = getSOPData();
+  let today = getToday();
+  if (d.date === today) {
+    sopScore = d.score || 0;
+    sopSelected = d.selected || {};
+    sopDone = d.done || false;
+    sopSubmittedCats = d.submittedCats || [];
+    updateSOPDisplay();
+    renderSOPCats();
+    renderSOPTips();
+    if (sopDone) {
+      renderSOPDoneState();
+    } else {
+      renderSOPList();
+    }
+  }
+}
+
 function showSOPGuideOverlay() {
   let overlay = document.createElement('div');
   overlay.id = 'sopGuideOverlay';
