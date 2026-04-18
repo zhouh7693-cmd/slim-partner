@@ -1717,82 +1717,107 @@ const SOP_CATEGORIES = [
   { id: 'sport', name: '运动', icon: '🏃', color: '#2196f3',
     tips: '运动是消耗热量的核心。目标是每周150分钟中等强度有氧+力量训练。',
     positives: [
-      { text: '晨跑/夜跑3km+', icon: '🏃', shape: 'hexagon', pts: 14 },
-      { text: '力量训练30分钟', icon: '💪', shape: 'square', pts: 14 },
-      { text: '步行超过8000步', icon: '👟', shape: 'triangle', pts: 10 },
-      { text: '瑜伽/拉伸15分钟', icon: '🧘', shape: 'circle', pts: 8 },
-      { text: 'HIIT燃脂训练', icon: '🔥', shape: 'diamond', pts: 16 },
-      { text: '爬楼梯代替电梯', icon: '⬆', shape: 'hexagon', pts: 6 },
-      { text: '骑行/游泳30分钟', icon: '🚴', shape: 'square', pts: 12 },
-      { text: 'Keep跟练10分钟', icon: '📱', shape: 'triangle', pts: 8 }
+      { text: '晨跑/夜跑3公里以上', icon: '🏃', pts: 14 },
+      { text: '力量训练（哑铃/自重）30分钟', icon: '💪', pts: 14 },
+      { text: '步行超过8000步', icon: '👟', pts: 10 },
+      { text: '瑜伽/拉伸15分钟以上', icon: '🧘', pts: 8 },
+      { text: 'HIIT高强度燃脂训练', icon: '🔥', pts: 16 },
+      { text: '爬楼梯代替电梯10层+', icon: '⬆', pts: 8 },
+      { text: '游泳或骑行30分钟', icon: '🚴', pts: 12 },
+      { text: 'Keep/健身APP跟练15分钟', icon: '📱', pts: 10 },
+      { text: '户外徒步/快走45分钟', icon: '🌲', pts: 12 },
+      { text: '打球/跳舞等运动30分钟', icon: '⚽', pts: 12 }
     ],
     negatives: [
-      { text: '久坐超过2小时没动', icon: '⚠️', shape: 'square', pts: -10 },
-      { text: '完全没运动', icon: '❌', shape: 'circle', pts: -15 },
-      { text: '吃多了以运动弥补', icon: '⚠️', shape: 'triangle', pts: -8 }
+      { text: '久坐超过3小时没起身活动', icon: '⚠️', pts: -10 },
+      { text: '完全没进行任何运动', icon: '❌', pts: -15 },
+      { text: '吃多了想靠运动弥补', icon: '⚠️', pts: -8 },
+      { text: '久躺不起超过4小时', icon: '🛋️', pts: -8 },
+      { text: '运动时拉伤/扭伤', icon: '🩹', pts: -12 }
     ]
   },
   { id: 'diet', name: '饮食', icon: '🥗', color: '#4caf50',
     tips: '减肥80%靠饮食。制造300-500大卡热量缺口，不饿肚子才是关键。',
     positives: [
-      { text: '每餐七八分饱', icon: '🍽️', shape: 'diamond', pts: 12 },
-      { text: '没有喝奶茶/含糖饮料', icon: '☕', shape: 'hexagon', pts: 12 },
-      { text: '细嚼慢咽每口15下', icon: '🐢', shape: 'circle', pts: 8 },
-      { text: '吃了大量蔬菜', icon: '🥬', shape: 'square', pts: 10 },
-      { text: '没有吃夜宵', icon: '🌙', shape: 'diamond', pts: 10 },
-      { text: '吃了低糖水果', icon: '🍎', shape: 'triangle', pts: 6 },
-      { text: '没吃油炸/高糖食品', icon: '🥗', shape: 'hexagon', pts: 10 },
-      { text: '记录了饮食', icon: '📓', shape: 'circle', pts: 6 }
+      { text: '每餐只吃七八分饱就停筷', icon: '🍽️', pts: 12 },
+      { text: '没有喝奶茶/含糖饮料/果汁', icon: '☕', pts: 12 },
+      { text: '细嚼慢咽（每口15次以上）', icon: '🐢', pts: 8 },
+      { text: '每餐都有大量蔬菜（半盘以上）', icon: '🥬', pts: 10 },
+      { text: '晚餐后没有再吃东西', icon: '🌙', pts: 10 },
+      { text: '吃了低糖水果（苹果/柚子等）', icon: '🍎', pts: 6 },
+      { text: '完全没吃油炸/高糖/高盐食品', icon: '🥗', pts: 10 },
+      { text: '使用APP记录了饮食', icon: '📓', pts: 6 },
+      { text: '吃了优质蛋白（鸡蛋/鱼/豆制品）', icon: '🥚', pts: 8 },
+      { text: '控制了碳水摄入（米饭减半）', icon: '🍚', pts: 10 }
     ],
     negatives: [
-      { text: '喝了奶茶或含糖饮料', icon: '🧋', shape: 'square', pts: -12 },
-      { text: '暴饮暴食', icon: '😱', shape: 'circle', pts: -15 },
-      { text: '吃了油炸食品', icon: '🍟', shape: 'triangle', pts: -8 },
-      { text: '睡前2小时内进食', icon: '🌙', shape: 'square', pts: -8 }
+      { text: '喝了奶茶/含糖饮料/奶茶', icon: '🧋', pts: -12 },
+      { text: '暴饮暴食（吃撑到难受）', icon: '😱', pts: -15 },
+      { text: '吃了油炸食品（炸鸡/薯条等）', icon: '🍟', pts: -10 },
+      { text: '睡前2小时内进食', icon: '🌙', pts: -8 },
+      { text: '吃了很多甜食（蛋糕/饼干等）', icon: '🍰', pts: -10 },
+      { text: '叫了外卖（热量通常较高）', icon: '📦', pts: -6 },
+      { text: '吃了宵夜（烧烤/小龙虾等）', icon: '🦞', pts: -10 }
     ]
   },
   { id: 'water', name: '喝水', icon: '💧', color: '#03a9f4',
     tips: '每天1.5~2L水能提升基础代谢10%，还能减少假性饥饿感。',
     positives: [
-      { text: '喝水超过1500ml', icon: '💧', shape: 'hexagon', pts: 10 },
-      { text: '喝了2杯以上白开水', icon: '🥤', shape: 'circle', pts: 8 },
-      { text: '用杯子量过喝水量', icon: '📏', shape: 'square', pts: 6 },
-      { text: '饭前喝了杯水', icon: '🥛', shape: 'triangle', pts: 6 },
-      { text: '没有用饮料代替水', icon: '🚫', shape: 'diamond', pts: 8 }
+      { text: '喝水超过1500ml（约8杯）', icon: '💧', pts: 10 },
+      { text: '用杯子/水瓶量化记录喝水量', icon: '📏', pts: 6 },
+      { text: '饭前15分钟喝了一杯水', icon: '🥛', pts: 6 },
+      { text: '完全没喝任何含糖饮料', icon: '🚫', pts: 10 },
+      { text: '起床后先喝了一杯温水', icon: '🌅', pts: 6 },
+      { text: '运动后及时补充了水分', icon: '🏃', pts: 6 },
+      { text: '没有喝浓茶/咖啡（利尿）', icon: '🍵', pts: 4 }
     ],
     negatives: [
-      { text: '喝水少于1000ml', icon: '⚠️', shape: 'circle', pts: -8 },
-      { text: '用奶茶/饮料代替水', icon: '🧋', shape: 'square', pts: -10 }
+      { text: '喝水少于800ml（明显口渴）', icon: '⚠️', pts: -10 },
+      { text: '用奶茶/饮料代替白开水', icon: '🧋', pts: -12 },
+      { text: '喝了超过2杯含糖饮料', icon: '🥤', pts: -14 },
+      { text: '喝了很多浓茶/咖啡（利尿）', icon: '☕', pts: -6 },
+      { text: '口渴到头晕才喝水', icon: '😵', pts: -12 }
     ]
   },
   { id: 'sleep', name: '睡眠', icon: '😴', color: '#9c27b0',
     tips: '每天7-8小时高质量睡眠能提升代谢、减少皮质醇，是减肥的隐形加速器。',
     positives: [
-      { text: '晚上11点前入睡', icon: '🛏️', shape: 'circle', pts: 14 },
-      { text: '睡眠质量很好', icon: '😊', shape: 'diamond', pts: 10 },
-      { text: '午休20-30分钟', icon: '☀️', shape: 'square', pts: 6 },
-      { text: '睡前不看手机', icon: '📵', shape: 'hexagon', pts: 8 },
-      { text: '睡眠达到7小时+', icon: '💤', shape: 'triangle', pts: 10 }
+      { text: '晚上11点前上床睡觉', icon: '🛏️', pts: 14 },
+      { text: '睡眠质量很好（醒来精神）', icon: '😊', pts: 10 },
+      { text: '午休小睡20-30分钟', icon: '☀️', pts: 6 },
+      { text: '睡前1小时不看手机/电视', icon: '📵', pts: 8 },
+      { text: '睡眠时长达到7-8小时', icon: '💤', pts: 10 },
+      { text: '保持规律作息（固定时间起床）', icon: '⏰', pts: 8 },
+      { text: '睡前泡脚/热敷/放松拉伸', icon: '🫧', pts: 6 }
     ],
     negatives: [
-      { text: '熬夜到凌晨1点后', icon: '🌙', shape: 'square', pts: -14 },
-      { text: '睡眠不足6小时', icon: '😫', shape: 'circle', pts: -10 },
-      { text: '睡前2h还在刷手机', icon: '📱', shape: 'triangle', pts: -6 }
+      { text: '熬夜到凌晨1点以后才睡', icon: '🌙', pts: -14 },
+      { text: '睡眠不足6小时（明显疲惫）', icon: '😫', pts: -12 },
+      { text: '睡前2小时还在刷手机', icon: '📱', pts: -8 },
+      { text: '睡眠断断续续（频繁醒来）', icon: '😵', pts: -10 },
+      { text: '凌晨3-4点才睡/通宵', icon: '⏳', pts: -16 },
+      { text: '白天午睡超过2小时', icon: '😴', pts: -6 }
     ]
   },
   { id: 'emotion', name: '情绪', icon: '🌿', color: '#ff9800',
     tips: '情绪压力升高皮质醇，会导致脂肪堆积和暴饮暴食。保持好心情才能高效减肥。',
     positives: [
-      { text: '今天心情愉快', icon: '😊', shape: 'diamond', pts: 8 },
-      { text: '冥想/深呼吸10分钟', icon: '🧘', shape: 'hexagon', pts: 10 },
-      { text: '没有情绪性进食', icon: '💚', shape: 'square', pts: 12 },
-      { text: '做了喜欢的事情', icon: '🎉', shape: 'circle', pts: 6 },
-      { text: '和朋友/家人聊天', icon: '👫', shape: 'triangle', pts: 6 }
+      { text: '全天心情愉快平和', icon: '😊', pts: 8 },
+      { text: '冥想/深呼吸/正念练习10分钟', icon: '🧘', pts: 10 },
+      { text: '完全没有情绪性进食', icon: '💚', pts: 12 },
+      { text: '做了自己喜欢的事情（兴趣）', icon: '🎉', pts: 6 },
+      { text: '和朋友/家人愉快聊天', icon: '👫', pts: 6 },
+      { text: '化解了一次情绪波动', icon: '🌈', pts: 8 },
+      { text: '进行了户外活动（晒太阳）', icon: '☀️', pts: 6 }
     ],
     negatives: [
-      { text: '压力大/焦虑', icon: '😰', shape: 'circle', pts: -8 },
-      { text: '情绪性进食', icon: '🍔', shape: 'square', pts: -12 },
-      { text: '心情很低落', icon: '😔', shape: 'triangle', pts: -8 }
+      { text: '感到压力大/焦虑/紧张', icon: '😰', pts: -8 },
+      { text: '情绪性进食（不开心就吃）', icon: '🍔', pts: -12 },
+      { text: '因为无聊/孤独想吃东西', icon: '🍿', pts: -8 },
+      { text: '暴饮暴食后感到后悔', icon: '😢', pts: -10 },
+      { text: '情绪低落超过2小时', icon: '😞', pts: -8 },
+      { text: '和人生气/大吵了一架', icon: '😤', pts: -10 },
+      { text: '因为减肥失败而自我否定', icon: '😔', pts: -8 }
     ]
   }
 ];
