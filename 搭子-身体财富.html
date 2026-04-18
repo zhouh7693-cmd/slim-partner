@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>身体财富搭子 · 每日复盘</title>
+  <title>减肥搭子 · 签到神器</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
     body {
@@ -459,7 +459,7 @@
   <!-- 搭子选择器 -->
   <div id="partnerSelector" class="partner-selector">
     <div class="selector-title">选个减肥搭子</div>
-    <div class="selector-sub">陪你一起瘦，不再孤单</div>
+    <div class="selector-sub">陪你一起健康，不再孤单</div>
     <div class="partner-grid" id="partnerGrid">
       <div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')">
         <div class="partner-emoji">🌸</div>
@@ -474,7 +474,7 @@
       <div class="partner-card" id="pc-rational" onclick="selectPartner('rational')">
         <div class="partner-emoji">📊</div>
         <div class="partner-name">冷静理性型</div>
-        <div class="partner-desc">数据说话，科学瘦身</div>
+        <div class="partner-desc">数据说话，科学养生</div>
       </div>
       <div class="partner-card" id="pc-tsundere" onclick="selectPartner('tsundere')">
         <div class="partner-emoji">😏</div>
@@ -527,7 +527,7 @@
     <div class="share-inline-card">
       <div class="share-inline-label">📣 推荐给想一起减肥的朋友</div>
       <div class="share-inline-preview">
-        🏃‍♀️ 减肥搭子 · 4种性格陪你瘦
+        💪 身体财富搭子 · 4种性格陪你健康
       </div>
       <div class="share-copy-row">
         <button class="share-copy-btn" onclick="copyShareLink()">📋 复制邀请链接</button>
@@ -619,7 +619,7 @@
   <div class="weight-page">
     <div class="weight-header" style="text-align:center;">
       <div class="weight-title">📣 分享</div>
-      <div class="weight-sub">邀请朋友一起变瘦</div>
+      <div class="weight-sub">邀请朋友一起健康</div>
     </div>
 
     <!-- 我的状态 -->
@@ -1728,69 +1728,64 @@ function renderWeightRecords() {
 
 // ==================== SOP 游戏模块 ====================
 const SOP_CATEGORIES = [
-  {
-    id: 'exercise', name: '运动锻炼', icon: '🏃', color: '#e91e63',
-    tips: '运动是保持身体财富的基石。每周150分钟中等强度运动能提升心肺功能和免疫力。',
+  { id: 'exercise', name: '运动锻炼', icon: '🏃', color: '#2196f3',
+    tips: '运动是保持身体机能的核心。每周150分钟中等强度有氧+力量训练，增强体质。',
     items: [
-      { text: '进行30分钟以上有氧运动（跑步/游泳/骑行）', pts: 14 },
-      { text: '完成力量训练或核心训练', pts: 14 },
-      { text: '进行柔韧性训练（瑜伽/拉伸/普拉提）', pts: 10 },
+      { text: '晨跑/夜跑3公里以上', pts: 14 },
+      { text: '力量训练（哑铃/自重）30分钟', pts: 14 },
       { text: '步行超过8000步', pts: 10 },
-      { text: '进行户外运动或晒太阳30分钟', pts: 10 },
-      { text: '完成HIIT或高强度间歇训练', pts: 12 },
-      { text: '进行平衡感训练或协调性练习', pts: 8 }
+      { text: '瑜伽/拉伸15分钟以上', pts: 8 },
+      { text: '游泳或骑行30分钟', pts: 12 },
+      { text: 'HIIT/燃脂操20分钟', pts: 16 },
+      { text: '户外徒步/快走45分钟', pts: 12 }
     ]
   },
-  {
-    id: 'nutrition', name: '营养饮食', icon: '🥗', color: '#ff5722',
-    tips: '均衡营养是身体机能的燃料。多样化饮食、控制份量、充足蛋白质是关键。',
+  { id: 'nutrition', name: '营养饮食', icon: '🥗', color: '#4caf50',
+    tips: '均衡营养是健康的基石。蛋白质、碳水、脂肪、膳食纤维、维生素缺一不可。',
     items: [
-      { text: '每餐都有优质蛋白（肉/鱼/蛋/豆）', pts: 12 },
-      { text: '蔬菜摄入占总餐盘一半以上', pts: 10 },
-      { text: '控制了加工食品和垃圾食品摄入', pts: 12 },
-      { text: '没有暴饮暴食或过度进食', pts: 12 },
-      { text: '细嚼慢咽，每口食物咀嚼20次以上', pts: 8 },
-      { text: '补充了足够水分（1.5L以上）', pts: 8 },
-      { text: '吃了富含膳食纤维的食物（全谷物/粗粮）', pts: 8 }
+      { text: '每餐只吃七八分饱就停筷', pts: 12 },
+      { text: '完全没喝奶茶/含糖饮料', pts: 12 },
+      { text: '细嚼慢咽（每口15次以上）', pts: 8 },
+      { text: '每餐都有大量蔬菜（半盘以上）', pts: 10 },
+      { text: '晚餐清淡，没吃太晚', pts: 10 },
+      { text: '吃了优质蛋白（鸡蛋/鱼/豆制品）', pts: 8 },
+      { text: '吃了水果（每天2种以上）', pts: 10 }
     ]
   },
-  {
-    id: 'rest', name: '作息休息', icon: '😴', color: '#9c27b0',
-    tips: '充足睡眠和规律作息是身体修复的黄金时间。每天7-9小时高质量睡眠至关重要。',
+  { id: 'rest', name: '作息休息', icon: '😴', color: '#9c27b0',
+    tips: '充足睡眠是身体修复的黄金时间。每天7-8小时高质量睡眠，让身体得到充分恢复。',
     items: [
       { text: '晚上11点前上床睡觉', pts: 14 },
-      { text: '睡眠时长达到7-9小时', pts: 14 },
-      { text: '保持规律作息（固定时间起床）', pts: 10 },
-      { text: '午休小憩20-30分钟', pts: 8 },
-      { text: '睡前1小时不看电子设备', pts: 10 },
-      { text: '采用助眠仪式（泡脚/冥想/阅读）', pts: 8 },
-      { text: '保持卧室凉爽、黑暗、安静', pts: 8 }
+      { text: '睡眠时长达到7-8小时', pts: 10 },
+      { text: '睡眠质量很好（醒来精神）', pts: 10 },
+      { text: '午休小睡20-30分钟', pts: 6 },
+      { text: '睡前1小时不看手机/电视', pts: 8 },
+      { text: '保持规律作息（固定时间起床）', pts: 8 },
+      { text: '睡前泡脚/热敷/放松拉伸', pts: 6 }
     ]
   },
-  {
-    id: 'care', name: '身体护理', icon: '🧴', color: '#00bcd4',
-    tips: '定期身体护理和体检是预防疾病的关键。早发现、早干预是健康的守护神。',
+  { id: 'care', name: '身体护理', icon: '💆', color: '#ff9800',
+    tips: '定期体检和日常护理是预防疾病的关键。别等生病才想起照顾身体。',
     items: [
-      { text: '完成了定期体检或健康筛查', pts: 14 },
-      { text: '做好个人卫生（刷牙/洗手/沐浴）', pts: 10 },
-      { text: '进行了皮肤护理或身体保养', pts: 8 },
-      { text: '关注并记录了身体指标（体重/血压等）', pts: 8 },
-      { text: '及时处理了小伤病或不适', pts: 10 },
-      { text: '保持了良好的姿势（站/坐/走）', pts: 8 },
-      { text: '给身体足够的休息和恢复时间', pts: 10 }
+      { text: '按时刷牙（早晚两次）', pts: 10 },
+      { text: '保持个人卫生清洁', pts: 8 },
+      { text: '做了体检或复查', pts: 14 },
+      { text: '皮肤护理/敷面膜', pts: 6 },
+      { text: '按摩/推拿/放松身体', pts: 10 },
+      { text: '眼睛休息（做眼保健操）', pts: 6 },
+      { text: '保护颈椎/腰椎（不久坐）', pts: 8 }
     ]
   },
-  {
-    id: 'stress', name: '压力管理', icon: '🧘', color: '#4caf50',
-    tips: '长期压力会损害身体健康。学会放松和调节情绪是保持身体财富的重要技能。',
+  { id: 'stress', name: '压力管理', icon: '🌿', color: '#00bcd4',
+    tips: '长期压力会损害免疫系统。学会放松和调节情绪，是健康长寿的秘诀。',
     items: [
-      { text: '进行了冥想或正念练习', pts: 12 },
-      { text: '做了深呼吸或放松练习', pts: 10 },
-      { text: '进行了兴趣爱好活动放松身心', pts: 10 },
-      { text: '与朋友/家人倾诉了压力', pts: 10 },
-      { text: '进行了按摩或SPA放松', pts: 8 },
-      { text: '合理拒绝了超出能力的要求', pts: 10 },
-      { text: '保持乐观积极的心态', pts: 12 }
+      { text: '全天心情愉快平和', pts: 8 },
+      { text: '冥想/深呼吸/正念练习10分钟', pts: 10 },
+      { text: '做了自己喜欢的事情（兴趣）', pts: 6 },
+      { text: '和朋友/家人愉快聊天', pts: 6 },
+      { text: '化解了一次压力/焦虑', pts: 8 },
+      { text: '进行了户外活动（晒太阳）', pts: 6 },
+      { text: '工作休息结合，没有过度疲劳', pts: 10 }
     ]
   }
 ];
@@ -1855,7 +1850,7 @@ function showSOPGuideOverlay() {
   overlay.innerHTML = `
     <div style="text-align:center;max-width:320px;">
       <div style="font-size:56px;margin-bottom:16px;">👆</div>
-      <div style="color:white;font-size:18px;font-weight:700;margin-bottom:12px;">身体财富 · 每日复盘</div>
+      <div style="color:white;font-size:18px;font-weight:700;margin-bottom:12px;">减肥第一性原理 · 复盘</div>
       <div style="color:rgba(255,255,255,0.8);font-size:14px;line-height:1.8;margin-bottom:20px;text-align:left;">
         <div style="margin-bottom:10px;">📋 每个维度至少<span style="color:#4caf50;font-weight:700;">5题</span>：</div>
         <div style="margin-bottom:8px;">✅ <span style="color:#4caf50;font-weight:700;">绿色勾选</span> = 今天做到了</div>
@@ -2326,13 +2321,13 @@ function closeCatSummary() {
 function getCatFeedback(catId, yesItems, noItems, pct) {
   let feedback = { emoji: '💪', positive: '', negative: '', guide: '' };
   
-  if (catId === 'sport') {
-    // 运动维度
+  if (catId === 'exercise') {
+    // 运动锻炼维度
     if (pct >= 80) {
       feedback.emoji = '🏃‍♂️';
       feedback.positive = '太棒了！今天的运动表现非常出色！';
       if (yesItems.some(i => i.text.includes('30分钟'))) {
-        feedback.positive += ' 有氧运动完成，继续保持燃烧卡路里！';
+        feedback.positive += ' 有氧运动完成，身体机能在提升！';
       }
       if (yesItems.some(i => i.text.includes('力量'))) {
         feedback.positive += ' 力量训练也在坚持，肌肉保护很重要！';
@@ -2355,59 +2350,46 @@ function getCatFeedback(catId, yesItems, noItems, pct) {
         feedback.negative = `今天未完成的：${noItems.map(i => i.text).join('、')}`;
       }
     }
-  } else if (catId === 'diet') {
-    // 饮食维度
+  } else if (catId === 'nutrition') {
+    // 营养饮食维度
     if (pct >= 80) {
       feedback.emoji = '🥗';
-      feedback.positive = '太棒了！饮食控制得非常好！';
-      if (yesItems.some(i => i.text.includes('早餐') || i.text.includes('蔬菜'))) {
-        feedback.positive += ' 营养均衡搭配，为身体提供充足能量！';
+      feedback.positive = '太棒了！饮食营养搭配得非常好！';
+      if (yesItems.some(i => i.text.includes('蔬菜') || i.text.includes('水果'))) {
+        feedback.positive += ' 维生素和膳食纤维充足！';
       }
-      feedback.guide = '🌟 建议：继续保持这个饮食习惯，胜利就在眼前！';
+      if (yesItems.some(i => i.text.includes('优质蛋白'))) {
+        feedback.positive += ' 蛋白质摄入良好，肌肉修复有保障！';
+      }
+      feedback.guide = '🌟 建议：继续保持均衡饮食，身体需要全面营养！';
     } else if (pct >= 50) {
       feedback.emoji = '🍽️';
-      feedback.positive = '饮食控制得还行！';
+      feedback.positive = '饮食搭配还行！';
       if (yesItems.length > 0) {
         feedback.positive += ` ✅ 已做到：${yesItems.map(i => i.text).join('、')}`;
       }
       feedback.negative = noItems.length > 0 ? `⚠️ 需要改进：${noItems.map(i => i.text).join('、')}` : '';
-      feedback.guide = '💡 建议：记录每一餐，避免不知不觉吃多。';
+      feedback.guide = '💡 建议：注意营养均衡，每餐都要有蔬菜和蛋白质。';
     } else {
       feedback.emoji = '🌱';
-      feedback.positive = '今天饮食有点放飞？别担心，明天重新开始！';
-      feedback.guide = '💡 建议：记住"吃饱不吃撑"的原则，细嚼慢咽有助于控制食量。';
+      feedback.positive = '今天饮食有点随意？别担心，明天重新开始！';
+      feedback.guide = '💡 建议：记住"吃饱不吃撑"的原则，细嚼慢咽有助于消化。';
     }
-  } else if (catId === 'water') {
-    // 喝水维度
-    if (pct >= 80) {
-      feedback.emoji = '💧';
-      feedback.positive = '太棒了！今天喝水量充足！';
-      if (yesItems.some(i => i.text.includes('8杯') || i.text.includes('2000'))) {
-        feedback.positive += ' 达标喝水量，新陈代谢棒棒的！';
-      }
-      feedback.guide = '🌟 建议：可以试试早起先喝一杯温水，促进肠胃蠕动。';
-    } else if (pct >= 50) {
-      feedback.emoji = '🥤';
-      feedback.positive = '喝水量还可以！';
-      feedback.negative = noItems.length > 0 ? `⚠️ 还差：${noItems.map(i => i.text).join('、')}` : '';
-      feedback.guide = '💡 建议：设置喝水提醒，或者准备一个大水杯放在手边。';
-    } else {
-      feedback.emoji = '🌱';
-      feedback.positive = '今天喝水不够，明天多提醒自己！';
-      feedback.guide = '💡 建议：养成习惯，饭前喝一杯水，既补水又控制食欲。';
-    }
-  } else if (catId === 'sleep') {
-    // 睡眠维度
+  } else if (catId === 'rest') {
+    // 作息休息维度
     if (pct >= 80) {
       feedback.emoji = '😴';
-      feedback.positive = '太棒了！睡眠质量很高！';
+      feedback.positive = '太棒了！作息非常规律！';
       if (yesItems.some(i => i.text.includes('7小时') || i.text.includes('8小时'))) {
         feedback.positive += ' 时长充足，身体得到充分休息！';
+      }
+      if (yesItems.some(i => i.text.includes('午休'))) {
+        feedback.positive += ' 午休习惯很好，下午精力充沛！';
       }
       feedback.guide = '🌟 建议：继续保持规律的作息时间，身体状态会越来越好！';
     } else if (pct >= 50) {
       feedback.emoji = '🛏️';
-      feedback.positive = '睡眠还行！';
+      feedback.positive = '作息还行！';
       if (yesItems.length > 0) {
         feedback.positive += ` ✅ 好习惯：${yesItems.map(i => i.text).join('、')}`;
       }
@@ -2415,21 +2397,49 @@ function getCatFeedback(catId, yesItems, noItems, pct) {
       feedback.guide = '💡 建议：睡前1小时远离手机，试试深呼吸或冥想。';
     } else {
       feedback.emoji = '🌱';
-      feedback.positive = '今天睡眠不足？别灰心，明天早点休息！';
+      feedback.positive = '今天作息有点乱？别灰心，明天早点休息！';
       feedback.guide = '💡 建议：固定睡觉时间，即使周末也尽量不要睡懒觉超过1小时。';
     }
-  } else if (catId === 'emotion') {
-    // 情绪维度
+  } else if (catId === 'care') {
+    // 身体护理维度
+    if (pct >= 80) {
+      feedback.emoji = '💆';
+      feedback.positive = '太棒了！今天对身体照顾得很好！';
+      if (yesItems.some(i => i.text.includes('体检'))) {
+        feedback.positive += ' 定期体检很重要，健康意识很强！';
+      }
+      if (yesItems.some(i => i.text.includes('按摩'))) {
+        feedback.positive += ' 放松身体，恢复活力！';
+      }
+      feedback.guide = '🌟 建议：坚持这些好习惯，身体会越来越健康！';
+    } else if (pct >= 50) {
+      feedback.emoji = '💪';
+      feedback.positive = '身体护理还行！';
+      if (yesItems.length > 0) {
+        feedback.positive += ` ✅ 做得好：${yesItems.map(i => i.text).join('、')}`;
+      }
+      feedback.negative = noItems.length > 0 ? `⚠️ 需要关注：${noItems.map(i => i.text).join('、')}` : '';
+      feedback.guide = '💡 建议：养成定期护理的习惯，不要等不舒服才想起照顾身体。';
+    } else {
+      feedback.emoji = '🌱';
+      feedback.positive = '今天身体护理有点忽略？没关系，明天开始注意！';
+      feedback.guide = '💡 建议：最简单的从好好刷牙开始，再逐步增加护理项目。';
+    }
+  } else if (catId === 'stress') {
+    // 压力管理维度
     if (pct >= 80) {
       feedback.emoji = '😊';
-      feedback.positive = '太棒了！今天情绪管理得很好！';
-      if (yesItems.some(i => i.text.includes('心情好'))) {
-        feedback.positive += ' 保持好心情，减肥效率更高！';
+      feedback.positive = '太棒了！今天压力管理得很好！';
+      if (yesItems.some(i => i.text.includes('心情') || i.text.includes('愉快'))) {
+        feedback.positive += ' 保持好心情，健康又年轻！';
       }
-      feedback.guide = '🌟 建议：继续保持这种积极的心态，你是最棒的！';
+      if (yesItems.some(i => i.text.includes('冥想'))) {
+        feedback.positive += ' 正念练习很棒，内心更加平静！';
+      }
+      feedback.guide = '🌟 建议：继续保持这种积极的心态，身心健康才是真健康！';
     } else if (pct >= 50) {
       feedback.emoji = '🙂';
-      feedback.positive = '情绪还算稳定！';
+      feedback.positive = '压力管理还算稳定！';
       if (yesItems.length > 0) {
         feedback.positive += ` ✅ 做得好：${yesItems.map(i => i.text).join('、')}`;
       }
@@ -2437,7 +2447,7 @@ function getCatFeedback(catId, yesItems, noItems, pct) {
       feedback.guide = '💡 建议：遇到压力时，试试深呼吸或散步来缓解。';
     } else {
       feedback.emoji = '🌱';
-      feedback.positive = '今天情绪有点波动？没关系，每个人都有情绪低落的时候！';
+      feedback.positive = '今天压力有点大？没关系，学会放松很重要！';
       feedback.guide = '💡 建议：试试听音乐、看喜剧，或者找朋友聊聊天，放松心情。';
     }
   }
