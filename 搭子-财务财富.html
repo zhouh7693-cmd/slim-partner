@@ -459,7 +459,7 @@
   <!-- 搭子选择器 -->
   <div id="partnerSelector" class="partner-selector">
     <div class="selector-title">选个财富搭子</div>
-    <div class="selector-sub">陪你一起瘦，不再孤单</div>
+    <div class="selector-sub">陪你一起变富，不再焦虑</div>
     <div class="partner-grid" id="partnerGrid">
       <div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')">
         <div class="partner-emoji">🌸</div>
@@ -474,7 +474,7 @@
       <div class="partner-card" id="pc-rational" onclick="selectPartner('rational')">
         <div class="partner-emoji">📊</div>
         <div class="partner-name">冷静理性型</div>
-        <div class="partner-desc">数据说话，科学瘦身</div>
+        <div class="partner-desc">数据说话，理性理财</div>
       </div>
       <div class="partner-card" id="pc-tsundere" onclick="selectPartner('tsundere')">
         <div class="partner-emoji">😏</div>
@@ -527,7 +527,7 @@
     <div class="share-inline-card">
       <div class="share-inline-label">📣 推荐给一起变富的朋友</div>
       <div class="share-inline-preview">
-        🏃‍♀️ 财务财富搭子 · 4种性格陪你瘦
+        💰 财务财富搭子 · 4种性格陪你变富
       </div>
       <div class="share-copy-row">
         <button class="share-copy-btn" onclick="copyShareLink()">📋 复制邀请链接</button>
@@ -547,7 +547,7 @@
       <div class="weight-sub" id="weightSummary">记录你的每一次变化</div>
       <div class="weight-input-row">
         <input class="weight-input" id="weightInput" type="number" step="0.1" min="20" max="300" placeholder="--">
-        <span class="weight-unit">kg</span>
+        <span class="weight-unit">¥</span>
         <button class="weight-add-btn" onclick="addWeight()">记录</button>
       </div>
     </div>
@@ -619,7 +619,7 @@
   <div class="weight-page">
     <div class="weight-header" style="text-align:center;">
       <div class="weight-title">📣 分享</div>
-      <div class="weight-sub">邀请朋友一起变瘦</div>
+      <div class="weight-sub">邀请朋友一起变富</div>
     </div>
 
     <!-- 我的状态 -->
@@ -1558,7 +1558,7 @@ function renderWeeklyReport() {
     let wcIcon = wc < 0 ? '⬇️' : wc > 0 ? '⬆️' : '➡️';
     items.push(`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;">
     <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">⚖️</span><span style="font-size:13px;color:#666;">本周财富</span></div>
-    <div style="display:flex;align-items:center;gap:6px;"><span style="font-weight:700;font-size:15px;">${wc > 0 ? '+' : ''}${weekChange}kg</span><span style="font-size:12px;color:${wcColor};">${wcIcon}</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><span style="font-weight:700;font-size:15px;">${wc > 0 ? '+' : ''}${weekChange}¥</span><span style="font-size:12px;color:${wcColor};">${wcIcon}</span></div>
   </div>`);
   }
 
@@ -2471,7 +2471,7 @@ function renderSharePage() {
   
   document.getElementById('shareStreak').innerText = streak + '天';
   document.getElementById('shareToday').innerText = todayChecked ? '✅' : '○';
-  document.getElementById('shareWeight').innerText = targetWeight === '-' ? '-' : targetWeight + 'kg';
+  document.getElementById('shareWeight').innerText = targetWeight === '-' ? '-' : '¥' + targetWeight;
 
   // 当前搭子
   let cp = currentPartner || PARTNERS[0];
@@ -2491,7 +2491,7 @@ function renderSharePage() {
   let weightData = JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]');
   let latest = weightData.length > 0 ? weightData[weightData.length-1].w : null;
   let text = latest
-    ? `我在用「财务财富搭子」${cp.emoji}${cp.name}帮我理财！已坚持${streak}天，当前财富${latest}kg。搭子每天会给我鼓励和建议，超暖心～快来一起变富吧！\n\n👉 ${url}`
+    ? `我在用「财务财富搭子」${cp.emoji}${cp.name}帮我理财！已坚持${streak}天，当前财富${latest}元。搭子每天会给我鼓励和建议，超暖心～快来一起变富吧！\n\n👉 ${url}`
     : `我刚发现了一个超好用的「财务财富搭子」小程序！${cp.emoji}${cp.name}陪我每天打卡，互相监督不乱花～4种性格可选，总有一款适合你！\n\n👉 ${url}`;
   document.getElementById('shareTextBox').innerText = text;
 
