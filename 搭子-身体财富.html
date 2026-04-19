@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>减肥搭子 · 签到神器</title>
+  <title>身体财富搭子 · 签到神器</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
     body {
@@ -441,7 +441,7 @@
   </div>
   <div class="tab-item" onclick="switchTab('weight')">
     <div class="tab-icon">⚖️</div>
-    <div class="tab-label">体重</div>
+    <div class="tab-label">健康</div>
   </div>
   <div class="tab-item" onclick="switchTab('sop')">
     <div class="tab-icon">🎯</div>
@@ -458,8 +458,8 @@
 
   <!-- 搭子选择器 -->
   <div id="partnerSelector" class="partner-selector">
-    <div class="selector-title">选个减肥搭子</div>
-    <div class="selector-sub">陪你一起健康，不再孤单</div>
+    <div class="selector-title">选个健康搭子</div>
+    <div class="selector-sub">陪你一起健康，不再焦虑</div>
     <div class="partner-grid" id="partnerGrid">
       <div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')">
         <div class="partner-emoji">🌸</div>
@@ -525,7 +525,7 @@
 
     <!-- 分享入口 -->
     <div class="share-inline-card">
-      <div class="share-inline-label">📣 推荐给想一起减肥的朋友</div>
+      <div class="share-inline-label">📣 推荐给想一起健康的朋友</div>
       <div class="share-inline-preview">
         💪 身体财富搭子 · 4种性格陪你健康
       </div>
@@ -543,7 +543,7 @@
 <div id="page-weight" class="page">
   <div class="weight-page">
     <div class="weight-header">
-      <div class="weight-title">⚖️ 体重记录</div>
+      <div class="weight-title">💪 身体财富记录</div>
       <div class="weight-sub" id="weightSummary">记录你的每一次变化</div>
       <div class="weight-input-row">
         <input class="weight-input" id="weightInput" type="number" step="0.1" min="20" max="300" placeholder="--">
@@ -553,7 +553,7 @@
     </div>
 
     <div class="weight-chart-card">
-      <div class="chart-title">📈 体重曲线</div>
+      <div class="chart-title">📈 健康曲线</div>
       <div class="chart-sub" id="chartSub">坚持记录，趋势一目了然</div>
       <canvas id="weightCanvas" width="380" height="200"></canvas>
       <div class="weight-stats" id="weightStats"></div>
@@ -636,7 +636,7 @@
         </div>
         <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;">
           <div style="font-size:20px;font-weight:700;color:#3de882;" id="shareWeight">-</div>
-          <div style="font-size:11px;color:#888;margin-top:2px;">目标体重</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">健康目标</div>
         </div>
       </div>
     </div>
@@ -732,7 +732,7 @@
 const PARTNERS = [
   { id: 'gentle', name: '温柔鼓励型', emoji: '🌸', style: 'gentle', desc: '轻声细语，温暖陪伴', color: '#f8bbd0' },
   { id: 'passion', name: '热血激励型', emoji: '💪', style: 'passion', desc: '燃起来！干就完了', color: '#ffcc02' },
-  { id: 'rational', name: '冷静理性型', emoji: '📊', style: 'rational', desc: '数据说话，科学瘦身', color: '#90caf9' },
+  { id: 'rational', name: '冷静理性型', emoji: '📊', style: 'rational', desc: '数据说话，科学养生', color: '#90caf9' },
   { id: 'tsundere', name: '毒舌但中肯型', emoji: '😏', style: 'tsundere', desc: '骂醒你，但句句在理', color: '#ce93d8' }
 ];
 const STORAGE = { PARTNER: 'slim_partner', HISTORY: 'slim_history', WEIGHT: 'slim_weight', SOP: 'slim_sop', SOP_STREAKS: 'slim_sop_streaks', TARGET_WEIGHT: 'slim_target_weight' };
@@ -779,48 +779,48 @@ let partnerIdx = 0;
 // ==================== 问答数据 ====================
 const QA_DATA = {
   pos: [
-    { icon: '🏃', tag: '突破', question: '平台期终于突破了！', answer: '平台期是大BOSS，你赢了！说明身体的代谢已经适应了新节奏，继续保持，脂肪会继续掉的。', score: 0 },
-    { icon: '🚫', tag: '自律', question: '今天成功忍住了没吃夜宵！', answer: '夜宵是减肥的头号敌人，你今晚赢了。睡前两小时不吃东西能让燃脂效率提升30%，真的。', score: 0 },
-    { icon: '💧', tag: '坚持', question: '今天喝了足量的水，感觉代谢顺畅多了', answer: '水喝够了吗？成年人每天需要1.5~2L水。喝水能让基础代谢提升10%，还能减少假性饥饿感，做得好！', score: 0 },
-    { icon: '⚖️', tag: '变化', question: '衣服变松了，感觉自己瘦了一圈！', answer: '体重不变但衣服松了？恭喜你，这说明你减掉的是纯脂肪，不是肌肉！肌肉密度比脂肪高4倍，看起来瘦才是真的瘦。', score: 0 },
-    { icon: '😴', tag: '早睡', question: '今天早睡了1小时，感觉精神很好', answer: '睡眠是最好的减脂补剂。每晚7~9小时能让脂肪燃烧效率提升20%，皮质醇水平降低，食欲也会更稳定。早睡绝对值得！', score: 0 },
-    { icon: '🧘', tag: '平静', question: '今天心情平和，没有情绪性进食', answer: '情绪稳定本身就是一种自律。你能不被情绪带着走，这比跑5公里还难得。继续守住这份平静，你会越来越好的。', score: 0 },
-    { icon: '🥗', tag: '控制', question: '这顿饭吃得很饱但没有吃撑，感觉刚好', answer: '七分饱是最理想的进食状态。你今天找到了这个感觉，这就是"吃得聪明"的开始。记住这个感觉，每天复制它。', score: 0 },
-    { icon: '📉', tag: '减重', question: '本周体重终于降了一点！', answer: '下降一点点也是胜利。减肥不是直线下降的，它是在波动中向下的。每一次小小的降低都在证明你的方向是对的！', score: 0 }
+    { icon: '🏃', tag: '突破', question: '今天跑了5公里，刷新个人记录！', answer: '太棒了！5公里对很多人来说都是门槛，你已经迈过去了。每周坚持跑2~3次，心肺功能会持续提升，身体状态会越来越好。', score: 0 },
+    { icon: '🚫', tag: '自律', question: '今天忍住没吃垃圾食品！', answer: '垃圾食品是健康的隐形杀手，你今天成功挡住了它。长期保持这种自律，身体会感谢你。不吃垃圾食品一个月，你会发现皮肤、精神状态都有明显改善。', score: 0 },
+    { icon: '💧', tag: '坚持', question: '今天喝了2L水，感觉代谢顺畅多了', answer: '水是生命之源，喝够水能让身体代谢效率提升10%~15%。而且多喝水能减少假性饥饿感，帮助维持体能。你做得很好！', score: 0 },
+    { icon: '⚖️', tag: '变化', question: '感觉最近精力充沛了很多！', answer: '精力充沛是身体健康的最好证明。说明你的睡眠、饮食、运动都在往好的方向走。继续保持，你会发现自己越来越有活力。', score: 0 },
+    { icon: '😴', tag: '早睡', question: '今晚10点半就睡了，感觉精神很好', answer: '早睡是最好的养生法。每晚10点到凌晨2点是身体修复的黄金时间，错过这段时间睡眠，质量会大打折扣。你今晚做对了！', score: 0 },
+    { icon: '🧘', tag: '平静', question: '今天冥想了15分钟，心情很平静', answer: '冥想是心灵的健身房。每天15分钟冥想能降低皮质醇水平、减少焦虑、提升专注力。你找到了一个很好的养生方式。', score: 0 },
+    { icon: '🥗', tag: '控制', question: '这顿饭吃得营养均衡，感觉刚好', answer: '均衡的饮食是健康的基石。蛋白质、碳水、脂肪、膳食纤维都要有。你今天做到了，这就是养生的正确打开方式。', score: 0 },
+    { icon: '📉', tag: '健康', question: '本周感觉身体轻松了很多！', answer: '身体轻松是健康的信号。说明你的作息、饮食、运动都在发挥作用。继续保持，健康会越来越稳固。', score: 0 }
   ],
   neg: [
-    { icon: '🍔', tag: '诱惑', question: '又吃多了，炸鸡汉堡真的太好吃了', answer: '炸鸡汉堡不会因为你吃一次就毁掉一切，但会吃一次就有第二次。偶尔放纵一次没问题，但第二天一定要回到正轨。关键是不要连续放纵超过3天。', score: 0 },
-    { icon: '🏋️', tag: '偷懒', question: '运动有点偷懒，今天只做了3天', answer: '3天也比0天强。不过减脂效率会随着运动频率提升而增加。每周运动3~5次、每次30分钟以上是理想状态。找到适合自己的节奏，比硬撑更重要。', score: 0 },
-    { icon: '😩', tag: '疲惫', question: '肌肉酸痛得厉害，想放弃运动了', answer: '肌肉酸痛说明肌纤维在修复和增长，这是好事。通常酸痛会在48~72小时内消失。可以换成低强度的运动（散步、拉伸），但不要完全停下来。', score: 0 },
-    { icon: '📈', tag: '焦虑', question: '经期前体重涨了2斤，好焦虑', answer: '经期前体重波动是因为体内水分滞留，这是完全正常的生理现象。通常经期结束后1~2周体重会自然回落。这不是脂肪，别担心。', score: 0 },
-    { icon: '😫', tag: '迷茫', question: '感觉怎么减都没效果，想放弃了', answer: '减肥最难的不是方法，是坚持。效果不好时先问自己三个问题：热量控制了吗？运动够了吗？睡眠够了吗？如果都做到了，效果只是还没到而已。', score: 0 },
-    { icon: '🕐', tag: '拖延', question: '太晚了，今天没来得及运动', answer: '运动没有"最佳时间"，只有"能动的时间"。就算只有10分钟，做一组HIIT或者快走30分钟都比不动强。把运动排在起床后第一件事，就不会有借口了。', score: 0 },
-    { icon: '🥤', tag: '误区', question: '喝了杯奶茶，觉得前面的努力白费了', answer: '一杯奶茶的热量大约300~500大卡，需要慢跑40分钟才能消耗掉。但一次不会毁掉一切，第二天回到正轨就好。关键是不要有"反正今天废了"的想法。', score: 0 },
-    { icon: '😰', tag: '压力', question: '最近压力大，很想暴饮暴食', answer: '压力会引发皮质醇升高，进而促进脂肪堆积在腹部。压力大时试试这招：喝一杯温水、深呼吸10次、或者出门散步10分钟。暴饮暴食不能减压，只会增加内疚感。', score: 0 }
+    { icon: '🍔', tag: '诱惑', question: '没忍住吃了顿火锅，感觉很油腻', answer: '偶尔吃一顿油腻的不会毁掉健康，但不要连续吃。明天选择清淡饮食，多喝水，身体会慢慢恢复。关键是不要连续放纵超过3天。', score: 0 },
+    { icon: '🏋️', tag: '偷懒', question: '今天有点累，没去运动', answer: '累了就休息，这不是偷懒。强行运动反而可能伤身。可以换成低强度的散步或拉伸，让身体恢复。休息也是训练的一部分。', score: 0 },
+    { icon: '😩', tag: '疲惫', question: '最近总觉得疲劳，怎么休息都不够', answer: '慢性疲劳可能是身体在报警。检查一下：睡眠质量够吗？饮食均衡吗？压力太大吗？找到原因才能对症下药。必要时去医院做个检查。', score: 0 },
+    { icon: '📈', tag: '焦虑', question: '最近工作压力大，身体有点吃不消', answer: '压力是健康的大敌。长期高压会损害免疫系统。试试每天留出10分钟深呼吸或冥想，给身体一个喘息的机会。', score: 0 },
+    { icon: '😫', tag: '迷茫', question: '感觉养生太难了，想放弃了', answer: '养生不需要一步到位。从一个小习惯开始：今天多喝一杯水，明天早睡10分钟。积少成多，三个月后你会发现自己已经走了很远。', score: 0 },
+    { icon: '🕐', tag: '拖延', question: '太晚了，今天没时间运动了', answer: '运动没有"最佳时间"，只有"能动的时间"。就算只有10分钟，做一组拉伸或快走也比不动强。把它排在日程里，就不会有借口了。', score: 0 },
+    { icon: '🥤', tag: '误区', question: '渴了才喝水，觉得不渴就不用喝', answer: '等到口渴时身体已经轻度脱水了。每天保持充足饮水（约8杯），有助于代谢废物、保持皮肤弹性和大脑清醒。', score: 0 },
+    { icon: '😰', tag: '压力', question: '最近失眠，睡不着很痛苦', answer: '失眠会形成恶性循环。试试：睡前1小时不看手机、泡个热水脚、喝杯温牛奶。如果持续失眠，建议去看看医生。', score: 0 }
   ]
 };
 
 // ==================== 进展数据 ====================
 const PROGRESS_DATA = {
   pos: [
-    { icon: '🔥', tag: '突破', scenario: '突破了平台期，体重终于降了！', feedback: '平台期是身体在适应新体重，不是没效果。你用正确的方法渡过了它，这是能力。继续按现在的计划走，下一个平台期也会被你打败。' },
-    { icon: '🏃', tag: '坚持', scenario: '本周运动4次以上，状态很好！', feedback: '运动频率上来了，身体也在适应。每周4次以上的规律运动能让基础代谢保持在一个较高水平，这是长期保持体重的关键。你的身体正在感谢你。' },
-    { icon: '🥗', tag: '控制', scenario: '这周成功控制住了饮食，没有暴食', feedback: '饮食是减肥的核心，你能在日常中守住这一关，说明习惯已经逐渐养成了。不用每顿都完美，只要大部分时间吃对了，大方向就没问题。' },
-    { icon: '😴', tag: '睡眠', scenario: '最近睡眠质量提升了，起床也不累了', feedback: '睡眠质量好意味着皮质醇水平稳定、肌肉修复正常、食欲激素平衡。这是减肥的隐形加速器。睡得好比多跑两圈还重要，你的选择很明智。' },
-    { icon: '📊', tag: '数据', scenario: '体重虽然只降了一点，但腰围变小了', feedback: '腰围变小意味着内脏脂肪在减少，这是比体重更重要指标。内脏脂肪和心血管健康、代谢水平直接相关，这个进展比体重数字更有价值。' },
-    { icon: '🧘', tag: '心态', scenario: '今天心情平稳，没有情绪性进食', feedback: '情绪稳定是最高级的自律。很多人减肥失败不是输在运动和饮食，而是输在情绪上。你今天守住了，这是很大的进步，值得肯定。' },
-    { icon: '💧', tag: '饮水', scenario: '每天喝够水了，感觉代谢在变好', feedback: '水是代谢的基础反应物，喝够水能让脂肪代谢效率提升10~15%。而且多喝水能减少"口渴误报成饥饿"的情况，帮你减少不必要的热量摄入。' },
-    { icon: '📉', tag: '减重', scenario: '本周体重下降了，虽然只有一点点', feedback: '每周能减0.5~1kg是健康减脂的理想速度。下降太快反而容易反弹和肌肉流失。这个节奏刚刚好，身体能接受，效果也会更持久。' }
+    { icon: '🔥', tag: '突破', scenario: '连续运动1个月，感觉身体轻松多了！', feedback: '一个月坚持下来，身体已经在发生变化了。持续的运动让心肺功能、肌肉力量都在提升。继续加油，健康会越来越稳固。' },
+    { icon: '🏃', tag: '坚持', scenario: '本周运动4次以上，状态很好！', feedback: '运动频率上来了，身体也在适应。每周4次以上的规律运动能让基础代谢保持在一个较高水平，这是长期保持健康的关键。' },
+    { icon: '🥗', tag: '控制', scenario: '这周成功控制住了饮食，营养均衡', feedback: '均衡饮食是健康的核心，你能在日常中守住这一关，说明习惯已经逐渐养成了。不用每顿都完美，只要大部分时间吃对了，大方向就没问题。' },
+    { icon: '😴', tag: '睡眠', scenario: '最近睡眠质量提升了，起床也不累了', feedback: '睡眠质量好意味着身体在充分修复，这是健康的隐形加速器。睡得好比任何补品都有效，你的选择很明智。' },
+    { icon: '📊', tag: '数据', scenario: '体检指标比去年好了很多', feedback: '体检指标改善是健康的最好证明。这说明你的生活方式在起作用。继续坚持，身体会越来越强壮。' },
+    { icon: '🧘', tag: '心态', scenario: '最近心态平和，不容易焦虑了', feedback: '心态平和是最高级的健康。很多人忽视了心理健康的重要性。你能在这一块守住，这是很大的进步，值得肯定。' },
+    { icon: '💧', tag: '饮水', scenario: '每天喝够水了，感觉代谢在变好', feedback: '水是生命之源，喝够水能让身体代谢效率提升10~15%。而且多喝水能减少假性饥饿感，帮助维持体能。' },
+    { icon: '📉', tag: '进步', scenario: '本周感觉精神状态比上周好了', feedback: '精神状态变好是身体健康的信号。说明你的作息、饮食、运动都在发挥作用。继续保持，会越来越有活力。' }
   ],
   neg: [
-    { icon: '🍕', tag: '失控', scenario: '没忍住吃了一整块披萨，撑得很难受', feedback: '一块披萨的热量可能超过800大卡，但这不是世界末日。关键是不要连续失控超过3天。明天选择清淡饮食、多走路，就能把这次的影响降到最低。' },
-    { icon: '😩', tag: '疲惫', scenario: '最近训练强度太大，全身酸痛', feedback: '训练过度反而会让皮质醇升高，抑制脂肪燃烧。建议减量不减频率：把每次的强度降低，但保持运动次数，让身体有时间恢复。休息也是训练的一部分。' },
-    { icon: '📈', tag: '波动', scenario: '体重连续两天涨了，感觉在反弹', feedback: '体重每天波动2~3斤是正常的，跟饮食量、饮水量、钠摄入量都有关。先不要慌，连续观察一周再看。如果一周后仍然持续上升，再调整计划也不迟。' },
-    { icon: '🏠', tag: '借口', scenario: '下雨了/太忙了/太累了，没运动', feedback: '借口永远找得到，但结果不会骗人。下雨天可以室内跳绳，太忙可以早起20分钟，太累可以做5分钟拉伸。不运动的原因永远不是客观条件，而是决心。' },
-    { icon: '🧋', tag: '饮料', scenario: '朋友请了奶茶，不好意思拒绝就喝了', feedback: '社交场合偶尔喝一杯问题不大，但奶茶的糖分会让血糖剧烈波动，引发更多饥饿感。下次可以提前说"我在减肥，只喝无糖的"，或者点最小杯、无糖款。' },
-    { icon: '🍿', tag: '追剧', scenario: '追剧时不知不觉吃了一整包薯片', feedback: '这是典型的"无意识进食"。追剧时把零食放在够不到的地方，或者换成零热量的饮品（无糖茶、水）。意识到的瞬间就是改变的开始。' },
-    { icon: '🛌', tag: '熬夜', scenario: '最近睡得很晚，睡眠不足影响代谢', feedback: '每天睡眠少于6小时的人，瘦素会减少18%，饥饿素增加28%。这就是为什么睡不好的人更容易饿、更想吃高热量食物。试着把睡觉时间往前挪15分钟开始。' },
-    { icon: '😰', tag: '焦虑', scenario: '压力太大，很想通过吃东西来缓解', feedback: '情绪性进食是减肥的大敌。压力时会想吃碳水，因为它们能快速提升血清素，让人感觉好。但这种好是短暂的，之后是内疚和更深的焦虑。换一种解压方式：散步、倾诉、写日记。' }
+    { icon: '🍕', tag: '失控', scenario: '没忍住吃了一整块披萨，撑得很难受', feedback: '偶尔吃一顿油腻的不会毁掉健康，但不要连续吃。明天选择清淡饮食、多喝水，身体会慢慢恢复。关键是不要连续放纵超过3天。' },
+    { icon: '😩', tag: '疲惫', scenario: '最近训练强度太大，全身酸痛', feedback: '训练过度反而会伤害身体。建议减量不减频率：把每次的强度降低，但保持运动次数，让身体有时间恢复。休息也是训练的一部分。' },
+    { icon: '📈', tag: '波动', scenario: '最近感觉身体状态不太稳定', feedback: '身体状态波动是正常的，跟压力、睡眠、饮食都有关。先不要慌，调整一下作息和饮食，连续观察一周再看。' },
+    { icon: '🏠', tag: '借口', scenario: '太忙了/太累了，没时间养生', feedback: '养生不需要大段时间。从一个小习惯开始：今天多喝一杯水，明天早睡10分钟。积少成多，这就是养生的正确方式。' },
+    { icon: '🧋', tag: '饮料', scenario: '朋友请了奶茶，不好意思拒绝就喝了', feedback: '社交场合偶尔喝一杯问题不大，但奶茶的糖分对身体确实不好。下次可以提前说"我在养生，只喝无糖的"，或者点最小杯、无糖款。' },
+    { icon: '🍿', tag: '追剧', scenario: '追剧时不知不觉吃了一整包薯片', feedback: '这是典型的"无意识进食"。追剧时把零食放在够不到的地方，或者换成坚果、水果。意识到的瞬间就是改变的开始。' },
+    { icon: '🛌', tag: '熬夜', scenario: '最近睡得很晚，睡眠不足影响状态', feedback: '每天睡眠少于6小时会严重影响身体健康。试着把睡觉时间往前挪15分钟开始，循序渐近。' },
+    { icon: '😰', tag: '焦虑', scenario: '压力太大，感觉身体在报警', feedback: '长期压力会损害免疫系统。换一种解压方式：散步、冥想、倾诉。身体是革命的本钱，不要为了工作牺牲健康。' }
   ]
 };
 
@@ -834,7 +834,7 @@ function switchTab(tab) {
   if (tab === 'weight') {
     drawWeightChart();
     renderWeeklyReport();
-    // 自动填入上次体重
+    // 自动填入上次健康数据
     let data = getWeightData();
     if (data.length > 0) {
       let last = data[data.length - 1].value;
@@ -892,7 +892,7 @@ const FEEDBACK = {
   },
   tsundere: {
     checkin: ['😒 还行吧，勉强算你过关。','😏 总算干了件人事。'],
-    happy: ['😏 开心什么，还没瘦下来呢。'],
+    happy: ['😏 继续保持，健康最重要！'],
     neutral: ['😏 没有退步，算你识相。'],
     sad: ['🥴 别矫情，动起来就不难过了。'],
     tired: ['😒 累了？那炸鸡的事还记得吗。'],
@@ -1146,7 +1146,7 @@ function copyStats() {
   let history = getHistory(), continuous = document.getElementById('continuousDays').innerText;
   let partner = currentPartner || PARTNERS[0];
   let today = getToday();
-  let text = `🏆 减肥搭子战绩\n搭子：${partner.name} ${partner.emoji}\n连续打卡：${continuous}天\n总打卡：${history.length}天\n${today} 继续加油！`;
+  let text = `🏆 健康搭子战绩\n搭子：${partner.name} ${partner.emoji}\n连续打卡：${continuous}天\n总打卡：${history.length}天\n${today} 继续加油！`;
   navigator.clipboard.writeText(text).then(() => showToast('✅ 战绩已复制，快去分享')).catch(() => showToast('复制失败，手动复制吧'));
 }
 
@@ -1411,10 +1411,10 @@ function previewShareCard() {
   window.open(fullUrl, '_blank');
 }
 
-// ==================== 体重模块 ====================
+// ==================== 健康模块 ====================
 function addWeight() {
   let val = parseFloat(document.getElementById('weightInput').value);
-  if (!val || val < 20 || val > 300) { showToast('请输入有效的体重值'); return; }
+  if (!val || val < 20 || val > 300) { showToast('请输入有效的健康数据'); return; }
   let data = getWeightData();
   let today = getToday();
   // 删除今天的旧记录（如果有）
@@ -1524,7 +1524,7 @@ function renderWeeklyReport() {
   let lastWeekEnd = new Date(weekAgo); lastWeekEnd.setDate(lastWeekEnd.getDate() - 1);
   let lastWeekHistory = history.filter(h => new Date(h) >= lastWeekStart && new Date(h) <= lastWeekEnd);
 
-  // 本周体重变化
+  // 本周健康变化
   let weekWeight = weight.filter(w => {
     let d = new Date(w.date); return d >= weekAgo;
   }).sort((a,b) => a.date.localeCompare(b.date));
@@ -1557,7 +1557,7 @@ function renderWeeklyReport() {
     let wcColor = wc < 0 ? '#4caf50' : wc > 0 ? '#ef5350' : '#888';
     let wcIcon = wc < 0 ? '⬇️' : wc > 0 ? '⬆️' : '➡️';
     items.push(`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;">
-    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">⚖️</span><span style="font-size:13px;color:#666;">本周体重</span></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">💪</span><span style="font-size:13px;color:#666;">本周健康</span></div>
     <div style="display:flex;align-items:center;gap:6px;"><span style="font-weight:700;font-size:15px;">${wc > 0 ? '+' : ''}${weekChange}kg</span><span style="font-size:12px;color:${wcColor};">${wcIcon}</span></div>
   </div>`);
   }
@@ -1635,7 +1635,7 @@ function shareWeeklyReport() {
   ctx.fillStyle = 'white';
   ctx.font = 'bold 48px sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('🏃 减肥搭子', 375, 100);
+  ctx.fillText('💪 身体财富搭子', 375, 100);
   ctx.font = '32px sans-serif';
   ctx.fillText('本周进展报告', 375, 160);
 
@@ -1671,7 +1671,7 @@ function shareWeeklyReport() {
     ctx.fillText((wc > 0 ? '⬆️ +' : '⬇️ ') + weekChange + 'kg', 375, y += 100);
     ctx.font = '28px sans-serif';
     ctx.fillStyle = '#666';
-    ctx.fillText('本周体重变化', 375, y += 50);
+    ctx.fillText('本周身体财富变化', 375, y += 50);
   }
 
   // SOP得分
@@ -1693,7 +1693,7 @@ function shareWeeklyReport() {
   // 生成图片
   let dataUrl = canvas.toDataURL('image/png');
   let link = document.createElement('a');
-  link.download = '减肥搭子-本周进展.png';
+  link.download = '身体财富搭子-本周进展.png';
   link.href = dataUrl;
   link.click();
 }
@@ -1850,7 +1850,7 @@ function showSOPGuideOverlay() {
   overlay.innerHTML = `
     <div style="text-align:center;max-width:320px;">
       <div style="font-size:56px;margin-bottom:16px;">👆</div>
-      <div style="color:white;font-size:18px;font-weight:700;margin-bottom:12px;">减肥第一性原理 · 复盘</div>
+      <div style="color:white;font-size:18px;font-weight:700;margin-bottom:12px;">身体财富 · 复盘</div>
       <div style="color:rgba(255,255,255,0.8);font-size:14px;line-height:1.8;margin-bottom:20px;text-align:left;">
         <div style="margin-bottom:10px;">📋 每个维度至少<span style="color:#4caf50;font-weight:700;">5题</span>：</div>
         <div style="margin-bottom:8px;">✅ <span style="color:#4caf50;font-weight:700;">绿色勾选</span> = 今天做到了</div>
@@ -2486,8 +2486,8 @@ function renderSharePage() {
   let weightData = JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]');
   let latest = weightData.length > 0 ? weightData[weightData.length-1].w : null;
   let text = latest
-    ? `我在用「减肥搭子」${cp.emoji}${cp.name}陪我减肥！已坚持${streak}天，当前体重${latest}kg。搭子每天会给我鼓励和建议，超暖心～快来一起变瘦吧！\n\n👉 ${url}`
-    : `我刚发现了一个超好用的「减肥搭子」小程序！${cp.emoji}${cp.name}陪我每天打卡，互相监督不偷懒～4种性格可选，总有一款适合你！\n\n👉 ${url}`;
+    ? `我在用「身体财富搭子」${cp.emoji}${cp.name}陪我养成健康习惯！已坚持${streak}天，每天记录身体数据。搭子每天会给我鼓励和建议，超暖心～快来一起变健康吧！\n\n👉 ${url}`
+    : `我刚发现了一个超好用的「身体财富搭子」小程序！${cp.emoji}${cp.name}陪我每天打卡，互相监督不偷懒～4种性格可选，总有一款适合你！\n\n👉 ${url}`;
   document.getElementById('shareTextBox').innerText = text;
 
   // 搭子选择
@@ -2632,7 +2632,7 @@ function copyShareText() {
       }
     });
 
-    // 加载体重数据
+    // 加载健康数据
     userRef.collection('weight').doc('main').get().then(doc => {
       if (doc.exists && doc.data().records) {
         const records = doc.data().records;
@@ -2665,7 +2665,7 @@ function copyShareText() {
     db.collection('users').doc(currentUid).collection('history').doc('main').set({ records: records });
   };
 
-  // 保存体重数据到Firebase
+  // 保存健康数据到Firebase
   window.saveWeightToFirebase = function(records) {
     if (!FB.ready) return;
     db.collection('users').doc(currentUid).collection('weight').doc('main').set({ records: records });
