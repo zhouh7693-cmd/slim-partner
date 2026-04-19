@@ -439,10 +439,6 @@
     <div class="tab-icon">✅</div>
     <div class="tab-label">打卡</div>
   </div>
-  <div class="tab-item" onclick="switchTab('weight')">
-    <div class="tab-icon">⚖️</div>
-    <div class="tab-label">体重</div>
-  </div>
   <div class="tab-item" onclick="switchTab('sop')">
     <div class="tab-icon">🎯</div>
     <div class="tab-label">SOP</div>
@@ -539,41 +535,7 @@
   </div>
 </div>
 
-<!-- ===== Page: 体重 ===== -->
-<div id="page-weight" class="page">
-  <div class="weight-page">
-    <div class="weight-header">
-      <div class="weight-title">⚖️ 体重记录</div>
-      <div class="weight-sub" id="weightSummary">记录你的每一次变化</div>
-      <div class="weight-input-row">
-        <input class="weight-input" id="weightInput" type="number" step="0.1" min="20" max="300" placeholder="--">
-        <span class="weight-unit">kg</span>
-        <button class="weight-add-btn" onclick="addWeight()">记录</button>
-      </div>
-    </div>
 
-    <div class="weight-chart-card">
-      <div class="chart-title">📈 体重曲线</div>
-      <div class="chart-sub" id="chartSub">坚持记录，趋势一目了然</div>
-      <canvas id="weightCanvas" width="380" height="200"></canvas>
-      <div class="weight-stats" id="weightStats"></div>
-    </div>
-
-    <!-- 每周进步报告 -->
-    <div class="weight-chart-card" id="weeklyReportCard">
-      <div class="chart-title">📊 本周进展</div>
-      <div id="weeklyReportContent">
-        <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>
-      </div>
-      <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b35,#ff9500);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareWeeklyReport()">📤 分享本周进展</button>
-    </div>
-
-    <div class="weight-records">
-      <div class="records-title">📝 历史记录</div>
-      <div id="weightRecords"></div>
-    </div>
-  </div>
-</div>
 
 <!-- ===== Page: SOP ===== -->
 <div id="page-sop" class="page">
@@ -633,10 +595,6 @@
         <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;">
           <div style="font-size:20px;font-weight:700;color:#3de882;" id="shareToday">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;">今日打卡</div>
-        </div>
-        <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#3de882;" id="shareWeight">-</div>
-          <div style="font-size:11px;color:#888;margin-top:2px;">目标体重</div>
         </div>
       </div>
     </div>
