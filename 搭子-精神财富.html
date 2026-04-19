@@ -458,7 +458,7 @@
 
   <!-- 搭子选择器 -->
   <div id="partnerSelector" class="partner-selector">
-    <div class="selector-title">选个减肥搭子</div>
+    <div class="selector-title">选个精神搭子</div>
     <div class="selector-sub">陪你一起瘦，不再孤单</div>
     <div class="partner-grid" id="partnerGrid">
       <div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')">
@@ -474,7 +474,7 @@
       <div class="partner-card" id="pc-rational" onclick="selectPartner('rational')">
         <div class="partner-emoji">📊</div>
         <div class="partner-name">冷静理性型</div>
-        <div class="partner-desc">数据说话，科学瘦身</div>
+        <div class="partner-desc">数据说话，内心平和</div>
       </div>
       <div class="partner-card" id="pc-tsundere" onclick="selectPartner('tsundere')">
         <div class="partner-emoji">😏</div>
@@ -525,9 +525,9 @@
 
     <!-- 分享入口 -->
     <div class="share-inline-card">
-      <div class="share-inline-label">📣 推荐给想一起减肥的朋友</div>
+      <div class="share-inline-label">📣 推荐给想一起成长的朋友</div>
       <div class="share-inline-preview">
-        🏃‍♀️ 减肥搭子 · 4种性格陪你瘦
+        🕊️ 精神财富搭子 · 4种性格陪你成长
       </div>
       <div class="share-copy-row">
         <button class="share-copy-btn" onclick="copyShareLink()">📋 复制邀请链接</button>
@@ -619,7 +619,7 @@
   <div class="weight-page">
     <div class="weight-header" style="text-align:center;">
       <div class="weight-title">📣 分享</div>
-      <div class="weight-sub">邀请朋友一起变瘦</div>
+      <div class="weight-sub">邀请朋友一起成长</div>
     </div>
 
     <!-- 我的状态 -->
@@ -732,7 +732,7 @@
 const PARTNERS = [
   { id: 'gentle', name: '温柔鼓励型', emoji: '🌸', style: 'gentle', desc: '轻声细语，温暖陪伴', color: '#f8bbd0' },
   { id: 'passion', name: '热血激励型', emoji: '💪', style: 'passion', desc: '燃起来！干就完了', color: '#ffcc02' },
-  { id: 'rational', name: '冷静理性型', emoji: '📊', style: 'rational', desc: '数据说话，科学瘦身', color: '#90caf9' },
+  { id: 'rational', name: '冷静理性型', emoji: '📊', style: 'rational', desc: '数据说话，内心平和', color: '#90caf9' },
   { id: 'tsundere', name: '毒舌但中肯型', emoji: '😏', style: 'tsundere', desc: '骂醒你，但句句在理', color: '#ce93d8' }
 ];
 const STORAGE = { PARTNER: 'slim_partner', HISTORY: 'slim_history', WEIGHT: 'slim_weight', SOP: 'slim_sop', SOP_STREAKS: 'slim_sop_streaks', TARGET_WEIGHT: 'slim_target_weight' };
@@ -779,48 +779,48 @@ let partnerIdx = 0;
 // ==================== 问答数据 ====================
 const QA_DATA = {
   pos: [
-    { icon: '🏃', tag: '突破', question: '平台期终于突破了！', answer: '平台期是大BOSS，你赢了！说明身体的代谢已经适应了新节奏，继续保持，脂肪会继续掉的。', score: 0 },
-    { icon: '🚫', tag: '自律', question: '今天成功忍住了没吃夜宵！', answer: '夜宵是减肥的头号敌人，你今晚赢了。睡前两小时不吃东西能让燃脂效率提升30%，真的。', score: 0 },
-    { icon: '💧', tag: '坚持', question: '今天喝了足量的水，感觉代谢顺畅多了', answer: '水喝够了吗？成年人每天需要1.5~2L水。喝水能让基础代谢提升10%，还能减少假性饥饿感，做得好！', score: 0 },
-    { icon: '⚖️', tag: '变化', question: '衣服变松了，感觉自己瘦了一圈！', answer: '体重不变但衣服松了？恭喜你，这说明你减掉的是纯脂肪，不是肌肉！肌肉密度比脂肪高4倍，看起来瘦才是真的瘦。', score: 0 },
-    { icon: '😴', tag: '早睡', question: '今天早睡了1小时，感觉精神很好', answer: '睡眠是最好的减脂补剂。每晚7~9小时能让脂肪燃烧效率提升20%，皮质醇水平降低，食欲也会更稳定。早睡绝对值得！', score: 0 },
-    { icon: '🧘', tag: '平静', question: '今天心情平和，没有情绪性进食', answer: '情绪稳定本身就是一种自律。你能不被情绪带着走，这比跑5公里还难得。继续守住这份平静，你会越来越好的。', score: 0 },
-    { icon: '🥗', tag: '控制', question: '这顿饭吃得很饱但没有吃撑，感觉刚好', answer: '七分饱是最理想的进食状态。你今天找到了这个感觉，这就是"吃得聪明"的开始。记住这个感觉，每天复制它。', score: 0 },
-    { icon: '📉', tag: '减重', question: '本周体重终于降了一点！', answer: '下降一点点也是胜利。减肥不是直线下降的，它是在波动中向下的。每一次小小的降低都在证明你的方向是对的！', score: 0 }
+    { icon: '🧘', tag: '平静', question: '今天内心很平静，感觉很舒服', answer: '内心平静是最珍贵的状态。你能在喧嚣中找到宁静，这本身就是一种修行。继续守护这份平静，它会滋养你的一切。', score: 0 },
+    { icon: '🙏', tag: '感恩', question: '今天对生活充满感恩', answer: '感恩是心灵的营养剂。每天心存感恩的人，更容易感受到幸福和满足。你的感恩之心会吸引更多值得感恩的事。', score: 0 },
+    { icon: '🌅', tag: '喜悦', question: '今天心情很好，感受到了生活的美好', answer: '喜悦是最好的养生之道。能够感受到生活的美好，说明你的内心是开放的、柔软的。继续用这样的心去体验每一天。', score: 0 },
+    { icon: '💪', tag: '坚韧', question: '面对困难没有退缩，内心更强大了', answer: '内心的成长比任何外在成就都重要。你在困难中没有放弃，这证明你的内心比你以为的更强大。', score: 0 },
+    { icon: '🕊️', tag: '释怀', question: '放下了一个困扰很久的心结', answer: '释怀是心灵的解脱。放下不等于忘记，而是不再被过去束缚。你的选择很勇敢，继续轻装前行吧。', score: 0 },
+    { icon: '🌟', tag: '觉察', question: '对自己的情绪有了更多的觉察', answer: '觉察是心灵成长的开始。能觉察到自己的情绪，你就已经在改变了。看见它、接纳它，然后放下它。', score: 0 },
+    { icon: '🤝', tag: '连接', question: '和内在的自己有了更深的连接', answer: '与内在的连接是最珍贵的关系。你开始倾听内心的声音了，这是最明智的选择。内在的智慧会指引你。', score: 0 },
+    { icon: '✨', tag: '充盈', question: '今天感觉内心很充实、很满足', answer: '内心的充盈感是幸福的来源。你不需要外界的认可来证明自己的价值，你本身就值得被爱。' }
   ],
   neg: [
-    { icon: '🍔', tag: '诱惑', question: '又吃多了，炸鸡汉堡真的太好吃了', answer: '炸鸡汉堡不会因为你吃一次就毁掉一切，但会吃一次就有第二次。偶尔放纵一次没问题，但第二天一定要回到正轨。关键是不要连续放纵超过3天。', score: 0 },
-    { icon: '🏋️', tag: '偷懒', question: '运动有点偷懒，今天只做了3天', answer: '3天也比0天强。不过减脂效率会随着运动频率提升而增加。每周运动3~5次、每次30分钟以上是理想状态。找到适合自己的节奏，比硬撑更重要。', score: 0 },
-    { icon: '😩', tag: '疲惫', question: '肌肉酸痛得厉害，想放弃运动了', answer: '肌肉酸痛说明肌纤维在修复和增长，这是好事。通常酸痛会在48~72小时内消失。可以换成低强度的运动（散步、拉伸），但不要完全停下来。', score: 0 },
-    { icon: '📈', tag: '焦虑', question: '经期前体重涨了2斤，好焦虑', answer: '经期前体重波动是因为体内水分滞留，这是完全正常的生理现象。通常经期结束后1~2周体重会自然回落。这不是脂肪，别担心。', score: 0 },
-    { icon: '😫', tag: '迷茫', question: '感觉怎么减都没效果，想放弃了', answer: '减肥最难的不是方法，是坚持。效果不好时先问自己三个问题：热量控制了吗？运动够了吗？睡眠够了吗？如果都做到了，效果只是还没到而已。', score: 0 },
-    { icon: '🕐', tag: '拖延', question: '太晚了，今天没来得及运动', answer: '运动没有"最佳时间"，只有"能动的时间"。就算只有10分钟，做一组HIIT或者快走30分钟都比不动强。把运动排在起床后第一件事，就不会有借口了。', score: 0 },
-    { icon: '🥤', tag: '误区', question: '喝了杯奶茶，觉得前面的努力白费了', answer: '一杯奶茶的热量大约300~500大卡，需要慢跑40分钟才能消耗掉。但一次不会毁掉一切，第二天回到正轨就好。关键是不要有"反正今天废了"的想法。', score: 0 },
-    { icon: '😰', tag: '压力', question: '最近压力大，很想暴饮暴食', answer: '压力会引发皮质醇升高，进而促进脂肪堆积在腹部。压力大时试试这招：喝一杯温水、深呼吸10次、或者出门散步10分钟。暴饮暴食不能减压，只会增加内疚感。', score: 0 }
+    { icon: '😰', tag: '焦虑', question: '最近总是莫名焦虑，不知道怎么办', answer: '焦虑是因为我们活在未来，而不是当下。试着把注意力拉回现在：深呼吸，感受此刻。你能控制的事情不多，但此刻的呼吸可以。', score: 0 },
+    { icon: '😔', tag: '低落', question: '最近情绪低落，提不起精神', answer: '情绪像天气，会来也会走。不要对抗它，允许自己低落，但相信这只是暂时的。照顾好自己的身心，光亮会在的。', score: 0 },
+    { icon: '😤', tag: '愤怒', question: '控制不住愤怒，感觉伤害了身边的人', answer: '愤怒是一种信号，说明有什么触碰到了你的底线。愤怒本身不是坏事，但表达方式可以学习。冷静后道歉并沟通，是修复的开始。', score: 0 },
+    { icon: '😩', tag: '疲惫', question: '内心很疲惫，对什么都没有兴趣', answer: '身心的疲惫需要休息和调整。允许自己停下来，这不是逃避，而是必要的恢复。照顾好自己，才能更好地前行。', score: 0 },
+    { icon: '💭', tag: '纠结', question: '陷入负面情绪无法自拔', answer: '负面情绪来来去去，不要试图消灭它。觉察它、命名它、然后放手。你不是你的情绪，你是可以观察它的那份觉知。', score: 0 },
+    { icon: '😓', tag: '自责', question: '对自己很失望，觉得自己很失败', answer: '自责是内心的惩罚，但过度的自责没有意义。每个人都会犯错，这不代表你不值得被爱。原谅自己，继续前行。', score: 0 },
+    { icon: '🏃', tag: '逃避', question: '想逃避一切，不想面对现实', answer: '逃避是人之常情，但问题不会因为逃避而消失。给自己一点时间，然后勇敢面对。你比你想象的更有力量。', score: 0 },
+    { icon: '💔', tag: '失落', question: '感觉内心空落落的，不知道缺少什么', answer: '内心的空虚是因为我们与真我失去了连接。试着问自己：什么能让我真正快乐？不是短暂的刺激，而是长久的满足。答案就在你心里。', score: 0 }
   ]
 };
 
 // ==================== 进展数据 ====================
 const PROGRESS_DATA = {
   pos: [
-    { icon: '🔥', tag: '突破', scenario: '突破了平台期，体重终于降了！', feedback: '平台期是身体在适应新体重，不是没效果。你用正确的方法渡过了它，这是能力。继续按现在的计划走，下一个平台期也会被你打败。' },
-    { icon: '🏃', tag: '坚持', scenario: '本周运动4次以上，状态很好！', feedback: '运动频率上来了，身体也在适应。每周4次以上的规律运动能让基础代谢保持在一个较高水平，这是长期保持体重的关键。你的身体正在感谢你。' },
-    { icon: '🥗', tag: '控制', scenario: '这周成功控制住了饮食，没有暴食', feedback: '饮食是减肥的核心，你能在日常中守住这一关，说明习惯已经逐渐养成了。不用每顿都完美，只要大部分时间吃对了，大方向就没问题。' },
-    { icon: '😴', tag: '睡眠', scenario: '最近睡眠质量提升了，起床也不累了', feedback: '睡眠质量好意味着皮质醇水平稳定、肌肉修复正常、食欲激素平衡。这是减肥的隐形加速器。睡得好比多跑两圈还重要，你的选择很明智。' },
-    { icon: '📊', tag: '数据', scenario: '体重虽然只降了一点，但腰围变小了', feedback: '腰围变小意味着内脏脂肪在减少，这是比体重更重要指标。内脏脂肪和心血管健康、代谢水平直接相关，这个进展比体重数字更有价值。' },
-    { icon: '🧘', tag: '心态', scenario: '今天心情平稳，没有情绪性进食', feedback: '情绪稳定是最高级的自律。很多人减肥失败不是输在运动和饮食，而是输在情绪上。你今天守住了，这是很大的进步，值得肯定。' },
-    { icon: '💧', tag: '饮水', scenario: '每天喝够水了，感觉代谢在变好', feedback: '水是代谢的基础反应物，喝够水能让脂肪代谢效率提升10~15%。而且多喝水能减少"口渴误报成饥饿"的情况，帮你减少不必要的热量摄入。' },
-    { icon: '📉', tag: '减重', scenario: '本周体重下降了，虽然只有一点点', feedback: '每周能减0.5~1kg是健康减脂的理想速度。下降太快反而容易反弹和肌肉流失。这个节奏刚刚好，身体能接受，效果也会更持久。' }
+    { icon: '🧘', tag: '平静', scenario: '今天内心很平静，没有被情绪带走', feedback: '内心平静是最高级的自律。你能在情绪波动中保持觉知，这说明你的心灵在成长。继续守护这份平静。' },
+    { icon: '🙏', tag: '感恩', scenario: '今天对生活中的小事心存感激', feedback: '感恩是幸福的加速器。能在平凡小事中发现美好，说明你的内心是富足的。这种感受会吸引更多值得感恩的事。' },
+    { icon: '🌅', tag: '喜悦', scenario: '感受到了发自内心的喜悦', feedback: '喜悦不需要理由，它来自内心的选择。你今天选择感受美好，这是一种能力。继续保持这份觉察。' },
+    { icon: '💪', tag: '坚韧', scenario: '面对困难内心没有动摇', feedback: '内心的坚韧比外在的成就更宝贵。你在逆境中保持平静，这说明你的内心有了根基。继续相信自己。' },
+    { icon: '🕊️', tag: '释怀', scenario: '放下了过去的一个心结', feedback: '释怀是心灵的解脱。你不再被过去束缚，这是很大的成长。放下之后，你会发现天空更宽广了。' },
+    { icon: '🌟', tag: '觉察', scenario: '对自己的情绪有了更清晰的认识', feedback: '觉察是改变的开始。你开始看见自己的情绪模式，这就是疗愈的开始。继续探索内在的世界。' },
+    { icon: '🤝', tag: '连接', scenario: '和自己内在的连接更深了', feedback: '与内在的连接是最珍贵的关系。你开始倾听内心的声音了，这是最明智的选择。继续探索内在的智慧。' },
+    { icon: '✨', tag: '充盈', scenario: '内心感觉很充实、很满足', feedback: '内心的充盈感是真正的财富。你不需要外界的认可来证明自己的价值，你本身就值得被爱。' }
   ],
   neg: [
-    { icon: '🍕', tag: '失控', scenario: '没忍住吃了一整块披萨，撑得很难受', feedback: '一块披萨的热量可能超过800大卡，但这不是世界末日。关键是不要连续失控超过3天。明天选择清淡饮食、多走路，就能把这次的影响降到最低。' },
-    { icon: '😩', tag: '疲惫', scenario: '最近训练强度太大，全身酸痛', feedback: '训练过度反而会让皮质醇升高，抑制脂肪燃烧。建议减量不减频率：把每次的强度降低，但保持运动次数，让身体有时间恢复。休息也是训练的一部分。' },
-    { icon: '📈', tag: '波动', scenario: '体重连续两天涨了，感觉在反弹', feedback: '体重每天波动2~3斤是正常的，跟饮食量、饮水量、钠摄入量都有关。先不要慌，连续观察一周再看。如果一周后仍然持续上升，再调整计划也不迟。' },
-    { icon: '🏠', tag: '借口', scenario: '下雨了/太忙了/太累了，没运动', feedback: '借口永远找得到，但结果不会骗人。下雨天可以室内跳绳，太忙可以早起20分钟，太累可以做5分钟拉伸。不运动的原因永远不是客观条件，而是决心。' },
-    { icon: '🧋', tag: '饮料', scenario: '朋友请了奶茶，不好意思拒绝就喝了', feedback: '社交场合偶尔喝一杯问题不大，但奶茶的糖分会让血糖剧烈波动，引发更多饥饿感。下次可以提前说"我在减肥，只喝无糖的"，或者点最小杯、无糖款。' },
-    { icon: '🍿', tag: '追剧', scenario: '追剧时不知不觉吃了一整包薯片', feedback: '这是典型的"无意识进食"。追剧时把零食放在够不到的地方，或者换成零热量的饮品（无糖茶、水）。意识到的瞬间就是改变的开始。' },
-    { icon: '🛌', tag: '熬夜', scenario: '最近睡得很晚，睡眠不足影响代谢', feedback: '每天睡眠少于6小时的人，瘦素会减少18%，饥饿素增加28%。这就是为什么睡不好的人更容易饿、更想吃高热量食物。试着把睡觉时间往前挪15分钟开始。' },
-    { icon: '😰', tag: '焦虑', scenario: '压力太大，很想通过吃东西来缓解', feedback: '情绪性进食是减肥的大敌。压力时会想吃碳水，因为它们能快速提升血清素，让人感觉好。但这种好是短暂的，之后是内疚和更深的焦虑。换一种解压方式：散步、倾诉、写日记。' }
+    { icon: '😰', tag: '焦虑', scenario: '最近总是莫名焦虑，担心很多事', feedback: '焦虑是因为我们活在未来，而不是当下。试着把注意力拉回现在：深呼吸，感受此刻。你能控制的事情不多，但此刻的呼吸可以。' },
+    { icon: '😔', tag: '低落', scenario: '最近情绪低落，提不起精神', feedback: '情绪像天气，会来也会走。不要对抗它，允许自己低落，但相信这只是暂时的。照顾好自己的身心，光亮会在的。' },
+    { icon: '😤', tag: '愤怒', scenario: '控制不住愤怒，事后很后悔', feedback: '愤怒是一种信号，说明有什么触碰到了你的底线。愤怒本身不是坏事，但表达方式可以学习。冷静后道歉并沟通，是修复的开始。' },
+    { icon: '😩', tag: '疲惫', scenario: '内心很疲惫，对什么都没有兴趣', feedback: '身心的疲惫需要休息和调整。允许自己停下来，这不是逃避，而是必要的恢复。照顾好自己，才能更好地前行。' },
+    { icon: '💭', tag: '纠结', scenario: '陷入负面情绪无法自拔', feedback: '负面情绪来来去去，不要试图消灭它。觉察它、命名它、然后放手。你不是你的情绪，你是可以观察它的那份觉知。' },
+    { icon: '😓', tag: '自责', scenario: '对自己很失望，觉得自己很失败', feedback: '自责是内心的惩罚，但过度的自责没有意义。每个人都会犯错，这不代表你不值得被爱。原谅自己，继续前行。' },
+    { icon: '🏃', tag: '逃避', scenario: '想逃避一切，不想面对现实', feedback: '逃避是人之常情，但问题不会因为逃避而消失。给自己一点时间，然后勇敢面对。你比你想象的更有力量。' },
+    { icon: '💔', tag: '失落', scenario: '感觉内心空落落的，不知道缺少什么', feedback: '内心的空虚是因为我们与真我失去了连接。试着问自己：什么能让我真正快乐？不是短暂的刺激，而是长久的满足。答案就在你心里。' }
   ]
 };
 
@@ -863,7 +863,7 @@ const FEEDBACK = {
     reminder: ['咦？好像一天没看到你打卡了。今天怎么样？', '你是不是忘了？没关系，现在记录也来得及。', '昨天没看到你，今天一起打卡吧！']
   },
   passion: {
-    checkin: ['🔥 冲！今天又赢了一次！','⚡ 脂肪在颤抖！','💪 猛！'],
+    checkin: ['🔥 冲！今天又赢了一次！','🕊️ 内心在平静！','⚡ 猛！'],
     happy: ['🔥 继续保持！燃起来！'],
     neutral: ['⚡ 平静也是力量！'],
     sad: ['💪 振作！你是最胖的——不对，最棒的！'],
@@ -874,7 +874,7 @@ const FEEDBACK = {
     milestone21: ['🔥 三周！连续作战能力惊人！'],
     milestone30: ['🏆 一个月！你赢了！'],
     late: ['🔥 深夜战士！respect！'],
-    reminder: ['🔥 喂！一天没打卡了！别告诉我你放弃了！', '⚡ 脂肪还在等着你呢，快来打卡！', '💪 昨天缺卡了，今天补上！']
+    reminder: ['🔥 喂！一天没打卡了！别告诉我你放弃了！', '🕊️ 内心还在等着你呢，快来打卡！', '💪 昨天缺卡了，今天补上！']
   },
   rational: {
     checkin: ['📊 打卡数据已记录。','✅ 行为确认。'],
@@ -1146,7 +1146,7 @@ function copyStats() {
   let history = getHistory(), continuous = document.getElementById('continuousDays').innerText;
   let partner = currentPartner || PARTNERS[0];
   let today = getToday();
-  let text = `🏆 减肥搭子战绩\n搭子：${partner.name} ${partner.emoji}\n连续打卡：${continuous}天\n总打卡：${history.length}天\n${today} 继续加油！`;
+  let text = `🏆 精神财富搭子战绩\n搭子：${partner.name} ${partner.emoji}\n连续打卡：${continuous}天\n总打卡：${history.length}天\n${today} 继续加油！`;
   navigator.clipboard.writeText(text).then(() => showToast('✅ 战绩已复制，快去分享')).catch(() => showToast('复制失败，手动复制吧'));
 }
 
@@ -1635,7 +1635,7 @@ function shareWeeklyReport() {
   ctx.fillStyle = 'white';
   ctx.font = 'bold 48px sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('🏃 减肥搭子', 375, 100);
+  ctx.fillText('🕊️ 精神财富搭子', 375, 100);
   ctx.font = '32px sans-serif';
   ctx.fillText('本周进展报告', 375, 160);
 
@@ -1693,7 +1693,7 @@ function shareWeeklyReport() {
   // 生成图片
   let dataUrl = canvas.toDataURL('image/png');
   let link = document.createElement('a');
-  link.download = '减肥搭子-本周进展.png';
+  link.download = '精神财富搭子-本周进展.png';
   link.href = dataUrl;
   link.click();
 }
@@ -2424,7 +2424,7 @@ function getCatFeedback(catId, yesItems, noItems, pct) {
       feedback.emoji = '😊';
       feedback.positive = '太棒了！今天情绪管理得很好！';
       if (yesItems.some(i => i.text.includes('心情好'))) {
-        feedback.positive += ' 保持好心情，减肥效率更高！';
+        feedback.positive += ' 保持好心情，内心会越来越平静的！';
       }
       feedback.guide = '🌟 建议：继续保持这种积极的心态，你是最棒的！';
     } else if (pct >= 50) {
@@ -2476,8 +2476,8 @@ function renderSharePage() {
   let weightData = JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]');
   let latest = weightData.length > 0 ? weightData[weightData.length-1].w : null;
   let text = latest
-    ? `我在用「减肥搭子」${cp.emoji}${cp.name}陪我减肥！已坚持${streak}天，当前体重${latest}kg。搭子每天会给我鼓励和建议，超暖心～快来一起变瘦吧！\n\n👉 ${url}`
-    : `我刚发现了一个超好用的「减肥搭子」小程序！${cp.emoji}${cp.name}陪我每天打卡，互相监督不偷懒～4种性格可选，总有一款适合你！\n\n👉 ${url}`;
+    ? `我在用「精神财富搭子」${cp.emoji}${cp.name}陪我成长！已坚持${streak}天。搭子每天会给我鼓励和建议，超暖心～快来一起成长吧！\n\n👉 ${url}`
+    : `我刚发现了一个超好用的「精神财富搭子」小程序！${cp.emoji}${cp.name}陪我每天打卡，互相监督不偷懒～4种性格可选，总有一款适合你！\n\n👉 ${url}`;
   document.getElementById('shareTextBox').innerText = text;
 
   // 搭子选择
