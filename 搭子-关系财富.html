@@ -458,7 +458,7 @@
 
   <!-- 搭子选择器 -->
   <div id="partnerSelector" class="partner-selector">
-    <div class="selector-title">选个减肥搭子</div>
+    <div class="selector-title">选个关系搭子</div>
     <div class="selector-sub">陪你一起瘦，不再孤单</div>
     <div class="partner-grid" id="partnerGrid">
       <div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')">
@@ -474,7 +474,7 @@
       <div class="partner-card" id="pc-rational" onclick="selectPartner('rational')">
         <div class="partner-emoji">📊</div>
         <div class="partner-name">冷静理性型</div>
-        <div class="partner-desc">数据说话，科学瘦身</div>
+        <div class="partner-desc">数据说话，科学社交</div>
       </div>
       <div class="partner-card" id="pc-tsundere" onclick="selectPartner('tsundere')">
         <div class="partner-emoji">😏</div>
@@ -525,9 +525,9 @@
 
     <!-- 分享入口 -->
     <div class="share-inline-card">
-      <div class="share-inline-label">📣 推荐给想一起减肥的朋友</div>
+      <div class="share-inline-label">📣 推荐给想一起成长的朋友</div>
       <div class="share-inline-preview">
-        🏃‍♀️ 减肥搭子 · 4种性格陪你瘦
+        👫 关系财富搭子 · 4种性格陪你成长
       </div>
       <div class="share-copy-row">
         <button class="share-copy-btn" onclick="copyShareLink()">📋 复制邀请链接</button>
@@ -619,7 +619,7 @@
   <div class="weight-page">
     <div class="weight-header" style="text-align:center;">
       <div class="weight-title">📣 分享</div>
-      <div class="weight-sub">邀请朋友一起变瘦</div>
+      <div class="weight-sub">邀请朋友一起成长</div>
     </div>
 
     <!-- 我的状态 -->
@@ -732,7 +732,7 @@
 const PARTNERS = [
   { id: 'gentle', name: '温柔鼓励型', emoji: '🌸', style: 'gentle', desc: '轻声细语，温暖陪伴', color: '#f8bbd0' },
   { id: 'passion', name: '热血激励型', emoji: '💪', style: 'passion', desc: '燃起来！干就完了', color: '#ffcc02' },
-  { id: 'rational', name: '冷静理性型', emoji: '📊', style: 'rational', desc: '数据说话，科学瘦身', color: '#90caf9' },
+  { id: 'rational', name: '冷静理性型', emoji: '📊', style: 'rational', desc: '数据说话，科学社交', color: '#90caf9' },
   { id: 'tsundere', name: '毒舌但中肯型', emoji: '😏', style: 'tsundere', desc: '骂醒你，但句句在理', color: '#ce93d8' }
 ];
 const STORAGE = { PARTNER: 'slim_partner', HISTORY: 'slim_history', WEIGHT: 'slim_weight', SOP: 'slim_sop', SOP_STREAKS: 'slim_sop_streaks', TARGET_WEIGHT: 'slim_target_weight' };
@@ -803,24 +803,24 @@ const QA_DATA = {
 // ==================== 进展数据 ====================
 const PROGRESS_DATA = {
   pos: [
-    { icon: '🔥', tag: '突破', scenario: '突破了平台期，体重终于降了！', feedback: '平台期是身体在适应新体重，不是没效果。你用正确的方法渡过了它，这是能力。继续按现在的计划走，下一个平台期也会被你打败。' },
-    { icon: '🏃', tag: '坚持', scenario: '本周运动4次以上，状态很好！', feedback: '运动频率上来了，身体也在适应。每周4次以上的规律运动能让基础代谢保持在一个较高水平，这是长期保持体重的关键。你的身体正在感谢你。' },
-    { icon: '🥗', tag: '控制', scenario: '这周成功控制住了饮食，没有暴食', feedback: '饮食是减肥的核心，你能在日常中守住这一关，说明习惯已经逐渐养成了。不用每顿都完美，只要大部分时间吃对了，大方向就没问题。' },
-    { icon: '😴', tag: '睡眠', scenario: '最近睡眠质量提升了，起床也不累了', feedback: '睡眠质量好意味着皮质醇水平稳定、肌肉修复正常、食欲激素平衡。这是减肥的隐形加速器。睡得好比多跑两圈还重要，你的选择很明智。' },
-    { icon: '📊', tag: '数据', scenario: '体重虽然只降了一点，但腰围变小了', feedback: '腰围变小意味着内脏脂肪在减少，这是比体重更重要指标。内脏脂肪和心血管健康、代谢水平直接相关，这个进展比体重数字更有价值。' },
-    { icon: '🧘', tag: '心态', scenario: '今天心情平稳，没有情绪性进食', feedback: '情绪稳定是最高级的自律。很多人减肥失败不是输在运动和饮食，而是输在情绪上。你今天守住了，这是很大的进步，值得肯定。' },
-    { icon: '💧', tag: '饮水', scenario: '每天喝够水了，感觉代谢在变好', feedback: '水是代谢的基础反应物，喝够水能让脂肪代谢效率提升10~15%。而且多喝水能减少"口渴误报成饥饿"的情况，帮你减少不必要的热量摄入。' },
-    { icon: '📉', tag: '减重', scenario: '本周体重下降了，虽然只有一点点', feedback: '每周能减0.5~1kg是健康减脂的理想速度。下降太快反而容易反弹和肌肉流失。这个节奏刚刚好，身体能接受，效果也会更持久。' }
+    { icon: '❤️', tag: '突破', scenario: '和家人的关系有了突破，沟通更顺畅了', feedback: '关系突破是最有价值的进展。你愿意沟通、愿意理解对方，这比任何技巧都重要。这种改变会影响你生活的方方面面。' },
+    { icon: '👫', tag: '坚持', scenario: '坚持每周和朋友聚会一次', feedback: '规律维护是关系的关键。你能在忙碌中保持这个习惯，说明你真正把朋友放在了优先级里。这种投资会有丰厚回报。' },
+    { icon: '💑', tag: '亲密', scenario: '和伴侣度过了高质量的相处时光', feedback: '亲密关系需要高质量的陪伴。你愿意投入时间，这是关系健康的最好证明。继续保持这种用心。' },
+    { icon: '🙏', tag: '感恩', scenario: '对帮助我的人表达了感谢', feedback: '感恩是关系的润滑剂。你的感谢会让对方感到被重视，也会让你们的关系更加温暖。' },
+    { icon: '🤝', tag: '支持', scenario: '朋友需要帮助时，我给予了支持', feedback: '在朋友需要时伸出援手，这是关系深度的体现。你的支持会被记住，在你需要时也会得到回报。' },
+    { icon: '📱', tag: '联系', scenario: '主动联系了许久未联系的朋友', feedback: '你打破沉默，让一段关系重新活跃起来。关系需要主动维护，你今天做得很好。' },
+    { icon: '🎁', tag: '惊喜', scenario: '给身边的人准备了一个小惊喜', feedback: '主动付出是关系增值的好方式。你的用心会让朋友感到被在乎，这种正向互动让关系更加牢固。' },
+    { icon: '🌟', tag: '成长', scenario: '和朋友一起学习进步', feedback: '和朋友一起成长是最棒的关系模式。你们互相激励、共同进步，这种关系会让你们都变得更好。' }
   ],
   neg: [
-    { icon: '🍕', tag: '失控', scenario: '没忍住吃了一整块披萨，撑得很难受', feedback: '一块披萨的热量可能超过800大卡，但这不是世界末日。关键是不要连续失控超过3天。明天选择清淡饮食、多走路，就能把这次的影响降到最低。' },
-    { icon: '😩', tag: '疲惫', scenario: '最近训练强度太大，全身酸痛', feedback: '训练过度反而会让皮质醇升高，抑制脂肪燃烧。建议减量不减频率：把每次的强度降低，但保持运动次数，让身体有时间恢复。休息也是训练的一部分。' },
-    { icon: '📈', tag: '波动', scenario: '体重连续两天涨了，感觉在反弹', feedback: '体重每天波动2~3斤是正常的，跟饮食量、饮水量、钠摄入量都有关。先不要慌，连续观察一周再看。如果一周后仍然持续上升，再调整计划也不迟。' },
-    { icon: '🏠', tag: '借口', scenario: '下雨了/太忙了/太累了，没运动', feedback: '借口永远找得到，但结果不会骗人。下雨天可以室内跳绳，太忙可以早起20分钟，太累可以做5分钟拉伸。不运动的原因永远不是客观条件，而是决心。' },
-    { icon: '🧋', tag: '饮料', scenario: '朋友请了奶茶，不好意思拒绝就喝了', feedback: '社交场合偶尔喝一杯问题不大，但奶茶的糖分会让血糖剧烈波动，引发更多饥饿感。下次可以提前说"我在减肥，只喝无糖的"，或者点最小杯、无糖款。' },
-    { icon: '🍿', tag: '追剧', scenario: '追剧时不知不觉吃了一整包薯片', feedback: '这是典型的"无意识进食"。追剧时把零食放在够不到的地方，或者换成零热量的饮品（无糖茶、水）。意识到的瞬间就是改变的开始。' },
-    { icon: '🛌', tag: '熬夜', scenario: '最近睡得很晚，睡眠不足影响代谢', feedback: '每天睡眠少于6小时的人，瘦素会减少18%，饥饿素增加28%。这就是为什么睡不好的人更容易饿、更想吃高热量食物。试着把睡觉时间往前挪15分钟开始。' },
-    { icon: '😰', tag: '焦虑', scenario: '压力太大，很想通过吃东西来缓解', feedback: '情绪性进食是减肥的大敌。压力时会想吃碳水，因为它们能快速提升血清素，让人感觉好。但这种好是短暂的，之后是内疚和更深的焦虑。换一种解压方式：散步、倾诉、写日记。' }
+    { icon: '😔', tag: '疏离', scenario: '最近很忙，好久没联系朋友了', feedback: '忙碌是关系的大敌，但关系不能等有空了才维护。试着每天花10分钟联系一个人，哪怕是一条简单的问候。' },
+    { icon: '😤', tag: '冲突', scenario: '和家人吵架了，心里很难受', feedback: '冲突在亲密关系中难免发生。冷静后主动沟通，表达你的感受和想法。道歉不是软弱，而是关系的修复剂。' },
+    { icon: '💔', tag: '失望', scenario: '朋友让我失望了，不知道怎么办', feedback: '失望是因为有期待，这是正常的。先给自己一点时间冷静，然后坦诚地和对方沟通你的感受。' },
+    { icon: '😣', tag: '社恐', scenario: '不知道该和朋友聊什么，感觉尴尬', feedback: '社交不需要完美的话题。从简单的日常开始：聊聊最近看的一部电影、吃的一家餐厅。真诚比技巧更重要。' },
+    { icon: '⏰', tag: '拖延', scenario: '一直说要联系朋友，但就是拖着', feedback: '关系需要主动维护。今天发一条消息问候，不用长篇大论，真诚就好。' },
+    { icon: '😰', tag: '压力', scenario: '最近压力大，没心情社交', feedback: '压力大时更需要支持。试着向朋友倾诉，他们的陪伴会让你感到温暖。社交不是负担，而是能量的来源。' },
+    { icon: '🤷', tag: '迷茫', scenario: '感觉朋友越来越少了', feedback: '关系是双向的。主动迈出第一步，同时也可以拓展新圈子，参加一些兴趣活动，结识新朋友。' },
+    { icon: '💭', tag: '孤独', scenario: '身边没人能理解我，感觉很孤独', feedback: '孤独是很多人都有的感受。试着敞开心扉，和信任的人分享你的想法。有时候，理解就藏在你愿意表达的那一刻。' }
   ]
 };
 
@@ -863,7 +863,7 @@ const FEEDBACK = {
     reminder: ['咦？好像一天没看到你打卡了。今天怎么样？', '你是不是忘了？没关系，现在记录也来得及。', '昨天没看到你，今天一起打卡吧！']
   },
   passion: {
-    checkin: ['🔥 冲！今天又赢了一次！','⚡ 脂肪在颤抖！','💪 猛！'],
+    checkin: ['🔥 冲！今天又赢了一次！','👫 关系在加深！','⚡ 猛！'],
     happy: ['🔥 继续保持！燃起来！'],
     neutral: ['⚡ 平静也是力量！'],
     sad: ['💪 振作！你是最胖的——不对，最棒的！'],
@@ -874,7 +874,7 @@ const FEEDBACK = {
     milestone21: ['🔥 三周！连续作战能力惊人！'],
     milestone30: ['🏆 一个月！你赢了！'],
     late: ['🔥 深夜战士！respect！'],
-    reminder: ['🔥 喂！一天没打卡了！别告诉我你放弃了！', '⚡ 脂肪还在等着你呢，快来打卡！', '💪 昨天缺卡了，今天补上！']
+    reminder: ['🔥 喂！一天没打卡了！别告诉我你放弃了！', '👫 关系还在等着你呢，快来打卡！', '💪 昨天缺卡了，今天补上！']
   },
   rational: {
     checkin: ['📊 打卡数据已记录。','✅ 行为确认。'],
@@ -1146,7 +1146,7 @@ function copyStats() {
   let history = getHistory(), continuous = document.getElementById('continuousDays').innerText;
   let partner = currentPartner || PARTNERS[0];
   let today = getToday();
-  let text = `🏆 减肥搭子战绩\n搭子：${partner.name} ${partner.emoji}\n连续打卡：${continuous}天\n总打卡：${history.length}天\n${today} 继续加油！`;
+  let text = `🏆 关系财富搭子战绩\n搭子：${partner.name} ${partner.emoji}\n连续打卡：${continuous}天\n总打卡：${history.length}天\n${today} 继续加油！`;
   navigator.clipboard.writeText(text).then(() => showToast('✅ 战绩已复制，快去分享')).catch(() => showToast('复制失败，手动复制吧'));
 }
 
@@ -1635,7 +1635,7 @@ function shareWeeklyReport() {
   ctx.fillStyle = 'white';
   ctx.font = 'bold 48px sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('🏃 减肥搭子', 375, 100);
+  ctx.fillText('👫 关系财富搭子', 375, 100);
   ctx.font = '32px sans-serif';
   ctx.fillText('本周进展报告', 375, 160);
 
@@ -1693,7 +1693,7 @@ function shareWeeklyReport() {
   // 生成图片
   let dataUrl = canvas.toDataURL('image/png');
   let link = document.createElement('a');
-  link.download = '减肥搭子-本周进展.png';
+  link.download = '关系财富搭子-本周进展.png';
   link.href = dataUrl;
   link.click();
 }
@@ -2424,7 +2424,7 @@ function getCatFeedback(catId, yesItems, noItems, pct) {
       feedback.emoji = '😊';
       feedback.positive = '太棒了！今天情绪管理得很好！';
       if (yesItems.some(i => i.text.includes('心情好'))) {
-        feedback.positive += ' 保持好心情，减肥效率更高！';
+        feedback.positive += ' 保持好心情，人缘会越来越好的！';
       }
       feedback.guide = '🌟 建议：继续保持这种积极的心态，你是最棒的！';
     } else if (pct >= 50) {
@@ -2476,8 +2476,8 @@ function renderSharePage() {
   let weightData = JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]');
   let latest = weightData.length > 0 ? weightData[weightData.length-1].w : null;
   let text = latest
-    ? `我在用「减肥搭子」${cp.emoji}${cp.name}陪我减肥！已坚持${streak}天，当前体重${latest}kg。搭子每天会给我鼓励和建议，超暖心～快来一起变瘦吧！\n\n👉 ${url}`
-    : `我刚发现了一个超好用的「减肥搭子」小程序！${cp.emoji}${cp.name}陪我每天打卡，互相监督不偷懒～4种性格可选，总有一款适合你！\n\n👉 ${url}`;
+    ? `我在用「关系财富搭子」${cp.emoji}${cp.name}陪我成长！已坚持${streak}天。搭子每天会给我鼓励和建议，超暖心～快来一起成长吧！\n\n👉 ${url}`
+    : `我刚发现了一个超好用的「关系财富搭子」小程序！${cp.emoji}${cp.name}陪我每天打卡，互相监督不偷懒～4种性格可选，总有一款适合你！\n\n👉 ${url}`;
   document.getElementById('shareTextBox').innerText = text;
 
   // 搭子选择
