@@ -162,35 +162,10 @@
     footer { font-size: 12px; text-align: center; color: #8f9eae; margin-top: 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
 
     /* ===== 财富记录页面 ===== */
-    .weight-page { max-width: 420px; margin: 0 auto; }
-    .weight-header { background: white; border-radius: 32px; padding: 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
-    .weight-title { font-size: 20px; font-weight: 700; color: #2b5a7a; margin-bottom: 4px; }
-    .weight-sub { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
-    .weight-input-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
-    .weight-input { width: 120px; height: 52px; border-radius: 16px; border: 2px solid #e9edf2; text-align: center; font-size: 24px; font-weight: 700; color: #3a7ca5; outline: none; }
-    .weight-input:focus { border-color: #3a7ca5; }
-    .weight-unit { font-size: 18px; color: #8f9eae; font-weight: 500; }
-    .weight-add-btn { padding: 12px 24px; background: #3a7ca5; color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; }
-    .weight-add-btn:active { background: #2b5a7a; }
-    .weight-chart-card { background: white; border-radius: 32px; padding: 20px 16px 16px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-    .chart-title { font-size: 15px; font-weight: 700; color: #2b5a7a; margin-bottom: 4px; }
-    .chart-sub { font-size: 12px; color: #8f9eae; margin-bottom: 12px; }
-    #weightCanvas { width: 100%; border-radius: 12px; background: #fafcfe; }
-    .weight-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 12px; }
-    .wstat { background: #f7f9fc; border-radius: 16px; padding: 12px 8px; text-align: center; }
-    .wstat-num { font-size: 20px; font-weight: 800; color: #3a7ca5; }
-    .wstat-label { font-size: 11px; color: #8f9eae; margin-top: 2px; }
-    .wstat.change-up { color: #e57373; }
-    .wstat.change-down { color: #66bb6a; }
-    .weight-records { background: white; border-radius: 32px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-    .records-title { font-size: 15px; font-weight: 700; color: #2b5a7a; margin-bottom: 14px; }
-    .record-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f4f7; }
-    .record-item:last-child { border-bottom: none; }
-    .record-date { font-size: 13px; color: #8f9eae; }
+    
+
     .record-val { font-size: 18px; font-weight: 700; color: #3a7ca5; }
     .record-change { font-size: 12px; margin-left: 6px; }
-    .record-change.down { color: #66bb6a; }
-    .record-change.up { color: #e57373; }
 
     /* ===== SOP 游戏页面 ===== */
     .sop-page { max-width: 420px; margin: 0 auto; }
@@ -540,10 +515,6 @@
 </div>
 
 <!-- ===== Page: 财富 ===== -->
-<div id="page-weight" class="page">
-  <div class="weight-page">
-    <div class="weight-header">
-      <div class="weight-title">⚖️ 财富记录</div>
       <div class="weight-sub" id="weightSummary">记录你的每一次变化</div>
       <div class="weight-input-row">
         <input class="weight-input" id="weightInput" type="number" step="0.1" min="20" max="300" placeholder="--">
@@ -552,15 +523,14 @@
       </div>
     </div>
 
-    <div class="weight-chart-card">
+    <div class="sop-card">
       <div class="chart-title">📈 财富曲线</div>
       <div class="chart-sub" id="chartSub">坚持记录，趋势一目了然</div>
-      <canvas id="weightCanvas" width="380" height="200"></canvas>
-      <div class="weight-stats" id="weightStats"></div>
+      <canvas id="chartCanvas" width="380" height="200"></canvas>
     </div>
 
     <!-- 每周进步报告 -->
-    <div class="weight-chart-card" id="weeklyReportCard">
+    <div class="sop-card" id="weeklyReportCard">
       <div class="chart-title">📊 本周进展</div>
       <div id="weeklyReportContent">
         <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>
@@ -623,7 +593,7 @@
     </div>
 
     <!-- 我的状态 -->
-    <div class="weight-chart-card" style="margin-bottom:12px;">
+    <div class="sop-card" style="margin-bottom:12px;">
       <div class="chart-title">🏃 我的状态</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
         <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;">
@@ -642,14 +612,14 @@
     </div>
 
     <!-- 当前搭子 -->
-    <div class="weight-chart-card" style="margin-bottom:12px;">
+    <div class="sop-card" style="margin-bottom:12px;">
       <div class="chart-title">🤝 我的搭子</div>
       <div id="shareCurrentPartner" style="display:flex;align-items:center;gap:12px;margin-top:12px;padding:14px;background:#f8f9fa;border-radius:14px;">
       </div>
     </div>
 
     <!-- 邀请链接 -->
-    <div class="weight-chart-card" style="margin-bottom:12px;">
+    <div class="sop-card" style="margin-bottom:12px;">
       <div class="chart-title">🔗 邀请好友</div>
       <div style="background:#f0f9f4;border-radius:12px;padding:14px;margin-top:10px;display:flex;align-items:center;gap:10px;">
         <div style="flex:1;font-size:12px;color:#555;word-break:break-all;" id="shareLinkText"></div>
@@ -658,14 +628,14 @@
     </div>
 
     <!-- 分享文案 -->
-    <div class="weight-chart-card" style="margin-bottom:12px;">
+    <div class="sop-card" style="margin-bottom:12px;">
       <div class="chart-title">💬 分享文案</div>
       <div style="background:#fff;border:1.5px solid #3de882;border-radius:14px;padding:14px;font-size:13px;line-height:1.7;color:#333;margin-top:10px;" id="shareTextBox"></div>
       <button onclick="copyShareText()" style="width:100%;margin-top:10px;background:#fff;color:#3de882;border:1.5px solid #3de882;border-radius:10px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;">📋 复制文案</button>
     </div>
 
     <!-- 切换搭子 -->
-    <div class="weight-chart-card" style="margin-bottom:12px;">
+    <div class="sop-card" style="margin-bottom:12px;">
       <div class="chart-title">✨ 换个搭子</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;" id="sharePartnerGrid"></div>
     </div>
@@ -748,8 +718,7 @@ function getSiteUrl() {
 function getToday() { return new Date().toISOString().slice(0,10); }
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
-function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
-function saveWeightData(d) { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(d)); if(window.saveWeightToFirebase) saveWeightToFirebase(d); }
+
 function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); }
 function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); if(window.saveSOPToFirebase) saveSOPToFirebase(d); }
 function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
@@ -828,20 +797,10 @@ const PROGRESS_DATA = {
 function switchTab(tab) {
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const tabs = ['checkin','weight','sop','share'];
+  const tabs = ['checkin','sop','share'];
   document.querySelectorAll('.tab-item')[tabs.indexOf(tab)].classList.add('active');
   document.getElementById(`page-${tab}`).classList.add('active');
-  if (tab === 'weight') {
-    drawWeightChart();
-    renderWeeklyReport();
-    // 自动填入上次财富
-    let data = getWeightData();
-    if (data.length > 0) {
-      let last = data[data.length - 1].value;
-      let inp = document.getElementById('weightInput');
-      if (inp) inp.placeholder = last.toFixed(1);
-    }
-  }
+  
   if (tab === 'sop') initSOP();
   if (tab === 'share') renderSharePage();
 }
@@ -1378,16 +1337,9 @@ function copyShareLink() {
   // 添加用户数据参数
   let history = getHistory();
   let continuous = history.length > 0 ? computeContinuous(history, getToday()) : 0;
-  let weight = getWeightData();
-  let change = '';
-  if (weight.length >= 2) {
-    let c = (weight[weight.length-1].value - weight[0].value).toFixed(1);
-    change = (parseFloat(c) > 0 ? '+' : '') + c + 'kg';
-  }
   let partner = currentPartner ? encodeURIComponent(currentPartner.emoji + ' ' + currentPartner.name) : '';
   let params = new URLSearchParams();
   if (continuous > 0) params.set('days', continuous);
-  if (change) params.set('change', change);
   if (partner) params.set('partner', partner);
   let fullUrl = url + (params.toString() ? '?' + params.toString() : '');
   navigator.clipboard.writeText(fullUrl).then(() => showToast('✅ 邀请链接已复制，快发给朋友吧'));
@@ -1396,227 +1348,25 @@ function previewShareCard() {
   let url = getSiteUrl() + 'share.html';
   let history = getHistory();
   let continuous = history.length > 0 ? computeContinuous(history, getToday()) : 0;
-  let weight = getWeightData();
-  let change = '';
-  if (weight.length >= 2) {
-    let c = (weight[weight.length-1].value - weight[0].value).toFixed(1);
-    change = (parseFloat(c) > 0 ? '+' : '') + c + 'kg';
-  }
   let partner = currentPartner ? encodeURIComponent(currentPartner.emoji + ' ' + currentPartner.name) : '';
   let params = new URLSearchParams();
   if (continuous > 0) params.set('days', continuous);
-  if (change) params.set('change', change);
   if (partner) params.set('partner', partner);
   let fullUrl = url + (params.toString() ? '?' + params.toString() : '');
   window.open(fullUrl, '_blank');
 }
 
 // ==================== 财富模块 ====================
-function addWeight() {
-  let val = parseFloat(document.getElementById('weightInput').value);
-  if (!val || val < 20 || val > 300) { showToast('请输入有效的财富值'); return; }
-  let data = getWeightData();
-  let today = getToday();
-  // 删除今天的旧记录（如果有）
-  data = data.filter(d => d.date !== today);
-  data.push({ date: today, value: val });
-  data.sort((a,b) => a.date.localeCompare(b.date));
-  saveWeightData(data);
-  document.getElementById('weightInput').value = '';
-  showToast(`✅ 记录成功：${val}kg`);
-  drawWeightChart();
-  renderWeightRecords();
-}
 
-function drawWeightChart() {
-  let canvas = document.getElementById('weightCanvas');
-  let ctx = canvas.getContext('2d');
-  let data = getWeightData().slice(-30);
-  let W = canvas.width, H = canvas.height;
-  ctx.clearRect(0,0,W,H);
-  if (data.length < 2) {
-    ctx.fillStyle = '#b0bec5'; ctx.font = '14px system-ui';
-    ctx.textAlign = 'center'; ctx.fillText('记录2次以上即可显示曲线', W/2, H/2);
-    renderWeightStats(null);
-    return;
-  }
-  let vals = data.map(d => d.value);
-  let minV = Math.min(...vals) - 1, maxV = Math.max(...vals) + 1;
-  let toX = i => 20 + (i / (data.length - 1)) * (W - 40);
-  let toY = v => H - 30 - ((v - minV) / (maxV - minV)) * (H - 60);
 
-  // 网格
-  ctx.strokeStyle = '#f0f4f7'; ctx.lineWidth = 1;
-  for (let i = 0; i <= 4; i++) {
-    let y = 20 + i * (H - 50) / 4;
-    ctx.beginPath(); ctx.moveTo(20,y); ctx.lineTo(W-20,y); ctx.stroke();
-    ctx.fillStyle = '#b0bec5'; ctx.font = '10px system-ui'; ctx.textAlign = 'right';
-    ctx.fillText((maxV - i*(maxV-minV)/4).toFixed(1), 18, y+3);
-  }
-
-  // 渐变填充
-  let grad = ctx.createLinearGradient(0,0,0,H);
-  grad.addColorStop(0,'rgba(58,124,165,0.3)');
-  grad.addColorStop(1,'rgba(58,124,165,0)');
-  ctx.beginPath();
-  data.forEach((d,i) => { let x=toX(i),y=toY(d.value); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
-  ctx.lineTo(toX(data.length-1), H-20);
-  ctx.lineTo(toX(0), H-20);
-  ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
-
-  // 线
-  ctx.beginPath();
-  data.forEach((d,i) => { let x=toX(i),y=toY(d.value); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
-  ctx.strokeStyle='#3a7ca5'; ctx.lineWidth=2.5; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.stroke();
-
-  // 点
-  data.forEach((d,i) => {
-    let x=toX(i),y=toY(d.value);
-    ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2);
-    ctx.fillStyle='#fff'; ctx.fill(); ctx.strokeStyle='#3a7ca5'; ctx.lineWidth=2; ctx.stroke();
-  });
-
-  // 今天标注
-  let today = getToday();
-  let todayIdx = data.findIndex(d => d.date === today);
-  if (todayIdx >= 0) {
-    let x=toX(todayIdx),y=toY(data[todayIdx].value);
-    ctx.fillStyle='#e91e63'; ctx.font='bold 12px system-ui'; ctx.textAlign='center';
-    ctx.fillText('今天',x,y-12);
-  }
-
-  renderWeightStats(data);
-}
-
-function renderWeightStats(data) {
-  let stats = document.getElementById('weightStats');
-  if (!data || data.length === 0) { stats.innerHTML='<div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">当前财富</div></div><div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">本周变化</div></div><div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">总记录</div></div>'; return; }
-  let latest = data[data.length-1].value;
-  let first = data[0].value;
-  let weekData = data.filter(d => { let diff=(new Date()-new Date(d.date))/86400000; return diff<=7; });
-  let weekChange = weekData.length >= 2 ? (weekData[weekData.length-1].value - weekData[0].value) : null;
-  stats.innerHTML = `
-    <div class="wstat"><div class="wstat-num">${latest.toFixed(1)}</div><div class="wstat-label">当前(kg)</div></div>
-    <div class="wstat ${weekChange!==null?(weekChange<0?'change-down':'change-up'):''}">
-      <div class="wstat-num">${weekChange!==null?(weekChange>0?'+':'')+weekChange.toFixed(1):'--'}</div>
-      <div class="wstat-label">本周(kg)</div>
-    </div>
-    <div class="wstat"><div class="wstat-num">${data.length}</div><div class="wstat-label">总记录</div></div>
-  `;
-}
-
-function renderWeeklyReport() {
-  let container = document.getElementById('weeklyReportContent');
-  if (!container) return;
-  let history = getHistory();
-  let weight = getWeightData();
-  let sop = getSOPData();
-  let streaks = getSOPStreaks();
-  let today = getToday();
-
-  // 计算本周（最近7天）
-  let now = new Date();
-  let weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
-  let fmt = d => d.toISOString().slice(0,10);
-
-  let thisWeekHistory = history.filter(h => new Date(h) >= weekAgo);
-  let lastWeekStart = new Date(weekAgo); lastWeekStart.setDate(lastWeekStart.getDate() - 7);
-  let lastWeekEnd = new Date(weekAgo); lastWeekEnd.setDate(lastWeekEnd.getDate() - 1);
-  let lastWeekHistory = history.filter(h => new Date(h) >= lastWeekStart && new Date(h) <= lastWeekEnd);
-
-  // 本周财富变化
-  let weekWeight = weight.filter(w => {
-    let d = new Date(w.date); return d >= weekAgo;
-  }).sort((a,b) => a.date.localeCompare(b.date));
-  let weekChange = null;
-  if (weekWeight.length >= 2) {
-    weekChange = (weekWeight[weekWeight.length-1].w - weekWeight[0].w).toFixed(1);
-  }
-
-  // SOP本周平均分
-  let sopThisWeek = weekAgo <= now; // 简化：本周SOP完成情况
-  let sopScore = sop.score || 0;
-  let sopDone = sop.date === today;
-
-  let items = [];
-
-  // 打卡次数
-  let thisWeekDays = thisWeekHistory.length;
-  let lastWeekDays = lastWeekHistory.length;
-  let checkinChange = thisWeekDays - lastWeekDays;
-  let checkinColor = checkinChange > 0 ? '#4caf50' : checkinChange < 0 ? '#ef5350' : '#888';
-  let checkinIcon = checkinChange > 0 ? '📈' : checkinChange < 0 ? '📉' : '➡️';
-  items.push(`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;">
-    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">🏃</span><span style="font-size:13px;color:#666;">本周打卡</span></div>
-    <div style="display:flex;align-items:center;gap:6px;"><span style="font-weight:700;font-size:15px;">${thisWeekDays}天</span><span style="font-size:12px;color:${checkinColor};">${checkinIcon} ${checkinChange > 0 ? '+' : ''}${checkinChange}天</span></div>
-  </div>`);
-
-  // 财富变化
-  if (weekChange !== null) {
-    let wc = parseFloat(weekChange);
-    let wcColor = wc < 0 ? '#4caf50' : wc > 0 ? '#ef5350' : '#888';
-    let wcIcon = wc < 0 ? '⬇️' : wc > 0 ? '⬆️' : '➡️';
-    items.push(`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;">
-    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">⚖️</span><span style="font-size:13px;color:#666;">本周财富</span></div>
-    <div style="display:flex;align-items:center;gap:6px;"><span style="font-weight:700;font-size:15px;">${wc > 0 ? '+' : ''}${weekChange}¥</span><span style="font-size:12px;color:${wcColor};">${wcIcon}</span></div>
-  </div>`);
-  }
-
-  // SOP今日得分（各分类详情）
-  let sopColor = sopScore >= 60 ? '#4caf50' : sopScore >= 30 ? '#ff9800' : '#ef5350';
-  items.push(`<div style="padding:10px 0;border-bottom:1px solid #f0f0f0;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-      <span style="font-size:18px;">🎯</span>
-      <span style="font-size:13px;color:#666;">今日SOP</span>
-      <span style="font-weight:700;font-size:15px;color:${sopColor};margin-left:auto;">${sopScore}分</span>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
-      ${SOP_CATEGORIES.map(cat => {
-        let st = streaks[cat.id] || { streak: 0 };
-        let catScore = sopScore > 0 ? Math.round(sopScore / SOP_CATEGORIES.length) : 0;
-        let catDone = sopPositives ? sopPositives.filter(p => p.cat === cat.id).length : 0;
-        let negCount = sopNegatives ? sopNegatives.filter(n => n.cat === cat.id).length : 0;
-        let doneTotal = (catDone || 0) - (negCount || 0);
-        let statusColor = doneTotal >= 3 ? '#4caf50' : doneTotal >= 1 ? '#ff9800' : '#ef5350';
-        return `<div style="background:${cat.color}18;border-radius:10px;padding:8px 6px;text-align:center;">
-          <div style="font-size:16px;">${cat.icon}</div>
-          <div style="font-size:10px;color:${cat.color};font-weight:600;">${cat.name}</div>
-          <div style="font-size:11px;color:#666;margin-top:2px;">${doneTotal >= 0 ? '+' : ''}${doneTotal}项</div>
-          ${st.streak > 0 ? `<div style="font-size:10px;color:${cat.color};margin-top:2px;">🔥${st.streak}天</div>` : `<div style="font-size:10px;color:#ccc;margin-top:2px;">坚持?</div>`}
-        </div>`;
-      }).join('')}
-    </div>
-  </div>`);
-
-  // 综合评价
-  let goodCount = thisWeekDays + (weekChange !== null && parseFloat(weekChange) <= 0 ? 1 : 0) + (sopScore >= 60 ? 1 : 0);
-  let evalIcon = ['😔', '😐', '👍', '😊', '🎉'][Math.min(goodCount, 4)];
-  let evalText = ['需加油', '一般', '还不错', '很好', '太棒了'][Math.min(goodCount, 4)];
-  items.push(`<div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 0;margin-top:8px;background:#f8fff8;border-radius:12px;">
-    <span style="font-size:20px;">${evalIcon}</span>
-    <span style="font-size:14px;font-weight:600;color:#333;">本周综合评价：</span>
-    <span style="font-size:14px;font-weight:700;color:#4caf50;">${evalText}</span>
-  </div>`);
-
-  container.innerHTML = items.join('');
-  // 显示分享按钮（有本周数据才显示）
-  let btn = document.getElementById('shareWeeklyBtn');
-  if (btn && thisWeekDays > 0) btn.style.display = 'block';
-}
-
-// 分享本周进展（生成小红图）
 function shareWeeklyReport() {
   let history = getHistory();
-  let weight = getWeightData();
   let sop = getSOPData();
   let now = new Date();
   let weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
   let thisWeekHistory = history.filter(h => new Date(h) >= weekAgo);
-  let weekWeight = weight.filter(w => { let d = new Date(w.date); return d >= weekAgo; }).sort((a,b) => a.date.localeCompare(b.date));
-  let weekChange = weekWeight.length >= 2 ? (weekWeight[weekWeight.length-1].w - weekWeight[0].w).toFixed(1) : null;
   let sopScore = sop.score || 0;
   let continuous = computeContinuous(getHistory(), getToday());
-  let targetWeight = localStorage.getItem(STORAGE.TARGET_WEIGHT) || '60';
   let partnerName = currentPartner ? currentPartner.name : '搭子';
 
   // 创建Canvas
@@ -1663,17 +1413,6 @@ function shareWeeklyReport() {
   ctx.fillStyle = '#666';
   ctx.fillText('本周打卡次数', 375, y += 50);
 
-  // 财富变化
-  if (weekChange !== null) {
-    let wc = parseFloat(weekChange);
-    ctx.font = 'bold 48px sans-serif';
-    ctx.fillStyle = wc < 0 ? '#4caf50' : '#ef5350';
-    ctx.fillText((wc > 0 ? '⬆️ +' : '⬇️ ') + weekChange + 'kg', 375, y += 100);
-    ctx.font = '28px sans-serif';
-    ctx.fillStyle = '#666';
-    ctx.fillText('本周财富变化', 375, y += 50);
-  }
-
   // SOP得分
   ctx.font = 'bold 48px sans-serif';
   ctx.fillStyle = sopScore >= 60 ? '#4caf50' : sopScore >= 30 ? '#ff9800' : '#ef5350';
@@ -1712,19 +1451,6 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
-function renderWeightRecords() {
-  let el = document.getElementById('weightRecords');
-  let data = getWeightData().slice().reverse().slice(0,10);
-  if (data.length === 0) { el.innerHTML = '<div style="text-align:center;color:#b0bec5;font-size:13px;padding:20px;">还没有记录，开始记录第一条吧</div>'; return; }
-  el.innerHTML = data.map((d,i) => {
-    let prev = data[i+1];
-    let change = prev ? (d.value - prev.value) : 0;
-    let cls = change < 0 ? 'down' : change > 0 ? 'up' : '';
-    let sign = change > 0 ? '+' : '';
-    let dateStr = d.date === getToday() ? '今天' : d.date.slice(5);
-    return `<div class="record-item"><span class="record-date">${dateStr}</span><span><span class="record-val">${d.value.toFixed(1)}</span><span class="record-change ${cls}">${prev ? sign+change.toFixed(1)+'kg' : ''}</span></span></div>`;
-  }).join('');
-}
 
 // ==================== SOP 游戏模块 ====================
 const SOP_CATEGORIES = [
@@ -2467,12 +2193,10 @@ function renderSharePage() {
   let today = getToday();
   let history = getHistory();
   let todayChecked = history.includes(today);
-  let targetWeight = localStorage.getItem(STORAGE.TARGET_WEIGHT) || '-';
-  
+    
   document.getElementById('shareStreak').innerText = streak + '天';
   document.getElementById('shareToday').innerText = todayChecked ? '✅' : '○';
-  document.getElementById('shareWeight').innerText = targetWeight === '-' ? '-' : '¥' + targetWeight;
-
+  
   // 当前搭子
   let cp = currentPartner || PARTNERS[0];
   document.getElementById('shareCurrentPartner').innerHTML = `
@@ -2488,10 +2212,7 @@ function renderSharePage() {
   document.getElementById('shareLinkText').innerText = url;
 
   // 个性化分享文案
-  let weightData = JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]');
-  let latest = weightData.length > 0 ? weightData[weightData.length-1].w : null;
-  let text = latest
-    ? `我在用「财务财富搭子」${cp.emoji}${cp.name}帮我理财！已坚持${streak}天，当前财富${latest}元。搭子每天会给我鼓励和建议，超暖心～快来一起变富吧！\n\n👉 ${url}`
+  let text = `我在用「财务财富搭子」${cp.emoji}${cp.name}帮我理财！已坚持${streak}天，当前财富${latest}元。搭子每天会给我鼓励和建议，超暖心～快来一起变富吧！\n\n👉 ${url}`
     : `我刚发现了一个超好用的「财务财富搭子」小程序！${cp.emoji}${cp.name}陪我每天打卡，互相监督不乱花～4种性格可选，总有一款适合你！\n\n👉 ${url}`;
   document.getElementById('shareTextBox').innerText = text;
 
@@ -2607,16 +2328,14 @@ function copyShareText() {
   // 同步本地数据到Firebase（首次登录时）
   function syncLocalToFirebase() {
     const history = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
-    const weight = JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]');
     const sop = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}');
     const partner = localStorage.getItem(STORAGE.PARTNER) || '';
 
-    if (history.length > 0 || weight.length > 0 || Object.keys(sop).length > 0 || partner) {
+    if (history.length > 0 || Object.keys(sop).length > 0 || partner) {
       const userRef = db.collection('users').doc(currentUid);
       const batch = db.batch();
       
       if (history.length > 0) batch.set(userRef.collection('history').doc('main'), { records: history }, { merge: true });
-      if (weight.length > 0) batch.set(userRef.collection('weight').doc('main'), { records: weight }, { merge: true });
       if (Object.keys(sop).length > 0) batch.set(userRef.collection('sop').doc('main'), sop, { merge: true });
       if (partner) batch.set(userRef, { partner: partner }, { merge: true });
       
@@ -2634,16 +2353,6 @@ function copyShareText() {
         const records = doc.data().records;
         localStorage.setItem(STORAGE.HISTORY, JSON.stringify(records));
         if (typeof refreshHistoryList === 'function') refreshHistoryList();
-      }
-    });
-
-    // 加载财富数据
-    userRef.collection('weight').doc('main').get().then(doc => {
-      if (doc.exists && doc.data().records) {
-        const records = doc.data().records;
-        localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(records));
-        if (typeof renderWeightRecords === 'function') renderWeightRecords();
-        if (typeof drawWeightChart === 'function') drawWeightChart();
       }
     });
 
@@ -2671,10 +2380,6 @@ function copyShareText() {
   };
 
   // 保存财富数据到Firebase
-  window.saveWeightToFirebase = function(records) {
-    if (!FB.ready) return;
-    db.collection('users').doc(currentUid).collection('weight').doc('main').set({ records: records });
-  };
 
   // 保存SOP数据到Firebase
   window.saveSOPToFirebase = function(data) {
