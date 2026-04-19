@@ -1367,8 +1367,7 @@ function previewShareCard() {
   window.open(fullUrl, '_blank');
 }
 
-// ==================== 体重模块（已移除）===================
-function addWeight_removed() {
+// 体重模块已移除
   let val = parseFloat(document.getElementById('weightInput').value);
   if (!val || val < 20 || val > 300) { showToast('请输入有效的体重值'); return; }
   let data = getWeightData();
