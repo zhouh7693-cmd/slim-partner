@@ -439,10 +439,6 @@
     <div class="tab-icon">✅</div>
     <div class="tab-label">打卡</div>
   </div>
-  <div class="tab-item" onclick="switchTab('weight')">
-    <div class="tab-icon">⚖️</div>
-    <div class="tab-label">体重</div>
-  </div>
   <div class="tab-item" onclick="switchTab('sop')">
     <div class="tab-icon">🎯</div>
     <div class="tab-label">SOP</div>
@@ -539,41 +535,6 @@
   </div>
 </div>
 
-<!-- ===== Page: 体重 ===== -->
-<div id="page-weight" class="page">
-  <div class="weight-page">
-    <div class="weight-header">
-      <div class="weight-title">⚖️ 体重记录</div>
-      <div class="weight-sub" id="weightSummary">记录你的每一次变化</div>
-      <div class="weight-input-row">
-        <input class="weight-input" id="weightInput" type="number" step="0.1" min="20" max="300" placeholder="--">
-        <span class="weight-unit">kg</span>
-        <button class="weight-add-btn" onclick="addWeight()">记录</button>
-      </div>
-    </div>
-
-    <div class="weight-chart-card">
-      <div class="chart-title">📈 体重曲线</div>
-      <div class="chart-sub" id="chartSub">坚持记录，趋势一目了然</div>
-      <canvas id="weightCanvas" width="380" height="200"></canvas>
-      <div class="weight-stats" id="weightStats"></div>
-    </div>
-
-    <!-- 每周进步报告 -->
-    <div class="weight-chart-card" id="weeklyReportCard">
-      <div class="chart-title">📊 本周进展</div>
-      <div id="weeklyReportContent">
-        <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>
-      </div>
-      <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b35,#ff9500);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareWeeklyReport()">📤 分享本周进展</button>
-    </div>
-
-    <div class="weight-records">
-      <div class="records-title">📝 历史记录</div>
-      <div id="weightRecords"></div>
-    </div>
-  </div>
-</div>
 
 <!-- ===== Page: SOP ===== -->
 <div id="page-sop" class="page">
@@ -748,8 +709,7 @@ function getSiteUrl() {
 function getToday() { return new Date().toISOString().slice(0,10); }
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
-function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
-function saveWeightData(d) { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(d)); if(window.saveWeightToFirebase) saveWeightToFirebase(d); }
+
 function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); }
 function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); if(window.saveSOPToFirebase) saveSOPToFirebase(d); }
 function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
@@ -1411,8 +1371,8 @@ function previewShareCard() {
   window.open(fullUrl, '_blank');
 }
 
-// ==================== 体重模块 ====================
-function addWeight() {
+// ==================== 体重模块（已移除）===================
+function addWeight_removed() {
   let val = parseFloat(document.getElementById('weightInput').value);
   if (!val || val < 20 || val > 300) { showToast('请输入有效的体重值'); return; }
   let data = getWeightData();
@@ -2619,16 +2579,6 @@ function copyShareText() {
         const records = doc.data().records;
         localStorage.setItem(STORAGE.HISTORY, JSON.stringify(records));
         if (typeof refreshHistoryList === 'function') refreshHistoryList();
-      }
-    });
-
-    // 加载体重数据
-    userRef.collection('weight').doc('main').get().then(doc => {
-      if (doc.exists && doc.data().records) {
-        const records = doc.data().records;
-        localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(records));
-        if (typeof renderWeightRecords === 'function') renderWeightRecords();
-        if (typeof drawWeightChart === 'function') drawWeightChart();
       }
     });
 
