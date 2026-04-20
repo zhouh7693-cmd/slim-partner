@@ -751,6 +751,372 @@ const PROGRESS_DATA = {
   ]
 };
 
+
+// ==================== SOP 游戏模块 ====================
+const SOP_CATEGORIES = [
+  {
+    id: 'peace', name: '内心平静', icon: '🧘', color: '#7986cb',
+    tips: '内心平静是最高级的自由。每天给自己片刻宁静，是心灵最珍贵的礼物。',
+    items: [
+      { text: '进行了冥想或正念练习', pts: 14 },
+      { text: '在压力中保持了内心平静', pts: 14 },
+      { text: '做了深呼吸或放松练习', pts: 10 },
+      { text: '睡前1小时放下了手机', pts: 12 },
+      { text: '在大自然中度过了安静时光', pts: 12 },
+      { text: '没有因为小事而烦躁', pts: 10 },
+      { text: '给自己留出了独处的时间', pts: 10 }
+    ]
+  },
+  {
+    id: 'gratitude', name: '感恩日记', icon: '🙏', color: '#f06292',
+    tips: '感恩是幸福的加速器。每天写下3件感恩的事，能显著提升幸福感。',
+    items: [
+      { text: '记录了今天的感恩日记', pts: 14 },
+      { text: '对帮助我的人表达了感谢', pts: 12 },
+      { text: '注意到了生活中美好的小事', pts: 10 },
+      { text: '感谢了自己的努力和坚持', pts: 12 },
+      { text: '对陌生人展现了善意', pts: 10 },
+      { text: '感恩了当下的生活状态', pts: 10 },
+      { text: '记录了今天快乐的瞬间', pts: 8 }
+    ]
+  },
+  {
+    id: 'emotion', name: '情绪管理', icon: '🌅', color: '#ffb74d',
+    tips: '情绪来来去去，观察者不变。学会觉察和接纳情绪，是内心成熟的表现。',
+    items: [
+      { text: '能觉察到自己当下的情绪', pts: 14 },
+      { text: '负面情绪出现时没有失控', pts: 12 },
+      { text: '接纳了自己的情绪，没有批判', pts: 12 },
+      { text: '用健康方式处理了负面情绪', pts: 14 },
+      { text: '和信任的人分享了内心的感受', pts: 10 },
+      { text: '没有被情绪牵着走', pts: 10 },
+      { text: '情绪低落时做了自我关怀', pts: 10 }
+    ]
+  },
+  {
+    id: 'growth', name: '心灵成长', icon: '🌟', color: '#81c784',
+    tips: '心灵的成长比任何外在成就都更持久。每天给自己一点成长的空间。',
+    items: [
+      { text: '阅读了心灵成长相关的书籍或文章', pts: 12 },
+      { text: '反思了自己的人生价值观', pts: 14 },
+      { text: '放下了对某件事的执念', pts: 14 },
+      { text: '对自己有了新的认识', pts: 12 },
+      { text: '实践了自我接纳和原谅', pts: 12 },
+      { text: '和内在的自我有了更深的连接', pts: 10 },
+      { text: '活出了更真实的自己', pts: 10 }
+    ]
+  },
+  {
+    id: 'compassion', name: '慈悲善念', icon: '🕊️', color: '#4fc3f7',
+    tips: '慈悲善念是对治孤独和焦虑的良药。善待他人，善待自己。',
+    items: [
+      { text: '对陌生人展现了善意', pts: 12 },
+      { text: '主动关心了他人的感受', pts: 12 },
+      { text: '对自己说了温暖鼓励的话', pts: 14 },
+      { text: '原谅了某件一直放不下的事', pts: 14 },
+      { text: '没有对他人产生恶意或怨恨', pts: 10 },
+      { text: '传播了正向积极的能量', pts: 10 },
+      { text: '做了力所能及的善事', pts: 10 }
+    ]
+  }
+];
+
+let sopScore = 0, sopCatIdx = 0;
+let sopSelected = {};
+let sopDone = false;
+let sopSubmittedCats = [];
+
+function initSOP() {
+  let d = getSOPData();
+  let today = getToday();
+  if (d.date !== today) {
+    sopScore = 0;
+    sopSelected = {};
+    sopDone = false;
+    sopSubmittedCats = [];
+  } else {
+    sopScore = d.score || 0;
+    sopSelected = d.selected || {};
+    sopDone = d.done || false;
+    sopSubmittedCats = d.submittedCats || [];
+  }
+  updateSOPDisplay();
+  renderSOPCats();
+  renderSOPTips();
+  if (sopDone) {
+    renderSOPDoneState();
+  } else {
+    if (!localStorage.getItem('sop_guide_shown')) {
+      showSOPGuide();
+      localStorage.setItem('sop_guide_shown', '1');
+    }
+    renderSOPList();
+  }
+}
+
+function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); }
+function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); if(window.saveSOPToFirebase) saveSOPToFirebase(d); }
+function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
+function saveSOPStreaks(d) { localStorage.setItem(STORAGE.SOP_STREAKS, JSON.stringify(d)); if(window.saveSOPStreaksToFirebase) saveSOPStreaksToFirebase(d); }
+function updateSOPCatStreak(catId, score) {
+  let streaks = getSOPStreaks();
+  let today = getToday();
+  if (!streaks[catId]) streaks[catId] = { streak: 0, lastDate: null };
+  if (score >= 40) {
+    if (streaks[catId].lastDate) {
+      let last = new Date(streaks[catId].lastDate);
+      let diff = (new Date(today) - last) / (1000*60*60*24);
+      if (diff === 1) streaks[catId].streak++;
+      else if (diff > 1) streaks[catId].streak = 1;
+    } else {
+      streaks[catId].streak = 1;
+    }
+    streaks[catId].lastDate = today;
+  }
+  saveSOPStreaks(streaks);
+  return streaks;
+}
+
+function showSOPGuide() {
+  let cats = SOP_CATEGORIES.map(c => `<div style="margin-bottom:6px;display:flex;align-items:center;gap:8px;">
+    <span style="font-size:18px">${c.icon}</span>
+    <span style="color:#333">${c.name}</span>
+    <span style="color:#999;font-size:12px">· ${c.items.length}题</span>
+  </div>`).join('');
+  showMsg(`<div style="line-height:1.8;">
+    <div style="font-weight:700;margin-bottom:8px;">🌟 今日精神复盘</div>
+    <div style="color:#666;font-size:13px;margin-bottom:12px;">每个维度至少5题，全部完成获得最高奖励。</div>
+    ${cats}
+  </div>`, true);
+}
+
+function renderSOPCats() {
+  let el = document.getElementById('sopCatTabs');
+  if (!el) return;
+  let today = getToday();
+  let d = getSOPData();
+  let submittedCats = d.submittedCats || [];
+  el.innerHTML = SOP_CATEGORIES.map((cat, i) => {
+    let sel = d.selected && d.selected[cat.id] || {};
+    let doneCount = Object.keys(sel).length;
+    let allDone = doneCount >= cat.items.length;
+    let cls = i === sopCatIdx ? 'sop-cat active' : 'sop-cat';
+    let icon = allDone ? '✅' : cat.icon;
+    let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+    let html = `<div class="${cls}" onclick="switchSOPCat(${i})" style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:12px;cursor:pointer;min-width:52px;">
+      <div style="font-size:20px">${icon}</div>
+      <div style="font-size:10px;color:#666;white-space:nowrap;">${cat.name}</div>
+      ${streak > 0 ? `<div style="font-size:9px;color:#f06292;">🔥${streak}</div>` : ''}
+    </div>`;
+    return html;
+  }).join('');
+}
+
+function jumpToSOPCat(catId) {
+  let idx = SOP_CATEGORIES.findIndex(c => c.id === catId);
+  if (idx < 0) return;
+  sopCatIdx = idx;
+  renderSOPCats();
+  renderSOPTips();
+  renderSOPList();
+}
+
+function switchSOPCat(idx) {
+  if (sopDone) return;
+  sopCatIdx = idx;
+  renderSOPCats();
+  renderSOPTips();
+  renderSOPList();
+}
+
+function renderSOPTips() {
+  let el = document.getElementById('sopTipText');
+  if (!el) return;
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  if (!cat) return;
+  let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+  el.innerHTML = `<strong>${cat.icon} ${cat.name}</strong>${streak > 0 ? ` <span style="color:#f06292;font-size:12px;">🔥${streak}天</span>` : ''}<br>💡 ${cat.tips}`;
+}
+
+function renderSOPList() {
+  let el = document.getElementById('sopGameCard');
+  if (!el) return;
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  if (!cat) return;
+  let d = getSOPData();
+  let sel = (d.selected && d.selected[cat.id]) || {};
+
+  el.innerHTML = cat.items.map(item => {
+    let state = sel[item.text];
+    let icon = state === 'yes' ? '✅' : state === 'no' ? '❌' : '○';
+    let bg = state === 'yes' ? '#e8f5e9' : state === 'no' ? '#ffebee' : '#fff';
+    let border = state === 'yes' ? '#4caf50' : state === 'no' ? '#f44336' : '#e0e0e0';
+    let txt = state === 'yes' ? '#2e7d32' : state === 'no' ? '#c62828' : '#333';
+    return `<div class="sop-row" data-item="${item.text}" data-pts="${item.pts}" style="background:${bg};border:1.5px solid ${border};border-radius:12px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px;cursor:pointer;">
+      <div class="sop-row-icon" style="font-size:18px;width:24px;text-align:center;">${icon}</div>
+      <div style="flex:1;"><div class="sop-item-text" style="font-size:14px;color:${txt};line-height:1.5;">${item.text}</div></div>
+      <div style="font-size:12px;color:#999;white-space:nowrap;">+${item.pts}分</div>
+    </div>`;
+  }).join('');
+
+  el.onclick = function(e) {
+    let row = e.target.closest('.sop-row');
+    if (!row) return;
+    let text = row.dataset.item;
+    let cat = SOP_CATEGORIES[sopCatIdx];
+    let d = getSOPData();
+    if (!d.selected) d.selected = {};
+    if (!d.selected[cat.id]) d.selected[cat.id] = {};
+    let current = d.selected[cat.id][text] || '';
+    let next = current === 'yes' ? 'no' : current === 'no' ? '' : 'yes';
+    if (next === '') delete d.selected[cat.id][text];
+    else d.selected[cat.id][text] = next;
+
+    let icon = next === 'yes' ? '✅' : next === 'no' ? '❌' : '○';
+    let bg = next === 'yes' ? '#e8f5e9' : next === 'no' ? '#ffebee' : '#fff';
+    let border = next === 'yes' ? '#4caf50' : next === 'no' ? '#f44336' : '#e0e0e0';
+    let txt = next === 'yes' ? '#2e7d32' : next === 'no' ? '#c62828' : '#333';
+    row.style.background = bg;
+    row.style.borderColor = border;
+    row.querySelector('.sop-row-icon').innerText = icon;
+    row.querySelector('.sop-item-text').style.color = txt;
+
+    let totalScore = 0;
+    Object.values(d.selected).forEach(catSel => {
+      Object.values(catSel).forEach((v, t) => {
+        if (v === 'yes') {
+          let found = SOP_CATEGORIES.flatMap(c => c.items).find(i => i.text === t);
+          if (found) totalScore += found.pts;
+        }
+      });
+    });
+    d.score = totalScore;
+    d.date = getToday();
+    d.submittedCats = d.submittedCats || [];
+    let doneCount = Object.keys(d.selected[cat.id] || {}).filter(t => d.selected[cat.id][t]).length;
+    if (doneCount >= 5 && !d.submittedCats.includes(cat.id)) d.submittedCats.push(cat.id);
+    d.done = (d.submittedCats || []).length >= SOP_CATEGORIES.length;
+    saveSOPData(d);
+    updateSOPDisplay();
+    renderSOPCats();
+    if (d.done) renderSOPDoneState();
+  };
+}
+
+function getCatFeedback(catId, yesItems, noItems, pct) {
+  let feedback = { emoji: '✨', positive: '', negative: '', guide: '' };
+  let cat = SOP_CATEGORIES.find(c => c.id === catId) || {};
+  let catName = cat.name || '本维度';
+
+  if (pct >= 80) {
+    feedback.emoji = '✨';
+    feedback.positive = `太棒了！今天在「${catName}」上表现非常出色！`;
+    feedback.guide = '🌟 建议：继续保持这份觉察和坚持！';
+  } else if (pct >= 50) {
+    feedback.emoji = '🌱';
+    feedback.positive = '做得不错，继续加油！';
+    feedback.negative = noItems.length > 0 ? `⚠️ 未完成：${noItems.map(i => i.text).join('、')}` : '';
+    feedback.guide = '💡 建议：每天进步一点点，坚持带来大改变。';
+  } else {
+    feedback.emoji = '🌱';
+    feedback.positive = '今天状态不好？没关系，明天是新的开始！';
+    feedback.negative = noItems.length > 0 ? `未完成：${noItems.map(i => i.text).join('、')}` : '';
+    feedback.guide = '💡 建议：不必追求完美，觉察本身就是成长。';
+  }
+  return feedback;
+}
+
+function updateSOPDisplay() {
+  let d = getSOPData();
+  let submitted = (d.submittedCats || []).length;
+  let total = SOP_CATEGORIES.length;
+  let pct = Math.round((submitted / total) * 100);
+
+  let scoreEl = document.getElementById('sopScore');
+  let progressTextEl = document.getElementById('sopProgressText');
+  let scoreBarEl = document.getElementById('sopScoreBar');
+  let posEl = document.getElementById('sopPosCount');
+  let negEl = document.getElementById('sopNegCount');
+
+  if (scoreEl) scoreEl.innerText = (d.score || 0);
+  if (progressTextEl) progressTextEl.innerText = `${submitted} / ${SOP_CATEGORIES.length}维度`;
+  if (scoreBarEl) scoreBarEl.style.width = pct + '%';
+
+  // Calculate yes/no counts
+  let yesCount = 0, noCount = 0;
+  Object.values(d.selected || {}).forEach(catSel => {
+    Object.values(catSel).forEach(v => {
+      if (v === 'yes') yesCount++;
+      else if (v === 'no') noCount++;
+    });
+  });
+  if (posEl) posEl.innerText = yesCount;
+  if (negEl) negEl.innerText = noCount;
+}
+
+function renderSOPDoneState() {
+  let el = document.getElementById('sopGameCard');
+  if (!el) return;
+  let d = getSOPData();
+  let totalScore = d.score || 0;
+  let doneCats = d.submittedCats || [];
+  let catDetails = SOP_CATEGORIES.map(cat => {
+    let sel = (d.selected && d.selected[cat.id]) || {};
+    let yes = Object.entries(sel).filter(([,v]) => v === 'yes');
+    let no = Object.entries(sel).filter(([,v]) => v === 'no');
+    let catScore = yes.reduce((s, [t]) => s + (cat.items.find(i => i.text === t)?.pts || 0), 0);
+    let maxScore = cat.items.reduce((s,i)=>s+i.pts,0);
+    let pct = maxScore > 0 ? Math.round((catScore / maxScore) * 100) : 0;
+    return { ...cat, yes, no, catScore, pct, done: doneCats.includes(cat.id) };
+  });
+  let catFeedbacks = catDetails.map(cat => getCatFeedback(cat.id, cat.yes.map(t=>({text:t[0]})), cat.no.map(t=>({text:t[0]})), cat.pct));
+  let longestStreak = Math.max(0, ...Object.values(getSOPStreaks()).map(s => s.streak || 0));
+
+  el.innerHTML = `<div style="text-align:center;padding:20px 0;">
+    <div style="font-size:48px;margin-bottom:8px;">🕊️</div>
+    <div style="font-size:20px;font-weight:700;color:#4a4a4a;">精神复盘完成！</div>
+    <div style="font-size:36px;font-weight:700;color:#7986cb;margin:12px 0;">${totalScore}分</div>
+    ${catFeedbacks.map((f, i) => `
+    <div style="margin:8px 0;padding:10px;background:#f8f8f8;border-radius:10px;text-align:left;">
+      <div style="font-weight:600;font-size:14px;">${catDetails[i].icon} ${catDetails[i].name} <span style="color:#888;font-weight:normal;">${catDetails[i].pct}%</span></div>
+      ${f.positive ? `<div style="font-size:12px;color:#555;margin-top:4px;">${f.positive}</div>` : ''}
+      ${f.guide ? `<div style="font-size:11px;color:#999;margin-top:2px;">${f.guide}</div>` : ''}
+    </div>`).join('')}
+    ${longestStreak > 0 ? `<div style="text-align:center;color:#f06292;font-size:13px;margin-top:12px;">🔥 最长连续坚持 ${longestStreak} 天</div>` : ''}
+  </div>`;
+}
+
+function showSOPFinish() {
+  let d = getSOPData();
+  let totalScore = d.score || 0;
+  let streaks = getSOPStreaks();
+  let longestStreak = Math.max(0, ...Object.values(streaks).map(s => s.streak || 0));
+  let catDetails = SOP_CATEGORIES.map(cat => {
+    let sel = (d.selected && d.selected[cat.id]) || {};
+    let yes = Object.entries(sel).filter(([,v]) => v === 'yes').map(([t]) => t);
+    let no = Object.entries(sel).filter(([,v]) => v === 'no').map(([t]) => t);
+    let catScore = yes.reduce((s, t) => s + (cat.items.find(i => i.text === t)?.pts || 0), 0);
+    let pct = Math.round((catScore / (cat.items.reduce((s,i)=>s+i.pts,0))) * 100);
+    return { ...cat, yes, no, catScore, pct };
+  });
+  let catFeedbacks = catDetails.map(cat => getCatFeedback(cat.id, cat.yes.map(t=>({text:t})), cat.no.map(t=>({text:t})), cat.pct));
+
+  showMsg(`<div style="text-align:left;line-height:1.9;">
+    <div style="font-size:20px;margin-bottom:10px;">🕊️ 精神复盘完成</div>
+    <div style="background:#f0f0f0;border-radius:12px;padding:12px;margin-bottom:10px;">
+      <div style="font-size:28px;font-weight:700;color:#4a4a4a;text-align:center;">${totalScore}分</div>
+      <div style="text-align:center;color:#888;font-size:13px;">今日精神财富总分</div>
+    </div>
+    ${catFeedbacks.map((f, i) => `
+    <div style="margin-bottom:8px;padding:8px;background:#fafafa;border-radius:8px;">
+      <div style="font-weight:600;">${catDetails[i].icon} ${catDetails[i].name}</div>
+      ${f.positive ? `<div style="font-size:13px;color:#555;">${f.positive}</div>` : ''}
+      ${f.guide ? `<div style="font-size:12px;color:#999;margin-top:2px;">${f.guide}</div>` : ''}
+    </div>`).join('')}
+    ${longestStreak > 0 ? `<div style="text-align:center;color:#f06292;font-size:13px;margin-top:8px;">🔥 最长连续坚持 ${longestStreak} 天</div>` : ''}
+  </div>`, true);
+}
+
 // ==================== Tab 导航 ====================
 function switchTab(tab) {
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
@@ -758,7 +1124,7 @@ function switchTab(tab) {
   const tabs = ['checkin','sop','share'];
   document.querySelectorAll('.tab-item')[tabs.indexOf(tab)].classList.add('active');
   document.getElementById(`page-${tab}`).classList.add('active');
-  
+
   if (tab === 'sop') initSOP();
   if (tab === 'share') renderSharePage();
 }
@@ -783,7 +1149,7 @@ const FEEDBACK = {
     checkin: ['🔥 冲！今天又赢了一次！','🕊️ 内心在平静！','⚡ 猛！'],
     happy: ['🔥 继续保持！燃起来！'],
     neutral: ['⚡ 平静也是力量！'],
-    sad: ['💪 振作！你是最胖的——不对，最棒的！'],
+    sad: ['💪 振作！你是最棒的！'],
     tired: ['⚡ 休息完继续冲！'],
     progress: ['说！让我听听你的战果！'],
     question: ['问！什么问题都能接住！'],
@@ -797,22 +1163,22 @@ const FEEDBACK = {
     checkin: ['📊 打卡数据已记录。','✅ 行为确认。'],
     happy: ['📊 积极情绪有利于坚持。这很好。'],
     neutral: ['📊 情绪稳定，利于执行计划。'],
-    sad: ['📊 情绪波动会影响皮质醇水平。感觉不好可以休息。'],
-    tired: ['📊 疲劳会降低代谢。建议适当休息。'],
+    sad: ['📊 情绪波动是正常的。感觉不好可以休息。'],
+    tired: ['📊 疲劳时给自己一点恢复的时间。'],
     progress: ['📊 汇报收到。数据记录中。'],
     question: ['📊 好的。给出你的问题。'],
     milestone7: ['📊 7天周期已达成。行为强化初见成效。'],
     milestone21: ['📊 21天。习惯形成期结束。'],
     milestone30: ['📊 30天。长期行为模式初步建立。'],
-    late: ['📊 建议调整作息，睡眠质量影响代谢。'],
+    late: ['📊 建议调整作息，充足睡眠对内心平静很重要。'],
     reminder: ['📊 检测到连续24小时无打卡记录。请确认当前状态。', '📊 昨日数据缺失。如需补卡请操作。', '📊 提醒：持续记录有助于趋势分析。']
   },
   tsundere: {
     checkin: ['😒 还行吧，勉强算你过关。','😏 总算干了件人事。'],
-    happy: ['😏 开心什么，还没瘦下来呢。'],
+    happy: ['😏 开心就好，内心平静才是真的。'],
     neutral: ['😏 没有退步，算你识相。'],
-    sad: ['🥴 别矫情，动起来就不难过了。'],
-    tired: ['😒 累了？那炸鸡的事还记得吗。'],
+    sad: ['🥴 别矫情，静下来就不难过了。'],
+    tired: ['😒 累了？休息一下，别勉强自己。'],
     progress: ['😏 说吧，让本大爷听听你的战绩。'],
     question: ['🤷 问就问，不保证你能听懂。'],
     milestone7: ['😏 一周？也就那样吧。勉强给你鼓个掌。'],
