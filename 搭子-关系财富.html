@@ -449,7 +449,7 @@
         <div class="partner-desc">骂醒你，但句句在理</div>
       </div>
     </div>
-    <button id="confirmPartnerBtn" class="confirm-btn">✨ 开始陪伴 ✨</button>
+    <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner()">✨ 开始陪伴 ✨</button>
   </div>
 
   <!-- 打卡仪表盘 -->
@@ -1103,6 +1103,20 @@ function renderPartnerSelector() {
   });}
 }
 
+function confirmPartner() {
+  // 如果没有选中搭子，自动选第一个
+  let saved = localStorage.getItem(STORAGE.PARTNER);
+  if (!saved || !PARTNERS.some(p => p.id === saved)) {
+    saved = PARTNERS[0].id;
+    localStorage.setItem(STORAGE.PARTNER, saved);
+  }
+  // 更新选择器中卡片的选中样式
+  document.querySelectorAll('.partner-card').forEach(c => c.classList.remove('selected'));
+  const card = document.getElementById('pc-' + saved);
+  if (card) card.classList.add('selected');
+  startApp();
+}
+
 function startApp() {
   currentPartner = localStorage.getItem(STORAGE.PARTNER);
   // page-checkin 的显示由 switchTab / .page.active CSS 控制，不需要动
@@ -1141,8 +1155,6 @@ function checkReminder() {
     delayedMsg(msg);
   }
 }
-
-document.getElementById('confirmPartnerBtn')?.addEventListener('click', () => { startApp(); });
 
 // 更新右上角搭子头像
 function updateAvatarBtn() {
