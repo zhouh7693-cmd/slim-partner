@@ -2222,7 +2222,7 @@ function renderSharePage() {
   document.getElementById('shareLinkText').innerText = url;
 
   // 个性化分享文案
-  let text = `我在用「财务财富搭子」${cp.emoji}${cp.name}帮我理财！已坚持${streak}天，当前财富${latest}元。搭子每天会给我鼓励和建议，超暖心～快来一起变富吧！\n\n👉 ${url}`
+  let text = streak > 0 ? `我在用「财务财富搭子」${cp.emoji}${cp.name}帮我理财！已坚持${streak}天，当前财富${latest}元。搭子每天会给我鼓励和建议，超暖心～快来一起变富吧！\n\n👉 ${url}`
     : `我刚发现了一个超好用的「财务财富搭子」小程序！${cp.emoji}${cp.name}陪我每天打卡，互相监督不乱花～4种性格可选，总有一款适合你！\n\n👉 ${url}`;
   document.getElementById('shareTextBox').innerText = text;
 
