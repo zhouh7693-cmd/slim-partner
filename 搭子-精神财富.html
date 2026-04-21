@@ -891,24 +891,17 @@ function showSOPGuide() {
 }
 
 function renderSOPCats() {
-  let el = document.getElementById('sopCatTabs');
-  if (!el) return;
-  let today = getToday();
-  let d = getSOPData();
-  let submittedCats = d.submittedCats || [];
-  el.innerHTML = SOP_CATEGORIES.map((cat, i) => {
-    let sel = d.selected && d.selected[cat.id] || {};
-    let doneCount = Object.keys(sel).length;
-    let allDone = doneCount >= cat.items.length;
-    let cls = i === sopCatIdx ? 'sop-cat active' : 'sop-cat';
-    let icon = allDone ? '✅' : cat.icon;
-    let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
-    let html = `<div class="${cls}" onclick="switchSOPCat(${i})" style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:12px;cursor:pointer;min-width:52px;">
-      <div style="font-size:20px">${icon}</div>
-      <div style="font-size:10px;color:#666;white-space:nowrap;">${cat.name}</div>
-      ${streak > 0 ? `<div style="font-size:9px;color:#f06292;">🔥${streak}</div>` : ''}
-    </div>`;
-    return html;
+  let tabs = document.getElementById('sopCatTabs');
+  if (!tabs) return;
+  tabs.innerHTML = SOP_CATEGORIES.map((cat, i) => {
+    let doneCount = Object.keys(sopSelected[cat.id] || {}).length;
+    let submitted = sopSubmittedCats.includes(cat.id);
+    let dot = submitted
+      ? `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#4caf50;margin-left:4px;vertical-align:middle;"></span>`
+      : doneCount > 0
+      ? `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff9800;margin-left:4px;vertical-align:middle;"></span>`
+      : '';
+    return `<button class="sop-cat-tab${i===sopCatIdx?' active':''}" onclick="switchSOPCat(${i})">${cat.icon} ${cat.name}${dot}</button>`;
   }).join('');
 }
 
@@ -939,68 +932,222 @@ function renderSOPTips() {
 }
 
 function renderSOPList() {
-  let el = document.getElementById('sopGameCard');
-  if (!el) return;
+  let card = document.getElementById('sopGameCard');
+  if (!card) return;
   let cat = SOP_CATEGORIES[sopCatIdx];
   if (!cat) return;
-  let d = getSOPData();
-  let sel = (d.selected && d.selected[cat.id]) || {};
 
-  el.innerHTML = cat.items.map(item => {
-    let state = sel[item.text];
-    let icon = state === 'yes' ? '✅' : state === 'no' ? '❌' : '○';
-    let bg = state === 'yes' ? '#e8f5e9' : state === 'no' ? '#ffebee' : '#fff';
-    let border = state === 'yes' ? '#4caf50' : state === 'no' ? '#f44336' : '#e0e0e0';
-    let txt = state === 'yes' ? '#2e7d32' : state === 'no' ? '#c62828' : '#333';
-    return `<div class="sop-row" data-item="${item.text}" data-pts="${item.pts}" style="background:${bg};border:1.5px solid ${border};border-radius:12px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px;cursor:pointer;">
-      <div class="sop-row-icon" style="font-size:18px;width:24px;text-align:center;">${icon}</div>
-      <div style="flex:1;"><div class="sop-item-text" style="font-size:14px;color:${txt};line-height:1.5;">${item.text}</div></div>
-      <div style="font-size:12px;color:#999;white-space:nowrap;">+${item.pts}分</div>
-    </div>`;
+  if (!sopSelected[cat.id]) sopSelected[cat.id] = {};
+  let selected = sopSelected[cat.id];
+  let doneCount = Object.keys(selected).length;
+  let totalCount = cat.items.length;
+  let allAnswered = doneCount >= totalCount;
+  let pct = Math.min(100, (doneCount / totalCount) * 100);
+  let progressFill = `<div class="sop-cat-progress-fill" style="width:${pct}%;background:${cat.color}"></div>`;
+
+  // 已确认过的维度显示总结卡
+  if (sopSubmittedCats.includes(cat.id)) {
+    let yesCount = Object.values(selected).filter(v => v === 'yes').length;
+    let noCount = totalCount - yesCount;
+    let catScore = 0;
+    cat.items.forEach((item, idx) => {
+      let state = selected[idx];
+      if (state === 'yes') catScore += item.pts;
+      else if (state === 'no') catScore += Math.floor(item.pts * 0.5);
+    });
+    let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+    let feedback = getCatFeedbackMsg(cat, yesCount, noCount, totalCount, streak);
+    card.innerHTML = `
+      <div class="sop-cat-progress" style="margin-bottom:12px;">
+        <span style="font-size:18px;">${cat.icon}</span>
+        <span style="font-weight:700;color:${cat.color};">${cat.name}</span>
+        <div class="sop-cat-progress-bar">${progressFill}</div>
+        <span style="font-size:11px;color:#8f9eae;">完成 ✅</span>
+      </div>
+      <div class="sop-cat-summary">
+        <div class="sop-cat-summary-icon">${cat.icon}</div>
+        <div class="sop-cat-summary-title">${cat.name} · 复盘完成</div>
+        <div style="font-size:24px;font-weight:800;color:${cat.color};margin-top:8px;">${catScore > 0 ? '+' : ''}${catScore}分</div>
+        <div style="font-size:12px;color:#8f9eae;margin-top:4px;">做到了 ${yesCount} 项 · 需注意 ${noCount} 项</div>
+        <div style="margin-top:12px;padding:12px;background:linear-gradient(135deg,${cat.color}11,${cat.color}22);border-radius:12px;font-size:13px;color:#555;line-height:1.6;">${feedback.summary}</div>
+        ${streak > 0 ? `<div style="margin-top:10px;font-size:13px;color:${cat.color};font-weight:700;">🔥 已坚持 ${streak} 天</div>` : ''}
+      </div>
+    `;
+    return;
+  }
+
+  // 渲染清单列表
+  let listItems = cat.items.map((item, idx) => {
+    let state = selected[idx];
+    let yesChecked = state === 'yes' ? 'yes-checked' : '';
+    let noChecked  = state === 'no'  ? 'no-checked'  : '';
+    let rowBg = state === 'yes' ? '#e8f5e9' : state === 'no' ? '#ffebee' : '#fff';
+    let rowBorder = state === 'yes' ? '#4caf50' : state === 'no' ? '#f44336' : '#e0e0e0';
+    return `
+      <div style="background:${rowBg};border:1.5px solid ${rowBorder};border-radius:12px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;font-size:13px;line-height:1.5;color:#333;">${item.text}</div>
+        <div style="display:flex;gap:6px;">
+          <button class="sop-check-btn ${yesChecked}" onclick="toggleSOPItem(${idx},'yes')">✅ 做到了</button>
+          <button class="sop-check-btn ${noChecked}" onclick="toggleSOPItem(${idx},'no')">❌ 没做到</button>
+        </div>
+      </div>`;
   }).join('');
 
-  el.onclick = function(e) {
-    let row = e.target.closest('.sop-row');
-    if (!row) return;
-    let text = row.dataset.item;
-    let cat = SOP_CATEGORIES[sopCatIdx];
-    let d = getSOPData();
-    if (!d.selected) d.selected = {};
-    if (!d.selected[cat.id]) d.selected[cat.id] = {};
-    let current = d.selected[cat.id][text] || '';
-    let next = current === 'yes' ? 'no' : current === 'no' ? '' : 'yes';
-    if (next === '') delete d.selected[cat.id][text];
-    else d.selected[cat.id][text] = next;
+  card.innerHTML = `
+    <div class="sop-cat-progress" style="margin-bottom:16px;">
+      <span style="font-size:18px;">${cat.icon}</span>
+      <span style="font-weight:700;color:${cat.color};">${cat.name}</span>
+      <div class="sop-cat-progress-bar">${progressFill}</div>
+      <span style="font-size:11px;color:#8f9eae;">${doneCount}/${totalCount}</span>
+    </div>
+    <div class="sop-list-container">${listItems}</div>
+    <div style="text-align:center;margin-top:16px;">
+      <div style="font-size:12px;color:#8f9eae;margin-bottom:8px;">点击上方选项确认，每项可单独打分</div>
+      ${doneCount > 0 ? `<button onclick="submitSOPCat()" style="background:${cat.color};color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;">确认本维度 ✓</button>` : ''}
+    </div>
+  `;
+}
 
-    let icon = next === 'yes' ? '✅' : next === 'no' ? '❌' : '○';
-    let bg = next === 'yes' ? '#e8f5e9' : next === 'no' ? '#ffebee' : '#fff';
-    let border = next === 'yes' ? '#4caf50' : next === 'no' ? '#f44336' : '#e0e0e0';
-    let txt = next === 'yes' ? '#2e7d32' : next === 'no' ? '#c62828' : '#333';
-    row.style.background = bg;
-    row.style.borderColor = border;
-    row.querySelector('.sop-row-icon').innerText = icon;
-    row.querySelector('.sop-item-text').style.color = txt;
+function toggleSOPItem(idx, state) {
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  if (!sopSelected[cat.id]) sopSelected[cat.id] = {};
+  if (sopSelected[cat.id][idx] === state) {
+    delete sopSelected[cat.id][idx];
+  } else {
+    sopSelected[cat.id][idx] = state;
+  }
+  renderSOPList();
+}
 
-    let totalScore = 0;
-    Object.values(d.selected).forEach(catSel => {
-      Object.values(catSel).forEach((v, t) => {
-        if (v === 'yes') {
-          let found = SOP_CATEGORIES.flatMap(c => c.items).find(i => i.text === t);
-          if (found) totalScore += found.pts;
-        }
-      });
+function submitSOPCat() {
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  let selected = sopSelected[cat.id] || {};
+  let catScore = 0;
+  cat.items.forEach((item, idx) => {
+    let state = selected[idx];
+    if (state === 'yes') catScore += item.pts;
+    else if (state === 'no') catScore += Math.floor(item.pts * 0.5);
+  });
+  sopScore += catScore;
+  if (!sopSubmittedCats.includes(cat.id)) sopSubmittedCats.push(cat.id);
+
+  let allDone = sopSubmittedCats.length >= SOP_CATEGORIES.length;
+  updateSOPDisplay();
+  renderSOPCats();
+
+  if (allDone) {
+    if (!sopDone) {
+      sopDone = true;
+      saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: getToday(), submittedCats: sopSubmittedCats });
+      setTimeout(() => showSOPFinish(), 600);
+    }
+  } else {
+    saveSOPData({ score: sopScore, selected: sopSelected, done: sopDone, date: getToday(), submittedCats: sopSubmittedCats });
+    setTimeout(() => showCatSummary(cat, selected, catScore), 300);
+    let nextCat = SOP_CATEGORIES.findIndex((c, i) => {
+      if (i <= sopCatIdx) return false;
+      return !sopSubmittedCats.includes(c.id);
     });
-    d.score = totalScore;
-    d.date = getToday();
-    d.submittedCats = d.submittedCats || [];
-    let doneCount = Object.keys(d.selected[cat.id] || {}).filter(t => d.selected[cat.id][t]).length;
-    if (doneCount >= 5 && !d.submittedCats.includes(cat.id)) d.submittedCats.push(cat.id);
-    d.done = (d.submittedCats || []).length >= SOP_CATEGORIES.length;
-    saveSOPData(d);
-    updateSOPDisplay();
-    renderSOPCats();
-    if (d.done) renderSOPDoneState();
-  };
+    if (nextCat >= 0) {
+      setTimeout(() => {
+        sopCatIdx = nextCat;
+        renderSOPCats();
+        renderSOPTips();
+        renderSOPList();
+      }, 3000);
+    } else {
+      renderSOPList();
+    }
+  }
+}
+
+// 生成维度总结文字
+function getCatFeedbackMsg(cat, yesCount, noCount, total, streak) {
+  let pct = Math.round((yesCount / total) * 100);
+  let emoji, summary;
+  if (pct === 100) {
+    emoji = '🌟';
+    summary = streak > 0
+      ? `太棒了！${cat.name}满分保持中，坚持${streak}天！✨`
+      : `完美！${cat.name}全部做到，给自己点赞！💯`;
+  } else if (pct >= 70) {
+    emoji = '💪';
+    summary = `${cat.name}做得不错！${noCount > 0 ? `还有${noCount}项可以加强，继续保持！` : '继续保持这个状态！'}`;
+  } else if (pct >= 50) {
+    emoji = '🌱';
+    summary = `${cat.name}有进步空间哦，${yesCount}项做到，继续加油！`;
+  } else {
+    emoji = '🔥';
+    summary = `${cat.name}今天有点困难没关系，明天重新开始！不要放弃！`;
+  }
+  return { emoji, summary };
+}
+
+function showCatSummary(cat, selected, catScore) {
+  let yesItems = [], noItems = [];
+  cat.items.forEach((item, idx) => {
+    let state = selected[idx];
+    if (state === 'yes') yesItems.push(item);
+    else if (state === 'no') noItems.push(item);
+  });
+  let yesCount = yesItems.length;
+  let noCount = noItems.length;
+  let total = cat.items.length;
+  let pct = Math.round((yesCount / total) * 100);
+  let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+  let { emoji, summary } = getCatFeedbackMsg(cat, yesCount, noCount, total, streak);
+  let isLast = sopSubmittedCats.length >= SOP_CATEGORIES.length;
+  let feedbackObj = getCatFeedback(cat.id, yesItems, noItems, pct);
+
+  let overlay = document.getElementById('catSummaryOverlay');
+  overlay.innerHTML = `
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:80px;margin-bottom:12px;">${feedbackObj.emoji}</div>
+      <div style="font-size:22px;font-weight:900;color:${cat.color};margin-bottom:6px;">${cat.icon} ${cat.name} 小结</div>
+      <div style="font-size:14px;color:#8f9eae;">今日表现评估</div>
+    </div>
+    <div style="background:#f8f9fa;border-radius:20px;padding:20px;margin-bottom:20px;">
+      <div style="display:flex;justify-content:space-around;text-align:center;margin-bottom:20px;">
+        <div>
+          <div style="font-size:36px;font-weight:900;color:#43a047;">${yesCount}</div>
+          <div style="font-size:13px;color:#666;font-weight:600;">做到了</div>
+        </div>
+        <div style="width:1px;background:#ddd;"></div>
+        <div>
+          <div style="font-size:36px;font-weight:900;color:#ef5350;">${noCount}</div>
+          <div style="font-size:13px;color:#666;font-weight:600;">需注意</div>
+        </div>
+        <div style="width:1px;background:#ddd;"></div>
+        <div>
+          <div style="font-size:36px;font-weight:900;color:${cat.color};">${pct}%</div>
+          <div style="font-size:13px;color:#666;font-weight:600;">完成率</div>
+        </div>
+      </div>
+      <div style="font-size:16px;font-weight:700;color:#333;margin-bottom:10px;">📋 具体反馈</div>
+      <div style="font-size:15px;color:#444;line-height:1.8;font-weight:500;">${feedbackObj.positive}</div>
+      ${feedbackObj.negative ? `<div style="font-size:14px;color:#ff7043;line-height:1.8;margin-top:12px;font-weight:500;">${feedbackObj.negative}</div>` : ''}
+      ${feedbackObj.guide ? `<div style="font-size:14px;color:#1976d2;line-height:1.8;margin-top:14px;padding:12px;background:#e3f2fd;border-radius:12px;font-weight:500;">${feedbackObj.guide}</div>` : ''}
+    </div>
+    <div style="text-align:center;font-size:14px;color:#888;margin-bottom:16px;">💪 ${pct >= 80 ? '太棒了！继续保持！' : pct >= 50 ? '做得不错，继续加油！' : '没关系，明天会更好！'}</div>
+    <button onclick="closeCatSummary()" style="display:block;width:100%;background:${cat.color};color:white;border:none;padding:16px;border-radius:50px;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);">✅ ${isLast ? '查看所有维度总结' : '继续下一个维度'}</button>
+  `;
+  overlay.classList.add('show');
+}
+
+function closeCatSummary() {
+  document.getElementById('catSummaryOverlay').classList.remove('show');
+  let allSubmitted = SOP_CATEGORIES.every(c => sopSubmittedCats.includes(c.id));
+  if (allSubmitted) {
+    setTimeout(() => showSOPFinish(), 500);
+  } else {
+    let nextCat = SOP_CATEGORIES.findIndex(c => !sopSubmittedCats.includes(c.id));
+    if (nextCat >= 0) {
+      sopCatIdx = nextCat;
+      renderSOPCats();
+      renderSOPTips();
+      renderSOPList();
+    }
+  }
 }
 
 function getCatFeedback(catId, yesItems, noItems, pct) {
@@ -1027,27 +1174,29 @@ function getCatFeedback(catId, yesItems, noItems, pct) {
 }
 
 function updateSOPDisplay() {
-  let d = getSOPData();
-  let submitted = (d.submittedCats || []).length;
-  let total = SOP_CATEGORIES.length;
-  let pct = Math.round((submitted / total) * 100);
-
+  let maxScore = 100;
+  let displayScore = Math.max(0, Math.min(maxScore, sopScore));
   let scoreEl = document.getElementById('sopScore');
   let progressTextEl = document.getElementById('sopProgressText');
   let scoreBarEl = document.getElementById('sopScoreBar');
   let posEl = document.getElementById('sopPosCount');
   let negEl = document.getElementById('sopNegCount');
 
-  if (scoreEl) scoreEl.innerText = (d.score || 0);
-  if (progressTextEl) progressTextEl.innerText = `${submitted} / ${SOP_CATEGORIES.length}维度`;
-  if (scoreBarEl) scoreBarEl.style.width = pct + '%';
+  if (scoreEl) scoreEl.innerText = displayScore;
+  if (progressTextEl) progressTextEl.innerText = displayScore + ' / ' + maxScore;
 
-  // Calculate yes/no counts
+  let pct = Math.max(0, Math.min(100, (displayScore / maxScore) * 100));
+  if (scoreBarEl) {
+    scoreBarEl.style.width = pct + '%';
+    scoreBarEl.style.background = pct >= 60 ? 'linear-gradient(90deg,#4caf50,#8bc34a)' : pct >= 30 ? 'linear-gradient(90deg,#ff9800,#ffc107)' : pct > 0 ? 'linear-gradient(90deg,#ef5350,#ff7043)' : '#e0e0e0';
+  }
+
   let yesCount = 0, noCount = 0;
-  Object.values(d.selected || {}).forEach(catSel => {
-    Object.values(catSel).forEach(v => {
-      if (v === 'yes') yesCount++;
-      else if (v === 'no') noCount++;
+  SOP_CATEGORIES.forEach(cat => {
+    let sel = sopSelected[cat.id] || {};
+    Object.keys(sel).forEach(idx => {
+      if (sel[idx] === 'yes') yesCount++;
+      else if (sel[idx] === 'no') noCount++;
     });
   });
   if (posEl) posEl.innerText = yesCount;
@@ -1087,34 +1236,72 @@ function renderSOPDoneState() {
 }
 
 function showSOPFinish() {
-  let d = getSOPData();
-  let totalScore = d.score || 0;
-  let streaks = getSOPStreaks();
-  let longestStreak = Math.max(0, ...Object.values(streaks).map(s => s.streak || 0));
-  let catDetails = SOP_CATEGORIES.map(cat => {
-    let sel = (d.selected && d.selected[cat.id]) || {};
-    let yes = Object.entries(sel).filter(([,v]) => v === 'yes').map(([t]) => t);
-    let no = Object.entries(sel).filter(([,v]) => v === 'no').map(([t]) => t);
-    let catScore = yes.reduce((s, t) => s + (cat.items.find(i => i.text === t)?.pts || 0), 0);
-    let pct = Math.round((catScore / (cat.items.reduce((s,i)=>s+i.pts,0))) * 100);
-    return { ...cat, yes, no, catScore, pct };
+  // 更新所有维度坚持天数
+  SOP_CATEGORIES.forEach(cat => {
+    let sel = sopSelected[cat.id] || {};
+    let catYes = Object.values(sel).filter(v => v === 'yes').length;
+    updateSOPCatStreak(cat.id, catYes);
   });
-  let catFeedbacks = catDetails.map(cat => getCatFeedback(cat.id, cat.yes.map(t=>({text:t})), cat.no.map(t=>({text:t})), cat.pct));
 
-  showMsg(`<div style="text-align:left;line-height:1.9;">
-    <div style="font-size:20px;margin-bottom:10px;">🕊️ 精神复盘完成</div>
-    <div style="background:#f0f0f0;border-radius:12px;padding:12px;margin-bottom:10px;">
-      <div style="font-size:28px;font-weight:700;color:#4a4a4a;text-align:center;">${totalScore}分</div>
-      <div style="text-align:center;color:#888;font-size:13px;">今日精神财富总分</div>
+  let score = Math.max(0, Math.min(100, sopScore));
+  let streaks = getSOPStreaks();
+  let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌱' : '😊';
+  let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
+
+  let totalYes = 0, totalNo = 0;
+  SOP_CATEGORIES.forEach(cat => {
+    let sel = sopSelected[cat.id] || {};
+    cat.items.forEach((item, idx) => {
+      let state = sel[idx];
+      if (state === 'yes') totalYes++;
+      else if (state === 'no') totalNo++;
+    });
+  });
+
+  let catStats = SOP_CATEGORIES.map(cat => {
+    let st = streaks[cat.id] || { streak: 0 };
+    let sel = sopSelected[cat.id] || {};
+    let catYes = Object.values(sel).filter(v => v === 'yes').length;
+    let catNo = cat.items.length - catYes;
+    return `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px dashed #f0f0f0;">
+      <span style="font-size:18px;">${cat.icon}</span>
+      <span style="font-size:13px;color:#555;flex:1;">${cat.name}</span>
+      <span style="font-size:12px;color:#43a047;">+${catYes}</span>
+      <span style="font-size:12px;color:#ef5350;margin-left:4px;">-${catNo}</span>
+      ${st.streak > 0 ? `<span style="font-size:12px;font-weight:700;color:${cat.color};margin-left:8px;">🔥${st.streak}天</span>` : ''}
+    </div>`;
+  }).join('');
+
+  let overlay = document.getElementById('sopFinishOverlay');
+  overlay.innerHTML = `
+    <div style="text-align:center;margin-bottom:16px;"><div style="font-size:72px;">${emoji}</div></div>
+    <div style="text-align:center;font-size:20px;font-weight:800;color:#2b5a7a;margin-bottom:6px;">${title}</div>
+    <div style="text-align:center;font-size:12px;color:#8f9eae;margin-bottom:16px;">今日复盘已完成 · 明天0点重置</div>
+    <div style="display:flex;justify-content:center;gap:24px;margin-bottom:16px;">
+      <div style="text-align:center;">
+        <div style="font-size:28px;font-weight:800;color:${score>=60?'#4caf50':score>=30?'#ff9800':'#ef5350'};">${score}</div>
+        <div style="font-size:11px;color:#8f9eae;">今日得分</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:28px;font-weight:800;color:#43a047;">${totalYes}</div>
+        <div style="font-size:11px;color:#8f9eae;">做到了</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:28px;font-weight:800;color:#ef5350;">${totalNo}</div>
+        <div style="font-size:11px;color:#8f9eae;">需注意</div>
+      </div>
     </div>
-    ${catFeedbacks.map((f, i) => `
-    <div style="margin-bottom:8px;padding:8px;background:#fafafa;border-radius:8px;">
-      <div style="font-weight:600;">${catDetails[i].icon} ${catDetails[i].name}</div>
-      ${f.positive ? `<div style="font-size:13px;color:#555;">${f.positive}</div>` : ''}
-      ${f.guide ? `<div style="font-size:12px;color:#999;margin-top:2px;">${f.guide}</div>` : ''}
-    </div>`).join('')}
-    ${longestStreak > 0 ? `<div style="text-align:center;color:#f06292;font-size:13px;margin-top:8px;">🔥 最长连续坚持 ${longestStreak} 天</div>` : ''}
-  </div>`, true);
+    <div style="margin-bottom:16px;">${catStats}</div>
+    <div style="text-align:center;font-size:12px;color:#b0bec5;">🌙 明天0点自动重置</div>
+    <button onclick="closeSOPFinish()" style="display:block;width:100%;margin-top:16px;background:#7986cb;color:white;border:none;padding:12px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;">✅ 知道了</button>
+  `;
+  overlay.classList.add('show');
+  sopDone = true;
+  saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: getToday(), submittedCats: sopSubmittedCats });
+}
+
+function closeSOPFinish() {
+  document.getElementById('sopFinishOverlay').classList.remove('show');
 }
 
 // ==================== Tab 导航 ====================
