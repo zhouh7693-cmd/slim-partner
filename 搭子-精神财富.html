@@ -1101,34 +1101,14 @@ function showCatSummary(cat, selected, catScore) {
 
   let overlay = document.getElementById('catSummaryOverlay');
   overlay.innerHTML = `
-    <div style="text-align:center;margin-bottom:20px;">
-      <div style="font-size:80px;margin-bottom:12px;">${feedbackObj.emoji}</div>
-      <div style="font-size:22px;font-weight:900;color:${cat.color};margin-bottom:6px;">${cat.icon} ${cat.name} 小结</div>
-      <div style="font-size:14px;color:#8f9eae;">今日表现评估</div>
+    <div style="text-align:center;padding:0 8px;">
+      <div style="font-size:80px;margin-bottom:8px;">${feedbackObj.emoji}</div>
+      <div style="font-size:20px;font-weight:900;color:${cat.color};margin-bottom:4px;">${cat.icon} ${cat.name} · ${pct}%完成</div>
     </div>
-    <div style="background:#f8f9fa;border-radius:20px;padding:20px;margin-bottom:20px;">
-      <div style="display:flex;justify-content:space-around;text-align:center;margin-bottom:20px;">
-        <div>
-          <div style="font-size:36px;font-weight:900;color:#43a047;">${yesCount}</div>
-          <div style="font-size:13px;color:#666;font-weight:600;">做到了</div>
-        </div>
-        <div style="width:1px;background:#ddd;"></div>
-        <div>
-          <div style="font-size:36px;font-weight:900;color:#ef5350;">${noCount}</div>
-          <div style="font-size:13px;color:#666;font-weight:600;">需注意</div>
-        </div>
-        <div style="width:1px;background:#ddd;"></div>
-        <div>
-          <div style="font-size:36px;font-weight:900;color:${cat.color};">${pct}%</div>
-          <div style="font-size:13px;color:#666;font-weight:600;">完成率</div>
-        </div>
-      </div>
-      <div style="font-size:16px;font-weight:700;color:#333;margin-bottom:10px;">📋 具体反馈</div>
-      <div style="font-size:15px;color:#444;line-height:1.8;font-weight:500;">${feedbackObj.positive}</div>
-      ${feedbackObj.negative ? `<div style="font-size:14px;color:#ff7043;line-height:1.8;margin-top:12px;font-weight:500;">${feedbackObj.negative}</div>` : ''}
-      ${feedbackObj.guide ? `<div style="font-size:14px;color:#1976d2;line-height:1.8;margin-top:14px;padding:12px;background:#e3f2fd;border-radius:12px;font-weight:500;">${feedbackObj.guide}</div>` : ''}
+    <div style="background:${cat.color}12;border-radius:16px;padding:16px;margin:16px 0;text-align:center;font-size:15px;color:#444;line-height:1.8;font-weight:500;">
+      ${feedbackObj.positive}
+      ${feedbackObj.negative ? '<br>'+feedbackObj.negative : ''}
     </div>
-    <div style="text-align:center;font-size:14px;color:#888;margin-bottom:16px;">💪 ${pct >= 80 ? '太棒了！继续保持！' : pct >= 50 ? '做得不错，继续加油！' : '没关系，明天会更好！'}</div>
     <button onclick="closeCatSummary()" style="display:block;width:100%;background:${cat.color};color:white;border:none;padding:16px;border-radius:50px;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);">✅ ${isLast ? '查看所有维度总结' : '继续下一个维度'}</button>
   `;
   overlay.classList.add('show');
