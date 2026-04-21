@@ -1932,34 +1932,18 @@ function renderSOPList() {
   let pct = Math.min(100, (doneCount / totalCount) * 100);
   let progressFill = `<div class="sop-cat-progress-fill" style="width:${pct}%;background:${cat.color}"></div>`;
 
-  // 如果该分类全部回答完了 → 显示总结
-  if (allAnswered) {
-    let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
-    // 计算本维度分数
+  // 已确认过的维度显示总结卡（须点过"确认本维度"才显示）
+  if (sopSubmittedCats.includes(cat.id)) {
+    let yesCount = Object.values(selected).filter(v => v === 'yes').length;
+    let noCount = totalCount - yesCount;
     let catScore = 0;
     cat.items.forEach((item, idx) => {
       let state = selected[idx];
-      if (state === 'yes') {
-        catScore += item.pts;
-      } else if (state === 'no') {
-        catScore += Math.floor(item.pts * 0.5); // 没做到给一半分鼓励
-      }
+      if (state === 'yes') catScore += item.pts;
+      else if (state === 'no') catScore += Math.floor(item.pts * 0.5);
     });
-    
-    // 生成客观反馈和鼓励语
-    let yesCount = Object.values(selected).filter(v => v === 'yes').length;
-    let noCount = totalCount - yesCount;
-    let feedback = '';
-    if (yesCount === totalCount) {
-      feedback = streak > 0 ? `太棒了！${cat.name}满分保持中，坚持${streak}天！🌟` : `完美！${cat.name}全部做到，给自己点赞！💯`;
-    } else if (yesCount >= totalCount * 0.7) {
-      feedback = `${cat.name}做得不错！${noCount > 0 ? `还有${noCount}项可以加强，继续保持！` : `继续保持这个状态！`}💪`;
-    } else if (yesCount >= totalCount * 0.5) {
-      feedback = `${cat.name}有进步空间哦，${yesCount}项做到，继续加油！🌱`;
-    } else {
-      feedback = `${cat.name}今天有点困难没关系，明天重新开始！不要放弃！🔥`;
-    }
-    
+    let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+    let feedback = getCatFeedbackMsg(cat, yesCount, noCount, totalCount, streak);
     card.innerHTML = `
       <div class="sop-cat-progress" style="margin-bottom:12px;">
         <span style="font-size:18px;">${cat.icon}</span>
@@ -1972,7 +1956,7 @@ function renderSOPList() {
         <div class="sop-cat-summary-title">${cat.name} · 复盘完成</div>
         <div style="font-size:24px;font-weight:800;color:${cat.color};margin-top:8px;">${catScore > 0 ? '+' : ''}${catScore}分</div>
         <div style="font-size:12px;color:#8f9eae;margin-top:4px;">做到了 ${yesCount} 项 · 需注意 ${noCount} 项</div>
-        <div style="margin-top:12px;padding:12px;background:linear-gradient(135deg, ${cat.color}11, ${cat.color}22);border-radius:12px;font-size:13px;color:#555;line-height:1.6;">${feedback}</div>
+        <div style="margin-top:12px;padding:12px;background:${cat.color}15;border-radius:12px;font-size:14px;color:#444;line-height:1.8;font-weight:500;">${feedback.summary}</div>
         ${streak > 0 ? `<div style="margin-top:10px;font-size:13px;color:${cat.color};font-weight:700;">🔥 已坚持 ${streak} 天</div>` : ''}
       </div>
     `;
@@ -2081,8 +2065,7 @@ function submitSOPCat() {
     // 切换到下一个未完成的分类（延迟3秒，让用户看完小结）
     let nextCat = SOP_CATEGORIES.findIndex((c, i) => {
       if (i <= sopCatIdx) return false;
-      let sel = sopSelected[c.id] || {};
-      return Object.keys(sel).length < c.items.length;
+      return !sopSubmittedCats.includes(c.id);
     });
     
     if (nextCat >= 0) {
@@ -2099,6 +2082,30 @@ function submitSOPCat() {
 }
 
 
+
+// 生成维度鼓励语
+function getCatFeedbackMsg(cat, yesCount, noCount, total, streak) {
+  let pct = Math.round((yesCount / total) * 100);
+  let emoji, summary;
+  if (pct === 100) {
+    emoji = '🌟';
+    summary = streak > 0
+      ? `太棒了！满分保持中，坚持${streak}天！✨`
+      : `满分！${cat.name}全部做到，继续保持！💯`;
+  } else if (pct >= 70) {
+    emoji = '💪';
+    summary = streak > 0
+      ? `做得不错！坚持${streak}天，继续保持！`
+      : `做得不错！还有${noCount}项可以加强，继续保持！💪`;
+  } else if (pct >= 50) {
+    emoji = '🌱';
+    summary = `有进步空间，${yesCount}项做到，继续加油！`;
+  } else {
+    emoji = '🔥';
+    summary = `今天有点困难没关系，不要放弃！明天重新开始！`;
+  }
+  return { emoji, summary };
+}
 
 function renderSOPDoneState() {
   let card = document.getElementById('sopGameCard');
@@ -2261,42 +2268,17 @@ function showCatSummary(cat, selected, catScore) {
   let feedback = getCatFeedback(cat.id, yesItems, noItems, pct);
   
   let overlay = document.getElementById('catSummaryOverlay');
+  let isLast = sopSubmittedCats.length >= SOP_CATEGORIES.length;
   overlay.innerHTML = `
-    <div style="text-align:center;margin-bottom:20px;">
-      <div style="font-size:80px;margin-bottom:12px;">${feedback.emoji}</div>
-      <div style="font-size:22px;font-weight:900;color:${cat.color};margin-bottom:6px;">${cat.icon} ${cat.name} 小结</div>
-      <div style="font-size:14px;color:#8f9eae;">今日表现评估</div>
+    <div style="text-align:center;padding:0 8px;">
+      <div style="font-size:80px;margin-bottom:8px;">${feedback.emoji}</div>
+      <div style="font-size:20px;font-weight:900;color:${cat.color};margin-bottom:4px;">${cat.icon} ${cat.name} · ${pct}%完成</div>
     </div>
-    
-    <div style="background:#f8f9fa;border-radius:20px;padding:20px;margin-bottom:20px;">
-      <div style="display:flex;justify-content:space-around;text-align:center;margin-bottom:20px;">
-        <div>
-          <div style="font-size:36px;font-weight:900;color:#43a047;">${yesCount}</div>
-          <div style="font-size:13px;color:#666;font-weight:600;">做到了</div>
-        </div>
-        <div style="width:1px;background:#ddd;"></div>
-        <div>
-          <div style="font-size:36px;font-weight:900;color:#ef5350;">${noCount}</div>
-          <div style="font-size:13px;color:#666;font-weight:600;">需注意</div>
-        </div>
-        <div style="width:1px;background:#ddd;"></div>
-        <div>
-          <div style="font-size:36px;font-weight:900;color:${cat.color};">${pct}%</div>
-          <div style="font-size:13px;color:#666;font-weight:600;">完成率</div>
-        </div>
-      </div>
-      
-      <div style="font-size:16px;font-weight:700;color:#333;margin-bottom:10px;">📋 具体反馈</div>
-      <div style="font-size:15px;color:#444;line-height:1.8;font-weight:500;">
-        ${feedback.positive}
-      </div>
-      ${feedback.negative ? `<div style="font-size:14px;color:#ff7043;line-height:1.8;margin-top:12px;font-weight:500;">${feedback.negative}</div>` : ''}
-      ${feedback.guide ? `<div style="font-size:14px;color:#1976d2;line-height:1.8;margin-top:14px;padding:12px;background:#e3f2fd;border-radius:12px;font-weight:500;">${feedback.guide}</div>` : ''}
+    <div style="background:${cat.color}12;border-radius:16px;padding:16px;margin:16px 0;text-align:center;font-size:15px;color:#444;line-height:1.8;font-weight:500;">
+      ${feedback.positive}
+      ${feedback.negative ? '<br>'+feedback.negative : ''}
     </div>
-    
-    <div style="text-align:center;font-size:14px;color:#888;margin-bottom:16px;">💪 ${pct >= 80 ? '太棒了！继续保持！' : pct >= 50 ? '做得不错，继续加油！' : '没关系，明天会更好！'}</div>
-    
-    <button onclick="closeCatSummary()" style="display:block;width:100%;background:${cat.color};color:white;border:none;padding:16px;border-radius:50px;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);">✅ ${sopSubmittedCats.length >= SOP_CATEGORIES.length - 1 ? '查看所有维度总结' : '继续下一个维度'}</button>
+    <button onclick="closeCatSummary()" style="display:block;width:100%;background:${cat.color};color:white;border:none;padding:16px;border-radius:50px;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);">✅ ${isLast ? '查看所有维度总结' : '继续下一个维度'}</button>
   `;
   overlay.classList.add('show');
 }
@@ -2317,8 +2299,7 @@ function closeCatSummary() {
     // 切换到下一个未完成的维度
     let nextCat = SOP_CATEGORIES.findIndex((c, i) => {
       if (i <= sopCatIdx) return false;
-      let sel = sopSelected[c.id] || {};
-      return Object.keys(sel).length < c.items.length;
+      return !sopSubmittedCats.includes(c.id);
     });
     
     if (nextCat >= 0) {
