@@ -1977,22 +1977,18 @@ function showCatSummary(cat, selected, catScore) {
   let noCount = noItems.length;
   let total = cat.items.length;
   let pct = Math.round((yesCount / total) * 100);
-  
-  // 根据不同维度生成个性化反馈
-  let feedback = getCatFeedback(cat.id, yesItems, noItems, pct);
-  
+  let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+  let { emoji: simpleEmoji, summary: simpleSummary } = getCatFeedbackMsg(cat, yesCount, noCount, total, streak);
   let overlay = document.getElementById('catSummaryOverlay');
   let isLast = sopSubmittedCats.length >= SOP_CATEGORIES.length;
   overlay.innerHTML = `
     <div style="text-align:center;padding:0 8px;">
-      <div style="font-size:80px;margin-bottom:8px;">${feedback.emoji}</div>
-      <div style="font-size:20px;font-weight:900;color:${cat.color};margin-bottom:4px;">${cat.icon} ${cat.name} · ${pct}%完成</div>
+      <div style="font-size:72px;margin-bottom:8px;">${simpleEmoji}</div>
+      <div style="font-size:20px;font-weight:900;color:${cat.color};margin-bottom:4px;">${cat.icon} ${cat.name}</div>
+      <div style="font-size:28px;font-weight:800;color:${cat.color};margin:8px 0;">${pct}%</div>
     </div>
-    <div style="background:${cat.color}12;border-radius:16px;padding:16px;margin:16px 0;text-align:center;font-size:15px;color:#444;line-height:1.8;font-weight:500;">
-      ${feedback.positive}
-      ${feedback.negative ? '<br>'+feedback.negative : ''}
-    </div>
-    <button onclick="closeCatSummary()" style="display:block;width:100%;background:${cat.color};color:white;border:none;padding:16px;border-radius:50px;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);">✅ ${isLast ? '查看所有维度总结' : '继续下一个维度'}</button>
+    <div style="background:${cat.color}12;border-radius:16px;padding:16px;margin:16px 0;text-align:center;font-size:15px;color:#444;line-height:1.8;font-weight:500;">${simpleSummary}</div>
+    <button onclick="closeCatSummary()" style="display:block;width:100%;background:${cat.color};color:white;border:none;padding:16px;border-radius:50px;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);">✅ ${isLast ? '查看今日总结' : '继续下一个维度'}</button>
   `;
   overlay.classList.add('show');
 }
@@ -2024,126 +2020,30 @@ function closeCatSummary() {
   }
 }
 
-// 根据不同维度生成个性化反馈
+// 根据不同维度生成个性化反馈（关系财富专用）
 function getCatFeedback(catId, yesItems, noItems, pct) {
-  let feedback = { emoji: '💪', positive: '', negative: '', guide: '' };
-  
-  if (catId === 'sport') {
-    // 运动维度
-    if (pct >= 80) {
-      feedback.emoji = '🏃‍♂️';
-      feedback.positive = '太棒了！今天的运动表现非常出色！';
-      if (yesItems.some(i => i.text.includes('30分钟'))) {
-        feedback.positive += ' 有氧运动完成，继续保持燃烧卡路里！';
-      }
-      if (yesItems.some(i => i.text.includes('力量'))) {
-        feedback.positive += ' 力量训练也在坚持，肌肉保护很重要！';
-      }
-      feedback.guide = '🌟 建议：坚持就是胜利！可以尝试增加一些柔韧性训练。';
-    } else if (pct >= 50) {
-      feedback.emoji = '💪';
-      feedback.positive = '做得不错！';
-      if (yesItems.length > 0) {
-        let yesTexts = yesItems.map(i => i.text).join('、');
-        feedback.positive += ` 已完成：${yesTexts}`;
-      }
-      feedback.negative = noItems.length > 0 ? `⚠️ 未完成：${noItems.map(i => i.text).join('、')}，明天记得补上哦！` : '';
-      feedback.guide = '💡 建议：适当提高运动强度，或者利用碎片时间活动身体。';
-    } else {
-      feedback.emoji = '🌱';
-      feedback.positive = '今天运动量较少，但没关系，明天是新的开始！';
-      feedback.guide = '💡 建议：从简单的10分钟运动开始，循序渐进增加时长。';
-      if (noItems.length > 0) {
-        feedback.negative = `今天未完成的：${noItems.map(i => i.text).join('、')}`;
-      }
-    }
-  } else if (catId === 'diet') {
-    // 饮食维度
-    if (pct >= 80) {
-      feedback.emoji = '🥗';
-      feedback.positive = '太棒了！饮食控制得非常好！';
-      if (yesItems.some(i => i.text.includes('早餐') || i.text.includes('蔬菜'))) {
-        feedback.positive += ' 营养均衡搭配，为身体提供充足能量！';
-      }
-      feedback.guide = '🌟 建议：继续保持这个饮食习惯，胜利就在眼前！';
-    } else if (pct >= 50) {
-      feedback.emoji = '🍽️';
-      feedback.positive = '饮食控制得还行！';
-      if (yesItems.length > 0) {
-        feedback.positive += ` ✅ 已做到：${yesItems.map(i => i.text).join('、')}`;
-      }
-      feedback.negative = noItems.length > 0 ? `⚠️ 需要改进：${noItems.map(i => i.text).join('、')}` : '';
-      feedback.guide = '💡 建议：记录每一餐，避免不知不觉吃多。';
-    } else {
-      feedback.emoji = '🌱';
-      feedback.positive = '今天饮食有点放飞？别担心，明天重新开始！';
-      feedback.guide = '💡 建议：记住"吃饱不吃撑"的原则，细嚼慢咽有助于控制食量。';
-    }
-  } else if (catId === 'water') {
-    // 喝水维度
-    if (pct >= 80) {
-      feedback.emoji = '💧';
-      feedback.positive = '太棒了！今天喝水量充足！';
-      if (yesItems.some(i => i.text.includes('8杯') || i.text.includes('2000'))) {
-        feedback.positive += ' 达标喝水量，新陈代谢棒棒的！';
-      }
-      feedback.guide = '🌟 建议：可以试试早起先喝一杯温水，促进肠胃蠕动。';
-    } else if (pct >= 50) {
-      feedback.emoji = '🥤';
-      feedback.positive = '喝水量还可以！';
-      feedback.negative = noItems.length > 0 ? `⚠️ 还差：${noItems.map(i => i.text).join('、')}` : '';
-      feedback.guide = '💡 建议：设置喝水提醒，或者准备一个大水杯放在手边。';
-    } else {
-      feedback.emoji = '🌱';
-      feedback.positive = '今天喝水不够，明天多提醒自己！';
-      feedback.guide = '💡 建议：养成习惯，饭前喝一杯水，既补水又控制食欲。';
-    }
-  } else if (catId === 'sleep') {
-    // 睡眠维度
-    if (pct >= 80) {
-      feedback.emoji = '😴';
-      feedback.positive = '太棒了！睡眠质量很高！';
-      if (yesItems.some(i => i.text.includes('7小时') || i.text.includes('8小时'))) {
-        feedback.positive += ' 时长充足，身体得到充分休息！';
-      }
-      feedback.guide = '🌟 建议：继续保持规律的作息时间，身体状态会越来越好！';
-    } else if (pct >= 50) {
-      feedback.emoji = '🛏️';
-      feedback.positive = '睡眠还行！';
-      if (yesItems.length > 0) {
-        feedback.positive += ` ✅ 好习惯：${yesItems.map(i => i.text).join('、')}`;
-      }
-      feedback.negative = noItems.length > 0 ? `⚠️ 需要改进：${noItems.map(i => i.text).join('、')}` : '';
-      feedback.guide = '💡 建议：睡前1小时远离手机，试试深呼吸或冥想。';
-    } else {
-      feedback.emoji = '🌱';
-      feedback.positive = '今天睡眠不足？别灰心，明天早点休息！';
-      feedback.guide = '💡 建议：固定睡觉时间，即使周末也尽量不要睡懒觉超过1小时。';
-    }
-  } else if (catId === 'emotion') {
-    // 情绪维度
-    if (pct >= 80) {
-      feedback.emoji = '😊';
-      feedback.positive = '太棒了！今天情绪管理得很好！';
-      if (yesItems.some(i => i.text.includes('心情好'))) {
-        feedback.positive += ' 保持好心情，人缘会越来越好的！';
-      }
-      feedback.guide = '🌟 建议：继续保持这种积极的心态，你是最棒的！';
-    } else if (pct >= 50) {
-      feedback.emoji = '🙂';
-      feedback.positive = '情绪还算稳定！';
-      if (yesItems.length > 0) {
-        feedback.positive += ` ✅ 做得好：${yesItems.map(i => i.text).join('、')}`;
-      }
-      feedback.negative = noItems.length > 0 ? `⚠️ 需要关注：${noItems.map(i => i.text).join('、')}` : '';
-      feedback.guide = '💡 建议：遇到压力时，试试深呼吸或散步来缓解。';
-    } else {
-      feedback.emoji = '🌱';
-      feedback.positive = '今天情绪有点波动？没关系，每个人都有情绪低落的时候！';
-      feedback.guide = '💡 建议：试试听音乐、看喜剧，或者找朋友聊聊天，放松心情。';
-    }
+  let feedback = { emoji: '❤️', positive: '', negative: '' };
+  if (catId === 'family') {
+    if (pct >= 80) { feedback.emoji = '👨‍👩‍👧'; feedback.positive = '太棒了！今天与家人的陪伴时光非常充实，家是最温暖的地方！'; }
+    else if (pct >= 50) { feedback.emoji = '💕'; feedback.positive = '家人陪伴做得不错！继续保持，关系会越来越亲密。'; }
+    else { feedback.emoji = '🌱'; feedback.positive = '今天陪伴家人少了一些，明天多花点时间和家人相处吧！'; }
+  } else if (catId === 'friendship') {
+    if (pct >= 80) { feedback.emoji = '🤝'; feedback.positive = '太棒了！今天在朋友关系上投入了很多，友谊因用心而深厚！'; }
+    else if (pct >= 50) { feedback.emoji = '👫'; feedback.positive = '朋友关系维护得不错！主动联系是关系保鲜的秘诀。'; }
+    else { feedback.emoji = '🌱'; feedback.positive = '今天和朋友联系少了，不如今晚发一条消息问候一下老友？'; }
+  } else if (catId === 'romance') {
+    if (pct >= 80) { feedback.emoji = '💑'; feedback.positive = '太棒了！亲密关系需要用心经营，你今天做得非常好！'; }
+    else if (pct >= 50) { feedback.emoji = '💕'; feedback.positive = '亲密关系经营得不错！沟通和陪伴是爱情的保鲜剂。'; }
+    else { feedback.emoji = '🌱'; feedback.positive = '今天亲密关系投入少了，可以给对方一个小惊喜或真诚的拥抱！'; }
+  } else if (catId === 'networking') {
+    if (pct >= 80) { feedback.emoji = '🌐'; feedback.positive = '太棒了！积极经营人际网络，优质人脉是重要资产！'; }
+    else if (pct >= 50) { feedback.emoji = '🤝'; feedback.positive = '人际关系扩展得不错！每一次真诚交流都是一次投资。'; }
+    else { feedback.emoji = '🌱'; feedback.positive = '今天社交投入少了，主动参与一个活动或联系一位新朋友吧！'; }
+  } else {
+    if (pct >= 80) { feedback.emoji = '🌟'; feedback.positive = '这个维度做得非常棒！关系是人生最珍贵的财富，继续保持！'; }
+    else if (pct >= 50) { feedback.emoji = '💪'; feedback.positive = '这个维度做得不错！继续用心，关系会越来越好。'; }
+    else { feedback.emoji = '🌱'; feedback.positive = '今天这个维度投入少了，明天记得多关注！'; }
   }
-  
   return feedback;
 }
 
