@@ -2263,35 +2263,28 @@ function showCatSummary(cat, selected, catScore) {
   let noCount = noItems.length;
   let total = cat.items.length;
   let pct = Math.round((yesCount / total) * 100);
-  
-  // 根据不同维度生成个性化反馈
-  let feedback = getCatFeedback(cat.id, yesItems, noItems, pct);
-  
+  let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+  let { emoji, summary } = getCatFeedbackMsg(cat, yesCount, noCount, total, streak);
   let overlay = document.getElementById('catSummaryOverlay');
   let isLast = sopSubmittedCats.length >= SOP_CATEGORIES.length;
   overlay.innerHTML = `
     <div style="text-align:center;padding:0 8px;">
-      <div style="font-size:80px;margin-bottom:8px;">${feedback.emoji}</div>
-      <div style="font-size:20px;font-weight:900;color:${cat.color};margin-bottom:4px;">${cat.icon} ${cat.name} · ${pct}%完成</div>
+      <div style="font-size:72px;margin-bottom:8px;">${emoji}</div>
+      <div style="font-size:20px;font-weight:900;color:${cat.color};margin-bottom:4px;">${cat.icon} ${cat.name}</div>
+      <div style="font-size:28px;font-weight:800;color:${cat.color};margin:8px 0;">${pct}%</div>
     </div>
-    <div style="background:${cat.color}12;border-radius:16px;padding:16px;margin:16px 0;text-align:center;font-size:15px;color:#444;line-height:1.8;font-weight:500;">
-      ${feedback.positive}
-      ${feedback.negative ? '<br>'+feedback.negative : ''}
-    </div>
-    <button onclick="closeCatSummary()" style="display:block;width:100%;background:${cat.color};color:white;border:none;padding:16px;border-radius:50px;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);">✅ ${isLast ? '查看所有维度总结' : '继续下一个维度'}</button>
+    <div style="background:${cat.color}12;border-radius:16px;padding:16px;margin:16px 0;text-align:center;font-size:15px;color:#444;line-height:1.8;font-weight:500;">${summary}</div>
+    <button onclick="closeCatSummary()" style="display:block;width:100%;background:${cat.color};color:white;border:none;padding:16px;border-radius:50px;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);">✅ ${isLast ? '查看今日总结' : '继续下一个维度'}</button>
   `;
   overlay.classList.add('show');
 }
 
 function closeCatSummary() {
   document.getElementById('catSummaryOverlay').classList.remove('show');
-  
-  // 检查每个维度是否都有选择记录（至少完成过）
   let doneCats = SOP_CATEGORIES.filter(cat => {
     let sel = sopSelected[cat.id] || {};
     return Object.keys(sel).length >= cat.items.length;
   });
-  
   if (doneCats.length >= SOP_CATEGORIES.length) {
     // 所有5个维度都完成了，显示总总结
     setTimeout(() => showSOPFinish(), 500);
