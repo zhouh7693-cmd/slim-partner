@@ -2028,10 +2028,15 @@ function submitSOPCat() {
     return Object.keys(sel).length >= c.items.length;
   });
   
+  console.log('[SOP] 确认本维度:', cat.name, '| catScore:', catScore, '| sopScore累计:', sopScore, '| allDone:', allDone, '| sopDone:', sopDone);
+  
   if (allDone && !sopDone) {
     sopDone = true;
     saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: getToday() });
-    setTimeout(() => showSOPFinish(), 600);
+    // 立即关闭 guide 遮罩，再显示总结（无延迟）
+    let guide = document.getElementById('sopGuideOverlay');
+    if (guide) guide.style.display = 'none';
+    showSOPFinish();
   } else {
     saveSOPData({ score: sopScore, selected: sopSelected, done: sopDone, date: getToday() });
   }
@@ -2041,7 +2046,7 @@ function submitSOPCat() {
   
   showToast(`${cat.icon} ${cat.name} 确认完成！+${catScore}分`, cat.color);
   
-  // 切换到下一个未完成的分类
+  // 切换到下一个未完成的分类（延迟更长，让总结弹窗先展示）
   let nextCat = SOP_CATEGORIES.findIndex((c, i) => {
     if (i <= sopCatIdx) return false;
     let sel = sopSelected[c.id] || {};
@@ -2054,9 +2059,10 @@ function submitSOPCat() {
       renderSOPCats();
       renderSOPTips();
       renderSOPList();
-    }, 800);
+    }, 1500);
   } else {
-    renderSOPList();
+    // 所有分类已完成：延迟后刷新列表
+    setTimeout(() => renderSOPList(), 1000);
   }
 }
 
