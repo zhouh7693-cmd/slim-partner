@@ -530,7 +530,7 @@
         <div class="partner-desc">骂醒你，但句句在理</div>
       </div>
     </div>
-    <button id="confirmPartnerBtn" class="confirm-btn" onclick="var sc=document.querySelector('#partnerGrid .partner-card.selected');var id=sc?sc.id.replace('pc-',''):PARTNERS[0].id;localStorage.setItem(STORAGE.PARTNER,id);console.log('搭子已设为:',id);startApp();this.textContent='✅ 正在进入…';this.style.background='linear-gradient(135deg,#888,#555)';">✨ 开始陪伴 ✨</button>
+    <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner();void 0">✨ 开始陪伴 ✨</button>
   </div>
 
   <!-- 打卡仪表盘 -->
@@ -1264,15 +1264,13 @@ function checkReminder() {
 
 function confirmPartner() {
   let saved = localStorage.getItem(STORAGE.PARTNER);
-  // 优先读当前选中的卡片
   const selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
-  if (selectedCard) {
-    saved = selectedCard.id.replace('pc-', '');
-  }
-  if (!saved || !PARTNERS.some(p => p.id === saved)) {
-    saved = PARTNERS[0].id;
-  }
+  if (selectedCard) saved = selectedCard.id.replace('pc-', '');
+  if (!saved || !PARTNERS.some(p => p.id === saved)) saved = PARTNERS[0].id;
   localStorage.setItem(STORAGE.PARTNER, saved);
+  // 按钮反馈
+  var btn = document.getElementById('confirmPartnerBtn');
+  if (btn) { btn.textContent = '✅ 进入中…'; btn.style.background = 'linear-gradient(135deg,#888,#555)'; }
   startApp();
 }
 
