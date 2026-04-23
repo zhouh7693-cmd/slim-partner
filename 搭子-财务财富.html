@@ -530,7 +530,7 @@
         <div class="partner-desc">骂醒你，但句句在理</div>
       </div>
     </div>
-    <button id="confirmPartnerBtn" class="confirm-btn">✨ 开始陪伴 ✨</button>
+    <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner()">✨ 开始陪伴 ✨</button>
   </div>
 
   <!-- 打卡仪表盘 -->
@@ -1262,18 +1262,19 @@ function checkReminder() {
   }
 }
 
-document.getElementById('confirmPartnerBtn')?.addEventListener('click', () => {
-  // 确保当前选中状态已写入 localStorage（防止第一次未点卡片直接点按钮）
+function confirmPartner() {
+  let saved = localStorage.getItem(STORAGE.PARTNER);
+  // 优先读当前选中的卡片
   const selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
   if (selectedCard) {
-    const id = selectedCard.id.replace('pc-', '');
-    localStorage.setItem(STORAGE.PARTNER, id);
-  } else {
-    // 兜底：默认选第一个
-    localStorage.setItem(STORAGE.PARTNER, PARTNERS[0].id);
+    saved = selectedCard.id.replace('pc-', '');
   }
+  if (!saved || !PARTNERS.some(p => p.id === saved)) {
+    saved = PARTNERS[0].id;
+  }
+  localStorage.setItem(STORAGE.PARTNER, saved);
   startApp();
-});
+}
 
 // 更新右上角搭子头像
 function updateAvatarBtn() {
