@@ -778,6 +778,7 @@
 
 <script>
 // ==================== 全局 & 存储 ====================
+document.addEventListener('DOMContentLoaded', function() {
 const PARTNERS = [
   { id: 'gentle', name: '温柔鼓励型', emoji: '🌸', style: 'gentle', desc: '轻声细语，温暖陪伴', color: '#f8bbd0' },
   { id: 'passion', name: '热血激励型', emoji: '💪', style: 'passion', desc: '燃起来！干就完了', color: '#ffcc02' },
@@ -2433,6 +2434,7 @@ function copyShareText() {
 
 // ==================== 初始化 ====================
 startApp();
+}); // end DOMContentLoaded
 </script>
 <!-- ===== 搭子切换弹窗 ===== -->
 <div id="partnerOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center;">
