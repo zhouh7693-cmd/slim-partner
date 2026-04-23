@@ -530,7 +530,7 @@
         <div class="partner-desc">骂醒你，但句句在理</div>
       </div>
     </div>
-    <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner();void 0">✨ 开始陪伴 ✨</button>
+    <button id="confirmPartnerBtn" class="confirm-btn" onclick="slimConfirmPartner();void 0">✨ 开始陪伴 ✨</button>
   </div>
 
   <!-- 打卡仪表盘 -->
@@ -777,6 +777,18 @@
 </div>
 
 <script>
+// ==================== 全局函数（onclick 必须全局可见） ====================
+function slimConfirmPartner() {
+  var saved = localStorage.getItem('slim_partner_finance');
+  var selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
+  if (selectedCard) saved = selectedCard.id.replace('pc-', '');
+  if (!saved) saved = 'gentle';
+  localStorage.setItem('slim_partner_finance', saved);
+  var btn = document.getElementById('confirmPartnerBtn');
+  if (btn) { btn.textContent = '✅ 进入中…'; btn.style.background = 'linear-gradient(135deg,#888,#555)'; }
+  if (typeof startApp === 'function') startApp();
+}
+
 // ==================== 全局 & 存储 ====================
 document.addEventListener('DOMContentLoaded', function() {
 const PARTNERS = [
