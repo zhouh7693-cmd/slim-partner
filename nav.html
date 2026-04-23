@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slim Partner 导航</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #f5f0ff;
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+    min-height: 100vh;
+    padding: 24px 16px 40px;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .header h1 {
+    font-size: 22px;
+    color: #5b3fa6;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .header p {
+    font-size: 13px;
+    color: #999;
+    margin-top: 6px;
+  }
+  .section-title {
+    font-size: 12px;
+    color: #aaa;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 24px 0 10px 4px;
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .card-grid.single {
+    grid-template-columns: 1fr;
+  }
+  a.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px 12px;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(91,63,166,0.08);
+    transition: transform 0.15s, box-shadow 0.15s;
+    min-height: 80px;
+  }
+  a.card:active {
+    transform: scale(0.97);
+    box-shadow: 0 1px 4px rgba(91,63,166,0.12);
+  }
+  .card-emoji {
+    font-size: 28px;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+  .card-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+  }
+  .card-sub {
+    font-size: 11px;
+    color: #999;
+    margin-top: 3px;
+    text-align: center;
+  }
+  /* 主打卡卡片 —— 宽一点 */
+  a.card.featured {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, #7b5ea7, #a87edc);
+    gap: 14px;
+    min-height: 70px;
+  }
+  a.card.featured .card-emoji { font-size: 32px; margin-bottom: 0; }
+  a.card.featured .card-label { color: #fff; font-size: 16px; }
+  a.card.featured .card-sub { color: rgba(255,255,255,0.75); }
+  /* 分享卡片 */
+  a.card.share {
+    background: linear-gradient(135deg, #ff9a3c, #ffcf70);
+  }
+  a.card.share .card-label { color: #fff; }
+  a.card.share .card-sub { color: rgba(255,255,255,0.8); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🌟 Slim Partner</h1>
+  <p>每日打卡中心</p>
+</div>
+
+<!-- 主打卡 -->
+<div class="section-title">核心打卡</div>
+<div class="card-grid">
+  <a class="card featured" href="https://zhouh7693-cmd.github.io/slim-partner/index.html" target="_blank">
+    <span class="card-emoji">🏃</span>
+    <div>
+      <div class="card-label">减肥搭子打卡</div>
+      <div class="card-sub">每日饮食 · 体重记录</div>
+    </div>
+  </a>
+</div>
+
+<!-- 五大财富 -->
+<div class="section-title">五大财富 SOP</div>
+<div class="card-grid">
+  <a class="card" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-身体财富.html" target="_blank">
+    <span class="card-emoji">💪</span>
+    <div class="card-label">身体财富</div>
+    <div class="card-sub">运动 · 睡眠 · 健康</div>
+  </a>
+  <a class="card" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-财务财富.html" target="_blank">
+    <span class="card-emoji">💰</span>
+    <div class="card-label">财务财富</div>
+    <div class="card-sub">收入 · 储蓄 · 投资</div>
+  </a>
+  <a class="card" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-精神财富.html" target="_blank">
+    <span class="card-emoji">🕊️</span>
+    <div class="card-label">精神财富</div>
+    <div class="card-sub">阅读 · 冥想 · 成长</div>
+  </a>
+  <a class="card" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-关系财富.html" target="_blank">
+    <span class="card-emoji">❤️</span>
+    <div class="card-label">关系财富</div>
+    <div class="card-sub">家人 · 朋友 · 连接</div>
+  </a>
+  <a class="card" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-使命财富.html" target="_blank">
+    <span class="card-emoji">🎯</span>
+    <div class="card-label">使命财富</div>
+    <div class="card-sub">目标 · 价值 · 贡献</div>
+  </a>
+</div>
+
+<!-- 使用指南 -->
+<div class="section-title">帮助</div>
+<div class="card-grid single">
+  <a class="card share" href="https://zhouh7693-cmd.github.io/slim-partner/guide.html" target="_blank">
+    <span class="card-emoji">📖</span>
+    <div>
+      <div class="card-label">使用指南</div>
+      <div class="card-sub">第一次用？先看这里</div>
+    </div>
+  </a>
+</div>
+
+<!-- 分享 -->
+<div class="section-title">分享</div>
+<div class="card-grid single">
+  <a class="card share" href="https://zhouh7693-cmd.github.io/slim-partner/share.html" target="_blank">
+    <span class="card-emoji">📣</span>
+    <div>
+      <div class="card-label">分享卡片</div>
+      <div class="card-sub">生成打卡海报，邀请搭子</div>
+    </div>
+  </a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slim Partner 使用指南</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #f5f0ff;
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+    min-height: 100vh;
+    padding: 24px 16px 60px;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .header h1 {
+    font-size: 22px;
+    color: #5b3fa6;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .header p {
+    font-size: 13px;
+    color: #999;
+    margin-top: 6px;
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #5b3fa6;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    background: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(91,63,166,0.12);
+  }
+
+  /* 步骤卡片 */
+  .step-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .step-num {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background: #5b3fa6;
+    color: white;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 28px;
+    margin-bottom: 10px;
+  }
+  .step-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  .step-desc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.7;
+  }
+  .step-desc strong {
+    color: #5b3fa6;
+  }
+
+  /* 五步说明 */
+  .guide-step {
+    margin-bottom: 24px;
+  }
+  .guide-step-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .guide-step-icon {
+    font-size: 32px;
+    line-height: 1;
+  }
+  .guide-step-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+  }
+
+  /* 财富分类 */
+  .wealth-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .wealth-item {
+    background: #f8f6ff;
+    border-radius: 14px;
+    padding: 12px;
+    text-align: center;
+  }
+  .wealth-item .w-icon { font-size: 28px; }
+  .wealth-item .w-name { font-size: 13px; font-weight: 700; color: #444; margin-top: 4px; }
+  .wealth-item .w-desc { font-size: 11px; color: #999; margin-top: 2px; line-height: 1.4; }
+
+  /* SOP说明 */
+  .sop-flow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .sop-node {
+    background: #ede8ff;
+    color: #5b3fa6;
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .sop-arrow {
+    color: #c4b5e8;
+    font-size: 18px;
+  }
+
+  /* 提示框 */
+  .tip-box {
+    background: #fff9e6;
+    border-left: 4px solid #ffb300;
+    border-radius: 0 12px 12px 0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #7a5a00;
+    line-height: 1.7;
+    margin-top: 12px;
+  }
+  .tip-box .tip-title {
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+
+  /* 完成卡片 */
+  .done-card {
+    background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+    border-radius: 16px;
+    padding: 16px;
+    margin-top: 12px;
+    text-align: center;
+  }
+  .done-card .done-icon { font-size: 40px; }
+  .done-card .done-title { font-size: 16px; font-weight: 700; color: #2e7d32; margin-top: 6px; }
+  .done-card .done-desc { font-size: 12px; color: #666; margin-top: 4px; }
+
+  /* 导航按钮 */
+  .nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0 max(10px, env(safe-area-inset-bottom));
+    z-index: 100;
+  }
+  .nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    text-decoration: none;
+    color: #999;
+    font-size: 11px;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  .nav-btn .nav-icon { font-size: 22px; }
+  .nav-btn.active, .nav-btn:hover { color: #5b3fa6; }
+  .nav-btn.home-btn {
+    background: #5b3fa6;
+    color: white;
+    border-radius: 50%;
+    width: 52px;
+    height: 52px;
+    justify-content: center;
+    margin-top: -18px;
+    box-shadow: 0 4px 12px rgba(91,63,166,0.4);
+  }
+  .nav-btn.home-btn .nav-icon { font-size: 24px; }
+  .nav-btn.home-btn .nav-label { display: none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header h1">📖 Slim Partner 使用指南</div>
+  <p>从今天开始，养成好习惯</p>
+</div>
+
+<!-- 第一步 -->
+<div class="step-card">
+  <div class="step-num">1</div>
+  <div class="step-title">进入你的财富页面</div>
+  <div class="step-desc">
+    从<strong>导航页</strong>选择你想今天打卡的财富类型，点进去即可。<br>
+    每个页面相互独立，今天打卡哪个都可以。
+  </div>
+</div>
+
+<!-- 第二步 -->
+<div class="step-card">
+  <div class="step-num">2</div>
+  <div class="step-title">选一个今日搭子（可选）</div>
+  <div class="step-desc">
+    进入页面后，可以选一个<strong>今日搭子</strong>——可以是朋友、家人或自己，作为今天行动的打卡对象。<br>
+    选好后点「确认」，搭子头像会显示在页面顶部。<br>
+    不选也可以直接开始打卡，不影响功能。
+  </div>
+  <div class="tip-box">
+    <div class="tip-title">💡 搭子有什么用？</div>
+    搭子的名字/头像会记录到打卡卡片里，方便你分享给搭子互相监督。搭子之间互不影响，数据各自独立。
+  </div>
+</div>
+
+<!-- 第三步：SOP打卡 -->
+<div class="step-card">
+  <div class="step-num">3</div>
+  <div class="step-title">完成今日SOP复盘</div>
+  <div class="step-desc">
+    SOP = <strong>标准操作流程</strong>，简单说就是「今天你做了哪些好习惯」。
+  </div>
+
+  <div class="sop-flow">
+    <div class="sop-node">👆 点习惯项</div>
+    <div class="sop-arrow">→</div>
+    <div class="sop-node">✅做到了 / ❌没做到</div>
+    <div class="sop-arrow">→</div>
+    <div class="sop-node">确认本维度</div>
+    <div class="sop-arrow">→</div>
+    <div class="sop-node">✨ 小结弹窗</div>
+  </div>
+
+  <div style="margin-top:14px;font-size:14px;color:#555;line-height:1.7;">
+    <strong>具体操作：</strong><br>
+    ① 每个维度有若干习惯项（5~7条）<br>
+    ② 点「✅ 做到了」或「❌ 没做到」标记每一条<br>
+    ③ 全部点完后，点底部<strong>「确认本维度 ✓」</strong><br>
+    ④ 弹出小结，告诉你今天的完成情况<br>
+    ⑤ 自动切换到下一个维度，继续打卡
+  </div>
+</div>
+
+<!-- 第四步 -->
+<div class="step-card">
+  <div class="step-num">4</div>
+  <div class="step-title">查看总览 &amp; 坚持天数</div>
+  <div class="step-desc">
+    所有维度打卡完成后，会弹出<strong>今日复盘总览</strong>——<br>
+    显示各维度的坚持天数🔥，让你看到自己的成长轨迹。
+  </div>
+  <div class="done-card">
+    <div class="done-icon">🏆</div>
+    <div class="done-title">满分完成！复盘已完成</div>
+    <div class="done-desc">明天0点系统自动重置，可以再次打卡</div>
+  </div>
+</div>
+
+<!-- 第五步 -->
+<div class="step-card">
+  <div class="step-num">5</div>
+  <div class="step-title">分享给搭子</div>
+  <div class="step-desc">
+    打卡完成后，点页面上的<strong>分享按钮</strong>，生成打卡卡片发给搭子。<br>
+    卡片上会显示你今天打了哪些维度的卡。
+  </div>
+  <div class="tip-box">
+    <div class="tip-title">💡 坚持的秘诀</div>
+    每天坚持打卡，坚持天数会累加。看到🔥数字越来越大，成就感满满！
+  </div>
+</div>
+
+<!-- 五大财富介绍 -->
+<div class="step-card">
+  <div class="step-num" style="background:#e65100;">?</div>
+  <div class="step-title">五大财富是什么？</div>
+  <div class="step-desc">每个财富类别专注一个人生维度，每天可以全部打卡，也可以只选感兴趣的。</div>
+
+  <div class="wealth-grid">
+    <div class="wealth-item">
+      <div class="w-icon">💪</div>
+      <div class="w-name">身体财富</div>
+      <div class="w-desc">运动、饮食、作息、护理、压力</div>
+    </div>
+    <div class="wealth-item">
+      <div class="w-icon">💰</div>
+      <div class="w-name">财务财富</div>
+      <div class="w-desc">储蓄、预算、理财、消费、开源</div>
+    </div>
+    <div class="wealth-item">
+      <div class="w-icon">🕊️</div>
+      <div class="w-name">精神财富</div>
+      <div class="w-desc">学习、冥想、阅读、创造、放松</div>
+    </div>
+    <div class="wealth-item">
+      <div class="w-icon">❤️</div>
+      <div class="w-name">关系财富</div>
+      <div class="w-desc">家人、朋友、亲密关系、社交、沟通</div>
+    </div>
+    <div class="wealth-item" style="grid-column:1/-1;">
+      <div class="w-icon">🎯</div>
+      <div class="w-name">使命财富</div>
+      <div class="w-desc">目标、复盘、专注、勇气、坚持</div>
+    </div>
+  </div>
+</div>
+
+<!-- 数据说明 -->
+<div class="step-card">
+  <div class="step-num" style="background:#546e7a;">i</div>
+  <div class="step-title">数据保存在哪？</div>
+  <div class="step-desc">
+    所有打卡数据保存在<strong>本地浏览器</strong>（LocalStorage），不上传服务器。<br>
+    <strong>换手机/清缓存会丢失数据</strong>，请理解这一限制后使用。
+  </div>
+</div>
+
+<div style="text-align:center;padding:20px 0 8px;font-size:12px;color:#bbb;">
+  Slim Partner · 让每一天都有迹可循
+</div>
+
+<!-- 底部导航 -->
+<div class="nav-bar">
+  <a href="nav.html" class="nav-btn active">
+    <span class="nav-icon">📖</span>
+    <span class="nav-label">指南</span>
+  </a>
+  <a href="nav.html" class="nav-btn home-btn">
+    <span class="nav-icon">🏠</span>
+  </a>
+  <a href="nav.html" class="nav-btn">
+    <span class="nav-icon">📊</span>
+    <span class="nav-label">打卡</span>
+  </a>
+</div>
+
+</body>
+</html>
