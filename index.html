@@ -1911,20 +1911,11 @@ function renderSOPList() {
   // 如果该分类全部回答完了 → 显示总结
   if (allAnswered) {
     let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
-    // 计算本维度分数
-    let catScore = 0;
-    cat.items.forEach((item, idx) => {
-      let state = selected[idx];
-      if (state === 'yes') {
-        catScore += item.pts;
-      } else if (state === 'no') {
-        catScore += Math.floor(item.pts * 0.5); // 没做到给一半分鼓励
-      }
-    });
-    
     // 生成客观反馈和鼓励语
     let yesCount = Object.values(selected).filter(v => v === 'yes').length;
     let noCount = totalCount - yesCount;
+    // 归一化为百分比（与 showSOPFinish / showCatSummary 保持一致）
+    let catScore = Math.round((yesCount / totalCount) * 100);
     let feedback = '';
     if (yesCount === totalCount) {
       feedback = streak > 0 ? `太棒了！${cat.name}满分保持中，坚持${streak}天！🌟` : `完美！${cat.name}全部做到，给自己点赞！💯`;
@@ -1946,7 +1937,7 @@ function renderSOPList() {
       <div class="sop-cat-summary">
         <div class="sop-cat-summary-icon">${cat.icon}</div>
         <div class="sop-cat-summary-title">${cat.name} · 复盘完成</div>
-        <div style="font-size:24px;font-weight:800;color:${cat.color};margin-top:8px;">${catScore > 0 ? '+' : ''}${catScore}分</div>
+        <div style="font-size:24px;font-weight:800;color:${cat.color};margin-top:8px;">${catScore}分</div>
         <div style="font-size:12px;color:#8f9eae;margin-top:4px;">做到了 ${yesCount} 项 · 需注意 ${noCount} 项</div>
         <div style="margin-top:12px;padding:12px;background:linear-gradient(135deg, ${cat.color}11, ${cat.color}22);border-radius:12px;font-size:13px;color:#555;line-height:1.6;">${feedback}</div>
         ${streak > 0 ? `<div style="margin-top:10px;font-size:13px;color:${cat.color};font-weight:700;">🔥 已坚持 ${streak} 天</div>` : ''}

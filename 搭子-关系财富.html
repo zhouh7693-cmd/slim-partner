@@ -1658,12 +1658,8 @@ function renderSOPList() {
   if (sopSubmittedCats.includes(cat.id)) {
     let yesCount = Object.values(selected).filter(v => v === 'yes').length;
     let noCount = totalCount - yesCount;
-    let catScore = 0;
-    cat.items.forEach((item, idx) => {
-      let state = selected[idx];
-      if (state === 'yes') catScore += item.pts;
-      else if (state === 'no') catScore += Math.floor(item.pts * 0.5);
-    });
+    // 归一化为百分比（与 showSOPFinish / showCatSummary 保持一致）
+    let catScore = Math.round((yesCount / totalCount) * 100);
     let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
     let feedback = getCatFeedbackMsg(cat, yesCount, noCount, totalCount, streak);
     card.innerHTML = `
@@ -1676,7 +1672,7 @@ function renderSOPList() {
       <div class="sop-cat-summary">
         <div class="sop-cat-summary-icon">${cat.icon}</div>
         <div class="sop-cat-summary-title">${cat.name} · 复盘完成</div>
-        <div style="font-size:24px;font-weight:800;color:${cat.color};margin-top:8px;">${catScore > 0 ? '+' : ''}${catScore}分</div>
+        <div style="font-size:24px;font-weight:800;color:${cat.color};margin-top:8px;">${catScore}分</div>
         <div style="font-size:12px;color:#8f9eae;margin-top:4px;">做到了 ${yesCount} 项 · 需注意 ${noCount} 项</div>
         <div style="margin-top:12px;padding:12px;background:${cat.color}15;border-radius:12px;font-size:14px;color:#444;line-height:1.8;font-weight:500;">${feedback.summary}</div>
         ${streak > 0 ? `<div style="margin-top:10px;font-size:13px;color:${cat.color};font-weight:700;">🔥 已坚持 ${streak} 天</div>` : ''}
