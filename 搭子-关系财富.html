@@ -1327,7 +1327,17 @@ function previewShareCard() {
   window.open(fullUrl, '_blank');
 }
 
+function drawWeightChart(canvas, data) {
+  if (!canvas || !data || data.length === 0) return;
+  let ctx = canvas.getContext('2d');
+  let W = canvas.width, H = canvas.height;
+  let toX = (i) => 40 + (i / (data.length - 1 || 1)) * (W - 60);
+  let toY = (v) => { let max = Math.max(...data.map(d => d.value)); return H - 20 - ((v / (max || 1)) * (H - 60)); };
 
+  // 填充
+  let grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, 'rgba(58,124,165,0.3)');
+  grad.addColorStop(1, 'rgba(58,124,165,0.02)');
   data.forEach((d,i) => { let x=toX(i),y=toY(d.value); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
   ctx.lineTo(toX(data.length-1), H-20);
   ctx.lineTo(toX(0), H-20);
@@ -1353,8 +1363,7 @@ function previewShareCard() {
     ctx.fillStyle='#e91e63'; ctx.font='bold 12px system-ui'; ctx.textAlign='center';
     ctx.fillText('今天',x,y-12);
   }
-
-
+}
 
 function shareWeeklyReport() {
   let history = getHistory();
