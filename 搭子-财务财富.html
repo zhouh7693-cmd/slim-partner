@@ -2587,6 +2587,30 @@ function copyShareText() {
 
 // ==================== 初始化 ====================
 startApp();
+
+// ==================== 暴露 onclick 所需全局函数 ====================
+window.doCheckin = doCheckin;
+window.switchTab = switchTab;
+window.sendMood = sendMood;
+window.sendTalk = sendTalk;
+window.selectPartner = selectPartner;
+window.showPartnerSelector = showPartnerSelector;
+window.closePartnerOverlay = closePartnerOverlay;
+window.copyStats = copyStats;
+window.copyShareLink = copyShareLink;
+window.copyShareText = copyShareText;
+window.previewShareCard = previewShareCard;
+window.shareWeeklyReport = shareWeeklyReport;
+window.addWeight = addWeight;
+window.submitSOPCat = submitSOPCat;
+window.switchSOPCat = switchSOPCat;
+window.toggleSOPItem = toggleSOPItem;
+window.closeSOPGuide = closeSOPGuide;
+window.closeSOPFinish = closeSOPFinish;
+window.closeCatSummary = closeCatSummary;
+window.closeFeedback = closeFeedback;
+window.closeAchievement = closeAchievement;
+
 }); // end DOMContentLoaded
 </script>
 <!-- ===== 搭子切换弹窗 ===== -->
