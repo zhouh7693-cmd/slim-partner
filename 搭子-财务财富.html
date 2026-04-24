@@ -889,10 +889,13 @@ const PROGRESS_DATA = {
 function switchTab(tab) {
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const tabs = ['checkin','sop','share'];
-  document.querySelectorAll('.tab-item')[tabs.indexOf(tab)].classList.add('active');
-  document.getElementById(`page-${tab}`).classList.add('active');
-  
+  const tabs = ['checkin','weight','sop','share'];
+  const tabIdx = tabs.indexOf(tab);
+  if (tabIdx !== -1) document.querySelectorAll('.tab-item')[tabIdx].classList.add('active');
+  const pageEl = document.getElementById('page-' + tab);
+  if (pageEl) pageEl.classList.add('active');
+
+  if (tab === 'weight') { renderWeightPage(); renderWeeklyReport(); }
   if (tab === 'sop') initSOP();
   if (tab === 'share') renderSharePage();
 }
@@ -1200,6 +1203,143 @@ function copyStats() {
   let text = `🏆 财务财富搭子战绩\n搭子：${partner.name} ${partner.emoji}\n连续打卡：${continuous}天\n总打卡：${history.length}天\n${today} 继续加油！`;
   navigator.clipboard.writeText(text).then(() => showToast('✅ 战绩已复制，快去分享')).catch(() => showToast('复制失败，手动复制吧'));
 }
+
+// ==================== 财富记录功能 ====================
+function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
+function saveWeightData(d) { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(d)); if(window.saveWeightToFirebase) saveWeightToFirebase(d); }
+
+function addWeight() {
+  let val = parseFloat(document.getElementById('weightInput').value);
+  if (!val || val < 0) { showToast('请输入有效的金额'); return; }
+  let data = getWeightData();
+  let today = getToday();
+  data = data.filter(d => d.date !== today);
+  data.push({ date: today, value: val });
+  data.sort((a, b) => a.date.localeCompare(b.date));
+  saveWeightData(data);
+  document.getElementById('weightInput').value = '';
+  showToast('✅ 记录成功：¥' + val.toFixed(2));
+  drawWeightChart();
+  renderWeightRecords();
+}
+
+function drawWeightChart() {
+  let canvas = document.getElementById('chartCanvas');
+  if (!canvas) return;
+  let ctx = canvas.getContext('2d');
+  let data = getWeightData().slice(-30);
+  let W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  if (data.length < 2) {
+    ctx.fillStyle = '#b0bec5'; ctx.font = '14px system-ui';
+    ctx.textAlign = 'center'; ctx.fillText('记录2次以上即可显示曲线', W / 2, H / 2);
+    let sub = document.getElementById('chartSub');
+    if (sub) sub.textContent = '坚持记录，趋势一目了然';
+    return;
+  }
+  let vals = data.map(d => d.value);
+  let minV = Math.min(...vals) * 0.95, maxV = Math.max(...vals) * 1.05;
+  if (maxV === minV) { minV -= 100; maxV += 100; }
+  let toX = i => 20 + (i / (data.length - 1)) * (W - 40);
+  let toY = v => H - 30 - ((v - minV) / (maxV - minV)) * (H - 60);
+
+  ctx.strokeStyle = '#f0f4f7'; ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    let y = 20 + i * (H - 50) / 4;
+    ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(W - 20, y); ctx.stroke();
+    ctx.fillStyle = '#b0bec5'; ctx.font = '10px system-ui'; ctx.textAlign = 'right';
+    ctx.fillText((maxV - i * (maxV - minV) / 4).toFixed(0), 18, y + 3);
+  }
+
+  let grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, 'rgba(46,125,82,0.3)');
+  grad.addColorStop(1, 'rgba(46,125,82,0)');
+  ctx.beginPath();
+  data.forEach((d, i) => { let x = toX(i), y = toY(d.value); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+  ctx.lineTo(toX(data.length - 1), H - 20);
+  ctx.lineTo(toX(0), H - 20);
+  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+
+  ctx.beginPath();
+  data.forEach((d, i) => { let x = toX(i), y = toY(d.value); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+  ctx.strokeStyle = '#2e7d52'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+
+  data.forEach((d, i) => {
+    let x = toX(i), y = toY(d.value);
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#2e7d52'; ctx.lineWidth = 2; ctx.stroke();
+  });
+
+  let today = getToday();
+  let todayIdx = data.findIndex(d => d.date === today);
+  if (todayIdx >= 0) {
+    let x = toX(todayIdx), y = toY(data[todayIdx].value);
+    ctx.fillStyle = '#e91e63'; ctx.font = 'bold 12px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('今天', x, y - 12);
+  }
+
+  let sub = document.getElementById('chartSub');
+  let latest = data[data.length - 1].value;
+  if (sub) sub.textContent = '最新记录：¥' + latest.toFixed(2);
+}
+
+function renderWeightRecords() {
+  let container = document.getElementById('weightRecords');
+  if (!container) return;
+  let data = getWeightData().slice().reverse();
+  if (data.length === 0) { container.innerHTML = '<div style="text-align:center;color:#b0bec5;padding:16px;font-size:13px;">还没有记录，快来记第一笔吧！</div>'; return; }
+  container.innerHTML = data.slice(0, 30).map(d => {
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;">' +
+      '<span style="color:#888;font-size:13px;">' + d.date + '</span>' +
+      '<span style="font-weight:700;color:#2e7d52;font-size:15px;">¥' + parseFloat(d.value).toFixed(2) + '</span>' +
+      '</div>';
+  }).join('');
+}
+
+function renderWeightPage() {
+  drawWeightChart();
+  renderWeightRecords();
+  let data = getWeightData();
+  if (data.length > 0) {
+    let last = data[data.length - 1].value;
+    let inp = document.getElementById('weightInput');
+    if (inp) inp.placeholder = last.toFixed(2);
+  }
+}
+
+function renderWeeklyReport() {
+  let container = document.getElementById('weeklyReportContent');
+  if (!container) return;
+  let history = getHistory();
+  let now = new Date();
+  let weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+  let thisWeekHistory = history.filter(h => new Date(h) >= weekAgo);
+  let lastWeekStart = new Date(weekAgo); lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+  let lastWeekHistory = history.filter(h => new Date(h) >= lastWeekStart && new Date(h) < weekAgo);
+
+  if (thisWeekHistory.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>';
+    return;
+  }
+  let trend = thisWeekHistory.length >= lastWeekHistory.length ? '↑ 比上周更积极！' : '比上周少打卡了，加油！';
+  container.innerHTML = '<div style="font-size:13px;line-height:2;color:#555;">' +
+    '本周打卡：<strong>' + thisWeekHistory.length + '</strong> 天 &nbsp;|&nbsp; 上周：<strong>' + lastWeekHistory.length + '</strong> 天<br>' +
+    '<span style="color:#2e7d52;font-weight:600;">' + trend + '</span></div>';
+  let shareBtn = document.getElementById('shareWeeklyBtn');
+  if (shareBtn && thisWeekHistory.length >= 3) shareBtn.style.display = 'block';
+}
+
+function shareWeeklyReport() {
+  let history = getHistory();
+  let now = new Date();
+  let weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+  let cnt = history.filter(h => new Date(h) >= weekAgo).length;
+  let partner = currentPartner || PARTNERS[0];
+  let text = '【财务财富本周战绩】本周打卡 ' + cnt + ' 天，搭子：' + partner.emoji + partner.name + '。继续积累财富！';
+  navigator.clipboard.writeText(text).then(() => showToast('✅ 已复制，快去分享！')).catch(() => showToast('复制失败'));
+}
+
+
 
 function selectPartner(id) {
   document.querySelectorAll('.partner-card').forEach(c => c.classList.remove('selected'));
