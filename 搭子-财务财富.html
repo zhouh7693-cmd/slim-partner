@@ -2048,16 +2048,14 @@ function submitSOPCat() {
     if (!sopDone) {
       sopDone = true;
       saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: getToday(), submittedCats: sopSubmittedCats });
-      setTimeout(() => showSOPFinish(), 600);
+      setTimeout(() => showSOPFinish(), 300);
     }
   } else {
     // 保存数据
     saveSOPData({ score: sopScore, selected: sopSelected, done: sopDone, date: getToday(), submittedCats: sopSubmittedCats });
 
     // 显示当前维度的小结（弹窗会遮挡住列表，所以列表切换延迟不影响）
-    setTimeout(() => {
-      showCatSummary(cat, selected, catScore);
-    }, 300);
+    setTimeout(() => { showCatSummary(cat, selected, catScore); }, 200);
 
     // 切换到下一个未完成的分类（延迟3秒，让用户看完小结）
     let nextCat = SOP_CATEGORIES.findIndex((c, i) => {

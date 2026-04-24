@@ -2065,13 +2065,11 @@ function submitSOPCat() {
     if (!sopDone) {
       sopDone = true;
       saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: getToday(), submittedCats: sopSubmittedCats });
-      setTimeout(() => showSOPFinish(), 600);
+      setTimeout(() => showSOPFinish(), 300);
     }
   } else {
     saveSOPData({ score: sopScore, selected: sopSelected, done: sopDone, date: getToday(), submittedCats: sopSubmittedCats });
-    setTimeout(() => {
-      showCatSummary(cat, selected, catScore);
-    }, 300);
+    setTimeout(() => { showCatSummary(cat, selected, catScore); }, 200);
     let nextCat = SOP_CATEGORIES.findIndex((c, i) => {
       if (i <= sopCatIdx) return false;
       return !sopSubmittedCats.includes(c.id);
