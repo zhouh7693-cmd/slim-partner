@@ -2272,18 +2272,15 @@ function showCatSummary(cat, selected, catScore) {
   let overlay = document.getElementById('catSummaryOverlay');
   let isLast = sopSubmittedCats.length >= SOP_CATEGORIES.length;
   overlay.innerHTML = `
-    <div style="text-align:center;padding:0 8px;">
-      <div style="font-size:72px;margin-bottom:8px;">${emoji}</div>
-      <div style="font-size:20px;font-weight:900;color:${cat.color};margin-bottom:4px;">${cat.icon} ${cat.name}</div>
-      <div style="font-size:28px;font-weight:800;color:${cat.color};margin:8px 0;">${pct}%</div>
-      <div style="font-size:13px;color:#8f9eae;margin-bottom:12px;">${yesCount}项做到 · ${noCount}项需注意</div>
-      <div style="background:#f7f9fc;border-radius:16px;padding:14px;font-size:13px;color:#555;line-height:1.8;margin-bottom:16px;">${summary}</div>
-      ${isLast
-        ? `<div style="font-size:12px;color:#43a047;margin-bottom:8px;">🎉 所有维度已确认！</div>
-           <button onclick="closeCatSummary();showSOPFinish();" style="display:block;width:100%;padding:12px;background:linear-gradient(135deg, #3a7ca5, #2b5a7a);color:white;border:none;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;">🎊 查看总复盘</button>`
-        : `<button onclick="closeCatSummary()" style="display:block;width:100%;padding:12px;background:${cat.color};color:white;border:none;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;">✅ 知道了，下一个维度</button>`
-      }
-      <div style="text-align:center;font-size:11px;color:#b0bec5;margin-top:8px;">${isLast ? '即将展示完整复盘' : `还有 ${SOP_CATEGORIES.length - sopSubmittedCats.length} 个维度待确认`}</div>
+    <div class="sop-finish-card">
+      <div class="sf-cat-header">
+        <span class="sf-cat-emoji">${emoji}</span>
+        <div class="sf-cat-subtitle" style="color:${cat.color};">${cat.icon} ${cat.name}</div>
+        <div class="sf-score-pct" style="color:${cat.color};">${pct}%</div>
+        <div class="sf-subtitle">${yesCount} / ${total} 项完成</div>
+      </div>
+      <div class="sf-feedback">${summary}</div>
+      <button onclick="closeCatSummary()" class="sf-btn-cat">✅ ${isLast ? '查看今日总结' : '继续下一个维度'}</button>
     </div>
   `;
   overlay.classList.add('show');
@@ -2291,7 +2288,6 @@ function showCatSummary(cat, selected, catScore) {
 
 function closeCatSummary() {
   document.getElementById('catSummaryOverlay').classList.remove('show');
-  
   if (sopSubmittedCats.length >= SOP_CATEGORIES.length) {
     setTimeout(() => showSOPFinish(), 500);
   } else {

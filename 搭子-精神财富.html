@@ -1271,7 +1271,7 @@ function showSOPFinish() {
   });
 
   let totalItems = SOP_CATEGORIES.reduce((sum, c) => sum + c.items.length, 0);
-  let score = Math.round((sopScore / totalItems) * 100);
+  let score = Math.max(0, Math.min(100, sopScore));
   let streaks = getSOPStreaks();
   let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌱' : '😊';
   let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
