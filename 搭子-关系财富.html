@@ -1551,10 +1551,9 @@ function initSOP() {
   if (sopDone) {
     renderSOPDoneState();
   } else {
+    renderSOPList(); // 始终渲染卡片内容，引导遮罩浮在上方
     if (!localStorage.getItem('sop_guide_shown')) {
       showSOPGuideOverlay();
-    } else {
-      renderSOPList();
     }
   }
 }
