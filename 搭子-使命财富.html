@@ -1990,22 +1990,17 @@ function showCatSummary(cat, selected, catScore) {
 
 function closeCatSummary() {
   document.getElementById('catSummaryOverlay').classList.remove('show');
-  
-  // 与 submitSOPCat() 保持一致：用 sopSubmittedCats 判断是否全部完成
+
   if (sopSubmittedCats.length >= SOP_CATEGORIES.length) {
     setTimeout(() => showSOPFinish(), 500);
   } else {
-    // 切换到下一个未完成的维度
-    let nextCat = SOP_CATEGORIES.findIndex((c, i) => {
-      if (i <= sopCatIdx) return false;
-      return !sopSubmittedCats.includes(c.id);
-    });
-    
+    let nextCat = SOP_CATEGORIES.findIndex(c => !sopSubmittedCats.includes(c.id));
     if (nextCat >= 0) {
       sopCatIdx = nextCat;
       renderSOPCats();
       renderSOPTips();
       renderSOPList();
+      showSOPGuideOverlay();
     }
   }
 }
