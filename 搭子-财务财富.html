@@ -1926,14 +1926,14 @@ function renderSOPDoneState() {
   let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌱' : '😊';
   let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
 
-  card.innerHTML = \`
+  card.innerHTML = `
     <div style="text-align:center;padding:32px 16px;">
-      <div style="font-size:80px;margin-bottom:16px;">\${emoji}</div>
-      <div style="font-size:24px;font-weight:900;color:#2b5a7a;margin-bottom:8px;">\${title}</div>
-      <div style="font-size:16px;font-weight:700;color:#3a7ca5;margin-bottom:8px;">今日得分：\${score} 分</div>
+      <div style="font-size:80px;margin-bottom:16px;">${emoji}</div>
+      <div style="font-size:24px;font-weight:900;color:#2b5a7a;margin-bottom:8px;">${title}</div>
+      <div style="font-size:16px;font-weight:700;color:#3a7ca5;margin-bottom:8px;">今日得分：${score} 分</div>
       <div style="font-size:13px;color:#8f9eae;">今日复盘已完成 · 明天0点自动重置</div>
     </div>
-  \`;
+`;
   document.getElementById('sopCatTabs').style.display = 'none';
 }
 
@@ -2054,16 +2054,16 @@ function showCatSummary(cat, selected, catScore) {
   }
 
   let overlay = document.getElementById('catSummaryOverlay');
-  overlay.innerHTML = \`
+  overlay.innerHTML = `
     <div style="text-align:center;padding:12px 0 8px;">
-      <div style="font-size:88px;margin-bottom:16px;">\${pct >= 80 ? '🎉' : pct >= 50 ? '💪' : '🌱'}</div>
-      <div style="font-size:24px;font-weight:900;color:\${cat.color};margin-bottom:8px;">\${cat.icon} \${cat.name} 小结</div>
-      <div style="font-size:48px;font-weight:900;color:\${cat.color};margin-bottom:4px;">\${pct}%</div>
-      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">\${yesCount} / \${total} 项完成</div>
-      <div style="font-size:16px;color:#555;line-height:1.8;">\${msg}</div>
+      <div style="font-size:88px;margin-bottom:16px;">${pct >= 80 ? '🎉' : pct >= 50 ? '💪' : '🌱'}</div>
+      <div style="font-size:24px;font-weight:900;color:${cat.color};margin-bottom:8px;">${cat.icon} ${cat.name} 小结</div>
+      <div style="font-size:48px;font-weight:900;color:${cat.color};margin-bottom:4px;">${pct}%</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">${yesCount} / ${total} 项完成</div>
+      <div style="font-size:16px;color:#555;line-height:1.8;">${msg}</div>
     </div>
-    <button onclick="closeCatSummary()" style="display:block;width:100%;margin-top:20px;background:\${cat.color};color:white;border:none;padding:16px;border-radius:50px;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);">\${btnText}</button>
-  \`;
+    <button onclick="closeCatSummary()" style="display:block;width:100%;margin-top:20px;background:${cat.color};color:white;border:none;padding:16px;border-radius:50px;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);">${btnText}</button>
+  `;
   overlay.classList.add('show');
 }
 
@@ -2260,7 +2260,8 @@ function renderSharePage() {
   document.getElementById('shareLinkText').innerText = url;
 
   // 个性化分享文案
-  let text = `我在用「财务财富搭子」${cp.emoji}${cp.name}帮我理财！已坚持${streak}天，当前财富${latest}元。搭子每天会给我鼓励和建议，超暖心～快来一起变富吧！\n\n👉 ${url}`
+  let text = latest
+    ? `我在用「财务财富搭子」${cp.emoji}${cp.name}帮我理财！已坚持${streak}天，当前财富${latest}元。搭子每天会给我鼓励和建议，超暖心～快来一起变富吧！\n\n👉 ${url}`
     : `我刚发现了一个超好用的「财务财富搭子」小程序！${cp.emoji}${cp.name}陪我每天打卡，互相监督不乱花～4种性格可选，总有一款适合你！\n\n👉 ${url}`;
   document.getElementById('shareTextBox').innerText = text;
 
