@@ -2275,20 +2275,11 @@ function showCatSummary(cat, selected, catScore) {
 
 function closeCatSummary() {
   document.getElementById('catSummaryOverlay').classList.remove('show');
-  let doneCats = SOP_CATEGORIES.filter(cat => {
-    let sel = sopSelected[cat.id] || {};
-    return Object.keys(sel).length >= cat.items.length;
-  });
-  if (doneCats.length >= SOP_CATEGORIES.length) {
-    // 所有5个维度都完成了，显示总总结
+  
+  if (sopSubmittedCats.length >= SOP_CATEGORIES.length) {
     setTimeout(() => showSOPFinish(), 500);
   } else {
-    // 切换到下一个未完成的维度
-    let nextCat = SOP_CATEGORIES.findIndex((c, i) => {
-      if (i <= sopCatIdx) return false;
-      return !sopSubmittedCats.includes(c.id);
-    });
-    
+    let nextCat = SOP_CATEGORIES.findIndex(c => !sopSubmittedCats.includes(c.id));
     if (nextCat >= 0) {
       sopCatIdx = nextCat;
       renderSOPCats();

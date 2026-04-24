@@ -2183,11 +2183,9 @@ function showCatSummary(cat, selected, catScore) {
   // 根据完成率给出一句话鼓励
   let msg = pct >= 80 ? '太棒了！继续保持！' : pct >= 50 ? '做得不错，继续加油！' : '没关系，明天会更好！';
 
-  // 判断按钮文字
-  let btnText = '✅ 继续下一个维度';
-  if (sopSubmittedCats.length >= SOP_CATEGORIES.length - 1) {
-    btnText = '✅ 查看所有维度总结';
-  }
+  // 判断按钮文字（需全部5个维度都确认后才显示"查看所有维度总结"）
+  let isLast = sopSubmittedCats.length >= SOP_CATEGORIES.length;
+  let btnText = isLast ? '✅ 查看所有维度总结' : '✅ 继续下一个维度';
 
   let overlay = document.getElementById('catSummaryOverlay');
   overlay.innerHTML = `
@@ -2206,30 +2204,10 @@ function showCatSummary(cat, selected, catScore) {
 function closeCatSummary() {
   document.getElementById('catSummaryOverlay').classList.remove('show');
   
-  // 只要用户完成过 >= 4个维度，点击"查看所有维度总结"就直接弹总复盘
-  // 不要求所有5个维度都必须答完才算"可以看总结"
-  if (sopSubmittedCats.length >= SOP_CATEGORIES.length - 1) {
-    setTimeout(() => showSOPFinish(), 400);
-    return;
-  }
-  
-  // 检查每个维度是否都有选择记录（至少完成过）
-  let doneCats = SOP_CATEGORIES.filter(cat => {
-    let sel = sopSelected[cat.id] || {};
-    return Object.keys(sel).length >= cat.items.length;
-  });
-  
-  if (doneCats.length >= SOP_CATEGORIES.length) {
-    // 所有5个维度都完成了，显示总总结
+  if (sopSubmittedCats.length >= SOP_CATEGORIES.length) {
     setTimeout(() => showSOPFinish(), 500);
   } else {
-    // 切换到下一个未完成的维度
-    let nextCat = SOP_CATEGORIES.findIndex((c, i) => {
-      if (i <= sopCatIdx) return false;
-      let sel = sopSelected[c.id] || {};
-      return Object.keys(sel).length < c.items.length;
-    });
-    
+    let nextCat = SOP_CATEGORIES.findIndex(c => !sopSubmittedCats.includes(c.id));
     if (nextCat >= 0) {
       sopCatIdx = nextCat;
       renderSOPCats();

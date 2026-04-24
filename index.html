@@ -2259,6 +2259,18 @@ function showCatSummary(cat, selected, catScore) {
 
 function closeCatSummary() {
   document.getElementById('catSummaryOverlay').classList.remove('show');
+  
+  if (sopSubmittedCats.length >= SOP_CATEGORIES.length) {
+    setTimeout(() => showSOPFinish(), 500);
+  } else {
+    let nextCat = SOP_CATEGORIES.findIndex(c => !sopSubmittedCats.includes(c.id));
+    if (nextCat >= 0) {
+      sopCatIdx = nextCat;
+      renderSOPCats();
+      renderSOPTips();
+      renderSOPList();
+    }
+  }
 }
 
 // ==================== 分享页面 ====================

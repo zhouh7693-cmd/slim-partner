@@ -1998,20 +1998,17 @@ function showCatSummary(cat, selected, catScore) {
 
 function closeCatSummary() {
   document.getElementById('catSummaryOverlay').classList.remove('show');
-  // 快捷：确认过4个维度就允许直接查看总复盘
-  if (sopSubmittedCats.length >= SOP_CATEGORIES.length - 1) {
-    setTimeout(() => showSOPFinish(), 400);
-    return;
-  }
-  let nextCat = SOP_CATEGORIES.findIndex((c, i) => {
-    if (i <= sopCatIdx) return false;
-    return !sopSubmittedCats.includes(c.id);
-  });
-  if (nextCat >= 0) {
-    sopCatIdx = nextCat;
-    renderSOPCats();
-    renderSOPTips();
-    renderSOPList();
+  
+  if (sopSubmittedCats.length >= SOP_CATEGORIES.length) {
+    setTimeout(() => showSOPFinish(), 500);
+  } else {
+    let nextCat = SOP_CATEGORIES.findIndex(c => !sopSubmittedCats.includes(c.id));
+    if (nextCat >= 0) {
+      sopCatIdx = nextCat;
+      renderSOPCats();
+      renderSOPTips();
+      renderSOPList();
+    }
   }
 }
 
