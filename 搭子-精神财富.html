@@ -1022,16 +1022,34 @@ function toggleSOPItem(idx, state) {
 function submitSOPCat() {
   let cat = SOP_CATEGORIES[sopCatIdx];
   let selected = sopSelected[cat.id] || {};
-  let catScore = 0;
-  cat.items.forEach((item, idx) => {
-    let state = selected[idx];
-    if (state === 'yes') catScore += item.pts;
-    else if (state === 'no') catScore += Math.floor(item.pts * 0.5);
-  });
-  sopScore += catScore;
-  if (!sopSubmittedCats.includes(cat.id)) sopSubmittedCats.push(cat.id);
+  let yesCount = 0, totalItems = cat.items.length;
 
+  cat.items.forEach((item, idx) => {
+    if (selected[idx] === 'yes') yesCount++;
+  });
+
+  // 计算本维度得分（归一化为百分比）
+  let catScore = Math.round((yesCount / totalItems) * 100);
+
+  // 统计全局 yes 数和总题数，计算归一化总分
+  let totalYes = 0, totalItemsAll = 0;
+  SOP_CATEGORIES.forEach(c => {
+    let sel = sopSelected[c.id] || {};
+    c.items.forEach((item, idx) => {
+      totalItemsAll++;
+      if (sel[idx] === 'yes') totalYes++;
+    });
+  });
+  sopScore = Math.round((totalYes / totalItemsAll) * 100);
+
+  // 标记当前维度已确认
+  if (!sopSubmittedCats.includes(cat.id)) {
+    sopSubmittedCats.push(cat.id);
+  }
+
+  // 检查是否所有维度都确认了
   let allDone = sopSubmittedCats.length >= SOP_CATEGORIES.length;
+
   updateSOPDisplay();
   renderSOPCats();
 
@@ -1043,7 +1061,9 @@ function submitSOPCat() {
     }
   } else {
     saveSOPData({ score: sopScore, selected: sopSelected, done: sopDone, date: getToday(), submittedCats: sopSubmittedCats });
-    setTimeout(() => showCatSummary(cat, selected, catScore), 300);
+    setTimeout(() => {
+      showCatSummary(cat, selected, catScore);
+    }, 300);
     let nextCat = SOP_CATEGORIES.findIndex((c, i) => {
       if (i <= sopCatIdx) return false;
       return !sopSubmittedCats.includes(c.id);
@@ -1151,8 +1171,9 @@ function getCatFeedback(catId, yesItems, noItems, pct) {
 }
 
 function updateSOPDisplay() {
-  let maxScore = 100;
-  let displayScore = Math.max(0, Math.min(maxScore, sopScore));
+  // sopScore 现在存的是 YES 总数（0-35），换算成百分制
+  let totalItems = SOP_CATEGORIES.reduce((sum, c) => sum + c.items.length, 0);
+  let displayScore = Math.round((sopScore / totalItems) * 100);
   let scoreEl = document.getElementById('sopScore');
   let progressTextEl = document.getElementById('sopProgressText');
   let scoreBarEl = document.getElementById('sopScoreBar');
@@ -1160,9 +1181,9 @@ function updateSOPDisplay() {
   let negEl = document.getElementById('sopNegCount');
 
   if (scoreEl) scoreEl.innerText = displayScore;
-  if (progressTextEl) progressTextEl.innerText = displayScore + ' / ' + maxScore;
+  if (progressTextEl) progressTextEl.innerText = displayScore + ' / 100';
 
-  let pct = Math.max(0, Math.min(100, (displayScore / maxScore) * 100));
+  let pct = Math.max(0, Math.min(100, displayScore));
   if (scoreBarEl) {
     scoreBarEl.style.width = pct + '%';
     scoreBarEl.style.background = pct >= 60 ? 'linear-gradient(90deg,#4caf50,#8bc34a)' : pct >= 30 ? 'linear-gradient(90deg,#ff9800,#ffc107)' : pct > 0 ? 'linear-gradient(90deg,#ef5350,#ff7043)' : '#e0e0e0';
@@ -1213,14 +1234,15 @@ function renderSOPDoneState() {
 }
 
 function showSOPFinish() {
-  // 更新所有维度坚持天数
+  // 更新所有维度坚持天数（catYes >= 5 则视为该维度达标）
   SOP_CATEGORIES.forEach(cat => {
     let sel = sopSelected[cat.id] || {};
     let catYes = Object.values(sel).filter(v => v === 'yes').length;
-    updateSOPCatStreak(cat.id, catYes);
+    updateSOPCatStreak(cat.id, catYes >= 5 ? 5 : 0);
   });
 
-  let score = Math.max(0, Math.min(100, sopScore));
+  let totalItems = SOP_CATEGORIES.reduce((sum, c) => sum + c.items.length, 0);
+  let score = Math.round((sopScore / totalItems) * 100);
   let streaks = getSOPStreaks();
   let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌱' : '😊';
   let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
