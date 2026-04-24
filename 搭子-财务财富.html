@@ -2209,6 +2209,13 @@ function showCatSummary(cat, selected, catScore) {
 function closeCatSummary() {
   document.getElementById('catSummaryOverlay').classList.remove('show');
   
+  // 只要用户完成过 >= 4个维度，点击"查看所有维度总结"就直接弹总复盘
+  // 不要求所有5个维度都必须答完才算"可以看总结"
+  if (sopSubmittedCats.length >= SOP_CATEGORIES.length - 1) {
+    setTimeout(() => showSOPFinish(), 400);
+    return;
+  }
+  
   // 检查每个维度是否都有选择记录（至少完成过）
   let doneCats = SOP_CATEGORIES.filter(cat => {
     let sel = sopSelected[cat.id] || {};
@@ -2607,7 +2614,9 @@ window.switchSOPCat = switchSOPCat;
 window.toggleSOPItem = toggleSOPItem;
 window.closeSOPGuide = closeSOPGuide;
 window.closeSOPFinish = closeSOPFinish;
+window.showSOPFinish = showSOPFinish;
 window.closeCatSummary = closeCatSummary;
+window.showCatSummary = showCatSummary;
 window.closeFeedback = closeFeedback;
 window.closeAchievement = closeAchievement;
 window.startApp = startApp;   // startApp 也暴露，防止作用域问题
