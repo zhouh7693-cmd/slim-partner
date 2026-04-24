@@ -2589,6 +2589,7 @@ function copyShareText() {
 startApp();
 
 // ==================== 暴露 onclick 所需全局函数 ====================
+window.slimConfirmPartner = slimConfirmPartner;
 window.doCheckin = doCheckin;
 window.switchTab = switchTab;
 window.sendMood = sendMood;
@@ -2610,6 +2611,7 @@ window.closeSOPFinish = closeSOPFinish;
 window.closeCatSummary = closeCatSummary;
 window.closeFeedback = closeFeedback;
 window.closeAchievement = closeAchievement;
+window.startApp = startApp;   // startApp 也暴露，防止作用域问题
 
 }); // end DOMContentLoaded
 </script>
