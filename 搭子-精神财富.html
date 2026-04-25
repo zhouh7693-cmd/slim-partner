@@ -1199,9 +1199,8 @@ function getCatFeedback(catId, yesItems, noItems, pct) {
 }
 
 function updateSOPDisplay() {
-  // sopScore 现在存的是 YES 总数（0-35），换算成百分制
-  let totalItems = SOP_CATEGORIES.reduce((sum, c) => sum + c.items.length, 0);
-  let displayScore = Math.round((sopScore / totalItems) * 100);
+  // sopScore 已是归一化百分制（0-100），直接使用
+  let displayScore = Math.max(0, Math.min(100, sopScore));
   let scoreEl = document.getElementById('sopScore');
   let progressTextEl = document.getElementById('sopProgressText');
   let scoreBarEl = document.getElementById('sopScoreBar');
@@ -1232,33 +1231,40 @@ function updateSOPDisplay() {
 function renderSOPDoneState() {
   let el = document.getElementById('sopGameCard');
   if (!el) return;
-  let d = getSOPData();
-  let totalScore = d.score || 0;
-  let doneCats = d.submittedCats || [];
+  let score = Math.max(0, Math.min(100, sopScore));
+  let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌱' : '😊';
+  let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
+
+  let totalYes = 0, totalNo = 0;
   let catDetails = SOP_CATEGORIES.map(cat => {
-    let sel = (d.selected && d.selected[cat.id]) || {};
-    let yes = Object.entries(sel).filter(([,v]) => v === 'yes');
-    let no = Object.entries(sel).filter(([,v]) => v === 'no');
-    let catScore = yes.reduce((s, [t]) => s + (cat.items.find(i => i.text === t)?.pts || 0), 0);
-    let maxScore = cat.items.reduce((s,i)=>s+i.pts,0);
-    let pct = maxScore > 0 ? Math.round((catScore / maxScore) * 100) : 0;
-    return { ...cat, yes, no, catScore, pct, done: doneCats.includes(cat.id) };
+    let sel = sopSelected[cat.id] || {};
+    let catYes = 0, catNo = 0;
+    cat.items.forEach((item, idx) => {
+      let state = sel[idx];
+      if (state === 'yes') { catYes++; totalYes++; }
+      else if (state === 'no') { catNo++; totalNo++; }
+    });
+    let pct = Math.round((catYes / cat.items.length) * 100);
+    let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+    let fb = getCatFeedbackMsg(cat, catYes, catNo, cat.items.length, streak);
+    return { ...cat, catYes, catNo, pct, fb, streak };
   });
-  let catFeedbacks = catDetails.map(cat => getCatFeedback(cat.id, cat.yes.map(t=>({text:t[0]})), cat.no.map(t=>({text:t[0]})), cat.pct));
   let longestStreak = Math.max(0, ...Object.values(getSOPStreaks()).map(s => s.streak || 0));
 
   el.innerHTML = `<div style="text-align:center;padding:20px 0;">
-    <div style="font-size:48px;margin-bottom:8px;">🕊️</div>
-    <div style="font-size:20px;font-weight:700;color:#4a4a4a;">精神复盘完成！</div>
-    <div style="font-size:36px;font-weight:700;color:#7986cb;margin:12px 0;">${totalScore}分</div>
-    ${catFeedbacks.map((f, i) => `
+    <div style="font-size:48px;margin-bottom:8px;">${emoji}</div>
+    <div style="font-size:20px;font-weight:700;color:#4a4a4a;">${title}</div>
+    <div style="font-size:36px;font-weight:700;color:#7986cb;margin:12px 0;">${score}%</div>
+    ${catDetails.map(c => `
     <div style="margin:8px 0;padding:10px;background:#f8f8f8;border-radius:10px;text-align:left;">
-      <div style="font-weight:600;font-size:14px;">${catDetails[i].icon} ${catDetails[i].name} <span style="color:#888;font-weight:normal;">${catDetails[i].pct}%</span></div>
-      ${f.positive ? `<div style="font-size:12px;color:#555;margin-top:4px;">${f.positive}</div>` : ''}
-      ${f.guide ? `<div style="font-size:11px;color:#999;margin-top:2px;">${f.guide}</div>` : ''}
+      <div style="font-weight:600;font-size:14px;">${c.icon} ${c.name} <span style="color:${c.color};font-weight:bold;">${c.pct}%</span></div>
+      <div style="font-size:12px;color:#555;margin-top:4px;">${c.fb.summary}</div>
+      ${c.streak > 0 ? `<div style="font-size:11px;color:#f06292;margin-top:2px;font-weight:600;">🔥 已坚持 ${c.streak} 天</div>` : ''}
     </div>`).join('')}
     ${longestStreak > 0 ? `<div style="text-align:center;color:#f06292;font-size:13px;margin-top:12px;">🔥 最长连续坚持 ${longestStreak} 天</div>` : ''}
+    <div style="font-size:12px;color:#b0bec5;margin-top:12px;">🌙 明天0点自动重置</div>
   </div>`;
+  document.getElementById('sopCatTabs').style.display = 'none';
 }
 
 function showSOPFinish() {
@@ -1285,18 +1291,25 @@ function showSOPFinish() {
     });
   });
 
-  let catStats = SOP_CATEGORIES.map(cat => {
+  let catRows = SOP_CATEGORIES.map(cat => {
     let st = streaks[cat.id] || { streak: 0 };
     let sel = sopSelected[cat.id] || {};
-    let catYes = Object.values(sel).filter(v => v === 'yes').length;
-    let catNo = cat.items.length - catYes;
+    let catYes = 0, catNo = 0;
+    cat.items.forEach((item, idx) => {
+      let state = sel[idx];
+      if (state === 'yes') catYes++;
+      else if (state === 'no') catNo++;
+    });
+    let pct = Math.round((catYes / cat.items.length) * 100);
+    let fb = getCatFeedbackMsg(cat, catYes, catNo, cat.items.length, st.streak);
     return `<div class="sf-cat-row">
       <span class="sf-cat-icon">${cat.icon}</span>
-      <span class="sf-cat-name">${cat.name}</span>
+      <span class="sf-cat-name">${cat.name} <span style="font-size:11px;color:${cat.color};font-weight:bold;">${pct}%</span></span>
       <span class="sf-cat-yes">+${catYes}</span>
       <span class="sf-cat-no">-${catNo}</span>
       ${st.streak > 0 ? `<span class="sf-cat-streak">🔥${st.streak}天</span>` : ''}
-    </div>`;
+    </div>
+    <div style="font-size:11px;color:#555;padding:4px 12px 10px;line-height:1.6;">${fb.summary}</div>`;
   }).join('');
 
   let overlay = document.getElementById('sopFinishOverlay');
@@ -1313,8 +1326,8 @@ function showSOPFinish() {
           <div class="sf-stat-label">做到了</div>
         </div>
         <div class="sf-stat sf-stat-center">
-          <div class="sf-stat-num">${score}</div>
-          <div class="sf-stat-label">总得分</div>
+          <div class="sf-stat-num">${score}%</div>
+          <div class="sf-stat-label">今日得分</div>
         </div>
         <div class="sf-stat sf-stat-no">
           <div class="sf-stat-num">${totalNo}</div>
@@ -1322,8 +1335,8 @@ function showSOPFinish() {
         </div>
       </div>
       <div class="sf-divider"></div>
-      <div class="sf-cat-title">各维度得分</div>
-      <div class="sf-cats">${catStats}</div>
+      <div class="sf-cat-title">各维度总结</div>
+      <div class="sf-cats">${catRows}</div>
       <div class="sf-note">🌙 明天0点自动重置</div>
       <button onclick="closeSOPFinish()" class="sf-btn">太棒了！开始行动 🏃</button>
     </div>

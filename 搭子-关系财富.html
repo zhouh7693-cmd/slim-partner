@@ -1947,15 +1947,22 @@ function showSOPFinish() {
   let catStats = SOP_CATEGORIES.map(cat => {
     let st = streaks[cat.id] || { streak: 0 };
     let sel = sopSelected[cat.id] || {};
-    let catYes = Object.values(sel).filter(v => v === 'yes').length;
-    let catNo = cat.items.length - catYes;
+    let catYes = 0, catNo = 0;
+    cat.items.forEach((item, idx) => {
+      let state = sel[idx];
+      if (state === 'yes') catYes++;
+      else if (state === 'no') catNo++;
+    });
+    let pct = Math.round((catYes / cat.items.length) * 100);
+    let fb = getCatFeedbackMsg(cat, catYes, catNo, cat.items.length, st.streak);
     return `<div class="sf-cat-row">
       <span class="sf-cat-icon">${cat.icon}</span>
-      <span class="sf-cat-name">${cat.name}</span>
+      <span class="sf-cat-name">${cat.name} <span style="font-size:11px;color:${cat.color};font-weight:bold;">${pct}%</span></span>
       <span class="sf-cat-yes">+${catYes}</span>
       <span class="sf-cat-no">-${catNo}</span>
       ${st.streak > 0 ? `<span class="sf-cat-streak">🔥${st.streak}天</span>` : ''}
-    </div>`;
+    </div>
+    <div style="font-size:11px;color:#555;padding:4px 12px 10px;line-height:1.6;">${fb.summary}</div>`;
   }).join('');
   
   let overlay = document.getElementById('sopFinishOverlay');
@@ -1972,7 +1979,7 @@ function showSOPFinish() {
           <div class="sf-stat-label">做到了</div>
         </div>
         <div class="sf-stat sf-stat-center">
-          <div class="sf-stat-num">${score}</div>
+          <div class="sf-stat-num">${score}%</div>
           <div class="sf-stat-label">总得分</div>
         </div>
         <div class="sf-stat sf-stat-no">
@@ -1981,7 +1988,7 @@ function showSOPFinish() {
         </div>
       </div>
       <div class="sf-divider"></div>
-      <div class="sf-cat-title">各维度得分</div>
+      <div class="sf-cat-title">各维度总结</div>
       <div class="sf-cats">${catStats}</div>
       <div class="sf-note">🌙 明天0点自动重置</div>
       <button onclick="closeSOPFinish()" class="sf-btn">太棒了！开始行动 🏃</button>
