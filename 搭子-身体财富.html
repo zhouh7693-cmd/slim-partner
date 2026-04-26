@@ -2241,20 +2241,26 @@ function showSOPFinish() {
   let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌱' : '😊';
   let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
 
-  // 各维度得分
+  // 各维度总结
   let catRows = SOP_CATEGORIES.map(cat => {
     let st = streaks[cat.id] || { streak: 0 };
     let sel = sopSelected[cat.id] || {};
-    let catYes = 0;
+    let catYes = 0, catNo = 0;
     cat.items.forEach((item, idx) => {
-      if (sel[idx] === 'yes') catYes++;
+      let state = sel[idx];
+      if (state === 'yes') catYes++;
+      else if (state === 'no') catNo++;
     });
     let pct = Math.round((catYes / cat.items.length) * 100);
+    let fb = getCatFeedbackMsg(cat, catYes, catNo, cat.items.length, st.streak);
     return `<div class="sf-cat-row">
       <span class="sf-cat-icon">${cat.icon}</span>
-      <span class="sf-cat-name">${cat.name}</span>
-      <span class="sf-cat-pct" style="color:${cat.color};font-weight:700;font-size:14px;">${pct}%</span>
-    </div>`;
+      <span class="sf-cat-name">${cat.name} <span style="font-size:11px;color:${cat.color};font-weight:bold;">${pct}%</span></span>
+      <span class="sf-cat-yes">+${catYes}</span>
+      <span class="sf-cat-no">-${catNo}</span>
+      ${st.streak > 0 ? `<span class="sf-cat-streak">🔥${st.streak}天</span>` : ''}
+    </div>
+    <div style="font-size:11px;color:#555;padding:4px 12px 10px;line-height:1.6;">${fb.summary}</div>`;
   }).join('');
 
   // 历史对比（最近7天）
@@ -2329,7 +2335,7 @@ function showSOPFinish() {
         </div>
       </div>
       <div class="sf-divider"></div>
-      <div class="sf-cat-title">📊 各维度得分</div>
+      <div class="sf-cat-title">📊 各维度总结</div>
       <div class="sf-cats">${catRows}</div>
       <div class="sf-divider"></div>
       <div class="sf-hist-header">
