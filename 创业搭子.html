@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>创业搭子 · 每日复盘</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+    body {
+      background: linear-gradient(145deg, #f0f4ff 0%, #e8eaf6 100%);
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      padding: 16px 16px 90px;
+    }
+
+    /* ===== Tab Bar ===== */
+    .tab-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: white;
+      display: flex; justify-content: space-around;
+      padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+      border-radius: 24px 24px 0 0;
+      z-index: 100;
+    }
+    .tab-item {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 3px; padding: 6px 12px; cursor: pointer;
+      border-radius: 16px; transition: all 0.2s;
+    }
+    .tab-item.active { background: #e8eaf6; }
+    .tab-item .tab-icon { font-size: 22px; }
+    .tab-item .tab-label { font-size: 10px; color: #8f9eae; font-weight: 500; }
+    .tab-item.active .tab-label { color: #3949ab; font-weight: 700; }
+
+    /* ===== Pages ===== */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ===== 打卡页面 ===== */
+    .partner-selector {
+      max-width: 400px; margin: 0 auto;
+      background: white; border-radius: 48px;
+      padding: 28px 20px 32px;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+    }
+    .selector-title {
+      font-size: 28px; font-weight: 700; text-align: center;
+      background: linear-gradient(135deg, #1a237e, #3949ab, #ff8f00);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin-bottom: 8px;
+    }
+    .selector-sub { text-align: center; color: #6c7a89; margin-bottom: 28px; font-size: 15px; }
+    .partner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+    .partner-card {
+      background: #fff; border-radius: 28px; padding: 20px 12px 16px; text-align: center;
+      cursor: pointer; box-shadow: 0 6px 14px rgba(0,0,0,0.03);
+      border: 1.5px solid #e9edf2; transition: all 0.2s;
+    }
+    .partner-card.selected { border-color: #3949ab; background: #eef2ff; transform: scale(0.98); }
+    .partner-emoji { font-size: 48px; margin-bottom: 12px; }
+    .partner-name { font-weight: 700; font-size: 18px; margin-bottom: 6px; }
+    .partner-desc { font-size: 13px; color: #6c7a89; }
+    .confirm-btn {
+      background: linear-gradient(135deg, #3949ab, #ff8f00);
+      color: white; border: none;
+      width: 100%; padding: 16px; border-radius: 60px;
+      font-size: 18px; font-weight: 600; cursor: pointer;
+    }
+    .confirm-btn:active { opacity: 0.85; transform: scale(0.97); }
+
+    .card {
+      max-width: 420px; margin: 0 auto;
+      background: white; border-radius: 44px;
+      padding: 28px 24px 32px;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+      margin-bottom: 20px; text-align: center;
+    }
+    .partner-badge {
+      display: inline-block; background: #eef2ff; padding: 6px 16px;
+      border-radius: 40px; font-size: 14px; margin-bottom: 20px; color: #3949ab;
+    }
+    .question { font-size: 22px; font-weight: 600; margin-bottom: 24px; color: #2b2b3a; }
+    .checkin-btn {
+      width: 170px; height: 170px;
+      background: linear-gradient(145deg, #3949ab, #1a237e);
+      border-radius: 100%; margin: 0 auto 24px;
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+      color: white; cursor: pointer;
+      box-shadow: 0 20px 30px -8px rgba(57,73,171,0.45);
+      transition: transform 0.15s;
+    }
+    .checkin-btn:active { transform: scale(0.96); }
+    .checkin-status { font-size: 28px; font-weight: 800; }
+    .checkin-sub { font-size: 13px; opacity: 0.9; margin-top: 6px; }
+    .continuous { font-size: 44px; font-weight: 800; margin: 8px 0 4px; color: #3949ab; }
+    .continuous-label { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
+    .week-progress { background: white; border-radius: 36px; padding: 18px 20px; margin-bottom: 20px; max-width: 420px; margin-left: auto; margin-right: auto; }
+    .week-title { font-weight: 600; margin-bottom: 16px; display: flex; justify-content: space-between; }
+    .week-dots { display: flex; justify-content: space-between; gap: 8px; }
+    .day-item { flex: 1; text-align: center; }
+    .day-name { font-size: 12px; color: #8f9eae; margin-bottom: 6px; }
+    .dot { width: 40px; height: 40px; background: #eef2f5; border-radius: 100%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 18px; transition: all 0.2s; }
+    .dot.checked { background: #3949ab; color: white; }
+
+    /* ===== 搭子消息气泡 ===== */
+    .chat-area { max-width: 420px; margin: 0 auto 20px; }
+    .msg-bubble-wrap { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 12px; }
+    .msg-avatar { font-size: 32px; flex-shrink: 0; }
+    .msg-bubble {
+      background: white; border-radius: 18px 18px 18px 4px;
+      padding: 12px 16px; max-width: 75%; font-size: 15px;
+      line-height: 1.5; color: #2b3a4a;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      animation: bubbleIn 0.3s ease;
+    }
+    .msg-bubble.ai { border-radius: 18px 18px 4px 18px; background: #eef2ff; }
+    @keyframes bubbleIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .typing-indicator { display: flex; gap: 4px; padding: 4px 0; }
+    .typing-indicator span { width: 6px; height: 6px; background: #b0bec5; border-radius: 50%; animation: bounce 1.2s infinite; }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%,80%,100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1.2); opacity: 1; } }
+
+    /* ===== 搭子交互按钮 ===== */
+    .interaction-panel { max-width: 420px; margin: 0 auto 20px; background: white; border-radius: 28px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .panel-label { font-size: 12px; color: #8f9eae; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
+    .mood-row { display: flex; justify-content: space-around; margin-bottom: 14px; }
+    .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; }
+    .mood-btn:hover, .mood-btn:active { background: #eef2ff; transform: scale(1.15); }
+    .talk-btn-row { display: flex; gap: 8px; }
+    .talk-btn {
+      flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #e9edf2;
+      background: white; font-size: 14px; font-weight: 500; color: #3949ab;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .talk-btn:active { background: #eef2ff; transform: scale(0.97); }
+
+    /* ===== 分享卡片入口 ===== */
+    .share-inline-card {
+      max-width: 420px; margin: 0 auto 20px;
+      background: linear-gradient(135deg, #eef2ff, #fff8e1);
+      border-radius: 24px; padding: 16px 20px;
+      border: 1px solid #c5cae9;
+    }
+    .share-inline-label { font-size: 11px; color: #8f9eae; letter-spacing: 0.5px; margin-bottom: 10px; }
+    .share-inline-preview {
+      background: white; border-radius: 16px; padding: 14px 16px; margin-bottom: 12px;
+      font-size: 13px; color: #1a237e; display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .share-copy-row { display: flex; gap: 8px; }
+    .share-copy-btn, .share-link-btn {
+      flex: 1; padding: 10px; border-radius: 16px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      border: none; transition: all 0.15s;
+    }
+    .share-copy-btn { background: #3949ab; color: white; }
+    .share-copy-btn:active { opacity: 0.85; transform: scale(0.97); }
+    .share-link-btn { background: white; color: #3949ab; border: 1.5px solid #7986cb; }
+    .share-link-btn:active { transform: scale(0.97); }
+
+    footer { font-size: 12px; text-align: center; color: #8f9eae; margin-top: 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
+
+    /* ===== SOP 游戏页面 ===== */
+    .sop-page { max-width: 420px; margin: 0 auto; }
+    .sop-header { background: white; border-radius: 32px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
+    .sop-title { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #1a237e, #3949ab, #ff8f00); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 4px; }
+    .sop-sub { font-size: 13px; color: #8f9eae; margin-bottom: 14px; }
+    .sop-score-row { display: flex; justify-content: center; gap: 24px; }
+    .sop-score { text-align: center; }
+    .sop-score-num { font-size: 28px; font-weight: 800; color: #3949ab; }
+    .sop-score-label { font-size: 11px; color: #8f9eae; }
+    .sop-progress-wrap { margin-top: 12px; display: flex; align-items: center; gap: 10px; }
+    .sop-progress-bg { flex: 1; height: 8px; background: #e8eaf6; border-radius: 10px; overflow: hidden; }
+    .sop-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #3949ab, #ff8f00); border-radius: 10px; transition: width 0.4s ease; }
+    .sop-progress-text { font-size: 12px; font-weight: 600; color: #8f9eae; min-width: 40px; text-align: right; }
+    .sop-category-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; }
+    .sop-cat-tab { padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; border: none; background: #e8eaf6; color: #8f9eae; transition: all 0.2s; flex-shrink: 0; }
+    .sop-cat-tab.active { background: linear-gradient(135deg, #3949ab, #ff8f00); color: white; }
+    /* ===== SOP 清单模式 ===== */
+    .sop-game-card { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); position: relative; overflow: hidden; }
+    .sop-cat-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 12px; color: #8f9eae; }
+    .sop-cat-progress-bar { flex: 1; height: 4px; background: #e8eaf6; border-radius: 4px; overflow: hidden; }
+    .sop-cat-progress-fill { height: 100%; background: #3949ab; border-radius: 4px; transition: width 0.3s; }
+    .sop-habit-card { text-align: center; padding: 8px 0 20px; }
+    .sop-habit-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #8f9eae; margin-bottom: 10px; }
+    .sop-habit-label.pos { color: #2e7d32; }
+    .sop-habit-label.neg { color: #c62828; }
+    .sop-habit-emoji { font-size: 40px; margin-bottom: 8px; display: block; }
+    .sop-habit-text { font-size: 17px; font-weight: 600; color: #2b2b3a; line-height: 1.5; margin-bottom: 4px; }
+    .sop-habit-sub { font-size: 12px; color: #8f9eae; margin-bottom: 20px; }
+    .sop-btn-row { display: flex; gap: 12px; }
+    .sop-btn { flex: 1; padding: 14px 8px; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .sop-btn:active { transform: scale(0.97); }
+    .sop-btn.yes { background: #e8f5e9; color: #2e7d32; border: 2px solid #a5d6a7; }
+    .sop-btn.no { background: #fff3f3; color: #c62828; border: 2px solid #ffcdd2; }
+    .sop-btn.done { background: #e8eaf6; color: #3949ab; border: 2px solid #9fa8da; }
+    .sop-cat-summary { background: #f0f4ff; border-radius: 16px; padding: 16px; text-align: center; }
+
+    /* ===== SOP 弹窗 ===== */
+    .sop-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 16px; }
+    .sop-modal-overlay.active { display: flex; }
+    .sop-modal { background: white; border-radius: 36px; padding: 32px 24px; max-width: 400px; width: 100%; text-align: center; animation: modalIn 0.3s ease; }
+    @keyframes modalIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .sop-modal-badge { display: inline-block; background: linear-gradient(135deg, #1a237e, #ff8f00); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 800; font-size: 14px; margin-bottom: 8px; }
+    .sop-modal-title { font-size: 26px; font-weight: 800; color: #1a237e; margin-bottom: 8px; }
+    .sop-modal-emoji { font-size: 64px; margin-bottom: 12px; }
+    .sop-modal-score { font-size: 48px; font-weight: 900; background: linear-gradient(135deg, #3949ab, #ff8f00); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 4px; }
+    .sop-modal-score-label { font-size: 14px; color: #8f9eae; margin-bottom: 20px; }
+    .sop-modal-streak { display: inline-block; background: #e8f5e9; color: #2e7d32; padding: 6px 18px; border-radius: 40px; font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+    .sop-cat-rows { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; text-align: left; }
+    .sop-cat-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #f0f4ff; border-radius: 14px; font-size: 14px; }
+    .sop-cat-row-left { display: flex; align-items: center; gap: 8px; color: #2b2b3a; }
+    .sop-cat-row-right { font-weight: 700; color: #3949ab; }
+    .sop-cat-row-right.good { color: #2e7d32; }
+    .sop-cat-row-right.warn { color: #ef6c00; }
+    .sop-cat-row-right.bad { color: #c62828; }
+    .sop-cat-feedback { font-size: 14px; color: #555; background: #f9f9f9; border-radius: 14px; padding: 12px; text-align: left; margin-bottom: 20px; line-height: 1.5; }
+    .sop-modal-share-btn {
+      background: linear-gradient(135deg, #3949ab, #ff8f00); color: white;
+      border: none; width: 100%; padding: 16px; border-radius: 60px;
+      font-size: 16px; font-weight: 700; cursor: pointer;
+    }
+    .sop-modal-share-btn:active { opacity: 0.85; transform: scale(0.97); }
+    .sop-modal-close { margin-top: 10px; background: transparent; border: none; color: #8f9eae; font-size: 14px; cursor: pointer; }
+
+    /* ===== SOP 已完成状态 ===== */
+    .sop-done-state { background: white; border-radius: 32px; padding: 28px 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
+    .sop-done-title { font-size: 18px; font-weight: 700; color: #1a237e; margin-bottom: 16px; }
+    .sop-done-score { font-size: 56px; font-weight: 900; background: linear-gradient(135deg, #3949ab, #ff8f00); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .sop-done-label { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
+    .sop-done-detail { background: #f0f4ff; border-radius: 20px; padding: 16px; text-align: left; }
+    .sop-done-cat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e8eaf6; font-size: 14px; }
+    .sop-done-cat-row:last-child { border-bottom: none; }
+    .sop-done-cat-name { color: #2b2b3a; }
+    .sop-done-cat-score { font-weight: 700; color: #3949ab; }
+    .sop-redo-btn { background: linear-gradient(135deg, #3949ab, #ff8f00); color: white; border: none; width: 100%; padding: 14px; border-radius: 60px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 16px; }
+    .sop-redo-btn:active { opacity: 0.85; transform: scale(0.97); }
+
+    /* ===== 进展页面 ===== */
+    .progress-page { max-width: 420px; margin: 0 auto; }
+    .progress-header { background: white; border-radius: 32px; padding: 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
+    .progress-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #1a237e, #ff8f00); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 4px; }
+    .progress-sub { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
+    .progress-ring-wrap { display: flex; justify-content: center; margin-bottom: 20px; position: relative; }
+    .progress-ring-svg { transform: rotate(-90deg); }
+    .progress-ring-bg { fill: none; stroke: #e8eaf6; stroke-width: 14; }
+    .progress-ring-fill { fill: none; stroke: url(#ringGrad); stroke-width: 14; stroke-linecap: round; transition: stroke-dashoffset 0.8s; }
+    .progress-ring-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+    .progress-ring-pct { font-size: 32px; font-weight: 900; color: #1a237e; }
+    .progress-ring-sub { font-size: 12px; color: #8f9eae; }
+    .progress-dims { display: flex; flex-direction: column; gap: 10px; }
+    .progress-dim-row { display: flex; align-items: center; gap: 10px; }
+    .progress-dim-icon { font-size: 20px; width: 32px; text-align: center; flex-shrink: 0; }
+    .progress-dim-info { flex: 1; }
+    .progress-dim-label { font-size: 13px; color: #2b2b3a; font-weight: 600; margin-bottom: 4px; }
+    .progress-dim-bar { height: 6px; background: #e8eaf6; border-radius: 6px; overflow: hidden; }
+    .progress-dim-fill { height: 100%; border-radius: 6px; transition: width 0.8s; }
+    .progress-dim-pct { font-size: 12px; font-weight: 700; color: #3949ab; width: 36px; text-align: right; flex-shrink: 0; }
+
+    /* ===== 分享页面 ===== */
+    .share-page { max-width: 420px; margin: 0 auto; }
+    .share-card {
+      background: white; border-radius: 32px; padding: 28px 24px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06); margin-bottom: 16px;
+    }
+    .share-title { font-size: 22px; font-weight: 800; color: #1a237e; margin-bottom: 4px; text-align: center; }
+    .share-sub { font-size: 13px; color: #8f9eae; text-align: center; margin-bottom: 24px; }
+    .share-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .share-stat { background: #f0f4ff; border-radius: 20px; padding: 16px 12px; text-align: center; }
+    .share-stat-num { font-size: 28px; font-weight: 900; color: #3949ab; }
+    .share-stat-label { font-size: 12px; color: #8f9eae; margin-top: 4px; }
+    .share-dims { margin-bottom: 20px; }
+    .share-dim-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #fafafa; border-radius: 14px; margin-bottom: 8px; }
+    .share-dim-label { font-size: 14px; color: #2b2b3a; }
+    .share-dim-score { font-weight: 800; color: #3949ab; }
+    .share-msg-box { background: linear-gradient(135deg, #eef2ff, #fff8e1); border-radius: 20px; padding: 16px; margin-bottom: 16px; }
+    .share-msg-text { font-size: 15px; color: #1a237e; line-height: 1.6; font-style: italic; }
+    .share-cta {
+      display: block; background: linear-gradient(135deg, #3949ab, #ff8f00);
+      color: white; text-align: center; padding: 16px; border-radius: 60px;
+      font-size: 16px; font-weight: 700; text-decoration: none;
+    }
+    .share-url-box { background: #f5f5f5; border-radius: 14px; padding: 12px; margin-bottom: 12px; word-break: break-all; font-size: 12px; color: #555; text-align: center; }
+    .share-copy-url-btn { background: #1a237e; color: white; border: none; width: 100%; padding: 14px; border-radius: 60px; font-size: 15px; font-weight: 700; cursor: pointer; }
+
+    /* ===== 历史对比 ===== */
+    .history-section { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .history-title { font-size: 15px; font-weight: 700; color: #1a237e; margin-bottom: 4px; }
+    .history-sub { font-size: 12px; color: #8f9eae; margin-bottom: 16px; }
+    .history-chart { display: flex; align-items: flex-end; gap: 6px; height: 80px; }
+    .history-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .history-bar { width: 100%; border-radius: 6px 6px 0 0; transition: height 0.5s; min-height: 4px; }
+    .history-bar-label { font-size: 10px; color: #8f9eae; text-align: center; }
+    .history-no-data { text-align: center; color: #8f9eae; font-size: 13px; padding: 20px 0; }
+  </style>
+</head>
+<body>
+
+<!-- 页面容器 -->
+<div id="page-checkin" class="page active"></div>
+<div id="page-chat" class="page"></div>
+<div id="page-sop" class="page"></div>
+<div id="page-progress" class="page"></div>
+<div id="page-share" class="page"></div>
+
+<!-- 底部 Tab Bar -->
+<div class="tab-bar">
+  <div class="tab-item active" onclick="switchTab('checkin')">
+    <div class="tab-icon">🏠</div><div class="tab-label">打卡</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('chat')">
+    <div class="tab-icon">💬</div><div class="tab-label">搭子</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('sop')">
+    <div class="tab-icon">📋</div><div class="tab-label">SOP</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('progress')">
+    <div class="tab-icon">📊</div><div class="tab-label">进展</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('share')">
+    <div class="tab-icon">🚀</div><div class="tab-label">出发</div>
+  </div>
+</div>
+
+<!-- SOP 弹窗 -->
+<div class="sop-modal-overlay" id="sopModal">
+  <div class="sop-modal">
+    <div class="sop-modal-badge">✨ 每日复盘完成</div>
+    <div class="sop-modal-emoji" id="sopFinishEmoji">🎉</div>
+    <div class="sop-modal-title">今日创业复盘</div>
+    <div class="sop-modal-score" id="sopFinishScore">0%</div>
+    <div class="sop-modal-score-label">SOP 践行得分</div>
+    <div class="sop-modal-streak" id="sopFinishStreak">🔥 已坚持 0 天</div>
+    <div class="sop-cat-rows" id="sopCatRows"></div>
+    <div class="sop-cat-feedback" id="sopCatFeedback"></div>
+    <button class="sop-modal-share-btn" onclick="shareFromModal()">🚀 分享今日进展</button>
+    <button class="sop-modal-close" onclick="closeSopModal()">关闭</button>
+  </div>
+</div>
+
+<script>
+// ===== Storage Keys =====
+const STORAGE = {
+  PARTNER: 'slim_partner_entrepreneur',
+  SOP_HISTORY: 'slim_sop_history_entrepreneur',
+  SOP_TODAY: 'slim_sop_today_entrepreneur',
+  WEIGHT: 'slim_weight_entrepreneur',
+  SOP: 'slim_sop_entrepreneur',
+  SHARE: 'slim_share_entrepreneur'
+};
+
+// ===== SOP 配置 =====
+const SOP_CATS = [
+  {
+    id: 'biz',
+    name: '🚀 商业洞察',
+    color: '#3949ab',
+    icon: '🚀',
+    habits: [
+      { type: 'pos', text: '今天主动思考了一个业务机会', sub: '保持对商业机会的敏锐度', score: 3 },
+      { type: 'pos', text: '分析了竞品动态或市场趋势', sub: '知己知彼，百战不殆', score: 2 },
+      { type: 'pos', text: '与用户/客户进行了一次深度交流', sub: '用户声音是最好的产品输入', score: 3 },
+      { type: 'neg', text: '只低头做事，没有抬头看路', sub: '战略与执行需要平衡', score: -1 },
+      { type: 'neg', text: '盲目跟进热点，偏离核心方向', sub: '聚焦比多元化更重要', score: -1 },
+      { type: 'pos', text: '为产品/服务制定了明确的增长目标', sub: '目标清晰才有力', score: 2 },
+      { type: 'neg', text: '对数据指标放任不管', sub: '数据驱动是创业基本功', score: -1 }
+    ]
+  },
+  {
+    id: 'product',
+    name: '💰 产品与增长',
+    color: '#ff8f00',
+    icon: '💰',
+    habits: [
+      { type: 'pos', text: '今天推进了至少一项产品迭代', sub: '小步快跑，快速试错', score: 3 },
+      { type: 'pos', text: '收集并分析了用户反馈', sub: '用户反馈是产品改进的起点', score: 2 },
+      { type: 'pos', text: '主动做了一次增长实验或推广', sub: '增长要从第一原理出发', score: 3 },
+      { type: 'neg', text: '沉迷于「做功能」，忽视用户真正需求', sub: '需求 > 功能', score: -1 },
+      { type: 'neg', text: '追求完美，产品迟迟不发布', sub: '先跑通再优化', score: -1 },
+      { type: 'pos', text: '优化了一个转化漏斗节点', sub: '每个转化点都值得打磨', score: 2 },
+      { type: 'neg', text: '没有追踪核心指标变化', sub: '北极星指标是产品的心电图', score: -1 }
+    ]
+  },
+  {
+    id: 'team',
+    name: '🤝 团队协作',
+    color: '#00897b',
+    icon: '🤝',
+    habits: [
+      { type: 'pos', text: '与团队成员做了一次有效沟通', sub: '信息透明减少内耗', score: 3 },
+      { type: 'pos', text: '主动帮助团队成员解决了一个问题', sub: '领导者首先是服务者', score: 2 },
+      { type: 'neg', text: '决策时没有充分听取团队意见', sub: '群智优于独断', score: -1 },
+      { type: 'pos', text: '给团队成员提供了明确的反馈或认可', sub: '及时反馈是高绩效团队的基础', score: 3 },
+      { type: 'neg', text: '把压力独自扛，没有合理授权', sub: '创始人不是万能的', score: -1 },
+      { type: 'pos', text: '招聘或面试了一位候选人', sub: '找人永远是 CEO 最重要的事', score: 2 },
+      { type: 'pos', text: '组织了有效的团队会议或同步', sub: '好会议是团队节奏的锚点', score: 2 }
+    ]
+  },
+  {
+    id: 'mindset',
+    name: '💪 心态韧性',
+    color: '#c62828',
+    icon: '💪',
+    habits: [
+      { type: 'pos', text: '面对挫折时保持了冷静和专注', sub: '情绪稳定是创始人最重要的资产', score: 3 },
+      { type: 'pos', text: '从失败或拒绝中提取了教训', sub: '每次失败都是一个数据点', score: 3 },
+      { type: 'neg', text: '被焦虑和压力吞噬，整天消极', sub: '创业是持久战，身心是本钱', score: -1 },
+      { type: 'pos', text: '给自己安排了充足的休息和恢复时间', sub: '高效休息才能持续战斗', score: 2 },
+      { type: 'neg', text: '与其他创始人比较，陷入自我否定', sub: '每个人的节奏不同，专注自己的路', score: -1 },
+      { type: 'pos', text: '在不确定中依然坚定前行', sub: '创业者就是拥抱不确定性的人', score: 3 },
+      { type: 'neg', text: '对团队/家人发泄了负面情绪', sub: '情绪需要出口，但要有边界', score: -1 }
+    ]
+  },
+  {
+    id: 'strategy',
+    name: '🎯 战略决策',
+    color: '#6a1b9a',
+    icon: '🎯',
+    habits: [
+      { type: 'pos', text: '对核心问题做了深度思考和优先级排序', sub: '做减法比做加法更难', score: 3 },
+      { type: 'pos', text: '拒绝了一个分散精力的项目或机会', sub: '说「不」是战略的核心', score: 3 },
+      { type: 'neg', text: '同时推进了太多项目，精力分散', sub: '聚焦一个点打透', score: -1 },
+      { type: 'pos', text: '与合伙人/顾问做了一次战略对齐', sub: '战略共识是执行的前提', score: 2 },
+      { type: 'pos', text: '写了今日复盘或思考记录', sub: '写作是创始人最好的思考工具', score: 2 },
+      { type: 'neg', text: '做了重大决策但没有系统性分析', sub: '重大决策需要深思熟虑', score: -1 },
+      { type: 'pos', text: '对融资/财务规划有了清晰的下一步', sub: '资金规划是公司生存线', score: 3 }
+    ]
+  }
+];
+
+// ===== 搭子风格 =====
+const PARTNER_STYLES = [
+  { name: '理性投资人型', emoji: '🧊', desc: '犀利追问，数据说话', color: '#1a237e', style: '理性' },
+  { name: '热血导师型', emoji: '🔥', desc: '激情鼓励，使命驱动', color: '#c62828', style: '热血' },
+  { name: '冷静顾问型', emoji: '📐', desc: '结构拆解，系统思维', color: '#00695c', style: '冷静' },
+  { name: '战友同行型', emoji: '🤝', desc: '并肩作战，务实落地', color: '#ff8f00', style: '战友' }
+];
+
+const PARTNER_MSGS = {
+  理性: [
+    '你今天的 GMV 数据如何？不要给我感觉，要数据。',
+    '这个增长假设有验证吗？我需要看到实验结果。',
+    '好，继续。下一个问题：你的护城河是什么？',
+    '你今天的决策质量，比昨天提高了吗？',
+    '停下来。给我讲清楚，你现在的单位经济模型。'
+  ],
+  热血: [
+    '干就完了！每一个伟大的公司都是从今天这一步开始的 💪',
+    '我相信你，创业者！今天的你比昨天又强了 1%',
+    '你正在做的事，可能改变 thousands 的生活！继续！',
+    '最难的路，往往也是最值得的路。我们一起撑住！',
+    '今天你又推进了一步，距离梦想又近了一点 🚀'
+  ],
+  冷静: [
+    '先别急，我们按优先级理一下。今天最重要的三件事是什么？',
+    '这个问题的本质是什么？让我们拆解一下。',
+    '好的，我听到了你的焦虑，我们用框架来梳理。',
+    '从系统思维角度看，这件事的长远影响是什么？',
+    '建议做一个 2×2 矩阵：重要/紧急 × 执行难度'
+  ],
+  战友: [
+    '兄弟，今天我们一起把这件事啃下来！',
+    '别一个人扛，有我在。说说今天卡在哪里了？',
+    '我刚看完你昨天的打卡记录，今天继续跟！',
+    '稳。我们一步一步来，先解决最重要的事。',
+    '今天你做得不错，我看到了你的坚持 🫡'
+  ]
+};
+
+// ===== 全局状态 =====
+let currentTab = 'checkin';
+let selectedPartner = null;
+let todayChecked = false;
+let currentMood = null;
+let sopState = {
+  catQueues: {},
+  catAnswers: {},
+  catIndex: {},
+  catDone: {},
+  catYes: {},
+  catNo: {}
+};
+let streak = 0;
+
+// ===== 工具函数 =====
+function load(key, fallback = null) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch { return fallback; }
+}
+function save(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch {} }
+
+function getToday() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function getWeekDays() {
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    days.push({ label: ['日','一','二','三','四','五','六'][d.getDay()], date: `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`, isToday: i === 0 });
+  }
+  return days;
+}
+
+function getContinuousDays() {
+  const hist = load(STORAGE.SOP_HISTORY, []);
+  if (!hist.length) return 0;
+  let count = 0;
+  const today = new Date();
+  for (let i = 0; i < 30; i++) {
+    const d = new Date(today); d.setDate(d.getDate() - i);
+    const ds = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    if (hist.find(h => h.date === ds && h.totalScore > 0)) count++;
+    else if (i > 0) break;
+  }
+  return count;
+}
+
+// ===== 打卡页面 =====
+function renderCheckinPage() {
+  const today = getToday();
+  const days = getWeekDays();
+  const hist = load(STORAGE.SOP_HISTORY, []);
+  todayChecked = hist.some(h => h.date === today && h.totalScore > 0);
+  streak = getContinuousDays();
+  const w = load(STORAGE.WEIGHT, []);
+
+  let html = '';
+  // 选搭子
+  html += `<div class="partner-selector" id="partnerSelector">
+    <div class="selector-title">创业搭子</div>
+    <div class="selector-sub">选择一个你喜欢的搭子风格</div>
+    <div class="partner-grid" id="partnerGrid"></div>
+    <button class="confirm-btn" onclick="confirmPartner()" id="confirmBtn" disabled>先选一个搭子</button>
+  </div>`;
+
+  // 主打卡卡
+  html += `<div class="card" id="mainCheckin" style="display:none">
+    <div class="partner-badge" id="partnerBadge"></div>
+    <div class="question" id="checkinQuestion">今天有没有迈出创业的一步？</div>
+    <div class="checkin-btn" id="checkinBtn" onclick="handleCheckin()">
+      <div class="checkin-status" id="checkinStatus">${todayChecked ? '✅' : '打卡'}</div>
+      <div class="checkin-sub">${todayChecked ? '今日已完成' : '点击打卡'}</div>
+    </div>
+    <div class="continuous" id="continuousNum">${streak}</div>
+    <div class="continuous-label">连续打卡天数</div>
+    <div class="week-progress">
+      <div class="week-title"><span>本周进度</span><span id="weekCount">0/7</span></div>
+      <div class="week-dots" id="weekDots"></div>
+    </div>
+  </div>`;
+
+  // 搭子消息
+  html += `<div class="chat-area" id="chatArea" style="display:none">
+    <div id="msgContainer"></div>
+  </div>`;
+  html += `<div class="interaction-panel" id="interactionPanel" style="display:none">
+    <div class="panel-label">💬 告诉搭子你现在的状态</div>
+    <div class="mood-row" id="moodRow"></div>
+    <div class="panel-label" style="margin-top:10px">🚀 想聊点什么？</div>
+    <div class="talk-btn-row">
+      <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
+      <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
+      <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
+      <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
+    </div>
+  </div>`;
+
+  // 分享入口
+  html += `<div class="share-inline-card" id="shareInline" style="display:none">
+    <div class="share-inline-label">🚀 邀请更多创业者一起同行</div>
+    <div class="share-inline-preview">🔥 创业搭子 · 每日复盘 · 已坚持 ${streak} 天</div>
+    <div class="share-copy-row">
+      <button class="share-copy-btn" onclick="copyShareLink()">📋 复制链接</button>
+      <button class="share-link-btn" onclick="switchTab('share')">🚀 分享页</button>
+    </div>
+  </div>`;
+
+  // 历史趋势
+  const recentHist = hist.slice(-7);
+  if (recentHist.length > 1) {
+    const maxScore = Math.max(...recentHist.map(h => h.totalScore));
+    html += `<div class="history-section" id="historySection" style="display:none">
+      <div class="history-title">📈 近 ${recentHist.length} 天得分趋势</div>
+      <div class="history-sub">你的创业 SOP 践行曲线</div>
+      <div class="history-chart" id="historyChart"></div>
+    </div>`;
+  }
+
+  html += `<footer>创业搭子 · 与你同行每一天 🚀</footer>`;
+
+  document.getElementById('page-checkin').innerHTML = html;
+  initPartnerSelector();
+  initWeekDots(hist);
+  if (recentHist.length > 1) renderHistoryChart(recentHist, maxScore);
+
+  if (selectedPartner !== null) {
+    document.getElementById('partnerSelector').style.display = 'none';
+    document.getElementById('mainCheckin').style.display = 'block';
+    document.getElementById('chatArea').style.display = 'block';
+    document.getElementById('interactionPanel').style.display = 'block';
+    document.getElementById('shareInline').style.display = 'block';
+    if (recentHist.length > 1) document.getElementById('historySection').style.display = 'block';
+    const p = PARTNER_STYLES[selectedPartner];
+    document.getElementById('partnerBadge').textContent = `🤝 ${p.emoji} ${p.name}`;
+  }
+}
+
+function initPartnerSelector() {
+  const grid = document.getElementById('partnerGrid');
+  if (!grid) return;
+  grid.innerHTML = PARTNER_STYLES.map((p, i) => `
+    <div class="partner-card" id="pc${i}" onclick="selectPartner(${i})">
+      <div class="partner-emoji">${p.emoji}</div>
+      <div class="partner-name">${p.name}</div>
+      <div class="partner-desc">${p.desc}</div>
+    </div>`).join('');
+}
+
+function selectPartner(i) {
+  selectedPartner = i;
+  document.querySelectorAll('.partner-card').forEach((c, j) => {
+    c.classList.toggle('selected', j === i);
+  });
+  const btn = document.getElementById('confirmBtn');
+  btn.disabled = false;
+  btn.textContent = `选择 ${PARTNER_STYLES[i].name}`;
+}
+
+function confirmPartner() {
+  save(STORAGE.PARTNER, selectedPartner);
+  document.getElementById('partnerSelector').style.display = 'none';
+  document.getElementById('mainCheckin').style.display = 'block';
+  document.getElementById('chatArea').style.display = 'block';
+  document.getElementById('interactionPanel').style.display = 'block';
+  document.getElementById('shareInline').style.display = 'block';
+  const p = PARTNER_STYLES[selectedPartner];
+  document.getElementById('partnerBadge').textContent = `🤝 ${p.emoji} ${p.name}`;
+  if (!todayChecked) showPartnerGreeting();
+}
+
+function showPartnerGreeting() {
+  const p = PARTNER_STYLES[selectedPartner];
+  const msgs = PARTNER_MSGS[p.style];
+  const msg = msgs[Math.floor(Math.random() * msgs.length)];
+  appendMsg(p.emoji, msg, true);
+}
+
+function initWeekDots(hist) {
+  const days = getWeekDays();
+  const checked = days.map(d => hist.some(h => h.date === d.date && h.totalScore > 0));
+  const count = checked.filter(Boolean).length;
+  document.getElementById('weekCount').textContent = `${count}/7`;
+  document.getElementById('weekDots').innerHTML = days.map((d, i) => {
+    const done = checked[i];
+    return `<div class="day-item"><div class="day-name">${d.isToday ? '今' : d.label}</div><div class="dot ${done ? 'checked' : ''}">${done ? '✓' : ''}</div></div>`;
+  }).join('');
+}
+
+function handleCheckin() {
+  const today = getToday();
+  const hist = load(STORAGE.SOP_HISTORY, []);
+  if (!hist.some(h => h.date === today)) {
+    // 还没做 SOP，先提示
+    if (!confirm('今日 SOP 复盘还没做，先去打卡 SOP 吗？')) return;
+    switchTab('sop');
+    return;
+  }
+  // 做过了，直接记录打卡（实际上 SOP 完成就记录了）
+  todayChecked = true;
+  document.getElementById('checkinStatus').textContent = '✅';
+  document.getElementById('checkinStatus').style.fontSize = '36px';
+  document.getElementById('checkinSub').textContent = '今日已完成';
+  initWeekDots(load(STORAGE.SOP_HISTORY, []));
+}
+
+function appendMsg(emoji, text, isAI) {
+  const container = document.getElementById('msgContainer');
+  if (!container) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-bubble-wrap';
+  wrap.innerHTML = `<div class="msg-avatar">${emoji}</div><div class="msg-bubble ${isAI ? 'ai' : ''}">${text}</div>`;
+  container.appendChild(wrap);
+  container.scrollTop = container.scrollHeight;
+}
+
+function askPartner(type) {
+  const p = PARTNER_STYLES[selectedPartner];
+  const questions = {
+    progress: { q: '📈 进展', msgs: ['说说最近的进展，我帮你分析一下。', '好，跟我讲讲你们现在的核心数据指标。', '进度如何？有没有里程碑要到了？'] },
+    struggle: { q: '😣 困难', msgs: ['说出来，我们一起想办法。', '创业没有一帆风顺的，说说卡在哪里了？', '这个问题我来帮你拆解一下。'] },
+    idea: { q: '💡 想法', msgs: ['说说你的想法，我来帮你推演。', '好创意！跟我说说，这个想法的核心假设是什么？', '来，展开讲讲。'] },
+    cheer: { q: '🎉 喜事', msgs: ['快说！什么事让你开心？', '哈哈！恭喜！分享给我听听！', '好事！来，让我沾沾喜气 🎊'] }
+  };
+  const q = questions[type];
+  appendMsg('😀', q.q);
+  setTimeout(() => {
+    appendMsg(p.emoji, q.msgs[Math.floor(Math.random() * q.msgs.length)], true);
+  }, 800);
+}
+
+function copyShareLink() {
+  const link = `${window.location.origin}${window.location.pathname}`;
+  navigator.clipboard.writeText(link).then(() => {
+    alert('链接已复制，快去分享吧 🚀');
+  }).catch(() => {
+    alert('复制失败，请手动复制：' + link);
+  });
+}
+
+// ===== 历史趋势图 =====
+function renderHistoryChart(hist, maxScore) {
+  const chart = document.getElementById('historyChart');
+  if (!chart) return;
+  chart.innerHTML = hist.map(h => {
+    const height = maxScore > 0 ? Math.round((h.totalScore / maxScore) * 70) : 10;
+    const color = h.totalScore >= 15 ? '#43a047' : h.totalScore >= 8 ? '#ff8f00' : '#ef5350';
+    const day = h.date.slice(5);
+    return `<div class="history-bar-wrap">
+      <div class="history-bar" style="height:${height}px;background:${color}"></div>
+      <div class="history-bar-label">${day}</div>
+    </div>`;
+  }).join('');
+}
+
+// ===== Tab 切换 =====
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(`page-${tab}`).classList.add('active');
+  document.querySelectorAll('.tab-item').forEach((t, i) => {
+    const tabs = ['checkin','chat','sop','progress','share'];
+    t.classList.toggle('active', tabs[i] === tab);
+  });
+  if (tab === 'sop') initSOP();
+  if (tab === 'progress') renderProgress();
+  if (tab === 'share') renderShare();
+  window.scrollTo(0, 0);
+}
+
+// ===== SOP =====
+function initSOP() {
+  sopState = { catQueues: {}, catAnswers: {}, catIndex: {}, catDone: {}, catYes: {}, catNo: {} };
+  SOP_CATS.forEach(cat => {
+    sopState.catQueues[cat.id] = [...cat.habits].sort(() => Math.random() - 0.5);
+    sopState.catAnswers[cat.id] = [];
+    sopState.catIndex[cat.id] = 0;
+    sopState.catDone[cat.id] = false;
+    sopState.catYes[cat.id] = 0;
+    sopState.catNo[cat.id] = 0;
+  });
+  const today = getToday();
+  const todaySOP = load(STORAGE.SOP_TODAY);
+  if (todaySOP && todaySOP.date === today) {
+    renderSOPDoneState();
+  } else {
+    renderSOPHeader();
+    renderSOPCard(SOP_CATS[0].id);
+  }
+}
+
+function renderSOPHeader() {
+  const today = getToday();
+  const todaySOP = load(STORAGE.SOP_TODAY);
+  const doneCount = todaySOP ? SOP_CATS.filter(c => sopState.catDone[c.id]).length : 0;
+  const progress = Math.round((doneCount / SOP_CATS.length) * 100);
+
+  document.getElementById('page-sop').innerHTML = `
+    <div class="sop-page">
+      <div class="sop-header">
+        <div class="sop-title">🚀 创业 SOP 复盘</div>
+        <div class="sop-sub">每天 5 维度 · 看清创业全局</div>
+        <div class="sop-score-row">
+          <div class="sop-score"><div class="sop-score-num" id="sopDoneCount">${doneCount}/${SOP_CATS.length}</div><div class="sop-score-label">已复盘</div></div>
+          <div class="sop-score"><div class="sop-score-num" id="sopTotalScore">0</div><div class="sop-score-label">总得分</div></div>
+          <div class="sop-score"><div class="sop-score-num" id="sopStreakNum">${streak}</div><div class="sop-score-label">连续天数</div></div>
+        </div>
+        <div class="sop-progress-wrap">
+          <div class="sop-progress-bg"><div class="sop-progress-bar" id="sopProgressBar" style="width:${progress}%"></div></div>
+          <div class="sop-progress-text" id="sopProgressText">${progress}%</div>
+        </div>
+      </div>
+      <div class="sop-category-tabs" id="sopCatTabs"></div>
+      <div id="sopCardArea"></div>
+    </div>`;
+
+  // 渲染分类 tabs
+  document.getElementById('sopCatTabs').innerHTML = SOP_CATS.map(cat => {
+    const done = sopState.catDone[cat.id];
+    const label = done ? '✓' : cat.icon;
+    return `<button class="sop-cat-tab ${cat.id === SOP_CATS[0].id ? 'active' : ''}" id="tab-${cat.id}" onclick="jumpToCat('${cat.id}')" style="${done ? 'background:#e8f5e9;color:#2e7d32' : ''}">${label} ${cat.name.slice(2)}</button>`;
+  }).join('');
+}
+
+function jumpToCat(catId) {
+  if (sopState.catDone[catId]) return;
+  renderSOPCard(catId);
+  document.querySelectorAll('.sop-cat-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`tab-${catId}`).classList.add('active');
+}
+
+function renderSOPCard(catId) {
+  const cat = SOP_CATS.find(c => c.id === catId);
+  if (!cat) return;
+
+  // 更新 tab 激活状态
+  document.querySelectorAll('.sop-cat-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`tab-${catId}`).classList.add('active');
+
+  const queue = sopState.catQueues[catId];
+  const idx = sopState.catIndex[catId];
+
+  if (idx >= queue.length) {
+    renderSOPCatFinish(catId);
+    return;
+  }
+
+  const habit = queue[idx];
+  const catProgress = Math.round((idx / queue.length) * 100);
+  const doneYes = sopState.catYes[catId];
+  const doneNo = sopState.catNo[catId];
+  const catScore = SOP_CATS.find(c => c.id === catId).habits.reduce((acc, h, i) => {
+    const ans = sopState.catAnswers[catId][i];
+    if (ans === undefined) return acc;
+    return acc + (ans ? h.score : Math.min(0, h.score));
+  }, 0);
+
+  document.getElementById('sopCardArea').innerHTML = `
+    <div class="sop-game-card">
+      <div class="sop-cat-progress">
+        <span>${cat.icon} ${cat.name}</span>
+        <div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:${catProgress}%;background:${cat.color}"></div></div>
+        <span>${idx}/${queue.length}</span>
+      </div>
+      <div class="sop-habit-card">
+        <span class="sop-habit-label ${habit.type}">${habit.type === 'pos' ? '✅ 正向习惯' : '⚠️ 需要注意'}</span>
+        <span class="sop-habit-emoji">${habit.type === 'pos' ? '💪' : '⚠️'}</span>
+        <div class="sop-habit-text">${habit.text}</div>
+        <div class="sop-habit-sub">${habit.sub}</div>
+        <div class="sop-btn-row">
+          <button class="sop-btn yes" onclick="answerSOP('${catId}', true)">✅ 今天有做到</button>
+          <button class="sop-btn no" onclick="answerSOP('${catId}', false)">⚠️ 今天没有</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function answerSOP(catId, answer) {
+  sopState.catAnswers[catId].push(answer);
+  if (answer) sopState.catYes[catId]++;
+  else sopState.catNo[catId]++;
+  sopState.catIndex[catId]++;
+  updateSOPHeader(catId);
+
+  const queue = sopState.catQueues[catId];
+  if (sopState.catIndex[catId] >= queue.length) {
+    sopState.catDone[catId] = true;
+    renderSOPCatFinish(catId);
+  } else {
+    renderSOPCard(catId);
+  }
+}
+
+function updateSOPHeader(catId) {
+  const doneCount = Object.values(sopState.catDone).filter(Boolean).length;
+  const allScores = SOP_CATS.reduce((total, cat) => {
+    return total + cat.habits.reduce((s, h, i) => {
+      const ans = sopState.catAnswers[cat.id][i];
+      if (ans === undefined) return s;
+      return s + (ans ? h.score : Math.min(0, h.score));
+    }, 0);
+  }, 0);
+  const progress = Math.round((doneCount / SOP_CATS.length) * 100);
+  const dEl = document.getElementById('sopDoneCount');
+  const sEl = document.getElementById('sopTotalScore');
+  const pEl = document.getElementById('sopProgressBar');
+  const tEl = document.getElementById('sopProgressText');
+  if (dEl) dEl.textContent = `${doneCount}/${SOP_CATS.length}`;
+  if (sEl) sEl.textContent = allScores;
+  if (pEl) pEl.style.width = `${progress}%`;
+  if (tEl) tEl.textContent = `${progress}%`;
+}
+
+function renderSOPCatFinish(catId) {
+  const cat = SOP_CATS.find(c => c.id === catId);
+  const yes = sopState.catYes[catId];
+  const no = sopState.catNo[catId];
+  const catScore = cat.habits.reduce((s, h, i) => {
+    const ans = sopState.catAnswers[catId][i];
+    if (ans === undefined) return s;
+    return s + (ans ? h.score : Math.min(0, h.score));
+  }, 0);
+
+  const feedback = getCatFeedback(catId, yes, catScore);
+  document.getElementById('sopCardArea').innerHTML = `
+    <div class="sop-game-card">
+      <div class="sop-cat-summary">
+        <div style="font-size:36px;margin-bottom:8px">${cat.icon}</div>
+        <div style="font-size:18px;font-weight:700;color:#2b2b3a;margin-bottom:4px">${cat.name} 复盘完成</div>
+        <div style="font-size:14px;color:#8f9eae;margin-bottom:12px">${yes} 个正向 · ${no} 个待提升</div>
+        <div style="font-size:28px;font-weight:900;color:${cat.color}">${catScore > 0 ? '+' : ''}${catScore} 分</div>
+        <div style="font-size:13px;color:#555;margin-top:8px;line-height:1.5">${feedback}</div>
+        <div style="margin-top:14px">
+          <button class="sop-btn done" onclick="renderSOPCard('${catId}')" style="font-size:13px">🔄 重新复盘</button>
+        </div>
+      </div>
+    </div>
+    <button class="sop-btn done" style="max-width:420px;margin:0 auto;display:block" onclick="nextCatOrFinish('${catId}')">
+      ${getNextCatId(catId) ? '➡️ 下一个维度' : '🎉 查看总复盘'}
+    </button>`;
+
+  // 更新 tab
+  const tabEl = document.getElementById(`tab-${catId}`);
+  if (tabEl) { tabEl.style.background = '#e8f5e9'; tabEl.style.color = '#2e7d32'; tabEl.textContent = `✓ ${cat.name.slice(2)}`; }
+}
+
+function getNextCatId(catId) {
+  const idx = SOP_CATS.findIndex(c => c.id === catId);
+  for (let i = idx + 1; i < SOP_CATS.length; i++) {
+    if (!sopState.catDone[SOP_CATS[i].id]) return SOP_CATS[i].id;
+  }
+  return null;
+}
+
+function nextCatOrFinish(catId) {
+  const next = getNextCatId(catId);
+  if (next) {
+    renderSOPCard(next);
+    document.getElementById(`tab-${next}`).classList.add('active');
+  } else {
+    showSOPFinish();
+  }
+}
+
+function showSOPFinish() {
+  const today = getToday();
+  const allScores = SOP_CATS.reduce((total, cat) => {
+    return total + cat.habits.reduce((s, h, i) => {
+      const ans = sopState.catAnswers[cat.id][i];
+      if (ans === undefined) return s;
+      return s + (ans ? h.score : Math.max(0, h.score));
+    }, 0);
+  }, 0);
+  const maxPossible = SOP_CATS.reduce((t, c) => t + c.habits.reduce((s, h) => s + Math.max(0, h.score), 0), 0);
+  const pct = maxPossible > 0 ? Math.round((allScores / maxPossible) * 100) : 0;
+  const streak = getContinuousDays() + 1;
+
+  // 保存历史
+  const hist = load(STORAGE.SOP_HISTORY, []);
+  hist.push({ date: today, totalScore: allScores, cats: SOP_CATS.map(c => ({ id: c.id, yes: sopState.catYes[c.id], no: sopState.catNo[c.id] })) });
+  save(STORAGE.SOP_HISTORY, hist);
+  save(STORAGE.SOP_TODAY, { date: today, totalScore: allScores });
+
+  // 渲染弹窗
+  document.getElementById('sopFinishScore').textContent = `${pct}%`;
+  document.getElementById('sopFinishStreak').textContent = `🔥 已坚持 ${streak} 天`;
+  document.getElementById('sopFinishEmoji').textContent = pct >= 70 ? '🏆' : pct >= 40 ? '💪' : '🌱';
+
+  // 各维度行
+  const catRows = SOP_CATS.map(cat => {
+    const catScore = cat.habits.reduce((s, h, i) => {
+      const ans = sopState.catAnswers[cat.id][i];
+      if (ans === undefined) return s;
+      return s + (ans ? Math.max(0, h.score) : Math.min(0, h.score));
+    }, 0);
+    const cls = catScore >= 6 ? 'good' : catScore >= 3 ? 'warn' : 'bad';
+    const pct2 = Math.max(0, Math.min(100, Math.round(((catScore + 5) / 10) * 100)));
+    return `<div class="sop-cat-row">
+      <div class="sop-cat-row-left"><span>${cat.icon}</span><span>${cat.name}</span></div>
+      <div class="sop-cat-row-right ${cls}">${pct2}%</div>
+    </div>`;
+  }).join('');
+  document.getElementById('sopCatRows').innerHTML = catRows;
+
+  // 总体反馈
+  const fb = getTotalFeedback(pct, allScores);
+  document.getElementById('sopCatFeedback').textContent = fb;
+
+  document.getElementById('sopModal').classList.add('active');
+}
+
+function getCatFeedback(catId, yes, catScore) {
+  const msgs = {
+    biz: [
+      `在商业洞察上做到了 ${yes}/7 项。你对市场保持敏锐，这是创业者最重要的本能之一。`,
+      `继续深挖用户需求，护城河来自对用户真正的理解。`,
+      `今天的思考广度不错，但别忘了最重要的事：赚钱。`
+    ],
+    product: [
+      `产品推进 ${yes}/7 项。MVP 先跑起来，优化永远不嫌早。`,
+      `增长不是口号，是每天的实验和数据追踪。继续加油！`,
+      `用户反馈是最真实的产品方向标。`
+    ],
+    team: [
+      `团队协作 ${yes}/7 项。好的创始人赋能团队，而不是控制团队。`,
+      `找人永远是 CEO 第一工程。别在关键位置上妥协。`,
+      `团队文化的根基是你每天的行为。`
+    ],
+    mindset: [
+      `心态韧性 ${yes}/7 项。创业是持久战，身心是所有资产的底层。`,
+      `焦虑是正常的，但不能让焦虑控制你。`,
+      `你已经比大多数人都勇敢了。`
+    ],
+    strategy: [
+      `战略决策 ${yes}/7 项。说「不」比说「好」更难，但更关键。`,
+      `聚焦才能突破。多线作战是创业最常见的失败模式。`,
+      `战略清晰，执行才有力。`
+    ]
+  };
+  const arr = msgs[catId] || [];
+  return arr[Math.min(Math.floor((yes / 7) * 3), arr.length - 1)] || '继续坚持，你会越来越强！';
+}
+
+function getTotalFeedback(pct, score) {
+  if (pct >= 80) return '🏆 满分状态！你今天的创业 SOP 践行得堪称典范。各维度全面发力，继续保持这个节奏！';
+  if (pct >= 60) return '💪 良好水平！大部分维度都在轨道上。明天重点关注弱项，你会看到整体跃升。';
+  if (pct >= 40) return '🌱 起步阶段。创业是一场马拉松，不要急于求成。找出最高杠杆的点，明天集中突破一个维度。';
+  return '🌱 今天有触动就是进步。创业最难的不是开始，是坚持。每一天的小复盘，都在积累未来的大突破。';
+}
+
+function renderSOPDoneState() {
+  const today = getToday();
+  const todaySOP = load(STORAGE.SOP_TODAY);
+  const hist = load(STORAGE.SOP_HISTORY, []);
+  const maxPossible = SOP_CATS.reduce((t, c) => t + c.habits.reduce((s, h) => s + Math.max(0, h.score), 0), 0);
+  const pct = maxPossible > 0 ? Math.round((todaySOP.totalScore / maxPossible) * 100) : 0;
+  const recentHist = hist.slice(-7);
+  const maxScore = Math.max(...recentHist.map(h => h.totalScore), 1);
+
+  document.getElementById('page-sop').innerHTML = `
+    <div class="sop-page">
+      <div class="sop-done-state">
+        <div class="sop-done-title">🎉 今日创业 SOP 已完成</div>
+        <div class="sop-done-score">${pct}%</div>
+        <div class="sop-done-label">SOP 践行得分 · ${today}</div>
+        <div class="sop-done-detail">${SOP_CATS.map(cat => {
+          const catData = todaySOP.cats.find(c => c.id === cat.id);
+          const catScore = cat.habits.reduce((s, h, i) => {
+            const ans = catData ? (catData.yes > i ? true : false) : false;
+            return s + (ans ? Math.max(0, h.score) : 0);
+          }, 0);
+          const pct2 = Math.max(0, Math.min(100, Math.round(((catScore + 5) / 10) * 100)));
+          return `<div class="sop-done-cat-row">
+            <span class="sop-done-cat-name">${cat.icon} ${cat.name.slice(2)}</span>
+            <span class="sop-done-cat-score">${pct2}%</span>
+          </div>`;
+        }).join('')}</div>
+        ${recentHist.length > 1 ? `
+        <div style="margin-top:16px">
+          <div style="font-size:12px;color:#8f9eae;margin-bottom:8px;text-align:left">📈 近 ${recentHist.length} 天趋势</div>
+          <div class="history-chart">${recentHist.map(h => {
+            const h2 = Math.round((h.totalScore / maxScore) * 70) || 4;
+            const color = h.totalScore >= 15 ? '#43a047' : h.totalScore >= 8 ? '#ff8f00' : '#ef5350';
+            return `<div class="history-bar-wrap">
+              <div class="history-bar" style="height:${h2}px;background:${color}"></div>
+              <div class="history-bar-label">${h.date.slice(5)}</div>
+            </div>`;
+          }).join('')}</div>
+        </div>` : ''}
+        <button class="sop-redo-btn" onclick="redoSOP()">🔄 重新复盘今日</button>
+      </div>
+    </div>`;
+}
+
+function redoSOP() {
+  const today = getToday();
+  save(STORAGE.SOP_TODAY, null);
+  initSOP();
+}
+
+function closeSopModal() {
+  document.getElementById('sopModal').classList.remove('active');
+  renderSOPDoneState();
+}
+
+function shareFromModal() {
+  closeSopModal();
+  switchTab('share');
+}
+
+// ===== 进展页 =====
+function renderProgress() {
+  const hist = load(STORAGE.SOP_HISTORY, []);
+  const today = getToday();
+  const todaySOP = hist.find(h => h.date === today);
+  const total = hist.length;
+  const maxPossible = SOP_CATS.reduce((t, c) => t + c.habits.reduce((s, h) => s + Math.max(0, h.score), 0), 0);
+  const avgScore = total > 0 ? Math.round(hist.reduce((s, h) => s + h.totalScore, 0) / total) : 0;
+  const pct = maxPossible > 0 ? Math.round((avgScore / maxPossible) * 100) : 0;
+  const streak = getContinuousDays();
+  const circumference = 2 * Math.PI * 54;
+  const offset = circumference - (pct / 100) * circumference;
+
+  document.getElementById('page-progress').innerHTML = `
+    <div class="progress-page">
+      <div class="progress-header">
+        <div class="progress-title">📊 创业进展</div>
+        <div class="progress-sub">你的创业 SOP 全局视图</div>
+        <div class="progress-ring-wrap">
+          <svg class="progress-ring-svg" width="160" height="160">
+            <defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#3949ab"/><stop offset="100%" stop-color="#ff8f00"/>
+            </linearGradient></defs>
+            <circle class="progress-ring-bg" cx="80" cy="80" r="54"/>
+            <circle class="progress-ring-fill" cx="80" cy="80" r="54" stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"/>
+          </svg>
+          <div class="progress-ring-center">
+            <div class="progress-ring-pct">${pct}%</div>
+            <div class="progress-ring-sub">平均得分</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:16px;justify-content:center">
+          <div style="background:#e8f5e9;border-radius:20px;padding:10px 18px;text-align:center">
+            <div style="font-size:20px;font-weight:800;color:#2e7d32">${streak}</div>
+            <div style="font-size:11px;color:#8f9eae">连续天数</div>
+          </div>
+          <div style="background:#eef2ff;border-radius:20px;padding:10px 18px;text-align:center">
+            <div style="font-size:20px;font-weight:800;color:#3949ab">${total}</div>
+            <div style="font-size:11px;color:#8f9eae">累计天数</div>
+          </div>
+          <div style="background:#fff8e1;border-radius:20px;padding:10px 18px;text-align:center">
+            <div style="font-size:20px;font-weight:800;color:#ff8f00">${avgScore}</div>
+            <div style="font-size:11px;color:#8f9eae">今日得分</div>
+          </div>
+        </div>
+      </div>
+      <div class="history-section">
+        <div class="history-title">📈 各维度平均得分</div>
+        <div class="history-sub">SOP 五大维度全面追踪</div>
+        <div class="progress-dims">
+          ${SOP_CATS.map(cat => {
+            const catTotal = hist.reduce((s, h) => {
+              const catData = h.cats?.find(c => c.id === cat.id);
+              return s + (catData ? catData.yes : 0);
+            }, 0);
+            const avg = total > 0 ? Math.round(catTotal / total) : 0;
+            const fill = Math.round((avg / 7) * 100);
+            return `<div class="progress-dim-row">
+              <div class="progress-dim-icon">${cat.icon}</div>
+              <div class="progress-dim-info">
+                <div class="progress-dim-label">${cat.name}</div>
+                <div class="progress-dim-bar">
+                  <div class="progress-dim-fill" style="width:${fill}%;background:${cat.color}"></div>
+                </div>
+              </div>
+              <div class="progress-dim-pct">${avg}/7</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+// ===== 分享页 =====
+function renderShare() {
+  const hist = load(STORAGE.SOP_HISTORY, []);
+  const today = getToday();
+  const todaySOP = hist.find(h => h.date === today);
+  const streak = getContinuousDays();
+  const totalDays = hist.length;
+  const maxPossible = SOP_CATS.reduce((t, c) => t + c.habits.reduce((s, h) => s + Math.max(0, h.score), 0), 0);
+  const avgScore = totalDays > 0 ? Math.round(hist.reduce((s, h) => s + h.totalScore, 0) / totalDays) : 0;
+  const pct = maxPossible > 0 ? Math.round((avgScore / maxPossible) * 100) : 0;
+  const shareMsg = todaySOP
+    ? `🚀 今日创业复盘完成！践行 ${pct}%，连续 ${streak} 天。坚持比灵感更重要。`
+    : `💪 我在用「创业搭子」做每日复盘，5个维度看清创业全局，你也来试试！`;
+
+  const shareLink = `${window.location.origin}${window.location.pathname}`;
+
+  document.getElementById('page-share').innerHTML = `
+    <div class="share-page">
+      <div class="share-card">
+        <div class="share-title">🚀 创业搭子 · 每日复盘</div>
+        <div class="share-sub">分享你的进展，邀请更多创业者同行</div>
+        <div class="share-stat-grid">
+          <div class="share-stat"><div class="share-stat-num">${streak}</div><div class="share-stat-label">连续天数</div></div>
+          <div class="share-stat"><div class="share-stat-num">${totalDays}</div><div class="share-stat-label">累计天数</div></div>
+          <div class="share-stat"><div class="share-stat-num">${pct}%</div><div class="share-stat-label">平均得分</div></div>
+          <div class="share-stat"><div class="share-stat-num">${SOP_CATS.length}</div><div class="share-stat-label">复盘维度</div></div>
+        </div>
+        ${todaySOP ? `<div class="share-dims">
+          <div style="font-size:13px;font-weight:600;color:#2b2b3a;margin-bottom:8px">今日各维度得分</div>
+          ${SOP_CATS.map(cat => {
+            const catData = todaySOP.cats?.find(c => c.id === cat.id);
+            const catScore = cat.habits.reduce((s, h, i) => {
+              return s + (catData && catData.yes > i ? Math.max(0, h.score) : 0);
+            }, 0);
+            const pct2 = Math.max(0, Math.min(100, Math.round(((catScore + 5) / 10) * 100)));
+            return `<div class="share-dim-item">
+              <span class="share-dim-label">${cat.icon} ${cat.name.slice(2)}</span>
+              <span class="share-dim-score">${pct2}%</span>
+            </div>`;
+          }).join('')}
+        </div>` : ''}
+        <div class="share-msg-box">
+          <div class="share-msg-text">"${shareMsg}"</div>
+        </div>
+        <a class="share-cta" href="https://zhouh7693-cmd.github.io/slim-partner/创业搭子.html">🚀 立即开始创业复盘</a>
+      </div>
+      <div class="share-card">
+        <div style="font-size:14px;font-weight:700;color:#1a237e;margin-bottom:10px">📎 复制以下链接邀请朋友</div>
+        <div class="share-url-box">${shareLink}</div>
+        <button class="share-copy-url-btn" onclick="copyShareLink()">📋 复制链接</button>
+      </div>
+    </div>`;
+}
+
+// ===== 初始化 =====
+document.addEventListener('DOMContentLoaded', function() {
+  selectedPartner = load(STORAGE.PARTNER, null);
+  renderCheckinPage();
+});
+  </script>
+</body>
+</html>
