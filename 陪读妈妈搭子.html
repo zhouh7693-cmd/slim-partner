@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>陪读妈妈搭子 · 每日复盘</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+    body {
+      background: linear-gradient(145deg, #f7f0f9 0%, #f0e6f7 100%);
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      padding: 16px 16px 90px;
+    }
+
+    /* ===== Tab Bar ===== */
+    .tab-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: white;
+      display: flex; justify-content: space-around;
+      padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+      border-radius: 24px 24px 0 0;
+      z-index: 100;
+    }
+    .tab-item {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 3px; padding: 6px 12px; cursor: pointer;
+      border-radius: 16px; transition: all 0.2s;
+    }
+    .tab-item.active { background: #f3e8f7; }
+    .tab-item .tab-icon { font-size: 22px; }
+    .tab-item .tab-label { font-size: 10px; color: #8f9eae; font-weight: 500; }
+    .tab-item.active .tab-label { color: #9c27b0; font-weight: 700; }
+
+    /* ===== Pages ===== */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ===== 打卡页面 ===== */
+    .partner-selector {
+      max-width: 400px; margin: 0 auto;
+      background: white; border-radius: 48px;
+      padding: 28px 20px 32px;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+    }
+    .selector-title {
+      font-size: 28px; font-weight: 700; text-align: center;
+      background: linear-gradient(135deg, #9c27b0, #e91e63);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin-bottom: 8px;
+    }
+    .selector-sub { text-align: center; color: #6c7a89; margin-bottom: 28px; font-size: 15px; }
+    .partner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+    .partner-card {
+      background: #fff; border-radius: 28px; padding: 20px 12px 16px; text-align: center;
+      cursor: pointer; box-shadow: 0 6px 14px rgba(0,0,0,0.03);
+      border: 1.5px solid #e9edf2; transition: all 0.2s;
+    }
+    .partner-card.selected { border-color: #9c27b0; background: #f8f0ff; transform: scale(0.98); }
+    .partner-emoji { font-size: 48px; margin-bottom: 12px; }
+    .partner-name { font-weight: 700; font-size: 18px; margin-bottom: 6px; }
+    .partner-desc { font-size: 13px; color: #6c7a89; }
+    .confirm-btn {
+      background: linear-gradient(135deg, #9c27b0, #e91e63);
+      color: white; border: none;
+      width: 100%; padding: 16px; border-radius: 60px;
+      font-size: 18px; font-weight: 600; cursor: pointer;
+    }
+    .confirm-btn:active { opacity: 0.85; transform: scale(0.97); }
+
+    .card {
+      max-width: 420px; margin: 0 auto;
+      background: white; border-radius: 44px;
+      padding: 28px 24px 32px;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+      margin-bottom: 20px; text-align: center;
+    }
+    .partner-badge {
+      display: inline-block; background: #f3e8f7; padding: 6px 16px;
+      border-radius: 40px; font-size: 14px; margin-bottom: 20px; color: #9c27b0;
+    }
+    .question { font-size: 22px; font-weight: 600; margin-bottom: 24px; color: #2b2b3a; }
+    .checkin-btn {
+      width: 170px; height: 170px;
+      background: linear-gradient(145deg, #ab47bc, #9c27b0);
+      border-radius: 100%; margin: 0 auto 24px;
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+      color: white; cursor: pointer;
+      box-shadow: 0 20px 30px -8px rgba(156,39,176,0.45);
+      transition: transform 0.15s;
+    }
+    .checkin-btn:active { transform: scale(0.96); }
+    .checkin-status { font-size: 28px; font-weight: 800; }
+    .checkin-sub { font-size: 13px; opacity: 0.9; margin-top: 6px; }
+    .continuous { font-size: 44px; font-weight: 800; margin: 8px 0 4px; color: #9c27b0; }
+    .continuous-label { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
+    .week-progress { background: white; border-radius: 36px; padding: 18px 20px; margin-bottom: 20px; max-width: 420px; margin-left: auto; margin-right: auto; }
+    .week-title { font-weight: 600; margin-bottom: 16px; display: flex; justify-content: space-between; }
+    .week-dots { display: flex; justify-content: space-between; gap: 8px; }
+    .day-item { flex: 1; text-align: center; }
+    .day-name { font-size: 12px; color: #8f9eae; margin-bottom: 6px; }
+    .dot { width: 40px; height: 40px; background: #eef2f5; border-radius: 100%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 18px; transition: all 0.2s; }
+    .dot.checked { background: #9c27b0; color: white; }
+
+    /* ===== 搭子消息气泡 ===== */
+    .chat-area { max-width: 420px; margin: 0 auto 20px; }
+    .msg-bubble-wrap { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 12px; }
+    .msg-avatar { font-size: 32px; flex-shrink: 0; }
+    .msg-bubble {
+      background: white; border-radius: 18px 18px 18px 4px;
+      padding: 12px 16px; max-width: 75%; font-size: 15px;
+      line-height: 1.5; color: #2b3a4a;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      animation: bubbleIn 0.3s ease;
+    }
+    .msg-bubble.ai { border-radius: 18px 18px 4px 18px; background: #f3e8f7; }
+    @keyframes bubbleIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .typing-indicator { display: flex; gap: 4px; padding: 4px 0; }
+    .typing-indicator span { width: 6px; height: 6px; background: #b0bec5; border-radius: 50%; animation: bounce 1.2s infinite; }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%,80%,100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1.2); opacity: 1; } }
+
+    /* ===== 搭子交互按钮 ===== */
+    .interaction-panel { max-width: 420px; margin: 0 auto 20px; background: white; border-radius: 28px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .panel-label { font-size: 12px; color: #8f9eae; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
+    .mood-row { display: flex; justify-content: space-around; margin-bottom: 14px; }
+    .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; }
+    .mood-btn:hover, .mood-btn:active { background: #f3e8f7; transform: scale(1.15); }
+    .talk-btn-row { display: flex; gap: 8px; }
+    .talk-btn {
+      flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #e9edf2;
+      background: white; font-size: 14px; font-weight: 500; color: #9c27b0;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .talk-btn:active { background: #f3e8f7; transform: scale(0.97); }
+
+    /* ===== 分享卡片入口 ===== */
+    .share-inline-card {
+      max-width: 420px; margin: 0 auto 20px;
+      background: linear-gradient(135deg, #f3e8f7, #fce4ec);
+      border-radius: 24px; padding: 16px 20px;
+      border: 1px solid #e1bee7;
+    }
+    .share-inline-label { font-size: 11px; color: #8f9eae; letter-spacing: 0.5px; margin-bottom: 10px; }
+    .share-inline-preview {
+      background: white; border-radius: 16px; padding: 14px 16px; margin-bottom: 12px;
+      font-size: 13px; color: #4a148c; display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .share-copy-row { display: flex; gap: 8px; }
+    .share-copy-btn, .share-link-btn {
+      flex: 1; padding: 10px; border-radius: 16px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      border: none; transition: all 0.15s;
+    }
+    .share-copy-btn { background: #9c27b0; color: white; }
+    .share-copy-btn:active { opacity: 0.85; transform: scale(0.97); }
+    .share-link-btn { background: white; color: #9c27b0; border: 1.5px solid #ce93d8; }
+    .share-link-btn:active { transform: scale(0.97); }
+
+    footer { font-size: 12px; text-align: center; color: #8f9eae; margin-top: 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
+
+    /* ===== SOP 游戏页面 ===== */
+    .sop-page { max-width: 420px; margin: 0 auto; }
+    .sop-header { background: white; border-radius: 32px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
+    .sop-title { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #9c27b0, #e91e63); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 4px; }
+    .sop-sub { font-size: 13px; color: #8f9eae; margin-bottom: 14px; }
+    .sop-score-row { display: flex; justify-content: center; gap: 24px; }
+    .sop-score { text-align: center; }
+    .sop-score-num { font-size: 28px; font-weight: 800; color: #9c27b0; }
+    .sop-score-label { font-size: 11px; color: #8f9eae; }
+    .sop-progress-wrap { margin-top: 12px; display: flex; align-items: center; gap: 10px; }
+    .sop-progress-bg { flex: 1; height: 8px; background: #f3e8f7; border-radius: 10px; overflow: hidden; }
+    .sop-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #ab47bc, #e91e63); border-radius: 10px; transition: width 0.4s ease, background 0.4s; }
+    .sop-progress-text { font-size: 12px; font-weight: 600; color: #8f9eae; min-width: 40px; text-align: right; }
+    .sop-category-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; }
+    .sop-cat-tab { padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; border: none; background: #f3e8f7; color: #8f9eae; transition: all 0.2s; flex-shrink: 0; }
+    .sop-cat-tab.active { background: linear-gradient(135deg, #9c27b0, #e91e63); color: white; }
+    /* ===== SOP 清单模式 ===== */
+    .sop-game-card { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); position: relative; overflow: hidden; }
+    .sop-cat-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 12px; color: #8f9eae; }
+    .sop-cat-progress-bar { flex: 1; height: 4px; background: #f3e8f7; border-radius: 4px; overflow: hidden; }
+    .sop-cat-progress-fill { height: 100%; background: #9c27b0; border-radius: 4px; transition: width 0.3s; }
+    .sop-habit-card { text-align: center; padding: 8px 0 20px; }
+    .sop-habit-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #8f9eae; margin-bottom: 10px; }
+    .sop-habit-label.pos { color: #43a047; }
+    .sop-habit-label.neg { color: #ef5350; }
+    .sop-habit-emoji { font-size: 40px; margin-bottom: 8px; display: block; }
+    .sop-habit-text { font-size: 17px; font-weight: 600; color: #2b2b3a; line-height: 1.5; margin-bottom: 4px; }
+    .sop-habit-sub { font-size: 12px; color: #8f9eae; margin-bottom: 20px; }
+    .sop-btn-row { display: flex; gap: 12px; }
+    .sop-btn { flex: 1; padding: 14px 8px; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .sop-btn:active { transform: scale(0.97); }
+    .sop-btn.yes { background: #e8f5e9; color: #2e7d32; border: 2px solid #a5d6a7; }
+    .sop-btn.no { background: #fff3f3; color: #c62828; border: 2px solid #ffcdd2; }
+    .sop-btn.done { background: #f3e8f7; color: #9c27b0; border: 2px solid #ce93d8; }
+    .sop-cat-summary { background: #f7f4fb; border-radius: 16px; padding: 16px; text-align: center; }
+    .sop-cat-summary-icon { font-size: 36px; margin-bottom: 8px; }
+    .sop-cat-summary-title { font-size: 15px; font-weight: 700; color: #2b2b3a; margin-bottom: 4px; }
+    .sop-cat-summary-sub { font-size: 12px; color: #8f9eae; }
+    .sop-tip { background: #fff9e6; border-radius: 16px; padding: 14px 16px; margin-bottom: 16px; border: 1px solid #ffe599; }
+    .sop-tip-title { font-size: 13px; font-weight: 700; color: #b8860b; margin-bottom: 6px; }
+    .sop-tip-item { font-size: 12px; color: #7a6a3a; margin-bottom: 3px; }
+    .sop-done-state { background: white; border-radius: 32px; padding: 40px 24px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .sop-done-emoji { font-size: 72px; margin-bottom: 16px; }
+    .sop-done-title { font-size: 22px; font-weight: 800; color: #2b2b3a; margin-bottom: 8px; }
+    .sop-done-desc { font-size: 14px; color: #8f9eae; margin-bottom: 16px; }
+    .sop-done-stats { background: #f7f4fb; border-radius: 20px; padding: 20px; margin-bottom: 16px; }
+    .sop-done-stat-row { display: flex; justify-content: space-around; }
+    .sop-done-stat { text-align: center; }
+    .sop-done-stat-num { font-size: 28px; font-weight: 800; color: #9c27b0; }
+    .sop-done-stat-lbl { font-size: 11px; color: #8f9eae; }
+    .sop-done-reset { font-size: 12px; color: #b0bec5; }
+    .sop-all-done-card { background: linear-gradient(135deg, #f3e8f7, #fce4ec); border-radius: 32px; padding: 16px; margin-bottom: 16px; text-align: center; border: 2px solid #ce93d8; }
+    .sop-all-done-emoji { font-size: 48px; margin-bottom: 8px; }
+    .sop-all-done-text { font-size: 16px; font-weight: 700; color: #7b1fa2; margin-bottom: 4px; }
+    .sop-all-done-sub { font-size: 13px; color: #9c27b0; }
+    /* ===== SOP 清单多选模式 ===== */
+    .sop-list-container { display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto; }
+    .sop-item { background: #f8f9fa; border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; }
+    .sop-item.sop-item-yes { background: #e8f5e9; border: 1px solid #a5d6a7; }
+    .sop-item.sop-item-no { background: #fff3f3; border: 1px solid #ffcdd2; }
+    .sop-item-text { flex: 1; font-size: 14px; color: #2b2b3a; line-height: 1.4; margin-right: 12px; }
+    .sop-item-btns { display: flex; gap: 6px; }
+    .sop-check-btn { padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #d0d8e0; background: white; color: #8f9eae; transition: all 0.15s; display: flex; align-items: center; gap: 3px; }
+    .sop-check-btn:active { transform: scale(0.95); }
+    .sop-check-btn.yes-checked { background: #43a047; color: white; border-color: #43a047; }
+    .sop-check-btn.no-checked { background: #ef5350; color: white; border-color: #ef5350; }
+
+    /* ===== SOP 全部完成弹窗（新版） ===== */
+    .sop-finish-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 300; padding: 20px;
+    }
+    .sop-finish-overlay.show { display: flex; }
+    .sop-finish-card {
+      background: #fff; border-radius: 28px; padding: 28px 20px;
+      max-width: 340px; width: 100%; text-align: center;
+      animation: sopPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.22);
+    }
+    @keyframes sopPop { from { transform: scale(0.5) rotate(-5deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+    .sf-header { margin-bottom: 20px; }
+    .sf-emoji { font-size: 60px; display: block; margin-bottom: 8px; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.12)); }
+    .sf-title { font-size: 20px; font-weight: 900; color: #1a2535; margin-bottom: 4px; line-height: 1.3; }
+    .sf-subtitle { font-size: 12px; color: #90a4ae; margin-bottom: 0; }
+    .sf-stats { display: flex; gap: 8px; margin-bottom: 18px; }
+    .sf-stat { flex: 1; background: #f8fafc; border-radius: 16px; padding: 12px 8px; text-align: center; border: 1.5px solid #eceff1; }
+    .sf-stat-center { background: linear-gradient(135deg, #f3e8f7, #fce4ec); border-color: #ce93d8; }
+    .sf-stat-yes { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-color: #81c784; }
+    .sf-stat-no { background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-color: #ffb74d; }
+    .sf-stat-num { font-size: 26px; font-weight: 900; line-height: 1.1; color: #37474f; }
+    .sf-stat-center .sf-stat-num { color: #9c27b0; }
+    .sf-stat-yes .sf-stat-num { color: #43a047; }
+    .sf-stat-no .sf-stat-num { color: #e65100; }
+    .sf-stat-label { font-size: 10px; color: #78909c; margin-top: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .sf-divider { height: 1px; background: linear-gradient(90deg, transparent, #eceff1, transparent); margin: 0 0 14px; }
+    .sf-cat-title { font-size: 11px; color: #90a4ae; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; text-align: left; padding: 0 2px; margin-bottom: 8px; }
+    .sf-cats { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .sf-cat-row { display: flex; align-items: center; gap: 8px; background: #f8fafc; border-radius: 12px; padding: 9px 12px; border: 1px solid #eceff1; }
+    .sf-cat-icon { font-size: 18px; flex-shrink: 0; }
+    .sf-hist-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .sf-history { display: flex; gap: 6px; align-items: flex-end; margin-bottom: 16px; }
+    .sf-hist-day { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .sf-hist-bar-wrap { height: 50px; display: flex; align-items: flex-end; width: 100%; justify-content: center; }
+    .sf-hist-bar { width: 70%; border-radius: 6px 6px 0 0; min-height: 8px; }
+    .sf-hist-label { font-size: 9px; color: #90a4ae; text-align: center; }
+    .sf-hist-score { font-size: 9px; font-weight: 600; text-align: center; }
+    .sf-cat-name { flex: 1; font-size: 13px; color: #37474f; font-weight: 500; text-align: left; }
+    .sf-cat-yes { font-size: 11px; font-weight: 800; color: #fff; background: #43a047; border-radius: 8px; padding: 2px 8px; flex-shrink: 0; }
+    .sf-cat-no { font-size: 11px; font-weight: 800; color: #fff; background: #ef5350; border-radius: 8px; padding: 2px 8px; flex-shrink: 0; margin-left: 2px; }
+    .sf-cat-streak { font-size: 11px; font-weight: 900; color: #ff6d00; flex-shrink: 0; }
+    .sf-note { font-size: 11px; color: #b0bec5; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .sf-btn { display: block; width: 100%; background: linear-gradient(135deg, #9c27b0, #e91e63); color: white; border: none; border-radius: 50px; padding: 15px; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px rgba(156,39,176,0.4); letter-spacing: 0.5px; }
+    .sf-btn:active { transform: scale(0.97); }
+    /* 维度小结弹窗 */
+    .sf-cat-header { margin-bottom: 12px; }
+    .sf-cat-emoji { font-size: 56px; display: block; margin-bottom: 6px; }
+    .sf-cat-subtitle { font-size: 18px; font-weight: 900; margin-bottom: 2px; }
+    .sf-score-pct { font-size: 40px; font-weight: 900; margin: 10px 0 12px; }
+    .sf-feedback { background: #f8fafc; border-radius: 16px; padding: 16px; font-size: 15px; line-height: 1.7; color: #37474f; font-weight: 500; border: 1.5px solid #eceff1; margin-bottom: 16px; }
+    .sf-btn-cat { background: linear-gradient(135deg, #ab47bc, #9c27b0); color: white; border: none; border-radius: 50px; padding: 15px; font-size: 16px; font-weight: 800; width: 100%; cursor: pointer; box-shadow: 0 6px 20px rgba(156,39,176,0.4); letter-spacing: 0.5px; }
+    .sf-btn-cat:active { transform: scale(0.97); }
+
+    /* ===== 负向批评弹窗 ===== */
+    .neg-critic-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(200, 50, 50, 0.2); backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 300; padding: 20px;
+    }
+    .neg-critic-overlay.show { display: flex; }
+    .neg-critic-card {
+      background: white; border-radius: 28px; padding: 28px 24px;
+      max-width: 320px; width: 100%; text-align: center;
+      border-top: 4px solid #ef5350;
+      animation: negShake 0.5s ease;
+    }
+    @keyframes negShake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-10px); }
+      40% { transform: translateX(10px); }
+      60% { transform: translateX(-8px); }
+      80% { transform: translateX(8px); }
+    }
+    .neg-critic-emoji { font-size: 52px; margin-bottom: 8px; }
+    .neg-critic-title { font-size: 18px; font-weight: 800; color: #c62828; margin-bottom: 8px; }
+    .neg-critic-desc { font-size: 14px; color: #6c7a89; margin-bottom: 12px; line-height: 1.5; }
+    .neg-critic-reply { background: #fff3f3; border-radius: 12px; padding: 10px 14px; font-size: 14px; color: #c62828; margin-bottom: 16px; font-style: italic; }
+    .neg-critic-row { display: flex; gap: 10px; }
+    .neg-btn { flex: 1; padding: 12px; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; }
+    .neg-btn.yes { background: #ef5350; color: white; }
+    .neg-btn:active { transform: scale(0.97); }
+
+    /* ===== 正向奖励弹窗 ===== */
+    .pos-reward-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,120,60,0.15); backdrop-filter: blur(2px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 300; padding: 20px;
+    }
+    .pos-reward-overlay.show { display: flex; }
+    .pos-reward-card {
+      background: white; border-radius: 32px; padding: 36px 28px;
+      max-width: 280px; width: 100%; text-align: center;
+      border: 3px solid #43a047;
+      animation: posBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes posBounce {
+      0% { transform: scale(0.2) rotate(-15deg); opacity: 0; }
+      60% { transform: scale(1.15) rotate(3deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0); opacity: 1; }
+    }
+    .pos-reward-emoji { font-size: 64px; margin-bottom: 12px; }
+    .pos-reward-msg { font-size: 16px; font-weight: 600; color: #2e7d32; margin-bottom: 8px; }
+    .pos-reward-pts { font-size: 42px; font-weight: 900; color: #43a047; }
+    .pos-reward-pts.neg { color: #ef5350; font-size: 32px; }
+
+    /* ===== Toast ===== */
+    .toast { position: fixed; bottom: 100px; left: 20px; right: 20px; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
+    .toast.show { opacity: 1; }
+
+    /* ===== 问答/进展选择面板 ===== */
+    .qa-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+      display: none; align-items: flex-end; justify-content: center;
+      z-index: 400; padding: 0;
+    }
+    .qa-overlay.show { display: flex; }
+    .qa-panel {
+      background: white; border-radius: 32px 32px 0 0;
+      width: 100%; max-width: 420px; max-height: 82vh;
+      display: flex; flex-direction: column;
+      animation: slideUp 0.35s cubic-bezier(0.32,0.72,0,1);
+      overflow: hidden;
+    }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .qa-handle {
+      width: 40px; height: 4px; background: #d0d8e0; border-radius: 4px;
+      margin: 12px auto 0; flex-shrink: 0;
+    }
+    .qa-header {
+      padding: 16px 20px 10px; flex-shrink: 0; text-align: center;
+      border-bottom: 1px solid #f0f4f7;
+    }
+    .qa-title { font-size: 18px; font-weight: 700; color: #2b2b3a; }
+    .qa-sub { font-size: 12px; color: #8f9eae; margin-top: 4px; }
+    .qa-scroll { overflow-y: auto; padding: 12px 16px 20px; flex: 1; }
+    .qa-card {
+      background: #f7f4fb; border-radius: 16px; padding: 14px 16px;
+      margin-bottom: 10px; cursor: pointer;
+      border: 2px solid transparent; transition: all 0.2s;
+    }
+    .qa-card:active { border-color: #ce93d8; background: #f3e8f7; transform: scale(0.98); }
+    .qa-card-title { font-size: 15px; font-weight: 600; color: #2b2b3a; margin-bottom: 4px; }
+    .qa-card-sub { font-size: 12px; color: #8f9eae; }
+    .qa-close {
+      width: 100%; padding: 14px; border-radius: 16px;
+      background: #f3e8f7; border: none; color: #9c27b0;
+      font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px;
+    }
+    .qa-close:active { opacity: 0.8; }
+
+    /* ===== 进展页 ===== */
+    .progress-page { max-width: 420px; margin: 0 auto; }
+    .sop-card {
+      background: white; border-radius: 28px; padding: 20px; margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .chart-title { font-size: 15px; font-weight: 700; color: #2b2b3a; margin-bottom: 4px; }
+    .fb-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 300; padding: 20px;
+    }
+    .fb-overlay.show { display: flex; }
+    .fb-card {
+      background: white; border-radius: 28px; padding: 28px 20px;
+      max-width: 340px; width: 100%;
+      animation: sopPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.22);
+      text-align: center;
+    }
+    .fb-icon { font-size: 52px; display: block; margin-bottom: 12px; }
+    .fb-title { font-size: 20px; font-weight: 800; color: #2b2b3a; margin-bottom: 6px; }
+    .fb-text { font-size: 14px; color: #6c7a89; line-height: 1.7; margin-bottom: 16px; }
+    .fb-partner-quote {
+      background: #f7f4fb; border-radius: 12px; padding: 12px 16px;
+      font-size: 14px; color: #3a4a5a; font-style: italic;
+      margin-bottom: 20px; line-height: 1.6;
+      text-align: left;
+    }
+    .fb-partner-label { font-size: 11px; color: #8f9eae; margin-bottom: 6px; font-style: normal; font-weight: 600; }
+    .fb-btn { background: #9c27b0; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
+    .fb-btn:active { transform: scale(0.97); }
+
+    /* ===== 进展-搭子进度条 ===== */
+    .progress-item {
+      background: #f7f4fb; border-radius: 16px; padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+    .progress-item-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px;
+    }
+    .progress-item-name { font-size: 14px; font-weight: 600; color: #2b2b3a; }
+    .progress-item-score { font-size: 14px; font-weight: 700; color: #9c27b0; }
+    .progress-bar-bg { height: 8px; background: #e1bee7; border-radius: 8px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #ab47bc, #e91e63); border-radius: 8px; transition: width 0.6s ease; }
+
+    /* ===== SOP 进度环形图 ===== */
+    .ring-wrap { display: flex; justify-content: center; margin-bottom: 16px; }
+    .ring-svg circle { transition: stroke-dashoffset 0.8s ease; }
+    .ring-center-text { font-size: 26px; font-weight: 900; fill: #9c27b0; }
+    .ring-center-sub { font-size: 11px; fill: #90a4ae; }
+  </style>
+</head>
+<body>
+
+<!-- ===== 右上角搭子切换 ===== -->
+<div style="position:fixed;top:16px;right:16px;z-index:200;">
+  <div id="avatarBtn" onclick="showPartnerSelector()" style="width:48px;height:48px;background:white;border:2.5px solid #9c27b0;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:26px;transition:transform 0.2s;" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">😊</div>
+</div>
+
+<!-- ===== Tab Bar ===== -->
+<div class="tab-bar">
+  <div class="tab-item active" onclick="switchTab('checkin')">
+    <div class="tab-icon">🏠</div>
+    <div class="tab-label">打卡</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('sop')">
+    <div class="tab-icon">🎯</div>
+    <div class="tab-label">SOP</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('progress')">
+    <div class="tab-icon">📊</div>
+    <div class="tab-label">进展</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('share')">
+    <div class="tab-icon">📣</div>
+    <div class="tab-label">分享</div>
+  </div>
+</div>
+
+<!-- ===== Page: 打卡 ===== -->
+<div id="page-checkin" class="page active">
+
+  <!-- 搭子选择器 -->
+  <div id="partnerSelector" class="partner-selector">
+    <div class="selector-title">选个陪读搭子</div>
+    <div class="selector-sub">陪你一起陪伴孩子成长</div>
+    <div class="partner-grid" id="partnerGrid">
+      <div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')">
+        <div class="partner-emoji">🌸</div>
+        <div class="partner-name">温柔陪伴型</div>
+        <div class="partner-desc">轻声细语，温暖同行</div>
+      </div>
+      <div class="partner-card" id="pc-passion" onclick="selectPartner('passion')">
+        <div class="partner-emoji">💪</div>
+        <div class="partner-name">智慧引导型</div>
+        <div class="partner-desc">有方法，不焦虑</div>
+      </div>
+      <div class="partner-card" id="pc-rational" onclick="selectPartner('rational')">
+        <div class="partner-emoji">📊</div>
+        <div class="partner-name">冷静分析型</div>
+        <div class="partner-desc">数据说话，理性规划</div>
+      </div>
+      <div class="partner-card" id="pc-tsundere" onclick="selectPartner('tsundere')">
+        <div class="partner-emoji">🔥</div>
+        <div class="partner-name">严慈并济型</div>
+        <div class="partner-desc">爱之深，责之切</div>
+      </div>
+    </div>
+    <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner()">✨ 开始陪伴 ✨</button>
+  </div>
+
+  <!-- 打卡仪表盘 -->
+  <div id="dashboard" style="display:none;">
+    <div class="card">
+      <div id="currentPartnerBadge" class="partner-badge">🌸 温柔陪伴型</div>
+      <div class="question">今天，你陪伴得怎么样？</div>
+      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()">
+        <div class="checkin-status" id="checkinStatusText">签到</div>
+        <div class="checkin-sub">点击打卡</div>
+      </div>
+      <div class="continuous" id="continuousDays">0</div>
+      <div class="continuous-label">连续陪读打卡天数</div>
+    </div>
+
+    <!-- 周进度 -->
+    <div class="week-progress">
+      <div class="week-title">
+        <span id="weekLabel">本周陪读</span>
+        <span id="weekCount" style="color:#9c27b0;font-weight:700;">0/7天</span>
+      </div>
+      <div class="week-dots" id="weekDots"></div>
+    </div>
+
+    <!-- 搭子对话区 -->
+    <div class="chat-area" id="chatArea">
+      <div class="msg-bubble-wrap">
+        <div class="msg-avatar">🌸</div>
+        <div class="msg-bubble ai" id="aiMsg">嗨，陪读妈妈！今天和孩子相处得如何？</div>
+      </div>
+    </div>
+
+    <!-- 搭子互动面板 -->
+    <div class="interaction-panel" id="interactionPanel">
+      <div class="panel-label">👋 说说今天的情况</div>
+      <div class="mood-row" id="moodRow">
+        <button class="mood-btn" onclick="sendMood('😊 很好')" title="很好">😊</button>
+        <button class="mood-btn" onclick="sendMood('😌 还行')" title="还行">😌</button>
+        <button class="mood-btn" onclick="sendMood('😣 有挑战')" title="有挑战">😣</button>
+        <button class="mood-btn" onclick="sendMood('😤 有点急')" title="有点急躁">😤</button>
+      </div>
+      <div class="talk-btn-row">
+        <button class="talk-btn" onclick="openQAPanel('progress')">📈 汇报进展</button>
+        <button class="talk-btn" onclick="openQAPanel('struggle')">💬 说说困惑</button>
+      </div>
+    </div>
+
+    <!-- 分享卡片入口 -->
+    <div class="share-inline-card">
+      <div class="share-inline-label">📣 邀请其他陪读妈妈</div>
+      <div class="share-inline-preview">🌸 陪读妈妈搭子 — 陪你一起做更好的陪读家长</div>
+      <div class="share-copy-row">
+        <button class="share-copy-btn" onclick="copyShareLink()">复制邀请链接</button>
+        <button class="share-link-btn" onclick="openSharePage()">打开分享页</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: SOP ===== -->
+<div id="page-sop" class="page">
+  <div class="sop-page">
+    <div class="sop-header">
+      <div class="sop-title">陪读妈妈 SOP 复盘</div>
+      <div class="sop-sub">每天5分钟，做更好的陪读家长</div>
+      <div class="sop-score-row">
+        <div class="sop-score">
+          <div class="sop-score-num" id="sopScore">0</div>
+          <div class="sop-score-label">今日得分</div>
+        </div>
+        <div class="sop-score">
+          <div class="sop-score-num" id="sopPosCount">0</div>
+          <div class="sop-score-label">做到了</div>
+        </div>
+        <div class="sop-score">
+          <div class="sop-score-num" id="sopNegCount">0</div>
+          <div class="sop-score-label">需注意</div>
+        </div>
+      </div>
+      <div class="sop-progress-wrap">
+        <div class="sop-progress-bg"><div class="sop-progress-bar" id="sopScoreBar"></div></div>
+        <div class="sop-progress-text" id="sopProgressText">0 / 100</div>
+      </div>
+    </div>
+
+    <div class="sop-category-tabs" id="sopCatTabs"></div>
+
+    <div class="sop-game-card" id="sopGameCard">
+      <!-- 清单内容由 JS 动态渲染 -->
+    </div>
+
+    <div class="sop-tip">
+      <div class="sop-tip-title">💡 陪读智慧提示</div>
+      <div class="sop-tip-item" id="sopTipText"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 进展 ===== -->
+<div id="page-progress" class="page">
+  <div class="progress-page">
+    <div class="sop-card" style="text-align:center;padding:32px 20px;">
+      <div style="font-size:56px;margin-bottom:12px;">🏆</div>
+      <div class="chart-title" style="font-size:20px;margin-bottom:4px;">陪读成长档案</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">记录你陪读路上的每一步</div>
+      <div class="ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#f3e8f7" stroke-width="12"/>
+          <circle id="ringArc" cx="60" cy="60" r="50" fill="none" stroke="#9c27b0" stroke-width="12"
+            stroke-linecap="round"
+            stroke-dasharray="314" stroke-dashoffset="314"
+            transform="rotate(-90 60 60)"/>
+          <text x="60" y="55" text-anchor="middle" class="ring-center-text" id="ringPercent">0%</text>
+          <text x="60" y="72" text-anchor="middle" class="ring-center-sub">总完成率</text>
+        </svg>
+      </div>
+      <div style="font-size:13px;color:#8f9eae;">累计打卡 <strong id="totalCheckins" style="color:#9c27b0;">0</strong> 天</div>
+    </div>
+
+    <!-- 各维度进度 -->
+    <div class="sop-card">
+      <div class="chart-title">📊 各维度复盘进度</div>
+      <div id="sopProgressItems" style="margin-top:14px;"></div>
+    </div>
+
+    <!-- 搭子鼓励 -->
+    <div class="sop-card" style="text-align:center;padding:24px 16px;background:linear-gradient(135deg,#f3e8f7,#fce4ec);border:1px solid #e1bee7;">
+      <div style="font-size:40px;margin-bottom:8px;" id="progressPartnerEmoji">🌸</div>
+      <div style="font-size:15px;font-weight:700;color:#4a148c;margin-bottom:4px;" id="progressPartnerName">温柔陪伴型</div>
+      <div style="font-size:13px;color:#7b1fa2;line-height:1.6;" id="progressPartnerMsg">陪伴是最好的教育。每天陪读一点点，你已经在做很棒的事了。</div>
+      <button onclick="openQAPanel('progress')" style="margin-top:14px;padding:12px 24px;background:white;border:2px solid #ce93d8;border-radius:50px;font-size:14px;font-weight:600;color:#9c27b0;cursor:pointer;">💬 汇报今日进展</button>
+    </div>
+
+    <div class="fb-overlay" id="fbOverlay">
+      <div class="fb-card">
+        <span class="fb-icon" id="fbIcon">🌸</span>
+        <div class="fb-title" id="fbTitle">温柔陪伴型</div>
+        <div class="fb-text" id="fbText">陪伴是最长情的告白。你的每一次温柔回应，都在为孩子积累安全感。</div>
+        <div class="fb-partner-label" id="fbPartnerLabel" style="text-align:left;">— 来自搭子的悄悄话</div>
+        <div class="fb-partner-quote" id="fbQuote">"孩子需要的不是完美的父母，而是不完美的父母愿意陪着他们一起成长。"</div>
+        <button onclick="closeFeedback()" class="fb-btn">✨ 收到鼓励！</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 分享 ===== -->
+<div id="page-share" class="page">
+  <div class="weight-page">
+    <div class="weight-header" style="text-align:center;">
+      <div class="weight-title">📣 分享</div>
+      <div class="weight-sub">邀请其他陪读妈妈一起成长</div>
+    </div>
+
+    <!-- 我的状态 -->
+    <div class="sop-card" style="margin-bottom:12px;">
+      <div class="chart-title">🏠 我的状态</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
+        <div style="background:#f3e8f7;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#9c27b0;" id="shareStreak">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">连续打卡</div>
+        </div>
+        <div style="background:#f3e8f7;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#ab47bc;" id="shareToday">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">今日打卡</div>
+        </div>
+        <div style="background:#f3e8f7;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#e91e63;" id="shareTotal">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 分享邀请卡片 -->
+    <div class="sop-card">
+      <div class="chart-title">🌸 陪读妈妈搭子</div>
+      <div style="margin-top:12px;background:linear-gradient(135deg,#f3e8f7,#fce4ec);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;">
+        <div style="font-size:48px;margin-bottom:8px;">👩‍👧</div>
+        <div style="font-size:16px;font-weight:700;color:#4a148c;margin-bottom:4px;">陪读妈妈搭子</div>
+        <div style="font-size:13px;color:#7b1fa2;line-height:1.6;margin-bottom:8px;">陪你一起做更好的陪读家长<br>每天5分钟复盘，陪孩子更懂孩子</div>
+        <div style="font-size:11px;color:#9c27b0;">高一 · 第一学期专属版</div>
+      </div>
+      <div class="chart-title" style="margin-bottom:12px;">📋 SOP 复盘维度</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">📚</div>
+          <div style="font-size:12px;font-weight:600;color:#5c6bc0;">学习成长</div>
+        </div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">💪</div>
+          <div style="font-size:12px;font-weight:600;color:#26a69a;">心理韧性</div>
+        </div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">🌊</div>
+          <div style="font-size:12px;font-weight:600;color:#66bb6a;">情绪管理</div>
+        </div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">💬</div>
+          <div style="font-size:12px;font-weight:600;color:#ffa726;">亲子沟通</div>
+        </div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;grid-column:span 2;">
+          <div style="font-size:24px;">🌱</div>
+          <div style="font-size:12px;font-weight:600;color:#8d6e63;">自我成长</div>
+        </div>
+      </div>
+      <div class="chart-title">🔗 邀请链接</div>
+      <div style="background:#f7f4fb;border-radius:12px;padding:12px 14px;font-size:13px;color:#7b1fa2;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay"></div>
+      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#9c27b0,#e91e63);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(156,39,176,0.4);">📋 复制邀请链接</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SOP 维度小结弹窗 ===== -->
+<div class="sop-finish-overlay" id="sopCatOverlay">
+  <div class="sop-finish-card">
+    <div class="sf-cat-header">
+      <span class="sf-cat-emoji" id="sopCatEmoji">📚</span>
+      <div class="sf-cat-subtitle" id="sopCatSubtitle">学习成长</div>
+      <div class="sf-score-pct" id="sopCatPct" style="color:#9c27b0;">0%</div>
+    </div>
+    <div class="sf-feedback" id="sopCatFeedback">反馈文字</div>
+    <button onclick="closeCatSummary()" class="sf-btn-cat">继续下一维度 →</button>
+  </div>
+</div>
+
+<!-- ===== SOP 全部完成弹窗 ===== -->
+<div class="sop-finish-overlay" id="sopFinishOverlay"></div>
+
+<!-- ===== 负向批评弹窗 ===== -->
+<div class="neg-critic-overlay" id="negCriticOverlay">
+  <div class="neg-critic-card">
+    <div class="neg-critic-emoji" id="negCriticEmoji">🤔</div>
+    <div class="neg-critic-title" id="negCriticTitle">觉察到一个小问题</div>
+    <div class="neg-critic-desc" id="negCriticDesc">描述内容</div>
+    <div class="neg-critic-reply" id="negCriticReply">"我意识到..."</div>
+    <div class="neg-critic-row">
+      <button class="neg-btn yes" onclick="closeNegCritic()">💪 下次注意</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 正向奖励弹窗 ===== -->
+<div class="pos-reward-overlay" id="posRewardOverlay">
+  <div class="pos-reward-card">
+    <div class="pos-reward-emoji" id="posRewardEmoji">🎉</div>
+    <div class="pos-reward-msg" id="posRewardMsg">做得很好！</div>
+    <div class="pos-reward-pts" id="posRewardPts">+14</div>
+  </div>
+</div>
+
+<!-- ===== Toast ===== -->
+<div class="toast" id="toast"></div>
+
+<!-- ===== QA 面板 ===== -->
+<div class="qa-overlay" id="qaOverlay">
+  <div class="qa-panel">
+    <div class="qa-handle"></div>
+    <div class="qa-header">
+      <div class="qa-title" id="qaTitle">汇报进展</div>
+      <div class="qa-sub" id="qaSub">选择你的情况，我来帮你分析</div>
+    </div>
+    <div class="qa-scroll" id="qaScroll"></div>
+    <button class="qa-close" onclick="closeQAPanel()">收起</button>
+  </div>
+</div>
+
+<script>
+// ==================== 全局 & 存储 ====================
+const PARTNERS = [
+  { id: 'gentle', name: '温柔陪伴型', emoji: '🌸', style: 'gentle', desc: '轻声细语，温暖同行', color: '#f8bbd0',
+    msg: ['陪伴是最好的教育。', '孩子感受到的是你的心，不是你的话。', '每一天的陪伴，都在积累孩子的安全感。'],
+    fb: { title: '温柔陪伴型', text: '陪伴是最长情的告白。你的每一次温柔回应，都在为孩子积累安全感。', quote: '孩子需要的不是完美的父母，而是不完美的父母愿意陪着他们一起成长。' }
+  },
+  { id: 'passion', name: '智慧引导型', emoji: '💪', style: 'passion', desc: '有方法，不焦虑', color: '#ffcc02',
+    msg: ['方向对了，努力才有效。', '用智慧陪伴，比用情绪陪伴更有力量。', '陪读不是盯梢，是帮孩子建立自己的节奏。'],
+    fb: { title: '智慧引导型', text: '你选择了用智慧而非焦虑来陪伴孩子，这本身就是最好的身教。', quote: '最好的父母不是替孩子解决问题，而是教孩子如何解决问题。' }
+  },
+  { id: 'rational', name: '冷静分析型', emoji: '📊', style: 'rational', desc: '数据说话，理性规划', color: '#90caf9',
+    msg: ['知己知彼，陪伴才能真正有效。', '记录是最好的进步工具。', '用数据说话的父母，给孩子的是方法论。'],
+    fb: { title: '冷静分析型', text: '你的冷静分析为孩子提供了稳定的参照系，这是一份珍贵的礼物。', quote: '理性不是冷漠，是更深沉的爱。' }
+  },
+  { id: 'tsundere', name: '严慈并济型', emoji: '🔥', style: 'tsundere', desc: '爱之深，责之切', color: '#ff8a65',
+    msg: ['严格要求背后是深深的期望。', '让孩子知道你的标准，也让他们感受到你的爱。', '严是爱，松是害——但严也要有方法。'],
+    fb: { title: '严慈并济型', text: '严格与慈爱并存需要极大的智慧。你正在做的，是帮孩子建立内在的自律。', quote: '最好的教育，是让孩子感受到无条件的爱与有边界的规则。' }
+  }
+];
+const STORAGE = { PARTNER: 'slim_partner_study', HISTORY: 'slim_history_study', WEIGHT: 'slim_weight_study', SOP: 'slim_sop_study', SOP_STREAKS: 'slim_sop_streaks_study', TARGET_WEIGHT: 'slim_target_weight_study' };
+const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner';
+function getSiteUrl() {
+  if (window.location.hostname && window.location.hostname.includes('netlify')) {
+    return window.location.origin + '/';
+  }
+  return SHARE_URL + '/';
+}
+
+function getToday() { return new Date().toISOString().slice(0,10); }
+function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
+function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
+
+function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); }
+function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); if(window.saveSOPToFirebase) saveSOPToFirebase(d); }
+function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
+function saveSOPStreaks(d) { localStorage.setItem(STORAGE.SOP_STREAKS, JSON.stringify(d)); if(window.saveSOPStreaksToFirebase) saveSOPStreaksToFirebase(d); }
+const SOP_HIST_KEY = STORAGE.SOP + '_history';
+function getSOPHistory() { return JSON.parse(localStorage.getItem(SOP_HIST_KEY) || '[]'); }
+function saveSOPToHistory(record) {
+  let history = getSOPHistory();
+  history = history.filter(h => h.date !== record.date);
+  history.push(record);
+  if (history.length > 30) history = history.slice(-30);
+  localStorage.setItem(SOP_HIST_KEY, JSON.stringify(history));
+}
+function updateSOPCatStreak(catId, score) {
+  let streaks = getSOPStreaks();
+  let today = getToday();
+  if (!streaks[catId]) streaks[catId] = { lastDate: null, streak: 0 };
+  if (streaks[catId].lastDate !== today) {
+    let yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
+    let yStr = yesterday.toISOString().slice(0,10);
+    if (streaks[catId].lastDate === yStr && score >= 5) {
+      streaks[catId].streak = (streaks[catId].streak || 0) + 1;
+    } else {
+      streaks[catId].streak = score >= 5 ? 1 : 0;
+    }
+    streaks[catId].lastDate = today;
+  }
+  saveSOPStreaks(streaks);
+}
+
+const SOP_CATEGORIES = [
+  {
+    id: 'study', name: '学习成长', icon: '📚', color: '#5c6bc0',
+    tips: '好的学习习惯是孩子成绩的基础。陪读不只是盯作业，更是帮孩子建立学习的节奏感和自信心。',
+    items: [
+      { text: '关注并询问了孩子的学习状态/作业情况', pts: 14 },
+      { text: '协助孩子制定了学习计划或时间表', pts: 14 },
+      { text: '营造了安静、无干扰的学习环境', pts: 14 },
+      { text: '陪伴孩子一起学习或做功课', pts: 12 },
+      { text: '鼓励孩子独立完成作业，不代劳', pts: 14 },
+      { text: '关注孩子的薄弱科目并想办法提升', pts: 12 },
+      { text: '帮助孩子整理错题本或复习资料', pts: 12 }
+    ]
+  },
+  {
+    id: 'resilience', name: '心理韧性', icon: '💪', color: '#26a69a',
+    tips: '高一新生面临的压力很大。你的支持，是孩子面对挫折时最重要的底气。',
+    items: [
+      { text: '孩子考试失利时给予了安慰和鼓励', pts: 14 },
+      { text: '帮助孩子正确看待成绩，不施加过度压力', pts: 14 },
+      { text: '引导孩子用成长型思维看待困难', pts: 14 },
+      { text: '鼓励孩子主动表达内心的想法和困惑', pts: 12 },
+      { text: '肯定了孩子的进步和努力，而非只看结果', pts: 12 },
+      { text: '孩子遇到挫折时，选择了倾听而非批评', pts: 14 },
+      { text: '帮助孩子分解大目标为可执行的小目标', pts: 12 }
+    ]
+  },
+  {
+    id: 'emotion', name: '情绪管理', icon: '🌊', color: '#66bb6a',
+    tips: '家长稳定的情绪，是孩子最安全的环境。学会觉察自己的情绪，是陪读路上最重要的一课。',
+    items: [
+      { text: '在情绪激动时，选择了冷静后再与孩子沟通', pts: 14 },
+      { text: '没有把自己的焦虑传递给孩子', pts: 14 },
+      { text: '在陪读过程中保持了平和的心态', pts: 14 },
+      { text: '察觉到自己不耐烦时，及时调整了语气', pts: 12 },
+      { text: '用正向语言和孩子沟通，避免负面唠叨', pts: 12 },
+      { text: '孩子情绪低落时，选择了陪伴而非说教', pts: 14 },
+      { text: '有效管理了自己的压力，保持了良好状态', pts: 12 }
+    ]
+  },
+  {
+    id: 'communication', name: '亲子沟通', icon: '💬', color: '#ffa726',
+    tips: '良好的沟通是亲子关系的桥梁。高一是青春期最关键的阶段，好好说话比什么都重要。',
+    items: [
+      { text: '主动询问孩子今天在学校发生的开心或不开心的事', pts: 14 },
+      { text: '倾听孩子的想法，不急于打断或否定', pts: 14 },
+      { text: '尊重孩子的选择和隐私，没有过度控制', pts: 14 },
+      { text: '用"我感到"而非"你总是"的方式表达关心', pts: 12 },
+      { text: '在非学习话题上也和孩子进行了交流', pts: 10 },
+      { text: '给予了孩子适度的自主空间和决定权', pts: 12 },
+      { text: '真诚地感谢和赞美了孩子的努力与进步', pts: 12 }
+    ]
+  },
+  {
+    id: 'growth', name: '自我成长', icon: '🌱', color: '#8d6e63',
+    tips: '最好的教育是身教。照顾好自己，才有能力陪伴孩子。陪读妈妈也需要成长和放松。',
+    items: [
+      { text: '今天为自己安排了一段放松时间', pts: 14 },
+      { text: '关注了自己的身心健康（运动、睡眠、饮食）', pts: 14 },
+      { text: '学习了一些关于青少年心理或教育的知识', pts: 12 },
+      { text: '反思了自己今天的陪读方式是否有改进之处', pts: 12 },
+      { text: '给自己设定了一个与孩子无关的小目标', pts: 10 },
+      { text: '和其他家长交流了育儿经验或心得', pts: 10 },
+      { text: '认可自己作为陪读家长的付出和价值', pts: 12 }
+    ]
+  }
+];
+
+let sopScore = 0, sopCatIdx = 0;
+let sopSelected = {};
+let sopDone = false;
+let sopSubmittedCats = [];
+
+function initSOP() {
+  let d = getSOPData();
+  let today = getToday();
+  if (d.date !== today) {
+    sopScore = 0;
+    sopSelected = {};
+    sopDone = false;
+    sopSubmittedCats = [];
+  } else {
+    sopScore = d.score || 0;
+    sopSelected = d.selected || {};
+    sopDone = d.done || false;
+    sopSubmittedCats = d.submittedCats || [];
+  }
+  renderSOPTabs();
+  renderSOPList();
+  updateSOPHeader();
+  document.getElementById('sopTipText').textContent = SOP_CATEGORIES[sopCatIdx].tips;
+}
+
+function renderSOPTabs() {
+  let tabs = document.getElementById('sopCatTabs');
+  let streaks = getSOPStreaks();
+  tabs.innerHTML = SOP_CATEGORIES.map((cat, i) => {
+    let sel = sopSelected[cat.id] || {};
+    let done = Object.keys(sel).length >= cat.items.length;
+    let streak = streaks[cat.id] ? streaks[cat.id].streak : 0;
+    return `<button class="sop-cat-tab ${i === sopCatIdx ? 'active' : ''}" onclick="switchSOPCat(${i})">
+      ${cat.icon} ${done ? '✅' : ''}${cat.name}${streak > 0 ? ' 🔥' : ''}
+    </button>`;
+  }).join('');
+}
+
+function switchSOPCat(idx) {
+  sopCatIdx = idx;
+  document.getElementById('sopTipText').textContent = SOP_CATEGORIES[idx].tips;
+  renderSOPTabs();
+  renderSOPList();
+}
+
+function updateSOPHeader() {
+  let totalYes = 0, totalNo = 0, totalItems = 0;
+  SOP_CATEGORIES.forEach(cat => {
+    let sel = sopSelected[cat.id] || {};
+    cat.items.forEach((item, idx) => {
+      totalItems++;
+      if (sel[idx] === 'yes') totalYes++;
+      else if (sel[idx] === 'no') totalNo++;
+    });
+  });
+  document.getElementById('sopScore').textContent = sopScore;
+  document.getElementById('sopPosCount').textContent = totalYes;
+  document.getElementById('sopNegCount').textContent = totalNo;
+  document.getElementById('sopScoreBar').style.width = sopScore + '%';
+  document.getElementById('sopProgressText').textContent = Math.round(totalItems > 0 ? (totalYes / totalItems) * 100 : 0) + ' / 100';
+}
+
+function renderSOPList() {
+  let card = document.getElementById('sopGameCard');
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  let selected = getCatSelected(cat.id);
+  let doneCount = Object.keys(selected).length;
+  let totalCount = cat.items.length;
+  let allAnswered = doneCount >= totalCount;
+
+  if (sopDone) {
+    renderSOPDoneState();
+    return;
+  }
+
+  let catItems = cat.items.map((item, idx) => {
+    let state = selected[idx] || null;
+    let stateClass = state ? (state === 'yes' ? 'sop-item-yes' : 'sop-item-no') : '';
+    let yesBtn = state === 'yes' ? 'yes-checked' : '';
+    let noBtn = state === 'no' ? 'no-checked' : '';
+    return `<div class="sop-item ${stateClass}">
+      <div class="sop-item-text">${item.text}</div>
+      <div class="sop-item-btns">
+        <button class="sop-check-btn ${yesBtn}" onclick="toggleSOPItem(${idx},'yes')">✅ 是</button>
+        <button class="sop-check-btn ${noBtn}" onclick="toggleSOPItem(${idx},'no')">❌ 否</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  let summaryHtml = allAnswered ? `<div class="sop-cat-summary" style="margin-top:12px;">
+    <div class="sop-cat-summary-icon">${cat.icon}</div>
+    <div class="sop-cat-summary-title">${cat.name} 今日小结</div>
+    <div class="sop-cat-summary-sub">已全部回答 ✅</div>
+    <button onclick="submitSOPCat()" style="margin-top:12px;padding:12px 24px;background:linear-gradient(135deg,#9c27b0,#e91e63);color:white;border:none;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(156,39,176,0.35);">📋 确认并提交 →</button>
+  </div>` : '';
+
+  card.innerHTML = `
+    <div class="sop-cat-progress">
+      <span>${cat.icon} ${cat.name}</span>
+      <div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:${Math.round(doneCount / totalCount * 100)}%"></div></div>
+      <span style="color:#9c27b0;font-weight:700;">${doneCount}/${totalCount}</span>
+    </div>
+    <div class="sop-list-container">${catItems}</div>
+    ${summaryHtml}
+  `;
+}
+
+function getCatSelected(catId) { return sopSelected[catId] || {}; }
+
+function toggleSOPItem(idx, state) {
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  if (!sopSelected[cat.id]) sopSelected[cat.id] = {};
+  if (sopSelected[cat.id][idx] === state) {
+    delete sopSelected[cat.id][idx];
+  } else {
+    sopSelected[cat.id][idx] = state;
+  }
+  renderSOPList();
+  renderSOPTabs();
+  updateSOPHeader();
+}
+
+function submitSOPCat() {
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  let sel = sopSelected[cat.id] || {};
+  let catYes = Object.values(sel).filter(v => v === 'yes').length;
+  let catNo = Object.values(sel).filter(v => v === 'no').length;
+  let pct = Math.round((catYes / cat.items.length) * 100);
+
+  if (!sopSubmittedCats.includes(cat.id)) sopSubmittedCats.push(cat.id);
+  updateSOPCatStreak(cat.id, catYes);
+
+  let totalYes = 0, totalItemsAll = 0;
+  SOP_CATEGORIES.forEach(c => {
+    let s = sopSelected[c.id] || {};
+    c.items.forEach((item, idx) => {
+      totalItemsAll++;
+      if (s[idx] === 'yes') totalYes++;
+    });
+  });
+  sopScore = Math.round((totalYes / totalItemsAll) * 100);
+
+  saveSOPData({ score: sopScore, selected: sopSelected, done: false, date: getToday(), submittedCats: sopSubmittedCats });
+  updateSOPHeader();
+
+  // 负向行为弹窗
+  let negItems = [];
+  cat.items.forEach((item, idx) => {
+    if (sel[idx] === 'no') negItems.push(item);
+  });
+  if (negItems.length > 0) {
+    let neg = negItems[0];
+    document.getElementById('negCriticEmoji').textContent = '🤔';
+    document.getElementById('negCriticTitle').textContent = '觉察到一个小问题';
+    document.getElementById('negCriticDesc').textContent = `"${neg.text}" — 陪读路上难免，慢慢来。`;
+    document.getElementById('negCriticReply').textContent = `"我意识到这一点了，明天我会试着做得不同。"`;
+    document.getElementById('negCriticOverlay').classList.add('show');
+    return;
+  }
+
+  closeCatSummary();
+}
+
+function closeNegCritic() {
+  document.getElementById('negCriticOverlay').classList.remove('show');
+  closeCatSummary();
+}
+
+function closeCatSummary() {
+  document.getElementById('sopCatOverlay').classList.remove('show');
+  let allSubmitted = SOP_CATEGORIES.every(c => sopSubmittedCats.includes(c.id));
+  if (allSubmitted) {
+    setTimeout(() => showSOPFinish(), 500);
+  } else {
+    let nextCat = SOP_CATEGORIES.findIndex(c => !sopSubmittedCats.includes(c.id));
+    sopCatIdx = nextCat >= 0 ? nextCat : 0;
+    document.getElementById('sopTipText').textContent = SOP_CATEGORIES[sopCatIdx].tips;
+    renderSOPTabs();
+    renderSOPList();
+  }
+}
+
+function getCatFeedbackMsg(cat, yesCount, noCount, total, streak) {
+  let pct = Math.round((yesCount / total) * 100);
+  let partner = PARTNERS.find(p => p.id === getSelectedPartnerId()) || PARTNERS[0];
+  let msgs = [];
+  if (pct >= 85) {
+    msgs = [
+      `这一维度你做得非常出色！${partner.emoji} ${partner.msg[0]}`,
+      `满分状态！孩子一定感受到了你的用心。`,
+      `继续保持这个节奏，你是最棒的陪读家长！`
+    ];
+  } else if (pct >= 60) {
+    msgs = [
+      `这一维度做得不错！${streak > 0 ? '连续' + streak + '天了！' : '继续保持！'}`,
+      `有差距也有进步，每天进步一点点就够了。`,
+      `你已经比很多家长做得更好了。`
+    ];
+  } else if (pct >= 40) {
+    msgs = [
+      `这一维度还有空间，但完全正常！${partner.msg[1]}`,
+      `陪读妈妈不需要完美，只需要真实。`,
+      `每天多做到一件，就是胜利。`
+    ];
+  } else {
+    msgs = [
+      `这一维度挑战不小，没关系！${partner.msg[2]}`,
+      `陪读路上有起伏才是正常的，你已经很努力了。`,
+      `给自己一些耐心，孩子也在成长。`
+    ];
+  }
+  return { summary: msgs[Math.floor(Math.random() * msgs.length)] };
+}
+
+function renderSOPDoneState() {
+  let card = document.getElementById('sopGameCard');
+  let streaks = getSOPStreaks();
+  let d = getSOPData();
+  let totalYes = 0, totalNo = 0;
+  SOP_CATEGORIES.forEach(cat => {
+    let sel = sopSelected[cat.id] || {};
+    cat.items.forEach((item, idx) => {
+      if (sel[idx] === 'yes') totalYes++;
+      else if (sel[idx] === 'no') totalNo++;
+    });
+  });
+
+  let catDetails = SOP_CATEGORIES.map(cat => {
+    let sel = sopSelected[cat.id] || {};
+    let catYes = Object.values(sel).filter(v => v === 'yes').length;
+    let pct = Math.round((catYes / cat.items.length) * 100);
+    let st = streaks[cat.id] || { streak: 0 };
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+      <span style="font-size:13px;">${cat.icon} ${cat.name}</span>
+      <span style="font-size:13px;font-weight:700;color:${cat.color};">${pct}% ${catYes > 0 ? '✅' : ''}</span>
+    </div>`;
+  }).join('');
+
+  card.innerHTML = `
+    <div class="sop-all-done-card">
+      <div class="sop-all-done-emoji">🎉</div>
+      <div class="sop-all-done-text">今日复盘已完成</div>
+      <div class="sop-all-done-sub">明天0点自动重置，继续加油！</div>
+    </div>
+    <div class="sop-done-stats">
+      <div class="sop-done-stat-row">
+        <div class="sop-done-stat">
+          <div class="sop-done-stat-num">${sopScore}%</div>
+          <div class="sop-done-stat-lbl">今日得分</div>
+        </div>
+        <div class="sop-done-stat">
+          <div class="sop-done-stat-num">${totalYes}</div>
+          <div class="sop-done-stat-lbl">做到了</div>
+        </div>
+        <div class="sop-done-stat">
+          <div class="sop-done-stat-num">${totalNo}</div>
+          <div class="sop-done-stat-lbl">需注意</div>
+        </div>
+      </div>
+    </div>
+    <div class="sop-card" style="background:#f7f4fb;border:1px solid #e1bee7;">
+      <div style="font-size:14px;font-weight:700;color:#4a148c;margin-bottom:8px;">📋 各维度得分</div>
+      ${catDetails}
+    </div>
+    <div class="sop-done-reset">🌙 明天0点自动重置</div>
+  `;
+}
+
+function showSOPFinish() {
+  let score = Math.max(0, Math.min(100, sopScore));
+  let totalYes = 0, totalNo = 0;
+  SOP_CATEGORIES.forEach(cat => {
+    let sel = sopSelected[cat.id] || {};
+    cat.items.forEach((item, idx) => {
+      let state = sel[idx];
+      if (state === 'yes') totalYes++;
+      else if (state === 'no') totalNo++;
+    });
+    let catYes = Object.values(sel).filter(v => v === 'yes').length;
+    updateSOPCatStreak(cat.id, catYes);
+  });
+
+  let streaks = getSOPStreaks();
+  let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌱' : '😊';
+  let title = score >= 80 ? '满分陪读！完美复盘！' : score >= 60 ? '做得很棒！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
+
+  let catRows = SOP_CATEGORIES.map(cat => {
+    let st = streaks[cat.id] || { streak: 0 };
+    let sel = sopSelected[cat.id] || {};
+    let catYes = 0, catNo = 0;
+    cat.items.forEach((item, idx) => {
+      let state = sel[idx];
+      if (state === 'yes') catYes++;
+      else if (state === 'no') catNo++;
+    });
+    let pct = Math.round((catYes / cat.items.length) * 100);
+    let fb = getCatFeedbackMsg(cat, catYes, catNo, cat.items.length, st.streak);
+    return `<div class="sf-cat-row">
+      <span class="sf-cat-icon">${cat.icon}</span>
+      <span class="sf-cat-name">${cat.name} <span style="font-size:11px;color:${cat.color};font-weight:bold;">${pct}%</span></span>
+      <span class="sf-cat-yes">+${catYes}</span>
+      <span class="sf-cat-no">-${catNo}</span>
+      ${st.streak > 0 ? `<span class="sf-cat-streak">🔥${st.streak}天</span>` : ''}
+    </div>
+    <div style="font-size:11px;color:#555;padding:4px 12px 10px;line-height:1.6;">${fb.summary}</div>`;
+  }).join('');
+
+  let today = getToday();
+  let history = getSOPHistory();
+  let recent7 = [];
+  for (let i = 6; i >= 0; i--) {
+    let d = new Date();
+    d.setDate(d.getDate() - i);
+    let dateStr = d.toISOString().slice(0, 10);
+    let dayLabel = (i === 0) ? '今天' : (d.getMonth() + 1) + '/' + d.getDate();
+    let hRecord = history.find(h => h.date === dateStr);
+    recent7.push({ date: dateStr, label: dayLabel, score: hRecord ? hRecord.score : null, isToday: i === 0 });
+  }
+  let trendIcon = '', trendText = '', trendColor = '#90a4ae';
+  if (recent7[6].score !== null && recent7[5].score !== null) {
+    let diff = recent7[6].score - recent7[5].score;
+    if (diff > 0) { trendIcon = '📈'; trendText = '较昨日+' + diff; trendColor = '#43a047'; }
+    else if (diff < 0) { trendIcon = '📉'; trendText = '较昨日' + diff; trendColor = '#ef5350'; }
+    else { trendIcon = '➡️'; trendText = '与昨日持平'; trendColor = '#90a4ae'; }
+  }
+  let validScores = recent7.filter(d => d.score !== null).map(d => d.score);
+  let maxS = validScores.length ? Math.max(...validScores) : 100;
+  let minS = validScores.length ? Math.min(...validScores) : 0;
+  let range = Math.max(maxS - minS, 20);
+  let histBars = recent7.map(d => {
+    let h = d.score !== null ? Math.max(20, Math.round(((d.score - minS) / range) * 40) + 20) : 8;
+    let bg = d.score !== null ? (d.score >= 80 ? '#43a047' : d.score >= 50 ? '#ff9800' : '#ef5350') : '#e0e0e0';
+    let op = d.isToday ? 1 : (d.score !== null ? 0.85 : 0.3);
+    let scoreLabel = d.score !== null ? d.score + '%' : '-';
+    return `<div class="sf-hist-day">
+      <div class="sf-hist-bar-wrap"><div class="sf-hist-bar" style="height:${h}px;background:${bg};opacity:${op};"></div></div>
+      <div class="sf-hist-label" style="font-weight:${d.isToday?'700':'400'};color:${d.isToday?'#9c27b0':'#90a4ae'};">${d.label}</div>
+      <div class="sf-hist-score" style="color:${d.score!==null?(d.score>=80?'#43a047':d.score>=50?'#ff9800':'#ef5350'):'#ccc'};">${scoreLabel}</div>
+    </div>`;
+  }).join('');
+
+  let overlay = document.getElementById('sopFinishOverlay');
+  overlay.innerHTML = `
+    <div class="sop-finish-card">
+      <div class="sf-header">
+        <span class="sf-emoji">${emoji}</span>
+        <div class="sf-title">${title}</div>
+        <div class="sf-subtitle">今日陪读复盘已完成 · 明天0点重置</div>
+      </div>
+      <div class="sf-stats">
+        <div class="sf-stat sf-stat-yes">
+          <div class="sf-stat-num">${totalYes}</div>
+          <div class="sf-stat-label">做到了</div>
+        </div>
+        <div class="sf-stat sf-stat-center">
+          <div class="sf-stat-num">${score}%</div>
+          <div class="sf-stat-label">今日得分</div>
+        </div>
+        <div class="sf-stat sf-stat-no">
+          <div class="sf-stat-num">${totalNo}</div>
+          <div class="sf-stat-label">需注意</div>
+        </div>
+      </div>
+      <div class="sf-divider"></div>
+      <div class="sf-cat-title">各维度总结</div>
+      <div class="sf-cats">${catRows}</div>
+      <div class="sf-divider"></div>
+      <div class="sf-hist-header">
+        <span class="sf-cat-title">📈 历史对比</span>
+        ${trendIcon ? `<span style="font-size:11px;color:${trendColor};font-weight:600;">${trendIcon} ${trendText}</span>` : ''}
+      </div>
+      <div class="sf-history">${histBars}</div>
+      <div class="sf-note">🌙 明天0点自动重置</div>
+      <button onclick="closeSOPFinish()" class="sf-btn">✨ 收到鼓励！继续加油</button>
+    </div>
+  `;
+  overlay.classList.add('show');
+  sopDone = true;
+  saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: today, submittedCats: sopSubmittedCats });
+  saveSOPToHistory({ date: today, score: score, totalYes: totalYes, totalNo: totalNo });
+}
+
+function closeSOPFinish() {
+  document.getElementById('sopFinishOverlay').classList.remove('show');
+}
+
+// ==================== 打卡 & 搭子 ====================
+let selectedPartnerId = 'gentle';
+
+function getSelectedPartnerId() { return localStorage.getItem(STORAGE.PARTNER) || 'gentle'; }
+
+function init() {
+  selectedPartnerId = getSelectedPartnerId();
+  let sel = document.getElementById('partnerSelector');
+  let dash = document.getElementById('dashboard');
+  if (sel && localStorage.getItem(STORAGE.PARTNER + '_confirmed')) {
+    sel.style.display = 'none';
+    if (dash) dash.style.display = 'block';
+  } else {
+    if (sel) sel.style.display = 'block';
+    if (dash) dash.style.display = 'none';
+  }
+
+  let pid = getSelectedPartnerId();
+  let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
+  let badge = document.getElementById('currentPartnerBadge');
+  if (badge) badge.innerHTML = `${partner.emoji} ${partner.name}`;
+  let avatar = document.getElementById('avatarBtn');
+  if (avatar) avatar.textContent = partner.emoji;
+
+  renderWeekProgress();
+  renderChatWelcome();
+  renderProgress();
+  renderSharePage();
+
+  // SOP
+  initSOP();
+}
+
+function selectPartner(id) {
+  selectedPartnerId = id;
+  document.querySelectorAll('.partner-card').forEach(el => el.classList.remove('selected'));
+  let card = document.getElementById('pc-' + id);
+  if (card) card.classList.add('selected');
+}
+
+function confirmPartner() {
+  localStorage.setItem(STORAGE.PARTNER, selectedPartnerId);
+  localStorage.setItem(STORAGE.PARTNER + '_confirmed', '1');
+  let sel = document.getElementById('partnerSelector');
+  let dash = document.getElementById('dashboard');
+  if (sel) sel.style.display = 'none';
+  if (dash) dash.style.display = 'block';
+  let partner = PARTNERS.find(p => p.id === selectedPartnerId) || PARTNERS[0];
+  let badge = document.getElementById('currentPartnerBadge');
+  if (badge) badge.innerHTML = `${partner.emoji} ${partner.name}`;
+  let avatar = document.getElementById('avatarBtn');
+  if (avatar) avatar.textContent = partner.emoji;
+  renderChatWelcome();
+  showToast(`${partner.emoji} ${partner.name} 已上线！`);
+}
+
+function showPartnerSelector() {
+  switchTab('checkin');
+  let sel = document.getElementById('partnerSelector');
+  if (sel) { sel.style.display = 'block'; }
+  let dash = document.getElementById('dashboard');
+  if (dash) dash.style.display = 'none';
+  localStorage.removeItem(STORAGE.PARTNER + '_confirmed');
+}
+
+function doCheckin() {
+  let today = getToday();
+  let history = getHistory();
+  let already = history.some(h => h.date === today);
+  if (already) { showToast('今日已打卡 ✅'); return; }
+  let pid = getSelectedPartnerId();
+  let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
+  let yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
+  let yStr = yesterday.toISOString().slice(0,10);
+  let hadY = history.some(h => h.date === yStr);
+  let lastCon = history.filter(h => h.date <= yStr).length;
+  let con = hadY ? (lastCon > 0 ? lastCon : 0) : 0;
+  history.push({ date: today, checkin: true });
+  if (history.length > 60) history = history.slice(-60);
+  saveHistory(history);
+  document.getElementById('checkinStatusText').textContent = '已打卡';
+  document.getElementById('checkinSub').textContent = '太棒了！';
+  document.getElementById('continuousDays').textContent = con + 1;
+  renderWeekProgress();
+  showToast(`${partner.emoji} 打卡成功！连续 ${con + 1} 天 🔥`);
+  sendChatMessage(`${partner.emoji} ${con + 1} 天连续打卡！${partner.msg[2]}`, true);
+}
+
+function renderWeekProgress() {
+  let days = ['一','二','三','四','五','六','日'];
+  let today = new Date();
+  let dow = today.getDay(); // 0=Sun
+  let monday = new Date(today); monday.setDate(today.getDate() - ((dow + 6) % 7));
+  let history = getHistory();
+  let weekDays = [];
+  for (let i = 0; i < 7; i++) {
+    let d = new Date(monday); d.setDate(monday.getDate() + i);
+    weekDays.push({ label: days[i], date: d.toISOString().slice(0,10), checked: history.some(h => h.date === d.toISOString().slice(0,10) && h.checkin) });
+  }
+  let checked = weekDays.filter(d => d.checked).length;
+  document.getElementById('weekLabel').textContent = `本周陪读（${(monday.getMonth()+1)}/${monday.getDate()}起）`;
+  document.getElementById('weekCount').textContent = `${checked}/7天`;
+  document.getElementById('weekDots').innerHTML = weekDays.map(d => `
+    <div class="day-item">
+      <div class="day-name">${d.label}</div>
+      <div class="dot ${d.checked ? 'checked' : ''}">${d.checked ? '✅' : ''}</div>
+    </div>
+  `).join('');
+}
+
+function renderChatWelcome() {
+  let pid = getSelectedPartnerId();
+  let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
+  let msgs = [
+    `嗨，陪读妈妈！今天和孩子相处得怎么样？${partner.emoji}`,
+    `${partner.emoji} 高一是关键的一年，你已经在为孩子做很棒的事了。`,
+    `陪读路上有困惑？随时和我说说 💬`
+  ];
+  let ai = document.getElementById('aiMsg');
+  if (ai) ai.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+  document.getElementById('chatArea').innerHTML = `
+    <div class="msg-bubble-wrap">
+      <div class="msg-avatar">${partner.emoji}</div>
+      <div class="msg-bubble ai">${msgs[0]}</div>
+    </div>
+  `;
+  document.getElementById('interactionPanel').querySelector('.panel-label').textContent = '👋 说说今天的情况';
+}
+
+function sendMood(mood) {
+  let pid = getSelectedPartnerId();
+  let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
+  sendChatMessage(`今天感觉：${mood}`, false);
+  setTimeout(() => {
+    let replies = {
+      '😊 很好': [`太棒了！${partner.msg[0]}`, '好心情是最好的陪读状态 😊', '孩子一定也感受到了你的好心情！'],
+      '😌 还行': ['平稳也是一种力量 💪', '不急不躁，陪读需要这种从容。', '没有大起大落，已经很好了。'],
+      '😣 有挑战': [`没关系，陪读本来就不容易。${partner.msg[1]}`, '挑战是成长的开始，你不是一个人。', '说说看，也许我能帮上忙 💬'],
+      '😤 有点急': ['先深呼吸，我们都一样 😅', '急躁的时候暂停一下，对自己和孩子都好。', '你已经意识到这一点了，这本身就很棒。']
+    };
+    let options = replies[mood] || ['我理解 💪'];
+    sendChatMessage(options[Math.floor(Math.random() * options.length)], true);
+  }, 1200);
+}
+
+function sendChatMessage(text, isAI) {
+  let area = document.getElementById('chatArea');
+  if (!area) return;
+  let wrap = document.createElement('div');
+  let pid = getSelectedPartnerId();
+  let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
+  wrap.className = 'msg-bubble-wrap';
+  wrap.innerHTML = `
+    ${isAI ? `<div class="msg-avatar">${partner.emoji}</div>` : ''}
+    <div class="msg-bubble ${isAI ? 'ai' : ''}" style="${isAI ? '' : 'margin-left:auto;'}">${text}</div>
+    ${!isAI ? `<div class="msg-avatar">😊</div>` : ''}
+  `;
+  area.appendChild(wrap);
+  area.scrollTop = area.scrollHeight;
+}
+
+// ==================== 进展页 ====================
+function renderProgress() {
+  let pid = getSelectedPartnerId();
+  let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
+  let history = getHistory();
+  let totalDays = history.length;
+  document.getElementById('totalCheckins').textContent = totalDays;
+
+  // 环形图
+  let d7 = [];
+  for (let i = 6; i >= 0; i--) {
+    let dd = new Date(); dd.setDate(dd.getDate() - i);
+    d7.push(dd.toISOString().slice(0,10));
+  }
+  let checked7 = d7.filter(d => history.some(h => h.date === d && h.checkin)).length;
+  let pct7 = Math.round((checked7 / 7) * 100);
+  let circ = 314;
+  document.getElementById('ringPercent').textContent = pct7 + '%';
+  document.getElementById('ringArc').setAttribute('stroke-dashoffset', circ - Math.round((pct7 / 100) * circ));
+
+  // 维度进度
+  let streaks = getSOPStreaks();
+  document.getElementById('sopProgressItems').innerHTML = SOP_CATEGORIES.map(cat => {
+    let sel = sopSelected[cat.id] || {};
+    let catYes = Object.values(sel).filter(v => v === 'yes').length;
+    let pct = Math.round((catYes / cat.items.length) * 100);
+    return `<div class="progress-item">
+      <div class="progress-item-header">
+        <span class="progress-item-name">${cat.icon} ${cat.name}</span>
+        <span class="progress-item-score">${pct}%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" style="width:${pct}%;"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('progressPartnerEmoji').textContent = partner.emoji;
+  document.getElementById('progressPartnerName').textContent = partner.name;
+  document.getElementById('progressPartnerMsg').textContent = partner.fb.text;
+}
+
+// ==================== 分享页 ====================
+function renderSharePage() {
+  let pid = getSelectedPartnerId();
+  let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
+  let url = getSiteUrl() + '陪读妈妈搭子.html';
+  document.getElementById('shareUrlDisplay').textContent = url;
+  let history = getHistory();
+  let today = getToday();
+  let conDays = 0;
+  let d = new Date();
+  for (let i = 0; i < 60; i++) {
+    let dd = new Date(d); dd.setDate(d.getDate() - i);
+    if (history.some(h => h.date === dd.toISOString().slice(0,10) && h.checkin)) conDays++;
+    else if (i > 0) break;
+  }
+  document.getElementById('shareStreak').textContent = conDays + '天';
+  document.getElementById('shareToday').textContent = history.some(h => h.date === today && h.checkin) ? '已打卡' : '未打卡';
+  document.getElementById('shareTotal').textContent = history.length;
+}
+
+function copyShareLink() {
+  let url = getSiteUrl() + '陪读妈妈搭子.html';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => showToast('链接已复制！去分享给其他陪读妈妈吧 🌸'));
+  } else {
+    prompt('复制以下链接：', url);
+  }
+}
+
+function openSharePage() {
+  let url = getSiteUrl() + '陪读妈妈搭子.html';
+  window.open(url, '_blank');
+}
+
+// ==================== Tab 切换 ====================
+function switchTab(tab) {
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.tab-item:nth-child(${tab === 'checkin' ? 1 : tab === 'sop' ? 2 : tab === 'progress' ? 3 : 4})`).classList.add('active');
+  document.getElementById('page-' + tab).classList.add('active');
+  if (tab === 'progress') renderProgress();
+  if (tab === 'share') renderSharePage();
+}
+
+// ==================== QA 面板 ====================
+function openQAPanel(type) {
+  let overlay = document.getElementById('qaOverlay');
+  let scroll = document.getElementById('qaScroll');
+  let pid = getSelectedPartnerId();
+  let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
+
+  let items = [];
+  if (type === 'progress') {
+    document.getElementById('qaTitle').textContent = '📈 汇报今日进展';
+    document.getElementById('qaSub').textContent = '选择你今天最满意的方面';
+    items = [
+      { title: '📚 孩子的学习状态不错', sub: '作业完成认真，主动复习', icon: '🎉', msg: `太棒了！${partner.msg[0]}` },
+      { title: '💬 亲子沟通很顺畅', sub: '孩子愿意分享学校的事', icon: '💬', msg: `良好的沟通是亲子关系的基石 ${partner.emoji}` },
+      { title: '😌 保持了平和的心态', sub: '没有急躁，情绪稳定', icon: '🌊', msg: `稳定的情绪是孩子最好的环境。你做到了！` },
+      { title: '📚 帮他制定了学习计划', sub: '时间管理有进步', icon: '🗓️', msg: `有规划的执行力，是给孩子最好的礼物。` }
+    ];
+  } else if (type === 'struggle') {
+    document.getElementById('qaTitle').textContent = '💬 说说你的困惑';
+    document.getElementById('qaSub').textContent = '选择最困扰你的问题';
+    items = [
+      { title: '😣 孩子不愿和我沟通', sub: '问什么都不说', icon: '💔', msg: `${partner.msg[1]} 不急，给孩子时间，也给自己时间。` },
+      { title: '😤 我忍不住发了火', sub: '情绪失控，事后后悔', icon: '🔥', msg: `我们都经历过。重要的是事后修复，而不是自责。` },
+      { title: '😩 不知道该怎么帮孩子', sub: '想支持但不知道怎么做', icon: '🤔', msg: `${partner.msg[0]} 陪伴本身就已经是最大的支持了。` },
+      { title: '😟 孩子成绩下降了', sub: '不知道该怎么面对', icon: '📉', msg: `成绩波动是正常的。关注孩子的状态比分数更重要。` }
+    ];
+  }
+
+  scroll.innerHTML = items.map(item => `
+    <div class="qa-card" onclick="selectQA('${item.title}', '${item.msg}', '${partner.emoji}')">
+      <div style="font-size:24px;margin-bottom:6px;">${item.icon}</div>
+      <div class="qa-card-title">${item.title}</div>
+      <div class="qa-card-sub">${item.sub}</div>
+    </div>
+  `).join('');
+
+  overlay.classList.add('show');
+}
+
+function selectQA(title, msg, emoji) {
+  closeQAPanel();
+  sendChatMessage(title, false);
+  setTimeout(() => sendChatMessage(msg, true), 1200);
+}
+
+function closeQAPanel() {
+  document.getElementById('qaOverlay').classList.remove('show');
+}
+
+// ==================== 反馈弹窗 ====================
+function closeFeedback() {
+  document.getElementById('fbOverlay').classList.remove('show');
+}
+
+// ==================== Toast ====================
+function showToast(text) {
+  let t = document.getElementById('toast');
+  t.textContent = text;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ==================== 初始化 ====================
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+});
+</script>
+
+</body>
+</html>
