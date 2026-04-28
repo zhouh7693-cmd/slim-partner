@@ -540,8 +540,14 @@
         <button class="mood-btn" onclick="sendMood('😤 有点急')" title="有点急躁">😤</button>
       </div>
       <div class="talk-btn-row">
-        <button class="talk-btn" onclick="openQAPanel('progress')">📈 汇报进展</button>
-        <button class="talk-btn" onclick="openQAPanel('struggle')">💬 说说困惑</button>
+        <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
+        <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
+        <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
+        <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
+      </div>
+      <div class="talk-btn-row" style="margin-top:8px;">
+        <button class="talk-btn" onclick="openQAPanel('progress')">📣 汇报进展</button>
+        <button class="talk-btn" onclick="openQAPanel('question')">🤔 有问题想问</button>
       </div>
     </div>
 
@@ -1367,8 +1373,9 @@ function doCheckin() {
   let yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
   let yStr = yesterday.toISOString().slice(0,10);
   let hadY = history.some(h => h.date === yStr);
-  let lastCon = history.filter(h => h.date <= yStr).length;
-  let con = hadY ? (lastCon > 0 ? lastCon : 0) : 0;
+  // 连续打卡天数：正确计算——昨天有打卡则昨天连续天数+1，否则重置为1
+  let yesterdayStreak = getContinuousStreak(history, yStr);
+  let con = hadY ? (yesterdayStreak > 0 ? yesterdayStreak : 1) : 0;
   history.push({ date: today, checkin: true });
   if (history.length > 60) history = history.slice(-60);
   saveHistory(history);
@@ -1378,6 +1385,18 @@ function doCheckin() {
   renderWeekProgress();
   showToast(`${partner.emoji} 打卡成功！连续 ${con + 1} 天 🔥`);
   sendChatMessage(`${partner.emoji} ${con + 1} 天连续打卡！${partner.msg[2]}`, true);
+}
+
+function getContinuousStreak(hist, uptoDate) {
+  // uptoDate 之前的连续打卡天数（不含uptoDate当天）
+  let cnt = 0;
+  for (let i = 1; i <= 60; i++) {
+    let d = new Date(uptoDate); d.setDate(d.getDate() - i);
+    let ds = d.toISOString().slice(0,10);
+    if (hist.some(h => h.date === ds)) cnt++;
+    else break;
+  }
+  return cnt;
 }
 
 function renderWeekProgress() {
@@ -1453,12 +1472,50 @@ function sendChatMessage(text, isAI) {
   area.scrollTop = area.scrollHeight;
 }
 
+// ===== 搭子tag交互（陪读妈妈版）=====
+function askPartner(type) {
+  let pid = getSelectedPartnerId();
+  let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
+  const labels = { progress: '📈 进展', struggle: '😣 困难', idea: '💡 想法', cheer: '🎉 喜事' };
+  const replies = {
+    gentle: {
+      progress: { pos: ['说说最近陪读的进展，我帮你分析分析。', '好，跟我讲讲你最近的状态变化。'], neg: ['哪里还没达到预期？说说看。'] },
+      struggle: { pos: ['有困难是好事，说明你在成长！'], neg: ['没关系，一起想办法。'] },
+      idea: { pos: ['好想法！说说你的灵感。'], neg: ['说说你的困惑，我帮你推演。'] },
+      cheer: { pos: ['哈哈！好事！快说！🎉'], neg: ['好事！让我沾沾喜气！🎊'] }
+    },
+    passion: {
+      progress: { pos: ['冲！说说你的陪读战果！🔥'], neg: ['什么卡住了？冲！💪'] },
+      struggle: { pos: ['困难算什么，你是最棒的！💪'], neg: ['没有过不去的坎！🔥'] },
+      idea: { pos: ['好创意！🔥 让我听听！'], neg: ['说说你的想法！⚡'] },
+      cheer: { pos: ['🎉🎉🎉 说！我要听！'], neg: ['哈哈！好事！🎊'] }
+    },
+    rational: {
+      progress: { pos: ['汇报收到。数据记录中。📊'], neg: ['什么因素影响了陪读进展？📊'] },
+      struggle: { pos: ['困难是数据点在积累经验。'], neg: ['从数据角度看，怎么解决？📊'] },
+      idea: { pos: ['好。说说的核心假设是什么。📊'], neg: ['说说你的思考逻辑。📊'] },
+      cheer: { pos: ['📊 记录这一时刻。'], neg: ['好事！量化一下？📊'] }
+    },
+    tsundere: {
+      progress: { pos: ['……行吧，算你有点进展。'], neg: ['又卡了？哼。'] },
+      struggle: { pos: ['困难谁都有。说吧。'], neg: ['……算了，我帮你。😒'] },
+      idea: { pos: ['😏 什么想法？说来听听。'], neg: ['说说看。🤷'] },
+      cheer: { pos: ['……算你有点本事。😏'], neg: ['好事？😏'] }
+    }
+  };
+  sendChatMessage(labels[type], false);
+  setTimeout(() => {
+    const arr = replies[partner.style]?.[type]?.pos || replies.gentle[type].pos;
+    sendChatMessage(partner.emoji + ' ' + arr[Math.floor(Math.random() * arr.length)], true);
+  }, 800);
+}
+
 // ==================== 进展页 ====================
 function renderProgress() {
   let pid = getSelectedPartnerId();
   let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
-  const sopHistory = getSOPHistory();
   const checkinHistory = getHistory();
+  const sopHistory = getSOPHistory();
   const totalDays = checkinHistory.length;
 
   // 连续天数
@@ -1578,7 +1635,23 @@ function openQAPanel(type) {
       { title: '📚 孩子的学习状态不错', sub: '作业完成认真，主动复习', icon: '🎉', msg: `太棒了！${partner.msg[0]}` },
       { title: '💬 亲子沟通很顺畅', sub: '孩子愿意分享学校的事', icon: '💬', msg: `良好的沟通是亲子关系的基石 ${partner.emoji}` },
       { title: '😌 保持了平和的心态', sub: '没有急躁，情绪稳定', icon: '🌊', msg: `稳定的情绪是孩子最好的环境。你做到了！` },
-      { title: '📚 帮他制定了学习计划', sub: '时间管理有进步', icon: '🗓️', msg: `有规划的执行力，是给孩子最好的礼物。` }
+      { title: '📚 帮他制定了学习计划', sub: '时间管理有进步', icon: '🗓️', msg: `有规划的执行力，是给孩子最好的礼物。` },
+      { title: '🍽️ 一起吃了很愉快的一顿饭', sub: '家庭氛围其乐融融', icon: '🍜', msg: `这样的时刻，是孩子最温暖的记忆。好好珍惜！` },
+      { title: '🌟 看到孩子有明显的进步', sub: '某个薄弱科目有突破', icon: '📈', msg: `进步一点点，就是了不起的成长！继续加油！` },
+      { title: '😊 和孩子相处特别愉快', sub: '一整天没有冲突', icon: '🌸', msg: `没有冲突的一天，就是美好的一天！` },
+      { title: '📖 孩子主动读了一本书', sub: '不用催，自觉阅读', icon: '📚', msg: `主动阅读是学习的最高境界！为他点赞！` },
+      { title: '🏃 带孩子去运动了', sub: '运动释放压力', icon: '🏃', msg: `运动是最好的减压方式，也是亲子时光的好选择！` },
+      { title: '💪 成功控制住了情绪', sub: '虽然很想发火但忍住了', icon: '🙏', msg: `这需要极大的智慧。你做到了，这就是成长！` },
+      { title: '📱 给孩子报了有用的辅导课', sub: '找到了合适的资源', icon: '💡', msg: `选对资源是成功的一半，你做得很好！` },
+      { title: '🌙 睡前和孩子聊了很多', sub: '了解了孩子内心的想法', icon: '🌙', msg: `睡前的对话往往最真实，继续保持这个习惯！` },
+      { title: '🍎 孩子吃了健康的食物', sub: '饮食比昨天更健康', icon: '🍎', msg: `健康的生活方式是长期投资，你在做正确的事！` },
+      { title: '✍️ 帮孩子整理了学习资料', sub: '笔记和错题本有更新', icon: '📓', msg: `好的学习方法能让孩子事半功倍！` },
+      { title: '💤 今天作息很规律', sub: '早睡早起，精力充沛', icon: '⏰', msg: `规律作息是最好的自律表现！` },
+      { title: '🏆 孩子解决了困扰很久的难题', sub: '某道题终于搞懂了', icon: '💡', msg: `这种突破感会让孩子更有信心！` },
+      { title: '🤝 带孩子见了他的朋友', sub: '社交能力在提升', icon: '🤝', msg: `好的社交是情商的基础，继续支持！` },
+      { title: '📝 孩子的书写比之前工整了', sub: '细节在改善', icon: '✍️', msg: `细节的改善体现了态度的变化，继续保持！` },
+      { title: '🎵 孩子愿意和我分享他的爱好', sub: '了解孩子的兴趣', icon: '🎵', msg: `兴趣爱好是了解孩子最好的窗口！` },
+      { title: '🌈 感觉孩子长大了很多', sub: '独立性有提升', icon: '🌱', msg: `孩子在悄悄成长，你正在做的工作是值得的！` }
     ];
   } else if (type === 'struggle') {
     document.getElementById('qaTitle').textContent = '💬 说说你的困惑';
@@ -1587,7 +1660,48 @@ function openQAPanel(type) {
       { title: '😣 孩子不愿和我沟通', sub: '问什么都不说', icon: '💔', msg: `${partner.msg[1]} 不急，给孩子时间，也给自己时间。` },
       { title: '😤 我忍不住发了火', sub: '情绪失控，事后后悔', icon: '🔥', msg: `我们都经历过。重要的是事后修复，而不是自责。` },
       { title: '😩 不知道该怎么帮孩子', sub: '想支持但不知道怎么做', icon: '🤔', msg: `${partner.msg[0]} 陪伴本身就已经是最大的支持了。` },
-      { title: '😟 孩子成绩下降了', sub: '不知道该怎么面对', icon: '📉', msg: `成绩波动是正常的。关注孩子的状态比分数更重要。` }
+      { title: '😟 孩子成绩下降了', sub: '不知道该怎么面对', icon: '📉', msg: `成绩波动是正常的。关注孩子的状态比分数更重要。` },
+      { title: '😰 孩子压力太大了', sub: '看他每天很累', icon: '😓', msg: `孩子的身心健康比任何成绩都重要。帮他减减压吧。` },
+      { title: '😓 我自己也很焦虑', sub: '比孩子还紧张', icon: '😰', msg: `你的焦虑孩子都能感受到。先照顾好自己，才能照顾好孩子。` },
+      { title: '😔 感觉孩子不信任我', sub: '有什么也不说', icon: '🔒', msg: `信任需要时间重建。先从无条件的接纳开始。` },
+      { title: '😞 和孩子的关系有点僵', sub: '冷战了好几天', icon: '🌨️', msg: `关系僵持时，先从一个小小的关心开始，不需要道歉，只需要行动。` },
+      { title: '😣 不知道该怎么立规矩', sub: '管松了不行，管严了更糟', icon: '⚖️', msg: `规矩的核心是爱，不是控制。边界清晰但态度温和，是最好的方式。` },
+      { title: '😓 每天都在催促中度过', sub: '孩子磨蹭，我着急', icon: '⏳', msg: `催促只会增加双方的焦虑。试着用正向激励替代催促。` },
+      { title: '😖 孩子沉迷电子产品', sub: '一说就没收，哭闹', icon: '📱', msg: `完全没收会激化矛盾。试着协商使用时间，找到双方都能接受的方案。` },
+      { title: '😰 报了太多辅导班', sub: '孩子没时间休息', icon: '📚', msg: `质量比数量更重要。高效率的一个小时胜过低质量的三个小时。` },
+      { title: '😞 孩子的弱科一直提不上去', sub: '努力了但没效果', icon: '📉', msg: `进步不一定是分数，可能是学习方法或态度。先肯定努力，再找方法。` },
+      { title: '😣 不知道怎么和青春期孩子相处', sub: '说两句就顶嘴', icon: '😤', msg: `青春期孩子需要的是尊重，不是命令。试着用朋友的身份而不是家长的权威。` },
+      { title: '😓 工作太忙没时间陪孩子', sub: '愧疚感很强', icon: '💼', msg: `高质量的陪伴比长时间更重要。哪怕每天30分钟，全心陪伴都有效。` },
+      { title: '😖 不知道孩子在学校发生了什么', sub: '问不出来', icon: '🏫', msg: `有时候孩子不是不愿意说，是不知道怎么表达。给他一个安全的空间慢慢说。` },
+      { title: '😰 担心孩子高考考不好', sub: '焦虑到失眠', icon: '😨', msg: `焦虑是对未来的担忧，但过度焦虑会影响当下。专注于今天能做的事。` },
+      { title: '😣 孩子没有学习的动力', sub: '逼着学也不学', icon: '🔋', msg: `外在压力只能短期有效。找到孩子的内在动机才是长久之道。` },
+      { title: '😔 觉得自己不是好妈妈', sub: '自责和内疚', icon: '💔', msg: `愿意反思本身就是好的开始。没有完美的妈妈，只有愿意和孩子一起成长的妈妈。` },
+      { title: '😩 不知道该不该让孩子住校', sub: '两种选择各有利弊', icon: '🏠', msg: `没有绝对正确的选择，只有最适合你们家庭情况的选择。听听孩子的想法也很重要。` }
+    ];
+  } else if (type === 'question') {
+    document.getElementById('qaTitle').textContent = '🤔 有问题想问';
+    document.getElementById('qaSub').textContent = '选择一个你最想了解的方面';
+    items = [
+      { title: '📚 怎么帮孩子找到学习动力', sub: '说他没反应，逼他更抵触', icon: '🔋', msg: `${partner.emoji} 学习动力来自内在成就感，不是外部压力。试着发现孩子在某个学科的小进步，真诚地肯定他，而不是笼统地夸"你很聪明"。具体化的认可能激发内在动机。` },
+      { title: '📱 孩子沉迷手机怎么管', sub: '说也不听，收了又闹', icon: '📱', msg: `${partner.emoji} 完全没收会激化矛盾。试着和孩子协商使用规则，让他参与制定规则的过程。规则一旦确定，双方都要遵守，包括家长自己也要以身作则。` },
+      { title: '😤 孩子一批评就顶嘴', sub: '说两句就炸，完全没法沟通', icon: '😤', msg: `${partner.emoji} 顶嘴往往是孩子在练习表达自我。先等他说完，再重复他说的内容表示理解，最后才说你的观点。被听到是所有人的基本需求，孩子也不例外。` },
+      { title: '📊 不知道孩子的真实水平', sub: '成绩忽上忽下，看不清', icon: '📊', msg: `${partner.emoji} 成绩只是表象，关键是找到知识漏洞。陪孩子一起分析试卷，标注错题类型（粗心/概念不清/完全不会），针对性补漏比刷题更有效。` },
+      { title: '🏠 家长会该问老师什么', sub: '时间短，不知道怎么问最有价值', icon: '🏫', msg: `${partner.emoji} 问三个关键问题：1）孩子在学校最开心的事是什么？2）他最需要在哪方面改进？3）在家里我能做什么来支持？这些问题能让你快速了解孩子的全面状态。` },
+      { title: '🍽️ 怎么和孩子聊他不想聊的话题', sub: '问什么都不回答', icon: '💬', msg: `${partner.emoji} 不直接问，而是分享你自己的经历。比如"妈妈今天遇到一件烦心事…"孩子听到你的脆弱后，往往更愿意敞开心扉。关系先于教育。` },
+      { title: '🏆 怎么帮孩子设定合理目标', sub: '定太高达不到，定太低没意义', icon: '🎯', msg: `${partner.emoji} 目标是跳一跳够得着的。用"最近的一次成绩"作为基准，定一个5%~10%提升的目标。让孩子自己参与设定Ownership（所有权感）是坚持的关键。` },
+      { title: '😰 高一成绩下滑正常吗', sub: '初中成绩很好，高中突然不行了', icon: '📉', msg: `${partner.emoji} 高一成绩下滑很常见——课程难度提升、学习方法需要调整、竞争环境变了。关键是不要只看分数，要看排名和知识掌握程度。帮孩子找到新的学习方法比焦虑更重要。` },
+      { title: '💪 怎么培养孩子的自律能力', sub: '全程盯着才学，一点不自觉', icon: '💪', msg: `${partner.emoji} 自律不是逼出来的，是慢慢养成的。从一个小习惯开始：比如每天只要求"认真做完一门作业"，完成后给予具体表扬，逐步建立成就感，习惯成自然。` },
+      { title: '📖 孩子阅读量不够怎么办', sub: '课外书买了不看，就爱刷视频', icon: '📖', msg: `${partner.emoji} 试着找到孩子的兴趣点，从那个领域的书开始。不要强迫阅读时长，而是让他选自己喜欢的。可以先从短篇文章、杂志入手，培养阅读习惯比读什么书更重要。` },
+      { title: '🤝 怎么平衡两个孩子的时间', sub: '精力有限，不知道怎么分配', icon: '🤝', msg: `${partner.emoji} 每个孩子需要的关注方式不同，不一定要平均分配时间，而要根据各自的需求分配。老大可能更需要独立空间，老二可能更需要陪伴时间。关键是让每个孩子感受到独特被爱。` },
+      { title: '😓 孩子不愿意运动怎么办', sub: '窝在家里不动，身体越来越差', icon: '🏃', msg: `${partner.emoji} 不要强迫运动，而是找孩子能接受的形式。可以是骑车、游泳、甚至是散步逛街。关键是动起来，不要纠结形式。家长一起参与会大大增加孩子的参与意愿。` },
+      { title: '📝 怎么帮孩子做好错题本', sub: '做了也没用，下次还是错', icon: '📓', msg: `${partner.emoji} 错题本的关键不是抄题，而是归类错误类型（粗心/概念/完全不懂）和写下"下次怎么不错"。每周翻看一次，而不是做完就扔掉。定期重做比做新题更重要。` },
+      { title: '😖 孩子考试焦虑怎么办', sub: '平时会，一到大考就不行', icon: '😰', msg: `${partner.emoji} 考试焦虑往往是"怕失败"的心理在作祟。帮孩子把"考不好怎么办"换成"我能做什么准备"。考前模拟练习、学会深呼吸和放松技巧，都能有实质帮助。` },
+      { title: '🌱 怎么让孩子知道为什么而学', sub: '问他为什么学习，他就说为了考试', icon: '🌱', msg: `${partner.emoji} 带他去看看真实的工作场景，或者讲讲不同职业的故事。找到学习与真实世界的连接，比说"为了好工作"更有力量。使命感是内驱力的根源。` },
+      { title: '💬 怎么和孩子聊未来规划', sub: '问他什么都不想，不知道要什么', icon: '🔮', msg: `${partner.emoji} 不要问"你以后想做什么"这种大问题，而是问"你做什么事情的时候感觉最开心/最投入"。帮助孩子发现心流体验，比给一个答案更重要。未来规划是一个过程，不是立刻有答案。` },
+      { title: '🏫 孩子不想上学怎么办', sub: '找各种理由不去，说了也没用', icon: '🏫', msg: `${partner.emoji} 孩子说不想上学，背后一定有原因。先共情——"你一定很不舒服才会这么说"——而不是否定感受。然后慢慢问：是学习太难？是人际关系？还是老师的问题？找到根因才能解决。` },
+      { title: '😤 孩子脾气暴躁怎么办', sub: '一言不合就发火，说什么都顶嘴', icon: '😤', msg: `${partner.emoji} 暴躁往往是无力感的外化。教孩子识别情绪——"我感到生气，因为…"——而不是用行动表达。当他学会用语言命名情绪时，行为会自然缓和。家长先做情绪管理的榜样最重要。` },
+      { title: '📚 怎么帮孩子找到学习方法', sub: '很努力但成绩就是上不去', icon: '📚', msg: `${partner.emoji} 努力不一定有效，关键是方法。学习金字塔显示：听讲只能记住5%，但教别人能记住90%。鼓励孩子用自己的话讲给别人听，是最有效的学习方法之一。费曼学习法值得试试。` },
+      { title: '💔 单亲家庭怎么给孩子足够的爱', sub: '怕孩子缺少父爱/母爱', icon: '💔', msg: `${partner.emoji} 孩子最需要的是稳定的爱和安全感，不是双亲都在。重要的是你的状态——你自己充满爱，孩子就能感受到。单亲不是缺陷，是你们家庭的特点，用积极的方式讲述这个故事。` }
     ];
   }
 

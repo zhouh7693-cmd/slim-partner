@@ -294,6 +294,40 @@
     .history-bar { width: 100%; border-radius: 6px 6px 0 0; transition: height 0.5s; min-height: 4px; }
     .history-bar-label { font-size: 10px; color: #8f9eae; text-align: center; }
     .history-no-data { text-align: center; color: #8f9eae; font-size: 13px; padding: 20px 0; }
+
+    /* ===== QA面板 ===== */
+    .qa-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 9999; display: none; justify-content: flex-end; flex-direction: column;
+    }
+    .qa-overlay.show { display: flex; }
+    .qa-panel {
+      background: white; border-radius: 28px 28px 0 0;
+      max-height: 80vh; display: flex; flex-direction: column;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .qa-header {
+      padding: 20px 20px 12px; border-bottom: 1px solid #f0f0f0;
+      text-align: center; flex-shrink: 0;
+    }
+    .qa-title { font-size: 18px; font-weight: 700; color: #1a237e; }
+    .qa-sub { font-size: 12px; color: #8f9eae; margin-top: 4px; }
+    .qa-close {
+      position: absolute; right: 20px; top: 20px;
+      background: none; border: none; font-size: 20px; cursor: pointer;
+    }
+    .qa-scroll {
+      flex: 1; overflow-y: auto; padding: 16px; display: grid;
+      grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .qa-card {
+      background: #f5f5f5; border-radius: 16px; padding: 14px;
+      cursor: pointer; transition: all 0.2s; text-align: center;
+    }
+    .qa-card:active { background: #eef2ff; transform: scale(0.97); }
+    .qa-card-title { font-size: 13px; font-weight: 700; color: #1a237e; }
+    .qa-card-sub { font-size: 11px; color: #8f9eae; margin-top: 4px; line-height: 1.4; }
   </style>
 </head>
 <body>
@@ -567,6 +601,10 @@ function renderCheckinPage() {
       <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
       <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
     </div>
+    <div class="talk-btn-row" style="margin-top:8px;">
+      <button class="talk-btn" onclick="openQAPanel('progress')">📣 汇报进展</button>
+      <button class="talk-btn" onclick="openQAPanel('question')">🤔 有问题想问</button>
+    </div>
   </div>`;
 
   // 分享入口
@@ -690,16 +728,196 @@ function appendMsg(emoji, text, isAI) {
 function askPartner(type) {
   const p = PARTNER_STYLES[selectedPartner];
   const questions = {
-    progress: { q: '📈 进展', msgs: ['说说最近的进展，我帮你分析一下。', '好，跟我讲讲你们现在的核心数据指标。', '进度如何？有没有里程碑要到了？'] },
-    struggle: { q: '😣 困难', msgs: ['说出来，我们一起想办法。', '创业没有一帆风顺的，说说卡在哪里了？', '这个问题我来帮你拆解一下。'] },
-    idea: { q: '💡 想法', msgs: ['说说你的想法，我来帮你推演。', '好创意！跟我说说，这个想法的核心假设是什么？', '来，展开讲讲。'] },
-    cheer: { q: '🎉 喜事', msgs: ['快说！什么事让你开心？', '哈哈！恭喜！分享给我听听！', '好事！来，让我沾沾喜气 🎊'] }
+    progress: {
+      q: '📈 进展',
+      msgs: [
+        '说说最近的进展，我帮你分析一下。',
+        '好，跟我讲讲你们现在的核心数据指标。',
+        '进度如何？有没有里程碑要到了？',
+        '你最近做的最重要的一件事是什么？',
+        '今天的进展有没有让你感到惊喜的地方？',
+        '来，汇报一下这周的创业战况。',
+        '有没有什么数据比预期好的？',
+        '用户反馈最近有什么变化吗？',
+        '你们团队这周做了哪些关键动作？',
+        '有没有找到新的增长点？',
+        '产品数据最近有没有起色？',
+        '这一周的收获是什么？',
+        '跟我说说，你们最近的获客情况如何？',
+        '有没有完成什么原本担心完不成的任务？',
+        '客户最近有什么新的需求或反馈？',
+        '你最满意这周做的哪个决策？',
+        '销售渠道有没有新的突破？',
+        '有没有什么比上周更顺畅了？',
+        '跟我说说，你个人的状态怎么样？',
+        '你们这个月的目标进展到哪了？'
+      ]
+    },
+    struggle: {
+      q: '😣 困难',
+      msgs: [
+        '说出来，我们一起想办法。',
+        '创业没有一帆风顺的，说说卡在哪里了？',
+        '这个问题我来帮你拆解一下。',
+        '是什么让你觉得最难推进？',
+        '阻力主要来自内部还是外部？',
+        '这个困难你扛了多久了？',
+        '说说具体卡在哪一步？',
+        '有没有试过什么方法，效果如何？',
+        '这个问题，你之前遇到过类似的吗？',
+        '是资源不够，还是方向不确定？',
+        '你心里最担心的是什么？',
+        '说出来，别一个人扛。',
+        '你觉得这个问题本质上是什么？',
+        '有没有可能换个角度看待这件事？',
+        '这件事让你感到最沮丧的是什么？',
+        '团队内部有分歧吗？',
+        '现金流情况怎么样？',
+        '你最怕听到用户说什么？',
+        '有没有想过放弃？',
+        '说说看，我帮你理一理。'
+      ]
+    },
+    idea: {
+      q: '💡 想法',
+      msgs: [
+        '说说你的想法，我来帮你推演。',
+        '好创意！跟我说说，这个想法的核心假设是什么？',
+        '来，展开讲讲。',
+        '这个想法是怎么来的？',
+        '有没有可能扩展到更大的市场？',
+        '这个点子，竞品有没有做过类似尝试？',
+        '如果你是用户，你会为什么买单？',
+        '这个想法的最大风险是什么？',
+        '如果要验证这个想法，第一步做什么？',
+        '你觉得这个想法能解决用户的什么痛点？',
+        '这个创意能不能做成一个可持续的业务？',
+        '谁来为这个想法买单？',
+        '说说你的灵感来源。',
+        '有没有可能和现有业务产生协同？',
+        '这个想法的天花板有多高？',
+        '如果失败了，最可能的原因是什么？',
+        '你有没有和目标用户聊过这个想法？',
+        '这个点子最打动你的是什么？',
+        '从第一性原理看，这个想法成立吗？',
+        '说说你的商业模型。'
+      ]
+    },
+    cheer: {
+      q: '🎉 喜事',
+      msgs: [
+        '快说！什么事让你开心？',
+        '哈哈！恭喜！分享给我听听！',
+        '好事！来，让我沾沾喜气 🎊',
+        '这种时刻值得好好庆祝！说说细节？',
+        '我就知道你能行！发生什么了？',
+        '哈哈！太棒了！什么好消息？',
+        '🎉🎉🎉 说！我要听！',
+        '客户签单了？融资到了？快说！',
+        '这种时刻，绝对要截图留念！',
+        '说！什么让你这么开心？',
+        '这一刻你等了多久？',
+        '哈哈！这个好消息比任何咖啡都提神！',
+        '好事！说出来分享一下喜悦！',
+        '这个进展，我替你骄傲！',
+        '说！让搭子我也沾沾喜气！',
+        '哇！比预期还好！怎么回事？',
+        '庆祝一下！为什么今天特别？',
+        '我都能想象你现在的表情了！',
+        '哈哈，干得漂亮！',
+        '好事成双！来说说细节！'
+      ]
+    }
   };
   const q = questions[type];
   appendMsg('😀', q.q);
   setTimeout(() => {
     appendMsg(p.emoji, q.msgs[Math.floor(Math.random() * q.msgs.length)], true);
   }, 800);
+}
+
+// ===== QA面板数据 =====
+const QA_DATA = {
+  pos: [
+    { icon: '🚀', tag: '产品', question: '产品打磨有了突破性进展', answer: '产品突破是创业最实质的进展！说说具体改进了什么，用户反馈如何？这个突破能带来多少转化率提升？', score: 0 },
+    { icon: '💰', tag: '融资', question: '收到了投资人的TS/条款', answer: '收到TS是重要里程碑！但TS不等于钱到账。继续推进条款谈判，同时保持和其他投资人的沟通，不把所有鸡蛋放一个篮子里。', score: 0 },
+    { icon: '📈', tag: '增长', question: '本周新增用户/收入大幅增长', answer: '增长加速说明产品市场契合度在提升！关键是分析这次增长的核心驱动因素，是获客策略、内容还是口碑？找到后加大投入。', score: 0 },
+    { icon: '🤝', tag: '合作', question: '谈成了一家重要合作伙伴', answer: '战略合作伙伴能帮你快速获取用户或能力！确认合作落地路径，设定明确的KPI，定期跟进执行进度。', score: 0 },
+    { icon: '🏆', tag: '奖项', question: '拿到了行业奖项或媒体报道', answer: '品牌背书很重要！乘胜追击，把奖项用到官网、社媒和融资材料里。同时看看能否借势再做一次传播。', score: 0 },
+    { icon: '💡', tag: '专利', question: '申请了技术专利/知识产权', answer: '知识产权是护城河的重要组成部分！确保专利描述准确覆盖核心技术，并考虑PCT申请保护海外市场。', score: 0 },
+    { icon: '📊', tag: '数据', question: '核心指标创历史新高', answer: '核心指标新高说明方向对了！进一步拆解是哪个细分用户群在增长，找到高价值用户特征，加大获客。', score: 0 },
+    { icon: '🎯', tag: '交付', question: '重要客户/项目成功交付', answer: '客户成功是最好的销售！请客户写一段推荐语，或申请案例研究，这是最有说服力的销售素材。', score: 0 },
+    { icon: '🔧', tag: '效率', question: '团队效率显著提升', answer: '效率提升意味着单位成本在降低！记录这次提升的关键原因——是流程优化、工具升级还是团队默契？把它固化下来。', score: 0 },
+    { icon: '🧠', tag: '战略', question: '想清楚了困扰很久的战略问题', answer: '战略清晰是最有价值的事情！把它写成文档，和团队对齐，并拆解成可执行的近期行动计划。', score: 0 },
+    { icon: '👥', tag: '招聘', question: '招到了一位关键人才', answer: '关键人才是创业公司最重要的资产！做好 onboarding，让他快速融入并发挥价值。同时规划下一个关键岗位。', score: 0 },
+    { icon: '🌐', tag: '出海', question: '开始拓展海外市场', answer: '出海需要本地化适配，不要简单翻译。找到第一批种子用户，验证本地需求，再加大投入。', score: 0 },
+    { icon: '📱', tag: '留存', question: '用户留存率明显提升', answer: '留存提升说明用户在持续发现产品价值！分析留存好的用户行为，强化产品的核心价值点，减少流失路径。', score: 0 },
+    { icon: '💬', tag: '口碑', question: '用户主动推荐/转介绍明显增加', answer: '口碑传播是获客成本最低的方式！深入了解用户推荐动机，量化推荐带来的新用户占比，这是产品真正得到认可的信号。', score: 0 },
+    { icon: '📉', tag: '亏损', question: '单位经济模型终于打正了', answer: '这是创业公司的重大里程碑！单位经济打正意味着商业模式可持续。继续优化，同时保持对规模扩张的关注。', score: 0 },
+    { icon: '🏗️', tag: '技术', question: '攻克了关键技术难题', answer: '技术壁垒是护城河之一！评估这个技术优势能保持多久，如果是核心差异化点，加强专利和团队保密。', score: 0 },
+    { icon: '🎯', tag: '复盘', question: '完成了一次成功的项目复盘', answer: '复盘是组织学习的核心！把复盘结论固化到流程里，避免同类问题重复发生，好经验持续复制。', score: 0 },
+    { icon: '📧', tag: 'PR', question: '媒体报道带来了显著流量', answer: '媒体流量是一次性的，更重要的是沉淀。把这波流量引导到私域（公众号、社群），持续运营成忠实用户。', score: 0 },
+    { icon: '⚙️', tag: '定价', question: '产品定价策略验证成功', answer: '定价是商业模式的核心！好的定价既能捕获价值又不流失用户。分析不同定价档位的转化率，找到最优方案。', score: 0 },
+    { icon: '🔄', tag: '迭代', question: '产品迭代速度明显加快', answer: '迭代速度是创业公司的核心竞争力之一！找到影响迭代速度的瓶颈——是需求收集、开发流程还是测试？针对性优化。', score: 0 }
+  ],
+  neg: [
+    { icon: '😰', tag: '迷茫', question: '方向不确定，该往哪走', answer: '方向迷茫时回到用户。访谈10个用户，看他们最痛的是什么、愿意为什么付钱。最真实的用户需求会指引你方向。', score: 0 },
+    { icon: '💸', tag: '烧钱', question: '现金流紧张，不知道能撑多久', answer: '先止血！列出所有可削减的成本，优先砍不影响核心业务的支出。同时加速应收账款的回收，争取战略投资。', score: 0 },
+    { icon: '🤷', tag: '团队', question: '核心团队成员想离开', answer: '先深度对话，理解真实原因。是成长空间、股权还是文化？很多离职是可以挽回的，但需要快速行动。', score: 0 },
+    { icon: '📉', tag: '下滑', question: '核心指标持续下滑', answer: '指标下滑是警报！不要猜测原因，去和用户聊。做 5~10 个深度用户访谈，找到下滑的真实原因再对症下药。', score: 0 },
+    { icon: '⚔️', tag: '竞争', question: '大公司入场，竞争加剧', answer: '大公司船大难掉头，这是你的优势。专注他们看不起或做不好的细分市场，做深做透，形成局部优势后再扩张。', score: 0 },
+    { icon: '😤', tag: '困境', question: '技术上遇到无法解决的难题', answer: '找不到方案时找人聊！找该领域的高手、投资人朋友圈、或者技术社区。99%的问题都有前人解决过，只是你还没找到。', score: 0 },
+    { icon: '🚫', tag: '瓶颈', question: '用户增长陷入瓶颈', answer: '增长瓶颈往往源于产品核心价值不够聚焦。回到用户访谈，找到使用频次最高、最愿意付费的场景，集中资源深耕。', score: 0 },
+    { icon: '😓', tag: '疲惫', question: '身心俱疲，快撑不住了', answer: '创业是马拉松，身心是本钱。给自己放一天假，远离工作。休息不是懈怠，是为了走更远的路。', score: 0 },
+    { icon: '💔', tag: '撕逼', question: '合伙人之间出现严重分歧', answer: '合伙人问题要趁早解决，不要积累。先就事论事，找到共同利益点。如果核心价值观不一致，早分手比晚分手好。', score: 0 },
+    { icon: '📋', tag: '执行', question: '团队执行力和效率都很低', answer: '效率低的根源往往是目标不清晰或流程有问题。每周明确 Priority，只留最重要的3件事，让大家聚焦。', score: 0 },
+    { icon: '🎯', tag: '定位', question: '产品定位模糊，用户说不清你是做什么的', answer: '一句话说清楚产品是生存技能。用"帮助XX用户实现XX目标"的句式测试，直到每个人听了都明白。', score: 0 },
+    { icon: '📧', tag: '冷场', question: '投资人见面后就没有下文了', answer: '没有下文通常是因为你没能打动他。不要害怕主动询问反馈，了解拒绝的真实原因，针对性调整后再约。', score: 0 },
+    { icon: '💬', tag: '沟通', question: '不知道怎么和团队有效沟通', answer: '好的沟通从透明开始。定期全员会同步进展和挑战，让大家知道真实情况。坦诚的团队效率更高。', score: 0 },
+    { icon: '📊', tag: '指标', question: '不知道该关注什么指标', answer: '只有一个北极星指标——对你当前阶段最重要的指标。把它放在全团队最显眼的位置，其他指标都服务它。', score: 0 },
+    { icon: '🌊', tag: '试错', question: '做了很多尝试，都没有效果', answer: '试错本身不是问题，问题是每次试错要学到东西。记录每次实验的假设、结果、学到的东西。10次试错后你会比大多数人有洞察力。', score: 0 },
+    { icon: '⏰', tag: '节奏', question: '被各种紧急事情追着跑，没有时间思考', answer: '没有战略思考的时间，意味着公司在消耗存量价值。每周给自己留至少半天战略思考时间，这是创始人最重要的工作。', score: 0 },
+    { icon: '🤝', tag: 'BD', question: '合作伙伴谈了但推进不下去', answer: '推进不下去通常是利益不清晰或对方优先级不够。明确你给对方的价值，以及你希望对方具体做什么。', score: 0 },
+    { icon: '📱', tag: '留存', question: '用户用了一次就不回来了', answer: '新用户流失是产品市场契合度不足的信号。找到那批留存用户的共同特征，问他们为什么留下来。', score: 0 },
+    { icon: '🎯', tag: '定价', question: '不敢收钱，怕用户流失', answer: '不收钱的公司不是真正的商业。设计合理的付费墙，让付费用户得到额外价值。收钱还能留下来的用户才是你的真用户。', score: 0 },
+    { icon: '🔮', tag: '退出', question: '不确定现在是坚持还是放弃', answer: '问自己：如果你知道18个月后能成功，你今天还愿意做吗？如果答案是Yes，那问题不是要不要坚持，而是怎么调整策略。', score: 0 }
+  ]
+};
+
+// ===== QA面板 =====
+function openQAPanel(type) {
+  let overlay = document.getElementById('qaOverlay');
+  let scroll = document.getElementById('qaScroll');
+  let p = PARTNER_STYLES[selectedPartner];
+  let data = type === 'question' ? QA_DATA : QA_DATA; // both use same data
+  let items = [];
+  if (type === 'question') {
+    document.getElementById('qaTitle').textContent = '🤔 有问题想问';
+    document.getElementById('qaSub').textContent = '选择你最想了解的方面';
+    items = [...data.pos, ...data.neg];
+  } else {
+    document.getElementById('qaTitle').textContent = '📣 汇报创业进展';
+    document.getElementById('qaSub').textContent = '选择你最近的状态';
+    items = [...data.pos, ...data.neg];
+  }
+  scroll.innerHTML = items.map(item => `
+    <div class="qa-card" onclick="selectQA('${item.tag}', '${item.answer}', '${p.emoji}')">
+      <div style="font-size:24px;margin-bottom:6px;">${item.icon}</div>
+      <div class="qa-card-title">${item.tag}</div>
+      <div class="qa-card-sub">${item.question}</div>
+    </div>
+  `).join('');
+  overlay.classList.add('show');
+}
+
+function selectQA(tag, answer, emoji) {
+  closeQAPanel();
+  appendMsg(tag, false);
+  setTimeout(() => appendMsg(emoji + ' ' + answer, true), 1200);
+}
+
+function closeQAPanel() {
+  document.getElementById('qaOverlay').classList.remove('show');
 }
 
 function copyShareLink() {
@@ -968,7 +1186,8 @@ function showSOPFinish() {
       return s + (ans ? h.score : 0);
     }, 0);
     const cls = catScore >= 6 ? 'good' : catScore >= 3 ? 'warn' : 'bad';
-    const pct2 = Math.max(0, Math.min(100, Math.round(((catScore + 5) / 10) * 100)));
+    const maxPossibleCatScore = cat.habits.reduce((s, h) => s + Math.max(0, h.score), 0);
+    const pct2 = Math.max(0, Math.min(100, Math.round((catScore / maxPossibleCatScore) * 100)));
     return `<div class="sop-cat-row">
       <div class="sop-cat-row-left"><span>${cat.icon}</span><span>${cat.name}</span></div>
       <div class="sop-cat-row-right ${cls}">${pct2}%</div>
@@ -1043,7 +1262,8 @@ function renderSOPDoneState() {
             const ans = catData ? (catData.yes > i ? true : false) : false;
             return s + (ans ? Math.max(0, h.score) : 0);
           }, 0);
-          const pct2 = Math.max(0, Math.min(100, Math.round(((catScore + 5) / 10) * 100)));
+          const maxPossibleCatScore = cat.habits.reduce((s, h) => s + Math.max(0, h.score), 0);
+          const pct2 = Math.max(0, Math.min(100, Math.round((catScore / maxPossibleCatScore) * 100)));
           return `<div class="sop-done-cat-row">
             <span class="sop-done-cat-name">${cat.icon} ${cat.name.slice(2)}</span>
             <span class="sop-done-cat-score">${pct2}%</span>
@@ -1189,7 +1409,8 @@ function renderShare() {
             const catScore = cat.habits.reduce((s, h, i) => {
               return s + (catData && catData.yes > i ? Math.max(0, h.score) : 0);
             }, 0);
-            const pct2 = Math.max(0, Math.min(100, Math.round(((catScore + 5) / 10) * 100)));
+            const maxPossibleCatScore = cat.habits.reduce((s, h) => s + Math.max(0, h.score), 0);
+            const pct2 = Math.max(0, Math.min(100, Math.round((catScore / maxPossibleCatScore) * 100)));
             return `<div class="share-dim-item">
               <span class="share-dim-label">${cat.icon} ${cat.name.slice(2)}</span>
               <span class="share-dim-score">${pct2}%</span>
@@ -1215,5 +1436,17 @@ document.addEventListener('DOMContentLoaded', function() {
   renderCheckinPage();
 });
   </script>
+
+<!-- ===== QA面板 ===== -->
+<div class="qa-overlay" id="qaOverlay" onclick="if(event.target===this)closeQAPanel()">
+  <div class="qa-panel">
+    <div class="qa-header">
+      <div class="qa-title" id="qaTitle">🤔 有问题想问</div>
+      <div class="qa-sub" id="qaSub">选择你最想了解的方面</div>
+      <button class="qa-close" onclick="closeQAPanel()">✕</button>
+    </div>
+    <div class="qa-scroll" id="qaScroll"></div>
+  </div>
+</div>
 </body>
 </html>

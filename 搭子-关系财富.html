@@ -517,6 +517,12 @@
         <div class="mood-btn" onclick="sendMood('tired')" title="累了">😫</div>
       </div>
       <div class="talk-btn-row">
+        <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
+        <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
+        <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
+        <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
+      </div>
+      <div class="talk-btn-row" style="margin-top:8px;">
         <button class="talk-btn" onclick="sendTalk('progress')">📣 汇报进展</button>
         <button class="talk-btn" onclick="sendTalk('question')">🤔 有问题想问</button>
       </div>
@@ -1016,6 +1022,44 @@ function sendTalk(type) {
   } else {
     openQAPanel('question');
   }
+}
+
+// ===== 搭子tag交互（关系财富版）=====
+function askPartner(type) {
+  const partner = currentPartner || PARTNERS[0];
+  const style = partner.style || 'gentle';
+  const labels = { progress: '📈 进展', struggle: '😣 困难', idea: '💡 想法', cheer: '🎉 喜事' };
+  const replies = {
+    gentle: {
+      progress: { pos: ['说说最近的关系进展，我帮你分析分析。', '好，跟我讲讲你最近的关系变化。'], neg: ['哪里还没达到预期？说说看。'] },
+      struggle: { pos: ['有困难是好事，说明你在突破！'], neg: ['没关系，一起想办法。'] },
+      idea: { pos: ['好想法！说说你的灵感。'], neg: ['说说你的困惑，我帮你推演。'] },
+      cheer: { pos: ['哈哈！好事！快说！🎉'], neg: ['好事！让我沾沾喜气！🎊'] }
+    },
+    passion: {
+      progress: { pos: ['冲！说说你的关系战果！🔥'], neg: ['什么卡住了？冲！💪'] },
+      struggle: { pos: ['困难算什么，你是最棒的！💪'], neg: ['没有过不去的坎！🔥'] },
+      idea: { pos: ['好创意！🔥 让我听听！'], neg: ['说说你的想法！⚡'] },
+      cheer: { pos: ['🎉🎉🎉 说！我要听！'], neg: ['哈哈！好事！🎊'] }
+    },
+    rational: {
+      progress: { pos: ['汇报收到。数据记录中。📊'], neg: ['什么因素影响了关系进展？📊'] },
+      struggle: { pos: ['困难是数据点在积累经验。'], neg: ['从数据角度看，怎么解决？📊'] },
+      idea: { pos: ['好。说说的核心假设是什么。📊'], neg: ['说说你的关系逻辑。📊'] },
+      cheer: { pos: ['📊 记录这一时刻。'], neg: ['好事！量化一下？📊'] }
+    },
+    tsundere: {
+      progress: { pos: ['……行吧，算你有点进展。'], neg: ['又卡了？哼。'] },
+      struggle: { pos: ['困难谁都有。说吧。'], neg: ['……算了，我帮你。😒'] },
+      idea: { pos: ['😏 什么想法？说来听听。'], neg: ['说说看。🤷'] },
+      cheer: { pos: ['……算你有点本事。😏'], neg: ['好事？😏'] }
+    }
+  };
+  showMsg(labels[type], false);
+  setTimeout(() => {
+    const arr = replies[style]?.[type]?.pos || replies.gentle[type].pos;
+    showMsg(partner.emoji + ' ' + arr[Math.floor(Math.random() * arr.length)], true);
+  }, 800);
 }
 
 let currentQAType = null;
@@ -2138,7 +2182,18 @@ function showSOPFinish() {
   overlay.classList.add('show');
   sopDone = true;
   saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: today, submittedCats: sopSubmittedCats });
-  saveSOPToHistory({ date: today, score: score, totalYes: totalYes, totalNo: totalNo });
+  // 保存各维度数据到历史（含 yes/no 明细，供进展页正确计算各维度百分比）
+  const catsData = SOP_CATEGORIES.map(cat => {
+    let sel = sopSelected[cat.id] || {};
+    let catYes = 0, catNo = 0;
+    cat.items.forEach((item, idx) => {
+      let state = sel[idx];
+      if (state === 'yes') catYes++;
+      else if (state === 'no') catNo++;
+    });
+    return { id: cat.id, yes: catYes, no: catNo };
+  });
+  saveSOPToHistory({ date: today, score: score, totalYes: totalYes, totalNo: totalNo, cats: catsData });
 }
 
 function closeSOPFinish() {
@@ -2250,10 +2305,14 @@ function renderRelProgress() {
     dimsEl.innerHTML = SOP_CATEGORIES.map(cat => {
       const catAvg = history.length > 0
         ? Math.round(history.reduce((s, h) => {
-            const sel = (h.selected && h.selected[cat.id]) || {};
-            return s + Object.values(sel).filter(v => v === 'yes').length;
+            if (h.cats) {
+              const catData = h.cats.find(c => c.id === cat.id);
+              return s + (catData ? Math.round((catData.yes / cat.items.length) * 100) : 0);
+            }
+            // 向后兼容：旧记录没有cats数据，用totalYes按维度平均再归一化为百分比
+            return s + Math.round(((h.totalYes || 0) / SOP_CATEGORIES.length / cat.items.length) * 100);
           }, 0) / history.length) : 0;
-      const fill = Math.round((catAvg / cat.items.length) * 100);
+      const fill = catAvg;
       return `<div style="display:flex;align-items:center;gap:10px;">
         <div style="font-size:18px;width:28px;text-align:center;">${cat.icon}</div>
         <div style="flex:1;">
