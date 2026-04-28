@@ -490,6 +490,10 @@
     <div class="tab-icon">📣</div>
     <div class="tab-label">分享</div>
   </div>
+  <div class="tab-item" onclick="switchTab('partner')">
+    <div class="tab-icon">💬</div>
+    <div class="tab-label">搭子</div>
+  </div>
 </div>
 
 <!-- ===== Page: 打卡 ===== -->
@@ -581,6 +585,38 @@
     </div>
 
     <footer>每天一次签到 · 你的搭子会给你力量</footer>
+  </div>
+</div>
+
+<!-- ===== Page: 搭子 ===== -->
+<div id="page-partner" class="page" style="display:none;">
+  <div style="padding:16px 12px 80px;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:24px;font-weight:700;color:#333;">💬 搭子</div>
+      <div style="font-size:13px;color:#999;margin-top:4px;">和你的身体搭子聊聊</div>
+    </div>
+    <div id="partnerCard" style="background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border-radius:20px;padding:20px;margin-bottom:16px;">
+      <div id="partnerAvatarB" style="font-size:48px;text-align:center;margin-bottom:8px;"></div>
+      <div id="partnerNameB" style="text-align:center;font-size:16px;font-weight:700;color:#333;"></div>
+      <div id="partnerStyleB" style="text-align:center;font-size:12px;color:#2e7d32;margin-top:4px;"></div>
+    </div>
+    <div class="panel-label" style="margin-bottom:10px;">💬 和搭子说说话</div>
+    <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;">
+      <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
+      <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
+      <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
+      <div class="mood-btn" onclick="sendMood('tired')" title="疲惫">😫</div>
+    </div>
+    <div class="talk-btn-row">
+      <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
+      <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
+      <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
+      <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
+    </div>
+    <div class="talk-btn-row" style="margin-top:8px;">
+      <button class="talk-btn" onclick="openQAPanel('progress')">📣 汇报进展</button>
+      <button class="talk-btn" onclick="openQAPanel('question')">🤔 有问题想问</button>
+    </div>
   </div>
 </div>
 
@@ -943,10 +979,11 @@ const PROGRESS_DATA = {
 function switchTab(tab) {
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const tabs = ['checkin','weight','sop','progress','share'];
+  const tabs = ['checkin','weight','sop','progress','share','partner'];
   document.querySelectorAll('.tab-item')[tabs.indexOf(tab)].classList.add('active');
   document.getElementById(`page-${tab}`).classList.add('active');
   if (tab === 'progress') renderBodyProgress();
+  if (tab === 'partner') renderPartnerPage();
   if (tab === 'weight') {
     drawWeightChart();
     renderWeeklyReport();
@@ -2921,6 +2958,16 @@ function copyMainLink() {
 
   loadFirebase();
 })();
+
+// ==================== 搭子页面 ====================
+function renderPartnerPage() {
+  var selected = localStorage.getItem(STORAGE.PARTNER) || 'gentle';
+  var p = PARTNERS.find(function(x) { return x.id === selected; }) || PARTNERS[0];
+  var styleMap = { gentle: '🌸 温柔鼓励型', passion: '💪 热血激励型', rational: '📊 冷静理性型', blunt: '😏 毒舌但中肯型' };
+  document.getElementById('partnerAvatarB').textContent = p.emoji;
+  document.getElementById('partnerNameB').textContent = p.name;
+  document.getElementById('partnerStyleB').textContent = styleMap[p.style] || p.name;
+}
 
 // ==================== 初始化 ====================
 startApp();
