@@ -716,7 +716,7 @@ function handleCheckin() {
 }
 
 function appendMsg(emoji, text, isAI) {
-  const container = document.getElementById('msgContainer');
+  const container = document.getElementById('chatMessages');
   if (!container) return;
   const wrap = document.createElement('div');
   wrap.className = 'msg-bubble-wrap';
@@ -836,6 +836,20 @@ function askPartner(type) {
   }, 800);
 }
 
+function sendMood(mood) {
+  const moodMap = {
+    happy: { emoji: '😄', label: '开心', replies: ['太好了！好状态就是最好的生产力 💪', '开心的时候做决策往往更准，继续保持！', '这股劲头，拿去搞定下一个里程碑 🚀', '创业者最好的状态就是眼里有光 ✨'] },
+    neutral: { emoji: '😌', label: '平静', replies: ['平静是创业者的超能力，不急不躁 🤝', '稳扎稳打，方向对了就不怕路远 📏', '冷静的创始人才能带团队穿越周期 🧭', '这种状态很好，踏踏实实往前走 💼'] },
+    sad: { emoji: '😔', label: '低落', replies: ['低落是正常的，创业本来就是九死一生 😔', '说出来，是方向的问题还是人的问题？', '低落的时候说出来，搭子在 💪', '别一个人扛，说说看，我帮你分析 🤝'] },
+    tired: { emoji: '😫', label: '疲惫', replies: ['创业是马拉松，要学会休息再出发 🏃', '疲惫的时候做的决定往往不太准，先休息 😴', '身体是创业的本钱，今天允许自己喘口气 🛋️', '累的时候允许自己暂停，这不是懈怠 🌱'] }
+  };
+  const info = moodMap[mood] || { emoji: '😊', label: '未知', replies: ['我听到了 💪'] };
+  appendMsg('😊', `感觉${info.label}...`);
+  setTimeout(() => {
+    appendMsg(p.emoji, info.replies[Math.floor(Math.random() * info.replies.length)], true);
+  }, 800);
+}
+
 // ===== QA面板数据 =====
 const QA_DATA = {
   pos: [
@@ -889,19 +903,18 @@ function openQAPanel(type) {
   let overlay = document.getElementById('qaOverlay');
   let scroll = document.getElementById('qaScroll');
   let p = PARTNER_STYLES[selectedPartner];
-  let data = type === 'question' ? QA_DATA : QA_DATA; // both use same data
   let items = [];
   if (type === 'question') {
     document.getElementById('qaTitle').textContent = '🤔 有问题想问';
     document.getElementById('qaSub').textContent = '选择你最想了解的方面';
-    items = [...data.pos, ...data.neg];
+    items = [...QA_DATA.pos, ...QA_DATA.neg]; // 全部40条
   } else {
     document.getElementById('qaTitle').textContent = '📣 汇报创业进展';
     document.getElementById('qaSub').textContent = '选择你最近的状态';
-    items = [...data.pos, ...data.neg];
+    items = [...QA_DATA.pos]; // 只显示正向进展20条
   }
   scroll.innerHTML = items.map(item => `
-    <div class="qa-card" onclick="selectQA('${item.tag}', '${item.answer}', '${p.emoji}')">
+    <div class="qa-card" onclick="selectQA('${item.tag}', '${item.question}', '${item.answer}', '${p.emoji}')">
       <div style="font-size:24px;margin-bottom:6px;">${item.icon}</div>
       <div class="qa-card-title">${item.tag}</div>
       <div class="qa-card-sub">${item.question}</div>
@@ -910,9 +923,9 @@ function openQAPanel(type) {
   overlay.classList.add('show');
 }
 
-function selectQA(tag, answer, emoji) {
+function selectQA(tag, question, answer, emoji) {
   closeQAPanel();
-  appendMsg(tag, false);
+  appendMsg('😊', `${tag}：${question}`);
   setTimeout(() => appendMsg(emoji + ' ' + answer, true), 1200);
 }
 
@@ -968,6 +981,7 @@ function switchTab(tab) {
       <div style="text-align:center;font-size:16px;font-weight:700;color:#333;">${p.name}</div>
       <div style="text-align:center;font-size:12px;color:#3949ab;margin-top:4px;">${p.style}</div>
     </div>
+    <div id="chatMessages" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:0 4px;"></div>
     <div class="panel-label" style="margin-bottom:10px;">💬 和搭子说说话</div>
     <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;">
       <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
@@ -985,7 +999,18 @@ function switchTab(tab) {
       <button class="talk-btn" onclick="openQAPanel('progress')">📣 汇报进展</button>
       <button class="talk-btn" onclick="openQAPanel('question')">🤔 有问题想问</button>
     </div>
-  </div>`;
+  </div>
+  <div id="qaOverlay" class="qa-overlay">
+    <div class="qa-modal">
+      <div class="qa-header">
+        <div style="font-size:20px;font-weight:700;" id="qaTitle">📣 汇报创业进展</div>
+        <div style="font-size:12px;color:#888;margin-top:2px;" id="qaSub">选择你最近的状态</div>
+        <div onclick="closeQAPanel()" style="position:absolute;right:16px;top:16px;font-size:20px;cursor:pointer;color:#999;">✕</div>
+      </div>
+      <div id="qaScroll" class="qa-scroll"></div>
+    </div>
+  </div>
+`;
     } else {
       pc.innerHTML = `
   <div style="padding:24px 16px;text-align:center;max-width:420px;margin:0 auto;">
