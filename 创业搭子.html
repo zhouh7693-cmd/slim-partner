@@ -953,6 +953,49 @@ function switchTab(tab) {
     const tabs = ['checkin','chat','sop','progress','share'];
     t.classList.toggle('active', tabs[i] === tab);
   });
+  if (tab === 'chat') {
+    const p = selectedPartner !== null ? PARTNER_STYLES[selectedPartner] : null;
+    const pc = document.getElementById('page-chat');
+    if (p) {
+      pc.innerHTML = `
+  <div style="padding:16px 12px 80px;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:24px;font-weight:700;color:#333;">💬 搭子</div>
+      <div style="font-size:13px;color:#999;margin-top:4px;">和你的创业搭子聊聊</div>
+    </div>
+    <div style="background:linear-gradient(135deg,#e8eaf6,#c5cae9);border-radius:20px;padding:20px;margin-bottom:16px;">
+      <div style="font-size:48px;text-align:center;margin-bottom:8px;">${p.emoji}</div>
+      <div style="text-align:center;font-size:16px;font-weight:700;color:#333;">${p.name}</div>
+      <div style="text-align:center;font-size:12px;color:#3949ab;margin-top:4px;">${p.style}</div>
+    </div>
+    <div class="panel-label" style="margin-bottom:10px;">💬 和搭子说说话</div>
+    <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;">
+      <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
+      <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
+      <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
+      <div class="mood-btn" onclick="sendMood('tired')" title="疲惫">😫</div>
+    </div>
+    <div class="talk-btn-row">
+      <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
+      <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
+      <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
+      <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
+    </div>
+    <div class="talk-btn-row" style="margin-top:8px;">
+      <button class="talk-btn" onclick="openQAPanel('progress')">📣 汇报进展</button>
+      <button class="talk-btn" onclick="openQAPanel('question')">🤔 有问题想问</button>
+    </div>
+  </div>`;
+    } else {
+      pc.innerHTML = `
+  <div style="padding:24px 16px;text-align:center;max-width:420px;margin:0 auto;">
+    <div style="font-size:56px;margin-bottom:16px;">🤝</div>
+    <div style="font-size:18px;font-weight:700;color:#333;margin-bottom:8px;">先选个创业搭子吧</div>
+    <div style="font-size:13px;color:#888;margin-bottom:24px;">选择一个合适的搭子，开启你们的创业之旅</div>
+    <button onclick="switchTab('checkin')" style="padding:14px 28px;background:linear-gradient(135deg,#5c6bc0,#3949ab);color:white;border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;">🏠 去选搭子</button>
+  </div>`;
+    }
+  }
   if (tab === 'sop') initSOP();
   if (tab === 'progress') renderProgress();
   if (tab === 'share') renderShare();
