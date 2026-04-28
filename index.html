@@ -481,6 +481,10 @@
     <div class="tab-icon">🎯</div>
     <div class="tab-label">SOP</div>
   </div>
+  <div class="tab-item" onclick="switchTab('progress')">
+    <div class="tab-icon">📊</div>
+    <div class="tab-label">进展</div>
+  </div>
   <div class="tab-item" onclick="switchTab('share')">
     <div class="tab-icon">📣</div>
     <div class="tab-label">分享</div>
@@ -535,7 +539,14 @@
     <!-- 搭子消息区 -->
     <div class="chat-area" id="chatArea"></div>
 
-    <!-- 搭子交互 -->
+    <!-- 本周进度 -->
+    <div class="week-progress">
+      <div class="week-title"><span>📅 本周进度</span><span id="weekRange"></span></div>
+      <div class="week-dots" id="weekDots"></div>
+      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyStats()">📋 复制战绩</button>
+    </div>
+
+    <!-- 搭子交互（仪表盘底部） -->
     <div class="interaction-panel">
       <div class="panel-label">💬 和搭子说说话</div>
       <div class="mood-row">
@@ -554,13 +565,6 @@
         <button class="talk-btn" onclick="sendTalk('progress')">📣 汇报进展</button>
         <button class="talk-btn" onclick="sendTalk('question')">🤔 有问题想问</button>
       </div>
-    </div>
-
-    <!-- 本周进度 -->
-    <div class="week-progress">
-      <div class="week-title"><span>📅 本周进度</span><span id="weekRange"></span></div>
-      <div class="week-dots" id="weekDots"></div>
-      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyStats()">📋 复制战绩</button>
     </div>
 
     <!-- 分享入口 -->
@@ -650,6 +654,53 @@
     <div class="sop-tip">
       <div class="sop-tip-title">💡 第一性原理提示</div>
       <div class="sop-tip-item" id="sopTipText"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 进展 ===== -->
+<div id="page-progress" class="page">
+  <div class="weight-page">
+    <div class="weight-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;">
+      <div style="font-size:48px;margin-bottom:8px;">🏆</div>
+      <div class="chart-title" style="font-size:18px;margin-bottom:4px;">减肥进展</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">你的 SOP 全局视图</div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;position:relative;">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#3de882"/><stop offset="100%" stop-color="#4caf50"/>
+          </linearGradient></defs>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#eef2f5" stroke-width="14"/>
+          <circle id="ringFill" cx="70" cy="70" r="54" fill="none" stroke="url(#ringGrad)" stroke-width="14"
+            stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"
+            transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.8s;"/>
+          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#3de882;" id="ringPct">0%</text>
+          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#8f9eae;">平均得分</text>
+        </svg>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <div style="background:#e8f5e9;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#2e7d32;" id="progStreakNum">0</div>
+          <div style="font-size:11px;color:#8f9eae;">连续天数</div>
+        </div>
+        <div style="background:#eef6fb;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#3a7ca5;" id="progTotalDays">0</div>
+          <div style="font-size:11px;color:#8f9eae;">累计天数</div>
+        </div>
+        <div style="background:#fff8e1;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#ff8f00;" id="progTodayScore">-</div>
+          <div style="font-size:11px;color:#8f9eae;">今日得分</div>
+        </div>
+      </div>
+    </div>
+    <div class="weight-chart-card" style="margin-bottom:16px;">
+      <div class="chart-title">📊 各维度平均得分</div>
+      <div id="progDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+    <div class="weight-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#f0f7fd,#e8f5e9);border:1px solid #d0e8f5;margin-bottom:16px;">
+      <div style="font-size:36px;margin-bottom:8px;" id="progPartnerEmoji">🌸</div>
+      <div style="font-size:14px;font-weight:700;color:#2b5a7a;margin-bottom:4px;" id="progPartnerName">温柔鼓励型</div>
+      <div style="font-size:13px;color:#3a7ca5;line-height:1.6;" id="progPartnerMsg">每天坚持一点点，减肥一定成功！</div>
     </div>
   </div>
 </div>
@@ -928,7 +979,7 @@ const PROGRESS_DATA = {
 function switchTab(tab) {
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const tabs = ['checkin','weight','sop','share'];
+  const tabs = ['checkin','weight','sop','progress','share'];
   document.querySelectorAll('.tab-item')[tabs.indexOf(tab)].classList.add('active');
   document.getElementById(`page-${tab}`).classList.add('active');
   if (tab === 'weight') {
@@ -943,6 +994,7 @@ function switchTab(tab) {
     }
   }
   if (tab === 'sop') initSOP();
+  if (tab === 'progress') renderProgress();
   if (tab === 'share') renderSharePage();
 }
 
@@ -1995,6 +2047,7 @@ function showSOPGuideOverlay() {
   `;
   document.querySelector('.sop-page').style.position = 'relative';
   document.querySelector('.sop-page').appendChild(overlay);
+  autoCloseSOPGuide();
 }
 
 function closeSOPGuide() {
@@ -2002,6 +2055,15 @@ function closeSOPGuide() {
   let overlay = document.getElementById('sopGuideOverlay');
   if (overlay) overlay.remove();
   renderSOPList();
+}
+
+// 自动关闭 SOP 引导遮罩（5秒后）
+let sopGuideTimer = null;
+function autoCloseSOPGuide() {
+  sopGuideTimer = setTimeout(() => {
+    let overlay = document.getElementById('sopGuideOverlay');
+    if (overlay) { closeSOPGuide(); }
+  }, 5000);
 }
 
 function getCatSelected(catId) {
@@ -2491,6 +2553,74 @@ function closeCatSummary() {
       showSOPGuideOverlay();
     }
   }
+}
+
+// ==================== 进展页面 ====================
+function renderProgress() {
+  const sopKey = STORAGE.SOP + '_history';
+  const history = JSON.parse(localStorage.getItem(sopKey) || '[]');
+  const checkinHistory = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
+  const totalDays = checkinHistory.length;
+  const streak = getStreak();
+
+  // 平均得分（归一化为百分比）
+  const avgScore = history.length > 0
+    ? Math.round(history.reduce((s, h) => s + (h.score || 0), 0) / history.length)
+    : 0;
+
+  // 今日得分
+  const today = new Date().toISOString().slice(0, 10);
+  const todayRecord = history.find(h => h.date === today);
+  const todayScore = todayRecord ? todayRecord.score + '%' : '-';
+
+  // 圆环动画
+  const circumference = 2 * Math.PI * 54;
+  const offset = circumference - (avgScore / 100) * circumference;
+  const ringEl = document.getElementById('ringFill');
+  const pctEl = document.getElementById('ringPct');
+  if (ringEl) ringEl.setAttribute('stroke-dashoffset', offset);
+  if (pctEl) pctEl.textContent = avgScore + '%';
+
+  const streakEl = document.getElementById('progStreakNum');
+  const totalEl = document.getElementById('progTotalDays');
+  const todayEl = document.getElementById('progTodayScore');
+  if (streakEl) streakEl.textContent = streak;
+  if (totalEl) totalEl.textContent = totalDays;
+  if (todayEl) todayEl.textContent = todayScore;
+
+  // 各维度得分
+  const dimsEl = document.getElementById('progDims');
+  if (dimsEl && SOP_CATEGORIES) {
+    dimsEl.innerHTML = SOP_CATEGORIES.map(cat => {
+      const catAvg = history.length > 0
+        ? Math.round(history.reduce((s, h) => {
+            const sel = (h.selected && h.selected[cat.id]) || {};
+            const yes = Object.values(sel).filter(v => v === 'yes').length;
+            return s + (yes / cat.items.length * 100);
+          }, 0) / history.length)
+        : 0;
+      const fill = Math.round(catAvg);
+      return `<div style="display:flex;align-items:center;gap:10px;">
+        <div style="font-size:18px;width:28px;text-align:center;">${cat.icon}</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;color:#2b5a7a;font-weight:600;margin-bottom:4px;">${cat.name}</div>
+          <div style="height:6px;background:#eef2f5;border-radius:6px;overflow:hidden;">
+            <div style="height:100%;width:${fill}%;background:${cat.color};border-radius:6px;transition:width 0.8s;"></div>
+          </div>
+        </div>
+        <div style="font-size:12px;font-weight:700;color:#3de882;width:40px;text-align:right;">${fill}%</div>
+      </div>`;
+    }).join('');
+  }
+
+  // 搭子鼓励语
+  const partner = PARTNERS.find(p => p.id === (localStorage.getItem(STORAGE.PARTNER) || 'gentle')) || PARTNERS[0];
+  const emojiEl = document.getElementById('progPartnerEmoji');
+  const nameEl = document.getElementById('progPartnerName');
+  const msgEl = document.getElementById('progPartnerMsg');
+  if (emojiEl) emojiEl.textContent = partner.emoji;
+  if (nameEl) nameEl.textContent = partner.name;
+  if (msgEl) msgEl.textContent = partner.fb ? partner.fb.text : '每天坚持一点点，减肥一定成功！';
 }
 
 // ==================== 分享页面 ====================

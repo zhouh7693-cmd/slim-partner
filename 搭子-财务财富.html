@@ -586,7 +586,14 @@
     <!-- 搭子消息区 -->
     <div class="chat-area" id="chatArea"></div>
 
-    <!-- 搭子交互 -->
+    <!-- 本周进度 -->
+    <div class="week-progress">
+      <div class="week-title"><span>📅 本周进度</span><span id="weekRange"></span></div>
+      <div class="week-dots" id="weekDots"></div>
+      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyStats()">📋 复制战绩</button>
+    </div>
+
+    <!-- 搭子交互（仪表盘底部） -->
     <div class="interaction-panel">
       <div class="panel-label">💬 和搭子说说话</div>
       <div class="mood-row">
@@ -605,13 +612,6 @@
         <button class="talk-btn" onclick="sendTalk('progress')">📣 汇报进展</button>
         <button class="talk-btn" onclick="sendTalk('question')">🤔 有问题想问</button>
       </div>
-    </div>
-
-    <!-- 本周进度 -->
-    <div class="week-progress">
-      <div class="week-title"><span>📅 本周进度</span><span id="weekRange"></span></div>
-      <div class="week-dots" id="weekDots"></div>
-      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyStats()">📋 复制战绩</button>
     </div>
 
     <!-- 分享入口 -->
@@ -1979,6 +1979,7 @@ function showSOPGuideOverlay() {
   };
   document.querySelector('.sop-page').style.position = 'relative';
   document.querySelector('.sop-page').appendChild(overlay);
+  autoCloseSOPGuide();
 }
 
 function closeSOPGuide() {
@@ -1986,6 +1987,15 @@ function closeSOPGuide() {
   let overlay = document.getElementById('sopGuideOverlay');
   if (overlay) overlay.remove();
   renderSOPList();
+}
+
+// 自动关闭 SOP 引导遮罩（5秒后）
+let sopGuideTimer = null;
+function autoCloseSOPGuide() {
+  sopGuideTimer = setTimeout(() => {
+    let overlay = document.getElementById('sopGuideOverlay');
+    if (overlay) { closeSOPGuide(); }
+  }, 5000);
 }
 
 function getCatSelected(catId) {

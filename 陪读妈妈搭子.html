@@ -1322,6 +1322,20 @@ function init() {
   let avatar = document.getElementById('avatarBtn');
   if (avatar) avatar.textContent = partner.emoji;
 
+  // 更新打卡天数（今天是否已打卡）
+  let today = getToday();
+  let history = getHistory();
+  let todayRec = history.find(h => h.date === today);
+  let conDays = todayRec ? computeStreakToday(history, today) : 0;
+  let contEl = document.getElementById('continuousDays');
+  if (contEl) contEl.textContent = conDays;
+  let statusEl = document.getElementById('checkinStatusText');
+  let subEl = document.getElementById('checkinSub');
+  if (todayRec) {
+    if (statusEl) statusEl.textContent = '已打卡';
+    if (subEl) subEl.textContent = '太棒了！';
+  }
+
   renderWeekProgress();
   renderChatWelcome();
   renderProgress();
@@ -1350,6 +1364,20 @@ function confirmPartner() {
   if (badge) badge.innerHTML = `${partner.emoji} ${partner.name}`;
   let avatar = document.getElementById('avatarBtn');
   if (avatar) avatar.textContent = partner.emoji;
+  // 更新打卡天数（可能用户之前已打卡）
+  let today = getToday();
+  let history = getHistory();
+  let todayRec = history.find(h => h && h.date === today);
+  let conDays = todayRec ? computeStreakToday(history, today) : 0;
+  let contEl = document.getElementById('continuousDays');
+  if (contEl) contEl.textContent = conDays;
+  let statusEl = document.getElementById('checkinStatusText');
+  let subEl = document.getElementById('checkinSub');
+  if (todayRec) {
+    if (statusEl) statusEl.textContent = '已打卡';
+    if (subEl) subEl.textContent = '太棒了！';
+  }
+  renderWeekProgress();
   renderChatWelcome();
   showToast(`${partner.emoji} ${partner.name} 已上线！`);
 }
@@ -1392,6 +1420,19 @@ function getContinuousStreak(hist, uptoDate) {
   let cnt = 0;
   for (let i = 1; i <= 60; i++) {
     let d = new Date(uptoDate); d.setDate(d.getDate() - i);
+    let ds = d.toISOString().slice(0,10);
+    if (hist.some(h => h.date === ds)) cnt++;
+    else break;
+  }
+  return cnt;
+}
+
+function computeStreakToday(hist, today) {
+  // 含今天在内的连续打卡天数
+  if (!hist.some(h => h.date === today)) return 0;
+  let cnt = 1;
+  for (let i = 1; i <= 60; i++) {
+    let d = new Date(today); d.setDate(d.getDate() - i);
     let ds = d.toISOString().slice(0,10);
     if (hist.some(h => h.date === ds)) cnt++;
     else break;
