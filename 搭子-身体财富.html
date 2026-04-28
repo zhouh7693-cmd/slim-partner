@@ -463,8 +463,8 @@
 </head>
 <body>
 
-<!-- ===== 右上角搭子切换 ===== -->
-<div style="position:fixed;top:16px;right:16px;z-index:200;">
+<!-- ===== 底部右侧搭子切换 ===== -->
+<div style="position:fixed;bottom:88px;right:16px;z-index:200;">
   <div id="avatarBtn" onclick="showPartnerSelector()" style="width:48px;height:48px;background:white;border:2.5px solid #3de882;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:26px;transition:transform 0.2s;position:relative;" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">😊</div>
 </div>
 
@@ -481,6 +481,10 @@
   <div class="tab-item" onclick="switchTab('sop')">
     <div class="tab-icon">🎯</div>
     <div class="tab-label">SOP</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('progress')">
+    <div class="tab-icon">📊</div>
+    <div class="tab-label">进展</div>
   </div>
   <div class="tab-item" onclick="switchTab('share')">
     <div class="tab-icon">📣</div>
@@ -649,6 +653,53 @@
   </div>
 </div>
 
+<!-- ===== Page: 进展 ===== -->
+<div id="page-progress" class="page">
+  <div class="weight-page">
+    <div class="weight-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;">
+      <div style="font-size:48px;margin-bottom:8px;">🏆</div>
+      <div class="chart-title" style="font-size:18px;margin-bottom:4px;">身体财富进展</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">你的健康 SOP 全局视图</div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;position:relative;">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <defs><linearGradient id="bodyRingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#3a7ca5"/><stop offset="100%" stop-color="#2ed573"/>
+          </linearGradient></defs>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#eef2f5" stroke-width="14"/>
+          <circle id="bodyRingFill" cx="70" cy="70" r="54" fill="none" stroke="url(#bodyRingGrad)" stroke-width="14"
+            stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"
+            transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.8s;"/>
+          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#3a7ca5;" id="bodyRingPct">0%</text>
+          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#8f9eae;">平均得分</text>
+        </svg>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <div style="background:#e8f5e9;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#2e7d32;" id="bodyStreakNum">0</div>
+          <div style="font-size:11px;color:#8f9eae;">连续天数</div>
+        </div>
+        <div style="background:#eef6fb;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#3a7ca5;" id="bodyTotalDays">0</div>
+          <div style="font-size:11px;color:#8f9eae;">累计天数</div>
+        </div>
+        <div style="background:#fff8e1;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#ff8f00;" id="bodyTodayScore">-</div>
+          <div style="font-size:11px;color:#8f9eae;">今日得分</div>
+        </div>
+      </div>
+    </div>
+    <div class="weight-chart-card" style="margin-bottom:16px;">
+      <div class="chart-title">📊 各维度平均得分</div>
+      <div id="bodyProgressDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+    <div class="weight-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#f0f7fd,#e8f5e9);border:1px solid #d0e8f5;margin-bottom:16px;">
+      <div style="font-size:36px;margin-bottom:8px;" id="bodyProgressPartnerEmoji">🌸</div>
+      <div style="font-size:14px;font-weight:700;color:#2b5a7a;margin-bottom:4px;" id="bodyProgressPartnerName">温柔鼓励型</div>
+      <div style="font-size:13px;color:#3a7ca5;line-height:1.6;" id="bodyProgressPartnerMsg">身体是革命的本钱，每天坚持一点点，健康自然来！</div>
+    </div>
+  </div>
+</div>
+
 <!-- ===== Page: 分享 ===== -->
 <div id="page-share" class="page">
   <div class="weight-page">
@@ -659,50 +710,58 @@
 
     <!-- 我的状态 -->
     <div class="weight-chart-card" style="margin-bottom:12px;">
-      <div class="chart-title">🏃 我的状态</div>
+      <div class="chart-title">🏠 我的状态</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
-        <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#2ed573;" id="shareStreak">-</div>
+        <div style="background:#e8f5e9;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#2e7d32;" id="shareStreak">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;">连续打卡</div>
         </div>
-        <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#3de882;" id="shareToday">-</div>
+        <div style="background:#e8f5e9;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#388e3c;" id="shareToday">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;">今日打卡</div>
         </div>
-        <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#3de882;" id="shareWeight">-</div>
-          <div style="font-size:11px;color:#888;margin-top:2px;">健康目标</div>
+        <div style="background:#e8f5e9;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#1b5e20;" id="shareTotal">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
         </div>
       </div>
     </div>
 
-    <!-- 当前搭子 -->
-    <div class="weight-chart-card" style="margin-bottom:12px;">
-      <div class="chart-title">🤝 我的搭子</div>
-      <div id="shareCurrentPartner" style="display:flex;align-items:center;gap:12px;margin-top:12px;padding:14px;background:#f8f9fa;border-radius:14px;">
+    <!-- 分享邀请卡片 -->
+    <div class="weight-chart-card">
+      <div class="chart-title">💪 身体财富搭子</div>
+      <div style="margin-top:12px;background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;">
+        <div style="font-size:48px;margin-bottom:8px;">💪</div>
+        <div style="font-size:16px;font-weight:700;color:#1b5e20;margin-bottom:4px;">身体财富搭子</div>
+        <div style="font-size:13px;color:#2e7d32;line-height:1.6;margin-bottom:8px;">陪你一起锻炼、管理饮食、保持健康<br>每天打卡，身体是革命的本钱！</div>
+        <div style="font-size:11px;color:#388e3c;">五大健康维度 · 每日坚持</div>
       </div>
-    </div>
-
-    <!-- 邀请链接 -->
-    <div class="weight-chart-card" style="margin-bottom:12px;">
-      <div class="chart-title">🔗 邀请好友</div>
-      <div style="background:#f0f9f4;border-radius:12px;padding:14px;margin-top:10px;display:flex;align-items:center;gap:10px;">
-        <div style="flex:1;font-size:12px;color:#555;word-break:break-all;" id="shareLinkText"></div>
-        <button onclick="copyShareLink()" style="background:#3de882;color:white;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">复制</button>
+      <div class="chart-title" style="margin-bottom:12px;">📋 SOP 复盘维度</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+        <div style="background:#f1f8e9;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">🏃</div>
+          <div style="font-size:12px;font-weight:600;color:#2e7d32;">运动锻炼</div>
+        </div>
+        <div style="background:#f1f8e9;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">🥗</div>
+          <div style="font-size:12px;font-weight:600;color:#388e3c;">饮食管理</div>
+        </div>
+        <div style="background:#f1f8e9;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">😴</div>
+          <div style="font-size:12px;font-weight:600;color:#43a047;">睡眠质量</div>
+        </div>
+        <div style="background:#f1f8e9;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">🧘</div>
+          <div style="font-size:12px;font-weight:600;color:#558b2f;">心理健康</div>
+        </div>
+        <div style="background:#f1f8e9;border-radius:12px;padding:12px;text-align:center;grid-column:span 2;">
+          <div style="font-size:24px;">💧</div>
+          <div style="font-size:12px;font-weight:600;color:#33691e;">日常习惯</div>
+        </div>
       </div>
-    </div>
-
-    <!-- 分享文案 -->
-    <div class="weight-chart-card" style="margin-bottom:12px;">
-      <div class="chart-title">💬 分享文案</div>
-      <div style="background:#fff;border:1.5px solid #3de882;border-radius:14px;padding:14px;font-size:13px;line-height:1.7;color:#333;margin-top:10px;" id="shareTextBox"></div>
-      <button onclick="copyShareText()" style="width:100%;margin-top:10px;background:#fff;color:#3de882;border:1.5px solid #3de882;border-radius:10px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;">📋 复制文案</button>
-    </div>
-
-    <!-- 切换搭子 -->
-    <div class="weight-chart-card" style="margin-bottom:12px;">
-      <div class="chart-title">✨ 换个搭子</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;" id="sharePartnerGrid"></div>
+      <div class="chart-title">🔗 邀请链接</div>
+      <div style="background:#e8f5e9;border-radius:12px;padding:12px 14px;font-size:13px;color:#1b5e20;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay"></div>
+      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#43a047,#2e7d32);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(67,160,71,0.4);">📋 复制邀请链接</button>
     </div>
   </div>
 </div>
@@ -878,9 +937,10 @@ const PROGRESS_DATA = {
 function switchTab(tab) {
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const tabs = ['checkin','weight','sop','share'];
+  const tabs = ['checkin','weight','sop','progress','share'];
   document.querySelectorAll('.tab-item')[tabs.indexOf(tab)].classList.add('active');
   document.getElementById(`page-${tab}`).classList.add('active');
+  if (tab === 'progress') renderBodyProgress();
   if (tab === 'weight') {
     drawWeightChart();
     renderWeeklyReport();
@@ -1434,23 +1494,8 @@ function showToast(msg, duration = 2000) {
 }
 
 function copyShareLink() {
-  let url = getSiteUrl() + 'share.html';
-  // 添加用户数据参数
-  let history = getHistory();
-  let continuous = history.length > 0 ? computeContinuous(history, getToday()) : 0;
-  let weight = getWeightData();
-  let change = '';
-  if (weight.length >= 2) {
-    let c = (weight[weight.length-1].value - weight[0].value).toFixed(1);
-    change = (parseFloat(c) > 0 ? '+' : '') + c + 'kg';
-  }
-  let partner = currentPartner ? encodeURIComponent(currentPartner.emoji + ' ' + currentPartner.name) : '';
-  let params = new URLSearchParams();
-  if (continuous > 0) params.set('days', continuous);
-  if (change) params.set('change', change);
-  if (partner) params.set('partner', partner);
-  let fullUrl = url + (params.toString() ? '?' + params.toString() : '');
-  navigator.clipboard.writeText(fullUrl).then(() => showToast('✅ 邀请链接已复制，快发给朋友吧'));
+  let url = getSiteUrl() + '搭子-身体财富.html';
+  navigator.clipboard.writeText(url).then(() => showToast('✅ 邀请链接已复制，快发给朋友吧！'));
 }
 function previewShareCard() {
   let url = getSiteUrl() + 'share.html';
@@ -2573,63 +2618,89 @@ function getCatFeedback(catId, yesItems, noItems, pct) {
   return feedback;
 }
 
+// ==================== 进展页面 ====================
+function renderBodyProgress() {
+  const sopKey = STORAGE.SOP + '_history';
+  const history = JSON.parse(localStorage.getItem(sopKey) || '[]');
+  const checkinHistory = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
+  const totalDays = checkinHistory.length;
+  const streak = getStreak();
+
+  // 计算平均得分
+  const avgScore = history.length > 0
+    ? Math.round(history.reduce((s, h) => s + (h.score || 0), 0) / history.length)
+    : 0;
+
+  // 今日得分
+  const today = new Date().toISOString().slice(0,10);
+  const todayRecord = history.find(h => h.date === today);
+  const todayScore = todayRecord ? todayRecord.score + '%' : '-';
+
+  // 圆环
+  const circumference = 2 * Math.PI * 54;
+  const offset = circumference - (avgScore / 100) * circumference;
+  const ringEl = document.getElementById('bodyRingFill');
+  const pctEl = document.getElementById('bodyRingPct');
+  if (ringEl) ringEl.setAttribute('stroke-dashoffset', offset);
+  if (pctEl) pctEl.textContent = avgScore + '%';
+  const streakEl = document.getElementById('bodyStreakNum');
+  const totalEl = document.getElementById('bodyTotalDays');
+  const todayEl = document.getElementById('bodyTodayScore');
+  if (streakEl) streakEl.textContent = streak;
+  if (totalEl) totalEl.textContent = totalDays;
+  if (todayEl) todayEl.textContent = todayScore;
+
+  // 各维度得分
+  const dimsEl = document.getElementById('bodyProgressDims');
+  if (dimsEl && SOP_CATEGORIES) {
+    dimsEl.innerHTML = SOP_CATEGORIES.map(cat => {
+      const catAvg = history.length > 0
+        ? Math.round(history.reduce((s, h) => {
+            const sel = (h.selected && h.selected[cat.id]) || {};
+            const yes = Object.values(sel).filter(v => v === 'yes').length;
+            return s + yes;
+          }, 0) / history.length)
+        : 0;
+      const fill = Math.round((catAvg / cat.items.length) * 100);
+      return `<div style="display:flex;align-items:center;gap:10px;">
+        <div style="font-size:18px;width:28px;text-align:center;">${cat.icon}</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;color:#2b5a7a;font-weight:600;margin-bottom:4px;">${cat.name}</div>
+          <div style="height:6px;background:#eef2f5;border-radius:6px;overflow:hidden;">
+            <div style="height:100%;width:${fill}%;background:${cat.color};border-radius:6px;transition:width 0.8s;"></div>
+          </div>
+        </div>
+        <div style="font-size:12px;font-weight:700;color:#3a7ca5;width:40px;text-align:right;">${catAvg}/${cat.items.length}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // 搭子鼓励
+  const partner = PARTNERS.find(p => p.id === (localStorage.getItem(STORAGE.PARTNER) || 'gentle')) || PARTNERS[0];
+  const emojiEl = document.getElementById('bodyProgressPartnerEmoji');
+  const nameEl = document.getElementById('bodyProgressPartnerName');
+  const msgEl = document.getElementById('bodyProgressPartnerMsg');
+  if (emojiEl) emojiEl.textContent = partner.emoji;
+  if (nameEl) nameEl.textContent = partner.name;
+  if (msgEl) msgEl.textContent = partner.fb ? partner.fb.text : '坚持每天复盘，你的身体会感谢你！';
+}
+
 // ==================== 分享页面 ====================
 function renderSharePage() {
-  // 用户状态
   let streak = getStreak();
   let today = getToday();
   let history = getHistory();
   let todayChecked = history.includes(today);
-  let targetWeight = localStorage.getItem(STORAGE.TARGET_WEIGHT) || '-';
-  
-  document.getElementById('shareStreak').innerText = streak + '天';
-  document.getElementById('shareToday').innerText = todayChecked ? '✅' : '○';
-  document.getElementById('shareWeight').innerText = targetWeight === '-' ? '-' : targetWeight + 'kg';
-
-  // 当前搭子
-  let cp = currentPartner || PARTNERS[0];
-  document.getElementById('shareCurrentPartner').innerHTML = `
-    <div style="font-size:36px;">${cp.emoji}</div>
-    <div style="flex:1;">
-      <div style="font-size:16px;font-weight:700;color:#333;">${cp.name}</div>
-      <div style="font-size:12px;color:#888;margin-top:2px;">${cp.desc}</div>
-    </div>
-  `;
-
-  // 邀请链接
-  let url = getSiteUrl() + 'share.html';
-  document.getElementById('shareLinkText').innerText = url;
-
-  // 个性化分享文案
-  let weightData = JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]');
-  let latest = weightData.length > 0 ? weightData[weightData.length-1].w : null;
-  let text = latest
-    ? `我在用「身体财富搭子」${cp.emoji}${cp.name}陪我养成健康习惯！已坚持${streak}天，每天记录身体数据。搭子每天会给我鼓励和建议，超暖心～快来一起变健康吧！\n\n👉 ${url}`
-    : `我刚发现了一个超好用的「身体财富搭子」小程序！${cp.emoji}${cp.name}陪我每天打卡，互相监督不偷懒～4种性格可选，总有一款适合你！\n\n👉 ${url}`;
-  document.getElementById('shareTextBox').innerText = text;
-
-  // 搭子选择
-  let grid = document.getElementById('sharePartnerGrid');
-  if (grid) {
-    let saved = localStorage.getItem(STORAGE.PARTNER);
-    grid.innerHTML = '';
-    PARTNERS.forEach(p => {
-      let sel = saved === p.id;
-      let card = document.createElement('div');
-      card.style.cssText = `padding:12px 8px;border-radius:12px;border:2px solid ${sel ? p.color : '#eee'};cursor:pointer;text-align:center;background:${sel ? p.color + '22' : 'white'};`;
-      card.innerHTML = `<div style="font-size:26px;margin-bottom:4px;">${p.emoji}</div><div style="font-size:12px;font-weight:600;color:#333;">${p.name}</div>`;
-      card.onclick = () => {
-        localStorage.setItem(STORAGE.PARTNER, p.id);
-        if(window.savePartnerToFirebase) savePartnerToFirebase(p.id);
-        currentPartner = p;
-        partnerIdx = PARTNERS.indexOf(p);
-        updateAvatarBtn();
-        renderSharePage();
-        showToast(`✨ 已切换为${p.emoji} ${p.name}`);
-      };
-      grid.appendChild(card);
-    });
-  }
+  let totalDays = history.length;
+  const streakEl = document.getElementById('shareStreak');
+  const todayEl = document.getElementById('shareToday');
+  const totalEl = document.getElementById('shareTotal');
+  const urlEl = document.getElementById('shareUrlDisplay');
+  if (streakEl) streakEl.textContent = streak + '天';
+  if (todayEl) todayEl.textContent = todayChecked ? '已打卡' : '未打卡';
+  if (totalEl) totalEl.textContent = totalDays;
+  let url = getSiteUrl() + '搭子-身体财富.html';
+  if (urlEl) urlEl.textContent = url;
 }
 
 function getStreak() {
@@ -2640,13 +2711,6 @@ function getStreak() {
 function copyMainLink() {
   navigator.clipboard.writeText(getSiteUrl()+'share.html').then(() => showToast('✅ 链接已复制！'));
 }
-function copyShareLink() {
-  navigator.clipboard.writeText(getSiteUrl()+'share.html').then(() => showToast('✅ 链接已复制！'));
-}
-function copyShareText() {
-  navigator.clipboard.writeText(document.getElementById('shareTextBox').innerText).then(() => showToast('✅ 分享文案已复制！'));
-}
-
 // ==================== Firebase ====================
 (function(){
   // Firebase配置

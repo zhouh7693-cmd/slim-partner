@@ -443,8 +443,8 @@
 </head>
 <body>
 
-<!-- ===== 右上角搭子切换 ===== -->
-<div style="position:fixed;top:16px;right:16px;z-index:200;">
+<!-- ===== 底部右侧搭子切换 ===== -->
+<div style="position:fixed;bottom:88px;right:16px;z-index:200;">
   <div id="avatarBtn" onclick="showPartnerSelector()" style="width:48px;height:48px;background:white;border:2.5px solid #9c27b0;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:26px;transition:transform 0.2s;" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">😊</div>
 </div>
 
@@ -598,35 +598,46 @@
 
 <!-- ===== Page: 进展 ===== -->
 <div id="page-progress" class="page">
-  <div class="progress-page">
-    <div class="sop-card" style="text-align:center;padding:32px 20px;">
-      <div style="font-size:56px;margin-bottom:12px;">🏆</div>
-      <div class="chart-title" style="font-size:20px;margin-bottom:4px;">陪读成长档案</div>
-      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">记录你陪读路上的每一步</div>
-      <div class="ring-wrap">
-        <svg width="120" height="120" viewBox="0 0 120 120">
-          <circle cx="60" cy="60" r="50" fill="none" stroke="#f3e8f7" stroke-width="12"/>
-          <circle id="ringArc" cx="60" cy="60" r="50" fill="none" stroke="#9c27b0" stroke-width="12"
-            stroke-linecap="round"
-            stroke-dasharray="314" stroke-dashoffset="314"
-            transform="rotate(-90 60 60)"/>
-          <text x="60" y="55" text-anchor="middle" class="ring-center-text" id="ringPercent">0%</text>
-          <text x="60" y="72" text-anchor="middle" class="ring-center-sub">总完成率</text>
+  <div class="progress-page" style="padding:16px;max-width:520px;margin:0 auto;">
+    <div class="sop-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;">
+      <div style="font-size:48px;margin-bottom:8px;">📚</div>
+      <div class="chart-title" style="font-size:18px;margin-bottom:4px;">陪读成长档案</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">你的陪读 SOP 全局视图</div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;position:relative;">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <defs><linearGradient id="studyRingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#9c27b0"/><stop offset="100%" stop-color="#e91e63"/>
+          </linearGradient></defs>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#f3e8f7" stroke-width="14"/>
+          <circle id="studyRingFill" cx="70" cy="70" r="54" fill="none" stroke="url(#studyRingGrad)" stroke-width="14"
+            stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"
+            transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.8s;"/>
+          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#9c27b0;" id="studyRingPct">0%</text>
+          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#8f9eae;">平均得分</text>
         </svg>
       </div>
-      <div style="font-size:13px;color:#8f9eae;">累计打卡 <strong id="totalCheckins" style="color:#9c27b0;">0</strong> 天</div>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <div style="background:#f3e8f7;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#9c27b0;" id="studyStreakNum">0</div>
+          <div style="font-size:11px;color:#8f9eae;">连续天数</div>
+        </div>
+        <div style="background:#f3fdf6;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#43a047;" id="studyTotalDays">0</div>
+          <div style="font-size:11px;color:#8f9eae;">累计天数</div>
+        </div>
+        <div style="background:#fff3e0;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#ff6b35;" id="studyTodayScore">-</div>
+          <div style="font-size:11px;color:#8f9eae;">今日得分</div>
+        </div>
+      </div>
     </div>
-
-    <!-- 各维度进度 -->
-    <div class="sop-card">
-      <div class="chart-title">📊 各维度复盘进度</div>
-      <div id="sopProgressItems" style="margin-top:14px;"></div>
+    <div class="sop-card" style="margin-bottom:16px;">
+      <div class="chart-title">📊 各维度平均得分</div>
+      <div id="studyProgressDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;"></div>
     </div>
-
-    <!-- 搭子鼓励 -->
-    <div class="sop-card" style="text-align:center;padding:24px 16px;background:linear-gradient(135deg,#f3e8f7,#fce4ec);border:1px solid #e1bee7;">
-      <div style="font-size:40px;margin-bottom:8px;" id="progressPartnerEmoji">🌸</div>
-      <div style="font-size:15px;font-weight:700;color:#4a148c;margin-bottom:4px;" id="progressPartnerName">温柔陪伴型</div>
+    <div class="sop-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#f3e8f7,#fce4ec);border:1px solid #e1bee7;margin-bottom:16px;">
+      <div style="font-size:36px;margin-bottom:8px;" id="progressPartnerEmoji">🌸</div>
+      <div style="font-size:14px;font-weight:700;color:#4a148c;margin-bottom:4px;" id="progressPartnerName">温柔陪伴型</div>
       <div style="font-size:13px;color:#7b1fa2;line-height:1.6;" id="progressPartnerMsg">陪伴是最好的教育。每天陪读一点点，你已经在做很棒的事了。</div>
       <button onclick="openQAPanel('progress')" style="margin-top:14px;padding:12px 24px;background:white;border:2px solid #ce93d8;border-radius:50px;font-size:14px;font-weight:600;color:#9c27b0;cursor:pointer;">💬 汇报今日进展</button>
     </div>
@@ -1446,38 +1457,62 @@ function sendChatMessage(text, isAI) {
 function renderProgress() {
   let pid = getSelectedPartnerId();
   let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
-  let history = getHistory();
-  let totalDays = history.length;
-  document.getElementById('totalCheckins').textContent = totalDays;
+  const sopHistory = getSOPHistory();
+  const checkinHistory = getHistory();
+  const totalDays = checkinHistory.length;
 
-  // 环形图
-  let d7 = [];
-  for (let i = 6; i >= 0; i--) {
-    let dd = new Date(); dd.setDate(dd.getDate() - i);
-    d7.push(dd.toISOString().slice(0,10));
+  // 连续天数
+  let streak = 0;
+  let d = new Date();
+  for (let i = 0; i < 60; i++) {
+    let dd = new Date(d); dd.setDate(d.getDate() - i);
+    if (checkinHistory.some(h => h.date === dd.toISOString().slice(0,10) && h.checkin)) streak++;
+    else if (i > 0) break;
   }
-  let checked7 = d7.filter(d => history.some(h => h.date === d && h.checkin)).length;
-  let pct7 = Math.round((checked7 / 7) * 100);
-  let circ = 314;
-  document.getElementById('ringPercent').textContent = pct7 + '%';
-  document.getElementById('ringArc').setAttribute('stroke-dashoffset', circ - Math.round((pct7 / 100) * circ));
 
-  // 维度进度
-  let streaks = getSOPStreaks();
-  document.getElementById('sopProgressItems').innerHTML = SOP_CATEGORIES.map(cat => {
-    let sel = sopSelected[cat.id] || {};
-    let catYes = Object.values(sel).filter(v => v === 'yes').length;
-    let pct = Math.round((catYes / cat.items.length) * 100);
-    return `<div class="progress-item">
-      <div class="progress-item-header">
-        <span class="progress-item-name">${cat.icon} ${cat.name}</span>
-        <span class="progress-item-score">${pct}%</span>
-      </div>
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill" style="width:${pct}%;"></div>
-      </div>
-    </div>`;
-  }).join('');
+  // 平均SOP得分
+  const avgScore = sopHistory.length > 0
+    ? Math.round(sopHistory.reduce((s, h) => s + (h.score || 0), 0) / sopHistory.length) : 0;
+  const today = getToday();
+  const todayRecord = sopHistory.find(h => h.date === today);
+  const todayScore = todayRecord ? todayRecord.score + '%' : '-';
+
+  // 圆环
+  const circumference = 2 * Math.PI * 54;
+  const offset = circumference - (avgScore / 100) * circumference;
+  const ringEl = document.getElementById('studyRingFill');
+  if (ringEl) ringEl.setAttribute('stroke-dashoffset', offset);
+  const pctEl = document.getElementById('studyRingPct');
+  if (pctEl) pctEl.textContent = avgScore + '%';
+
+  // 统计数字
+  ['studyStreakNum','studyTotalDays','studyTodayScore'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = [streak, totalDays, todayScore][i];
+  });
+
+  // 各维度平均
+  const dimsEl = document.getElementById('studyProgressDims');
+  if (dimsEl) {
+    dimsEl.innerHTML = SOP_CATEGORIES.map(cat => {
+      const catAvg = sopHistory.length > 0
+        ? Math.round(sopHistory.reduce((s, h) => {
+            const sel = (h.selected && h.selected[cat.id]) || {};
+            return s + Object.values(sel).filter(v => v === 'yes').length;
+          }, 0) / sopHistory.length) : 0;
+      const fill = Math.round((catAvg / cat.items.length) * 100);
+      return `<div style="display:flex;align-items:center;gap:10px;">
+        <div style="font-size:18px;width:28px;text-align:center;">${cat.icon}</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px;color:#2b3a4a;">${cat.name}</div>
+          <div style="height:6px;background:#f3e8f7;border-radius:6px;overflow:hidden;">
+            <div style="height:100%;width:${fill}%;background:${cat.color};border-radius:6px;transition:width 0.8s;"></div>
+          </div>
+        </div>
+        <div style="font-size:12px;font-weight:700;color:#9c27b0;width:40px;text-align:right;">${catAvg}/${cat.items.length}</div>
+      </div>`;
+    }).join('');
+  }
 
   document.getElementById('progressPartnerEmoji').textContent = partner.emoji;
   document.getElementById('progressPartnerName').textContent = partner.name;

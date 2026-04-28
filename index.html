@@ -462,8 +462,8 @@
 </head>
 <body>
 
-<!-- ===== 右上角搭子切换 ===== -->
-<div style="position:fixed;top:16px;right:16px;z-index:200;">
+<!-- ===== 底部右侧搭子切换 ===== -->
+<div style="position:fixed;bottom:88px;right:16px;z-index:200;">
   <div id="avatarBtn" onclick="showPartnerSelector()" style="width:48px;height:48px;background:white;border:2.5px solid #3de882;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:26px;transition:transform 0.2s;position:relative;" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">😊</div>
 </div>
 
@@ -2086,6 +2086,7 @@ function submitSOPCat() {
     if (!sopDone) {
       sopDone = true;
       saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: getToday(), submittedCats: sopSubmittedCats });
+      saveSOPToHistory({ date: getToday(), score: sopScore, selected: sopSelected });
       setTimeout(() => showSOPFinish(), 300);
     }
   } else {

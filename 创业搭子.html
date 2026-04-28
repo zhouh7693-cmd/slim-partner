@@ -870,7 +870,8 @@ function updateSOPHeader(catId) {
     return total + cat.habits.reduce((s, h, i) => {
       const ans = sopState.catAnswers[cat.id][i];
       if (ans === undefined) return s;
-      return s + (ans ? h.score : Math.min(0, h.score));
+      // 做到了：正向+分，负向扣分；没做到：0（正向没执行不加，负向克制了不扣）
+      return s + (ans ? h.score : 0);
     }, 0);
   }, 0);
   const progress = Math.round((doneCount / SOP_CATS.length) * 100);
@@ -891,7 +892,7 @@ function renderSOPCatFinish(catId) {
   const catScore = cat.habits.reduce((s, h, i) => {
     const ans = sopState.catAnswers[catId][i];
     if (ans === undefined) return s;
-    return s + (ans ? h.score : Math.min(0, h.score));
+    return s + (ans ? h.score : 0);
   }, 0);
 
   const feedback = getCatFeedback(catId, yes, catScore);
@@ -941,7 +942,7 @@ function showSOPFinish() {
     return total + cat.habits.reduce((s, h, i) => {
       const ans = sopState.catAnswers[cat.id][i];
       if (ans === undefined) return s;
-      return s + (ans ? h.score : Math.max(0, h.score));
+      return s + (ans ? h.score : 0);
     }, 0);
   }, 0);
   const maxPossible = SOP_CATS.reduce((t, c) => t + c.habits.reduce((s, h) => s + Math.max(0, h.score), 0), 0);
@@ -964,7 +965,7 @@ function showSOPFinish() {
     const catScore = cat.habits.reduce((s, h, i) => {
       const ans = sopState.catAnswers[cat.id][i];
       if (ans === undefined) return s;
-      return s + (ans ? Math.max(0, h.score) : Math.min(0, h.score));
+      return s + (ans ? h.score : 0);
     }, 0);
     const cls = catScore >= 6 ? 'good' : catScore >= 3 ? 'warn' : 'bad';
     const pct2 = Math.max(0, Math.min(100, Math.round(((catScore + 5) / 10) * 100)));

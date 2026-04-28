@@ -431,8 +431,8 @@
 </head>
 <body>
 
-<!-- ===== 右上角搭子切换 ===== -->
-<div style="position:fixed;top:16px;right:16px;z-index:200;">
+<!-- ===== 底部右侧搭子切换 ===== -->
+<div style="position:fixed;bottom:88px;right:16px;z-index:200;">
   <div id="avatarBtn" onclick="showPartnerSelector()" style="width:48px;height:48px;background:white;border:2.5px solid #3de882;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:26px;transition:transform 0.2s;position:relative;" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">😊</div>
 </div>
 
@@ -445,6 +445,10 @@
   <div class="tab-item" onclick="switchTab('sop')">
     <div class="tab-icon">🎯</div>
     <div class="tab-label">SOP</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('progress')">
+    <div class="tab-icon">📊</div>
+    <div class="tab-label">进展</div>
   </div>
   <div class="tab-item" onclick="switchTab('share')">
     <div class="tab-icon">📣</div>
@@ -578,6 +582,53 @@
   </div>
 </div>
 
+<!-- ===== Page: 进展 ===== -->
+<div id="page-progress" class="page">
+  <div class="weight-page">
+    <div class="weight-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;">
+      <div style="font-size:48px;margin-bottom:8px;">🌟</div>
+      <div class="chart-title" style="font-size:18px;margin-bottom:4px;">使命财富进展</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">你的使命 SOP 全局视图</div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;position:relative;">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <defs><linearGradient id="missionRingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#3f51b5"/><stop offset="100%" stop-color="#1565c0"/>
+          </linearGradient></defs>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#eef2f5" stroke-width="14"/>
+          <circle id="missionRingFill" cx="70" cy="70" r="54" fill="none" stroke="url(#missionRingGrad)" stroke-width="14"
+            stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"
+            transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.8s;"/>
+          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#3f51b5;" id="missionRingPct">0%</text>
+          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#8f9eae;">平均得分</text>
+        </svg>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <div style="background:#e8eaf6;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#3f51b5;" id="missionStreakNum">0</div>
+          <div style="font-size:11px;color:#8f9eae;">连续天数</div>
+        </div>
+        <div style="background:#f3fdf6;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#43a047;" id="missionTotalDays">0</div>
+          <div style="font-size:11px;color:#8f9eae;">累计天数</div>
+        </div>
+        <div style="background:#fff3e0;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#ff6b35;" id="missionTodayScore">-</div>
+          <div style="font-size:11px;color:#8f9eae;">今日得分</div>
+        </div>
+      </div>
+    </div>
+    <div class="weight-chart-card" style="margin-bottom:16px;">
+      <div class="chart-title">📊 各维度平均得分</div>
+      <div id="missionProgressDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+    <div class="weight-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#e8eaf6,#e3f2fd);border:1px solid #c5cae9;margin-bottom:16px;">
+      <div style="font-size:36px;margin-bottom:8px;" id="missionProgressPartnerEmoji">🌟</div>
+      <div style="font-size:14px;font-weight:700;color:#1a237e;margin-bottom:4px;" id="missionProgressPartnerName">使命搭子</div>
+      <div style="font-size:13px;color:#283593;line-height:1.6;" id="missionProgressPartnerMsg">活出使命是最高境界的人生价值，每天行动都在接近它！</div>
+    </div>
+  </div>
+</div>
+
 <!-- ===== Page: 分享 ===== -->
 <div id="page-share" class="page">
   <div class="weight-page">
@@ -588,46 +639,58 @@
 
     <!-- 我的状态 -->
     <div class="sop-card" style="margin-bottom:12px;">
-      <div class="chart-title">🏃 我的状态</div>
+      <div class="chart-title">🏠 我的状态</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
-        <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#2ed573;" id="shareStreak">-</div>
+        <div style="background:#e8eaf6;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#3f51b5;" id="shareStreak">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;">连续打卡</div>
         </div>
-        <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#3de882;" id="shareToday">-</div>
+        <div style="background:#e8eaf6;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#1565c0;" id="shareToday">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;">今日打卡</div>
+        </div>
+        <div style="background:#e8eaf6;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#1a237e;" id="shareTotal">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
         </div>
       </div>
     </div>
 
-    <!-- 当前搭子 -->
-    <div class="sop-card" style="margin-bottom:12px;">
-      <div class="chart-title">🤝 我的搭子</div>
-      <div id="shareCurrentPartner" style="display:flex;align-items:center;gap:12px;margin-top:12px;padding:14px;background:#f8f9fa;border-radius:14px;">
+    <!-- 分享邀请卡片 -->
+    <div class="sop-card">
+      <div class="chart-title">🌟 使命财富搭子</div>
+      <div style="margin-top:12px;background:linear-gradient(135deg,#e8eaf6,#e3f2fd);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;">
+        <div style="font-size:48px;margin-bottom:8px;">🌟</div>
+        <div style="font-size:16px;font-weight:700;color:#1a237e;margin-bottom:4px;">使命财富搭子</div>
+        <div style="font-size:13px;color:#283593;line-height:1.6;margin-bottom:8px;">陪你一起活出使命、创造价值<br>每天5分钟复盘，让人生更有意义</div>
+        <div style="font-size:11px;color:#3f51b5;">五大使命维度 · 每日坚持</div>
       </div>
-    </div>
-
-    <!-- 邀请链接 -->
-    <div class="sop-card" style="margin-bottom:12px;">
-      <div class="chart-title">🔗 邀请好友</div>
-      <div style="background:#f0f9f4;border-radius:12px;padding:14px;margin-top:10px;display:flex;align-items:center;gap:10px;">
-        <div style="flex:1;font-size:12px;color:#555;word-break:break-all;" id="shareLinkText"></div>
-        <button onclick="copyShareLink()" style="background:#3de882;color:white;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">复制</button>
+      <div class="chart-title" style="margin-bottom:12px;">📋 SOP 复盘维度</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+        <div style="background:#f5f5ff;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">📚</div>
+          <div style="font-size:12px;font-weight:600;color:#3f51b5;">学习成长</div>
+        </div>
+        <div style="background:#f5f5ff;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">🗺️</div>
+          <div style="font-size:12px;font-weight:600;color:#009688;">目标设定</div>
+        </div>
+        <div style="background:#f5f5ff;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">⚡</div>
+          <div style="font-size:12px;font-weight:600;color:#ff9800;">行动执行</div>
+        </div>
+        <div style="background:#f5f5ff;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">🔄</div>
+          <div style="font-size:12px;font-weight:600;color:#795548;">复盘反思</div>
+        </div>
+        <div style="background:#f5f5ff;border-radius:12px;padding:12px;text-align:center;grid-column:span 2;">
+          <div style="font-size:24px;">💎</div>
+          <div style="font-size:12px;font-weight:600;color:#607d8b;">价值创造</div>
+        </div>
       </div>
-    </div>
-
-    <!-- 分享文案 -->
-    <div class="sop-card" style="margin-bottom:12px;">
-      <div class="chart-title">💬 分享文案</div>
-      <div style="background:#fff;border:1.5px solid #3de882;border-radius:14px;padding:14px;font-size:13px;line-height:1.7;color:#333;margin-top:10px;" id="shareTextBox"></div>
-      <button onclick="copyShareText()" style="width:100%;margin-top:10px;background:#fff;color:#3de882;border:1.5px solid #3de882;border-radius:10px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;">📋 复制文案</button>
-    </div>
-
-    <!-- 切换搭子 -->
-    <div class="sop-card" style="margin-bottom:12px;">
-      <div class="chart-title">✨ 换个搭子</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;" id="sharePartnerGrid"></div>
+      <div class="chart-title">🔗 邀请链接</div>
+      <div style="background:#f5f5ff;border-radius:12px;padding:12px 14px;font-size:13px;color:#1a237e;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay"></div>
+      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#3f51b5,#1565c0);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(63,81,181,0.4);">📋 复制邀请链接</button>
     </div>
   </div>
 </div>
@@ -797,11 +860,12 @@ const PROGRESS_DATA = {
 function switchTab(tab) {
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const tabs = ['checkin','sop','share'];
+  const tabs = ['checkin','sop','progress','share'];
   document.querySelectorAll('.tab-item')[tabs.indexOf(tab)].classList.add('active');
   document.getElementById(`page-${tab}`).classList.add('active');
   
   if (tab === 'sop') initSOP();
+  if (tab === 'progress') renderMissionProgress();
   if (tab === 'share') renderSharePage();
 }
 
@@ -2218,58 +2282,74 @@ function getCatFeedback(catId, yesItems, noItems, pct) {
   return feedback;
 }
 
+// ==================== 进展页面 ====================
+function renderMissionProgress() {
+  const sopKey = STORAGE.SOP + '_history';
+  const history = JSON.parse(localStorage.getItem(sopKey) || '[]');
+  const checkinHistory = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
+  const totalDays = checkinHistory.length;
+  const streak = getStreak();
+  const avgScore = history.length > 0
+    ? Math.round(history.reduce((s, h) => s + (h.score || 0), 0) / history.length) : 0;
+  const today = new Date().toISOString().slice(0,10);
+  const todayRecord = history.find(h => h.date === today);
+  const todayScore = todayRecord ? todayRecord.score + '%' : '-';
+  const circumference = 2 * Math.PI * 54;
+  const offset = circumference - (avgScore / 100) * circumference;
+  const ringEl = document.getElementById('missionRingFill');
+  if (ringEl) ringEl.setAttribute('stroke-dashoffset', offset);
+  const pctEl = document.getElementById('missionRingPct');
+  if (pctEl) pctEl.textContent = avgScore + '%';
+  ['missionStreakNum','missionTotalDays','missionTodayScore'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = [streak, totalDays, todayScore][i];
+  });
+  const dimsEl = document.getElementById('missionProgressDims');
+  if (dimsEl && typeof SOP_CATEGORIES !== 'undefined') {
+    dimsEl.innerHTML = SOP_CATEGORIES.map(cat => {
+      const catAvg = history.length > 0
+        ? Math.round(history.reduce((s, h) => {
+            const sel = (h.selected && h.selected[cat.id]) || {};
+            return s + Object.values(sel).filter(v => v === 'yes').length;
+          }, 0) / history.length) : 0;
+      const fill = Math.round((catAvg / cat.items.length) * 100);
+      return `<div style="display:flex;align-items:center;gap:10px;">
+        <div style="font-size:18px;width:28px;text-align:center;">${cat.icon}</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px;color:#2b3a4a;">${cat.name}</div>
+          <div style="height:6px;background:#eef2f5;border-radius:6px;overflow:hidden;">
+            <div style="height:100%;width:${fill}%;background:${cat.color};border-radius:6px;transition:width 0.8s;"></div>
+          </div>
+        </div>
+        <div style="font-size:12px;font-weight:700;color:#3f51b5;width:40px;text-align:right;">${catAvg}/${cat.items.length}</div>
+      </div>`;
+    }).join('');
+  }
+  const partner = PARTNERS.find(p => p.id === (localStorage.getItem(STORAGE.PARTNER) || '')) || PARTNERS[0];
+  const emojiEl = document.getElementById('missionProgressPartnerEmoji');
+  const nameEl = document.getElementById('missionProgressPartnerName');
+  const msgEl = document.getElementById('missionProgressPartnerMsg');
+  if (emojiEl) emojiEl.textContent = partner.emoji;
+  if (nameEl) nameEl.textContent = partner.name;
+  if (msgEl) msgEl.textContent = partner.fb ? partner.fb.text : '活出使命是最高境界的人生价值，每天行动都在接近它！';
+}
+
 // ==================== 分享页面 ====================
 function renderSharePage() {
-  // 用户状态
   let streak = getStreak();
   let today = getToday();
   let history = getHistory();
   let todayChecked = history.includes(today);
-    
-  document.getElementById('shareStreak').innerText = streak + '天';
-  document.getElementById('shareToday').innerText = todayChecked ? '✅' : '○';
-  
-  // 当前搭子
-  let cp = currentPartner || PARTNERS[0];
-  document.getElementById('shareCurrentPartner').innerHTML = `
-    <div style="font-size:36px;">${cp.emoji}</div>
-    <div style="flex:1;">
-      <div style="font-size:16px;font-weight:700;color:#333;">${cp.name}</div>
-      <div style="font-size:12px;color:#888;margin-top:2px;">${cp.desc}</div>
-    </div>
-  `;
-
-  // 邀请链接
-  let url = getSiteUrl() + 'share.html';
-  document.getElementById('shareLinkText').innerText = url;
-
-  // 个性化分享文案
-  let text = streak > 0 ? `我在用「使命财富搭子」${cp.emoji}${cp.name}陪我追寻使命！已坚持${streak}天。搭子每天会给我鼓励和建议，超暖心～快来一起成长吧！\n\n👉 ${url}`
-    : `我刚发现了一个超好用的「使命财富搭子」小程序！${cp.emoji}${cp.name}陪我每天打卡，互相监督不偷懒～4种性格可选，总有一款适合你！\n\n👉 ${url}`;
-  document.getElementById('shareTextBox').innerText = text;
-
-  // 搭子选择
-  let grid = document.getElementById('sharePartnerGrid');
-  if (grid) {
-    let saved = localStorage.getItem(STORAGE.PARTNER);
-    grid.innerHTML = '';
-    PARTNERS.forEach(p => {
-      let sel = saved === p.id;
-      let card = document.createElement('div');
-      card.style.cssText = `padding:12px 8px;border-radius:12px;border:2px solid ${sel ? p.color : '#eee'};cursor:pointer;text-align:center;background:${sel ? p.color + '22' : 'white'};`;
-      card.innerHTML = `<div style="font-size:26px;margin-bottom:4px;">${p.emoji}</div><div style="font-size:12px;font-weight:600;color:#333;">${p.name}</div>`;
-      card.onclick = () => {
-        localStorage.setItem(STORAGE.PARTNER, p.id);
-        if(window.savePartnerToFirebase) savePartnerToFirebase(p.id);
-        currentPartner = p;
-        partnerIdx = PARTNERS.indexOf(p);
-        updateAvatarBtn();
-        renderSharePage();
-        showToast(`✨ 已切换为${p.emoji} ${p.name}`);
-      };
-      grid.appendChild(card);
-    });
-  }
+  let totalDays = history.length;
+  const streakEl = document.getElementById('shareStreak');
+  const todayEl = document.getElementById('shareToday');
+  const totalEl = document.getElementById('shareTotal');
+  const urlEl = document.getElementById('shareUrlDisplay');
+  if (streakEl) streakEl.textContent = streak + '天';
+  if (todayEl) todayEl.textContent = todayChecked ? '已打卡' : '未打卡';
+  if (totalEl) totalEl.textContent = totalDays;
+  let url = getSiteUrl() + '搭子-使命财富.html';
+  if (urlEl) urlEl.textContent = url;
 }
 
 function getStreak() {
@@ -2278,13 +2358,11 @@ function getStreak() {
 }
 
 function copyMainLink() {
-  navigator.clipboard.writeText(getSiteUrl()+'share.html').then(() => showToast('✅ 链接已复制！'));
+  navigator.clipboard.writeText(getSiteUrl()+'搭子-使命财富.html').then(() => showToast('✅ 链接已复制！'));
 }
 function copyShareLink() {
-  navigator.clipboard.writeText(getSiteUrl()+'share.html').then(() => showToast('✅ 链接已复制！'));
-}
-function copyShareText() {
-  navigator.clipboard.writeText(document.getElementById('shareTextBox').innerText).then(() => showToast('✅ 分享文案已复制！'));
+  let url = getSiteUrl() + '搭子-使命财富.html';
+  navigator.clipboard.writeText(url).then(() => showToast('✅ 邀请链接已复制，快发给朋友吧！'));
 }
 
 // ==================== Firebase ====================
