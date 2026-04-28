@@ -872,7 +872,8 @@ function sendMood(mood) {
       '战友': ['累了就说，我们一起想办法，不一定要你一个人扛 🤝', '今天已经够努力了，允许自己休息 🌙', '搭子在，你可以停一停，没关系的 💙', '身体会记住你的努力，也请记得照顾它 🤗'],
     },
   };
-  const pStyle = p ? p.style : '战友';
+  const partner = selectedPartner !== null ? PARTNER_STYLES[selectedPartner] : null;
+  const pStyle = partner ? partner.style : '战友';
   const info = moodMap[mood] || { emoji: '😊' };
   const replies = info[mood]?.[pStyle] || info[mood]?.['战友'] || ['我听到了 💪'];
   appendMsg(info.emoji, replies[Math.floor(Math.random() * replies.length)]);

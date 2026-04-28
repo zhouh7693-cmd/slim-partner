@@ -564,6 +564,7 @@
       <div id="partnerNameB" style="text-align:center;font-size:16px;font-weight:700;color:#333;"></div>
       <div id="partnerStyleB" style="text-align:center;font-size:12px;color:#e65100;margin-top:4px;"></div>
     </div>
+    <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
     <div class="panel-label" style="margin-bottom:10px;">💬 和搭子说说话</div>
     <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;">
       <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
@@ -1041,10 +1042,58 @@ function doCheckin() {
   }, 2500);
 }
 
+// ===== 搭子tab消息显示 =====
+function showPartnerMsg(text, isAI) {
+  const area = document.getElementById('partnerChatArea');
+  if (!area) return;
+  const partner = currentPartner || PARTNERS[0];
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-bubble-wrap';
+  if (isAI) {
+    wrap.innerHTML = `<div class="msg-avatar">${partner.emoji}</div><div class="msg-bubble ai">${text}</div>`;
+  } else {
+    wrap.innerHTML = `<div class="msg-bubble" style="margin-left:auto;border-radius:18px 18px 4px 18px;background:#eef6fb;">${text}</div>`;
+  }
+  area.appendChild(wrap);
+  area.scrollTop = area.scrollHeight;
+  if (area.children.length > 20) area.removeChild(area.children[0]);
+}
+
 function sendMood(mood) {
+  const partner = currentPartner || PARTNERS[0];
+  const pStyle = partner.style || 'gentle';
   const moodText = { happy: '今天心情不错！', neutral: '今天心情一般。', sad: '今天心情有点低落……', tired: '今天感觉好累。' };
-  showMsg(moodText[mood], false);
-  delayedMsg(getMsg(currentPartner?.style||'gentle', mood));
+  const replies = {
+    gentle: {
+      happy: ['看你开心，我也很高兴 🎯', '好状态！你正在接近自己的使命 💫', '开心的你，是最能影响世界的人 😊'],
+      neutral: ['平静也是一种力量 🎯', '不急不躁，这就是最好的节奏 🌿', '没有大起大落，稳稳走在使命路上'],
+      sad: ['心情不好就先放一放，我在 🎯', '不用勉强，今天允许自己难过 🌧️', '低落的时候说出来，搭子是 💙'],
+      tired: ['累了就先休息，别逼自己 ⚖️', '使命不是一天完成的，今晚对自己好一点 🌙', '疲惫不是懈怠，是灵魂在说需要修复']
+    },
+    passion: {
+      happy: ['🎯 使命燃烧！这种状态最能改变世界！', '好状态就是干！把所有能量释放出来 🚀', '眼里有光！你的使命正在实现！'],
+      neutral: ['⚡ 平静是蓄力，使命需要耐心 🌋', '稳得住的人，才能走得最远 🎯', '不飘不躁，这种状态最能实现使命 🔥'],
+      sad: ['💪 低落是信号，写下来然后转化成行动！', '黑暗之后就是黎明，你已经在黎明前了 🌅', '难过就说，搭子在这里陪你，不是鸡汤 🤝'],
+      tired: ['⚡ 英雄也需要休息，休息完使命更强 🛡️', '撑不住就说，搭子帮你扛一会儿 🏔️', '累的时候允许暂停，这不软弱，是智慧 💎']
+    },
+    rational: {
+      happy: ['📊 好状态有利于使命决策 🎯', '数据显示好状态下的判断力最准 📈', '记录这种状态，它是最值钱的资产 📋'],
+      neutral: ['📊 平静是超能力，使命规划需要它 🧭', '不急不躁是顶级特质，判断力最稳 🧠', '平静期是最好的使命复盘窗口 📏'],
+      sad: ['📊 低落时先别做重大决策，把情绪写下来再分析 📝', '说出来，是方向的问题还是方法的问题？我帮你拆解 🧩', '先允许自己低落，然后我们来看怎么拆解 🛠️'],
+      tired: ['📊 疲惫时决策质量最低，先休息再复盘 🛋️', '使命不是一天完成的，撑不住时强制休息是战略 🏃', '最坏的决策往往来自最累的时候，今晚好好睡 🌙']
+    },
+    tsundere: {
+      happy: ['😏 有什么好得意的……不过看起来精神还不错', '哼，开心就开心吧，别太得瑟了 😏', '……行吧，状态还行 😑'],
+      neutral: ['😏 没有退步，算你识相', '……就这样吧 😑', '没有大起大落，还凑合 😶'],
+      sad: ['🥴 别矫情了，说说怎么回事 😒', '……行了，我听着 😒', '就你事儿多……但说吧 😒'],
+      tired: ['😒 累了就休息，谁还没累过 😒', '……行吧，今晚早点睡 😴', '哼，想偷懒就直说 😏']
+    }
+  };
+  const options = replies[pStyle]?.[mood] || replies.gentle[mood];
+  showPartnerMsg(moodText[mood], false);
+  setTimeout(() => {
+    showPartnerMsg(options[Math.floor(Math.random() * options.length)], true);
+  }, 800 + Math.random() * 600);
 }
 
 function sendTalk(type) {
@@ -1086,10 +1135,10 @@ function askPartner(type) {
       cheer: { pos: ['……算你有点本事。😏'], neg: ['好事？😏'] }
     }
   };
-  showMsg(labels[type], false);
+  showPartnerMsg(labels[type], false);
   setTimeout(() => {
     const arr = replies[style]?.[type]?.pos || replies.gentle[type].pos;
-    showMsg(partner.emoji + ' ' + arr[Math.floor(Math.random() * arr.length)], true);
+    showPartnerMsg(partner.emoji + ' ' + arr[Math.floor(Math.random() * arr.length)], true);
   }, 800);
 }
 
@@ -2603,6 +2652,11 @@ function renderPartnerPage() {
   document.getElementById('partnerAvatarB').textContent = p.emoji;
   document.getElementById('partnerNameB').textContent = p.name;
   document.getElementById('partnerStyleB').textContent = styleMap[p.style] || p.name;
+  var area = document.getElementById('partnerChatArea');
+  if (area && area.children.length === 0) {
+    var welcomes = ['嗨！今天的使命进展怎么样？🌟', p.emoji + ' 搭子已上线，有使命困惑随时聊聊 ✨', '记得你的使命需要坚持，有什么事和我说 💬'];
+    area.innerHTML = '<div class="msg-bubble-wrap"><div class="msg-avatar">' + p.emoji + '</div><div class="msg-bubble ai">' + welcomes[Math.floor(Math.random() * welcomes.length)] + '</div></div>';
+  }
 }
 
 // ==================== 初始化 ====================
