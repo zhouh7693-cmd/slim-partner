@@ -551,22 +551,22 @@
     <div class="selector-sub">陪你一起变富，不再焦虑</div>
     <div class="partner-grid" id="partnerGrid">
       <div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')">
-        <div class="partner-emoji">🌸</div>
+        <div class="partner-emoji">💎</div>
         <div class="partner-name">温柔鼓励型</div>
         <div class="partner-desc">轻声细语，温暖陪伴</div>
       </div>
       <div class="partner-card" id="pc-passion" onclick="selectPartner('passion')">
-        <div class="partner-emoji">💪</div>
+        <div class="partner-emoji">📈</div>
         <div class="partner-name">热血激励型</div>
         <div class="partner-desc">燃起来！干就完了</div>
       </div>
       <div class="partner-card" id="pc-rational" onclick="selectPartner('rational')">
-        <div class="partner-emoji">📊</div>
+        <div class="partner-emoji">🧮</div>
         <div class="partner-name">冷静理性型</div>
         <div class="partner-desc">数据说话，理性理财</div>
       </div>
       <div class="partner-card" id="pc-tsundere" onclick="selectPartner('tsundere')">
-        <div class="partner-emoji">😏</div>
+        <div class="partner-emoji">🎯</div>
         <div class="partner-name">毒舌但中肯型</div>
         <div class="partner-desc">骂醒你，但句句在理</div>
       </div>
@@ -737,8 +737,8 @@
       <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="openQAPanel('progress')">📣 汇报进展</button>
-      <button class="talk-btn" onclick="openQAPanel('question')">🤔 有问题想问</button>
+      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
+      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
     </div>
   </div>
 </div>
@@ -927,10 +927,10 @@ function slimConfirmPartner() {
 // ==================== 全局 & 存储 ====================
 document.addEventListener('DOMContentLoaded', function() {
 const PARTNERS = [
-  { id: 'gentle', name: '温柔鼓励型', emoji: '🌸', style: 'gentle', desc: '轻声细语，温暖陪伴', color: '#f8bbd0' },
-  { id: 'passion', name: '热血激励型', emoji: '💪', style: 'passion', desc: '燃起来！干就完了', color: '#ffcc02' },
-  { id: 'rational', name: '冷静理性型', emoji: '📊', style: 'rational', desc: '数据说话，理性理财', color: '#90caf9' },
-  { id: 'tsundere', name: '毒舌但中肯型', emoji: '😏', style: 'tsundere', desc: '骂醒你，但句句在理', color: '#ce93d8' }
+  { id: 'gentle', name: '温柔鼓励型', emoji: '💎', style: 'gentle', desc: '轻声细语，温暖陪伴', color: '#f8bbd0' },
+  { id: 'passion', name: '热血激励型', emoji: '📈', style: 'passion', desc: '燃起来！干就完了', color: '#ffcc02' },
+  { id: 'rational', name: '冷静理性型', emoji: '🧮', style: 'rational', desc: '数据说话，理性理财', color: '#90caf9' },
+  { id: 'tsundere', name: '毒舌但中肯型', emoji: '🎯', style: 'tsundere', desc: '骂醒你，但句句在理', color: '#ce93d8' }
 ];
 const STORAGE = { PARTNER: 'slim_partner_finance', HISTORY: 'slim_history_finance', WEIGHT: 'slim_weight_finance', SOP: 'slim_sop_finance', SOP_STREAKS: 'slim_sop_streaks_finance', TARGET_WEIGHT: 'slim_target_weight_finance' };
 const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner'; // GitHub Pages
@@ -1472,7 +1472,13 @@ function addWeight() {
   data = data.filter(d => d.date !== today);
   data.push({ date: today, value: val });
   data.sort((a, b) => a.date.localeCompare(b.date));
-  saveWeightData(data);
+  try {
+    localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(data));
+  } catch(e) {
+    showToast('⚠️ 存储失败，请检查浏览器隐私设置');
+    return;
+  }
+  if(window.saveWeightToFirebase) saveWeightData(data);
   document.getElementById('weightInput').value = '';
   showToast('✅ 记录成功：¥' + val.toFixed(2));
   drawWeightChart();
@@ -2889,7 +2895,7 @@ function copyMainLink() {
 function renderPartnerPage() {
   var selected = localStorage.getItem(STORAGE.PARTNER) || 'gentle';
   var p = PARTNERS.find(function(x) { return x.id === selected; }) || PARTNERS[0];
-  var styleMap = { gentle: '🌸 温柔鼓励型', passion: '💪 热血激励型', rational: '📊 冷静理性型', blunt: '😏 毒舌但中肯型' };
+  var styleMap = { gentle: '💎 温柔鼓励型', passion: '📈 热血激励型', rational: '🧮 冷静理性型', tsundere: '🎯 毒舌但中肯型' };
   document.getElementById('partnerAvatarB').textContent = p.emoji;
   document.getElementById('partnerNameB').textContent = p.name;
   document.getElementById('partnerStyleB').textContent = styleMap[p.style] || p.name;
@@ -2919,9 +2925,14 @@ window.copyShareText = copyShareText;
 window.previewShareCard = previewShareCard;
 window.shareWeeklyReport = shareWeeklyReport;
 window.addWeight = addWeight;
+window.askPartner = askPartner;
+window.openTypePanel = openTypePanel;
+window.showTypeFeedback = showTypeFeedback;
+window.openQAPanel = openQAPanel;
 window.submitSOPCat = submitSOPCat;
 window.switchSOPCat = switchSOPCat;
 window.toggleSOPItem = toggleSOPItem;
+window.switchSOPCat = switchSOPCat;
 window.closeSOPGuide = closeSOPGuide;
 window.closeSOPFinish = closeSOPFinish;
 window.showSOPFinish = showSOPFinish;
