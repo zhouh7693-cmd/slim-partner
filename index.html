@@ -1991,7 +1991,12 @@ function addWeight() {
   data = data.filter(d => d.date !== today);
   data.push({ date: today, value: val });
   data.sort((a,b) => a.date.localeCompare(b.date));
-  saveWeightData(data);
+  try {
+    saveWeightData(data);
+  } catch(e) {
+    showToast('⚠️ 存储失败，请检查浏览器隐私设置');
+    return;
+  }
   document.getElementById('weightInput').value = '';
   showToast(`✅ 记录成功：${val}kg`);
   drawWeightChart();

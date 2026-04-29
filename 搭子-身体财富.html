@@ -567,8 +567,8 @@
         <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
       </div>
       <div class="talk-btn-row" style="margin-top:8px;">
-        <button class="talk-btn" onclick="sendTalk('progress')">📣 汇报进展</button>
-        <button class="talk-btn" onclick="sendTalk('question')">🤔 有问题想问</button>
+        <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
+        <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
       </div>
     </div>
 
@@ -1191,13 +1191,6 @@ function sendMood(mood) {
   }, 800 + Math.random() * 600);
 }
 
-function sendTalk(type) {
-  if (type === 'progress') {
-    openQAPanel('progress');
-  } else {
-    openQAPanel('question');
-  }
-}
 
 // ===== 搭子tag交互（身体财富版·6类20条）=====
 // 场景数据
@@ -1739,7 +1732,12 @@ function addWeight() {
   data = data.filter(d => d.date !== today);
   data.push({ date: today, value: val });
   data.sort((a,b) => a.date.localeCompare(b.date));
-  saveWeightData(data);
+  try {
+    saveWeightData(data);
+  } catch(e) {
+    showToast('⚠️ 存储失败，请检查浏览器隐私设置');
+    return;
+  }
   document.getElementById('weightInput').value = '';
   showToast(`✅ 记录成功：${val}kg`);
   drawWeightChart();
