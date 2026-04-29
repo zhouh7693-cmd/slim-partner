@@ -569,10 +569,10 @@
     <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
     <div class="panel-label" style="margin-bottom:10px;">💬 和搭子说说话</div>
     <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;">
-      <div class="mood-btn" onclick="showPartnerMsg('今天内心状态很棒！✨', false);setTimeout(function(){var r=['精神富足！这种状态最能成长！🕊️','好状态就是干！把所有能量释放出来！🚀','内心平静是你最好的状态 🌿'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="开心">😄</div>
-      <div class="mood-btn" onclick="showPartnerMsg('今天内心平静，稳住。', false);setTimeout(function(){var r=['平静也是一种力量 🕊️','不急不躁，这就是最好的节奏 🌿','稳得住的人，才能走得最远 🕊️'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="平静">😌</div>
-      <div class="mood-btn" onclick="showPartnerMsg('今天心情有点低落……🌧️', false);setTimeout(function(){var r=['低落的时候说出来，搭子在 💙','先允许自己难过，然后我们来看怎么拆解 🛠️','黑暗之后就是黎明，你已经在黎明前了 🌅'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="低落">😔</div>
-      <div class="mood-btn" onclick="showPartnerMsg('今天感觉好累……🌙', false);setTimeout(function(){var r=['灵魂也需要充电，今晚对自己好一点 🌙','累的时候允许暂停，这不软弱，是智慧 💎','撑不住就说，搭子帮你扛一会儿 🏔️'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="疲惫">😫</div>
+      <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
+      <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
+      <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
+      <div class="mood-btn" onclick="sendMood('tired')" title="疲惫">😫</div>
     </div>
     <div class="talk-btn-row">
       <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
@@ -1666,28 +1666,27 @@ function sendMood(mood) {
   const moodText = { happy: '今天心情不错！', neutral: '今天心情一般。', sad: '今天心情有点低落……', tired: '今天感觉好累。' };
   const replies = {
     gentle: {
-      happy: ['看你开心，我也很高兴 🌿', '精神状态好，整个人都发光 😊', '内心平静是你最好的状态 🌱'],
-      neutral: ['平静也是一种力量 🕊️', '不急不躁，这就是最好的节奏 🌿', '没有大起大落，内心很富足'],
-      sad: ['心情不好就先放一放，我在 🌿', '不用勉强，今天允许自己难过 🌧️', '低落的时候说出来，搭子在 💙'],
-      tired: ['累了就先休息，别逼自己 ⚖️', '精神需要充电，今晚对自己好一点 🌙', '疲惫不是懈怠，是灵魂在说需要修复']
+      happy: ['能感觉到你今天内在是舒展的，不用抓住什么，只是被承托着 🌿', '精神状态好的时候，连空气都觉得轻盈一些 🕊️', '这种内在的满足感，值得被记住 🌱'],
+      neutral: ['没有想太多，也没有不想，这种空也是一种满 🌿', '没有起伏的日子，身体和心都在悄悄修复', '今天就安静地存在着，已经是很好的事了'],
+      sad: ['内在低落的时候，不需要分析原因，只是承认它 💙', '你不需要一直积极，允许自己在这个状态里 🌧️', '今天内在有点沉，先不用逼自己浮上来'],
+      tired: ['精神累了的时候，允许自己什么都不想 🌙', '灵魂也需要安静，不需要产出什么价值的时候，才是真正的休息', '今天已经够辛苦了，不用再给自己加码 😴']
     },
     passion: {
-      happy: ['🕊️ 精神富足！这种状态最能成长！', '好状态就是干！把所有能量释放出来 🚀', '眼里有光！灵魂在燃烧！'],
-      neutral: ['⚡ 平静是蓄力，你的精神正在积累 🌋', '稳得住的人，才能走得最远 🕊️', '不飘不躁，这种状态最能做好内心功课 🔥'],
-      sad: ['💪 低落是信号，写下来然后转化成智慧！', '黑暗之后就是黎明，你已经在黎明前了 🌅', '难过就说，搭子在这里陪你，不是鸡汤 🤝'],
-      tired: ['⚡ 灵魂也需要休息，休息完更强 🛡️', '撑不住就说，搭子帮你扛一会儿 🏔️', '累的时候允许暂停，这不软弱，是智慧 💎']
+      happy: ['🕊️ 这种内在的光芒，值得被好好用起来！', '好状态就是让灵魂好好呼吸，感受到它 🚀', '心里有光的时候，适合去做平时不敢想的事 🔥'],
+      neutral: ['⚡ 内心在安静地蓄力，不要打断这个节奏 🌋', '平静是一种力量，用在最想做的事上 💪', '没有杂念的时候，灵感最容易来 🕊️'],
+      sad: ['💪 低落的时候，写下三个最真实的感受 🤝', '黑暗不是终点，是在重新校准方向 🌅', '说出来，你的灵魂在等着被听见'],
+      tired: ['⚡ 灵魂比身体更需要休息，英雄也懂这个 🛡️', '撑不住的时候，允许自己停下来 🏔️', '低能量时期不是空白，是在为下一次冲刺蓄力 💎']
     },
     rational: {
-      happy: ['📊 好精神状态有利于成长决策 🏋️', '数据显示好状态下的判断力最准 📈', '记录这种状态，它是最值钱的资产 📋'],
-      neutral: ['📊 平静是超能力，深度思考需要它 🧭', '不急不躁是顶级特质，判断力最稳 🧠', '平静期是最好的精神复盘窗口 📏'],
-      sad: ['📊 低落时先别做重大决定，把情绪写下来再分析 📝', '说出来，是方向的问题还是方法的问题？我帮你拆解 🧩', '先允许自己低落，然后我们来看怎么拆解 🛠️'],
-      tired: ['📊 疲惫时决策质量最低，先休息再复盘 🛋️', '精神充电不急今晚，撑不住时强制休息是战略 🏃', '最坏的决定往往来自最累的时候，今晚好好睡 🌙']
+      happy: ['📊 内在状态好的时候，适合重新审视优先级 🏋️', '好状态下的判断力最强，趁现在多做一些决定 📈', '记录今天这种内在舒展感的触发因素 📋'],
+      neutral: ['📊 平静期的认知效率最高，适合深度复盘 🧭', '没有情绪干扰的时候，往往最能看清自己 🧠', '内心安静的时候，判断最准 📏'],
+      sad: ['📊 低落时先记录，不急着分析原因 📝', '说出来，是方向迷茫还是方法不对？我帮你拆 🧩', '允许情绪在，先不处理事情 🛠️'],
+      tired: ['📊 低能量时的认知盲区最大，强制休息是策略 🛋️', '最坏的决策往往在精神低谷期做出 🏃', '今晚让灵魂好好睡，不需要想任何事 🌙']
     },
     tsundere: {
-      happy: ['😏 有什么好得意的……不过看起来精神还不错', '哼，开心就开心吧，别太得瑟了 😏', '……行吧，状态还行 😑'],
-      neutral: ['😏 没有退步，算你识相', '……就这样吧 😑', '没有大起大落，还凑合 😶'],
-      sad: ['🥴 别矫情了，说说怎么回事 😒', '……行了，我听着 😒', '就你事儿多……但说吧 😒'],
-      tired: ['😒 累了就休息，谁还没累过 😒', '……行吧，今晚早点睡 😴', '哼，想偷懒就直说 😏']
+      happy: ['😏 哼，状态好的时候别浪费在这种小事上……不过，还行吧 😏', '……算你今天内在还算平静 😑', '有什么好得意的，继续保持才行 😶'],
+      sad: ['😒 心情不好就说，谁还没个低落的时候 😒', '……行了，别装了，我听着 😒', '就知道你不会无缘无故这样，说吧 😒'],
+      tired: ['😒 累了就说累，灵魂又不会跑，今晚给我早睡 😒', '……行吧，撑不住的时候逞强没意思 😴', '哼，灵魂也需要休息的 😏']
     }
   };
   const options = replies[pStyle]?.[mood] || replies.gentle[mood];

@@ -603,10 +603,10 @@
     <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
     <div class="panel-label" style="margin-bottom:10px;">💬 和搭子说说话</div>
     <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;">
-      <div class="mood-btn" onclick="showPartnerMsg('今天感觉棒极了！💪', false);setTimeout(function(){var r=['太棒了！身体状态满分！💯','燃烧吧！这种状态最能突破！🔥','活力十足！继续保持！🚀'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="开心">😄</div>
-      <div class="mood-btn" onclick="showPartnerMsg('今天状态还行，稳住了。', false);setTimeout(function(){var r=['稳住就是胜利！💪','稳扎稳打，继续保持这个节奏！🌿','不急不躁，厉害！😌'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="平静">😌</div>
-      <div class="mood-btn" onclick="showPartnerMsg('今天状态不太好……', false);setTimeout(function(){var r=['没关系，身体在调整期，正常。🌱','放轻松，身体有自己的节奏。🌿','休息也是训练的一部分。'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="低落">😔</div>
-      <div class="mood-btn" onclick="showPartnerMsg('今天好累……😫', false);setTimeout(function(){var r=['累了就休息，这不是放弃，是智慧。🌙','身体需要充电，今晚对自己好一点。😴','英雄也需要休息，休息完更强。💪'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="疲惫">😫</div>
+      <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
+      <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
+      <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
+      <div class="mood-btn" onclick="sendMood('tired')" title="疲惫">😫</div>
     </div>
     <div class="talk-btn-row">
       <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
@@ -1161,28 +1161,27 @@ function sendMood(mood) {
   const moodText = { happy: '今天心情不错！', neutral: '今天心情一般。', sad: '今天心情有点低落……', tired: '今天感觉好累。' };
   const replies = {
     gentle: {
-      happy: ['看你开心，我也轻松一点 🌿', '好状态！你的身体会感谢你的 😊', '开心是最好的养生药，继续保持 🌱'],
-      neutral: ['平静也是一种力量 💪', '不急不躁，这就是最好的节奏 🌿', '没有大起大落，已经是稳稳的幸福'],
-      sad: ['心情不好就先放一放，我在 🌿', '不用勉强，今天允许自己难过 🌧️', '低落的时候说出来，搭子在 💙'],
-      tired: ['累了就先休息，别逼自己 ⚖️', '身体是革命的本钱，今晚对自己好一点 🌙', '疲惫不是懈怠，是身体在说需要修复']
+      happy: ['能感觉到你今天状态好，手脚轻快，呼吸也顺畅 🌿', '身体有自己的智慧，它舒服的时候，你自然会感觉到', '这种轻盈感，就是身体给的最真实的信号 🌱'],
+      neutral: ['不急着改变什么，先在这里待一会儿 🌿', '身体记得你每一次善待它的时刻，哪怕你自己忘了', '今天没有起伏，也是一种稳稳的活着'],
+      sad: ['能感觉到你今天有点累，身体比心情诚实 💙', '没关系，有时候就是会这样 🌧️', '低落的时候，身体比脑子更知道发生了什么'],
+      tired: ['今天身体想停下来，不是你的错 🌙', '允许自己慢一点，身体比目标更值得被照顾', '累的时候还撑着，身体会记住的 😴']
     },
     passion: {
-      happy: ['🔥 燃烧的感觉最美好了！', '好状态就是干！把所有能量释放出来 🚀', '眼睛里有光！继续保持！'],
-      neutral: ['⚡ 平静是蓄力，你在憋大招 🌋', '稳得住的人，才能走得最远 💪', '不飘不躁，这种状态最能打硬仗 🔥'],
-      sad: ['💪 低落是燃料，写下来然后转化成行动！', '黑暗之后就是黎明，你已经在黎明前了 🌅', '难过就说，搭子在这里陪你 🤝'],
-      tired: ['⚡ 英雄也需要休息，休息完更强 🛡️', '撑不住就说，搭子帮你扛一会儿 🏔️', '累的时候允许暂停，这不软弱，是智慧 💎']
+      happy: ['🔥 身体状态满格，这种感觉值得记住！', '好感觉用起来，明天继续保持 🚀', '身体有力气的时候，把想做的事往前排！'],
+      neutral: ['⚡ 身体在积蓄能量，别打断这个节奏 🌋', '稳得住的人，最懂什么时候该蓄力 💪', '平静也是一种战斗力 🔥'],
+      sad: ['💪 身体在提醒你，今天需要被照顾', '感觉不好的时候，感知本身就是一种力量 🌅', '说出来，你的身体也在等 🤝'],
+      tired: ['⚡ 身体在喊停，英雄得学会听 🛡️', '撑住和倒下之间，休息一次不算输 🏔️', '给身体充电，明天才能跑更远 💎']
     },
     rational: {
-      happy: ['📊 好状态是战略资源，用在刀刃上 ✂️', '数据显示好情绪有利于坚持。继续 🏋️', '记录这种状态，它是最值钱的资产 📋'],
-      neutral: ['📊 平静是超能力，留给深度思考 🧭', '不急不躁是顶级特质，判断力最稳 🧠', '平静期是最好的复盘窗口 📏'],
-      sad: ['📊 低落时先别做重大决策，把情绪写下来再分析 📝', '说出来，是方向的问题还是执行的问题？我帮你拆解 🧩', '先允许自己低落，然后我们来看怎么拆解 🛠️'],
-      tired: ['📊 疲惫时决策质量最低，先休息再复盘 🛋️', '身体是革命的本钱，撑不住时强制休息是战略 🏃', '最坏的决策往往来自最累的时候，今晚好好睡 🌙']
+      happy: ['📊 状态好的时候，适合记录身体反馈。把今天的感受记下来 📋', '好状态的持续性值得关注，用数据验证一下 🏋️', '身体状态好时做决策，往往最准 ✂️'],
+      neutral: ['📊 身体指标稳定，情绪没有大波动，符合健康基线 🧭', '平静期的身体修复效率往往被低估 🧠', '没有信号的时候，基线本身就是答案 📏'],
+      sad: ['📊 身体信号出现变化，先记录，不急着分析 📝', '是方向的问题还是方法的问题？说清楚，我帮你拆 🧩', '先处理感受，再处理数据，也不迟 🛠️'],
+      tired: ['📊 疲劳值升高时判断力打折，先停再复盘 🛋️', '身体在强制休眠模式，尊重这个生理信号 🏃', '最坏的决策往往在精力低谷期，今晚强制休息 🌙']
     },
     tsundere: {
-      happy: ['😏 有什么好得意的……不过看起来精神还不错', '哼，开心就开心吧，别太得瑟了 😏', '……行吧，状态还行 😑'],
-      neutral: ['😏 没有退步，算你识相', '……就这样吧 😑', '没有大起大落，还凑合 😶'],
-      sad: ['🥴 别矫情了，说说怎么回事 😒', '……行了，我听着 😒', '就你事儿多……但说吧 😒'],
-      tired: ['😒 累了就休息，谁还没累过 😒', '……行吧，今晚早点睡 😴', '哼，想偷懒就直说 😏']
+      happy: ['😏 哼，看你这样，身体应该还行吧……别太得意了 😏', '……算你状态不错，昙花一现可不算数 😑', '身体好的时候，别浪费在这种小事上 😶'],
+      sad: ['😒 身体不会骗人，说吧，今天哪不舒服？', '……行了，先把感受说出来 😒', '就知道你不会无缘无故这样，说 😒'],
+      tired: ['😒 累了就说累，谁还没累过 😒', '……行吧，今晚给我早点睡 😴', '撑不住的时候逞强，身体会记仇的 😏']
     }
   };
   const options = replies[pStyle]?.[mood] || replies.gentle[mood];
