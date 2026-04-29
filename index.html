@@ -1016,10 +1016,18 @@ const PROGRESS_DATA = {
 // ==================== Tab 导航 ====================
 function switchTab(tab) {
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const tabs = ['checkin','weight','sop','progress','share','partner'];
-  document.querySelectorAll('.tab-item')[tabs.indexOf(tab)].classList.add('active');
-  document.getElementById(`page-${tab}`).classList.add('active');
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
+  const tabs = ['checkin','partner','weight','sop','progress','share'];
+  const tabIdx = tabs.indexOf(tab);
+  if (tabIdx !== -1) document.querySelectorAll('.tab-item')[tabIdx].classList.add('active');
+  const pageEl = document.getElementById(`page-${tab}`);
+  if (pageEl) {
+    pageEl.classList.add('active');
+    pageEl.style.display = '';
+  }
   if (tab === 'weight') {
     drawWeightChart();
     renderWeeklyReport();
