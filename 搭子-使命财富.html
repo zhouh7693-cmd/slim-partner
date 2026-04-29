@@ -567,10 +567,10 @@
     <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
     <div class="panel-label" style="margin-bottom:10px;">💬 和搭子说说话</div>
     <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;">
-      <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
-      <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
-      <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
-      <div class="mood-btn" onclick="sendMood('tired')" title="疲惫">😫</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天使命状态超棒！✨', false);setTimeout(function(){var r=['太好了！有使命感的时候最能改变世界！🌟','状态好的时候，适合去做最重要的事！🚀','这状态可以改变很多事！✨'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="开心">😄</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天内心平静，稳住。', false);setTimeout(function(){var r=['稳扎稳打！🌟','不急不躁，这就是最好的使命状态。🕊️','平静的力量最强大 🕊️'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="平静">😌</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天在使命上有点迷茫……🌧️', false);setTimeout(function(){var r=['迷茫是寻找方向的开始，说出来，搭子在 💙','先允许自己迷茫，这是正常的 🌧️','黑暗之后就是黎明，你已经在黎明前了 🌅'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="低落">😔</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天在使命上感觉好累……🌙', false);setTimeout(function(){var r=['使命需要充电，今晚对自己好一点 🌙','累了就休息，这不是放弃，是智慧。💎','英雄也需要休息，休息完更强。'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="疲惫">😫</div>
     </div>
     <div class="talk-btn-row">
       <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>

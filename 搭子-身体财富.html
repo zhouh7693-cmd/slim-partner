@@ -603,10 +603,10 @@
     <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
     <div class="panel-label" style="margin-bottom:10px;">💬 和搭子说说话</div>
     <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;">
-      <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
-      <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
-      <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
-      <div class="mood-btn" onclick="sendMood('tired')" title="疲惫">😫</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天感觉棒极了！💪', false);setTimeout(function(){var r=['太棒了！身体状态满分！💯','燃烧吧！这种状态最能突破！🔥','活力十足！继续保持！🚀'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="开心">😄</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天状态还行，稳住了。', false);setTimeout(function(){var r=['稳住就是胜利！💪','稳扎稳打，继续保持这个节奏！🌿','不急不躁，厉害！😌'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="平静">😌</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天状态不太好……', false);setTimeout(function(){var r=['没关系，身体在调整期，正常。🌱','放轻松，身体有自己的节奏。🌿','休息也是训练的一部分。'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="低落">😔</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天好累……😫', false);setTimeout(function(){var r=['累了就休息，这不是放弃，是智慧。🌙','身体需要充电，今晚对自己好一点。😴','英雄也需要休息，休息完更强。💪'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="疲惫">😫</div>
     </div>
     <div class="talk-btn-row">
       <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>

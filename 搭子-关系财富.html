@@ -569,10 +569,10 @@
     <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
     <div class="panel-label" style="margin-bottom:10px;">💬 和搭子说说话</div>
     <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;">
-      <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
-      <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
-      <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
-      <div class="mood-btn" onclick="sendMood('tired')" title="疲惫">😫</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天关系状态很棒！💕', false);setTimeout(function(){var r=['太好了！好的关系是最好的滋养！💕','被人支持的感觉最美好了！🤗','关系顺畅的时候，一切都会更顺！✨'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="开心">😄</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天关系状态还行，稳住。', false);setTimeout(function(){var r=['稳扎稳打！💕','不急不躁，这就是最好的关系状态。🤝','平静的关系也是一种富足 🌿'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="平静">😌</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天关系上有点失落……💔', false);setTimeout(function(){var r=['没关系，说出来，搭子在 💙','失落的时候，允许自己难过。🌧️','先放过自己，明天再来修复关系。'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="低落">😔</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天在关系里感觉好累……💔', false);setTimeout(function(){var r=['关系需要充电，今晚给自己一点空间。🌙','累了就休息，你已经做得很好了。💙','先照顾好自己，才能照顾好关系。'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="疲惫">😫</div>
     </div>
     <div class="talk-btn-row">
       <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>

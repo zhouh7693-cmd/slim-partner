@@ -569,10 +569,10 @@
     <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
     <div class="panel-label" style="margin-bottom:10px;">💬 和搭子说说话</div>
     <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;">
-      <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
-      <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
-      <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
-      <div class="mood-btn" onclick="sendMood('tired')" title="疲惫">😫</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天内心状态很棒！✨', false);setTimeout(function(){var r=['精神富足！这种状态最能成长！🕊️','好状态就是干！把所有能量释放出来！🚀','内心平静是你最好的状态 🌿'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="开心">😄</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天内心平静，稳住。', false);setTimeout(function(){var r=['平静也是一种力量 🕊️','不急不躁，这就是最好的节奏 🌿','稳得住的人，才能走得最远 🕊️'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="平静">😌</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天心情有点低落……🌧️', false);setTimeout(function(){var r=['低落的时候说出来，搭子在 💙','先允许自己难过，然后我们来看怎么拆解 🛠️','黑暗之后就是黎明，你已经在黎明前了 🌅'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="低落">😔</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天感觉好累……🌙', false);setTimeout(function(){var r=['灵魂也需要充电，今晚对自己好一点 🌙','累的时候允许暂停，这不软弱，是智慧 💎','撑不住就说，搭子帮你扛一会儿 🏔️'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="疲惫">😫</div>
     </div>
     <div class="talk-btn-row">
       <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>

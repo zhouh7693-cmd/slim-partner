@@ -1737,7 +1737,8 @@ function openSharePage() {
 function switchTab(tab) {
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelector(`.tab-item:nth-child(${tab === 'checkin' ? 1 : tab === 'sop' ? 2 : tab === 'progress' ? 3 : 4})`).classList.add('active');
+  const tabs = ['checkin','sop','progress','share','partner'];
+  document.querySelectorAll('.tab-item')[tabs.indexOf(tab)].classList.add('active');
   document.getElementById('page-' + tab).classList.add('active');
   if (tab === 'progress') renderProgress();
   if (tab === 'share') renderSharePage();

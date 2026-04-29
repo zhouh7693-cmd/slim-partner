@@ -725,10 +725,10 @@
     <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
     <div class="panel-label" style="margin-bottom:10px;">💬 和搭子说说话</div>
     <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;">
-      <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
-      <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
-      <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
-      <div class="mood-btn" onclick="sendMood('tired')" title="疲惫">😫</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天财务状态不错！💰', false);setTimeout(function(){var r=['好状态！趁热打铁把重要的事排第一！📋','财务感觉好的时候，适合做重要决策！💹','记录这种状态，好状态下的判断最准！✨'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="开心">😄</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天财务状态还行，稳住。', false);setTimeout(function(){var r=['稳扎稳打！💹','平静是超能力，留给深度思考。📊','不急不躁，这是财务高手的特质。'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="平静">😌</div>
+      <div class="mood-btn" onclick="showPartnerMsg('今天财务上有点焦虑……💸', false);setTimeout(function(){var r=['焦虑是信号，说出来我们一起看。📊','先别做重大决定，情绪稳定再分析。🧩','低落时先放过自己，明天再来拆解。'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="低落">😔</div>
+      <div class="mood-btn" onclick="showPartnerMsg('财务上感觉好累……💸', false);setTimeout(function(){var r=['累了就休息，明天市场还在。🌙','财务需要精力，撑不住时强制休息是战略。😴','最坏的决策往往来自最累的时候，今晚好好睡。'];showPartnerMsg(r[Math.floor(Math.random()*r.length)],true)},800);" title="疲惫">😫</div>
     </div>
     <div class="talk-btn-row">
       <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
