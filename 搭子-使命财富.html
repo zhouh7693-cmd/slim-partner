@@ -579,8 +579,8 @@
       <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="openQAPanel('progress')">📣 汇报进展</button>
-      <button class="talk-btn" onclick="openQAPanel('question')">🤔 有问题想问</button>
+      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
+      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
     </div>
   </div>
 </div>
@@ -1111,174 +1111,266 @@ function sendTalk(type) {
   }
 }
 
-// ===== 搭子tag交互（使命财富版）=====
+// ===== 搭子tag交互（使命财富版·6类20条）=====
+const TYPE_SCENES_MIS = {
+  progress:[
+    {icon:'🎯',tag:'发现',scenario:'终于发现了自己真正想做的事是什么',feedback:'找到真正的热情所在是一种精神觉醒。这个发现不是偶然的，是你长期探索、尝试、反思的结果。好好珍惜这份清晰的感受，它会指引你接下来的很多选择。',type:'pos'},
+    {icon:'🚀',tag:'行动',scenario:'勇敢迈出了一步，开始做自己真正想做的事',feedback:'从"想"到"做"的跨越是最难的一步，而你做到了。这一步意味着你不再只是观众，而是开始书写自己的故事。接下来的路会很不一样。',type:'pos'},
+    {icon:'💡',tag:'使命',scenario:'对自己的人生使命有了更清晰的理解',feedback:'使命清晰度提升是一个重要的里程碑。它意味着你开始听到自己内心深处的声音，而不只是被外界的期待推着走。',type:'pos'},
+    {icon:'🌟',tag:'影响',scenario:'通过我的工作/行动真正影响到了别人',feedback:'能够影响到他人是使命实现最直接的证明。你的一言一行真的可以改变别人的生活，这份影响力值得被认真对待。',type:'pos'},
+    {icon:'💎',tag:'坚持',scenario:'在一个长期坚持的项目上取得了突破',feedback:'长期坚持本身就是一种使命感的体现。在别人看不到的时候默默积累，当突破来临时，它会显得格外有意义。',type:'pos'},
+    {icon:'🏆',tag:'成就',scenario:'完成了一个和自己价值观高度一致的目标',feedback:'完成一个符合价值观的目标比任何外在的成功都更有意义。这个成就证明了你正在活出自己想要的人生。',type:'pos'},
+    {icon:'🌱',tag:'成长',scenario:'克服了对失败的恐惧，敢于尝试了',feedback:'对失败的恐惧是追求使命最大的敌人之一。你开始不再被恐惧支配，这意味着你已经获得了一种真正的内在自由。',type:'pos'},
+    {icon:'💬',tag:'表达',scenario:'把自己的价值观/愿景清晰地表达出来了',feedback:'清晰表达自己的价值观是自我认知成熟的表现。只有知道自己相信什么，才能真正影响他人。',type:'pos'},
+    {icon:'🎯',tag:'聚焦',scenario:'学会了说"不"，把精力聚焦在最核心的使命上',feedback:'聚焦是做减法的过程，专注核心使命意味着你开始理解"少即是多"。你不再被所有机会分散注意力，而是把最重要的那件事做好。',type:'pos'},
+    {icon:'🧭',tag:'方向',scenario:'找到了自己的人生方向，不再迷茫',feedback:'方向清晰是最大的精神礼物之一。它让你所有的努力都有一个共同的方向，而不是分散在不同的地方。',type:'pos'},
+    {icon:'💪',tag:'勇气',scenario:'在关键时刻展现了勇气，做了自己认为对的事',feedback:'在关键时刻展现勇气是价值观的具体实践。你用行动证明了自己相信的东西，而不是只在嘴上说。',type:'pos'},
+    {icon:'🌈',tag:'意义',scenario:'在做的工作/事情中找到了真正的意义感',feedback:'意义感是使命体验的核心。当你感到自己的工作有意义，那种内在的满足感是任何外在奖励都无法替代的。',type:'pos'},
+    {icon:'🗺️',tag:'愿景',scenario:'明确了自己5年/10年后想要成为的样子',feedback:'清晰的愿景是人生的地图。只有知道自己要去哪里，才不会在日常的琐碎中迷失方向。',type:'pos'},
+    {icon:'🌿',tag:'平衡',scenario:'找到了使命追求和生活其他方面的平衡',feedback:'使命追求不应该以牺牲生活为代价。你学会了在使命和生活之间找到平衡，这本身就是一种智慧。',type:'pos'},
+    {icon:'🔥',tag:'热情',scenario:'每天都带着热情醒来，感受到内在的驱动力',feedback:'带着热情醒来是活在使命中的最好证明。这种内在驱动不需要外界的推动，它本身就是最好的奖励。',type:'pos'},
+    {icon:'💎',tag:'初心',scenario:'在迷失方向的时候，回到了自己的初心',feedback:'迷失是正常的，能回到初心才是重要的。你证明了自己不会被外界的噪音带走，你知道自己真正要去哪里。',type:'pos'},
+    {icon:'🤝',tag:'同行',scenario:'找到了一群志同道合的人，一起走在使命路上',feedback:'找到同行者是使命之旅最珍贵的礼物之一。你不是一个人在战斗，有人和你一起走同样的路，这种感觉本身就很有力量。',type:'pos'},
+    {icon:'🌱',tag:'贡献',scenario:'通过自己的行动为他人创造了真正的价值',feedback:'创造价值是使命最实在的体现。你不只是为自己而活，还在用自己的力量让世界变得好一点点。',type:'pos'},
+    {icon:'🎯',tag:'承诺',scenario:'对自己的使命做出了公开的承诺',feedback:'公开承诺是使命实践最有力的步骤之一。你把自己的信念放在了台面上，让自己没有退路。这种勇气值得尊重。',type:'pos'},
+    {icon:'🌟',tag:'闪耀',scenario:'在某件事上真正展示了自己的独特天赋',feedback:'展示独特天赋是活出使命最直接的时刻。你的天赋是独一无二的，当你用它来创造价值，就是在实现自己的使命。',type:'pos'},
+    {icon:'😔',tag:'迷茫',scenario:'不知道自己的使命是什么，觉得人生没有方向',feedback:'迷茫本身不是问题，它是探索的一部分。使命感不是"找到"的，而是在行动和反思中逐渐清晰的。先做眼前有意义的事，使命会在过程中显现。',type:'neg'},
+    {icon:'😰',tag:'恐惧',scenario:'想追求梦想但害怕失败，一直不敢行动',feedback:'对失败的恐惧是最常见的使命杀手。问自己：最坏的情况是什么？我真的承受不了吗？大多数恐惧比现实本身更可怕，而行动是战胜恐惧的唯一方法。',type:'neg'},
+    {icon:'💔',tag:'放弃',scenario:'放弃了一个曾经很重要的目标，感觉很失落',feedback:'放弃目标会带来真实的失落感，这是正常的。但放弃一个目标不等于放弃整个人生。问问自己：这次放弃背后有没有新的方向在出现？',type:'neg'},
+    {icon:'😣',tag:'挣扎',scenario:'做的事和自己的价值观不一致，很痛苦',feedback:'价值观不一致是内在冲突最深的来源。如果当前的工作/生活长期和价值观冲突，这是一个需要认真对待的信号。开始寻找更一致的方向，哪怕是一小步。',type:'neg'},
+    {icon:'😞',tag:'无意义',scenario:'每天做的事情感觉毫无意义，只是在消耗',feedback:'无意义感是灵魂的SOS信号。它在说：你现在做的事和你的内心需求不匹配。这不是你的问题，是方向问题，需要重新审视自己的选择。',type:'neg'},
+    {icon:'😰',tag:'压力',scenario:'追求使命的压力太大，感觉喘不过气',feedback:'使命感可以是动力，也可以是负担。如果压力开始损害你的健康和关系，这是一个信号：需要调整节奏，使命不是短跑，是马拉松。',type:'neg'},
+    {icon:'😔',tag:'比较',scenario:'看到别人在追求使命，自己却还在原地',feedback:'每个人的使命之路都是独一无二的。比较会让你忽视自己已经走过的路，也会让你错过自己的节奏。回到自己的路，不晚。',type:'neg'},
+    {icon:'💭',tag:'困惑',scenario:'不知道自己的天赋是什么，不知道能做什么',feedback:'天赋往往不是天生的，而是通过兴趣和能力的交叉点发现的。回顾一下你做哪些事情时忘记了时间，那可能就是你天赋的线索。',type:'neg'},
+    {icon:'😶',tag:'空心',scenario:'外表看起来成功，但内心感觉很空虚',feedback:'"外在成功但内在空虚"是一种常见的现代病。它在告诉你：外在成就不能填满内在的意义需求。答案不在更多的外在，而在更深的意义探索。',type:'neg'},
+    {icon:'🏃',tag:'逃避',scenario:'一直在逃避真正要面对的人生问题',feedback:'逃避让问题在暗处累积，最终会以更大的力量爆发。找一个安静的时机，认真面对：你到底在逃避什么？最坏的情况真的会发生吗？',type:'neg'},
+    {icon:'😣',tag:'妥协',scenario:'为了现实不得不妥协，感觉背叛了自己的理想',feedback:'为了生存的适度妥协是必要的，但长期背叛自己的价值观会损害内在力量。关键是：不要让妥协变成默认，为自己保留一个真实的空间。',type:'neg'},
+    {icon:'💔',tag:'失落',scenario:'发现曾经的梦想不可能实现了，很失落',feedback:'梦想破灭的痛苦是真实的。但一个梦想的破灭不等于整个人生的失败，它可能是另一个更适合你的方向在出现。',type:'neg'},
+    {icon:'😓',tag:'自责',scenario:'觉得自己的使命不够"大"，不够有价值',feedback:'使命不分大小，照顾好一个家庭和改变世界一样有价值。问问自己：谁因为我的存在而生活得更好了一点？这就是使命。',type:'neg'},
+    {icon:'🌀',tag:'混乱',scenario:'想要太多，不知道该选哪个方向',feedback:'方向太多是因为没有足够聚焦。列出一个核心问题：哪一件事，如果没有其他选择，我会选择这一件？那个答案往往就是真正的方向。',type:'neg'},
+    {icon:'😰',tag:'孤独',scenario:'走在使命路上，感觉没有人理解自己',feedback:'使命之路往往是一条孤独的路。能真正理解你的人不多，但这不意味着你是错的。找到少数几个和你同频的人，足够。',type:'neg'},
+    {icon:'⏸️',tag:'停滞',scenario:'觉得自己在原地踏步，使命没有进展',feedback:'使命的进展往往不是线性的。有时候"原地踏步"实际上是在积累和酝酿。回顾过去一年，你真的没有任何变化吗？',type:'neg'},
+    {icon:'😩',tag:'倦怠',scenario:'使命追求变成了另一种形式的消耗',feedback:'使命倦怠是真实的警告信号。你在强迫自己做"应该"做的事，而不是真正想做的人。需要重新审视：这是我真正想要的，还是别人期待我的？',type:'neg'},
+    {icon:'🪞',tag:'身份',scenario:'不知道"我是谁"，不知道自己的核心身份是什么',feedback:'身份探索是一生的课题。先从行为开始：你在做什么事情时最有价值感？然后从外到内地理解自己是谁。',type:'neg'},
+    {icon:'🌑',tag:'绝望',scenario:'觉得人生没有意义，看不到任何希望',feedback:'"没有意义"是一种需要认真对待的感受。如果这个感受持续存在，建议寻求专业支持。但请记住：意义不是"找到"的，是"创造"的，从一件小事开始创造。',type:'neg'}
+  ],
+  struggle:[
+    {icon:'😔',tag:'迷茫',scenario:'不知道自己的使命是什么，觉得人生没有方向',feedback:'迷茫本身不是问题，它是探索的一部分。使命感不是"找到"的，而是在行动和反思中逐渐清晰的。先做眼前有意义的事，使命会在过程中显现。',type:'neg'},
+    {icon:'😰',tag:'恐惧',scenario:'想追求梦想但害怕失败，一直不敢行动',feedback:'对失败的恐惧是最常见的使命杀手。问自己：最坏的情况是什么？我真的承受不了吗？大多数恐惧比现实本身更可怕，而行动是战胜恐惧的唯一方法。',type:'neg'},
+    {icon:'💔',tag:'放弃',scenario:'放弃了一个曾经很重要的目标，感觉很失落',feedback:'放弃目标会带来真实的失落感，这是正常的。但放弃一个目标不等于放弃整个人生。问问自己：这次放弃背后有没有新的方向在出现？',type:'neg'},
+    {icon:'😣',tag:'挣扎',scenario:'做的事和自己的价值观不一致，很痛苦',feedback:'价值观不一致是内在冲突最深的来源。如果当前的工作/生活长期和价值观冲突，这是一个需要认真对待的信号。开始寻找更一致的方向，哪怕是一小步。',type:'neg'},
+    {icon:'😞',tag:'无意义',scenario:'每天做的事情感觉毫无意义，只是在消耗',feedback:'无意义感是灵魂的SOS信号。它在说：你现在做的事和你的内心需求不匹配。这不是你的问题，是方向问题，需要重新审视自己的选择。',type:'neg'},
+    {icon:'😰',tag:'压力',scenario:'追求使命的压力太大，感觉喘不过气',feedback:'使命感可以是动力，也可以是负担。如果压力开始损害你的健康和关系，这是一个信号：需要调整节奏，使命不是短跑，是马拉松。',type:'neg'},
+    {icon:'😔',tag:'比较',scenario:'看到别人在追求使命，自己却还在原地',feedback:'每个人的使命之路都是独一无二的。比较会让你忽视自己已经走过的路，也会让你错过自己的节奏。回到自己的路，不晚。',type:'neg'},
+    {icon:'💭',tag:'困惑',scenario:'不知道自己的天赋是什么，不知道能做什么',feedback:'天赋往往不是天生的，而是通过兴趣和能力的交叉点发现的。回顾一下你做哪些事情时忘记了时间，那可能就是你天赋的线索。',type:'neg'},
+    {icon:'😶',tag:'空心',scenario:'外表看起来成功，但内心感觉很空虚',feedback:'"外在成功但内在空虚"是一种常见的现代病。它在告诉你：外在成就不能填满内在的意义需求。答案不在更多的外在，而在更深的意义探索。',type:'neg'},
+    {icon:'🏃',tag:'逃避',scenario:'一直在逃避真正要面对的人生问题',feedback:'逃避让问题在暗处累积，最终会以更大的力量爆发。找一个安静的时机，认真面对：你到底在逃避什么？最坏的情况真的会发生吗？',type:'neg'},
+    {icon:'😣',tag:'妥协',scenario:'为了现实不得不妥协，感觉背叛了自己的理想',feedback:'为了生存的适度妥协是必要的，但长期背叛自己的价值观会损害内在力量。关键是：不要让妥协变成默认，为自己保留一个真实的空间。',type:'neg'},
+    {icon:'💔',tag:'失落',scenario:'发现曾经的梦想不可能实现了，很失落',feedback:'梦想破灭的痛苦是真实的。但一个梦想的破灭不等于整个人生的失败，它可能是另一个更适合你的方向在出现。',type:'neg'},
+    {icon:'😓',tag:'自责',scenario:'觉得自己的使命不够"大"，不够有价值',feedback:'使命不分大小，照顾好一个家庭和改变世界一样有价值。问问自己：谁因为我的存在而生活得更好了一点？这就是使命。',type:'neg'},
+    {icon:'🌀',tag:'混乱',scenario:'想要太多，不知道该选哪个方向',feedback:'方向太多是因为没有足够聚焦。列出一个核心问题：哪一件事，如果没有其他选择，我会选择这一件？那个答案往往就是真正的方向。',type:'neg'},
+    {icon:'😰',tag:'孤独',scenario:'走在使命路上，感觉没有人理解自己',feedback:'使命之路往往是一条孤独的路。能真正理解你的人不多，但这不意味着你是错的。找到少数几个和你同频的人，足够。',type:'neg'},
+    {icon:'⏸️',tag:'停滞',scenario:'觉得自己在原地踏步，使命没有进展',feedback:'使命的进展往往不是线性的。有时候"原地踏步"实际上是在积累和酝酿。回顾过去一年，你真的没有任何变化吗？',type:'neg'},
+    {icon:'😩',tag:'倦怠',scenario:'使命追求变成了另一种形式的消耗',feedback:'使命倦怠是真实的警告信号。你在强迫自己做"应该"做的事，而不是真正想做的人。需要重新审视：这是我真正想要的，还是别人期待我的？',type:'neg'},
+    {icon:'🪞',tag:'身份',scenario:'不知道"我是谁"，不知道自己的核心身份是什么',feedback:'身份探索是一生的课题。先从行为开始：你在做什么事情时最有价值感？然后从外到内地理解自己是谁。',type:'neg'},
+    {icon:'🌑',tag:'绝望',scenario:'觉得人生没有意义，看不到任何希望',feedback:'"没有意义"是一种需要认真对待的感受。如果这个感受持续存在，建议寻求专业支持。但请记住：意义不是"找到"的，是"创造"的，从一件小事开始创造。',type:'neg'},
+    {icon:'🎯',tag:'发现',scenario:'想找到自己的使命，但不知道从哪里开始',feedback:'使命不是想出来的，是在行动中发现的。最简单的方法：列出5件你做的时候忘记了时间的事，它们往往指向你的热情和天赋所在。',type:'pos'},
+    {icon:'🚀',tag:'行动',scenario:'有了方向但不敢迈出第一步',feedback:'第一步不需要完美，只需要开始。可以是最小的一步：小调查、小尝试、小对话。第一步打破的是"未知"的恐惧，而不是什么大事。',type:'pos'},
+    {icon:'💡',tag:'澄清',scenario:'想让价值观更清晰，不知道怎么做',feedback:'价值观清晰化最好的方式：列出你生命中最重要的5件事，然后问自己：哪些是可以拿掉的？留下的就是核心价值观。也可以问：如果我只能做一件事，那是什么？',type:'pos'},
+    {icon:'🌟',tag:'影响',scenario:'想创造更大的影响，但觉得自己的力量太小',feedback:'影响力不是和规模成正比，而是和真实性成正比。先问自己：谁因为我的存在而生活得更好了一点？那个人就是你的影响力起点。',type:'pos'},
+    {icon:'💎',tag:'坚持',scenario:'想坚持一个使命导向的项目，但总是半途而废',feedback:'半途而废往往是因为目标太大或太模糊。试着把大目标分解成"每周一个小里程碑"，完成每周的里程碑就是成功。进度比完美更重要。',type:'pos'},
+    {icon:'🏆',tag:'目标',scenario:'想设定一个真正有意义的使命目标',feedback:'有意义的使命目标需要回答三个问题：我想解决什么问题？我能贡献什么独特价值？这值得我付出多少？把三个答案写下来，你的目标就会浮现。',type:'pos'},
+    {icon:'🌱',tag:'勇气',scenario:'想变得更勇敢，敢于追求自己真正想要的',feedback:'勇气不是没有恐惧，而是即使恐惧也行动。可以从小的勇敢开始：说一次真心话、拒绝一次不合理的要求、尝试一次新的表达。',type:'pos'},
+    {icon:'💬',tag:'表达',scenario:'想更好地表达自己的愿景，让更多人理解',feedback:'愿景表达最简单的练习：把你想做的事用3句话说清楚——你要解决什么问题、你的方案是什么、为什么是你？能和10岁的人讲清楚，说明你真的懂了。',type:'pos'},
+    {icon:'🎯',tag:'聚焦',scenario:'想要聚焦但不知道什么才是最重要的',feedback:'聚焦的核心是放弃。把"什么都很重要"改成"只有一件最重要的事"，然后把80%的时间放在那件事上。放弃的艺术比选择的艺术更难。',type:'pos'},
+    {icon:'🧭',tag:'方向',scenario:'想知道自己的人生方向是什么',feedback:'人生方向往往藏在"我对什么有感受"里。让你最有感触的事业、问题、人群，往往就是你方向的线索。不要只看"擅长什么"，而要看"被什么触动"。',type:'pos'},
+    {icon:'💪',tag:'践行',scenario:'想把自己的价值观活出来，但总是妥协',feedback:'价值观活出来不是每时每刻都完美，而是在大方向上保持一致。可以设定一个最低标准：不做和自己的价值观完全相反的事，其他的可以灵活。',type:'pos'},
+    {icon:'🌈',tag:'意义',scenario:'想在日常工作中找到意义感',feedback:'意义感往往不在"做什么"而在"为什么做"和"为谁做"。试着重新定义你的工作：它帮助了谁？解决了什么问题？即使是最普通的工作，背后也有意义。',type:'pos'},
+    {icon:'🗺️',tag:'愿景',scenario:'想制定一个清晰的愿景规划',feedback:'愿景规划的练习：想象你5年后理想的一天——你在哪里？在做什么？和谁在一起？感受如何？把这一天写下来，它就是你的愿景原型。',type:'pos'},
+    {icon:'🌿',tag:'平衡',scenario:'想平衡使命追求和生活其他方面',feedback:'平衡不是每天均匀分配，而是在人生不同阶段有不同的重心。可以问自己：现在的我，最不能妥协的是什么？其他方面可以暂时让步。',type:'pos'},
+    {icon:'🔥',tag:'热情',scenario:'想找到能让自己充满热情的事',feedback:'热情往往藏在"做的时候忘记了时间"的事情里。回顾你的人生：哪件事让你最有满足感？不是别人觉得好的，而是你真正享受的。',type:'pos'},
+    {icon:'💎',tag:'初心',scenario:'迷失了，想回到自己的初心',feedback:'回到初心的方法：想想当初为什么开始。现在的情况变了吗？还是你偏离了方向？有时候只需要一个提醒，就能重新对齐。',type:'pos'},
+    {icon:'🤝',tag:'社群',scenario:'想找到志同道合的人，但身边没有',feedback:'志同道合的人不一定在你身边，但可以在网上、社群里、行业活动中找到。先走出去，你自然会遇到。先创造自己，才会被同类发现。',type:'pos'},
+    {icon:'🌱',tag:'贡献',scenario:'想为他人创造更多价值，不知道怎么做',feedback:'创造价值最简单的方式：先帮助一个人解决一个问题。最好的价值创造来自于你自己的痛苦经历——你克服过的困难可以成为帮助他人的资源。',type:'pos'},
+    {icon:'🎯',tag:'承诺',scenario:'想对自己的使命做出承诺，不知道该怎么说',feedback:'承诺不需要隆重的仪式，只需要一个决定。找一个安静的时机，对自己说：我选择做这件事，因为……写下来，放在每天能看到的地方。',type:'pos'},
+    {icon:'🌟',tag:'独特',scenario:'想发现自己的独特天赋是什么',feedback:'独特天赋往往在"做的时候觉得理所当然"的事情里。问问身边信任的人：你觉得我的优势是什么？你在什么事情上做得比我好的人不多？',type:'pos'}
+  ],
+  idea:[
+    {icon:'🎯',tag:'探索',scenario:'想通过尝试新事物来发现自己的使命',feedback:'探索是使命发现最好的方式。每尝试一个新事物，你就在收集信息：这件事让我兴奋吗？我愿意持续做吗？它和我的价值观一致吗？多尝试，信息就多。',type:'pos'},
+    {icon:'📝',tag:'反思',scenario:'想通过写作来探索自己的内心',feedback:'自由写作是自我探索最好的工具。每天10分钟，写下脑子里的一切，不停顿、不修改、不评判。写到一定时候，你会在文字里看到自己的模式。',type:'pos'},
+    {icon:'🏃',tag:'行动',scenario:'想开始行动，但不知道从哪一步开始',feedback:'从最小的一步开始。如果你想做一件事，在接下来24小时内找到一个可以开始的最小动作。不需要完美计划，只需要开始动起来。',type:'pos'},
+    {icon:'📚',tag:'学习',scenario:'想通过读书来找到人生方向',feedback:'读书可以给你启发，但最终的方向来自行动和反思。选几本和你感兴趣方向相关的书，边读边在生活中尝试，答案会在行动中显现。',type:'pos'},
+    {icon:'🧘',tag:'静心',scenario:'想通过静心冥想来连接自己的内心',feedback:'静心是连接内在智慧的好方式。每天找10~20分钟，静坐，关注呼吸，让脑子安静。你会发现，内心的答案往往在你停止追逐时浮现。',type:'pos'},
+    {icon:'🤝',tag:'导师',scenario:'想找一个导师来指引方向',feedback:'好的导师不一定是名人，而是在某个你感兴趣的领域有真实经验的人。找比你走得快几步的人，观察他们是如何做决定的。',type:'pos'},
+    {icon:'🗺️',tag:'愿景',scenario:'想设计自己的人生愿景',feedback:'人生愿景设计可以从"最理想的一天"开始：想象5年后，你最想要的一天是什么样子？然后倒推：为了实现那一天，你今天需要做什么？',type:'pos'},
+    {icon:'💎',tag:'核心',scenario:'想找到自己的核心价值观',feedback:'价值观可以通过"极限测试"发现：如果你只能保留一个价值观，那是什么？如果必须在两个价值观之间选，你会选哪个？通过不断取舍，核心价值观会浮现。',type:'pos'},
+    {icon:'🎯',tag:'目标',scenario:'想把使命转化为具体的目标',feedback:'使命到目标的桥梁是：把"我想做的事"翻译成"我要做到X"。比如"我想帮助更多人"可以变成"我要在下个月帮助10个人解决一个问题"。',type:'pos'},
+    {icon:'🚀',tag:'实验',scenario:'想用小实验来测试自己的使命方向',feedback:'用最小可行的方式测试你的想法：不要等到完美，做一个可以让你体验这件事的小版本。如果感觉对了，继续；如果不对，调整或放弃。',type:'pos'},
+    {icon:'📖',tag:'传记',scenario:'想通过传记来寻找人生方向的灵感',feedback:'读那些找到使命的人的故事。他们的故事会给你启发：有没有哪个人的经历和你产生共鸣？那个人是如何找到自己的方向的？',type:'pos'},
+    {icon:'🧭',tag:'方向',scenario:'想找到一个人生教练来帮助自己',feedback:'人生教练是帮助你澄清方向和行动的专业人士。一个好的教练不会告诉你该做什么，而是通过提问帮助你发现自己知道的答案。',type:'pos'},
+    {icon:'🌱',tag:'跨界',scenario:'想通过跨界学习来打开思路',feedback:'跨界是最有效的创新方式之一。去学一个完全不相干的领域的知识，你会发现不同领域之间惊人的相似性，和一些全新的视角。',type:'pos'},
+    {icon:'💬',tag:'对话',scenario:'想通过深度对话来探索自己',feedback:'找一个信任的人，做一次深度的对话：聊聊你的恐惧、你的渴望、你的困惑。有时候，说出来本身就会带来清晰。',type:'pos'},
+    {icon:'🌍',tag:'世界',scenario:'想通过接触世界来找到自己的使命',feedback:'接触更广阔的世界会打开你的视野。旅行、志愿服务、行业交流——这些经历会给你很多关于"我想要什么"的线索。',type:'pos'},
+    {icon:'🪞',tag:'镜像',scenario:'想通过反馈来了解自己',feedback:'找3~5个信任的人，问他们：你觉得我最大的优势是什么？你觉得我最有热情的事是什么？外部反馈是认识自己最客观的镜子。',type:'pos'},
+    {icon:'📊',tag:'分析',scenario:'想通过自我分析来找到方向',feedback:'自我分析的方法：列出过去5年你最有满足感的5个时刻，找出共同点。然后列出过去5年你最没有满足感的5个时刻，也找出共同点。',type:'pos'},
+    {icon:'🎯',tag:'聚焦',scenario:'想放弃很多目标，只专注最重要的一件',feedback:'聚焦是最难的决定，因为放弃意味着承认自己不能拥有一切。但正是这种专注，才能让你在最重要的事情上真正产生价值。',type:'pos'},
+    {icon:'🌿',tag:'节奏',scenario:'想找到使命追求和个人生活的节奏',feedback:'使命不是一次性完成的事，而是一生的旅程。找到你自己的节奏：每天投入多少时间不会让自己倦怠？把那个时间固定下来，作为日常仪式。',type:'pos'},
+    {icon:'🌟',tag:'独特',scenario:'想找到自己独特的定位',feedback:'独特性来自于你独特的经历、技能和视角的组合。列出你人生中最重要的3个经历、3个核心技能、3个核心价值观，它们的交叉点就是你的独特定位。',type:'pos'},
+    {icon:'😰',tag:'恐惧',scenario:'想行动但被恐惧卡住了',feedback:'恐惧行动最常见的背后原因是对失败的恐惧。写下来：如果你尝试了，最坏的情况是什么？你能承受吗？如果能，就去试。',type:'neg'},
+    {icon:'🌀',tag:'迷茫',scenario:'探索了很多方向，但还是不知道自己的使命是什么',feedback:'探索本身是好的，但如果一直在探索而不行动，就会变成"探索成瘾"。设定一个探索的截止日期：到这个日期就选一个方向开始行动。',type:'neg'},
+    {icon:'😣',tag:'计划',scenario:'一直在计划，但从来不行动',feedback:'计划过度是行动的敌人。不需要完美计划再开始，在行动中调整比计划完美再行动要高效得多。设定一个最小行动，今天就做一步。',type:'neg'},
+    {icon:'😔',tag:'比较',scenario:'总是觉得自己找到的方向不如别人的好',feedback:'每个人的人生路线都不同。别人的方向再好，也是基于他的天赋、经历和价值观。把注意力放回自己身上：你喜欢什么？你能贡献什么？',type:'neg'},
+    {icon:'💭',tag:'分析',scenario:'一直在分析自己，但越分析越混乱',feedback:'分析过头是自我探索的陷阱。行动是解决迷茫最好的方式：选择一个方向，开始做，边做边调整。答案在路上，不在脑子里。',type:'neg'},
+    {icon:'😶',tag:'完美',scenario:'觉得要等准备完美了才能开始',feedback:'没有人是准备完美才开始的。所有的"准备好"都是在行动中完成的。先开始，然后边做边学。',type:'neg'},
+    {icon:'🏃',tag:'逃避',scenario:'用学习代替行动，永远在准备状态',feedback:'学习是好的，但过度学习是逃避的伪装。问自己：我是不是在用"还没准备好"来逃避行动？真正学会一件事的唯一方式是开始做它。',type:'neg'},
+    {icon:'😰',tag:'孤独',scenario:'觉得自己走在使命路上很孤独',feedback:'使命感往往是孤独的，因为能真正理解你的人不多。但孤独不等于孤立：找到几个志同道合的人，哪怕只是线上社群，都能缓解这种孤独感。',type:'neg'},
+    {icon:'😞',tag:'怀疑',scenario:'总是在怀疑自己选择的方向是不是对的',feedback:'怀疑是正常的，但让它停止行动就是问题。给自己设定一个"验证期"：用3个月来验证这个方向。如果没有进展，再调整。',type:'neg'},
+    {icon:'😣',tag:'妥协',scenario:'觉得自己在使命上做了太多妥协',feedback:'适度的妥协是生存必需的，但长期大幅度的妥协会损耗你的内在动力。问自己：我在妥协什么？这个妥协值得吗？我能做些什么来减少妥协？',type:'neg'},
+    {icon:'😩',tag:'倦怠',scenario:'追求使命让自己很疲惫',feedback:'使命感变成负担的时候，你需要重新审视你的方式。使命不是苦行僧，而是你真正想做的事。如果它让你耗竭，可能方式不对，需要调整节奏。',type:'neg'},
+    {icon:'💔',tag:'失败',scenario:'之前尝试失败了，不敢再试',feedback:'失败是探索的一部分，不等于你不行。分析一下上次失败的原因：是不可控的外部因素，还是方法问题？根据分析结果调整，然后继续。',type:'neg'},
+    {icon:'😓',tag:'自责',scenario:'觉得自己没有在追求使命上投入足够多',feedback:'自我责备不会带来行动，只会让焦虑增加。把你能投入的时间写下来，然后最大化地利用它，而不是责备自己不能更多。',type:'neg'},
+    {icon:'🌀',tag:'混乱',scenario:'想要的太多，不知道该从哪里开始',feedback:'想要太多导致的是行动瘫痪。列一个清单，然后问自己：哪一件是最重要的？如果只做一件事，我会选哪件？答案就是你的起点。',type:'neg'},
+    {icon:'😰',tag:'认可',scenario:'需要得到别人的认可才能感到自己的使命有价值',feedback:'使命的价值不在于别人怎么看，而在于它对你意味着什么。外界的认可是额外的奖励，而不是衡量标准。学会为自己的进展感到满足。',type:'neg'},
+    {icon:'😞',tag:'失望',scenario:'别人对自己的使命方向不认可',feedback:'别人不认可是正常的，特别是当你的方向和主流不同。使命是你的人生，不是别人的人生。他们的意见是参考，但不是你做决定的基础。',type:'neg'},
+    {icon:'⏸️',tag:'等待',scenario:'一直在等"对"的时机才开始',feedback:'没有完美的时机，只有现在。问自己：如果我现在不开始，最坏的情况是什么？如果答案是"继续错过"，那就从今天开始。',type:'neg'},
+    {icon:'😣',tag:'过度',scenario:'在使命追求上用力过猛，反而耗竭了',feedback:'使命追求不是短跑，是马拉松。用力过猛后的耗竭会把你推得更远。学会在该休息时休息，在该坚持时坚持。',type:'neg'},
+    {icon:'🪞',tag:'身份',scenario:'觉得自己不够"配得上"自己的使命',feedback:'"不配得上"是一种阻抗，不是事实。每个人都有独特的价值，你的存在本身就是意义。不要等自己"准备好了"，因为没有人会觉得自己完全准备好。',type:'neg'}
+  ],
+  cheer:[
+    {icon:'🎯',tag:'发现',scenario:'终于找到了自己真正想做的事是什么',feedback:'找到真正的热情所在是一种精神觉醒。这个发现不是偶然的，是你长期探索、尝试、反思的结果。好好珍惜这份清晰的感受，它会指引你接下来的很多选择。',type:'pos'},
+    {icon:'🚀',tag:'行动',scenario:'勇敢迈出了一步，开始做自己真正想做的事',feedback:'从"想"到"做"的跨越是最难的一步，而你做到了。这一步意味着你不再只是观众，而是开始书写自己的故事。接下来的路会很不一样。',type:'pos'},
+    {icon:'💡',tag:'使命',scenario:'对自己的人生使命有了更清晰的理解',feedback:'使命清晰度提升是一个重要的里程碑。它意味着你开始听到自己内心深处的声音，而不只是被外界的期待推着走。',type:'pos'},
+    {icon:'🌟',tag:'影响',scenario:'通过我的工作/行动真正影响到了别人',feedback:'能够影响到他人是使命实现最直接的证明。你的一言一行真的可以改变别人的生活，这份影响力值得被认真对待。',type:'pos'},
+    {icon:'💎',tag:'坚持',scenario:'在一个长期坚持的项目上取得了突破',feedback:'长期坚持本身就是一种使命感的体现。在别人看不到的时候默默积累，当突破来临时，它会显得格外有意义。',type:'pos'},
+    {icon:'🏆',tag:'成就',scenario:'完成了一个和自己价值观高度一致的目标',feedback:'完成一个符合价值观的目标比任何外在的成功都更有意义。这个成就证明了你正在活出自己想要的人生。',type:'pos'},
+    {icon:'🌱',tag:'成长',scenario:'克服了对失败的恐惧，敢于尝试了',feedback:'对失败的恐惧是追求使命最大的敌人之一。你开始不再被恐惧支配，这意味着你已经获得了一种真正的内在自由。',type:'pos'},
+    {icon:'💬',tag:'表达',scenario:'把自己的价值观/愿景清晰地表达出来了',feedback:'清晰表达自己的价值观是自我认知成熟的表现。只有知道自己相信什么，才能真正影响他人。',type:'pos'},
+    {icon:'🎯',tag:'聚焦',scenario:'学会了说"不"，把精力聚焦在最核心的使命上',feedback:'聚焦是做减法的过程，专注核心使命意味着你开始理解"少即是多"。你不再被所有机会分散注意力，而是把最重要的那件事做好。',type:'pos'},
+    {icon:'🧭',tag:'方向',scenario:'找到了自己的人生方向，不再迷茫',feedback:'方向清晰是最大的精神礼物之一。它让你所有的努力都有一个共同的方向，而不是分散在不同的地方。',type:'pos'},
+    {icon:'💪',tag:'勇气',scenario:'在关键时刻展现了勇气，做了自己认为对的事',feedback:'在关键时刻展现勇气是价值观的具体实践。你用行动证明了自己相信的东西，而不是只在嘴上说。',type:'pos'},
+    {icon:'🌈',tag:'意义',scenario:'在做的工作/事情中找到了真正的意义感',feedback:'意义感是使命体验的核心。当你感到自己的工作有意义，那种内在的满足感是任何外在奖励都无法替代的。',type:'pos'},
+    {icon:'🗺️',tag:'愿景',scenario:'明确了自己5年/10年后想要成为的样子',feedback:'清晰的愿景是人生的地图。只有知道自己要去哪里，才不会在日常的琐碎中迷失方向。',type:'pos'},
+    {icon:'🌿',tag:'平衡',scenario:'找到了使命追求和生活其他方面的平衡',feedback:'使命追求不应该以牺牲生活为代价。你学会了在使命和生活之间找到平衡，这本身就是一种智慧。',type:'pos'},
+    {icon:'🔥',tag:'热情',scenario:'每天都带着热情醒来，感受到内在的驱动力',feedback:'带着热情醒来是活在使命中的最好证明。这种内在驱动不需要外界的推动，它本身就是最好的奖励。',type:'pos'},
+    {icon:'💎',tag:'初心',scenario:'在迷失方向的时候，回到了自己的初心',feedback:'迷失是正常的，能回到初心才是重要的。你证明了自己不会被外界的噪音带走，你知道自己真正要去哪里。',type:'pos'},
+    {icon:'🤝',tag:'同行',scenario:'找到了一群志同道合的人，一起走在使命路上',feedback:'找到同行者是使命之旅最珍贵的礼物之一。你不是一个人在战斗，有人和你一起走同样的路，这种感觉本身就很有力量。',type:'pos'},
+    {icon:'🌱',tag:'贡献',scenario:'通过自己的行动为他人创造了真正的价值',feedback:'创造价值是使命最实在的体现。你不只是为自己而活，还在用自己的力量让世界变得好一点点。',type:'pos'},
+    {icon:'🎯',tag:'承诺',scenario:'对自己的使命做出了公开的承诺',feedback:'公开承诺是使命实践最有力的步骤之一。你把自己的信念放在了台面上，让自己没有退路。这种勇气值得尊重。',type:'pos'},
+    {icon:'🌟',tag:'闪耀',scenario:'在某件事上真正展示了自己的独特天赋',feedback:'展示独特天赋是活出使命最直接的时刻。你的天赋是独一无二的，当你用它来创造价值，就是在实现自己的使命。',type:'pos'},
+    {icon:'🎯',tag:'发现',scenario:'在某个瞬间突然想通了人生的一个重大问题',feedback:'这种顿悟时刻是长期思考积累的结果。好好珍惜这个感受，把它记录下来，它会成为你未来决策的重要参考。',type:'pos'},
+    {icon:'🚀',tag:'行动',scenario:'第一次真正把自己的想法变成了行动',feedback:'从想法到行动的跨越是你给自己最好的礼物。不要小看这一步，很多人的想法永远停留在脑子里，你已经不一样了。',type:'pos'},
+    {icon:'💡',tag:'清晰',scenario:'对某个困惑很久的问题有了答案',feedback:'答案来的时候往往是在你停止强迫自己寻找的时候。你做到了——说明你已经准备好接受这个答案。',type:'pos'},
+    {icon:'🌟',tag:'影响',scenario:'听到有人说因为你而改变了一点什么',feedback:'当你知道自己的存在给别人带来了积极的影响，这就是使命实现最真实的时刻。这种满足感比任何外在的成就都更有价值。',type:'pos'},
+    {icon:'💎',tag:'坚持',scenario:'在没有人看到的地方默默坚持了很久',feedback:'在没有掌声的时候依然坚持，这是真正的使命精神。这种内在的力量比任何外在的认可都更持久。',type:'pos'},
+    {icon:'🏆',tag:'里程碑',scenario:'完成了一个自己一直想做但不敢做的事',feedback:'完成了不敢做的事是自信最有效的来源。你用行动证明了自己比想象的更有能力。这份自信会延伸到你的其他领域。',type:'pos'},
+    {icon:'🌱',tag:'勇气',scenario:'在一个艰难的选择面前选择了忠于自己',feedback:'在艰难选择面前忠于自己，是价值观最真实的体现。你没有为了省力或讨好而放弃自己，这需要真正的勇气。',type:'pos'},
+    {icon:'💬',tag:'表达',scenario:'第一次向世界宣告了自己的使命宣言',feedback:'宣告使命宣言是把自己放在了一个新的位置上。你给自己创造了一个"说到做到"的压力，这是最好的成长动力。',type:'pos'},
+    {icon:'🎯',tag:'聚焦',scenario:'终于砍掉了很多杂事，专注于最重要的那件事',feedback:'聚焦是做最难的决定——决定不做什么。你做到了，这说明你已经理解了什么才是真正重要的。',type:'pos'},
+    {icon:'🧭',tag:'方向',scenario:'在人生的十字路口做出了一个忠于内心的决定',feedback:'在十字路口选择忠于内心，是对自己人生最负责的行为。这个决定也许很难，但它属于你，这就够了。',type:'pos'},
+    {icon:'💪',tag:'践行',scenario:'把自己的价值观在生活中真正活出来了',feedback:'价值观不是挂在墙上的标语，而是在日常行为中被实践的。你的生活本身就是你价值观的最好证明。',type:'pos'},
+    {icon:'🌈',tag:'意义',scenario:'在日常生活的细节里发现了不普通的意义',feedback:'意义不是只在大事里，日常生活的细节同样充满意义。你学会了在平凡中看到不平凡，这本身就是一种精神成就。',type:'pos'},
+    {icon:'🗺️',tag:'愿景',scenario:'创造了一个让很多人产生共鸣的愿景描述',feedback:'能创造共鸣的愿景说明你对自己想要创造的世界有清晰的认知。这个愿景可以成为你的北极星，指引你接下来的所有选择。',type:'pos'},
+    {icon:'🌿',tag:'平衡',scenario:'在使命追求和家人陪伴之间找到了满意的平衡',feedback:'能兼顾使命和爱的人是真正的智慧。你没有为了一个牺牲另一个，这说明你有能力创造一个更完整的人生。',type:'pos'},
+    {icon:'🔥',tag:'热情',scenario:'找到了那种"心流"状态，感觉完全沉浸在热爱中',feedback:'心流体验是活出使命最直接的感受之一。这种"忘记了时间"的沉浸感，是你走在正确道路上的最好信号。',type:'pos'},
+    {icon:'💎',tag:'初心',scenario:'在纷繁复杂的现实中回到了最初出发的理由',feedback:'不忘初心是最难也最珍贵的事。在走了很远之后还能记得为什么出发，这说明你没有被路途的风景分散注意力。',type:'pos'},
+    {icon:'🤝',tag:'连接',scenario:'被一个人深深理解了，那种被看见的感觉很珍贵',feedback:'被深度看见是灵魂最基本的需求之一。这份连接感让你知道：你不是一个人在走这条使命之路。',type:'pos'},
+    {icon:'🌱',tag:'传承',scenario:'把自己的经验传承给了正在迷茫中的年轻人',feedback:'传承是使命最有力的证明之一。你不仅找到了自己的路，还有能力帮助别人找到他们的路。这是使命最好的延伸。',type:'pos'},
+    {icon:'🎯',tag:'承诺',scenario:'对自己的人生做出了一个真诚而大胆的承诺',feedback:'对自己承诺是最有力量的承诺形式。你把自己的未来交到了自己手里，这需要勇气，也需要信任自己。',type:'pos'},
+    {icon:'🌟',tag:'独特',scenario:'做了只有你才能做到的事',feedback:'做只有你才能做的事，是活出独特天赋最直接的时刻。你的存在带来了别人无法替代的价值，这就是使命的意义。',type:'pos'}
+  ],
+  report:[
+    {icon:'🎯',tag:'本月',scenario:'本月在使命方向上有了新的清晰度',feedback:'使命清晰度提升是最有价值的进展之一。知道自己要去哪里，比走得快更重要。这个清晰度会在未来的所有决策中发挥作用。',type:'pos'},
+    {icon:'🚀',tag:'本月',scenario:'在使命导向的行动上有实质性的进展',feedback:'使命行动上的实质性进展说明你已经开始把想法变成现实。这是把使命落地的关键一步，继续保持。',type:'pos'},
+    {icon:'🌟',tag:'本月',scenario:'影响了至少一个人，他因为我的行动而受益',feedback:'能影响他人是使命实现最直接的证明。无论大小，这种影响都是你在这个世界上的价值体现。',type:'pos'},
+    {icon:'💎',tag:'本月',scenario:'坚持做了一件和使命相关的事超过20天',feedback:'20天的坚持是一个里程碑。使命不只是说说，而是每天的持续投入。你已经建立了一个真正的习惯。',type:'pos'},
+    {icon:'🏆',tag:'本月',scenario:'完成了一个和核心价值观一致的重要目标',feedback:'完成一个符合价值观的目标是精神上最满足的成就之一。它证明了你在活出自己相信的东西。',type:'pos'},
+    {icon:'🌱',tag:'本月',scenario:'在探索使命方向上有了新的突破',feedback:'新的突破往往出现在你持续投入之后。你在这个月的探索正在开花结果，继续保持开放和好奇的心态。',type:'pos'},
+    {icon:'💬',tag:'本月',scenario:'更清晰地表达了自己的价值观和愿景',feedback:'清晰表达价值观是自我认知成熟的表现。你对世界的理解更清晰了，这个清晰度会让你在接下来的选择中更坚定。',type:'pos'},
+    {icon:'🎯',tag:'本月',scenario:'在最重要的事情上做到了聚焦',feedback:'聚焦是最有效的策略之一。当你把精力集中在最重要的事情上，效果往往是惊人的。你这个月做到了。',type:'pos'},
+    {icon:'🧭',tag:'本月',scenario:'在人生方向上做出了一个关键决定',feedback:'关键决定是使命进展的重要节点。它代表着你对自己想要什么有了足够的清晰度，也代表着你愿意承担风险去追求它。',type:'pos'},
+    {icon:'🔥',tag:'本月',scenario:'每天都带着使命感在生活',feedback:'每天都活在使命感中是一种最高级的生活状态。你找到了工作和意义的结合点，这是很多人一辈子都找不到的东西。',type:'pos'},
+    {icon:'😔',tag:'本月',scenario:'觉得在使命追求上没有进展，很迷茫',feedback:'使命的进展往往不是线性的，"没有进展"的感受可能来自于对自己期望过高。回顾一下：你真的没有变化吗？也许你正在积累期。',type:'neg'},
+    {icon:'😰',tag:'本月',scenario:'在使命追求上遇到了很大的阻力',feedback:'使命之路有阻力是正常的，重要的不是有没有阻力，而是你如何应对它。把阻力写下来：它的本质是什么？有没有绕过的方法？',type:'neg'},
+    {icon:'😣',tag:'本月',scenario:'做的事和自己的价值观越来越不一致',feedback:'价值观不一致会积累内在的消耗。认真评估：你当前做的事情是否真的符合你的价值观？如果不是，需要做出调整。',type:'neg'},
+    {icon:'😞',tag:'本月',scenario:'感觉在使命追求上投入不够，很自责',feedback:'自我责备不会带来更多行动，只会消耗你的能量。与其责备自己，不如把能投入的时间最大化利用。今天就可以开始。',type:'neg'},
+    {icon:'💔',tag:'本月',scenario:'放弃了之前的一个重要目标，很失落',feedback:'放弃一个目标不等于放弃使命本身。有时候放弃是战略性的撤退，为了把精力集中在更重要的事情上。允许自己失落，然后继续向前。',type:'neg'},
+    {icon:'🏃',tag:'本月',scenario:'一直在逃避真正需要面对的使命问题',feedback:'逃避让问题在暗处发酵。如果这个问题一直被你回避，它最终会以更大的力量爆发。找一个时机，认真面对。',type:'neg'},
+    {icon:'😩',tag:'本月',scenario:'使命追求让自己很疲惫',feedback:'疲惫是一个需要认真对待的信号。如果你一直处于透支状态，说明你需要调整节奏。休息不是放弃，而是为了走得更远。',type:'neg'},
+    {icon:'🌀',tag:'本月',scenario:'在很多方向之间摇摆，不知道该选哪个',feedback:'方向摇摆是因为没有足够聚焦。选择一个方向，开始做，然后在行动中评估。如果错了，修正就是了。等待不会带来清晰，只有行动才会。',type:'neg'},
+    {icon:'😰',tag:'本月',scenario:'觉得自己的使命方向不够"大"',feedback:'使命不分大小。不要被"改变世界"的叙事绑架。照顾好你的家人、帮助好你身边的人、推动一个小问题的解决，都是真正的使命。',type:'neg'},
+    {icon:'💭',tag:'本月',scenario:'觉得自己不够好，不配追求自己的使命',feedback:'"不够好"是一种阻抗，不是事实。你不需要等到"足够好"才开始，你的存在本身就是意义。现在就可以开始。',type:'neg'}
+  ]
+};
+let currentQAType = null;
+let currentQADir = 'result';
 function askPartner(type) {
   const partner = currentPartner || PARTNERS[0];
   const style = partner.style || 'gentle';
-  const labels = { progress: '📈 进展', struggle: '😣 困难', idea: '💡 想法', cheer: '🎉 喜事' };
-  const replies = {
-    gentle: {
-      progress: { pos: ['说说最近的使命进展，我帮你分析分析。', '好，跟我讲讲你最近的改变。'], neg: ['哪里还没达到预期？说说看。'] },
-      struggle: { pos: ['有困难是好事，说明你在突破！'], neg: ['没关系，一起想办法。'] },
-      idea: { pos: ['好想法！说说你的灵感。'], neg: ['说说你的困惑，我帮你推演。'] },
-      cheer: { pos: ['哈哈！好事！快说！🎉'], neg: ['好事！让我沾沾喜气！🎊'] }
-    },
-    passion: {
-      progress: { pos: ['冲！说说你的使命战果！🔥'], neg: ['什么卡住了？冲！💪'] },
-      struggle: { pos: ['困难算什么，你是最棒的！💪'], neg: ['没有过不去的坎！🔥'] },
-      idea: { pos: ['好创意！🔥 让我听听！'], neg: ['说说你的想法！⚡'] },
-      cheer: { pos: ['🎉🎉🎉 说！我要听！'], neg: ['哈哈！好事！🎊'] }
-    },
-    rational: {
-      progress: { pos: ['汇报收到。数据记录中。📊'], neg: ['什么因素影响了使命进展？📊'] },
-      struggle: { pos: ['困难是数据点在积累经验。'], neg: ['从数据角度看，怎么解决？📊'] },
-      idea: { pos: ['好。说说的核心假设是什么。📊'], neg: ['说说你的使命逻辑。📊'] },
-      cheer: { pos: ['📊 记录这一时刻。'], neg: ['好事！量化一下？📊'] }
-    },
-    tsundere: {
-      progress: { pos: ['……行吧，算你有点进展。'], neg: ['又卡了？哼。'] },
-      struggle: { pos: ['困难谁都有。说吧。'], neg: ['……算了，我帮你。😒'] },
-      idea: { pos: ['😏 什么想法？说来听听。'], neg: ['说说看。🤷'] },
-      cheer: { pos: ['……算你有点本事。😏'], neg: ['好事？😏'] }
-    }
+  const emoji = partner.emoji;
+  const typeConfig = {
+    progress:{label:'📈 进展',panel:'progress',dir:'result',intro:{gentle:['说说最近的使命进展 🌿','好，跟我讲讲你最近的变化 💫'], passion:['冲！说说你的使命进展！🔥','好！让我听听！⚡'], rational:['汇报收到。使命数据记录中。📊','好，说说关键变化。'], tsundere:['……行吧，说说最近怎么样。😏','又有什么进展？哼。😏']}},
+    struggle:{label:'😣 困难',panel:'struggle',dir:'solution',intro:{gentle:['有困难是正常的，说说看 💙','没关系，一起想办法 🌿'], passion:['困难算什么，你是最棒的！💪','来！我帮你拆解！🔥'], rational:['困难是数据点在积累经验。说，我帮你分析。📊'], tsundere:['困难谁都有。说吧，我勉强帮你。😒','……算了，我帮你想想办法。😒']}},
+    idea:{label:'💡 想法',panel:'idea',dir:'result',intro:{gentle:['好想法！说说你的灵感来源 🌿','来，展开讲讲这个点子 💫'], passion:['好创意！🔥 让我听听！','来！展开讲！我要感受你的热情！⚡'], rational:['好。说说的核心假设是什么。📊','从使命角度看，这个想法的可行性如何？'], tsundere:['😏 什么想法？说来听听，不保证有用。','说说看。🤷']}},
+    cheer:{label:'🎉 喜事',panel:'cheer',dir:'result',intro:{gentle:['哈哈！好事！快说！我要听！🎉','哈哈！这种时刻值得好好庆祝！💫'], passion:['🎉🎉🎉 说！我要听！全部细节！','哈哈！太棒了！🔥'], rational:['📊 记录这一时刻。','好的势头要保持。'], tsundere:['😏 哼，还行吧。什么好事？','……算你有点本事。说，什么事？😏']}},
+    report:{label:'📣 汇报进展',panel:'report',dir:'result',intro:{gentle:['收到。说给我听听 🌿','好，让我了解你最近的使命状态 💫'], passion:['冲！汇报收到！🔥','好！让我听听！⚡'], rational:['汇报收到。使命数据记录中。📊','好，说说关键变化。'], tsundere:['……行吧，说吧。😏','又来了？……哼，我听听。😏']}},
+    question:{label:'🤔 有问题想问',panel:'question',dir:'solution',intro:{gentle:['问吧，我尽力回答 💙'], passion:['问！什么问题都能接住！💪'], rational:['好的。给出你的问题。📊'], tsundere:['🤷 问就问，不保证你能听懂。😏']}}
   };
-  showPartnerMsg(labels[type], false);
-  setTimeout(() => {
-    const arr = replies[style]?.[type]?.pos || replies.gentle[type].pos;
-    showPartnerMsg(partner.emoji + ' ' + arr[Math.floor(Math.random() * arr.length)], true);
-  }, 800);
+  const cfg = typeConfig[type] || typeConfig.progress;
+  const introArr = cfg.intro[style] || cfg.intro.gentle;
+  const intro = introArr[Math.floor(Math.random() * introArr.length)];
+  showPartnerMsg(cfg.label, false);
+  setTimeout(() => { showPartnerMsg(emoji + ' ' + intro, true); setTimeout(() => openTypePanel(cfg.panel, cfg.dir), 500); }, 700);
 }
-
-let currentQAType = null;
-
-function openQAPanel(type) {
-  currentQAType = type;
-  const data = type === 'question' ? QA_DATA : PROGRESS_DATA;
-  const title = type === 'question' ? '🤔 有问题想问' : '📣 汇报一下进展';
-  const sub  = type === 'question' ? '选择一个最符合你情况的问题，我来给你解答' : '说说现在的情况，我给你针对性的反馈';
-  document.getElementById('qaTitle').innerText = title;
-  document.getElementById('qaSub').innerText = sub;
-
-  const scroll = document.getElementById('qaScroll');
-  scroll.innerHTML = '';
-
-  // 正向
-  if (data.pos.length) {
-    const posLabel = document.createElement('div');
-    posLabel.style.cssText = 'font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;';
-    posLabel.innerText = '⬆️ 好的进展 / 想得到鼓励';
-    scroll.appendChild(posLabel);
-    data.pos.forEach((item, i) => {
-      scroll.appendChild(makeQACard(type, 'pos', i, item));
-    });
-  }
-
-  // 负向
-  if (data.neg.length) {
-    const negLabel = document.createElement('div');
-    negLabel.style.cssText = 'font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;';
-    negLabel.innerText = '⬇️ 不好的情况 / 需要引导';
-    scroll.appendChild(negLabel);
-    data.neg.forEach((item, i) => {
-      scroll.appendChild(makeQACard(type, 'neg', i, item));
-    });
-  }
-
+function openTypePanel(panel, dir) {
+  currentQAType = panel; currentQADir = dir;
+  const data = TYPE_SCENES_MIS[panel] || [];
+  const titleMap = {progress:'📈 选择一个最符合你情况的使命进展', struggle:'😣 选择一个你正在面对的使命困难', idea:'💡 选择一个你想聊的使命想法', cheer:'🎉 选择一件你想分享的使命喜事', report:'📣 汇报一下本月使命状态', question:'🤔 有问题想问？选一个最接近的'};
+  const subMap = {result:'选择后我会和你共情，然后给出结果导向的反馈 💫', solution:'选择后我会和你共情，然后一起想办法 💪'};
+  document.getElementById('qaTitle').innerText = titleMap[panel] || panel;
+  document.getElementById('qaSub').innerText = subMap[dir] || '';
+  const scroll = document.getElementById('qaScroll'); scroll.innerHTML = '';
+  const posItems = data.filter(i => i.type === 'pos');
+  if (posItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;'; l.innerText='⬆️ 好的进展 / 想得到鼓励'; scroll.appendChild(l); posItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
+  const negItems = data.filter(i => i.type === 'neg');
+  if (negItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;'; l.innerText='⬇️ 遇到困难 / 需要引导'; scroll.appendChild(l); negItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
   document.getElementById('qaOverlay').classList.add('show');
-  // 点击遮罩关闭
-  document.getElementById('qaOverlay').onclick = function(e) {
-    if (e.target === document.getElementById('qaOverlay')) closeQAPanel();
-  };
+  document.getElementById('qaOverlay').onclick = function(e) { if (e.target === document.getElementById('qaOverlay')) closeQAPanel(); };
 }
-
-function makeQACard(type, polarity, index, item) {
-  const card = document.createElement('div');
-  card.className = `qa-card ${polarity}`;
-  card.innerHTML = `
-    <div class="qa-card-icon">${item.icon}</div>
-    <div class="qa-card-text">${item.question || item.scenario}</div>
-    <div class="qa-card-tag ${polarity}">${item.tag}</div>
-  `;
-  card.onclick = () => {
-    closeQAPanel();
-    setTimeout(() => showFeedback(type, polarity, index), 300);
-  };
-  return card;
-}
-
-function closeQAPanel() {
-  document.getElementById('qaOverlay').classList.remove('show');
-  document.getElementById('qaOverlay').onclick = null;
-}
-
-function showFeedback(type, polarity, index) {
-  const data = type === 'question' ? QA_DATA : PROGRESS_DATA;
-  const item = data[polarity][index];
+function showTypeFeedback(panel, dir, item) {
   const partner = currentPartner || PARTNERS[0];
-
+  const style = partner.style || 'gentle';
+  const emoji = partner.emoji;
+  const isPos = item.type === 'pos';
+  const empathy = getEmpathy(style, dir, isPos);
+  const feedback = getFeedback(style, dir, isPos);
   const fbCard = document.getElementById('fbCard');
-  fbCard.className = `fb-card ${polarity}`;
+  fbCard.className = `fb-card ${item.type}`;
   document.getElementById('fbEmoji').innerText = item.icon;
   const labelEl = document.getElementById('fbLabel');
-  labelEl.innerText = polarity === 'pos' ? '✨ 正向' : '⚠️ 需要引导';
-  labelEl.className = `fb-label ${polarity}`;
-  document.getElementById('fbTitle').innerText = item.tag + '反馈';
-  document.getElementById('fbText').innerText = item.answer || item.feedback;
-  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${partner.emoji} ${partner.name}说：</div>"${getPartnerReply(partner.style, type, polarity)}"`;
-
+  labelEl.innerText = isPos ? '✨ 正向' : '⚠️ 需要引导';
+  labelEl.className = `fb-label ${item.type}`;
+  document.getElementById('fbTitle').innerText = item.tag;
+  document.getElementById('fbText').innerText = item.feedback;
+  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${emoji} ${partner.name}说：</div>"${empathy} <span style="color:#1565c0">${feedback}</span>"`;
   document.getElementById('fbOverlay').classList.add('show');
 }
-
-function getPartnerReply(style, type, polarity) {
-  const replies = {
-    gentle: {
-      question: {
-        pos: ['你真的在认真对待这件事，我很欣慰。', '这件事处理得很好，继续保持。'],
-        neg: ['别太自责，每个人都会有这样的时候。慢慢来。', '没关系，找到原因就好了，我们一起面对。']
-      },
-      progress: {
-        pos: ['你愿意分享这个，说明你在认真对待自己的变化，很好。', '进展不错，继续保持这个状态。'],
-        neg: ['别担心，这种情况很多人都遇到过。我们一起想办法。', '知道了。我们来看看怎么改善。']
-      }
-    },
-    passion: {
-      question: {
-        pos: ['这就对了！继续保持，你就是最棒的！', '干得漂亮！这就是进步的样子！'],
-        neg: ['小问题！哪有过不去的坎，继续冲！', '别怂！办法总比困难多，我们搞定它！']
-      },
-      progress: {
-        pos: ['太强了！继续保持这个劲头！', '这就是复利的力量！继续累积！'],
-        neg: ['就这？调整一下，继续干！', '这都不是事儿！战术调整一下，明天继续冲！']
-      }
-    },
-    rational: {
-      question: {
-        pos: ['判断正确。行为数据支持这一结论。', '这是合理的选择，决策合理。'],
-        neg: ['这是常见的现象，有科学解释。先分析原因。', '客观情况如此，调整策略即可。']
-      },
-      progress: {
-        pos: ['数据支持这一判断。继续执行当前方案。', '正增长符合预期。保持当前节奏。'],
-        neg: ['数据出现了波动。需要分析原因并调整。', '负向偏差在可控范围内，可以修正。']
-      }
-    },
-    tsundere: {
-      question: {
-        pos: ['……还行吧，勉强算你做对了。', '哼，总算做了一件对的事。'],
-        neg: ['怎么又这样，下次能不能提前想好？', '我就知道会这样……算了，说你怎么也没用。']
-      },
-      progress: {
-        pos: ['……行吧，算你有点进步。', '嗯。这次的事做得还可以。'],
-        neg: ['又来了？能不能上点心？', '哼，我就知道会出这种问题。']
-      }
-    }
-  };
-  const arr = replies[style]?.[type]?.[polarity] || replies.gentle[type][polarity];
+function getEmpathy(style, dir, isPos) {
+  const msgs={gentle:{result:{pos:['这种感觉真的很好，为你高兴 🌿','你做到了，这很重要 💫','这个进展很真实，继续保持 💚'],neg:['这种感觉我理解，不着急，慢慢来 💙','我听见了，陪你一起 🌿']},solution:{pos:['谢谢你告诉我这些 💙','愿意说出来本身就需要勇气 🌿'],neg:['能感觉到你的为难，我在这里 🤝','没关系，我们一起拆解 🌿']}},passion:{result:{pos:['太强了！继续保持！🔥','这就是进步！继续燃烧！🚀'],neg:['别急，调整一下！💪','小调整，继续冲！🔥']},solution:{pos:['好！说得好！我听到了！💪'],neg:['来！我帮你拆解！🔥','没有困难是过不去的！冲！💪']}},rational:{result:{pos:['数据记录在案。这个变化值得关注。📊','收到。使命数据显示你的方向正确。📈'],neg:['这种情况在使命追求中很常见。📊','数据出现波动，分析后可以调整。📋']},solution:{pos:['这种情况有方法可以优化。📊','收到，让我帮你拆解。🧩'],neg:['这个问题的本质可以进一步分析。📊','先拆解，再制定对策。🛠️']}},tsundere:{result:{pos:['……还行吧，算你有点料。😏','哼，还凑合。😶'],neg:['又来了？……哼，我听听。😒','就这样吧，我也习惯了。🤷']},solution:{pos:['……行吧，我勉强听一下。😒'],neg:['怎么又这样……说吧，我帮你。😒','哼，说吧，我看看能不能救。🤷']}}};
+  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
-
-function closeFeedback() {
-  document.getElementById('fbOverlay').classList.remove('show');
+function getFeedback(style, dir, isPos) {
+  const msgs={gentle:{result:{pos:['继续保持，你走的每一步都在积累 🌿','这个方向很对，坚持下去 💚','你比自己以为的更接近目标 💫'],neg:['不要因为这样就放弃，我们来看看怎么调整 🌿','先给自己一点耐心，我们慢慢来 💙']},solution:{pos:['找到突破口后继续往前 💪','我们来看看下一步可以怎么做 🌿'],neg:['说说具体卡在哪里，我帮你理清思路 🌿','这件事拆开来看，其实没有那么难 💙']}},passion:{result:{pos:['继续这个节奏，效果会越来越明显的！🔥','这就是复利！保持！💪'],neg:['调整一下，明天继续冲！⚡','战术修正，继续干！💪']},solution:{pos:['找对方法，继续冲！🔥'],neg:['来！我帮你拆解！没有过不去的坎！🔥','拆解完立刻行动！🚀']}},rational:{result:{pos:['继续执行当前方案，效果会逐步显现。📊','这个趋势值得坚持。📈'],neg:['需要分析原因后调整策略。📊','在可修正范围内，继续监测。📋']},solution:{pos:['有清晰的分析路径，可以优化。📊','建议先量化问题，再对症下药。🧩'],neg:['从愿景入手，找核心方向。📊','把问题拆成小块，逐个击破。🛠️']}},tsundere:{result:{pos:['……行吧，算你有点进步。😏','嗯。还凑合。😶'],neg:['……我又来了。哼。😒']},solution:{pos:['说，我看看能不能帮。😒'],neg:['……算了，我帮你想想。😒','好吧，我勉强帮一下。🤷']}}};
+  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
 }
+function sendTalk(type) { askPartner(type); }
+function openQAPanel(type) { askPartner(type); }
+function makeQACard(type, polarity, index, item) { const card = document.createElement('div'); card.className=`qa-card ${polarity}`; card.innerHTML=`<div class="qa-card-icon">${item.icon||''}</div><div class="qa-card-text">${item.scenario||item.question||''}</div><div class="qa-card-tag ${polarity}">${item.tag||''}</div>`; card.onclick=()=>{closeQAPanel();}; return card; }
+function closeQAPanel() { document.getElementById('qaOverlay').classList.remove('show'); document.getElementById('qaOverlay').onclick = null; }
+function showFeedback(type, polarity, index) { const data = TYPE_SCENES_MIS[type]||[]; const item = data.filter(d=>d.type===polarity)[index]; if(item) showTypeFeedback(type,'result',item); }
+function getPartnerReply(style, type, polarity) { return getEmpathy(style, 'result', polarity==='pos'); }
+function closeFeedback() { document.getElementById('fbOverlay').classList.remove('show'); }
 
 function refreshDashboard() {
   let today = getToday(), history = getHistory();

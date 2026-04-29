@@ -581,8 +581,8 @@
       <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="openQAPanel('progress')">📣 汇报进展</button>
-      <button class="talk-btn" onclick="openQAPanel('question')">🤔 有问题想问</button>
+      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
+      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
     </div>
   </div>
 </div>
@@ -1114,174 +1114,266 @@ function sendTalk(type) {
   }
 }
 
-// ===== 搭子tag交互（关系财富版）=====
+// ===== 搭子tag交互（关系财富版·6类20条）=====
+const TYPE_SCENES_REL = {
+  progress:[
+    {icon:'💬',tag:'沟通',scenario:'学会了一次性把真实想法说出来，而不是绕着弯子暗示',feedback:'直接表达真实想法是关系里最难得的能力之一。不再绕弯子意味着你在建立真正的信任基础，这是深度关系的前提。这个改变值得被认真对待。',type:'pos'},
+    {icon:'🛡️',tag:'边界',scenario:'第一次坚定地拒绝了一个让我不舒服的请求，感觉很好',feedback:'设立边界不一定让对方高兴，但一定让你更健康。第一次坚定地拒绝，你发现其实你没有失去这段关系。这份边界感是你给自己的保护。',type:'pos'},
+    {icon:'👂',tag:'倾听',scenario:'在重要对话中，先真正听完了对方的想法，而不是急着反驳',feedback:'先听后说是一种关系上的自律。你给对方空间，让对话变得更深入而不是更对立。这个转变会让你的关系质量整体提升。',type:'pos'},
+    {icon:'🙏',tag:'感谢',scenario:'主动对某个人表达了感谢，发现关系立刻轻松了很多',feedback:'表达感谢是一种低成本、高回报的关系投资。它打破了"想当然"的沉默，让对方知道他的存在对你有意义。这个简单的动作可以改变很多事。',type:'pos'},
+    {icon:'🤝',tag:'和解',scenario:'主动和某个人和解，放下了一段积压已久的隔阂',feedback:'主动和解是关系里最需要勇气的事之一。你先迈出那一步，说明你在乎这段关系超过在乎面子。放下隔阂的那一刻，你自己也轻松了。',type:'pos'},
+    {icon:'🌱',tag:'成长',scenario:'在某段关系中变得更坦诚了，不再假装自己不在乎',feedback:'在关系中假装不在乎是一种自我保护，但如果一直这样，关系就没法深入。你决定更坦诚，说明你已经准备好承担真实连接的重量了。',type:'pos'},
+    {icon:'💡',tag:'共识',scenario:'和某个人在一件重要的事上达成了真正的共识',feedback:'达成共识不是谁赢谁输，而是两个人找到了一个双方都能接受的方案。这种结果需要双方的妥协和智慧，是关系成熟的标志。',type:'pos'},
+    {icon:'🕊️',tag:'原谅',scenario:'真正原谅了某个人，不只是嘴上说没关系',feedback:'真正的原谅是你不再让那个人伤害你的内在平静。你原谅，不是因为对方值得，而是因为你值得从那份怨恨里走出来。',type:'pos'},
+    {icon:'💞',tag:'亲密',scenario:'和某个人建立了一种前所未有的深度连接',feedback:'深度连接需要时间、信任和很多次的真实交流。你做到了，这说明你们双方都愿意走进去。这份连接是关系财富里最珍贵的东西。',type:'pos'},
+    {icon:'🗣️',tag:'冲突',scenario:'经历了一次冲突，但没有让事情升级，而是冷静处理了',feedback:'冲突中保持冷静是最难的关系技能之一。你做到了，说明你有情绪成熟度。这种处理方式让对方也愿意冷静下来。',type:'pos'},
+    {icon:'🌿',tag:'尊重',scenario:'学会了对某个人保持尊重，即使不同意他的观点',feedback:'尊重不同意见是成熟关系的体现。你可以在不同意对方的同时仍然尊重他，这种平衡感是关系里最难得的东西。',type:'pos'},
+    {icon:'💛',tag:'付出',scenario:'无条件地为某个人做了一件事，没有任何期待回报',feedback:'无条件的付出是一种纯粹的善意，它不依赖对方是否回报。这种付出是关系里最美好的形式之一，它本身就是意义。',type:'pos'},
+    {icon:'🌟',tag:'被理解',scenario:'被人真正理解了，那种感觉很好',feedback:'被人理解是灵魂最基本的需求之一。你被理解了，说明对方愿意走进你的内心世界。这种被看见的感觉本身就很治愈。',type:'pos'},
+    {icon:'🔗',tag:'承诺',scenario:'和某个人在重要的事情上互相做了承诺',feedback:'关系中的承诺是双方信任的具体化。你们愿意为彼此做出承诺，说明这段关系已经到了值得认真对待的深度。',type:'pos'},
+    {icon:'🪴',tag:'陪伴',scenario:'在朋友最低落的时候陪在身边，没有说教，只是陪着',feedback:'有时候最好的支持就是"在场"。你做到了，这是一种很高级的情感陪伴。不需要说对的话，只需要在那里。',type:'pos'},
+    {icon:'🗺️',tag:'理解',scenario:'第一次真正理解了某个人的行为背后的原因',feedback:'理解他人的行为原因，是关系里最有治愈力的事情之一。你放下了评判，选择了理解，这份胸怀会让这段关系完全不同。',type:'pos'},
+    {icon:'🤲',tag:'示弱',scenario:'第一次在某人面前展示了脆弱，收到的回应很温暖',feedback:'展示脆弱需要勇气，而温暖的回应证明了你的选择是对的。你发现真实的自己可以被接受，这就是关系最珍贵的意义。',type:'pos'},
+    {icon:'✨',tag:'升级',scenario:'某段关系从泛泛之交升级为了真正的朋友',feedback:'关系升级是双方共同投资的结果。能走到这一步，说明你们在某些层面上是真正契合的。这份友情是值得认真培养的关系财富。',type:'pos'},
+    {icon:'💎',tag:'信任',scenario:'和某个人建立了完全的信任，不再需要反复确认',feedback:'"不需要反复确认"的信任是关系里最高级的状态。这种信任是你们一起经历了时间和事件之后，一点一点建立起来的。',type:'pos'},
+    {icon:'🌈',tag:'多样性',scenario:'学会了在不同关系中保持不同的自己，而不是用同一张面具',feedback:'在不同关系中展现不同面向是正常的，不是"虚假"。重要的是在至少一段关系里有真实的自己。现在你开始做到了。',type:'pos'},
+    {icon:'💔',tag:'失去',scenario:'一段重要关系突然结束了，内心很难承受',feedback:'失去重要关系会引发真实的悲伤，这是正常的情绪反应。不要强迫自己"快点走出来"，允许自己悲伤，同时相信时间会治愈。',type:'neg'},
+    {icon:'😤',tag:'冲突',scenario:'和某人发生了很激烈的冲突，说了很多伤人的话',feedback:'激烈冲突中的伤人的话往往是情绪的爆发，而不是真实的想法。冲突后需要修复：先冷静，然后主动为伤害了对方而道歉，不需要解释你的理由。',type:'neg'},
+    {icon:'😰',tag:'回避',scenario:'一直在回避和某个人谈一件必须谈的事情',feedback:'回避让问题在暗处发酵，早谈早解脱。找个合适的时机，坦诚地说出来，你会发现大多数事情没有想象中那么可怕。',type:'neg'},
+    {icon:'😞',tag:'失望',scenario:'对某个人很失望，感觉自己付出了很多但对方不领情',feedback:'付出和回报在关系里不总是成正比的。先看看：对方是否知道你的付出和期待？有些失望来自于没有被看见，而不是被拒绝。',type:'neg'},
+    {icon:'🫥',tag:'疏离',scenario:'感觉和某个人越来越疏远，不知道该怎么办',feedback:'关系疏远往往是因为缺少有意义的交流。先从高质量的小互动开始：一次真正的对话、一个关心的举动。关系的修复需要时间，但不开始就永远不会修复。',type:'neg'},
+    {icon:'😣',tag:'被动',scenario:'在这段关系里一直是被付出的一方，不知道怎么回报',feedback:'被付出的一方也有表达的空间。不需要等一个"完美"的回报方式，主动做一件小事，告诉对方"我也很在乎你"。',type:'neg'},
+    {icon:'😓',tag:'比较',scenario:'总是忍不住拿自己的关系和别人比较，越比越焦虑',feedback:'关系没有标准答案，甲之蜜糖乙之砒霜。比较会让原本还不错的关系变得索然无味。试着回到自己的感受上：这段关系里，你感到满足吗？',type:'neg'},
+    {icon:'😶',tag:'沉默',scenario:'和某人之间有了沉默，不知道是正常的还是出了问题',feedback:'关系里的沉默有时是默契，有时是疏远的前兆。如果这个沉默让你不舒服，就是一个信号。找个机会轻松地问一句"最近怎么样"，自然地重新建立连接。',type:'neg'},
+    {icon:'💬',tag:'沟通',scenario:'说了真心话但对方没有回应，不知道还该不该继续说',feedback:'有时候对方没有回应不是因为不在乎，可能只是不知道怎么回应。可以再给对方一点时间，也可以直接说"我希望你也能告诉我你的想法"。',type:'neg'},
+    {icon:'🏃',tag:'付出',scenario:'在一段关系里付出得太多，感觉自己被消耗了',feedback:'关系应该是双向的，你付出多少也需要对方有所回应。如果长期失衡，需要重新评估这段关系的质量。照顾好自己不是自私，是维持关系长久的前提。',type:'neg'},
+    {icon:'😒',tag:'期待',scenario:'对某个人期待很高，但对方总是达不到',feedback:'高期待是关系里常见的陷阱。问自己：这些期待对方知道吗？如果知道还做不到，是沟通的问题还是关系本身的问题？有时候降低一点期待，反而会发现对方的可爱之处。',type:'neg'},
+    {icon:'🪞',tag:'不真实',scenario:'在这段关系里一直要戴着面具，很累',feedback:'需要长期戴着面具的关系是一种消耗。如果在所有关系里都需要戴面具，那是你的议题；如果只在一段关系里需要，可能是这段关系的匹配度问题。',type:'neg'},
+    {icon:'😠',tag:'边界',scenario:'边界一直被对方侵犯，不知道怎么保护自己',feedback:'明确表达你的边界，并告诉对方越过边界的后果。如果对方仍然无视，那就是在告诉你这段关系的真实状态。保护自己不是结束关系，而是给自己空间来评估。',type:'neg'},
+    {icon:'💭',tag:'误解',scenario:'被对方误解了，怎么解释都解释不清',feedback:'不是所有误解都能被当场解释清楚。有时候最好的方式是先让对方平静下来，然后再找机会解释。有时候行动比言语更有说服力。',type:'neg'},
+    {icon:'🫂',tag:'依赖',scenario:'发现自己对某个人过于依赖了',feedback:'健康的依赖是关系的一部分，过度依赖则会伤害双方。试着发展更多的关系支持系统，让自己不只有一座山可以依靠。',type:'neg'},
+    {icon:'🤷',tag:'方向',scenario:'不知道这段关系该往哪个方向发展',feedback:'关系发展方向不明确实一个需要认真对待的问题。列出你对这段关系的核心期待，看看它能否被满足。不适合的关系早放手比晚放手好。',type:'neg'},
+    {icon:'⚠️',tag:'操控',scenario:'感觉被对方用某种方式操控，但又说不清楚',feedback:'如果你的感受是"被操控"，那这个感受本身就是重要的信号。记录下来，让关系节奏慢一点，给自己更多思考空间。有些操控是非常隐蔽的。',type:'neg'},
+    {icon:'🧩',tag:'信任',scenario:'对方做了让我不信任的事，不知道该不该原谅',feedback:'原谅不原谅是你的选择，不是你的义务。先不要急着原谅还是报复，给自己和对方都一些空间和时间来看清这件事的真相。',type:'neg'},
+    {icon:'😖',tag:'伤害',scenario:'被某个重要的人伤害了，很痛',feedback:'被重要的人伤害是双重的痛：既失去了信任，又失去了连接。首先承认这个痛是真实的，不需要假装不痛。然后决定这段关系是否值得修复。',type:'neg'}
+  ],
+  struggle:[
+    {icon:'💔',tag:'失去',scenario:'一段重要关系突然结束了，内心很难承受',feedback:'失去重要关系会引发真实的悲伤，这是正常的情绪反应。不要强迫自己"快点走出来"，允许自己悲伤，同时相信时间会治愈。',type:'neg'},
+    {icon:'😤',tag:'冲突',scenario:'和某人发生了很激烈的冲突，说了很多伤人的话',feedback:'激烈冲突中的伤人的话往往是情绪的爆发，而不是真实的想法。冲突后需要修复：先冷静，然后主动为伤害了对方而道歉，不需要解释你的理由。',type:'neg'},
+    {icon:'😰',tag:'回避',scenario:'一直在回避和某个人谈一件必须谈的事情',feedback:'回避让问题在暗处发酵，早谈早解脱。找个合适的时机，坦诚地说出来，你会发现大多数事情没有想象中那么可怕。',type:'neg'},
+    {icon:'😞',tag:'失望',scenario:'对某个人很失望，感觉自己付出了很多但对方不领情',feedback:'付出和回报在关系里不总是成正比的。先看看：对方是否知道你的付出和期待？有些失望来自于没有被看见，而不是被拒绝。',type:'neg'},
+    {icon:'🫥',tag:'疏离',scenario:'感觉和某个人越来越疏远，不知道该怎么办',feedback:'关系疏远往往是因为缺少有意义的交流。先从高质量的小互动开始：一次真正的对话、一个关心的举动。关系的修复需要时间，但不开始就永远不会修复。',type:'neg'},
+    {icon:'😣',tag:'被动',scenario:'在这段关系里一直是被付出的一方，不知道怎么回报',feedback:'被付出的一方也有表达的空间。不需要等一个"完美"的回报方式，主动做一件小事，告诉对方"我也很在乎你"。',type:'neg'},
+    {icon:'😓',tag:'比较',scenario:'总是忍不住拿自己的关系和别人比较，越比越焦虑',feedback:'关系没有标准答案，甲之蜜糖乙之砒霜。比较会让原本还不错的关系变得索然无味。试着回到自己的感受上：这段关系里，你感到满足吗？',type:'neg'},
+    {icon:'😶',tag:'沉默',scenario:'和某人之间有了沉默，不知道是正常的还是出了问题',feedback:'关系里的沉默有时是默契，有时是疏远的前兆。如果这个沉默让你不舒服，就是一个信号。找个机会轻松地问一句"最近怎么样"，自然地重新建立连接。',type:'neg'},
+    {icon:'💬',tag:'沟通',scenario:'说了真心话但对方没有回应，不知道还该不该继续说',feedback:'有时候对方没有回应不是因为不在乎，可能只是不知道怎么回应。可以再给对方一点时间，也可以直接说"我希望你也能告诉我你的想法"。',type:'neg'},
+    {icon:'🏃',tag:'付出',scenario:'在一段关系里付出得太多，感觉自己被消耗了',feedback:'关系应该是双向的，你付出多少也需要对方有所回应。如果长期失衡，需要重新评估这段关系的质量。照顾好自己不是自私，是维持关系长久的前提。',type:'neg'},
+    {icon:'😒',tag:'期待',scenario:'对某个人期待很高，但对方总是达不到',feedback:'高期待是关系里常见的陷阱。问自己：这些期待对方知道吗？如果知道还做不到，是沟通的问题还是关系本身的问题？有时候降低一点期待，反而会发现对方的可爱之处。',type:'neg'},
+    {icon:'🪞',tag:'不真实',scenario:'在这段关系里一直要戴着面具，很累',feedback:'需要长期戴着面具的关系是一种消耗。如果在所有关系里都需要戴面具，那是你的议题；如果只在一段关系里需要，可能是这段关系的匹配度问题。',type:'neg'},
+    {icon:'😠',tag:'边界',scenario:'边界一直被对方侵犯，不知道怎么保护自己',feedback:'明确表达你的边界，并告诉对方越过边界的后果。如果对方仍然无视，那就是在告诉你这段关系的真实状态。保护自己不是结束关系，而是给自己空间来评估。',type:'neg'},
+    {icon:'💭',tag:'误解',scenario:'被对方误解了，怎么解释都解释不清',feedback:'不是所有误解都能被当场解释清楚。有时候最好的方式是先让对方平静下来，然后再找机会解释。有时候行动比言语更有说服力。',type:'neg'},
+    {icon:'🫂',tag:'依赖',scenario:'发现自己对某个人过于依赖了',feedback:'健康的依赖是关系的一部分，过度依赖则会伤害双方。试着发展更多的关系支持系统，让自己不只有一座山可以依靠。',type:'neg'},
+    {icon:'🤷',tag:'方向',scenario:'不知道这段关系该往哪个方向发展',feedback:'关系发展方向不明确实一个需要认真对待的问题。列出你对这段关系的核心期待，看看它能否被满足。不适合的关系早放手比晚放手好。',type:'neg'},
+    {icon:'⚠️',tag:'操控',scenario:'感觉被对方用某种方式操控，但又说不清楚',feedback:'如果你的感受是"被操控"，那这个感受本身就是重要的信号。记录下来，让关系节奏慢一点，给自己更多思考空间。有些操控是非常隐蔽的。',type:'neg'},
+    {icon:'🧩',tag:'信任',scenario:'对方做了让我不信任的事，不知道该不该原谅',feedback:'原谅不原谅是你的选择，不是你的义务。先不要急着原谅还是报复，给自己和对方都一些空间和时间来看清这件事的真相。',type:'neg'},
+    {icon:'😖',tag:'伤害',scenario:'被某个重要的人伤害了，很痛',feedback:'被重要的人伤害是双重的痛：既失去了信任，又失去了连接。首先承认这个痛是真实的，不需要假装不痛。然后决定这段关系是否值得修复。',type:'neg'},
+    {icon:'💬',tag:'沟通',scenario:'想更坦诚地沟通，但不知道怎么开口',feedback:'坦诚沟通的最好起点是"我的感受"而不是"你的问题"。试着说"在这件事上，我感到……"，而不是"你总是……"。把自己的感受放在桌上，让对方有回应空间。',type:'pos'},
+    {icon:'🛡️',tag:'边界',scenario:'想设立更好的边界，但怕破坏关系',feedback:'设立边界不等于破坏关系。真正的关系能承受真实的边界。你害怕的可能是"对方会怎么反应"，但这不应该是你不能做自己的理由。',type:'pos'},
+    {icon:'👂',tag:'倾听',scenario:'想成为更好的倾听者，不知道怎么做',feedback:'倾听的本质不是"等着说自己的话"，而是"先放下自己的想法，真正听对方在说什么"。技巧：复述你听到的——"你是说……对吗？"这让对方感到被听见。',type:'pos'},
+    {icon:'🙏',tag:'感谢',scenario:'想对某个人表达感谢，但觉得说出来很尴尬',feedback:'感谢说出来会尴尬，是因为我们不习惯被正面表达。支持感谢的技巧：不要夸张，只是说"谢谢你为我做了……，我记住了"，简单具体比大段感谢更自然。',type:'pos'},
+    {icon:'🤝',tag:'和解',scenario:'想和解但不知道怎么开口',feedback:'和解不需要复杂的仪式。一句"我们能不能把上次的事放下，继续往前走？"就已经足够了。主动提出和解本身已经是一种勇气。',type:'pos'},
+    {icon:'🌱',tag:'成长',scenario:'想建立更深入的关系，但不知道怎么开始',feedback:'深入关系需要时间和真实的互动。从分享一件真实的感受开始——不需要很大的事，只需要真实。对方会感受到你的诚意。',type:'pos'},
+    {icon:'💡',tag:'共识',scenario:'想和某人在重要事情上达成共识',feedback:'共识不是一方赢另一方输，而是找到一个双方都能接受的方案。列出各自的核心需求，找出交叉点，然后从这里开始谈判。',type:'pos'},
+    {icon:'🕊️',tag:'原谅',scenario:'想原谅某个人但心里还是放不下',feedback:'原谅是一个过程，不是一个决定。你不需要强迫自己立刻放下。允许自己还在这个过程里，慢慢来。真正的原谅是在时间里自然发生的。',type:'pos'},
+    {icon:'💞',tag:'亲密',scenario:'想和某人建立更亲密的连接',feedback:'亲密来自真实的分享和被接纳。从分享一件你通常不会说的事开始，观察对方的回应。如果对方接纳了，亲密就会自然发生。',type:'pos'},
+    {icon:'🗣️',tag:'冲突',scenario:'害怕冲突，所以一直压抑自己的想法',feedback:'害怕冲突往往是因为之前的冲突处理得不好。技巧：把冲突的目标从"谁赢"改成"解决问题"。不是所有分歧都是坏事，有些分歧可以帮助关系成长。',type:'pos'},
+    {icon:'🌿',tag:'尊重',scenario:'想尊重不同意见但总是忍不住想反驳',feedback:'忍住反驳需要练习。技巧：听到不同意见时，先说"我理解你的角度"，而不是"但是……"。这给你和对方都创造了更多空间。',type:'pos'},
+    {icon:'💛',tag:'付出',scenario:'想付出更多但又怕被当成理所当然',feedback:'付出的时候先问自己：这是我想给的，还是我希望回报的？如果是前者，就心甘情愿地给；如果不确定，先暂停，整理清楚再行动。',type:'pos'},
+    {icon:'🌟',tag:'被理解',scenario:'想被人理解，但不知道怎么表达自己的需要',feedback:'表达需要的最有效方式是具体化。"我需要被理解"太抽象；"我今天很累，我需要你听我说说，不给建议"，这样对方知道该怎么做。',type:'pos'},
+    {icon:'🔗',tag:'承诺',scenario:'对某段关系要不要做承诺很犹豫',feedback:'承诺需要基于信任和了解，而不是恐惧或压力。问问自己：这段关系是否足够稳定？我对这段关系的未来是否真的认同？承诺是因为你想，不是因为你应该。',type:'pos'},
+    {icon:'🪴',tag:'陪伴',scenario:'想陪伴某人但不知道该做什么',feedback:'陪伴的最好方式是问"我能帮什么？"。有时候对方只是需要有人在，不需要解决方案，有时候需要一个分担，有时候只需要一个拥抱。问就是最好的方式。',type:'pos'},
+    {icon:'🗺️',tag:'理解',scenario:'想更好地理解某个人，但总是想不通',feedback:'理解他人的最好方式是问问题，而不是假设。"你为什么会这样想？"比"你怎么能这样想？"要好得多。问打开了理解的大门，假设关闭了它。',type:'pos'},
+    {icon:'🤲',tag:'示弱',scenario:'想展示脆弱但怕被对方看轻',feedback:'展示脆弱需要勇气，而对方是否能接住脆弱，是关系质量的试金石。先从一个小小的脆弱开始测试，看看对方的回应。如果对方接住了，亲密就会上一个台阶。',type:'pos'},
+    {icon:'✨',tag:'升级',scenario:'想把某段关系升级，但不知道怎么暗示',feedback:'关系升级不需要暗示，需要的是明确的行动。约一次更私密的见面，分享更深入的话题，观察对方的回应。真实的关系升级来自于双方的意愿。',type:'pos'},
+    {icon:'💎',tag:'信任',scenario:'想建立更深的信任，但不知道从哪里开始',feedback:'信任是通过一次次小的承诺兑现积累起来的。先在小事上兑现承诺，然后才在大事上有信任基础。问问自己：我在这段关系里是否值得信任？',type:'pos'},
+    {icon:'🌈',tag:'多样性',scenario:'想在不同关系中展现不同的自己，但不知道怎么做',feedback:'从最安全的关系开始，做一点真实的自己。观察对方的反应，如果被接受，就再往前走一步。每段关系可以有不同的深度，这是正常的。',type:'pos'}
+  ],
+  idea:[
+    {icon:'💬',tag:'沟通',scenario:'想学一种更好的沟通方式，减少误解',feedback:'非暴力沟通（NVC）是最实用的沟通框架：观察（不说评判）、感受（说出你的感受）、需求（说明你的需要）、请求（提出具体请求）。从一件事开始练习这个模式。',type:'pos'},
+    {icon:'👥',tag:'社交',scenario:'想扩大社交圈，但不知道从哪里开始',feedback:'最好的社交方式不是去"认识人"，而是找到你真正感兴趣的社群/活动/课程。共同兴趣是天然的关系黏合剂，从这里出发会比强行社交自然得多。',type:'pos'},
+    {icon:'📅',tag:'维护',scenario:'关系越来越多，不知道怎么维护',feedback:'关系维护不需要每次都大动作。一条有温度的消息、一个有心的记住、一个及时的回应，比偶尔的"大事"更有价值。选最重要的5~8段关系重点维护。',type:'pos'},
+    {icon:'🤝',tag:'深度',scenario:'想建立更少但更深的关系',feedback:'深度关系需要的是时间、真实和承诺，而不是数量。减少浅层社交的投入，把更多精力放在少数几段有潜力的关系上，质量会高得多。',type:'pos'},
+    {icon:'🪵',tag:'断联',scenario:'想结束一段消耗自己的关系，不知道怎么开口',feedback:'结束关系不一定需要大张旗鼓地"宣布"。可以渐渐减少接触，给彼此空间。如果对方问起，诚实但温和地表达你的感受和决定。',type:'pos'},
+    {icon:'🎁',tag:'礼物',scenario:'想用礼物表达心意，但不知道怎么选',feedback:'最好的礼物不是贵重，而是贴心。想想对方最近提到过什么需要、一件他喜欢但舍不得买的东西、一本能帮他解决某个问题或带来快乐的书。',type:'pos'},
+    {icon:'🗓️',tag:'聚会',scenario:'想组织一次有质量的聚会，不知道怎么做',feedback:'有质量的聚会不在于人数，而在于是否能让参与者真正连接。试试不超过6人、有共同话题或兴趣的组合，提前设计一个能引发真实对话的开放性问题。',type:'pos'},
+    {icon:'💌',tag:'感谢',scenario:'想写一封感谢信给某个重要的人',feedback:'感谢信不需要文采，只需要真诚。写下来对方做了什么、对你产生了什么影响、你对此的感受。一封手写的短笺有时候比任何礼物都更有意义。',type:'pos'},
+    {icon:'🎯',tag:'冲突',scenario:'想学会更好地处理冲突',feedback:'冲突处理的最佳策略：先冷静再回应、把关注点放在"这件事"而不是"这个人"、寻找共同目标而非争输赢、对话时多用"我感到"而不是"你总是"。',type:'pos'},
+    {icon:'🌱',tag:'关系',scenario:'想开始一段新的友谊，但社恐发作',feedback:'社恐的本质是害怕被拒绝。解决方法：从小动作开始，比如在共同活动里先做旁观者，然后慢慢加入讨论。真实的友谊需要时间，不需要一次"成功"。',type:'pos'},
+    {icon:'📱',tag:'线上',scenario:'想维护线上关系但不想变成无效社交',feedback:'线上社交要避免"点赞之交"。试着在评论区写有质量的回应，或者发私信问一个真正的问题。深度的一个回复比十个表情赞更有价值。',type:'pos'},
+    {icon:'🛡️',tag:'边界',scenario:'想设立更清晰的关系边界',feedback:'边界不是"拒绝"，而是"说清楚自己的规则"。技巧：不是"我不能接受这样"，而是"如果你这样做，我会这样回应"，把边界描述为你的行为选择，而不是对对方的要求。',type:'pos'},
+    {icon:'🏠',tag:'家人',scenario:'想改善和家人的关系',feedback:'和家人的关系是最难也最重要的。几个原则：放下"让对方改变"的期待、先处理情绪再处理事情、找到不争输赢的沟通方式、接受"不同不代表错"。',type:'pos'},
+    {icon:'🤰',tag:'亲密',scenario:'想建立更亲密的关系',feedback:'亲密的核心是真实和勇气。分享一个你通常不会分享的想法或感受，观察对方的回应。每一次真实的分享都是在为亲密投资。',type:'pos'},
+    {icon:'🧠',tag:'共情',scenario:'想成为更有共情能力的人',feedback:'共情不是同情，而是"设身处地"。技巧：想象你就是对方，感受他的处境，然后问"我理解得对吗？"共情需要先放下自己的判断和偏见。',type:'pos'},
+    {icon:'⏰',tag:'时间',scenario:'想给关系投入更多时间，但工作太忙',feedback:'关系不需要大量时间，需要的是"有质量的时间"。每天10分钟的全情陪伴（不看手机，真正倾听），比一个小时的无效相处更有价值。',type:'pos'},
+    {icon:'🧩',tag:'搭子',scenario:'想找一个"搭子"一起成长',feedback:'好的搭子不是陪你的人，而是愿意和你一起成长的人。找一个和你有共同目标、能在关键时刻给出诚实反馈、彼此尊重边界的人，比找一个"附和你"的人更有价值。',type:'pos'},
+    {icon:'🔄',tag:'修复',scenario:'想修复一段破裂的关系',feedback:'修复破裂的关系需要主动。先承认自己的部分责任（即使你不认为全是你的错），然后表达你希望继续这段关系的意愿。不需要等对方先开口。',type:'pos'},
+    {icon:'🗣️',tag:'表达',scenario:'想学会更好地表达自己的感受',feedback:'表达感受的第一步是"命名"情绪：不是"我很不爽"，而是"我感到失落"或"我感到被误解"。把模糊的情绪变成具体的词汇，是有效沟通的第一步。',type:'pos'},
+    {icon:'🤝',tag:'团队',scenario:'想改善团队里的人际关系',feedback:'团队关系改善从"认识每个人"开始，不只是知道名字，而是了解他们关心什么、他们的长处是什么。组织一次非正式的交流，创造彼此了解的机会。',type:'pos'},
+    {icon:'💬',tag:'沟通',scenario:'觉得自己的沟通方式有问题，但不知道该怎么改',feedback:'沟通问题通常有两类：说太多听太少，或者不敢说。观察你在关系里是哪种模式，然后从倾听练习开始——对方说完后，先复述确认再发表意见。',type:'neg'},
+    {icon:'😰',tag:'社恐',scenario:'社交焦虑很严重，害怕和人交流',feedback:'社交焦虑往往来自于"我会被评判"的预设。先从"低风险社交"开始：线上交流、短时间的对话。等习惯了再加码。每个人的社交能力都是可以练习的。',type:'neg'},
+    {icon:'💔',tag:'结束',scenario:'想结束一段关系但不知道怎么开口',feedback:'结束一段关系不需要"完美的说法"。诚实地表达你的感受和决定，不需要为对方的反应负责。给自己和对方一个清晰的结束，比拖着更有善意。',type:'neg'},
+    {icon:'🫥',tag:'疏远',scenario:'和朋友越来越疏远，想重新走近但不知道怎么做',feedback:'重新建立联系永远不晚。发一条真实的消息："好久没联系，最近怎么样？"不需要找借口，直接表达你想重新联系就好。',type:'neg'},
+    {icon:'😣',tag:'被动',scenario:'在关系里总是被动等待，不知道怎么主动',feedback:'被动等来的关系往往不是最想要的。列出你想要的几种关系，然后主动朝那个方向行动一步。被拒绝比永远不试要好得多。',type:'neg'},
+    {icon:'💛',tag:'付出',scenario:'总是单方面付出，不知道怎么要求回报',feedback:'单方面付出长期下来会积累怨恨。先整理你的感受，然后找一个合适的时机，用"我需要"来表达，而不是等对方来发现。',type:'neg'},
+    {icon:'🏃',tag:'依赖',scenario:'在一段关系里太依赖对方了',feedback:'依赖是正常的，但过度依赖会伤害双方。发展自己的兴趣爱好、社交圈和独立生活的能力。好的关系是两个完整的人选择在一起。',type:'neg'},
+    {icon:'😞',tag:'期望',scenario:'对一段关系的期待一直达不到， 很失落',feedback:'期待落空通常是因为没有清楚表达和确认。和对方坐下来认真谈一次：彼此对这段关系的期待是什么？差距在哪里？能不能调整？',type:'neg'},
+    {icon:'🗣️',tag:'冲突',scenario:'冲突之后不知道怎么修复',feedback:'冲突后修复的步骤：先各自冷静，然后主动道歉（即使不完全是你的错），最后找机会讨论以后如何避免类似情况。主动修复是关系成熟的表现。',type:'neg'},
+    {icon:'😶',tag:'沉默',scenario:'和某个人的关系陷入了无话可说的状态',feedback:'无话可说往往是因为之前的关系建立在"事情"而不是"感受"上。试着分享一件你现在的小事或感受，观察对方是否愿意接住这个球。',type:'neg'},
+    {icon:'🪞',tag:'不真实',scenario:'需要一直表演，和某个人相处特别累',feedback:'长期戴着面具的关系是一种消耗。如果在所有人面前都需要戴面具，是你的议题；如果只在特定关系里，可能是匹配度问题。尝试在该关系里做一点点真实的自己，观察反应。',type:'neg'},
+    {icon:'🤷',tag:'迷茫',scenario:'不知道自己在各种关系里到底想要什么',feedback:'关系迷茫通常是因为没有想清楚自己的价值观。问自己几个核心问题：我需要什么样的陪伴？我能为什么样的关系付出？我不能让步的边界是什么？',type:'neg'},
+    {icon:'💬',tag:'误解',scenario:'总是被人误解，说什么别人都理解成另一个意思',feedback:'被误解有时是沟通方式的问题。试试"先确认对方理解"：说完一件事后问"你觉得我说的对吗？"或者"你想知道更多细节吗？"，让对话变成双向。',type:'neg'},
+    {icon:'😰',tag:'比较',scenario:'总是忍不住把自己和朋友的关系和别人比较',feedback:'关系比较是没有尽头的竞赛，唯一的输家是你自己的幸福感。把你和朋友的关系质量列出来，专注于自己能做到的部分，而不是别人做到了什么。',type:'neg'},
+    {icon:'⚠️',tag:'操控',scenario:'感觉被某个人操控了，但证据不足',feedback:'如果你的感受是"被操控"，这个感受本身就是重要的信号。不需要"证明"，你的感受是有效的。保持距离，给自己思考的空间，不要急于做出大决定。',type:'neg'},
+    {icon:'🫂',tag:'边界',scenario:'总是不小心越过别人的边界，然后惹人生气',feedback:'边界是学出来的，不是天生知道的。先假设每个人都有自己的边界，在不确定时主动问"我可以问这个吗？"或"你介意我这样说吗？"。',type:'neg'},
+    {icon:'💔',tag:'拒绝',scenario:'不知道怎么温和地拒绝别人的请求',feedback:'温和拒绝的公式：表达感谢+说明原因+简洁拒绝。"谢谢你的邀请，但我最近工作很忙，没办法参加"——不需要过度道歉或编造理由。',type:'neg'},
+    {icon:'😓',tag:'自责',scenario:'因为之前做错了一件事，在某段关系里一直愧疚',feedback:'长期的自我责备是关系的毒药。如果已经道过歉，就让自己往前走。如果还没道歉，先道歉。持续的愧疚不会修复关系，只会消耗你。',type:'neg'},
+    {icon:'🧩',tag:'信任',scenario:'被某个人背叛过，不再相信任何人',feedback:'被背叛的痛苦是真实的，但不要让一个人的行为改变你对所有人的信任。信任是需要重建的，从一个愿意信任的小选择开始。',type:'neg'}
+  ],
+  cheer:[
+    {icon:'🤝',tag:'和解',scenario:'终于和解了一段以为无法修复的关系',feedback:'一段被认为无法修复的关系得以修复，这是关系里最美的奇迹之一。你们都愿意放下一些东西，才能走到这里。这份和解是你们双方共同创造的礼物。',type:'pos'},
+    {icon:'💞',tag:'亲密',scenario:'和某个人建立了前所未有的深度连接',feedback:'深度连接是关系里最珍贵的东西之一。它需要时间、信任和很多次的真实碰撞。你们做到了，这意味着你们都足够勇敢。',type:'pos'},
+    {icon:'🌟',tag:'理解',scenario:'被某个人真正理解了，那种归属感很强烈',feedback:'被人理解是灵魂最基本的需求之一，而真正的理解需要跨越很多才能达到。你找到了一个可以深度理解你的人，这是一份珍贵的关系财富。',type:'pos'},
+    {icon:'🛡️',tag:'边界',scenario:'成功设立了边界，对方接受了，关系没有受影响',feedback:'设立边界的同时保持了关系，这是成熟关系最难得的地方。你做到了，而关系的完整保持说明你们之间的基础是健康的。',type:'pos'},
+    {icon:'🎉',tag:'聚会',scenario:'组织了一次聚会，大家都很开心，关系更近了',feedback:'你创造了一个让关系生长的空间。组织聚会需要精力和心意，而你做到了——这本身就是你对关系的一种付出。',type:'pos'},
+    {icon:'💬',tag:'突破',scenario:'终于说出了憋了很久的话，关系轻松了很多',feedback:'说出憋了很久的话需要勇气，而说出来之后的轻松就是最好的回报。你打破了自己设的墙，让自己走了出来。',type:'pos'},
+    {icon:'🫂',tag:'陪伴',scenario:'在朋友最需要的时候陪在身边，收到了真诚的感谢',feedback:'在最需要的时候在场，是关系里最有分量的陪伴方式。你的存在本身就是一个礼物，你不需要做任何特别的事。',type:'pos'},
+    {icon:'💛',tag:'惊喜',scenario:'收到了某个重要的人的一份意外礼物或关心',feedback:'被人在乎的感觉是无可替代的。礼物背后的心意比礼物本身重要得多——有人把你放在心上的感觉，是关系最温暖的证明。',type:'pos'},
+    {icon:'🌈',tag:'多元',scenario:'拥有了不同类型的朋友，关系圈变得更丰富了',feedback:'拥有多元的朋友圈说明你是一个有趣的人，也说明你有能力跨越不同类型的连接。这个多元的关系网络是生活中很大的支持系统。',type:'pos'},
+    {icon:'🤲',tag:'示弱',scenario:'展示了脆弱，收到了意想不到的温暖回应',feedback:'展示了脆弱而得到了温暖的回应，是你关系质量最真实的证明。这说明你身边的人值得你的信任，这个确认本身就是关系财富。',type:'pos'},
+    {icon:'📖',tag:'传承',scenario:'和老朋友一起回忆了过去，发现关系还在',feedback:'老朋友之间的"回忆过去"是关系里最温暖的部分之一。你们共同的历史本身就是一种财富，而这份历史还在被续写。',type:'pos'},
+    {icon:'✨',tag:'升级',scenario:'和某个人的关系升级了（从朋友到更亲密/从普通到知己）',feedback:'关系升级是双方长期投资的结果。走到这一步说明你们之间有足够的契合和信任。这个升级值得被认真对待。',type:'pos'},
+    {icon:'💎',tag:'信任',scenario:'和某个人建立了完全的信任，不需要反复确认',feedback:'"不需要确认"的信任是关系的高级状态。这种状态是你们一起跨越了时间和事件才建立的。这份信任本身就是一个成就。',type:'pos'},
+    {icon:'🙏',tag:'感谢',scenario:'主动表达了感谢，对方的回应很感动',feedback:'表达感谢需要勇气，而被感谢后的感动说明感谢是有价值的。你创造了关系里美好的时刻，这会在对方的记忆里留存很久。',type:'pos'},
+    {icon:'🗺️',tag:'和解',scenario:'主动和解了某段关系，对方也积极回应了',feedback:'主动和解是勇敢的，而对方的积极回应是你们关系健康的最好证明。你们共同选择了往前走，这是你们共同创造的成果。',type:'pos'},
+    {icon:'💪',tag:'力量',scenario:'成为某个人的重要支持力量，感觉自己被需要',feedback:'被人需要是一种深层的满足感。你能成为某个人的重要支持，说明你有能力给这个世界带来积极的影响。这种被需要感本身也是你继续成长的力量。',type:'pos'},
+    {icon:'🌿',tag:'尊重',scenario:'学会了对不同意见保持尊重，关系更和谐了',feedback:'尊重不同意见是关系成熟的重要标志。你不再需要所有人都同意你，这让和你相处变得更轻松，也让你能吸引更真实的人。',type:'pos'},
+    {icon:'🔗',tag:'承诺',scenario:'在某段重要关系里，双方都做出了真诚的承诺',feedback:'关系承诺是双向信任的具体化。你们愿意为彼此做出承诺，说明这段关系的深度值得这个重量。承诺让关系有了更清晰的方向。',type:'pos'},
+    {icon:'🎯',tag:'共识',scenario:'在某件重要的事上和对方达成了共识，没有争吵',feedback:'能够不带冲突地达成共识，说明你们的沟通方式已经很成熟。这个结果值得被庆祝，因为它比听起来要难得多。',type:'pos'},
+    {icon:'🌠',tag:'惊喜',scenario:'和朋友一起做了一件很有意义的事，回忆很长',feedback:'共同创造回忆是关系里最有价值的投资之一。你们一起经历的事情会成为你们关系历史的一部分，而这段历史是独一无二的。',type:'pos'},
+    {icon:'🤝',tag:'和解',scenario:'和解了一段有裂痕的关系，感受到前所未有的轻松',feedback:'和解之后的轻松是你给自己和对方最珍贵的礼物。你们共同放下了那堵墙，选择让关系往前走。这是勇气和智慧的结合。',type:'pos'},
+    {icon:'💞',tag:'亲密',scenario:'和伴侣/挚友的亲密感达到了新的高度',feedback:'亲密感达到新高度是关系长期投入的自然回报。你们共同创造了一个可以深度连接的空间，这让你们的关系有了真正的护城河。',type:'pos'},
+    {icon:'🛡️',tag:'边界',scenario:'成功设立了让自己舒适的边界，对方很尊重',feedback:'边界被尊重说明你们的关系建立在健康的相互理解之上。你学会了保护自己，而对方接受了你的规则，这是双向成熟的体现。',type:'pos'},
+    {icon:'🎉',tag:'连接',scenario:'加入了一个新的社群，很快找到了归属感',feedback:'在新的社群找到归属感是一种幸福。归属感不是等来的，而是你主动走进并融入的。你做到了，这说明你有建立关系的能力。',type:'pos'},
+    {icon:'💬',tag:'坦诚',scenario:'做了一次非常坦诚的对话，双方都感到关系升级了',feedback:'坦诚的对话是关系里最有价值的投资。它打破了很多"想当然"，让双方都重新认识了彼此。关系升级往往就发生在一两次这样真诚的对话之后。',type:'pos'},
+    {icon:'🫂',tag:'陪伴',scenario:'为一个朋友做了重要的事，收到了真诚的感谢',feedback:'你的付出被人看见并感谢了，这种双向的满足感是关系里最美好的循环之一。你给予了，而对方接收到了，这就是关系的意义。',type:'pos'},
+    {icon:'💛',tag:'无价',scenario:'朋友为我做了一件我永远无法回报的事',feedback:'有些关系礼物是无法回报的，它们是纯粹的表达。最好的回应不是"回报"，而是"记得"，然后在以后也成为那个给予者。',type:'pos'},
+    {icon:'🌈',tag:'多元',scenario:'不同背景的朋友在我的生活里都很和谐',feedback:'能容纳不同类型的朋友在一个和谐的关系网里，说明你是一个开放和有智慧的人。这个多元的关系网络会在不同方面给你支持。',type:'pos'},
+    {icon:'🤲',tag:'信任',scenario:'向一个重要的人展示了脆弱，对方用温暖接住了',feedback:'展示了脆弱并被温暖接住，是你关系质量最好的证明。这个回应会成为你们关系里的一个重要时刻，让你们更亲近。',type:'pos'},
+    {icon:'💎',tag:'深度',scenario:'和老朋友进行了前所未有的深度对话',feedback:'老朋友之间的深度对话是关系里最珍贵的事之一。你们的历史给了你们独特的信任基础，让你们可以走得更深。',type:'pos'},
+    {icon:'🙏',tag:'感谢',scenario:'在某个重要时刻对某个人表达了感谢，很感人',feedback:'在重要时刻表达感谢是最有力量的，因为它和具体的经历绑定在一起。这份感谢会被记住，成为你们关系历史的一部分。',type:'pos'},
+    {icon:'🗺️',tag:'共识',scenario:'和家人的关系有了重大改善',feedback:'和家庭关系的改善是最有价值的成就之一，因为这是最难的和解。整个家庭的氛围改变会让每个人都受益，你的努力是值得的。',type:'pos'},
+    {icon:'💪',tag:'支持',scenario:'成为了一群人的情感支持力量',feedback:'能成为一群人的情感支持，说明你不仅能给予，还能创造一个安全的空间。这是领导力的一种形式，值得骄傲。',type:'pos'},
+    {icon:'🌿',tag:'尊重',scenario:'学会了对难相处的人保持尊重',feedback:'对难相处的人保持尊重是一种高级的情绪管理能力。这说明你已经学会了把人和行为分开，把自己的情绪和安全放在首位。',type:'pos'},
+    {icon:'🔗',tag:'传承',scenario:'帮助两个朋友建立了新的友谊',feedback:'帮助别人建立连接是一种很高级的给予。你看到了两个人之间的潜力，并创造了他们相遇的机会。这是一种非常有价值的关系投资。',type:'pos'},
+    {icon:'🎯',tag:'修复',scenario:'修复了一段破裂多年的关系',feedback:'修复破裂多年的关系是一个奇迹。它需要双方都足够成熟，足够愿意放下。这个修复本身就是你们共同创造的最有价值的成就。',type:'pos'},
+    {icon:'🌠',tag:'意义',scenario:'和一群人一起做了一件有意义的事',feedback:'共同的意义感是关系最持久的纽带之一。你们不只是"认识的人"，而是"一起做事的人"。这种共同经历是关系里最有价值的资产。',type:'pos'},
+    {icon:'💎',tag:'信任',scenario:'帮某人保守了一个重要的秘密',feedback:'保守秘密是信任最具体的表现。你证明了自己是一个可以托付的人，这种信任是无价的。',type:'pos'},
+    {icon:'🌟',tag:'成长',scenario:'和一个朋友互相激励，共同成长了很多',feedback:'互相成长是关系最好的形式之一。你们不只是陪伴彼此，而是推动彼此成为更好的人。这种关系是最有价值的成长伙伴关系。',type:'pos'},
+    {icon:'🕊️',tag:'原谅',scenario:'真正原谅了一个曾经伤害过我的人',feedback:'真正的原谅是给自己自由的礼物。你放下了那份重量，让自己可以往前走。这个选择比任何事都更有力量。',type:'pos'}
+  ],
+  report:[
+    {icon:'💬',tag:'本月',scenario:'本月在关系沟通上有明显的进步',feedback:'关系沟通的进步是最有价值的成长之一，因为它影响的不只是一段关系，而是你所有关系的质量。你学到的沟通技能会在每段关系里持续发挥作用。',type:'pos'},
+    {icon:'🤝',tag:'本月',scenario:'主动和3个重要的人做了深度交流',feedback:'深度交流是关系维护最有效的方式。你主动迈出这一步，说明你重视这些关系。这种主动会带来关系的持续深化。',type:'pos'},
+    {icon:'🛡️',tag:'本月',scenario:'成功设立了之前一直不敢设立的边界',feedback:'设立边界是关系成熟的重要标志。你做到了，而且关系没有受损，这说明你的边界设立方式是有效的。继续保持。',type:'pos'},
+    {icon:'💞',tag:'本月',scenario:'某段重要关系有了突破性的进展',feedback:'关系突破是长期投入的自然结果。无论这个突破是什么，它都是你这段关系历史上的里程碑，值得被记住和庆祝。',type:'pos'},
+    {icon:'🙏',tag:'本月',scenario:'主动表达了几次感谢，关系氛围变温暖了',feedback:'表达感谢是最简单的关系投资，但往往被忽视。你的行动让关系里的正向互动增加了，这种温暖会持续影响关系的质量。',type:'pos'},
+    {icon:'🫂',tag:'本月',scenario:'在朋友需要的时候提供了有力的支持',feedback:'在关键时刻提供支持是关系里最有分量的事情之一。你的存在被证明是有价值的，这种被需要感是你关系财富的具体体现。',type:'pos'},
+    {icon:'🌱',tag:'本月',scenario:'和某个人的关系从表层升级到了更真实',feedback:'关系升级需要勇气和信任的共同积累。你做到了，说明你们之间的关系已经足够成熟，可以承载更多的真实。',type:'pos'},
+    {icon:'💛',tag:'本月',scenario:'收到了一些意外的关心，感觉被在乎',feedback:'被人在乎的感觉是无可替代的关系财富。这些意外的关心说明有人把你放在心上的，这些小事往往是最有意义的。',type:'pos'},
+    {icon:'🌈',tag:'本月',scenario:'认识了一个新的重要朋友',feedback:'新的深度友谊是生活里的珍贵礼物。新朋友带来了新的视角和可能性，让你的关系网络更丰富。',type:'pos'},
+    {icon:'🤲',tag:'本月',scenario:'展示了脆弱，收到了温暖的回应',feedback:'展示脆弱被温暖接住是你关系质量的最好证明。这个月的这个经历会成为你继续真实的勇气来源。',type:'pos'},
+    {icon:'💔',tag:'本月',scenario:'失去了一个重要的人（离开/分离/关系结束）',feedback:'失去重要的人会引发真实的悲伤，这是正常的情绪反应。允许自己悲伤，同时提醒自己：这段关系曾经给你的温暖是真实的，不会因为结束而消失。',type:'neg'},
+    {icon:'😤',tag:'本月',scenario:'和某个人发生了严重的冲突',feedback:'严重冲突之后需要修复。先冷静下来，然后主动联系对方，说明你想要修复的意愿。先处理情绪，再处理事情。',type:'neg'},
+    {icon:'😰',tag:'本月',scenario:'某段关系突然变得很疏远，不知道发生了什么',feedback:'关系疏远可能是对方的问题，也可能是你无意中做了什么。先主动发一条不设防的问候，看看对方的回应，再判断下一步。',type:'neg'},
+    {icon:'😞',tag:'本月',scenario:'在关系里付出了很多，但感觉不到回报',feedback:'长期付出但感受不到回报是一个需要正视的信号。先评估这段关系的真实状态：对方是真的没能力回应，还是没有意识到？你的感受是有效的。',type:'neg'},
+    {icon:'🏃',tag:'本月',scenario:'在关系里消耗过度，感觉很疲惫',feedback:'关系消耗过度是一个需要暂停的信号。先减少在这段关系里的投入，给自己和对方一些空间。关系需要平衡，透支的关系不可持续。',type:'neg'},
+    {icon:'😒',tag:'本月',scenario:'对某段关系的期待一直落空，很失望',feedback:'期待落空是关系里常见的问题。先评估：这些期待对方知道吗？如果知道还做不到，是沟通的问题还是关系本身的问题？',type:'neg'},
+    {icon:'😶',tag:'本月',scenario:'和某个人陷入了无话可说的状态',feedback:'无话可说可能是因为你们的关系建立在"事"上而不是"情"上。试着分享一件你的小事或感受，给对方一个可以接住的机会。',type:'neg'},
+    {icon:'💭',tag:'本月',scenario:'被误解了，一直解释不清楚',feedback:'不是所有误解都能被当场解释清楚。如果已经尽力，就给彼此一些时间。行动往往比言语更有说服力。',type:'neg'},
+    {icon:'🫥',tag:'本月',scenario:'某段关系在悄悄疏远，但没有明显的原因',feedback:'关系疏远通常有原因，只是可能还没有浮出水面。先主动一点，创造一些互动的机会，看看对方是否愿意重新连接。如果对方没有回应，也是一种答案。',type:'neg'},
+    {icon:'😖',tag:'本月',scenario:'被某个重要的人伤害了',feedback:'被重要的人伤害是双重的痛苦：既失去了信任，又失去了连接。首先照顾好自己的情绪，然后决定这段关系是否值得修复。',type:'neg'}
+  ]
+};
+let currentQAType = null;
+let currentQADir = 'result';
 function askPartner(type) {
   const partner = currentPartner || PARTNERS[0];
   const style = partner.style || 'gentle';
-  const labels = { progress: '📈 进展', struggle: '😣 困难', idea: '💡 想法', cheer: '🎉 喜事' };
-  const replies = {
-    gentle: {
-      progress: { pos: ['说说最近的关系进展，我帮你分析分析。', '好，跟我讲讲你最近的关系变化。'], neg: ['哪里还没达到预期？说说看。'] },
-      struggle: { pos: ['有困难是好事，说明你在突破！'], neg: ['没关系，一起想办法。'] },
-      idea: { pos: ['好想法！说说你的灵感。'], neg: ['说说你的困惑，我帮你推演。'] },
-      cheer: { pos: ['哈哈！好事！快说！🎉'], neg: ['好事！让我沾沾喜气！🎊'] }
-    },
-    passion: {
-      progress: { pos: ['冲！说说你的关系战果！🔥'], neg: ['什么卡住了？冲！💪'] },
-      struggle: { pos: ['困难算什么，你是最棒的！💪'], neg: ['没有过不去的坎！🔥'] },
-      idea: { pos: ['好创意！🔥 让我听听！'], neg: ['说说你的想法！⚡'] },
-      cheer: { pos: ['🎉🎉🎉 说！我要听！'], neg: ['哈哈！好事！🎊'] }
-    },
-    rational: {
-      progress: { pos: ['汇报收到。数据记录中。📊'], neg: ['什么因素影响了关系进展？📊'] },
-      struggle: { pos: ['困难是数据点在积累经验。'], neg: ['从数据角度看，怎么解决？📊'] },
-      idea: { pos: ['好。说说的核心假设是什么。📊'], neg: ['说说你的关系逻辑。📊'] },
-      cheer: { pos: ['📊 记录这一时刻。'], neg: ['好事！量化一下？📊'] }
-    },
-    tsundere: {
-      progress: { pos: ['……行吧，算你有点进展。'], neg: ['又卡了？哼。'] },
-      struggle: { pos: ['困难谁都有。说吧。'], neg: ['……算了，我帮你。😒'] },
-      idea: { pos: ['😏 什么想法？说来听听。'], neg: ['说说看。🤷'] },
-      cheer: { pos: ['……算你有点本事。😏'], neg: ['好事？😏'] }
-    }
+  const emoji = partner.emoji;
+  const typeConfig = {
+    progress:{label:'📈 进展',panel:'progress',dir:'result',intro:{gentle:['说说最近的关系进展 🌿','好，跟我讲讲你最近的变化 💫'], passion:['冲！说说你的关系进展！🔥','好！让我听听！⚡'], rational:['汇报收到。关系数据记录中。📊','好，说说关键变化。'], tsundere:['……行吧，说说最近怎么样。😏','又有什么进展？哼。😏']}},
+    struggle:{label:'😣 困难',panel:'struggle',dir:'solution',intro:{gentle:['有困难是正常的，说说看 💙','没关系，一起想办法 🌿'], passion:['困难算什么，你是最棒的！💪','来！我帮你拆解！🔥'], rational:['困难是数据点在积累经验。说，我帮你分析。📊'], tsundere:['困难谁都有。说吧，我勉强帮你。😒','……算了，我帮你想想办法。😒']}},
+    idea:{label:'💡 想法',panel:'idea',dir:'result',intro:{gentle:['好想法！说说你的灵感来源 🌿','来，展开讲讲这个点子 💫'], passion:['好创意！🔥 让我听听！','来！展开讲！我要感受你的热情！⚡'], rational:['好。说说的核心假设是什么。📊','从关系角度看，这个想法的可行性如何？'], tsundere:['😏 什么想法？说来听听，不保证有用。','说说看。🤷']}},
+    cheer:{label:'🎉 喜事',panel:'cheer',dir:'result',intro:{gentle:['哈哈！好事！快说！我要听！🎉','哈哈！这种时刻值得好好庆祝！💫'], passion:['🎉🎉🎉 说！我要听！全部细节！','哈哈！太棒了！🔥'], rational:['📊 记录这一时刻。','好的势头要保持。'], tsundere:['😏 哼，还行吧。什么好事？','……算你有点本事。说，什么事？😏']}},
+    report:{label:'📣 汇报进展',panel:'report',dir:'result',intro:{gentle:['收到。说给我听听 🌿','好，让我了解你最近的关系状态 💫'], passion:['冲！汇报收到！🔥','好！让我听听！⚡'], rational:['汇报收到。关系数据记录中。📊','好，说说关键变化。'], tsundere:['……行吧，说吧。😏','又来了？……哼，我听听。😏']}},
+    question:{label:'🤔 有问题想问',panel:'question',dir:'solution',intro:{gentle:['问吧，我尽力回答 💙'], passion:['问！什么问题都能接住！💪'], rational:['好的。给出你的问题。📊'], tsundere:['🤷 问就问，不保证你能听懂。😏']}}
   };
-  showPartnerMsg(labels[type], false);
-  setTimeout(() => {
-    const arr = replies[style]?.[type]?.pos || replies.gentle[type].pos;
-    showPartnerMsg(partner.emoji + ' ' + arr[Math.floor(Math.random() * arr.length)], true);
-  }, 800);
+  const cfg = typeConfig[type] || typeConfig.progress;
+  const introArr = cfg.intro[style] || cfg.intro.gentle;
+  const intro = introArr[Math.floor(Math.random() * introArr.length)];
+  showPartnerMsg(cfg.label, false);
+  setTimeout(() => { showPartnerMsg(emoji + ' ' + intro, true); setTimeout(() => openTypePanel(cfg.panel, cfg.dir), 500); }, 700);
 }
-
-let currentQAType = null;
-
-function openQAPanel(type) {
-  currentQAType = type;
-  const data = type === 'question' ? QA_DATA : PROGRESS_DATA;
-  const title = type === 'question' ? '🤔 有问题想问' : '📣 汇报一下进展';
-  const sub  = type === 'question' ? '选择一个最符合你情况的问题，我来给你解答' : '说说现在的情况，我给你针对性的反馈';
-  document.getElementById('qaTitle').innerText = title;
-  document.getElementById('qaSub').innerText = sub;
-
-  const scroll = document.getElementById('qaScroll');
-  scroll.innerHTML = '';
-
-  // 正向
-  if (data.pos.length) {
-    const posLabel = document.createElement('div');
-    posLabel.style.cssText = 'font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;';
-    posLabel.innerText = '⬆️ 好的进展 / 想得到鼓励';
-    scroll.appendChild(posLabel);
-    data.pos.forEach((item, i) => {
-      scroll.appendChild(makeQACard(type, 'pos', i, item));
-    });
-  }
-
-  // 负向
-  if (data.neg.length) {
-    const negLabel = document.createElement('div');
-    negLabel.style.cssText = 'font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;';
-    negLabel.innerText = '⬇️ 不好的情况 / 需要引导';
-    scroll.appendChild(negLabel);
-    data.neg.forEach((item, i) => {
-      scroll.appendChild(makeQACard(type, 'neg', i, item));
-    });
-  }
-
+function openTypePanel(panel, dir) {
+  currentQAType = panel; currentQADir = dir;
+  const data = TYPE_SCENES_REL[panel] || [];
+  const titleMap = {progress:'📈 选择一个最符合你情况的关系进展', struggle:'😣 选择一个你正在面对的关系困难', idea:'💡 选择一个你想改善关系的想法', cheer:'🎉 选择一件你想分享的关系喜事', report:'📣 汇报一下本月关系状态', question:'🤔 有问题想问？选一个最接近的'};
+  const subMap = {result:'选择后我会和你共情，然后给出结果导向的反馈 💫', solution:'选择后我会和你共情，然后一起想办法 💪'};
+  document.getElementById('qaTitle').innerText = titleMap[panel] || panel;
+  document.getElementById('qaSub').innerText = subMap[dir] || '';
+  const scroll = document.getElementById('qaScroll'); scroll.innerHTML = '';
+  const posItems = data.filter(i => i.type === 'pos');
+  if (posItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;'; l.innerText='⬆️ 好的进展 / 想得到鼓励'; scroll.appendChild(l); posItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
+  const negItems = data.filter(i => i.type === 'neg');
+  if (negItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;'; l.innerText='⬇️ 遇到困难 / 需要引导'; scroll.appendChild(l); negItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
   document.getElementById('qaOverlay').classList.add('show');
-  // 点击遮罩关闭
-  document.getElementById('qaOverlay').onclick = function(e) {
-    if (e.target === document.getElementById('qaOverlay')) closeQAPanel();
-  };
+  document.getElementById('qaOverlay').onclick = function(e) { if (e.target === document.getElementById('qaOverlay')) closeQAPanel(); };
 }
-
-function makeQACard(type, polarity, index, item) {
-  const card = document.createElement('div');
-  card.className = `qa-card ${polarity}`;
-  card.innerHTML = `
-    <div class="qa-card-icon">${item.icon}</div>
-    <div class="qa-card-text">${item.question || item.scenario}</div>
-    <div class="qa-card-tag ${polarity}">${item.tag}</div>
-  `;
-  card.onclick = () => {
-    closeQAPanel();
-    setTimeout(() => showFeedback(type, polarity, index), 300);
-  };
-  return card;
-}
-
-function closeQAPanel() {
-  document.getElementById('qaOverlay').classList.remove('show');
-  document.getElementById('qaOverlay').onclick = null;
-}
-
-function showFeedback(type, polarity, index) {
-  const data = type === 'question' ? QA_DATA : PROGRESS_DATA;
-  const item = data[polarity][index];
+function showTypeFeedback(panel, dir, item) {
   const partner = currentPartner || PARTNERS[0];
-
+  const style = partner.style || 'gentle';
+  const emoji = partner.emoji;
+  const isPos = item.type === 'pos';
+  const empathy = getEmpathy(style, dir, isPos);
+  const feedback = getFeedback(style, dir, isPos);
   const fbCard = document.getElementById('fbCard');
-  fbCard.className = `fb-card ${polarity}`;
+  fbCard.className = `fb-card ${item.type}`;
   document.getElementById('fbEmoji').innerText = item.icon;
   const labelEl = document.getElementById('fbLabel');
-  labelEl.innerText = polarity === 'pos' ? '✨ 正向' : '⚠️ 需要引导';
-  labelEl.className = `fb-label ${polarity}`;
-  document.getElementById('fbTitle').innerText = item.tag + '反馈';
-  document.getElementById('fbText').innerText = item.answer || item.feedback;
-  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${partner.emoji} ${partner.name}说：</div>"${getPartnerReply(partner.style, type, polarity)}"`;
-
+  labelEl.innerText = isPos ? '✨ 正向' : '⚠️ 需要引导';
+  labelEl.className = `fb-label ${item.type}`;
+  document.getElementById('fbTitle').innerText = item.tag;
+  document.getElementById('fbText').innerText = item.feedback;
+  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${emoji} ${partner.name}说：</div>"${empathy} <span style="color:#1565c0">${feedback}</span>"`;
   document.getElementById('fbOverlay').classList.add('show');
 }
-
-function getPartnerReply(style, type, polarity) {
-  const replies = {
-    gentle: {
-      question: {
-        pos: ['你真的在认真对待这件事，我很欣慰。', '这件事处理得很好，继续保持。'],
-        neg: ['别太自责，每个人都会有这样的时候。慢慢来。', '没关系，找到原因就好了，我们一起面对。']
-      },
-      progress: {
-        pos: ['你愿意分享这个，说明你在认真对待自己的变化，很好。', '进展不错，继续保持这个状态。'],
-        neg: ['别担心，这种情况很多人都遇到过。我们一起想办法。', '知道了。我们来看看怎么改善。']
-      }
-    },
-    passion: {
-      question: {
-        pos: ['这就对了！继续保持，你就是最棒的！', '干得漂亮！这就是进步的样子！'],
-        neg: ['小问题！哪有过不去的坎，继续冲！', '别怂！办法总比困难多，我们搞定它！']
-      },
-      progress: {
-        pos: ['太强了！继续保持这个劲头！', '这就是复利的力量！继续累积！'],
-        neg: ['就这？调整一下，继续干！', '这都不是事儿！战术调整一下，明天继续冲！']
-      }
-    },
-    rational: {
-      question: {
-        pos: ['判断正确。行为数据支持这一结论。', '这是合理的选择，决策合理。'],
-        neg: ['这是常见的现象，有科学解释。先分析原因。', '客观情况如此，调整策略即可。']
-      },
-      progress: {
-        pos: ['数据支持这一判断。继续执行当前方案。', '正增长符合预期。保持当前节奏。'],
-        neg: ['数据出现了波动。需要分析原因并调整。', '负向偏差在可控范围内，可以修正。']
-      }
-    },
-    tsundere: {
-      question: {
-        pos: ['……还行吧，勉强算你做对了。', '哼，总算做了一件对的事。'],
-        neg: ['怎么又这样，下次能不能提前想好？', '我就知道会这样……算了，说你怎么也没用。']
-      },
-      progress: {
-        pos: ['……行吧，算你有点进步。', '嗯。这次的事做得还可以。'],
-        neg: ['又来了？能不能上点心？', '哼，我就知道会出这种问题。']
-      }
-    }
-  };
-  const arr = replies[style]?.[type]?.[polarity] || replies.gentle[type][polarity];
+function getEmpathy(style, dir, isPos) {
+  const msgs={gentle:{result:{pos:['这种感觉真的很好，为你高兴 🌿','你做到了，这很重要 💫','这个进展很真实，继续保持 💚'],neg:['这种感觉我理解，不着急，慢慢来 💙','我听见了，陪你一起 🌿']},solution:{pos:['谢谢你告诉我这些 💙','愿意说出来本身就需要勇气 🌿'],neg:['能感觉到你的为难，我在这里 🤝','没关系，我们一起拆解 🌿']}},passion:{result:{pos:['太强了！继续保持！🔥','这就是进步！继续燃烧！🚀'],neg:['别急，调整一下！💪','小调整，继续冲！🔥']},solution:{pos:['好！说得好！我听到了！💪'],neg:['来！我帮你拆解！🔥','没有困难是过不去的！冲！💪']}},rational:{result:{pos:['数据记录在案。这个变化值得关注。📊','收到。关系数据显示你的方向正确。📈'],neg:['这种情况在关系里很常见。📊','数据出现波动，分析后可以调整。📋']},solution:{pos:['这种情况有方法可以优化。📊','收到，让我帮你拆解。🧩'],neg:['这个问题的本质可以进一步分析。📊','先拆解，再制定对策。🛠️']}},tsundere:{result:{pos:['……还行吧，算你有点料。😏','哼，还凑合。😶'],neg:['又来了？……哼，我听听。😒','就这样吧，我也习惯了。🤷']},solution:{pos:['……行吧，我勉强听一下。😒'],neg:['怎么又这样……说吧，我帮你。😒','哼，说吧，我看看能不能救。🤷']}}};
+  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
-
-function closeFeedback() {
-  document.getElementById('fbOverlay').classList.remove('show');
+function getFeedback(style, dir, isPos) {
+  const msgs={gentle:{result:{pos:['继续保持，你走的每一步都在积累 🌿','这个方向很对，坚持下去 💚','你比自己以为的更接近目标 💫'],neg:['不要因为这样就放弃，我们来看看怎么调整 🌿','先给自己一点耐心，我们慢慢来 💙']},solution:{pos:['找到突破口后继续往前 💪','我们来看看下一步可以怎么做 🌿'],neg:['说说具体卡在哪里，我帮你理清思路 🌿','这件事拆开来看，其实没有那么难 💙']}},passion:{result:{pos:['继续这个节奏，效果会越来越明显的！🔥','这就是复利！保持！💪'],neg:['调整一下，明天继续冲！⚡','战术修正，继续干！💪']},solution:{pos:['找对方法，继续冲！🔥'],neg:['来！我帮你拆解！没有过不去的坎！🔥','拆解完立刻行动！🚀']}},rational:{result:{pos:['继续执行当前方案，效果会逐步显现。📊','这个趋势值得坚持。📈'],neg:['需要分析原因后调整策略。📊','在可修正范围内，继续监测。📋']},solution:{pos:['有清晰的分析路径，可以优化。📊','建议先量化问题，再对症下药。🧩'],neg:['从数据入手，找核心原因。📊','把问题拆成小块，逐个击破。🛠️']}},tsundere:{result:{pos:['……行吧，算你有点进步。😏','嗯。还凑合。😶'],neg:['……我又来了。哼。😒']},solution:{pos:['说，我看看能不能帮。😒'],neg:['……算了，我帮你想想。😒','好吧，我勉强帮一下。🤷']}}};
+  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
 }
+function sendTalk(type) { askPartner(type); }
+function openQAPanel(type) { askPartner(type); }
+function makeQACard(type, polarity, index, item) { const card = document.createElement('div'); card.className=`qa-card ${polarity}`; card.innerHTML=`<div class="qa-card-icon">${item.icon||''}</div><div class="qa-card-text">${item.scenario||item.question||''}</div><div class="qa-card-tag ${polarity}">${item.tag||''}</div>`; card.onclick=()=>{closeQAPanel();}; return card; }
+function closeQAPanel() { document.getElementById('qaOverlay').classList.remove('show'); document.getElementById('qaOverlay').onclick = null; }
+function showFeedback(type, polarity, index) { const data = TYPE_SCENES_REL[type]||[]; const item = data.filter(d=>d.type===polarity)[index]; if(item) showTypeFeedback(type,'result',item); }
+function getPartnerReply(style, type, polarity) { return getEmpathy(style, 'result', polarity==='pos'); }
+function closeFeedback() { document.getElementById('fbOverlay').classList.remove('show'); }
 
 function refreshDashboard() {
   let today = getToday(), history = getHistory();

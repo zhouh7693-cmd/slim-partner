@@ -612,11 +612,11 @@
       <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
       <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
       <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
-      <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="openQAPanel('progress')">📣 汇报进展</button>
-      <button class="talk-btn" onclick="openQAPanel('question')">🤔 有问题想问</button>
+      <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
+      <button class="talk-btn" onclick="askPartner('report')">📣 汇报</button>
+      <button class="talk-btn" onclick="askPartner('question')">🤔 提问</button>
     </div>
   </div>
 </div>
@@ -1199,174 +1199,250 @@ function sendTalk(type) {
   }
 }
 
-// ===== 搭子tag交互（身体财富版）=====
+// ===== 搭子tag交互（身体财富版·6类20条）=====
+// 场景数据
+const TYPE_SCENES_BODY = {
+  progress: [
+    {icon:'🏃',tag:'突破',scenario:'最近体力明显变好了，爬楼梯也不喘了',feedback:'体力变好是身体适应运动的明显信号。心肺功能提升后，同样的运动你会感觉越来越轻松。这是身体给你的正向反馈，继续保持！',type:'pos'},
+    {icon:'💪',tag:'力量',scenario:'今天力量训练后肌肉有点酸，但感觉很好',feedback:'肌肉酸痛说明肌纤维在修复和增长，这是力量在增加的好信号。通常48~72小时内酸痛会消失，可以换成低强度运动（拉伸、散步），但不要完全停下来。',type:'pos'},
+    {icon:'😴',tag:'睡眠',scenario:'规律运动后，睡眠质量明显改善了',feedback:'运动是天然的助眠剂。规律运动能让入睡更快、深度睡眠时间更长。睡得好会让第二天的精力、运动表现、甚至饮食控制能力都提升，这是正向循环的开始。',type:'pos'},
+    {icon:'🧘',tag:'柔韧',scenario:'瑜伽练了一个月，身体柔韧性明显变好了',feedback:'柔韧性提升能减少运动损伤风险，让身体在日常生活中更灵活。而且瑜伽的呼吸练习本身就是减压的好方法，身心都在变好。',type:'pos'},
+    {icon:'📊',tag:'数据',scenario:'体脂率降了，虽然体重变化不大',feedback:'体脂率下降说明减掉的是纯脂肪，这是最健康的减脂方式。体重不变但体脂在降，意味着肌肉在保持甚至增加，这是比体重下降更好的进展。',type:'pos'},
+    {icon:'🏃',tag:'跑步',scenario:'今天第一次跑完了5公里！',feedback:'5公里是跑步的一个重要里程碑。你做到了！这不只是体能的进步，更是意志力的证明。记住今天完成时的感觉，这就是最好的激励。',type:'pos'},
+    {icon:'💧',tag:'饮水',scenario:'每天喝够2L水了，皮肤状态也变好了',feedback:'多喝水能让皮肤更润泽、代谢更顺畅，而且减少"口渴误报成饥饿"的情况。这个习惯一旦养成，你会一辈子受益。',type:'pos'},
+    {icon:'🥗',tag:'饮食',scenario:'开始注意蛋白质摄入了，饱腹感强多了',feedback:'蛋白质摄入充足能让饱腹感持续更久，减少不必要的零食。肌肉修复也需要蛋白质，这是让运动效果最大化的关键。',type:'pos'},
+    {icon:'🫁',tag:'呼吸',scenario:'开始注意呼吸节奏了，运动时不再喘不上气',feedback:'呼吸控制是运动表现的基础。学会用鼻子呼吸、用腹式呼吸，能让运动效率提升、疲劳感降低。这个技能一旦学会，会一直跟着你。',type:'pos'},
+    {icon:'⚖️',tag:'体型',scenario:'衣服明显变松了，虽然体重只降了一点点',feedback:'衣服变松是最诚实的信号——你减的是真正的脂肪。体重会骗人（水分波动），但衣服的松紧不会。这个变化比体重数字更值得骄傲。',type:'pos'},
+    {icon:'🚶',tag:'活动',scenario:'日常步数明显增加了，不再一坐就是一天',feedback:'主动活动量的增加是最可持续的健康改变。久坐是健康大敌，每半小时站起来活动几分钟，就能显著改善代谢。这个改变比去健身房练一小时还重要。',type:'pos'},
+    {icon:'🏋️',tag:'进步',scenario:'俯卧撑从做不了5个到能做15个了！',feedback:'从0到15，是真正的进步！力量训练最重要的就是看到这样的进步。每一次增加都是身体在变强的证据。继续保持，你会越来越强。',type:'pos'},
+    {icon:'😩',tag:'酸痛',scenario:'运动后肌肉酸痛得厉害，有点担心',feedback:'延迟性肌肉酸痛（DOMS）是正常现象，通常2~3天会自然消失。如果特别难受可以冰敷、轻度拉伸、多喝水。不要因为酸痛就停止运动，但可以降低强度。',type:'neg'},
+    {icon:'😫',tag:'疲惫',scenario:'运动后反而觉得很累，没精神',feedback:'运动后疲劳通常是训练过度或营养不够的信号。试着降低训练强度，或者在运动后补充蛋白质和碳水。另外，确保睡眠充足——睡不好运动等于白练。',type:'neg'},
+    {icon:'🏃',tag:'受伤',scenario:'跑步时膝盖有点不舒服',feedback:'膝盖不适是身体给你的警告信号，一定要重视。立即停止跑步，给膝盖休息时间。可以换成低冲击运动（游泳、骑车），等不适感消失后再慢慢恢复跑步。',type:'neg'},
+    {icon:'📉',tag:'平台',scenario:'体能训练进展停滞了，感觉在原地踏步',feedback:'平台期是身体在适应，不是失败。试着改变训练内容：增加重量、换一种运动方式、加入间歇训练。身体需要新的刺激才能继续进步。',type:'neg'},
+    {icon:'😤',tag:'急躁',scenario:'练了一周觉得没效果，很急躁',feedback:'一周在身体改变的尺度里很短，肌肉和心肺适应都需要时间。关注感受而非数字：你有没有精神更好？动作是不是更轻松了？这些比体重秤更能反映真实进步。',type:'neg'},
+    {icon:'🛌',tag:'作息',scenario:'晚上运动后睡不着，影响第二天的状态',feedback:'晚间运动会让身体兴奋，影响入睡。建议把运动时间提前到睡前3小时以上，或者换成低强度运动（瑜伽、拉伸、散步）作为晚间活动。',type:'neg'},
+    {icon:'💪',tag:'肌肉',scenario:'担心力量训练会让女生变得太壮',feedback:'女性因为激素原因，很难练出大块肌肉。适当的力量训练会让女性身材更紧致、线条更好看，而不是"壮"。放心练，这是对自己最好的投资。',type:'neg'},
+    {icon:'🥵',tag:'中暑',scenario:'夏天运动出了很多汗，头有点晕',feedback:'大量出汗后要补充水分和电解质。运动前中后都要喝水，高温天气避免在阳光最强烈时运动。头晕是身体脱水的信号，要立即停止、到阴凉处、补充水分。',type:'neg'}
+  ],
+  struggle: [
+    {icon:'🏃',tag:'跑步',scenario:'想开始跑步，但完全不知道从哪里开始',feedback:'从最简单的方式开始：跑1分钟，走2分钟，重复10次。这就是"跑走法"，对初学者非常友好。每周跑2~3次，让身体慢慢适应，不要一开始就追求距离或速度。',type:'pos'},
+    {icon:'💪',tag:'力量',scenario:'想去健身房但觉得器械太复杂，怕出丑',feedback:'不需要认识器械就能开始。记住一个原则：先从固定器械开始（轨迹固定，安全性高），或者用哑铃做基础动作（深蹲、硬拉、推举）。其实大部分人都在忙着自己的训练，没人会注意你。',type:'pos'},
+    {icon:'🧘',tag:'柔韧',scenario:'身体太僵硬，瑜伽动作完全做不了',feedback:'身体僵硬恰恰说明你需要瑜伽。瑜伽不需要你"能做到"，而是"去尝试"。每个体式都有简化版，从简化版开始，随着练习身体自然会打开。',type:'pos'},
+    {icon:'😴',tag:'睡眠',scenario:'早上起不来，运动时间总是一拖再拖',feedback:'把运动排在早上第一件事——起床后换衣服、直接出门，不给自己"再等一会儿"的机会。坚持一周后生物钟会自动调整，早起会变得越来越自然。',type:'pos'},
+    {icon:'🏋️',tag:'计划',scenario:'不知道制定什么运动计划，总是在乱练',feedback:'运动计划不需要复杂。记住这个简单框架：每周3~5次，包含有氧（跑步/骑车/跳绳）+ 力量（深蹲/俯卧撑/平板支撑）+ 拉伸。每次30~60分钟就够了。',type:'pos'},
+    {icon:'🚶',tag:'日常',scenario:'工作太忙，完全没有时间专门运动',feedback:'不需要专门找时间运动。把运动融入日常：提前两站下车走路、午休散步10分钟、回家爬楼梯、站着打电话。每小时站起来活动5分钟。这些加起来的运动量很可观。',type:'pos'},
+    {icon:'🩺',tag:'体检',scenario:'体检有些指标不好，医生建议多运动',feedback:'有健康意识是最重要的开始。运动对改善血糖、血脂、血压都有显著效果。从每天快走30分钟开始，这是最安全、最容易坚持的方式。',type:'pos'},
+    {icon:'🤸',tag:'恢复',scenario:'运动后总是全身酸痛，需要好几天恢复',feedback:'酸痛说明训练强度对身体有挑战，但恢复时间太长说明强度有点过了。试着降低每次的训练量，增加训练频率（每次少一点，练多次），让身体更平稳地适应。',type:'pos'},
+    {icon:'🥱',tag:'无聊',scenario:'运动太无聊了，坚持不下来',feedback:'运动无聊是因为还没找到喜欢的方式。试试不同的运动：跳舞、游泳、爬山、骑车、搏击操、尊巴……运动有很多种，一定有一种能让你觉得"有意思"。',type:'pos'},
+    {icon:'🏠',tag:'环境',scenario:'健身房太远/天气不好，没有条件运动',feedback:'不需要健身房，不需要好天气。在家只需要一块垫子：跳绳、HIIT、瑜伽、普拉提、跟着视频练——所有这些都不需要出门。准备好一个运动空间，随时可以开始。',type:'pos'},
+    {icon:'⏰',tag:'时间',scenario:'每天工作到很晚，根本没有时间运动',feedback:'运动不需要大段时间。10分钟的高强度间歇训练（HIIT）效果不比1小时慢跑差。打开一个10分钟的视频，跟着做，比"没有1小时所以不运动"要好100倍。',type:'pos'},
+    {icon:'😣',tag:'孤独',scenario:'一个人运动太孤独了，很难坚持',feedback:'找个运动搭子，或者加入运动群组。互相陪伴、互相监督，能让运动坚持率提升50%以上。没有朋友一起？试试跟着直播课程，有教练有同伴的感觉。',type:'pos'},
+    {icon:'😫',tag:'受伤',scenario:'之前运动受过伤，现在不敢练了',feedback:'受过伤的部位确实需要谨慎，但不是不能运动。从低强度开始，避开疼痛的动作。如果不确定，建议找运动康复师做一次评估，他们会给你安全的训练建议。',type:'neg'},
+    {icon:'🏃',tag:'借口',scenario:'总是找借口，今天下雨/太累/太冷……',feedback:'借口永远找得到。问自己：如果这件事没有借口，我会做吗？把"我想运动"变成"我必须运动"，不需要感觉好才运动，而是运动了才会感觉好。',type:'neg'},
+    {icon:'⚖️',tag:'效果',scenario:'练了一个月感觉完全没变化',feedback:'一个月在身体改变尺度里是初期。关注感受：你有没有精神更好？衣服有没有变松？运动完心情有没有变好？身体在悄悄改变，只是还没体现在数字上。',type:'neg'},
+    {icon:'😤',tag:'急躁',scenario:'别人运动效果很明显，我为什么没有',feedback:'每个人身体基础不同、运动方式不同、恢复能力不同。和别人比较没有意义，专注自己：今天的你比上周的你进步了，这才是真正的参照。',type:'neg'},
+    {icon:'🏋️',tag:'恐惧',scenario:'力量训练怕长肌肉，不想变得太壮',feedback:'女性因为激素原因，练成"肌肉女"几乎是不可能的。适当的力量训练会让女性身材更紧致、体态更挺拔、代谢更高。放心练，这不是问题。',type:'neg'},
+    {icon:'💰',tag:'花费',scenario:'运动装备/健身房太贵了',feedback:'运动不需要花钱。跑步只需要一双跑鞋（普通运动鞋也可以），在家只需要一块垫子。网络上有无数免费运动视频，从这些开始，验证自己能不能坚持，再考虑花钱的投入。',type:'neg'},
+    {icon:'🛡️',tag:'反弹',scenario:'之前运动减了后来又胖回去了',feedback:'之前反弹通常是因为减得太快、或者运动方式太极端。慢慢来，选一个能长期坚持的方式，哪怕每次运动量不大，只要能持续，就是成功。',type:'neg'},
+    {icon:'😩',tag:'疲劳',scenario:'运动后总觉得特别累，影响日常生活',feedback:'运动后疲劳通常是训练过度或营养不足的信号。检查：睡够了吗？蛋白质吃够了吗？运动强度是不是太高了？适当降低强度，增加休息，让身体有时间恢复。',type:'neg'}
+  ],
+  idea: [
+    {icon:'🏃',tag:'跑步',scenario:'想尝试跑马拉松，需要怎么准备？',feedback:'马拉松需要至少4~6个月系统训练。建议先用"跑走法"建立基础（每次跑5~10分钟，走1~2分钟），逐渐增加跑步比例。关键是慢速起步，让身体适应长距离。心肺功能和肌肉耐力是训练重点。',type:'pos'},
+    {icon:'💪',tag:'力量',scenario:'想增肌，但不知道怎么吃和练',feedback:'增肌的核心是：力量训练（渐进超负荷）+ 充足蛋白质（每公斤体重1.6~2.2g）+ 充足睡眠。每周3~4次力量训练，每次针对大肌群（深蹲、硬拉、卧推、引体）。重量选能做8~12次的。',type:'pos'},
+    {icon:'🧘',tag:'瑜伽',scenario:'想通过瑜伽改善体态和柔韧',feedback:'改善体态推荐：肩部打开（改善圆肩）、核心激活（改善腰酸）、髋部打开（改善腿型）。每天15~30分钟，坚持1~3个月会看到明显变化。专注呼吸，动作不要急。',type:'pos'},
+    {icon:'🏋️',tag:'训练',scenario:'想在家里置办一套基础的健身器材',feedback:'最基础的家用器材：哑铃（可调节重量，一对就够）、瑜伽垫、跳绳、TRX悬带（可选）。这些可以覆盖90%的训练需求。不用一次买齐，先买哑铃和垫子开始。',type:'pos'},
+    {icon:'🏊',tag:'游泳',scenario:'游泳和跑步，哪个对健康更好？',feedback:'两者都好。游泳对关节零冲击，适合关节有问题的人；跑步对心肺刺激更强，热量消耗效率高。最好的运动是你能坚持的那个。如果可以，两者结合是最好的。',type:'pos'},
+    {icon:'⚡',tag:'HIIT',scenario:'听说HIIT很高效，适合没时间的人',feedback:'HIIT（高强度间歇训练）确实高效：每次10~20分钟，热量消耗大，而且有"后燃效应"（运动后身体仍在燃脂）。但强度高，不建议每天做，每周2~3次足够，中间要休息。',type:'pos'},
+    {icon:'🥗',tag:'营养',scenario:'运动后怎么吃才能让效果最大化',feedback:'运动后30~60分钟是营养窗口期：补充蛋白质（帮助肌肉修复）+ 碳水（补充能量消耗）。一个鸡蛋+一根香蕉，或者蛋白粉+水果，都是简单有效的选择。不要饿着肚子运动。',type:'pos'},
+    {icon:'📊',tag:'监测',scenario:'想用数据来跟踪运动效果',feedback:'除了体重，记录这些数据更有意义：运动时长、心率（如果有手表）、力量训练的重量和次数、腰围、衣服松紧感。每周对比这些数据，比只看体重能更准确地反映进展。',type:'pos'},
+    {icon:'🧠',tag:'心理',scenario:'运动总是坚持不下来，需要心理支持',feedback:'把运动变成"不得不做的事"而不是"想做的事"：提前安排固定时间、提前准备好运动装备、和朋友约定互相监督、加入运动社群。意志力靠不住，用系统来保证规律。',type:'pos'},
+    {icon:'🤸',tag:'拉伸',scenario:'拉伸到底有多重要，每次要拉多久',feedback:'拉伸能保持肌肉弹性、减少受伤风险、改善体态。运动后静态拉伸每个部位保持15~30秒，做2~3组。不需要太久，10~15分钟就够了，但一定要做。',type:'pos'},
+    {icon:'⏰',tag:'时间',scenario:'每天只能运动30分钟，怎么安排最有效',feedback:'30分钟可以这样分配：5分钟热身（动态拉伸）→ 20分钟主体（跑步/力量）→ 5分钟冷身（静态拉伸）。或者做一套20分钟的HIIT，全部搞定。关键是每天都做，哪怕短。',type:'pos'},
+    {icon:'🏔️',tag:'户外',scenario:'周末想去徒步，需要做什么准备',feedback:'基础准备：舒适的徒步鞋、足够的水（每10公里约1L）、简单的补给（坚果、能量棒）、防晒。路线从简单开始，逐步增加难度。徒步是很好的全身运动，还能解压。',type:'pos'},
+    {icon:'⚖️',tag:'体型',scenario:'想减脂同时保持肌肉，可能吗？',feedback:'可能，但需要精准配合：热量缺口控制在300~500大卡（不要太大）、蛋白质摄入充足（每公斤1.6g以上）、力量训练保持（不能停）、有氧适量（每周2~3次）。这是最理想的减脂方式。',type:'neg'},
+    {icon:'💊',tag:'补剂',scenario:'蛋白粉/运动补剂到底有没有用',feedback:'正常饮食均衡的话，大部分补剂不是必须的。蛋白质可以从食物中获取（鸡胸、鱼、蛋、豆类）。只有在饮食无法保证蛋白质摄入时，蛋白粉才是合理选择。',type:'neg'},
+    {icon:'🏃',tag:'装备',scenario:'买了很多运动装备，但都没怎么用',feedback:'装备不等于运动。先从最简单的开始：出门走路、跑起来就行。等建立了运动规律，再考虑买更好的装备激励自己。装备买了不用是浪费，不是因为没装备才不运动。',type:'neg'},
+    {icon:'📱',tag:'App',scenario:'下载了很多运动App，但都没坚持用',feedback:'App不是必需品，一双跑鞋和一块垫子就够了。选一个最顺眼的，只用那一个，坚持用21天让它成为习惯。或者干脆不用，找一个固定的运动方式来重复。',type:'neg'},
+    {icon:'⚡',tag:'强度',scenario:'想每天都高强度训练，快速出效果',feedback:'高强度训练需要充分恢复。每天高强度会让身体进入疲劳状态，受伤风险增加、免疫力下降、情绪也会受影响。运动效果来自"训练+恢复"的循环，缺一不可。',type:'neg'},
+    {icon:'🍎',tag:'空腹',scenario:'听说空腹运动减脂效果更好？',feedback:'空腹运动适合已经有运动基础的人，而且只适合中低强度（散步、快走、轻度慢跑）。高强度运动需要提前补充能量，否则容易低血糖、体能下降、肌肉流失。',type:'neg'},
+    {icon:'🏋️',tag:'部位',scenario:'想只瘦肚子/手臂，只练那个部位可以吗',feedback:'局部减脂（Spot Reduction）是一个迷思。脂肪是全身统一消耗的，没有"练哪里瘦哪里"。减脂靠饮食和有氧，塑形靠力量训练。全身配合，才能达到理想效果。',type:'neg'},
+    {icon:'🎯',tag:'目标',scenario:'想一下子把所有运动都学会',feedback:'同时学太多运动容易哪个都学不精。选一个最喜欢的先开始，练到"稳定坚持"（至少连续6周），再加第二个。专注一件事的进步，比分散精力效果好得多。',type:'neg'}
+  ],
+  cheer: [
+    {icon:'🏃',tag:'突破',scenario:'终于能一口气跑完3公里了！',feedback:'3公里是跑步的一个重要门槛，你做到了！这个距离对很多人来说是心理障碍，你已经跨过去了。继续加油，下一个目标是5公里！',type:'pos'},
+    {icon:'💪',tag:'力量',scenario:'终于能做10个标准引体向上了！',feedback:'引体向上是上肢力量的综合测试，能做10个说明你的背部、肩部和核心力量已经很扎实。这是真正的进步，值得骄傲！',type:'pos'},
+    {icon:'🧘',tag:'柔韧',scenario:'弯腰能够到脚尖了，之前完全碰不到！',feedback:'柔韧性的变化是最容易被感知的进步。从碰不到到碰得到，是身体在打开。这个改变能减少日常受伤风险，也让运动表现更好。',type:'pos'},
+    {icon:'📊',tag:'数据',scenario:'体脂率终于降到了20%以下！',feedback:'体脂率是比体重更准确的身体成分指标。20%以下是健康的分水岭，这个数字代表你的身体正在变得更有型、健康风险在降低。',type:'pos'},
+    {icon:'😴',tag:'睡眠',scenario:'坚持早睡早起整整一个月了！',feedback:'一个月早睡早起说明生物钟已经重置了。这个习惯一旦养成，你会发现自己精神更好、情绪更稳定、运动效果也会更明显。这是最好的健康投资。',type:'pos'},
+    {icon:'🏆',tag:'自律',scenario:'连续运动60天了，从来没有这么坚持过！',feedback:'60天！这个数字说明运动已经不是"坚持"，而是"习惯"了。能走到这一步的人不多，你做到了。这比任何运动成绩都值得骄傲。',type:'pos'},
+    {icon:'🏋️',tag:'进步',scenario:'今天卧推重量比上周多了5公斤！',feedback:'重量增加是力量增长最直接的证明。5公斤听起来不多，但这是肌肉和神经协调同时进步的结果。继续渐进超负荷，你会越来越强！',type:'pos'},
+    {icon:'⏰',tag:'习惯',scenario:'运动已经变成每天必做的事，像刷牙一样自然',feedback:'当运动变得"不运动才奇怪"的时候，你就成功了。这是习惯的最高境界——不需要意志力，自动发生。这是你给自己的最好礼物。',type:'pos'},
+    {icon:'🩺',tag:'体检',scenario:'今年体检各项指标都变好了！',feedback:'体检数据变好是最有说服力的进步证明。运动对身体的改变是真实的、从内到外的。这个成果只有你知道有多不容易，谢谢你为自己的身体付出了这些。',type:'pos'},
+    {icon:'🏃',tag:'比赛',scenario:'第一次完成了5公里跑步比赛！',feedback:'比赛和训练完全不同——它需要勇气、需要准备、需要决心。你去参加了，这就是最大的胜利！成绩不重要，站在起点就是对自己的挑战。',type:'pos'},
+    {icon:'💃',tag:'自信',scenario:'穿上了之前穿不下的衣服！',feedback:'衣服能穿上，说明身体真实地在变化。体重可以骗人，但衣服的松紧不会。这个变化的背后是你无数次的流汗和坚持。这是值得庆祝的时刻！',type:'pos'},
+    {icon:'🌟',tag:'影响',scenario:'朋友看到我的变化，也开始运动了',feedback:'你不仅改变了自己，还影响了身边的人。这是更大的成功。运动是会传染的，你的行动比任何话语都更有说服力。谢谢你带来的这份影响。',type:'pos'},
+    {icon:'🧠',tag:'精力',scenario:'每天精力充沛，下午不再犯困了',feedback:'精力充沛是身体健康的综合信号。运动改善了心肺功能、优化了激素水平、提升了线粒体数量，这些都让你有了更充沛的能量。这是运动最直接的好处之一。',type:'pos'},
+    {icon:'🧘',tag:'减压',scenario:'运动后感觉压力释放了很多，心情很好',feedback:'运动是最好的减压方式——它能让皮质醇下降、内啡肽上升，身体和大脑同时得到放松。这种感觉是自然的、没有任何副作用的，比喝酒、吃东西解压健康得多。',type:'pos'},
+    {icon:'🤝',tag:'社交',scenario:'通过运动认识了很多志同道合的朋友',feedback:'运动打开了一个新的社交世界。一起流汗的朋友往往更真诚、更有共同语言。这种因为共同目标建立的友谊，是很珍贵的。',type:'pos'},
+    {icon:'📈',tag:'体能',scenario:'爬山的时候不再气喘吁吁了',feedback:'爬山不喘了，说明心肺功能在进步。这个变化在日常生活中可能感受不明显，但在需要体力的时候，你会发现自己"能扛了"。这是真正的身体素质提升。',type:'pos'},
+    {icon:'💯',tag:'满分',scenario:'今天完成了自己设定的所有运动目标！',feedback:'完成目标的感觉是无可替代的。这种成就感会积累，越来越多这样的时刻会让你越来越自信。你正在成为那个"说做到就能做到"的人。',type:'pos'},
+    {icon:'🏅',tag:'勋章',scenario:'解锁了运动App里的所有勋章！',feedback:'勋章是过程的纪念，但更珍贵的是你为此付出的每一天。这些数字背后是你无数次选择"去运动"而不是"算了"的决定。这才是真正的勋章。',type:'pos'},
+    {icon:'🔄',tag:'转变',scenario:'从"运动好难"变成了"今天练什么"',feedback:'这个转变比任何运动成绩都重要。这是认知的重塑，是和身体关系重新建立的标志。当你开始期待运动而不是害怕它，一切都不一样了。',type:'pos'},
+    {icon:'🎉',tag:'成就',scenario:'给自己设定的年度运动目标提前完成了！',feedback:'目标提前完成说明你低估了自己的能力。庆祝这个时刻，然后给自己设一个新的挑战。真正的运动者永远不会停止追求进步。',type:'pos'}
+  ],
+  report: [
+    {icon:'🏃',tag:'本周',scenario:'本周运动了4次，突破了上周的记录',feedback:'运动频率是最重要的进步指标之一。每周4次说明这件事正在成为习惯，而不是靠意志力撑着。继续保持，让运动频率成为你的新基准。',type:'pos'},
+    {icon:'💪',tag:'本周',scenario:'本周力量训练重量有明显提升',feedback:'力量在进步是身体适应的直接信号。每一次重量增加都是肌肉和神经在共同成长。继续渐进超负荷，注意充足的蛋白质和睡眠来支持恢复。',type:'pos'},
+    {icon:'📊',tag:'本周',scenario:'腰围比上周小了0.5厘米',feedback:'腰围是比体重更准确的健康指标。腰围在变小说明内脏脂肪在减少，这对健康的意义重大。继续当前的方案，这个变化会持续。',type:'pos'},
+    {icon:'🏃',tag:'本周',scenario:'本周累计跑步超过15公里',feedback:'15公里是一个不小的数字，说明你已经开始建立耐力基础。这个里程积累对心肺功能的提升很有帮助。继续保持，你正在为更大的目标打基础。',type:'pos'},
+    {icon:'🧘',tag:'本周',scenario:'本周每天都做了拉伸，感觉身体轻松多了',feedback:'每天都拉伸说明你把恢复当成了训练的一部分。拉伸能减少肌肉紧张、改善关节活动度、预防受伤。这个习惯对长期运动者非常重要。',type:'pos'},
+    {icon:'💧',tag:'本周',scenario:'每天运动前中后都有意识地补充水分',feedback:'水分补充是运动效果的重要保障。运动中脱水会影响表现和恢复，运动后补水则能帮助代谢废物、加速修复。这个细节做得很好！',type:'pos'},
+    {icon:'😴',tag:'本周',scenario:'本周睡眠质量明显提升，白天更有精神',feedback:'运动和睡眠互相促进——运动改善睡眠，睡眠帮助运动恢复。本周两者形成正向循环，身体状态在整体提升。保持这个节奏。',type:'pos'},
+    {icon:'🥗',tag:'本周',scenario:'开始注意运动后的营养补充了',feedback:'运动+营养=效果最大化。运动后补充蛋白质和碳水能让肌肉修复更快、能量补充更及时。这个意识非常重要，是从"运动"升级到"科学运动"的关键。',type:'pos'},
+    {icon:'🏋️',tag:'本周',scenario:'第一次尝试了新的训练方式，感觉很新鲜',feedback:'尝试新运动是打破平台期的好方法，也是保持运动兴趣的关键。新的刺激让身体和大脑同时成长，这个探索精神值得保持。',type:'pos'},
+    {icon:'⚖️',tag:'本周',scenario:'本周体重降了0.5公斤',feedback:'每周0.5公斤是健康减脂的理想速度。这个节奏不会让肌肉流失、不会让皮肤松垮，而且不容易反弹。你在用正确的方式推进。',type:'pos'},
+    {icon:'😫',tag:'本周',scenario:'本周训练过度了，全身酸痛了3天',feedback:'训练过度说明强度超过了恢复能力。下周适当降低强度或减少频次，给身体充分的休息时间。记住：训练和恢复同等重要，缺一不可。',type:'neg'},
+    {icon:'📉',tag:'本周',scenario:'本周运动次数比上周少了',feedback:'一周的波动不需要过度担心。回顾一下是什么阻止了你运动：时间？精力？动力？找到原因，下周针对性地解决。一周的低谷不等于失败。',type:'neg'},
+    {icon:'😤',tag:'本周',scenario:'本周心情不好，完全没有运动动力',feedback:'情绪低落会影响运动动力，这是正常的。但运动本身是改善情绪的好方法——哪怕只是出门散步10分钟，也会对心情有帮助。试着从最简单的开始。',type:'neg'},
+    {icon:'🏃',tag:'本周',scenario:'跑步时膝盖又开始不舒服了',feedback:'膝盖不适需要重视。减少跑量或换成低冲击运动（游泳、骑车），等不适感消失后再慢慢恢复。运动是为了健康，不是为了伤害身体。',type:'neg'},
+    {icon:'🍽️',tag:'本周',scenario:'运动后总是吃太多，热量超标',feedback:'运动后饥饿是正常的，但要注意选择。蛋白质（鸡蛋、鸡胸）+ 碳水（红薯、香蕉）是理想的运动后补给，饱腹感强、热量适中。不要因为"运动了"就放开吃。',type:'neg'},
+    {icon:'⏰',tag:'本周',scenario:'本周因为加班，运动时间总是不够',feedback:'时间永远是不够的，但运动可以压缩。10分钟的HIIT不比1小时差，或者把运动拆成两个15分钟：早上15分钟，晚上15分钟。关键是找到可用的时间缝隙。',type:'neg'},
+    {icon:'🛌',tag:'本周',scenario:'本周睡眠不好，运动状态很差',feedback:'睡眠不好时运动表现会下降，这是正常的身体保护机制。不要强迫自己在极度疲劳时做高强度运动，可以换成低强度（散步、瑜伽拉伸），让身体恢复优先。',type:'neg'},
+    {icon:'⚖️',tag:'本周',scenario:'体重和上周一样，没有进展',feedback:'体重停滞通常有几个原因：平台期（正常现象）、肌肉在增长（体型在变但体重不变）、或者饮食需要调整。测一下腰围和体脂率，会有更准确的信息。',type:'neg'},
+    {icon:'💊',tag:'本周',scenario:'因为感冒休息了一周',feedback:'感冒时运动对身体恢复没有帮助，反而可能延长病程。好好休息、多喝水、等完全康复后再恢复运动，这是明智的选择，不要有心理负担。',type:'neg'},
+    {icon:'🥺',tag:'本周',scenario:'本周有几天完全放弃了运动',feedback:'几天不动不意味着失败，这是正常的波动。重要的是：不要因为"已经停了几天"就彻底放弃，现在重新开始就好。运动是一辈子的事，不差这几天。',type:'neg'}
+  ]
+};
+
+let currentQAType = null;
+let currentQADir = 'result';
+
 function askPartner(type) {
   const partner = currentPartner || PARTNERS[0];
   const style = partner.style || 'gentle';
-  const labels = { progress: '📈 进展', struggle: '😣 困难', idea: '💡 想法', cheer: '🎉 喜事' };
-  const replies = {
-    gentle: {
-      progress: { pos: ['说说最近的健康进展，我帮你分析分析。', '好，跟我讲讲你最近的改变。', '有什么突破吗？'], neg: ['哪里还没达到预期？说说看。'] },
-      struggle: { pos: ['有困难是好事，说明你在突破！'], neg: ['没关系，一起想办法。'] },
-      idea: { pos: ['好想法！说说你的灵感。'], neg: ['说说你的困惑，我帮你推演。'] },
-      cheer: { pos: ['哈哈！好事！快说！🎉'], neg: ['好事！让我沾沾喜气！🎊'] }
-    },
-    passion: {
-      progress: { pos: ['冲！说说你的战果！🔥'], neg: ['什么卡住了？冲！💪'] },
-      struggle: { pos: ['困难算什么，你是最棒的！💪'], neg: ['没有过不去的坎！🔥'] },
-      idea: { pos: ['好创意！🔥 让我听听！'], neg: ['说说你的想法！⚡'] },
-      cheer: { pos: ['🎉🎉🎉 说！我要听！'], neg: ['哈哈！好事！🎊'] }
-    },
-    rational: {
-      progress: { pos: ['汇报收到。数据记录中。📊'], neg: ['什么因素影响了进展？'] },
-      struggle: { pos: ['困难是数据点在积累经验。'], neg: ['从数据角度看，怎么解决？'] },
-      idea: { pos: ['好。说说的核心假设是什么。'], neg: ['说说你的商业逻辑。'] },
-      cheer: { pos: ['📊 记录这一时刻。'], neg: ['好事！量化一下？'] }
-    },
-    tsundere: {
-      progress: { pos: ['……行吧，算你有点进展。'], neg: ['又卡了？哼。'] },
-      struggle: { pos: ['困难谁都有。说吧。'], neg: ['……算了，我帮你。😒'] },
-      idea: { pos: ['😏 什么想法？说来听听。'], neg: ['说说看。🤷'] },
-      cheer: { pos: ['……算你有点本事。😏'], neg: ['好事？😏'] }
-    }
+  const emoji = partner.emoji;
+  const typeConfig = {
+    progress: {label:'📈 进展', panel:'progress', dir:'result', intro:{gentle:['说说最近的健康进展，我帮你分析分析 🌿','好，跟我讲讲你最近的改变 💫'], passion:['冲！说说你的战果！🔥','好！让我听听你的进展！⚡'], rational:['汇报收到。数据记录中。📊','好。说说关键指标的变化。'], tsundere:['……行吧，算你有点进展。说吧。😏','又卡了？……哼，我听听。😏']}},
+    struggle: {label:'😣 困难', panel:'struggle', dir:'solution', intro:{gentle:['有困难是正常的，说说看 💙','没关系，一起想办法 🌿'], passion:['困难算什么，你是最棒的！💪','来！我帮你拆解！🔥'], rational:['困难是数据点在积累经验。说，我帮你分析。📊'], tsundere:['困难谁都有。说吧，我勉强帮你。😒','……算了，我帮你想想。😒']}},
+    idea: {label:'💡 想法', panel:'idea', dir:'result', intro:{gentle:['好想法！说说你的灵感来源 🌿','来，展开讲讲这个点子 💫'], passion:['好创意！🔥 让我听听！','来！展开讲！我要感受你的热情！⚡'], rational:['好。说说的核心假设是什么。📊','从数据角度看，这个想法的可行性如何？'], tsundere:['😏 什么想法？说来听听，不保证有用。','说说看。🤷']}},
+    cheer: {label:'🎉 喜事', panel:'cheer', dir:'result', intro:{gentle:['哈哈！好事！快说！我要听！🎉','哈哈！恭喜！这种时刻值得好好庆祝！💫'], passion:['🎉🎉🎉 说！我要听！全部细节！','哈哈！太棒了！这种时刻绝对要截图留念！🔥'], rational:['📊 积极情绪有利于持续行动。说细节。','好的势头要保持。数据上有什么支撑？'], tsundere:['😏 哼，还行吧。什么好事？','……算你有点本事。说，什么事？😏']}},
+    report: {label:'📣 汇报进展', panel:'report', dir:'result', intro:{gentle:['收到。说给我听听 🌿','好，让我了解你的最新情况 💫'], passion:['冲！汇报收到！🔥','好！让我听听！⚡'], rational:['汇报收到。数据记录中。📊','好。说说关键变化。'], tsundere:['……行吧，说吧。😏','又卡了？……哼，我听听。😏']}},
+    question: {label:'🤔 有问题想问', panel:'question', dir:'solution', intro:{gentle:['问吧，我尽力回答 💙'], passion:['问！什么问题都能接住！💪'], rational:['好的。给出你的问题。📊'], tsundere:['🤷 问就问，不保证你能听懂。😏']}}
   };
-  showPartnerMsg(labels[type], false);
+  const cfg = typeConfig[type] || typeConfig.progress;
+  const introArr = cfg.intro[style] || cfg.intro.gentle;
+  const intro = introArr[Math.floor(Math.random() * introArr.length)];
+  showPartnerMsg(cfg.label, false);
   setTimeout(() => {
-    const arr = replies[style]?.[type]?.pos || replies.gentle[type].pos;
-    showPartnerMsg(partner.emoji + ' ' + arr[Math.floor(Math.random() * arr.length)], true);
-  }, 800);
+    showPartnerMsg(emoji + ' ' + intro, true);
+    setTimeout(() => openTypePanel(cfg.panel, cfg.dir), 500);
+  }, 700);
 }
 
-let currentQAType = null;
-
-function openQAPanel(type) {
-  currentQAType = type;
-  const data = type === 'question' ? QA_DATA : PROGRESS_DATA;
-  const title = type === 'question' ? '🤔 有问题想问' : '📣 汇报一下进展';
-  const sub  = type === 'question' ? '选择一个最符合你情况的问题，我来给你解答' : '说说现在的情况，我给你针对性的反馈';
-  document.getElementById('qaTitle').innerText = title;
-  document.getElementById('qaSub').innerText = sub;
-
+function openTypePanel(panel, dir) {
+  currentQAType = panel; currentQADir = dir;
+  const data = TYPE_SCENES_BODY[panel] || [];
+  const titleMap = {progress:'📈 选择一个最符合你情况的进展', struggle:'😣 选择一个你正在面对的困难', idea:'💡 选择一个你想聊的想法', cheer:'🎉 选择一件你想分享的喜事', report:'📣 汇报一下本周的身体情况', question:'🤔 有问题想问？选一个最接近的'};
+  const subMap = {result:'选择后我会和你共情，然后给出结果导向的反馈 💫', solution:'选择后我会和你共情，然后一起想办法 💪'};
+  document.getElementById('qaTitle').innerText = titleMap[panel] || panel;
+  document.getElementById('qaSub').innerText = subMap[dir] || '';
   const scroll = document.getElementById('qaScroll');
   scroll.innerHTML = '';
-
-  // 正向
-  if (data.pos.length) {
-    const posLabel = document.createElement('div');
-    posLabel.style.cssText = 'font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;';
-    posLabel.innerText = '⬆️ 好的进展 / 想得到鼓励';
-    scroll.appendChild(posLabel);
-    data.pos.forEach((item, i) => {
-      scroll.appendChild(makeQACard(type, 'pos', i, item));
-    });
+  const posItems = data.filter(i => i.type === 'pos');
+  if (posItems.length) {
+    const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;'; l.innerText='⬆️ 好的进展 / 想得到鼓励'; scroll.appendChild(l);
+    posItems.forEach((item, i) => { const realIdx = data.indexOf(item); scroll.appendChild(makeTypeCard(panel, dir, item, realIdx)); });
   }
-
-  // 负向
-  if (data.neg.length) {
-    const negLabel = document.createElement('div');
-    negLabel.style.cssText = 'font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;';
-    negLabel.innerText = '⬇️ 不好的情况 / 需要引导';
-    scroll.appendChild(negLabel);
-    data.neg.forEach((item, i) => {
-      scroll.appendChild(makeQACard(type, 'neg', i, item));
-    });
+  const negItems = data.filter(i => i.type === 'neg');
+  if (negItems.length) {
+    const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;'; l.innerText='⬇️ 遇到困难 / 需要引导'; scroll.appendChild(l);
+    negItems.forEach((item, i) => { const realIdx = data.indexOf(item); scroll.appendChild(makeTypeCard(panel, dir, item, realIdx)); });
   }
-
   document.getElementById('qaOverlay').classList.add('show');
-  // 点击遮罩关闭
-  document.getElementById('qaOverlay').onclick = function(e) {
-    if (e.target === document.getElementById('qaOverlay')) closeQAPanel();
-  };
+  document.getElementById('qaOverlay').onclick = function(e) { if (e.target === document.getElementById('qaOverlay')) closeQAPanel(); };
 }
 
-function makeQACard(type, polarity, index, item) {
+function makeTypeCard(panel, dir, item, index) {
   const card = document.createElement('div');
-  card.className = `qa-card ${polarity}`;
-  card.innerHTML = `
-    <div class="qa-card-icon">${item.icon}</div>
-    <div class="qa-card-text">${item.question || item.scenario}</div>
-    <div class="qa-card-tag ${polarity}">${item.tag}</div>
-  `;
-  card.onclick = () => {
-    closeQAPanel();
-    setTimeout(() => showFeedback(type, polarity, index), 300);
-  };
+  card.className = `qa-card ${item.type}`;
+  card.innerHTML = `<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`;
+  card.onclick = () => { closeQAPanel(); setTimeout(() => showTypeFeedback(panel, dir, item, index), 300); };
   return card;
 }
 
-function closeQAPanel() {
-  document.getElementById('qaOverlay').classList.remove('show');
-  document.getElementById('qaOverlay').onclick = null;
-}
-
-function showFeedback(type, polarity, index) {
-  const data = type === 'question' ? QA_DATA : PROGRESS_DATA;
-  const item = data[polarity][index];
+function showTypeFeedback(panel, dir, item, index) {
   const partner = currentPartner || PARTNERS[0];
-
+  const style = partner.style || 'gentle';
+  const emoji = partner.emoji;
+  const empathy = getTypeEmpathy(style, panel, dir, item.type === 'pos');
+  const partnerFeedback = getTypePartnerFeedback(style, panel, dir, item.type === 'pos');
   const fbCard = document.getElementById('fbCard');
-  fbCard.className = `fb-card ${polarity}`;
+  fbCard.className = `fb-card ${item.type}`;
   document.getElementById('fbEmoji').innerText = item.icon;
   const labelEl = document.getElementById('fbLabel');
-  labelEl.innerText = polarity === 'pos' ? '✨ 正向' : '⚠️ 需要引导';
-  labelEl.className = `fb-label ${polarity}`;
-  document.getElementById('fbTitle').innerText = item.tag + '反馈';
-  document.getElementById('fbText').innerText = item.answer || item.feedback;
-  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${partner.emoji} ${partner.name}说：</div>"${getPartnerReply(partner.style, type, polarity)}"`;
-
+  labelEl.innerText = item.type === 'pos' ? '✨ 正向' : '⚠️ 需要引导';
+  labelEl.className = `fb-label ${item.type}`;
+  document.getElementById('fbTitle').innerText = item.tag;
+  document.getElementById('fbText').innerText = item.feedback;
+  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${emoji} ${partner.name}说：</div>"${empathyMsg(emoji, empathy)} <span style="color:#1565c0">${partnerFeedback}</span>"`;
   document.getElementById('fbOverlay').classList.add('show');
 }
+function empathyMsg(emoji, text) { return text.replace(emoji,' ').trim(); }
 
-function getPartnerReply(style, type, polarity) {
-  const replies = {
+function getTypeEmpathy(style, panel, dir, isPos) {
+  const msgs = {
     gentle: {
-      question: {
-        pos: ['你真的在认真对待这件事，我很欣慰。', '这件事处理得很好，继续保持。'],
-        neg: ['别太自责，每个人都会有这样的时候。慢慢来。', '没关系，找到原因就好了，我们一起面对。']
-      },
-      progress: {
-        pos: ['你愿意分享这个，说明你在认真对待自己的变化，很好。', '进展不错，继续保持这个状态。'],
-        neg: ['别担心，这种情况很多人都遇到过。我们一起想办法。', '知道了。我们来看看怎么改善。']
-      }
+      result: { pos:['这种感觉真的很好，为你高兴 🌿','你做到了，这很重要 💫','这个进展很真实，继续保持 💚'], neg:['这种感觉我理解，不着急，慢慢来 💙','我听见了，陪你一起 🌿'] },
+      solution:{ pos:['谢谢你告诉我这些 💙','愿意说出来本身就需要勇气 🌿'], neg:['能感觉到你的为难，我在这里 🤝','没关系，我们一起拆解 🌿'] }
     },
     passion: {
-      question: {
-        pos: ['这就对了！继续保持，你就是最棒的！', '干得漂亮！这就是进步的样子！'],
-        neg: ['小问题！哪有过不去的坎，继续冲！', '别怂！办法总比困难多，我们搞定它！']
-      },
-      progress: {
-        pos: ['太强了！继续保持这个劲头！', '这就是复利的力量！继续累积！'],
-        neg: ['就这？调整一下，继续干！', '这都不是事儿！战术调整一下，明天继续冲！']
-      }
+      result: { pos:['太强了！继续保持！🔥','这就是进步！继续燃烧！🚀','干得漂亮！⚡'], neg:['别急，调整一下！💪','小调整，继续冲！🔥'] },
+      solution:{ pos:['好！说得好！我听到了！💪','这种主动分享让我很高兴 🔥'], neg:['来！我帮你拆解！🔥','没有困难是过不去的！冲！💪'] }
     },
     rational: {
-      question: {
-        pos: ['判断正确。行为数据支持这一结论。', '这是合理的选择，决策合理。'],
-        neg: ['这是常见的现象，有科学解释。先分析原因。', '客观情况如此，调整策略即可。']
-      },
-      progress: {
-        pos: ['数据支持这一判断。继续执行当前方案。', '正增长符合预期。保持当前节奏。'],
-        neg: ['数据出现了波动。需要分析原因并调整。', '负向偏差在可控范围内，可以修正。']
-      }
+      result: { pos:['数据记录在案。这个变化值得关注。📊','收到。行为数据显示你的方向正确。📈'], neg:['这种情况在减脂过程中很常见。📊','数据出现波动，分析后可以调整。📋'] },
+      solution:{ pos:['这种情况有方法可以优化。📊','收到，让我帮你拆解。🧩'], neg:['这个问题的本质可以进一步分析。📊','先拆解，再制定对策。🛠️'] }
     },
     tsundere: {
-      question: {
-        pos: ['……还行吧，勉强算你做对了。', '哼，总算做了一件对的事。'],
-        neg: ['怎么又这样，下次能不能提前想好？', '我就知道会这样……算了，说你怎么也没用。']
-      },
-      progress: {
-        pos: ['……行吧，算你有点进步。', '嗯。这次的事做得还可以。'],
-        neg: ['又来了？能不能上点心？', '哼，我就知道会出这种问题。']
-      }
+      result: { pos:['……还行吧，算你有点料。😏','哼，还凑合。😶'], neg:['又来了？……哼，我听听。😒','就这样吧，我也习惯了。🤷'] },
+      solution:{ pos:['……行吧，我勉强听一下。😒'], neg:['怎么又这样……说吧，我帮你。😒','哼，说吧，我看看能不能救。🤷'] }
     }
   };
-  const arr = replies[style]?.[type]?.[polarity] || replies.gentle[type][polarity];
+  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function closeFeedback() {
-  document.getElementById('fbOverlay').classList.remove('show');
+function getTypePartnerFeedback(style, panel, dir, isPos) {
+  const msgs = {
+    gentle: {
+      result: { pos:['继续保持，你走的每一步都在积累 🌿','这个方向很对，坚持下去 💚','你比自己以为的更接近目标 💫'], neg:['不要因为这样就放弃，我们来看看怎么调整 🌿','先给自己一点耐心，我们慢慢来 💙'] },
+      solution:{ pos:['找到突破口后继续往前 💪','我们来看看下一步可以怎么做 🌿'], neg:['说说具体卡在哪里，我帮你理清思路 🌿','这件事拆开来看，其实没有那么难 💙'] }
+    },
+    passion: {
+      result: { pos:['继续这个节奏，效果会越来越明显的！🔥','这就是复利！保持！💪'], neg:['调整一下，明天继续冲！⚡','战术修正，继续干！💪'] },
+      solution:{ pos:['找对方法，继续冲！🔥','说干就干！💪'], neg:['来！我帮你拆解！没有过不去的坎！🔥','拆解完立刻行动！🚀'] }
+    },
+    rational: {
+      result: { pos:['继续执行当前方案，效果会逐步显现。📊','这个趋势值得坚持。📈'], neg:['需要分析原因后调整策略。📊','在可修正范围内，继续监测。📋'] },
+      solution:{ pos:['有清晰的分析路径，可以优化。📊','建议先量化问题，再对症下药。🧩'], neg:['从数据入手，找核心原因。📊','把问题拆成小块，逐个击破。🛠️'] }
+    },
+    tsundere: {
+      result: { pos:['……行吧，算你有点进步。😏','嗯。还凑合。😶'], neg:['……我又来了。哼。😒','就这样吧，我也习惯了。🤷'] },
+      solution:{ pos:['说，我看看能不能帮。😒'], neg:['……算了，我帮你想想。😒','好吧，我勉强帮一下。🤷'] }
+    }
+  };
+  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
 }
+
+// 兼容旧调用
+function sendTalk(type) { askPartner(type); }
+function openQAPanel(type) { askPartner(type); }
+function makeQACard(type, polarity, index, item) { return makeTypeCard(type, 'result', item, index); }
+function closeQAPanel() { document.getElementById('qaOverlay').classList.remove('show'); document.getElementById('qaOverlay').onclick = null; }
+function showFeedback(type, polarity, index) { const data = TYPE_SCENES_BODY[type] || []; const item = data.filter(d=>d.type===polarity)[index]; if(item) showTypeFeedback(type,'result',item,index); }
+function getPartnerReply(style, type, polarity) { return getTypeEmpathy(style, type, 'result', polarity==='pos'); }
+function closeFeedback() { document.getElementById('fbOverlay').classList.remove('show'); }
 
 function refreshDashboard() {
   let today = getToday(), history = getHistory();

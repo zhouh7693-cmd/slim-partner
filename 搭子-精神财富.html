@@ -581,8 +581,8 @@
       <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="openQAPanel('progress')">📣 汇报进展</button>
-      <button class="talk-btn" onclick="openQAPanel('question')">🤔 有问题想问</button>
+      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
+      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
     </div>
   </div>
 </div>
@@ -1704,174 +1704,266 @@ function sendTalk(type) {
   }
 }
 
-// ===== 搭子tag交互（精神财富版）=====
+// ===== 搭子tag交互（精神财富版·6类20条）=====
+const TYPE_SCENES_SPR = {
+  progress:[
+    {icon:'🧘',tag:'内心',scenario:'最近内心平静了很多，不再容易被小事动摇',feedback:'内心平静是精神修炼最珍贵的成果之一。你不再被外界的风吹草动牵着走，这是一种很深的力量。继续守护这份平静，它比任何外在成就都更持久。',type:'pos'},
+    {icon:'📖',tag:'学习',scenario:'读了一本很触动我的书，有了新的思考',feedback:'读书时的触动是灵魂在扩展认知边界。这种"原来可以这样想"的时刻，比书本身更有价值。把这些思考写下来，它们会成为你精神地图的一部分。',type:'pos'},
+    {icon:'🎯',tag:'目标',scenario:'终于想清楚了自己真正想要的是什么',feedback:'想清楚自己真正想要什么，本身就是最大的精神进展。很多人在这个问题上绕了一辈子，你有了答案，这是值得认真对待的时刻。',type:'pos'},
+    {icon:'💜',tag:'界限',scenario:'学会了对消耗自己的人和事说"不"',feedback:'学会说"不"是精神成熟的重要标志。你不再用牺牲自己来换取别人的认可，这份边界感是你给自己的礼物。',type:'pos'},
+    {icon:'🌅',tag:'早起',scenario:'开始早起冥想，感觉一天都更有掌控感',feedback:'早起冥想是一种非常高效的精神训练。每天第一个小时属于自己，而不是被外界占据，这个习惯会让你的精神状态越来越稳。',type:'pos'},
+    {icon:'🤝',tag:'接纳',scenario:'学会了接纳自己暂时做不到的部分',feedback:'接纳自己的不完美，而不是逼迫自己，是精神成长的重要台阶。你不需要对自己撒谎才能和解，只需要承认现实。',type:'pos'},
+    {icon:'💭',tag:'日记',scenario:'开始写感恩日记，记录每天让我感到幸福的小事',feedback:'感恩日记是精神锻炼的好工具。当你开始有意识地寻找值得感恩的事，你的大脑会被训练去发现美好，而不是聚焦问题。',type:'pos'},
+    {icon:'🌿',tag:'独处',scenario:'开始享受独处时光，不再害怕一个人的感觉',feedback:'能享受独处是精神独立的重要标志。你不需要外界来填满自己的时间，独处变成了充电而不是惩罚。',type:'pos'},
+    {icon:'🪷',tag:'放下',scenario:'终于放下了一个执念，感觉轻松了很多',feedback:'放下执念需要勇气，而你做到了。这个执念占用你的精神能量已经很久了，现在它不再消耗你了，这份轻松是你挣来的。',type:'pos'},
+    {icon:'🔮',tag:'灵感',scenario:'突然对人生方向有了新的领悟',feedback:'这种"啊哈"时刻往往是长期思考积累到一定程度的爆发。它不突然，是你前期精神劳动的成果。抓住这个灵感，让它引导你下一步。',type:'pos'},
+    {icon:'🌊',tag:'情绪',scenario:'情绪越来越稳定了，不像以前那么容易崩溃',feedback:'情绪稳定是精神修炼的可见成果。你的内在空间变大了一点，情绪有更多流动的空间，而不是一触即发。这个变化值得被认可。',type:'pos'},
+    {icon:'💫',tag:'直觉',scenario:'开始相信自己的直觉，不再那么依赖理性分析',feedback:'相信直觉是精神成熟的表现。直觉是你所有经验、感知和潜意识的综合运算，它给出的信号值得认真对待。',type:'pos'},
+    {icon:'🎭',tag:'角色',scenario:'不再那么在意别人的眼光，活得更自在了',feedback:'不在意别人的眼光是精神自由的重要体现。你开始活在自己的评判体系里，而不是外界的标准。这个转变会让你受益很久。',type:'pos'},
+    {icon:'🧭',tag:'方向',scenario:'找到了自己真正热爱的领域',feedback:'找到真正热爱的东西是一种精神礼物。热爱是比意志力更持久的力量，因为它本身就在给你充电。',type:'pos'},
+    {icon:'🌸',tag:'自爱',scenario:'开始更好地照顾自己的情绪需要',feedback:'照顾自己的情绪需要不是自私，而是精神成熟的基础。你开始把自己的内在世界当作值得重视的存在，而不是可以一直牺牲的。',type:'pos'},
+    {icon:'⚖️',tag:'平衡',scenario:'找到了工作和生活的新平衡点',feedback:'工作和生活平衡不是非此即彼，而是动态调整的艺术。你找到的平衡点适合现在的你，这个认知本身很重要。',type:'pos'},
+    {icon:'🔇',tag:'噪音',scenario:'减少了无效社交，时间更多留给自己了',feedback:'减少无效社交是一种精神断舍离。时间是最公平的资源，你把它还给自己，这是对自己的尊重。',type:'pos'},
+    {icon:'🪞',tag:'自省',scenario:'开始定期做精神复盘，整理自己的内在状态',feedback:'定期精神复盘是很好的自我觉察训练。每隔一段时间跳出来看看自己，精神状态有没有跑偏，这是自我管理的最高形式。',type:'pos'},
+    {icon:'🌈',tag:'接纳',scenario:'学会了接受情绪来了就来了，不强求立刻转变',feedback:'允许情绪存在而不是急着消灭它，是情绪成熟的表现。你不需要每时每刻都"积极向上"，情绪有自己的节奏。',type:'pos'},
+    {icon:'🏔️',tag:'力量',scenario:'经历了精神低谷后，现在比之前更坚韧了',feedback:'穿越低谷后获得的力量是真实的。你知道黑暗会过去，你知道怎么照顾自己，这份韧性是精神成熟最珍贵的果实。',type:'pos'},
+    {icon:'😔',tag:'迷茫',scenario:'不知道自己要什么，感觉人生没有方向',feedback:'迷茫不是问题，假装不迷茫才是。能感受到迷茫说明你在认真思考人生，这是清醒，不是失败。大多数真正的方向，都诞生于迷茫之后的探索。',type:'neg'},
+    {icon:'😰',tag:'焦虑',scenario:'总是担心未来，控制不住地想各种坏事',feedback:'对未来的焦虑通常来自对当下失控感的不安。试着把注意力拉回"今天能做什么"，而不是"未来会发生什么"。未来是由一个个当下组成的。',type:'neg'},
+    {icon:'😢',tag:'低落',scenario:'情绪低落已经持续很久了，提不起精神做任何事',feedback:'持续情绪低落是需要认真对待的信号。首先，这不是你的错，也不是意志力的问题。如果持续超过两周，建议寻求专业支持，这不是软弱，是智慧。',type:'neg'},
+    {icon:'😤',tag:'愤怒',scenario:'总是忍不住对亲近的人发火，事后又后悔',feedback:'愤怒通常是一种信号——在说有些需求没有被满足。事后后悔说明你其实有觉察力。下次愤怒时，试着先停一下，问问自己真正需要的是什么。',type:'neg'},
+    {icon:'😴',tag:'疲惫',scenario:'精神上很累，但又睡不着，越躺越焦虑',feedback:'精神疲惫但睡不着是一个恶性循环。试着做一些身体放松练习（深呼吸、渐进式肌肉放松），而不是强迫自己睡觉。睡眠是身心放松的自然结果。',type:'neg'},
+    {icon:'😞',tag:'自我',scenario:'觉得自己不够好，配不上身边的人和机会',feedback:'"不够好"的感受往往来自内心深处的不安全感和过去的经历，而不是现实。试着记录自己实际做到的事情，让事实来对抗这个声音。',type:'neg'},
+    {icon:'😣',tag:'纠结',scenario:'一直在两个选择之间纠结，做不了决定',feedback:'纠结太久通常是想要"完美答案"。但好的决定不是消除所有风险，而是选择后能承担结果。写下两个选择的"最坏结果"，看看哪个是你能承受的。',type:'neg'},
+    {icon:'🌀',tag:'混乱',scenario:'脑子里想法太多太乱，感觉一团糟',feedback:'头脑混乱往往是信息过载和缺乏整理的表现。试着把脑子里的所有想法写下来，不管对不对，先清空大脑，再一条条整理。',type:'neg'},
+    {icon:'💔',tag:'失落',scenario:'一段重要关系结束了，内心很难过',feedback:'失去重要关系会引发真实的悲伤，不要压抑它。允许自己难过，但同时提醒自己：悲伤是暂时的，你的价值不取决于这段关系存不存在。',type:'neg'},
+    {icon:'⏸️',tag:'停滞',scenario:'感觉自己在原地踏步，没有任何成长',feedback:'成长往往不是直线上升的，而是螺旋式的。有时候看似原地踏步，其实是在巩固之前学到的东西。回顾一下几个月前的自己，你会看到变化的。',type:'neg'},
+    {icon:'😶',tag:'麻木',scenario:'对什么都没感觉了，像行尸走肉一样',feedback:'情绪麻木通常是心理在自我保护机制，说明你可能经历了很多。试着从最微小的感受开始：今天吃的东西是什么味道？阳光是什么温度？慢慢把感知找回来。',type:'neg'},
+    {icon:'😓',tag:'自责',scenario:'一直对自己过去做的事耿耿于怀',feedback:'对过去的自责是在用已经无法改变的过去惩罚现在的自己。过去的你已经做了最好的选择，带着当时的信息和认知。试着对自己说："我已经尽力了。"',type:'neg'},
+    {icon:'🏃',tag:'逃避',scenario:'一直逃避某个必须面对的问题',feedback:'逃避让问题暂时消失，但最终会以另一种方式回来。找一个安静的时机，认真面对这个问题：你到底在怕什么？最坏的结果真的会发生吗？',type:'neg'},
+    {icon:'🌓',tag:'分裂',scenario:'内心有两个声音在拉扯，不知道该听哪个',feedback:'内心有两个声音是正常的，说明你在认真思考。把两个声音都写下来，各自的理由是什么？往往写下来之后，答案会自己浮出来。',type:'neg'},
+    {icon:'🌑',tag:'空虚',scenario:'什么都不想做，感觉做什么都没有意义',feedback:'空虚感通常来自于内心某个核心需求的长期缺失。试着问问自己：最近有没有做什么让我感到满足的事？哪怕很小的事。这往往是重新连接的起点。',type:'neg'},
+    {icon:'😰',tag:'比较',scenario:'总是忍不住和别人比较，觉得自己很差劲',feedback:'比较是精神成长最大的敌人之一。你只看到别人的高光时刻，看不到他们背后的挣扎。试着把比较变成学习：这个人做到了什么？我能从中借鉴什么？',type:'neg'},
+    {icon:'⚡',tag:'疲惫',scenario:'精神严重透支，感觉快要撑不住了',feedback:'精神透支是一个需要立即行动的信号。今天不要做额外的努力，把待办事项减到最少，照顾好最基本的睡眠和饮食。这不是放弃，是在保护自己。',type:'neg'},
+    {icon:'🔒',tag:'封闭',scenario:'把自己封闭起来，不想和任何人说话',feedback:'暂时封闭自己是身体在保护你，但如果持续太久，会形成恶性循环。试着找到一个可以安全说话的人，哪怕只是说一点点。不需要一下子打开，慢慢来。',type:'neg'},
+    {icon:'🎭',tag:'假面',scenario:'在人前戴着面具，感觉活着很假很累',feedback:'戴着面具是很多人都会有的生存策略。问题是：有没有一个地方、一个人，可以让你不戴面具？哪怕只有一点点真实，也是精神喘息的空间。',type:'neg'}
+  ],
+  struggle:[
+    {icon:'😔',tag:'迷茫',scenario:'不知道自己要什么，感觉人生没有方向',feedback:'迷茫不是问题，假装不迷茫才是。能感受到迷茫说明你在认真思考人生，这是清醒，不是失败。大多数真正的方向，都诞生于迷茫之后的探索。',type:'neg'},
+    {icon:'😰',tag:'焦虑',scenario:'总是担心未来，控制不住地想各种坏事',feedback:'对未来的焦虑通常来自对当下失控感的不安。试着把注意力拉回"今天能做什么"，而不是"未来会发生什么"。未来是由一个个当下组成的。',type:'neg'},
+    {icon:'😢',tag:'低落',scenario:'情绪低落已经持续很久了，提不起精神做任何事',feedback:'持续情绪低落是需要认真对待的信号。首先，这不是你的错，也不是意志力的问题。如果持续超过两周，建议寻求专业支持，这不是软弱，是智慧。',type:'neg'},
+    {icon:'😤',tag:'愤怒',scenario:'总是忍不住对亲近的人发火，事后又后悔',feedback:'愤怒通常是一种信号——在说有些需求没有被满足。事后后悔说明你其实有觉察力。下次愤怒时，试着先停一下，问问自己真正需要的是什么。',type:'neg'},
+    {icon:'😴',tag:'疲惫',scenario:'精神上很累，但又睡不着，越躺越焦虑',feedback:'精神疲惫但睡不着是一个恶性循环。试着做一些身体放松练习（深呼吸、渐进式肌肉放松），而不是强迫自己睡觉。睡眠是身心放松的自然结果。',type:'neg'},
+    {icon:'😞',tag:'自我',scenario:'觉得自己不够好，配不上身边的人和机会',feedback:'"不够好"的感受往往来自内心深处的不安全感和过去的经历，而不是现实。试着记录自己实际做到的事情，让事实来对抗这个声音。',type:'neg'},
+    {icon:'😣',tag:'纠结',scenario:'一直在两个选择之间纠结，做不了决定',feedback:'纠结太久通常是想要"完美答案"。但好的决定不是消除所有风险，而是选择后能承担结果。写下两个选择的"最坏结果"，看看哪个是你能承受的。',type:'neg'},
+    {icon:'🌀',tag:'混乱',scenario:'脑子里想法太多太乱，感觉一团糟',feedback:'头脑混乱往往是信息过载和缺乏整理的表现。试着把脑子里的所有想法写下来，不管对不对，先清空大脑，再一条条整理。',type:'neg'},
+    {icon:'💔',tag:'失落',scenario:'一段重要关系结束了，内心很难过',feedback:'失去重要关系会引发真实的悲伤，不要压抑它。允许自己难过，但同时提醒自己：悲伤是暂时的，你的价值不取决于这段关系存不存在。',type:'neg'},
+    {icon:'⏸️',tag:'停滞',scenario:'感觉自己在原地踏步，没有任何成长',feedback:'成长往往不是直线上升的，而是螺旋式的。有时候看似原地踏步，其实是在巩固之前学到的东西。回顾一下几个月前的自己，你会看到变化的。',type:'neg'},
+    {icon:'😶',tag:'麻木',scenario:'对什么都没感觉了，像行尸走肉一样',feedback:'情绪麻木通常是心理在自我保护机制，说明你可能经历了很多。试着从最微小的感受开始：今天吃的东西是什么味道？阳光是什么温度？慢慢把感知找回来。',type:'neg'},
+    {icon:'😓',tag:'自责',scenario:'一直对自己过去做的事耿耿于怀',feedback:'对过去的自责是在用已经无法改变的过去惩罚现在的自己。过去的你已经做了最好的选择，带着当时的信息和认知。试着对自己说："我已经尽力了。"',type:'neg'},
+    {icon:'🏃',tag:'逃避',scenario:'一直逃避某个必须面对的问题',feedback:'逃避让问题暂时消失，但最终会以另一种方式回来。找一个安静的时机，认真面对这个问题：你到底在怕什么？最坏的结果真的会发生吗？',type:'neg'},
+    {icon:'🌓',tag:'分裂',scenario:'内心有两个声音在拉扯，不知道该听哪个',feedback:'内心有两个声音是正常的，说明你在认真思考。把两个声音都写下来，各自的理由是什么？往往写下来之后，答案会自己浮出来。',type:'neg'},
+    {icon:'🌑',tag:'空虚',scenario:'什么都不想做，感觉做什么都没有意义',feedback:'空虚感通常来自于内心某个核心需求的长期缺失。试着问问自己：最近有没有做什么让我感到满足的事？哪怕很小的事。这往往是重新连接的起点。',type:'neg'},
+    {icon:'😰',tag:'比较',scenario:'总是忍不住和别人比较，觉得自己很差劲',feedback:'比较是精神成长最大的敌人之一。你只看到别人的高光时刻，看不到他们背后的挣扎。试着把比较变成学习：这个人做到了什么？我能从中借鉴什么？',type:'neg'},
+    {icon:'⚡',tag:'疲惫',scenario:'精神严重透支，感觉快要撑不住了',feedback:'精神透支是一个需要立即行动的信号。今天不要做额外的努力，把待办事项减到最少，照顾好最基本的睡眠和饮食。这不是放弃，是在保护自己。',type:'neg'},
+    {icon:'🔒',tag:'封闭',scenario:'把自己封闭起来，不想和任何人说话',feedback:'暂时封闭自己是身体在保护你，但如果持续太久，会形成恶性循环。试着找到一个可以安全说话的人，哪怕只是说一点点。不需要一下子打开，慢慢来。',type:'neg'},
+    {icon:'🎭',tag:'假面',scenario:'在人前戴着面具，感觉活着很假很累',feedback:'戴着面具是很多人都会有的生存策略。问题是：有没有一个地方、一个人，可以让你不戴面具？哪怕只有一点点真实，也是精神喘息的空间。',type:'neg'},
+    {icon:'😫',tag:'恐惧',scenario:'对某些事情有很深的恐惧，不知道怎么面对',feedback:'恐惧通常是过去经历在当下的投射。试着问自己：这个恐惧是基于现实，还是基于过去的经验？最坏的情况真的会发生吗？即使发生了，我真的承受不了吗？',type:'neg'},
+    {icon:'🧘',tag:'内心',scenario:'想要内心平静，但脑子总静不下来',feedback:'冥想不是让脑子一片空白，而是"看着"念头来来去去，像天空看着云飘过。每次你意识到自己走神了，那就是一次练习。关键是温柔地把注意力拉回来。',type:'pos'},
+    {icon:'📖',tag:'学习',scenario:'想开始精神成长，但不知道从哪里入手',feedback:'精神成长最简单的方式：每天留10分钟独处，写日记或冥想。不需要完美，开始就是进步。可以先从5分钟开始，让自己适应这个节奏。',type:'pos'},
+    {icon:'💜',tag:'界限',scenario:'想学会说"不"，但总是开不了口',feedback:'说"不"不需要理由，只需要确认自己的边界。练习从小事开始：不想去的聚会、不好意思拒绝的请求。每一次练习都是在给自己建立安全感。',type:'pos'},
+    {icon:'🌅',tag:'早起',scenario:'想尝试冥想但总坚持不下来',feedback:'冥想坚持不下来是正常的，不是因为你不行。把目标降到一个不可能失败的起点：每天早上醒来，深呼吸3次。这太简单了不会失败，完成了自然就想多做一点。',type:'pos'},
+    {icon:'🤝',tag:'接纳',scenario:'对自己很苛刻，很难接纳自己的缺点',feedback:'接纳不等于认同，而是承认现实的存在。试着把"我的缺点"改成"我的特点"。这不是自我欺骗，而是更诚实地看待自己。',type:'pos'},
+    {icon:'💭',tag:'日记',scenario:'想开始写日记，但不知道写什么',feedback:'日记不需要写"有意义"的内容。只需要回答一个问题：今天我感受到了什么？哪怕只是"今天有点累"，这也是在和内心连接。',type:'pos'},
+    {icon:'🌿',tag:'独处',scenario:'害怕独处，一安静下来就难受',feedback:'害怕独处往往是因为独处时不得不面对内心的声音。解决方法不是继续逃避，而是学会和自己相处。从短时间的独处开始，感受自己的呼吸、想法、情绪。',type:'pos'},
+    {icon:'🪷',tag:'放下',scenario:'想放下一个执念但怎么都放不下',feedback:'执念不是想放就能放的，它在提醒你某个核心需求没有被满足。试着理解这个执念在告诉你什么，而不是强行压制它。',type:'pos'},
+    {icon:'🔮',tag:'灵感',scenario:'突然有了人生方向的灵感，但不确定是不是真的',feedback:'有灵感是好的开始，但不要急于判断。先把这个灵感写下来，过几天再看，让它沉淀。真正的方向会经得起时间的考验。',type:'pos'},
+    {icon:'🌊',tag:'情绪',scenario:'想学会管理情绪，但总是爆发',feedback:'情绪管理不是消灭情绪，而是增加觉察和缓冲。每次要爆发时，试着给自己一个"暂停"信号：深呼吸，或者离开现场。觉察是改变的第一步。',type:'pos'},
+    {icon:'💫',tag:'直觉',scenario:'想学会相信自己的直觉，但理性总是反对',feedback:'直觉和理性不是敌人，是队友。下次直觉给出信号时，先不判断，记录下来，观察后续发展。慢慢地，你会知道什么时候该相信直觉。',type:'pos'},
+    {icon:'🎭',tag:'角色',scenario:'想活得更真实，不想再在意别人的眼光',feedback:'从最安全的关系开始，试着表达一点真实的想法和感受。不需要大改变，只需要一点点真实。你会发现，真正的朋友会接受你的真实。',type:'pos'},
+    {icon:'🧭',tag:'方向',scenario:'想找到自己热爱的领域，不知道怎么找',feedback:'热爱往往藏在"做的时候忘记了时间"的事情里。回顾过去：做什么事情的时候最容易忘记时间？那是你的热爱的线索。',type:'pos'},
+    {icon:'🌸',tag:'自爱',scenario:'想学会更爱自己，但不知道从哪开始',feedback:'自爱从"照顾自己的基本需求"开始：你今天有没有好好吃饭、睡觉、运动？这些小事做好，就是对自己最基本的尊重。',type:'pos'},
+    {icon:'⚖️',tag:'平衡',scenario:'想找到工作与生活的平衡，但总觉得做不到',feedback:'平衡不是每天完美均分，而是长期来看有取舍。列出你生命中最重要的事（5件），确保它们在你的日程里有位置。',type:'pos'},
+    {icon:'🔇',tag:'噪音',scenario:'想减少无效社交，但怕被孤立',feedback:'减少无效社交不等于被孤立，而是把时间给更重要的人。真正在乎你的人不会因为你减少了联系就离开，而那些需要靠频繁社交来维持的关系本身就不是核心关系。',type:'pos'},
+    {icon:'🪞',tag:'自省',scenario:'想开始精神复盘，但不知道怎么做',feedback:'最简单的精神复盘：每天睡前问自己三个问题——今天最让我有感触的事是什么？我从中学习到了什么？我明天想怎么做得不同？',type:'pos'},
+    {icon:'🌈',tag:'接纳',scenario:'想学会接纳情绪，而不是压抑它们',feedback:'接纳情绪的方法：给它命名，然后允许它存在。"我现在感到难过，这很正常。"给情绪贴标签会让它失去对你的控制力。',type:'pos'},
+    {icon:'🏔️',tag:'力量',scenario:'正在经历精神低谷，想知道自己能不能走出来',feedback:'能问这个问题说明你已经走在路上了。精神低谷不会永远持续，它会过去。找一件小事，让自己每天有一件事做好了，就在重建内在的力量。',type:'pos'}
+  ],
+  idea:[
+    {icon:'🧘',tag:'冥想',scenario:'想尝试正念冥想，不知道从哪开始',feedback:'正念冥想最简单的开始：找一个安静的地方，坐下来，闭眼，把注意力放在呼吸上。吸气时心里默数1，呼气数2，数到10再从1开始。走神了就重新开始，每天5分钟，坚持一周就会有感觉。',type:'pos'},
+    {icon:'📖',tag:'读书',scenario:'想系统读一些精神成长类的书',feedback:'精神成长入门书推荐：《当下的力量》（埃克哈特·托利，教你活在当下）、《少有人走的路》（斯科特·派克，心理成长的经典）、《心流》（米哈里·契克森米哈伊，心流体验的指南）。',type:'pos'},
+    {icon:'🖊️',tag:'写作',scenario:'想通过写作来整理自己的内心',feedback:'自由书写是最好的精神整理工具：打开一个空白文档或拿一张纸，写下脑子里的一切，不停顿、不修改、不评判。写10分钟后，你会对自己的内心有惊人的清晰度。',type:'pos'},
+    {icon:'🏃',tag:'运动',scenario:'想通过运动来改善精神状态',feedback:'运动是最好的天然抗抑郁药。每周3次、每次30分钟的中等强度运动（快走、跑步、骑车），效果和抗抑郁药相当。选一个你喜欢的方式，动起来最重要。',type:'pos'},
+    {icon:'🎨',tag:'艺术',scenario:'想用艺术来表达和治愈自己',feedback:'艺术疗愈不需要你会画画：可以用手指画、涂色本、音乐、甚至舞蹈。不需要追求技巧，只需要表达。每周给自己一次"创造"的时间，让情绪有一个出口。',type:'pos'},
+    {icon:'🗣️',tag:'倾诉',scenario:'想找一个可以倾诉的对象',feedback:'倾诉不需要一个完美的对象，而是一个"安全"的对象。找一个人（朋友、家人、咨询师），告诉他你需要一个能认真听你说话的人，不需要给建议，只需要听。',type:'pos'},
+    {icon:'🌿',tag:'自然',scenario:'想通过接触自然来充电',feedback:'自然是最被低估的精神充电方式。每周至少一次，在自然中待30分钟以上（公园、树木、河流都可以）。研究显示，自然接触可以显著降低压力激素水平。',type:'pos'},
+    {icon:'📵',tag:'断联',scenario:'想尝试数字排毒一天，不知道可不可行',feedback:'数字排毒是完全可行的，从一个周末开始。选择一天，完全不看社交媒体、手机静音、只做线下活动。最初会焦虑，但那正是你需要面对的。',type:'pos'},
+    {icon:'🛋️',tag:'休息',scenario:'想给自己一个"什么都不做"的许可',feedback:'"什么都不做"不是懒惰，是精神需要。你每天允许自己有"无功用的时间"吗？试着每天给自己15分钟，不做任何事，只是存在。这是精神修养的一部分。',type:'pos'},
+    {icon:'🧠',tag:'认知',scenario:'想了解自己的思维模式和认知偏差',feedback:'认知偏差是每个人都会有的。推荐做一下"认知偏差测试"（网上有），了解自己最常见的偏差是什么，比如损失厌恶、确认偏误等。知道自己怎么"骗自己"，是改变的第一步。',type:'pos'},
+    {icon:'🎯',tag:'目标',scenario:'想设定一个精神成长的具体目标',feedback:'精神成长目标要具体：不是"我要成长"，而是"我要每天冥想10分钟"、"我要每周写一篇日记"。具体的目标才可衡量、可执行。',type:'pos'},
+    {icon:'💼',tag:'工作',scenario:'工作压力太大，想重新思考工作与精神生活的关系',feedback:'工作与精神生活不是对立关系，而是互相支撑。问自己：工作中最消耗我的部分是什么？我能不能减少或优化这部分？工作之外，我有没有让精神充电的活动？',type:'pos'},
+    {icon:'🤝',tag:'关系',scenario:'想改善和某个重要人物的关系',feedback:'改善关系从"理解对方"开始，而不是"让对方改变"。试着站在对方的角度想：他为什么会这样做？他的需求是什么？这会给你新的解决思路。',type:'pos'},
+    {icon:'🪞',tag:'镜子',scenario:'想更诚实地面对自己，但总是逃避',feedback:'面对自己的第一步：每天找一个安静的时刻，问自己一个问题——今天我最不想承认的是什么？不评判，只是写下来。诚实是一种可以练习的能力。',type:'pos'},
+    {icon:'🌱',tag:'成长',scenario:'想知道自己精神成长到了什么程度',feedback:'精神成长的最好指标不是你读了多少书，而是：遇到同样的挑战，你的反应有没有变化？同一个问题，去年和今年你的感受和应对方式有什么不同？',type:'pos'},
+    {icon:'🕯️',tag:'仪式',scenario:'想建立一些属于自己的精神仪式',feedback:'精神仪式不需要复杂：早晨的一杯茶、睡前的3次深呼吸、周日的1小时散步。这些重复的小动作会给你稳定感和意义感。',type:'pos'},
+    {icon:'🙏',tag:'信念',scenario:'在思考人生的意义是什么',feedback:'"人生的意义是什么"这个问题没有标准答案，它需要你自己来回答。试着换一种问法：我希望我的人生对别人有什么意义？这个答案会给你方向。',type:'pos'},
+    {icon:'🧭',tag:'方向',scenario:'想知道自己的人生使命是什么',feedback:'人生使命不是想出来的，是在行动中发现的。多尝试、多体验、多感受：做什么事情的时候最有"对"的感觉？那是使命的线索。使命不是找一次就完事的，是持续探索的过程。',type:'pos'},
+    {icon:'🏔️',tag:'挑战',scenario:'想通过挑战自己来成长，但不知道做什么',feedback:'成长往往发生在舒适区的边缘。找一个有点难但不是太难的挑战：比如主动和一个陌生人说话、尝试一个新的活动、公开分享你的想法。',type:'pos'},
+    {icon:'🌟',tag:'自我',scenario:'想更清晰地认识自己是谁',feedback:'认识自己是一个终身的课题。几个问题可以帮助你：什么是你最看不惯的事（说明你的价值观）？如果钱不是问题，你会做什么（说明你的热爱）？你希望你的葬礼上别人怎么评价你（说明你的人生优先级）？',type:'pos'},
+    {icon:'📱',tag:'社交媒体',scenario:'想戒掉过度刷社交媒体的习惯',feedback:'社交媒体的问题不是"看"本身，而是"比较"带来的焦虑。尝试：把社交App移到手机第二屏、增加打开它的摩擦力；每天设定"无手机时间"（比如吃饭时）。',type:'neg'},
+    {icon:'🏃',tag:'自律',scenario:'想坚持精神习惯但总是半途而废',feedback:'习惯半途而废不是因为意志力差，而是因为计划太激进。把目标降到"不可能失败"：不是每天冥想30分钟，而是每天冥想2分钟。完成了再慢慢加量。',type:'neg'},
+    {icon:'📖',tag:'学习',scenario:'读了很多精神成长的书，但感觉没有用',feedback:'读书本身不会改变你，只有把读到的东西"用"起来才会。选一本书里最触动你的一点，在接下来一周里刻意练习这一个点。改变从一点开始。',type:'neg'},
+    {icon:'💭',tag:'冥想',scenario:'冥想时脑子根本静不下来，放弃了',feedback:'冥想不是让脑子静下来，而是"觉察"脑子在动。每次你发现自己在想事情，你就已经在冥想了。以为"冥想失败"是因为误解了冥想到底是什么。',type:'neg'},
+    {icon:'😔',tag:'共情',scenario:'想更理解别人的感受，但总是做不到',feedback:'共情不是天生的，是可以练习的。技巧：当你听到对方说话时，先不要想"我要怎么回应"，而是先想象"如果我是他，我会有什么感受"。',type:'neg'},
+    {icon:'🧠',tag:'心理',scenario:'遇到心理问题想寻求专业帮助，又觉得太贵',feedback:'心理咨询确实不便宜，但有些低成本选择：学校/社区心理中心、线上心理咨询平台（有些有低价档）、团体治疗（费用分摊效果相当）。心理健康和身体一样重要，值得投入。',type:'neg'},
+    {icon:'🎯',tag:'目标',scenario:'设了很多目标但总是达不成',feedback:'目标达不成通常是因为：目标太大、太模糊、或者和你的真实意愿不符。试着把大目标分解到"今天能做的下一步"，每完成一步就是一次成功的积累。',type:'neg'},
+    {icon:'🧭',tag:'意义',scenario:'总是觉得现在做的事情没有意义',feedback:'意义不是"找到"的，是"创造"的。即使是最普通的事，也可以问自己：这件事对别人有什么价值？哪怕是很小的一点价值，也是意义的来源。',type:'neg'},
+    {icon:'⚡',tag:'能量',scenario:'精神状态起伏很大，不稳定',feedback:'精神不稳定往往是因为能量来源单一（比如只靠工作或只靠一段关系）。建立多元的能量来源：运动、友情、兴趣、独处、意义感。鸡蛋不要放在一个篮子里。',type:'neg'},
+    {icon:'🪞',tag:'自省',scenario:'自省时越想越乱，反而更焦虑',feedback:'自省变成焦虑是因为想太多而没有"做"来落地。想太多时停下来，做一件具体的小事：整理桌面、出去走一圈、洗个澡。身体动起来，头脑才会清晰。',type:'neg'},
+    {icon:'🙏',tag:'信仰',scenario:'想建立精神信仰，但不知道该信什么',feedback:'精神信仰不需要"信"什么特定的宗教，而是找到你认为宇宙/人生最核心的那个真相。可以是"万物相连"，可以是"爱是终极答案"，可以是"一切皆体验"。不需要别人认同，你自己相信就好。',type:'neg'},
+    {icon:'🏔️',tag:'低谷',scenario:'经历过精神低谷后，害怕再次跌入',feedback:'穿越低谷后，你会比之前更有韧性，因为你知道黑暗会过去，下次来临时不会那么恐惧。低谷是精神成长的礼物，虽然包装很难看。',type:'neg'},
+    {icon:'🎭',tag:'面具',scenario:'在不同人面前表现不一样，不知道哪个是真实的自己',feedback:'在不同场合展现不同面向是正常的，这不等于"假"。关键是：有没有至少一个地方、一个人，让你不需要演戏？那个才是你最核心的身份。',type:'neg'},
+    {icon:'💔',tag:'关系',scenario:'在一段消耗自己的关系里，不知道该不该离开',feedback:'消耗你的关系不是你的问题，是匹配度的问题。如果一段关系长期让你感觉糟糕，而不是成长，离开不是自私，是保护自己的边界。',type:'neg'},
+    {icon:'🌊',tag:'情绪',scenario:'容易情绪化，事后后悔说了伤人的话',feedback:'情绪爆发之前，先问自己：这件事在5年后还重要吗？如果不重要，就把精力省下来。说话之前深呼吸3秒，这个简单的动作可以避免很多伤害。',type:'neg'},
+    {icon:'😴',tag:'睡眠',scenario:'精神状态差和睡眠问题相互影响',feedback:'睡眠和精神状态是互相影响的正向循环或恶性循环。优先解决睡眠：固定起床时间（即使没睡好也准时起床）、睡前不看屏幕、卧室只用来睡觉。睡眠改善了，精神状态会跟上。',type:'neg'},
+    {icon:'🗓️',tag:'日程',scenario:'日程太满，完全没有给自己精神充电的时间',feedback:'忙碌是一种逃避——用外在的填满来回避内在的空虚。强迫自己在日程里加入"不做任何事"的时间，哪怕只有15分钟，也是一个开始。',type:'neg'},
+    {icon:'🔮',tag:'直觉',scenario:'太依赖理性分析，不敢相信自己的直觉',feedback:'直觉和理性都是工具，不是非此即彼。给直觉一个"小实验"的机会：在不重要的决定上，试着跟随直觉，然后观察结果。慢慢地你会知道什么时候该信任直觉。',type:'neg'},
+    {icon:'🌈',tag:'标签',scenario:'被贴了很多标签（内向/敏感/完美主义），想摆脱',feedback:'标签是一个简化的标签，不是完整的你。"内向"不等于"不能表达"，"敏感"不等于"脆弱"。把标签当作参考，而不是定义。你的行为和选择才代表你是谁。',type:'neg'}
+  ],
+  cheer:[
+    {icon:'🧘',tag:'平静',scenario:'经历了一段混乱后，终于重新找回了内心的平静',feedback:'重新找回平静是一种珍贵的能力，尤其是在经历混乱之后。你证明了自己可以从风暴中走出来，这份确定性比任何外在的成就都更有价值。',type:'pos'},
+    {icon:'🌅',tag:'早起',scenario:'坚持早起冥想一个月了，感觉精神状态明显变好',feedback:'一个月的坚持是一个里程碑，说明这已经不只是想法，而是变成了你生活的一部分。这个习惯会在未来持续给你回报。',type:'pos'},
+    {icon:'💜',tag:'界限',scenario:'第一次对消耗自己的人说了"不"，感觉很爽',feedback:'第一次说"不"往往是最难的，你做到了！那个"不"是在建立自己的边界，保护自己的能量。以后再说会越来越容易。',type:'pos'},
+    {icon:'🤝',tag:'和解',scenario:'和一直有心结的人和解了，释然了很多',feedback:'和解是一种选择，是你在说"我选择放下"。无论对方有没有改变，你已经让自己从那个沉重的过去里走出来了。',type:'pos'},
+    {icon:'🪷',tag:'放下',scenario:'放下了困扰自己很久的一个执念',feedback:'放下一个执念需要很大的勇气，也需要时间。你做到了，说明你已经准备好往前走了。从今天开始，那份能量可以放在更有价值的事情上。',type:'pos'},
+    {icon:'🏔️',tag:'力量',scenario:'穿越了人生最艰难的低谷，现在更强大了',feedback:'穿越低谷本身就是一种力量。你现在拥有的韧性，是没有经历过这些的人永远学不到的。这是你最珍贵的精神财富。',type:'pos'},
+    {icon:'🔮',tag:'顿悟',scenario:'突然想通了一件想了很久的事情',feedback:'这种"啊哈"时刻是长期思考积累的结果，是你的潜意识的运算终于给出了答案。好好珍惜这个领悟，把它写下来，它会成为你精神地图上的重要地标。',type:'pos'},
+    {icon:'💫',tag:'自洽',scenario:'终于接受了完整的自己，包括不完美的部分',feedback:'自我接纳是最深层的和解。你不再和自己作对了，这份内在的和谐是你送给自己的最珍贵的礼物。',type:'pos'},
+    {icon:'🌿',tag:'成长',scenario:'回顾过去一年，发现自己真的成长了很多',feedback:'看到自己的成长本身就是一种力量。每个人都在成长，只是有些人没有停下来回顾。你做到了，你的成长被你自己看见了。',type:'pos'},
+    {icon:'🧭',tag:'方向',scenario:'终于找到了自己真正想走的路',feedback:'找到方向是一种精神礼物。它让你所有的探索都有了意义。接下来的路可能会挑战重重，但你会走得比迷茫时踏实得多。',type:'pos'},
+    {icon:'💪',tag:'韧性',scenario:'面对一个很大的挫折，没有被打垮',feedback:'没有被打垮本身就是成就。挫折会来的，但你证明了你可以扛过去。这种确定感会成为你未来面对挑战的底气。',type:'pos'},
+    {icon:'🕊️',tag:'自由',scenario:'不再被外界的评价左右，活得更自在了',feedback:'从外界的评价体系里解脱出来，是精神自由的重要一步。你开始用自己的标准来衡量自己，而不是别人的尺子。',type:'pos'},
+    {icon:'🌟',tag:'特质',scenario:'接受了自己的敏感特质，不再为此感到羞耻',feedback:'敏感不是弱点，是天赋。高度敏感的人能感知到更多，能共情更深，能创造更细腻。你的敏感是真正的力量。',type:'pos'},
+    {icon:'💜',tag:'关系',scenario:'和家人的关系有了质的改善',feedback:'家庭关系的改善是最有价值的成就之一，因为这是最难的和解。和家人和解，等于和一部分的自己和解。',type:'pos'},
+    {icon:'🧠',tag:'认知',scenario:'突破了多年的思维局限，有了全新的视角',feedback:'打破思维局限是精神成长最珍贵的成果之一。以前的你可能会被同样的事情卡住，现在你有了更大的内在空间来处理它们。',type:'pos'},
+    {icon:'🎯',tag:'意义',scenario:'找到了做某件事的意义感，感觉整个人的状态都不一样了',feedback:'意义感是精神的氧气。当你找到意义，所有普通的事情都有了重量。这份感觉值得好好守护，让它引导你的选择。',type:'pos'},
+    {icon:'🌸',tag:'自爱',scenario:'学会了真正照顾自己的情绪，而不是压抑它们',feedback:'照顾自己的情绪是一种自爱的表现。你不再需要假装坚强，可以允许自己有脆弱的时刻。这是真正的内在力量。',type:'pos'},
+    {icon:'🤝',tag:'支持',scenario:'遇到了一群精神上可以互相支持的朋友',feedback:'有一群可以互相支持的人是一种巨大的财富。好的关系网是你精神的庇护所，也是你继续成长的土壤。',type:'pos'},
+    {icon:'🏔️',tag:'高峰',scenario:'体验到了从未有过的精神高峰体验（极度平静/喜悦/连接感）',feedback:'精神高峰体验是灵魂的礼物。这种"超越日常"的感觉会留在你的记忆里，成为你精神的锚点，让你知道"我体验过那种状态"。',type:'pos'},
+    {icon:'🕯️',tag:'传承',scenario:'把自己的精神成长经验分享给了需要的人',feedback:'把自己走过的路分享出去，是精神成长最好的证明。你不仅帮助了自己，还有能力帮助别人。这是精神成熟的标志。',type:'pos'},
+    {icon:'🧘',tag:'平静',scenario:'经历了很大的波动后，重新找回了内在的宁静',feedback:'内在的宁静是来之不易的，尤其是在经历了波折之后。你证明了自己有重新找回平衡的能力，这本身就是一种深层的力量。',type:'pos'},
+    {icon:'🌅',tag:'习惯',scenario:'养成了一直想要的精神习惯（冥想/日记/早睡）',feedback:'养成精神习惯是一个值得庆祝的里程碑。这意味着你不再依赖意志力，而是让习惯来驱动你。这是真正的内在转变。',type:'pos'},
+    {icon:'💜',tag:'边界',scenario:'建立了一个很好的个人边界，让自己更轻松了',feedback:'清晰的个人边界是精神成熟的重要标志。你开始保护自己的时间和能量，这让你可以更专注于真正重要的事。',type:'pos'},
+    {icon:'🤝',tag:'和解',scenario:'和过去的自己达成了和解',feedback:'和过去的自己和解是最深层的和解。你承认了过去的你已经尽力了，你不再需要背负那份自我责备。这份释然会给你真正的自由。',type:'pos'},
+    {icon:'🪷',tag:'放下',scenario:'放下了对自己"应该成为谁"的执念',feedback:'放下"应该"的执念是真正的自我解放。你开始按照自己本来的样子生活，而不是按照别人或社会期待的样子。这是精神自由的核心。',type:'pos'},
+    {icon:'🏔️',tag:'韧性',scenario:'面对巨大挑战，用内在力量扛过来了',feedback:'内在力量在挑战面前才会真正显现。你扛过来了，这说明你的精神基础比你想象的更扎实。这份韧性是你最可靠的伙伴。',type:'pos'},
+    {icon:'🔮',tag:'洞察',scenario:'对自己和世界有了更深的洞察和理解',feedback:'更深的洞察让你可以更平静地面对复杂。你不再被表象带走，而是能看到事物背后的规律。这是一种可以伴随一生的智慧。',type:'pos'},
+    {icon:'💫',tag:'自洽',scenario:'行为、价值观和内心终于一致了',feedback:'内在一致是精神成长最核心的成就之一。你的行为和价值观不再冲突，你不需要再假装什么。这份自洽会带来深层的轻松感。',type:'pos'},
+    {icon:'🌿',tag:'成长',scenario:'帮助了另一个人实现精神成长',feedback:'帮助别人成长是最好的学习方式。你能帮助别人，说明你自己已经内化了这些成长。这是一种最有意义的成就感。',type:'pos'},
+    {icon:'🧭',tag:'方向',scenario:'在人生重大选择面前，做出了忠于内心的决定',feedback:'忠于内心的选择需要勇气，尤其是在重大决定面前。你选择了自己的路，这份决定本身就是一种精神力量的体现。',type:'pos'},
+    {icon:'💪',tag:'力量',scenario:'在别人最困难的时候，成为了他们的精神支柱',feedback:'能成为别人的精神支柱，说明你的内在力量已经足够强大，而且有余力分享给他人。这是一种最高级的精神成熟形式。',type:'pos'},
+    {icon:'🕊️',tag:'自由',scenario:'在精神上彻底放下了某段沉重的关系',feedback:'放下沉重的关系是一种精神解放。你不再被过去的关系消耗，而是把那份能量释放出来用于当下。这是真正的精神自由。',type:'pos'},
+    {icon:'🌟',tag:'特质',scenario:'把自己的特质（敏感/内向/创造力）转化成了真正的力量',feedback:'把自己的特质转化为力量是最深层的自我实现。你不再因为自己和别人不同而困惑，而是开始欣赏这份独特。',type:'pos'},
+    {icon:'💜',tag:'深度',scenario:'在重要的关系中建立了前所未有的深度连接',feedback:'深度的人际连接是精神生活最重要的支撑之一。你们之间的信任和理解，是你们双方共同创造的最珍贵的东西。',type:'pos'},
+    {icon:'🧠',tag:'突破',scenario:'实现了一个精神上的重大突破（超越恐惧/放下执念/达到新的意识状态）',feedback:'精神上的重大突破是人生最值得庆祝的成就之一，因为它改变的是你看世界的方式，而不只是外在的结果。',type:'pos'},
+    {icon:'🎯',tag:'使命',scenario:'找到了自己的人生使命，或者对使命有了清晰的认识',feedback:'找到人生使命是一种精神觉醒。它让你的所有经历都有了叙事，让你的努力有了方向。这份清晰感是千金难买的。',type:'pos'},
+    {icon:'🌸',tag:'自爱',scenario:'在自爱方面有了真正的突破，不再苛求自己',feedback:'真正不再苛求自己，是一种深层的内在自由。你学会了用更温柔的方式对待自己，这会改变你对待世界的方式。',type:'pos'},
+    {icon:'🤝',tag:'群体',scenario:'加入了一个精神上可以互相成长的社群',feedback:'有一个可以共同成长的社群是一种巨大的精神财富。好的社群会让你成长得更快，而且不会孤独。',type:'pos'},
+    {icon:'🏔️',tag:'高峰',scenario:'达到了自己从未想象过的精神高度',feedback:'超越自己曾经的想象，是精神成长最美的部分。你突破了自己设定的边界，看到了更广阔的自己。',type:'pos'},
+    {icon:'🕯️',tag:'传承',scenario:'帮助孩子/后辈建立了健康的精神基础',feedback:'帮助下一代建立精神基础，是你能留下的最有价值的遗产。你的智慧和经验，正在通过他们延续下去。',type:'pos'}
+  ],
+  report:[
+    {icon:'🧘',tag:'本月',scenario:'本月精神状态整体稳定，没有大的波动',feedback:'精神状态整体稳定是一种难得的成就，尤其在现代生活的压力下。不需要大起大落，稳定的内在就是最好的基础。继续保持。',type:'pos'},
+    {icon:'📖',tag:'本月',scenario:'读了三本精神成长相关的书，收获很大',feedback:'每月读3本精神成长的书是很好的学习节奏。你在主动扩展自己的精神视野，这些书里的内容会在未来某个时刻突然"点亮"你的某个困惑。',type:'pos'},
+    {icon:'💜',tag:'本月',scenario:'情绪管理有进步，发火次数明显减少了',feedback:'情绪管理进步说明你在自我觉察上有真实的成长。发火次数减少不等于情绪被压抑，而是你有了更多的内在空间来容纳和消化它们。',type:'pos'},
+    {icon:'🌅',tag:'本月',scenario:'坚持冥想/正念练习超过20天',feedback:'坚持冥想20天是一个很重要的节点，说明这已经不只是尝试，而是变成了习惯。这个习惯会在未来持续给你回报。',type:'pos'},
+    {icon:'🤝',tag:'本月',scenario:'和一个重要的人关系有了明显的改善',feedback:'人际关系改善是精神成长的最好证明之一。关系的质量直接影响内在状态，你在这个方向上的努力是值得的。',type:'pos'},
+    {icon:'💪',tag:'本月',scenario:'面对压力没有崩溃，用更成熟的方式处理了',feedback:'在压力下保持成熟应对，是精神力量的具体体现。你没有让压力打乱你的节奏，而是主动管理了自己的反应。这是真正的内在力量。',type:'pos'},
+    {icon:'🪷',tag:'本月',scenario:'放下了一个积压了很久的心结',feedback:'放下一个积压已久的心结，是一种精神上的减负。你把长期占用心力资源的那份重量放下了，这些能量现在可以用在更有价值的地方。',type:'pos'},
+    {icon:'🧠',tag:'本月',scenario:'对某件事有了新的认知突破',feedback:'认知突破是精神成长最有价值的成果之一。它改变了你看某个问题的方式，这种新视角会让类似的问题以后都变得更容易处理。',type:'pos'},
+    {icon:'🏃',tag:'本月',scenario:'通过运动显著改善了精神状态',feedback:'运动对精神的改善是有科学依据的。你亲身验证了这一点，这个"发现"可以成为你以后保持运动习惯的动力。',type:'pos'},
+    {icon:'🔮',tag:'本月',scenario:'直觉变得更敏锐了，做决定时更有信心',feedback:'直觉变敏锐说明你和自己内在的连接更深了。你开始能读到那些微妙的信号，这是一个很有价值的成长方向。',type:'pos'},
+    {icon:'😔',tag:'本月',scenario:'经历了情绪很低落的时期',feedback:'情绪低落是正常的人类体验，不是失败。首先照顾好自己的基本需求：睡眠、饮食、运动。如果持续超过两周，建议寻求专业支持。',type:'neg'},
+    {icon:'😰',tag:'本月',scenario:'焦虑感明显增加，影响了日常生活',feedback:'焦虑感增加通常有几个常见原因：信息过载、睡眠不足、运动减少、社交不足。检查一下这几个方面，从最容易调整的开始。',type:'neg'},
+    {icon:'😴',tag:'本月',scenario:'睡眠质量明显下降',feedback:'睡眠是精神健康的基石。建议从睡眠卫生开始：固定起床时间、睡前1小时不看屏幕、卧室只用来睡觉。睡眠改善后，很多精神问题会自然缓解。',type:'neg'},
+    {icon:'😣',tag:'本月',scenario:'在某个重要选择上非常纠结，一直做不了决定',feedback:'纠结太久往往是想要"完美答案"。试着给决策设定一个截止时间：无论准备得多充分，到这个时间就做决定。不完美的决定好过无限期的纠结。',type:'neg'},
+    {icon:'💔',tag:'本月',scenario:'一段重要关系出现了问题，内心很痛苦',feedback:'关系问题带来的痛苦是真实的。先照顾好自己的情绪，再考虑如何处理这段关系。有时候，给自己和对方一点空间是第一步。',type:'neg'},
+    {icon:'🏃',tag:'本月',scenario:'完全没时间照顾自己的精神生活',feedback:'没时间照顾自己，往往是因为其他事情占据了所有时间。这是一个信号：你需要重新审视你的优先级。在日程里强制加入"精神充电时间"，哪怕只有15分钟。',type:'neg'},
+    {icon:'📱',tag:'本月',scenario:'社交媒体使用时间明显增加，焦虑感也增加了',feedback:'社交媒体和焦虑之间的相关性是有大量研究支持的。试着做一周的数字实验：减少社交媒体使用，看看焦虑感是否有变化。',type:'neg'},
+    {icon:'💭',tag:'本月',scenario:'自我否定声音变大，开始怀疑自己的价值',feedback:'自我否定的声音变大是一个需要认真对待的信号。试着把这些声音写下来，然后问自己：这是事实，还是我对自己的偏见？往往写下来之后，你会发现很多声音是夸大的。',type:'neg'},
+    {icon:'🎭',tag:'本月',scenario:'在别人面前表演得很累，感觉越来越假',feedback:'戴着面具表演太久会消耗大量的精神能量。这个月你需要好好休息，并认真考虑：在哪个人面前可以不戴面具？你需要给自己找一个可以真实的空间。',type:'neg'},
+    {icon:'🌀',tag:'本月',scenario:'情绪起伏很大，时而亢奋时而低落',feedback:'情绪剧烈起伏往往意味着内在的不稳定。试着建立更稳定的日常节律：固定睡眠时间、固定运动时间。身体节奏稳定了，情绪也会随之稳定。',type:'neg'}
+  ]
+};
+let currentQAType = null;
+let currentQADir = 'result';
 function askPartner(type) {
   const partner = currentPartner || PARTNERS[0];
   const style = partner.style || 'gentle';
-  const labels = { progress: '📈 进展', struggle: '😣 困难', idea: '💡 想法', cheer: '🎉 喜事' };
-  const replies = {
-    gentle: {
-      progress: { pos: ['说说最近的精神状态，我帮你分析分析。', '好，跟我讲讲你最近的改变。'], neg: ['哪里还没达到预期？说说看。'] },
-      struggle: { pos: ['有困难是好事，说明你在突破！'], neg: ['没关系，一起想办法。'] },
-      idea: { pos: ['好想法！说说你的灵感。'], neg: ['说说你的困惑，我帮你推演。'] },
-      cheer: { pos: ['哈哈！好事！快说！🎉'], neg: ['好事！让我沾沾喜气！🎊'] }
-    },
-    passion: {
-      progress: { pos: ['冲！说说你的精神战果！🔥'], neg: ['什么卡住了？冲！💪'] },
-      struggle: { pos: ['困难算什么，你是最棒的！💪'], neg: ['没有过不去的坎！🔥'] },
-      idea: { pos: ['好创意！🔥 让我听听！'], neg: ['说说你的想法！⚡'] },
-      cheer: { pos: ['🎉🎉🎉 说！我要听！'], neg: ['哈哈！好事！🎊'] }
-    },
-    rational: {
-      progress: { pos: ['汇报收到。数据记录中。📊'], neg: ['什么因素影响了精神状态？📊'] },
-      struggle: { pos: ['困难是数据点在积累经验。'], neg: ['从数据角度看，怎么解决？📊'] },
-      idea: { pos: ['好。说说的核心假设是什么。📊'], neg: ['说说你的思考逻辑。📊'] },
-      cheer: { pos: ['📊 记录这一时刻。'], neg: ['好事！量化一下？📊'] }
-    },
-    tsundere: {
-      progress: { pos: ['……行吧，算你有点进展。'], neg: ['又卡了？哼。'] },
-      struggle: { pos: ['困难谁都有。说吧。'], neg: ['……算了，我帮你。😒'] },
-      idea: { pos: ['😏 什么想法？说来听听。'], neg: ['说说看。🤷'] },
-      cheer: { pos: ['……算你有点本事。😏'], neg: ['好事？😏'] }
-    }
+  const emoji = partner.emoji;
+  const typeConfig = {
+    progress:{label:'📈 进展',panel:'progress',dir:'result',intro:{gentle:['说说最近的精神状态 🌿','好，跟我讲讲你最近的变化 💫'], passion:['冲！说说你的精神战果！🔥','好！让我听听！⚡'], rational:['汇报收到。精神数据记录中。📊','好，说说关键变化。'], tsundere:['……行吧，说说最近怎么样。😏','又有什么进展？哼。😏']}},
+    struggle:{label:'😣 困难',panel:'struggle',dir:'solution',intro:{gentle:['有困难是正常的，说说看 💙','没关系，一起想办法 🌿'], passion:['困难算什么，你是最棒的！💪','来！我帮你拆解！🔥'], rational:['困难是数据点在积累经验。说，我帮你分析。📊'], tsundere:['困难谁都有。说吧，我勉强帮你。😒','……算了，我帮你想想办法。😒']}},
+    idea:{label:'💡 想法',panel:'idea',dir:'result',intro:{gentle:['好想法！说说你的灵感来源 🌿','来，展开讲讲这个点子 💫'], passion:['好创意！🔥 让我听听！','来！展开讲！我要感受你的热情！⚡'], rational:['好。说说的核心假设是什么。📊','从认知角度看，这个想法的可行性如何？'], tsundere:['😏 什么想法？说来听听，不保证有用。','说说看。🤷']}},
+    cheer:{label:'🎉 喜事',panel:'cheer',dir:'result',intro:{gentle:['哈哈！好事！快说！我要听！🎉','哈哈！这种时刻值得好好庆祝！💫'], passion:['🎉🎉🎉 说！我要听！全部细节！','哈哈！太棒了！🔥'], rational:['📊 积极情绪有利于持续行动。说细节。','好的势头要保持。'], tsundere:['😏 哼，还行吧。什么好事？','……算你有点本事。说，什么事？😏']}},
+    report:{label:'📣 汇报进展',panel:'report',dir:'result',intro:{gentle:['收到。说给我听听 🌿','好，让我了解你的最新情况 💫'], passion:['冲！汇报收到！🔥','好！让我听听！⚡'], rational:['汇报收到。数据记录中。📊','好，说说关键变化。'], tsundere:['……行吧，说吧。😏','又来了？……哼，我听听。😏']}},
+    question:{label:'🤔 有问题想问',panel:'question',dir:'solution',intro:{gentle:['问吧，我尽力回答 💙'], passion:['问！什么问题都能接住！💪'], rational:['好的。给出你的问题。📊'], tsundere:['🤷 问就问，不保证你能听懂。😏']}}
   };
-  showPartnerMsg(labels[type], false);
-  setTimeout(() => {
-    const arr = replies[style]?.[type]?.pos || replies.gentle[type].pos;
-    showPartnerMsg(partner.emoji + ' ' + arr[Math.floor(Math.random() * arr.length)], true);
-  }, 800);
+  const cfg = typeConfig[type] || typeConfig.progress;
+  const introArr = cfg.intro[style] || cfg.intro.gentle;
+  const intro = introArr[Math.floor(Math.random() * introArr.length)];
+  showPartnerMsg(cfg.label, false);
+  setTimeout(() => { showPartnerMsg(emoji + ' ' + intro, true); setTimeout(() => openTypePanel(cfg.panel, cfg.dir), 500); }, 700);
 }
-
-let currentQAType = null;
-
-function openQAPanel(type) {
-  currentQAType = type;
-  const data = type === 'question' ? QA_DATA : PROGRESS_DATA;
-  const title = type === 'question' ? '🤔 有问题想问' : '📣 汇报一下进展';
-  const sub  = type === 'question' ? '选择一个最符合你情况的问题，我来给你解答' : '说说现在的情况，我给你针对性的反馈';
-  document.getElementById('qaTitle').innerText = title;
-  document.getElementById('qaSub').innerText = sub;
-
-  const scroll = document.getElementById('qaScroll');
-  scroll.innerHTML = '';
-
-  // 正向
-  if (data.pos.length) {
-    const posLabel = document.createElement('div');
-    posLabel.style.cssText = 'font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;';
-    posLabel.innerText = '⬆️ 好的进展 / 想得到鼓励';
-    scroll.appendChild(posLabel);
-    data.pos.forEach((item, i) => {
-      scroll.appendChild(makeQACard(type, 'pos', i, item));
-    });
-  }
-
-  // 负向
-  if (data.neg.length) {
-    const negLabel = document.createElement('div');
-    negLabel.style.cssText = 'font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;';
-    negLabel.innerText = '⬇️ 不好的情况 / 需要引导';
-    scroll.appendChild(negLabel);
-    data.neg.forEach((item, i) => {
-      scroll.appendChild(makeQACard(type, 'neg', i, item));
-    });
-  }
-
+function openTypePanel(panel, dir) {
+  currentQAType = panel; currentQADir = dir;
+  const data = TYPE_SCENES_SPR[panel] || [];
+  const titleMap = {progress:'📈 选择一个最符合你情况的精神进展', struggle:'😣 选择一个你正在面对的内在困难', idea:'💡 选择一个你想聊的精神成长想法', cheer:'🎉 选择一件你想分享的内在喜事', report:'📣 汇报一下本月精神状态', question:'🤔 有问题想问？选一个最接近的'};
+  const subMap = {result:'选择后我会和你共情，然后给出结果导向的反馈 💫', solution:'选择后我会和你共情，然后一起想办法 💪'};
+  document.getElementById('qaTitle').innerText = titleMap[panel] || panel;
+  document.getElementById('qaSub').innerText = subMap[dir] || '';
+  const scroll = document.getElementById('qaScroll'); scroll.innerHTML = '';
+  const posItems = data.filter(i => i.type === 'pos');
+  if (posItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;'; l.innerText='⬆️ 好的进展 / 想得到鼓励'; scroll.appendChild(l); posItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
+  const negItems = data.filter(i => i.type === 'neg');
+  if (negItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;'; l.innerText='⬇️ 遇到困难 / 需要引导'; scroll.appendChild(l); negItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
   document.getElementById('qaOverlay').classList.add('show');
-  // 点击遮罩关闭
-  document.getElementById('qaOverlay').onclick = function(e) {
-    if (e.target === document.getElementById('qaOverlay')) closeQAPanel();
-  };
+  document.getElementById('qaOverlay').onclick = function(e) { if (e.target === document.getElementById('qaOverlay')) closeQAPanel(); };
 }
-
-function makeQACard(type, polarity, index, item) {
-  const card = document.createElement('div');
-  card.className = `qa-card ${polarity}`;
-  card.innerHTML = `
-    <div class="qa-card-icon">${item.icon}</div>
-    <div class="qa-card-text">${item.question || item.scenario}</div>
-    <div class="qa-card-tag ${polarity}">${item.tag}</div>
-  `;
-  card.onclick = () => {
-    closeQAPanel();
-    setTimeout(() => showFeedback(type, polarity, index), 300);
-  };
-  return card;
-}
-
-function closeQAPanel() {
-  document.getElementById('qaOverlay').classList.remove('show');
-  document.getElementById('qaOverlay').onclick = null;
-}
-
-function showFeedback(type, polarity, index) {
-  const data = type === 'question' ? QA_DATA : PROGRESS_DATA;
-  const item = data[polarity][index];
+function showTypeFeedback(panel, dir, item) {
   const partner = currentPartner || PARTNERS[0];
-
+  const style = partner.style || 'gentle';
+  const emoji = partner.emoji;
+  const isPos = item.type === 'pos';
+  const empathy = getEmpathy(style, dir, isPos);
+  const feedback = getFeedback(style, dir, isPos);
   const fbCard = document.getElementById('fbCard');
-  fbCard.className = `fb-card ${polarity}`;
+  fbCard.className = `fb-card ${item.type}`;
   document.getElementById('fbEmoji').innerText = item.icon;
   const labelEl = document.getElementById('fbLabel');
-  labelEl.innerText = polarity === 'pos' ? '✨ 正向' : '⚠️ 需要引导';
-  labelEl.className = `fb-label ${polarity}`;
-  document.getElementById('fbTitle').innerText = item.tag + '反馈';
-  document.getElementById('fbText').innerText = item.answer || item.feedback;
-  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${partner.emoji} ${partner.name}说：</div>"${getPartnerReply(partner.style, type, polarity)}"`;
-
+  labelEl.innerText = isPos ? '✨ 正向' : '⚠️ 需要引导';
+  labelEl.className = `fb-label ${item.type}`;
+  document.getElementById('fbTitle').innerText = item.tag;
+  document.getElementById('fbText').innerText = item.feedback;
+  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${emoji} ${partner.name}说：</div>"${empathy} <span style="color:#1565c0">${feedback}</span>"`;
   document.getElementById('fbOverlay').classList.add('show');
 }
-
-function getPartnerReply(style, type, polarity) {
-  const replies = {
-    gentle: {
-      question: {
-        pos: ['你真的在认真对待这件事，我很欣慰。', '这件事处理得很好，继续保持。'],
-        neg: ['别太自责，每个人都会有这样的时候。慢慢来。', '没关系，找到原因就好了，我们一起面对。']
-      },
-      progress: {
-        pos: ['你愿意分享这个，说明你在认真对待自己的变化，很好。', '进展不错，继续保持这个状态。'],
-        neg: ['别担心，这种情况很多人都遇到过。我们一起想办法。', '知道了。我们来看看怎么改善。']
-      }
-    },
-    passion: {
-      question: {
-        pos: ['这就对了！继续保持，你就是最棒的！', '干得漂亮！这就是进步的样子！'],
-        neg: ['小问题！哪有过不去的坎，继续冲！', '别怂！办法总比困难多，我们搞定它！']
-      },
-      progress: {
-        pos: ['太强了！继续保持这个劲头！', '这就是复利的力量！继续累积！'],
-        neg: ['就这？调整一下，继续干！', '这都不是事儿！战术调整一下，明天继续冲！']
-      }
-    },
-    rational: {
-      question: {
-        pos: ['判断正确。行为数据支持这一结论。', '这是合理的选择，决策合理。'],
-        neg: ['这是常见的现象，有科学解释。先分析原因。', '客观情况如此，调整策略即可。']
-      },
-      progress: {
-        pos: ['数据支持这一判断。继续执行当前方案。', '正增长符合预期。保持当前节奏。'],
-        neg: ['数据出现了波动。需要分析原因并调整。', '负向偏差在可控范围内，可以修正。']
-      }
-    },
-    tsundere: {
-      question: {
-        pos: ['……还行吧，勉强算你做对了。', '哼，总算做了一件对的事。'],
-        neg: ['怎么又这样，下次能不能提前想好？', '我就知道会这样……算了，说你怎么也没用。']
-      },
-      progress: {
-        pos: ['……行吧，算你有点进步。', '嗯。这次的事做得还可以。'],
-        neg: ['又来了？能不能上点心？', '哼，我就知道会出这种问题。']
-      }
-    }
-  };
-  const arr = replies[style]?.[type]?.[polarity] || replies.gentle[type][polarity];
+function getEmpathy(style, dir, isPos) {
+  const msgs={gentle:{result:{pos:['这种感觉真的很好，我为你感到欣慰 🌿','你走在正确的方向上 💫','这个变化很真实，继续保持 💚'],neg:['这种感觉我理解，先给自己一点耐心 💙','我听见了，陪你一起 🌿']},solution:{pos:['谢谢你告诉我这些 💙','愿意说出来本身就需要勇气 🌿'],neg:['能感觉到你的为难，我在这里 🤝','没关系，我们一起拆解 🌿']}},passion:{result:{pos:['太强了！继续保持！🔥','这就是成长！继续燃烧！🚀'],neg:['别急，调整一下！💪','小调整，继续冲！🔥']},solution:{pos:['好！说得好！我听到了！💪'],neg:['来！我帮你拆解！🔥','没有困难是过不去的！冲！💪']}},rational:{result:{pos:['数据记录在案。这个变化值得关注。📊','收到。精神状态数据显示你的方向正确。📈'],neg:['这种情况在过程中很常见。📊','数据出现波动，分析后可以调整。📋']},solution:{pos:['这种情况有方法可以优化。📊','收到，让我帮你拆解。🧩'],neg:['这个问题的本质可以进一步分析。📊','先拆解，再制定对策。🛠️']}},tsundere:{result:{pos:['……还行吧，算你有点料。😏','哼，还凑合。😶'],neg:['又来了？……哼，我听听。😒','就这样吧，我也习惯了。🤷']},solution:{pos:['……行吧，我勉强听一下。😒'],neg:['怎么又这样……说吧，我帮你。😒','哼，说吧，我看看能不能救。🤷']}}};
+  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
-
-function closeFeedback() {
-  document.getElementById('fbOverlay').classList.remove('show');
+function getFeedback(style, dir, isPos) {
+  const msgs={gentle:{result:{pos:['继续保持，你走的每一步都在积累 🌿','这个方向很对，坚持下去 💚','你比自己以为的更接近目标 💫'],neg:['不要因为这样就放弃，我们来看看怎么调整 🌿','先给自己一点耐心，我们慢慢来 💙']},solution:{pos:['找到突破口后继续往前 💪','我们来看看下一步可以怎么做 🌿'],neg:['说说具体卡在哪里，我帮你理清思路 🌿','这件事拆开来看，其实没有那么难 💙']}},passion:{result:{pos:['继续这个节奏，效果会越来越明显的！🔥','这就是复利！保持！💪'],neg:['调整一下，明天继续冲！⚡','战术修正，继续干！💪']},solution:{pos:['找对方法，继续冲！🔥'],neg:['来！我帮你拆解！没有过不去的坎！🔥','拆解完立刻行动！🚀']}},rational:{result:{pos:['继续执行当前方案，效果会逐步显现。📊','这个趋势值得坚持。📈'],neg:['需要分析原因后调整策略。📊','在可修正范围内，继续监测。📋']},solution:{pos:['有清晰的分析路径，可以优化。📊','建议先量化问题，再对症下药。🧩'],neg:['从数据入手，找核心原因。📊','把问题拆成小块，逐个击破。🛠️']}},tsundere:{result:{pos:['……行吧，算你有点进步。😏','嗯。还凑合。😶'],neg:['……我又来了。哼。😒']},solution:{pos:['说，我看看能不能帮。😒'],neg:['……算了，我帮你想想。😒','好吧，我勉强帮一下。🤷']}}};
+  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
 }
+function sendTalk(type) { askPartner(type); }
+function openQAPanel(type) { askPartner(type); }
+function makeQACard(type, polarity, index, item) { const card = document.createElement('div'); card.className=`qa-card ${polarity}`; card.innerHTML=`<div class="qa-card-icon">${item.icon||''}</div><div class="qa-card-text">${item.scenario||item.question||''}</div><div class="qa-card-tag ${polarity}">${item.tag||''}</div>`; card.onclick=()=>{closeQAPanel();}; return card; }
+function closeQAPanel() { document.getElementById('qaOverlay').classList.remove('show'); document.getElementById('qaOverlay').onclick = null; }
+function showFeedback(type, polarity, index) { const data = TYPE_SCENES_SPR[type]||[]; const item = data.filter(d=>d.type===polarity)[index]; if(item) showTypeFeedback(type,'result',item); }
+function getPartnerReply(style, type, polarity) { return getEmpathy(style, 'result', polarity==='pos'); }
+function closeFeedback() { document.getElementById('fbOverlay').classList.remove('show'); }
 
 function refreshDashboard() {
   let today = getToday(), history = getHistory();

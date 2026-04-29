@@ -602,8 +602,8 @@ function renderCheckinPage() {
       <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="openQAPanel('progress')">📣 汇报进展</button>
-      <button class="talk-btn" onclick="openQAPanel('question')">🤔 有问题想问</button>
+      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
+      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
     </div>
   </div>`;
 
@@ -725,115 +725,217 @@ function appendMsg(emoji, text, isAI) {
   container.scrollTop = container.scrollHeight;
 }
 
+// ===== TYPE_SCENES_ENT：创业搭子6×20场景系统 =====
+const TYPE_SCENES_ENT = {
+  progress: [
+    {icon:'🚀',tag:'产品',scenario:'产品打磨有了突破性进展',feedback:'产品突破是创业最实质的进展！说说具体改进了什么，用户反馈如何？这个突破能带来多少转化率提升？',type:'pos'},
+    {icon:'💰',tag:'融资',scenario:'收到了投资人的TS/条款',feedback:'收到TS是重要里程碑！但TS不等于钱到账。继续推进条款谈判，同时保持和其他投资人的沟通，不把所有鸡蛋放一个篮子里。',type:'pos'},
+    {icon:'📈',tag:'增长',scenario:'本周新增用户/收入大幅增长',feedback:'增长加速说明产品市场契合度在提升！关键是分析这次增长的核心驱动因素——是获客策略、内容还是口碑？找到后加大投入。',type:'pos'},
+    {icon:'🤝',tag:'合作',scenario:'谈成了一家重要合作伙伴',feedback:'战略合作伙伴能帮你快速获取用户或能力！确认合作落地路径，设定明确的KPI，定期跟进执行进度。',type:'pos'},
+    {icon:'🏆',tag:'奖项',scenario:'拿到了行业奖项或媒体报道',feedback:'品牌背书很重要！乘胜追击，把奖项用到官网、社媒和融资材料里。同时看看能否借势再做一次传播。',type:'pos'},
+    {icon:'💡',tag:'专利',scenario:'申请了技术专利/知识产权',feedback:'知识产权是护城河的重要组成部分！确保专利描述准确覆盖核心技术，并考虑PCT申请保护海外市场。',type:'pos'},
+    {icon:'📊',tag:'数据',scenario:'核心指标创历史新高',feedback:'核心指标新高说明方向对了！进一步拆解是哪个细分用户群在增长，找到高价值用户特征，加大获客。',type:'pos'},
+    {icon:'🎯',tag:'交付',scenario:'重要客户/项目成功交付',feedback:'客户成功是最好的销售！请客户写一段推荐语，或申请案例研究，这是最有说服力的销售素材。',type:'pos'},
+    {icon:'🔧',tag:'效率',scenario:'团队效率显著提升',feedback:'效率提升意味着单位成本在降低！记录这次提升的关键原因——是流程优化、工具升级还是团队默契？把它固化下来。',type:'pos'},
+    {icon:'🧠',tag:'战略',scenario:'想清楚了困扰很久的战略问题',feedback:'战略清晰是最有价值的事情！把它写成文档，和团队对齐，并拆解成可执行的近期行动计划。',type:'pos'},
+    {icon:'👥',tag:'招聘',scenario:'招到了一位关键人才',feedback:'关键人才是创业公司最重要的资产！做好 onboarding，让他快速融入并发挥价值。同时规划下一个关键岗位。',type:'pos'},
+    {icon:'🌐',tag:'出海',scenario:'开始拓展海外市场',feedback:'出海需要本地化适配，不要简单翻译。找到第一批种子用户，验证本地需求，再加大投入。',type:'pos'},
+    {icon:'📱',tag:'留存',scenario:'用户留存率明显提升',feedback:'留存提升说明用户在持续发现产品价值！分析留存好的用户行为，强化产品的核心价值点，减少流失路径。',type:'pos'},
+    {icon:'💬',tag:'口碑',scenario:'用户主动推荐/转介绍明显增加',feedback:'口碑传播是获客成本最低的方式！深入了解用户推荐动机，量化推荐带来的新用户占比，这是产品真正得到认可的信号。',type:'pos'},
+    {icon:'📉',tag:'模型',scenario:'单位经济模型终于打正了',feedback:'这是创业公司的重大里程碑！单位经济打正意味着商业模式可持续。继续优化，同时保持对规模扩张的关注。',type:'pos'},
+    {icon:'🏗️',tag:'技术',scenario:'攻克了关键技术难题',feedback:'技术壁垒是护城河之一！评估这个技术优势能保持多久，如果是核心差异化点，加强专利和团队保密。',type:'pos'},
+    {icon:'🔄',tag:'迭代',scenario:'产品迭代速度明显加快',feedback:'迭代速度是创业公司的核心竞争力之一！找到影响迭代速度的瓶颈——是需求收集、开发流程还是测试？针对性优化。',type:'pos'},
+    {icon:'⚙️',tag:'定价',scenario:'产品定价策略验证成功',feedback:'定价是商业模式的核心！好的定价既能捕获价值又不流失用户。分析不同定价档位的转化率，找到最优方案。',type:'pos'},
+    {icon:'🗺️',tag:'战略',scenario:'完成了一次重要的战略对齐',feedback:'战略对齐是防止团队走偏的关键！把对齐内容形成文档，分解成季度OKR，定期回顾执行情况。',type:'pos'},
+    {icon:'🌟',tag:'里程碑',scenario:'完成了一个重要的里程碑',feedback:'里程碑是创业长征中的重要节点！庆祝一下，但更重要的是总结这次经验，为下一个里程碑做准备。',type:'pos'},
+    {icon:'😰',tag:'迷茫',scenario:'方向不确定，该往哪走',feedback:'方向迷茫时回到用户。访谈10个用户，看他们最痛的是什么、愿意为什么付钱。最真实的用户需求会指引你方向。',type:'neg'},
+    {icon:'💸',tag:'烧钱',scenario:'现金流紧张，不知道能撑多久',feedback:'先止血！列出所有可削减的成本，优先砍不影响核心业务的支出。同时加速应收账款的回收，争取战略投资。',type:'neg'},
+    {icon:'🤷',tag:'团队',scenario:'核心团队成员想离开',feedback:'先深度对话，理解真实原因。是成长空间、股权还是文化？很多离职是可以挽回的，但需要快速行动。',type:'neg'},
+    {icon:'📉',tag:'下滑',scenario:'核心指标持续下滑',feedback:'指标下滑是警报！不要猜测原因，去和用户聊。做5~10个深度用户访谈，找到下滑的真实原因再对症下药。',type:'neg'},
+    {icon:'⚔️',tag:'竞争',scenario:'大公司入场，竞争加剧',feedback:'大公司船大难掉头，这是你的优势。专注他们看不起或做不好的细分市场，做深做透，形成局部优势后再扩张。',type:'neg'},
+    {icon:'😤',tag:'困境',scenario:'技术上遇到无法解决的难题',feedback:'找不到方案时找人聊！找该领域的高手、投资人朋友圈或技术社区。99%的问题都有前人解决过，只是你还没找到。',type:'neg'},
+    {icon:'🚫',tag:'瓶颈',scenario:'用户增长陷入瓶颈',feedback:'增长瓶颈往往源于产品核心价值不够聚焦。回到用户访谈，找到使用频次最高、最愿意付费的场景，集中资源深耕。',type:'neg'},
+    {icon:'😓',tag:'疲惫',scenario:'身心俱疲，快撑不住了',feedback:'创业是马拉松，身心是本钱。给自己放一天假，远离工作。休息不是懈怠，是为了走更远的路。',type:'neg'},
+    {icon:'💔',tag:'撕逼',scenario:'合伙人之间出现严重分歧',feedback:'合伙人问题要趁早解决，不要积累。先就事论事，找到共同利益点。如果核心价值观不一致，早分手比晚分手好。',type:'neg'},
+    {icon:'📋',tag:'执行',scenario:'团队执行力和效率都很低',feedback:'效率低的根源往往是目标不清晰或流程有问题。每周明确 Priority，只留最重要的3件事，让大家聚焦。',type:'neg'},
+    {icon:'🎯',tag:'定位',scenario:'产品定位模糊，用户说不清你是做什么的',feedback:'一句话说清楚产品是生存技能。用"帮助XX用户实现XX目标"的句式测试，直到每个人听了都明白。',type:'neg'},
+    {icon:'📧',tag:'冷场',scenario:'投资人见面后就没有下文了',feedback:'没有下文通常是因为你没能打动他。不要害怕主动询问反馈，了解拒绝的真实原因，针对性调整后再约。',type:'neg'},
+    {icon:'💬',tag:'沟通',scenario:'不知道怎么和团队有效沟通',feedback:'好的沟通从透明开始。定期全员会同步进展和挑战，让大家知道真实情况。坦诚的团队效率更高。',type:'neg'},
+    {icon:'📊',tag:'指标',scenario:'不知道该关注什么指标',feedback:'只有一个北极星指标——对你当前阶段最重要的指标。把它放在全团队最显眼的位置，其他指标都服务它。',type:'neg'},
+    {icon:'🌊',tag:'试错',scenario:'做了很多尝试，都没有效果',feedback:'试错本身不是问题，问题是每次试错要学到东西。记录每次实验的假设、结果、学到的东西。10次试错后你会比大多数人有洞察力。',type:'neg'},
+    {icon:'⏰',tag:'节奏',scenario:'被各种紧急事情追着跑，没有时间思考',feedback:'没有战略思考的时间，意味着公司在消耗存量价值。每周给自己留至少半天战略思考时间，这是创始人最重要的工作。',type:'neg'},
+    {icon:'🤝',tag:'BD',scenario:'合作伙伴谈了但推进不下去',feedback:'推进不下去通常是利益不清晰或对方优先级不够。明确你给对方的价值，以及你希望对方具体做什么。',type:'neg'},
+    {icon:'📱',tag:'留存',scenario:'用户用了一次就不回来了',feedback:'新用户流失是产品市场契合度不足的信号。找到那批留存用户的共同特征，问他们为什么留下来。',type:'neg'},
+    {icon:'🎯',tag:'定价',scenario:'不敢收钱，怕用户流失',feedback:'不收钱的公司不是真正的商业。设计合理的付费墙，让付费用户得到额外价值。收钱还能留下来的用户才是你的真用户。',type:'neg'},
+    {icon:'🔮',tag:'退出',scenario:'不确定现在是坚持还是放弃',feedback:'问自己：如果你知道18个月后能成功，你今天还愿意做吗？如果答案是Yes，那问题不是要不要坚持，而是怎么调整策略。',type:'neg'},
+  ],
+  struggle: [
+    {icon:'💸',tag:'资金',scenario:'融资屡屡碰壁，投资人都在观望',feedback:'融资环境差时，先把 burn rate 压到最低，给公司争取12个月以上的 runway。同时保持和投资人的沟通，不要断联，春天来了种子要先埋下。',type:'pos'},
+    {icon:'👥',tag:'团队',scenario:'核心员工提出离职',feedback:'先做一次深度一对一，理解离开的真正原因。很多离职是因为误解或缺乏成长空间，明确你能给的承诺，给彼此一个冷静期再做决定。',type:'pos'},
+    {icon:'🤝',tag:'合伙',scenario:'和合伙人在战略方向上有分歧',feedback:'合伙人分歧的本质往往是对风险的容忍度不同。回到用户需求和数据的角度，用事实来校准判断，而不是各自的直觉和经验。',type:'pos'},
+    {icon:'📉',tag:'指标',scenario:'最核心的北极星指标在下降',feedback:'指标下降不要慌，先确认这是真实下降还是数据统计问题。然后做用户访谈，找到下降的真正原因，再针对性制定解决方案。',type:'pos'},
+    {icon:'⚔️',tag:'竞争',scenario:'竞品刚融了一轮大钱，市场压力陡增',feedback:'大钱不等于好产品。专注你自己的用户，别被竞品带节奏。分析竞品融到的钱会用在哪里，找到他们覆盖不了的用户需求。',type:'pos'},
+    {icon:'🚫',tag:'增长',scenario:'增长陷入瓶颈，获客成本越来越高',feedback:'获客成本高往往是单位经济模型还没跑通的信号。先把产品留存做扎实，再谈增长。留存率提升1倍， CAC 效率会翻倍。',type:'pos'},
+    {icon:'🔧',tag:'技术',scenario:'关键技术选型举棋不定，技术团队有分歧',feedback:'没有完美的技术栈，只有最适合当前阶段的。选择能快速验证核心假设的方案，MVP 阶段速度比架构优雅更重要。',type:'pos'},
+    {icon:'💡',tag:'方向',scenario:'做了很多功能，但用户留存依然很差',feedback:'功能多不等于产品好。找到用户最常用的1~2个功能，把它们做到极致。其他功能全部暂停，直到留存率明显提升。',type:'pos'},
+    {icon:'🧠',tag:'决策',scenario:'创始人之间对于要不要砍产品线意见不一',feedback:'回到数据。哪个产品线的数据最差、哪个最好？用数据说话，比谁的嗓门大更有效率。',type:'pos'},
+    {icon:'📧',tag:'PR',scenario:'负面媒体报道影响品牌声誉',feedback:'第一时间回应公众关切，不回避问题。快速内部复盘，把问题变成产品改进的机会。好的危机处理反而能赢得用户信任。',type:'pos'},
+    {icon:'😰',tag:'迷茫',scenario:'做了很多方向，不知道该专注哪个',feedback:'做一个"优先级矩阵"：纵轴是用户痛点强度，横轴是你做好的概率。每个方向只留最高分的那个，其他全部暂停。',type:'neg'},
+    {icon:'💸',tag:'烧钱',scenario:'月burn rate居高不下，钱快见底了',feedback:'启动"止血模式"：列出所有非必要支出，设定每月最高支出上限。同时启动融资或寻找收入来源，给公司买时间。',type:'neg'},
+    {icon:'⏰',tag:'节奏',scenario:'团队都在忙，但好像什么都没推进',feedback:'忙碌不等于有效。召开战略对齐会，明确每个人的TOP3任务，其他全部暂停。聚焦是创业公司最稀缺的能力。',type:'neg'},
+    {icon:'🎯',tag:'定位',scenario:'产品什么都能做，但用户说不清你的核心价值',feedback:'做减法。列出所有功能，按"用户最需要"和"你最有优势"两个维度评分，只留得分最高的那个。做到第一比做很多第二更重要。',type:'neg'},
+    {icon:'👥',tag:'文化',scenario:'团队士气低落，加班文化严重',feedback:'加班文化往往掩盖了效率问题。引入OKR，每季度只定3个目标，让大家看到终点在哪里。意义感比工资更能激励知识工作者。',type:'neg'},
+    {icon:'📊',tag:'指标',scenario:'不知道什么指标该关注，什么不该关注',feedback:'每个阶段只选一个北极星指标。其他数据都只是参考，不是决策依据。把有限的注意力集中在最关键的一个指标上。',type:'neg'},
+    {icon:'💬',tag:'用户',scenario:'用户反馈很零散，不知道该听谁的',feedback:'停止猜测，去做10个深度用户访谈。找到重复出现的前3个痛点，其他声音都是噪音。真正的用户会告诉你答案。',type:'neg'},
+    {icon:'🌊',tag:'试错',scenario:'做了很多实验，但哪个都没跑出正向结果',feedback:'每次实验前先写下你的核心假设。实验结束后对比假设和结果，只记录学到的东西。盲目的试错等于浪费时间。',type:'neg'},
+    {icon:'🤝',tag:'BD',scenario:'谈了很多合作意向，但没有一个落地',feedback:'推进不下去通常是因为双方利益不清晰或执行负责人优先级不够。明确你能给对方带来什么价值，要求对方给出具体行动承诺。',type:'neg'},
+    {icon:'😓',tag:'身心',scenario:'身体出现预警信号，医生建议休息',feedback:'创业是持久战，身体是唯一的本钱。立刻给自己安排一周假期，把紧急事务交接给合伙人或团队骨干。地球没有你还会转，但你的公司需要你活着。',type:'neg'},
+  ],
+  idea: [
+    {icon:'🚀',tag:'产品',scenario:'想到一个产品差异化方向，感觉能破局',feedback:'差异化方向有了！接下来做"10-100法则"验证：10个用户访谈确认痛点真实性，100个用户验证付费意愿。别急着开发，先用 MVP 或落地页验证需求。',type:'pos'},
+    {icon:'🌍',tag:'出海',scenario:'发现了一个海外细分市场的机会',feedback:'出海机会！先找3~5个海外目标用户做访谈，验证需求强度。然后看竞品现状，找到你能切入的差异化角度。小步验证再规模化。',type:'pos'},
+    {icon:'🤖',tag:'AI',scenario:'想用AI改造某个业务流程，降本增效',feedback:'AI赋能业务流程是当前最确定的赛道之一！先列出这个流程中最耗时、最重复的3个步骤，用 AI 逐一替代，量化每个步骤的时间节省。',type:'pos'},
+    {icon:'🛒',tag:'商业模式',scenario:'想到了一个新的变现模式，可能改变收入结构',feedback:'新变现模式！先做财务模型，算清楚新模式的 LTV、CAC 和利润率。然后做小范围灰度测试，用数据验证假设再全面推广。',type:'pos'},
+    {icon:'👥',tag:'社群',scenario:'想围绕核心用户建私域社群，提高粘性',feedback:'私域社群是个好方向！先建一个100人的种子群，明确社群的核心价值主张（前3个月免费提供什么）。用问卷收集成员的真实需求，再迭代价值设计。',type:'pos'},
+    {icon:'🔗',tag:'生态',scenario:'想和某个平台合作，做生态嵌入',feedback:'平台生态合作！先研究该平台已有的合作伙伴，找到他们的合作门槛和成功案例。用小项目切入，证明数据后再谈更大的合作。',type:'pos'},
+    {icon:'📱',tag:'内容',scenario:'想用内容营销来获客，成本比投广告低',feedback:'内容营销是长期资产！先确定你的"内容支柱"——3个你的目标用户最关心的主题。每周产出2篇高质量内容，坚持3个月看自然搜索流量的变化。',type:'pos'},
+    {icon:'💰',tag:'定价',scenario:'考虑调整产品定价策略，提升利润率',feedback:'定价是商业最有力的杠杆之一！先做用户访谈，了解不同价格档位的接受度。然后做 A/B 测试，从高价格开始试，找出收入最大化的定价点。',type:'pos'},
+    {icon:'🔄',tag:'渠道',scenario:'想到一个新的获客渠道，还没试过',feedback:'新渠道探索！先小预算测试（预算设定为你预期 CAC 的5~10倍），跑通后再加大投入。记录渠道特征、用户质量和转化路径。',type:'pos'},
+    {icon:'🧩',tag:'产品',scenario:'想把两个独立功能整合成一个完整解决方案',feedback:'整合思路很好！先问用户：他们现在是怎么把这两个功能串联起来的？整合后的核心价值主张是什么？用一页纸说清楚，再动手做。',type:'pos'},
+    {icon:'🤝',tag:'联盟',scenario:'想和其他品牌做联名，互相导流',feedback:'品牌联名！先找和你用户画像相近、但不是直接竞品的品牌。设计一个对双方都有价值的合作内容，而不是简单的Banner交换。',type:'pos'},
+    {icon:'📈',tag:'增长',scenario:'想到一个病毒式传播的增长策略',feedback:'病毒传播策略！先画"K因子"公式：每个用户能带来几个新用户。只有K>1才有自增长可能。设计激励机制让分享者和被分享者都有收益。',type:'pos'},
+    {icon:'🗺️',tag:'战略',scenario:'想切入一个全新的用户群体',feedback:'用户群体扩张！先做新用户群体的访谈，确认需求强度和你现有能力的匹配度。然后从边缘用户开始测试，不要直接进攻核心用户群。',type:'pos'},
+    {icon:'🔧',tag:'效率',scenario:'想引入自动化工具，大幅提升团队效率',feedback:'效率工具选型！先列出团队每周耗时最长的3件事，找对应的自动化工具。先在一个团队或一个场景试点，确认效果后再全面推广。',type:'pos'},
+    {icon:'💎',tag:'壁垒',scenario:'想建立某种竞争壁垒，让对手难以复制',feedback:'护城河类型：网络效应、数据壁垒、品牌心智、专有技术、独家协议。先明确你想建哪种，然后找到最快能建立的路径。',type:'pos'},
+    {icon:'🌟',tag:'品牌',scenario:'想做一个能让用户记住的品牌故事',feedback:'好品牌故事 = 用户痛点 + 你的独特解法 + 情感共鸣。写一个"一秒钟故事"：在电梯里你能说清楚你是谁、为什么不同吗？',type:'pos'},
+    {icon:'🎯',tag:'定价',scenario:'考虑做分层订阅制，让更多用户用得起',feedback:'分层订阅！核心原则是让每一档都明显有差异。上限档给VIP特权（不限量、专属客服），下限档给基础价值（功能限制但够用）。',type:'pos'},
+    {icon:'🕐',tag:'时机',scenario:'看到一个政策或市场变化带来的机会窗口',feedback:'机会窗口不等人！快速评估：这个窗口有多长？你的核心能力能覆盖吗？先小步验证需求强度，再决定要不要全力押注。',type:'pos'},
+    {icon:'💡',tag:'灵感',scenario:'看到一个完全无关行业的做法，想借鉴到自己的业务',feedback:'跨界借鉴是最有价值的创新来源！列出你看到的3个具体做法，思考每个和你的业务结合的可能性。最有破坏性的创新往往来自行业外。',type:'pos'},
+    {icon:'🔮',tag:'未来',scenario:'想到一个长期愿景方向，想听听外部视角',feedback:'长期愿景规划！用"倒推法"：从10年后的终局倒推到今天，每3年设定一个里程碑。先找2~3个行业前辈聊，听听他们的判断。',type:'pos'},
+  ],
+  cheer: [
+    {icon:'💰',tag:'融资',scenario:'拿到了一笔融资，钱到账了！',feedback:'融资成功是对你模式的认可！但拿到钱不等于成功，记住融资只是给你买时间做正确的事。设定明确的 milestones，用数据证明这是正确决策。',type:'pos'},
+    {icon:'📈',tag:'收入',scenario:'月收入突破了历史最高点！',feedback:'收入破纪录是最实在的进展！分析这次增长是来自新用户、复购还是客单价提升，找到核心驱动因素后加大投入，让它变成可持续趋势。',type:'pos'},
+    {icon:'🏆',tag:'奖项',scenario:'拿到了行业重量级奖项或认证',feedback:'行业奖项是最好的品牌背书！把奖项变成流量：发新闻稿、更新官网、写一篇获奖复盘文章。好的声誉资产要用在刀刃上。',type:'pos'},
+    {icon:'🤝',tag:'合作',scenario:'谈成了一家战略级合作伙伴',feedback:'战略合作伙伴是最好的增长加速器！明确合作落地的第一个具体项目，设定3个月内的交付目标。好的合作从第一个小成功开始。',type:'pos'},
+    {icon:'💬',tag:'口碑',scenario:'用户自发在网上给了我们很好的评价',feedback:'用户自发好评是最珍贵的信号！截图保存，做成案例素材。联系这位用户，看能不能深化这段关系，说不定能成为你的超级用户。',type:'pos'},
+    {icon:'👥',tag:'团队',scenario:'成功招到了一位梦寐以求的关键人才',feedback:'关键人才是可遇不可求的！做好充分的 onboarding，让他感受到你们文化的独特之处。给他明确的前3个月目标，让他快速产出。',type:'pos'},
+    {icon:'🚀',tag:'产品',scenario:'产品新版本上线后，用户反馈出奇地好',feedback:'产品被用户认可是最强的正反馈！收集这次成功的关键原因：哪个改动带来了最大提升？把这一发现固化为产品方法论。',type:'pos'},
+    {icon:'📰',tag:'媒体',scenario:'上了一家主流媒体的报道',feedback:'主流媒体报道是最好的可信度背书！借势做转化：设计一个专属落地页承接流量，或者推出限时活动让新用户有一个立即行动的理由。',type:'pos'},
+    {icon:'🌟',tag:'品牌',scenario:'品牌搜索量明显上升，用户主动找上门',feedback:'品牌搜索量上升说明用户心智在形成！这是最健康的增长信号。确保你的转化路径顺畅，把每一个主动找来的用户都服务好。',type:'pos'},
+    {icon:'🔒',tag:'壁垒',scenario:'建立了某种让对手难以逾越的壁垒',feedback:'护城河是创业公司最稀缺的资产！评估这道壁垒能维持多久，是技术、数据还是品牌？然后继续加固你的最强优势。',type:'pos'},
+    {icon:'📊',tag:'留存',scenario:'用户留存率创历史新高，流失率大幅下降',feedback:'留存率提升说明产品真正在创造价值！分析这批留存用户的共同特征，找到他们的使用规律，然后把这种规律变成产品设计。',type:'pos'},
+    {icon:'🌐',tag:'出海',scenario:'海外市场拓展取得突破，第一批海外用户来了',feedback:'海外第一单是最难的，之后会越来越顺！做好第一批海外用户的深度服务，让他们成为你的海外代言人。',type:'pos'},
+    {icon:'💡',tag:'创新',scenario:'团队想出了一个极具创意的解决方案',feedback:'创新文化是创业公司最重要的资产！奖励这个想法的提出者，把这个案例变成团队创新故事的一部分。创新需要被看见和鼓励。',type:'pos'},
+    {icon:'🎉',tag:'里程碑',scenario:'完成了创业以来最重要的里程碑',feedback:'里程碑是创业者的高光时刻！拍一张团队合影，写一封内部信，让这个时刻被记住。然后设定下一个里程碑，继续前行。',type:'pos'},
+    {icon:'🗺️',tag:'战略',scenario:'想清楚了困扰很久的战略问题，方向清晰了',feedback:'战略清晰是最有价值的事情！把这个结论写成文档，和团队做一次深度对齐。把战略共识变成可执行的季度OKR。',type:'pos'},
+    {icon:'⚖️',tag:'平衡',scenario:'终于实现了工作和生活的基本平衡',feedback:'创业者也能有平衡！记录是什么改变带来了这种变化。这个平衡状态是你的高效区，好好保护它。',type:'pos'},
+    {icon:'💪',tag:'韧性',scenario:'经历了一次危机，成功化解了',feedback:'危机中的表现最能锻炼团队！做一次危机复盘，把这次经验变成团队的韧性资产。下次危机来临时，你们会处理得更快更好。',type:'pos'},
+    {icon:'🌱',tag:'种子',scenario:'第一次有了愿意付费的种子用户',feedback:'第一个付费用户是创业的分水岭！和他建立深度关系，了解他为什么愿意付钱。这个答案值千金。',type:'pos'},
+    {icon:'🏅',tag:'复盘',scenario:'完成了一次非常有价值的项目复盘',feedback:'好的复盘比成功更重要！把复盘结论变成可执行的行动清单，在下一个项目开始前就用上它。',type:'pos'},
+    {icon:'💰',tag:'融资',scenario:'有投资人主动找来，约了见面！',feedback:'投资人主动找你说明你已经进入他们的视野！这是一个验证你方向的机会，也是学习投资视角的好时机。充分准备，见面时展示真实数据和愿景。',type:'pos'},
+  ],
+  report: [
+    {icon:'📅',tag:'周报',scenario:'本周完成了比预期更多的事情',feedback:'超额完成说明你的执行效率在提升！复盘一下：是计划制定过于保守，还是真的找到了提速方法？把有效的做法固化下来。',type:'pos'},
+    {icon:'📊',tag:'数据',scenario:'本周核心数据指标环比有明显提升',feedback:'数据提升是团队最好的强心剂！分析是哪个关键动作带来了这次提升，把它作为下周的优先事项继续放大。',type:'pos'},
+    {icon:'👥',tag:'团队',scenario:'团队本周士气高涨，执行力很强',feedback:'高士气意味着高效产出！找出是什么激发了这次团队状态，是目标清晰、还是节奏顺畅？持续创造这些条件。',type:'pos'},
+    {icon:'💡',tag:'收获',scenario:'本周最大的收获是学到了什么新东西',feedback:'每周学习是创始人成长的加速器！把你学到的写成一页笔记，分享给团队。学习最好的方式是把学到的东西教给别人。',type:'pos'},
+    {icon:'🤝',tag:'进展',scenario:'本周和某个重要关系方有了实质进展',feedback:'关系进展是看不见的资产积累！记录这次进展的关键节点和下一步计划，持续推进直到落地。',type:'pos'},
+    {icon:'⚡',tag:'效率',scenario:'本周工作节奏非常好，没有无效加班',feedback:'有节奏的工作比无休止加班更有产出！复盘这周的时间分配，找出高效时段，把最重要的决策放在那个时候。',type:'pos'},
+    {icon:'🎯',tag:'聚焦',scenario:'本周成功抵制了一些诱惑，专注于最重要的事',feedback:'抵制诱惑是创始人最重要的能力之一！记录那些诱惑是什么，为什么没有做。保持这种战略定力。',type:'pos'},
+    {icon:'📈',tag:'增长',scenario:'本周用户/收入增长超预期',feedback:'增长超预期时要问：这是趋势还是昙花一现？找到核心驱动因素，持续投入。同时保持对留存率的关注，防止虚假增长。',type:'pos'},
+    {icon:'🧠',tag:'决策',scenario:'本周做了一个重要决策，效果比预期好',feedback:'好决策是创业路上最宝贵的资产！记录决策背后的思考过程和假设，这是你下次决策最宝贵的参考。',type:'pos'},
+    {icon:'💬',tag:'反馈',scenario:'本周收到了有价值的用户反馈',feedback:'用户反馈是最真实的市场声音！整理本周所有用户反馈，找出最核心的3个问题，列入产品迭代计划。',type:'pos'},
+    {icon:'🔧',tag:'产品',scenario:'本周产品有了可感知的改进',feedback:'产品每周进步是公司健康的最好证明！记录这周改进了什么、效果如何，形成持续迭代的飞轮。',type:'pos'},
+    {icon:'🌟',tag:'品牌',scenario:'本周品牌曝光有明显提升',feedback:'品牌曝光是长期资产！量化本周的曝光量和来源，把 ROI 最高的渠道记录下来，为后续投入做参考。',type:'pos'},
+    {icon:'💰',tag:'成本',scenario:'本周成功控制或优化了某项成本',feedback:'成本优化是公司的"内功"！记录这次优化的方法和节省的金额，把这个习惯推广到其他成本项。',type:'pos'},
+    {icon:'🏗️',tag:'系统',scenario:'本周搭建了一个让后续工作更高效的系统',feedback:'系统化是公司走向成熟的标志！记录这套系统的使用说明，确保团队每个成员都能用好它。',type:'pos'},
+    {icon:'📉',tag:'下滑',scenario:'本周数据指标出现了下滑',feedback:'指标下滑先别慌！确认是真实下降还是正常波动，然后分析可能原因。带着假设去做用户访谈，找到真相再行动。',type:'neg'},
+    {icon:'⏰',tag:'拖延',scenario:'本周有重要事项被推迟了',feedback:'任务推迟往往是优先级失焦的信号。列出这周没做完的事，问自己：是真的没时间，还是因为难而本能回避？下周的第一个任务就是它。',type:'neg'},
+    {icon:'😓',tag:'疲惫',scenario:'本周感到明显的身心疲惫',feedback:'疲惫是身体在报警！先给自己安排一个完整的休息日（至少8小时睡眠+户外活动），然后复盘是什么导致了这种疲惫。',type:'neg'},
+    {icon:'🤷',tag:'迷茫',scenario:'本周做了很多事但感觉没有方向感',feedback:'忙碌无方向是创业路上最危险的陷阱！停下来问自己：这周做的事和季度目标有什么关系？如果找不到联系，砍掉那些不相关的事。',type:'neg'},
+    {icon:'💸',tag:'超支',scenario:'本周某项支出超出预算',feedback:'超支要追溯原因：是因为预算制定不合理，还是执行失控？制定下一期预算时把这个教训考虑进去。',type:'neg'},
+    {icon:'📋',tag:'拖延',scenario:'有个重要决策这周一直没做',feedback:'决策拖延往往是因为信息不够或风险太大。先写下决策的利弊分析，如果还是拖不下去，就设一个"不做决策的后果"闹钟。',type:'neg'},
+  ],
+  question: [
+    {icon:'💰',tag:'融资',scenario:'现在是不是融资的好时机？',feedback:'好时机不在于市场热不热，而在于你缺不缺钱、有没有准备好。融资需要6~9个月周期，如果你账上只剩6个月的钱，现在就该启动了。准备好数据，讲清楚故事。',type:'pos'},
+    {icon:'👥',tag:'团队',scenario:'该不该给早期员工分股权？怎么分合理？',feedback:'股权是最重要的长期激励工具。建议设4年vesting，分批成熟。核心员工给期权，高管给限制性股票。早期分配要慷慨，稀释的远见比小气更有价值。',type:'pos'},
+    {icon:'🎯',tag:'定位',scenario:'产品方向太多用户说不清，要不要砍？',feedback:'用户说不清是定位模糊的信号。用一句话测试："帮助XX用户在XX场景下实现XX目标"，如果说不清楚就砍到只剩1个核心价值主张。',type:'pos'},
+    {icon:'📈',tag:'增长',scenario:'增长遇到瓶颈，要不要换个获客渠道？',feedback:'换渠道之前先问：你的产品留存够好吗？如果留存差，换渠道只会烧更多钱。先把留存做扎实，新用户才会变成真正的用户。',type:'pos'},
+    {icon:'🤝',tag:'合伙',scenario:'合伙人贡献不均，要不要谈？怎么谈？',feedback:'合伙人的问题要趁早谈，不谈会积累成更大的矛盾。找一个轻松的场合，用数据说话。核心问题是：我们对彼此的期待是什么？',type:'pos'},
+    {icon:'💸',tag:'烧钱',scenario:' burn rate 太高了，要裁员吗？',feedback:'裁员是止血的有效手段，但要先问：还有其他削减成本的方法吗？真要裁，优先保留最核心的1~2个能力，其他可以以后重建。',type:'pos'},
+    {icon:'⚖️',tag:'平衡',scenario:'工作和家庭严重冲突，不知道怎么平衡',feedback:'平衡不是把时间切成两半，而是在关键时刻做优先级排序。和合伙人/团队约定好"家庭时间"边界，让大家都知道这个规则的存在。',type:'pos'},
+    {icon:'🔮',tag:'方向',scenario:'现在有两个方向可选，不知道该押注哪个',feedback:'两个方向都做轻量级验证：用1个月时间各跑一个小实验，看数据。用数据而不是直觉来做这个选择。',type:'pos'},
+    {icon:'📊',tag:'指标',scenario:'不知道我的商业模式能不能规模化',feedback:'规模化前先验证单位经济模型：CAC、LTV、payback period。LTV/CAC>3、payback<12个月才具备规模化条件，否则先优化模型。',type:'pos'},
+    {icon:'👥',tag:'招聘',scenario:'核心岗位招不到合适的人，要不要降低标准？',feedback:'降标准是创业公司最常见的错误。宁可空缺一段时间，用外包或顾问过渡，也不要找一个价值观不合的人进来。错的人比缺人更危险。',type:'pos'},
+    {icon:'🌍',tag:'出海',scenario:'要不要现在开始出海？',feedback:'出海的前提是你的产品在本土市场已经验证了PMF。建议：先用SaaS工具服务1~2个海外用户测试需求，再决定要不要建本地化团队。',type:'pos'},
+    {icon:'🤖',tag:'AI',scenario:'要不要All in AI这个赛道？',feedback:'AI是工具不是赛道。想清楚你要用AI解决什么具体问题，用户为什么需要AI来解决这个问题。工具的变革不会改变用户的本质需求。',type:'pos'},
+    {icon:'🏆',tag:'竞争',scenario:'大公司抄袭我，我该怎么应对？',feedback:'大公司不会抄小事，只抄大事。找到他们不会做、不愿做的细分市场，做深做透。你的速度和创新文化是他们永远学不会的武器。',type:'pos'},
+    {icon:'💡',tag:'创新',scenario:'产品迭代速度越来越慢，怎么提速？',feedback:'迭代慢往往是因为决策链路太长。减少不必要的评审环节，让一线做决定的人有决策权。每周做retrospective，找到阻碍速度的具体环节。',type:'pos'},
+    {icon:'📧',tag:'PR',scenario:'要不要做PR？什么时候做最合适？',feedback:'PR不是万能药，它是品牌背书工具。在你有里程碑可宣布的时候做（融资、产品发布、获奖），而不是为了曝光而曝光。',type:'pos'},
+    {icon:'🧠',tag:'决策',scenario:'作为创始人，遇到不懂的技术问题怎么决策？',feedback:'你不需要懂技术，你需要懂用户。和技术团队对齐目标，让他们来选择实现路径。你的责任是判断这个方向对用户有没有价值。',type:'pos'},
+    {icon:'💬',tag:'用户',scenario:'用户需求五花八门，不知道该优先听谁的',feedback:'用户不是答案的来源，是问题的来源。收集足够多的需求后，用"用户量×痛苦程度×你做好的概率"排序，而不是谁声音大就听谁的。',type:'pos'},
+    {icon:'🌊',tag:'失败',scenario:'产品失败了，接下来怎么办？',feedback:'失败是创业者的勋章，不是耻辱。先做"事后诸葛亮"复盘：哪个假设错了？学到了什么？然后决定：要么转型，要么带着教训重启。',type:'pos'},
+    {icon:'🔮',tag:'退出',scenario:'要不要卖掉公司？',feedback:'卖掉不丢人，扛到倒闭才丢人。评估：你的独立发展空间有多大？买家给的协同价值是什么？卖掉是新的开始，不是失败的标志。',type:'pos'},
+    {icon:'⚖️',tag:'生活',scenario:'创业到了某个阶段，不知道还要不要坚持',feedback:'问自己：如果18个月后能成功，你今天还愿意做吗？如果答案是No，也许是方向问题；如果答案是Yes，那就再撑一撑。',type:'pos'},
+  ]
+};
+
+// ===== askPartner：6分类入口（使用场景选择面板）=====
+let currentQAType = '';
+let currentQADir = '';
+
 function askPartner(type) {
   const p = PARTNER_STYLES[selectedPartner];
-  const questions = {
-    progress: {
-      q: '📈 进展',
-      msgs: [
-        '说说最近的进展，我帮你分析一下。',
-        '好，跟我讲讲你们现在的核心数据指标。',
-        '进度如何？有没有里程碑要到了？',
-        '你最近做的最重要的一件事是什么？',
-        '今天的进展有没有让你感到惊喜的地方？',
-        '来，汇报一下这周的创业战况。',
-        '有没有什么数据比预期好的？',
-        '用户反馈最近有什么变化吗？',
-        '你们团队这周做了哪些关键动作？',
-        '有没有找到新的增长点？',
-        '产品数据最近有没有起色？',
-        '这一周的收获是什么？',
-        '跟我说说，你们最近的获客情况如何？',
-        '有没有完成什么原本担心完不成的任务？',
-        '客户最近有什么新的需求或反馈？',
-        '你最满意这周做的哪个决策？',
-        '销售渠道有没有新的突破？',
-        '有没有什么比上周更顺畅了？',
-        '跟我说说，你个人的状态怎么样？',
-        '你们这个月的目标进展到哪了？'
-      ]
-    },
-    struggle: {
-      q: '😣 困难',
-      msgs: [
-        '说出来，我们一起想办法。',
-        '创业没有一帆风顺的，说说卡在哪里了？',
-        '这个问题我来帮你拆解一下。',
-        '是什么让你觉得最难推进？',
-        '阻力主要来自内部还是外部？',
-        '这个困难你扛了多久了？',
-        '说说具体卡在哪一步？',
-        '有没有试过什么方法，效果如何？',
-        '这个问题，你之前遇到过类似的吗？',
-        '是资源不够，还是方向不确定？',
-        '你心里最担心的是什么？',
-        '说出来，别一个人扛。',
-        '你觉得这个问题本质上是什么？',
-        '有没有可能换个角度看待这件事？',
-        '这件事让你感到最沮丧的是什么？',
-        '团队内部有分歧吗？',
-        '现金流情况怎么样？',
-        '你最怕听到用户说什么？',
-        '有没有想过放弃？',
-        '说说看，我帮你理一理。'
-      ]
-    },
-    idea: {
-      q: '💡 想法',
-      msgs: [
-        '说说你的想法，我来帮你推演。',
-        '好创意！跟我说说，这个想法的核心假设是什么？',
-        '来，展开讲讲。',
-        '这个想法是怎么来的？',
-        '有没有可能扩展到更大的市场？',
-        '这个点子，竞品有没有做过类似尝试？',
-        '如果你是用户，你会为什么买单？',
-        '这个想法的最大风险是什么？',
-        '如果要验证这个想法，第一步做什么？',
-        '你觉得这个想法能解决用户的什么痛点？',
-        '这个创意能不能做成一个可持续的业务？',
-        '谁来为这个想法买单？',
-        '说说你的灵感来源。',
-        '有没有可能和现有业务产生协同？',
-        '这个想法的天花板有多高？',
-        '如果失败了，最可能的原因是什么？',
-        '你有没有和目标用户聊过这个想法？',
-        '这个点子最打动你的是什么？',
-        '从第一性原理看，这个想法成立吗？',
-        '说说你的商业模型。'
-      ]
-    },
-    cheer: {
-      q: '🎉 喜事',
-      msgs: [
-        '快说！什么事让你开心？',
-        '哈哈！恭喜！分享给我听听！',
-        '好事！来，让我沾沾喜气 🎊',
-        '这种时刻值得好好庆祝！说说细节？',
-        '我就知道你能行！发生什么了？',
-        '哈哈！太棒了！什么好消息？',
-        '🎉🎉🎉 说！我要听！',
-        '客户签单了？融资到了？快说！',
-        '这种时刻，绝对要截图留念！',
-        '说！什么让你这么开心？',
-        '这一刻你等了多久？',
-        '哈哈！这个好消息比任何咖啡都提神！',
-        '好事！说出来分享一下喜悦！',
-        '这个进展，我替你骄傲！',
-        '说！让搭子我也沾沾喜气！',
-        '哇！比预期还好！怎么回事？',
-        '庆祝一下！为什么今天特别？',
-        '我都能想象你现在的表情了！',
-        '哈哈，干得漂亮！',
-        '好事成双！来说说细节！'
-      ]
-    }
+  const style = p ? p.style : '战友';
+  const emoji = p ? p.emoji : '🚀';
+  const typeConfig = {
+    progress:{label:'📈 进展',panel:'progress',dir:'result',intro:{'理性':['说说最近的进展。📊','好，让我了解关键数据变化。'],'热血':['冲！说说你的创业战果！🔥','好！让我听听！⚡'],'冷静':['好。汇报收到，数据记录中。🧭','说说这周的关键进展。'],'战友':['好，跟我说说最近怎么样？🤝','来，汇报一下你的战况！💪']}},
+    struggle:{label:'😣 困难',panel:'struggle',dir:'solution',intro:{'理性':['说出来，我帮你分析。🧩','创业的困难都是数据点，记录下来。'],'热血':['困难算什么，冲！💪','来，一起拆解！🔥'],'冷静':['先说说什么情况。🧭','困难是决策优化的机会。'],'战友':['说说看，我在听 🤝','没关系，我们一起想办法 💙']}},
+    idea:{label:'💡 想法',panel:'idea',dir:'result',intro:{'理性':['好，说说的核心假设是什么。📊','让我帮你推演这个想法。'],'热血':['好创意！🔥 让我听听！','说！展开讲！⚡'],'冷静':['好。我帮你做第一性原理分析。🧭','说说这个想法的边界条件。'],'战友':['好想法！说说 🤝','来，展开讲讲 💡']}},
+    cheer:{label:'🎉 喜事',panel:'cheer',dir:'result',intro:{'理性':['📊 记录这一时刻。','好事！说说细节。'],'热血':['🎉🎉🎉 说！我要听！','哈哈！太棒了！🔥'],'冷静':['积极情绪有利于持续行动。说。🧭','好的势头要保持。'],'战友':['哈哈！好事！快说！🎉','好事！让搭子我也沾沾喜气！🏆']}},
+    report:{label:'📣 汇报进展',panel:'report',dir:'result',intro:{'理性':['汇报收到。数据记录中。📊','好，让我了解最新情况。'],'热血':['冲！汇报收到！🔥','好！让我听听！⚡'],'冷静':['收到。我做数据记录。🧭','说说本周的关键变化。'],'战友':['收到，说给我听听 🤝','好，让我了解你的情况 💪']}},
+    question:{label:'🤔 有问题想问',panel:'question',dir:'solution',intro:{'理性':['好的。给出你的问题。📊','我帮你分析。🧭'],'热血':['问！什么问题都能接住！💪','来！💡'],'冷静':['好。说说你的具体情况。🗺️','我帮你推演。'],'战友':['问吧，我尽力回答 💙','问就问，搭子在 🤝']}}
   };
-  const q = questions[type];
-  appendMsg('😀', q.q);
+  const cfg = typeConfig[type] || typeConfig.progress;
+  const introArr = cfg.intro[style] || cfg.intro['战友'];
+  const intro = introArr[Math.floor(Math.random() * introArr.length)];
+  appendMsg('😀', cfg.label);
+  setTimeout(() => { appendMsg(emoji + ' ' + intro, true); setTimeout(() => openTypePanel(cfg.panel, cfg.dir), 500); }, 700);
+}
+
+function openTypePanel(panel, dir) {
+  currentQAType = panel; currentQADir = dir;
+  const data = TYPE_SCENES_ENT[panel] || [];
+  const titleMap = {progress:'📈 选择一个最符合你情况的创业进展', struggle:'😣 选择一个你正在面对的创业困难', idea:'💡 选择一个你想聊的创业想法', cheer:'🎉 选择一件你想分享的创业喜事', report:'📣 汇报一下你的创业进展', question:'🤔 有问题想问？选一个最接近的'};
+  const subMap = {result:'选择后我会和你共情，然后给出结果导向的反馈 🚀', solution:'选择后我会和你共情，然后一起想办法 💪'};
+  document.getElementById('qaTitle').innerText = titleMap[panel] || panel;
+  document.getElementById('qaSub').innerText = subMap[dir] || '';
+  const scroll = document.getElementById('qaScroll'); scroll.innerHTML = '';
+  const posItems = data.filter(i => i.type === 'pos');
+  if (posItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;'; l.innerText='⬆️ 好的进展 / 想得到鼓励'; scroll.appendChild(l); posItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
+  const negItems = data.filter(i => i.type === 'neg');
+  if (negItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;'; l.innerText='⬇️ 遇到困难 / 需要引导'; scroll.appendChild(l); negItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
+  document.getElementById('qaOverlay').classList.add('show');
+}
+
+function showTypeFeedback(panel, dir, item) {
+  const p = PARTNER_STYLES[selectedPartner];
+  const style = p ? p.style : '战友';
+  const emoji = p ? p.emoji : '🚀';
+  const empathyMap = {
+    progress: {'理性':'📊 数据说话，我来做分析。','热血':'🔥 你在改变世界，我为你骄傲！','冷静':'🧭 进展就是方向，你走在正确的路上。','战友':'🤝 一起走过来，你不是一个人在战斗！'},
+    struggle: {'理性':'🧩 问题拆解是创始人最重要的能力。我帮你。','热血':'💪 创业没有坦途，你在积累经验值！','冷静':'🧭 困难是信号，先看清它。','战友':'🤝 难的时候说，我在。'},
+    idea: {'理性':'📊 假设先行，我来帮你验证。','热血':'🚀 好想法！让它成为下一个里程碑！','冷静':'🗺️ 逻辑推演是检验想法的最好方式。','战友':'💡 你的想法值得被认真对待！'},
+    cheer: {'理性':'📊 这是你实力的体现！','热血':'🔥🎉 庆祝！你是最棒的！','冷静':'🧭 好的势头要用好。','战友':'🏆 你的成功是我的成功，我们一起庆祝！'},
+    report: {'理性':'📊 收到，数据很重要。','热血':'💪 汇报就是进步的开始！','冷静':'🧭 记录是优化的基础。','战友':'🤝 认真汇报的人值得尊重！'},
+    question: {'理性':'📊 问题清晰是答案的一半。','热血':'💪 问就对了！','冷静':'🗺️ 分析问题比解决问题更重要。','战友':'🤝 问吧，我们一起想！'}
+  };
+  const empathy = empathyMap[panel]?.[style] || empathyMap[panel]?.['战友'] || '🤝 我听到了。';
+  appendMsg(emoji, empathy);
   setTimeout(() => {
-    appendMsg(p.emoji, q.msgs[Math.floor(Math.random() * q.msgs.length)], true);
-  }, 800);
+    appendMsg(emoji + ' ' + item.feedback, true);
+  }, 900);
 }
 
 function sendMood(mood) {
@@ -1025,8 +1127,8 @@ function switchTab(tab) {
       <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="openQAPanel('progress')">📣 汇报进展</button>
-      <button class="talk-btn" onclick="openQAPanel('question')">🤔 有问题想问</button>
+      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
+      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
     </div>
   </div>
   <div id="qaOverlay" class="qa-overlay">

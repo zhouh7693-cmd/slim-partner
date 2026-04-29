@@ -1246,174 +1246,190 @@ function sendTalk(type) {
   }
 }
 
-// ===== 搭子tag交互（财务财富版）=====
+// ===== 搭子tag交互（财务财富版·6类20条）=====
+const TYPE_SCENES_FIN = {
+  progress:[
+    {icon:'💰',tag:'储蓄',scenario:'本月储蓄率终于达到30%了！',feedback:'30%的储蓄率是一个很重要的里程碑。你把收入的三分之一存下来了，这意味着你的"鹅"开始下金蛋了。继续保持，储蓄率会越来越轻松，因为你会发现这并不影响生活质量。',type:'pos'},
+    {icon:'📈',tag:'收益',scenario:'投资收益终于翻红了！',feedback:'投资收益翻红需要时间和耐心。市场波动是正常的，重要的是你的资产配置在逻辑上是合理的。能在这个阶段保持冷静，说明你对长期投资有了真正的理解。',type:'pos'},
+    {icon:'🎯',tag:'目标',scenario:'提前3个月完成了今年的存钱目标！',feedback:'提前完成目标说明你低估了自己的执行力，也说明你的计划是可行的。把下一个目标设高一点——你会发现自己比想象的更有潜力。',type:'pos'},
+    {icon:'🏠',tag:'房产',scenario:'终于存够了首付！',feedback:'存够首付是一个巨大的里程碑。这背后是无数次"不买"和"存起来"的选择。接下来的还贷路上，你会走得比大多数人更从容，因为你有储蓄的习惯。',type:'pos'},
+    {icon:'💳',tag:'还债',scenario:'终于还清了所有信用卡债务！',feedback:'还清信用卡债务是财务自由的第一步！信用卡高利率是最伤害财富的，这个坑你跳出来了。从今天开始，不再欠信用卡的钱，你的每一分钱都是自己的。',type:'pos'},
+    {icon:'📊',tag:'记账',scenario:'坚持记账6个月，终于知道钱花在哪里了',feedback:'6个月的记账数据是最珍贵的财务X光片。有了这些数据，你可以真正找到"可以优化"的地方。记账不只是记录，是财务认知的开始。',type:'pos'},
+    {icon:'📚',tag:'学习',scenario:'开始学习理财知识了，认知在提升',feedback:'财务认知的提升是最重要的投资回报。你开始学习，说明你已经意识到钱是需要管理的，而不只是用来花的。这个认知一旦建立，财富会自然向你聚集。',type:'pos'},
+    {icon:'💵',tag:'加薪',scenario:'成功谈下了加薪！',feedback:'加薪是对你价值的认可。能谈下加薪说明你有准备、有勇气、有谈判能力。把这部分增量继续存起来或者做投资，让加薪产生"加薪"的效果。',type:'pos'},
+    {icon:'🤝',tag:'副业',scenario:'副业收入第一次超过了工资的10%',feedback:'副业收入超过工资的10%是一个重要的节点。这意味着你开始有了"第二收入流"，抗风险能力在增强。继续扩大这个比例，你会越来越自由。',type:'pos'},
+    {icon:'🛡️',tag:'保障',scenario:'给全家配齐了保险，终于放心了',feedback:'保险是财务安全的底层设施。有了它，你不需要担心一场病就毁掉所有积累。配齐保险是负责任的表现，也是财务成熟的重要标志。',type:'pos'},
+    {icon:'⚖️',tag:'预算',scenario:'第一次制定了月度预算，并严格执行了',feedback:'月度预算是财务管理的核心工具。你不只是在纸上写数字，而是真的在执行。这是财务自律的开始，也是财富积累的第一步。',type:'pos'},
+    {icon:'🏦',tag:'存款',scenario:'紧急备用金存够了6个月生活费！',feedback:'6个月的紧急备用金是财务护城河。有它在，失业、意外、突发情况都不会影响你的核心财务计划。这是给自己和家人最大的安全感。',type:'pos'},
+    {icon:'💸',tag:'超支',scenario:'这个月冲动消费了3000块，有点后悔',feedback:'冲动消费一次是正常的，关键是不要让它变成习惯。后悔说明你有财务意识，这是好的。下次冲动之前，等24小时，你会发现大部分冲动消费是可以避免的。',type:'neg'},
+    {icon:'📉',tag:'亏损',scenario:'投资收益跌了20%，心态有点崩',feedback:'投资亏损20%在熊市里是正常的。问题是：你的资产配置是否还合理？如果逻辑没变，就不要恐慌。市场会回来，但情绪性抛售会让损失变成真实的。',type:'neg'},
+    {icon:'🏠',tag:'房贷',scenario:'房贷还款压力很大，喘不过气来',feedback:'房贷压力大的解法通常有两个方向：增加收入，或者优化还款方式（延长年限、公积金冲抵等）。不要硬撑，找到适合自己的还款节奏才最重要。',type:'neg'},
+    {icon:'💳',tag:'分期',scenario:'用分期付款买了大件，感觉被坑了',feedback:'分期付款的利率通常比表面看起来高很多。下次买大件前，算一下真实的年化利率，你会惊讶的。这是消费主义最常见的陷阱之一，感谢你踩过这个坑。',type:'neg'},
+    {icon:'📱',tag:'订阅',scenario:'每个月订阅费用加起来居然有500块！',feedback:'订阅费是最容易被忽视的"漏财洞"。500块一个月，一年就是6000块。检查所有订阅，取消那些不用的，很多订阅在试用期结束后就忘了取消。',type:'neg'},
+    {icon:'🎁',tag:'人情',scenario:'人情支出太大，月月光',feedback:'人情消费是人际关系的润滑剂，但需要控制在合理范围内。学会温和地拒绝，不必每次都抢着买单。真正懂你的人不会因为你不买单就疏远你。',type:'neg'},
+    {icon:'📈',tag:'跟风',scenario:'跟着别人买基金，结果亏了不少',feedback:'跟风投资是最常见的亏损原因。每个人的财务状况、风险承受能力、投资目标都不同，适合别人的不一定适合你。投资之前先搞清楚自己的逻辑。',type:'neg'},
+    {icon:'🏃',tag:'冲动',scenario:'促销活动忍不住买了不需要的东西',feedback:'"买到就是赚到"是消费主义的最大谎言。不需要的东西，买得再便宜也是浪费。下次促销之前，问自己一个问题：没有这个折扣，我会买吗？如果不会，就不要买。',type:'neg'}
+  ],
+  struggle:[
+    {icon:'💰',tag:'存钱',scenario:'想存钱但收入太低，存不下怎么办',feedback:'存钱不取决于收入高低，取决于储蓄率。先存后花：发工资后先把10%转走，剩余的才是可支配收入。哪怕每月只能存200块，也要先存。习惯比金额重要。',type:'pos'},
+    {icon:'🏦',tag:'债务',scenario:'负债累累，不知道从哪里开始还',feedback:'还债有两条路：雪崩法（从最高利率开始还）和雪球法（从最小金额开始还）。选一个适合自己的：想要心理激励用雪球，想要数学最优用雪崩。最重要的是停止新增债务。',type:'pos'},
+    {icon:'📊',tag:'记账',scenario:'想开始记账但总是记不住',feedback:'记账不需要完美，找一个顺手的方式：微信/支付宝月账单可以导出来看，或者用记账App随手记。哪怕只是每个月看一下花了多少钱，也比完全不知道强。',type:'pos'},
+    {icon:'📈',tag:'投资',scenario:'想开始投资但完全不懂，怕亏钱',feedback:'投资从简单开始：先了解指数基金（沪深300、标普500），这是最适合新手的投资工具。不需要选股、不需要择时，只需要定期投入+长期持有。用小额开始，先学习。',type:'pos'},
+    {icon:'🏠',tag:'买房',scenario:'想买房子但不知道该不该贷款',feedback:'买房是否贷款取决于：还款压力是否在收入40%以内、是否有稳定现金流。贷款不是坏事，但要确保不影响生活质量。如果会影响生活质量，租房也是合理选择。',type:'pos'},
+    {icon:'🛡️',tag:'保险',scenario:'不知道该买什么保险，感觉水很深',feedback:'保险的逻辑很简单：优先买保障型（医疗险、意外险、重疾险、定寿），储蓄型和分红型先放一边。家庭经济支柱优先保，每个人的保额建议是年收入的5~10倍。',type:'pos'},
+    {icon:'💼',tag:'副业',scenario:'想开辟副业但不知道做什么',feedback:'副业最好的方向是"主业技能变现"或"兴趣爱好变现"。盘点一下自己的技能和兴趣，找到一个可以解决别人问题的点，然后开始小范围尝试。副业不需要完美，边做边调整。',type:'pos'},
+    {icon:'📚',tag:'学习',scenario:'想学理财但不知道从哪里开始',feedback:'理财学习从这三本书开始：《小狗钱钱》（入门启蒙）、《穷爸爸富爸爸》（思维框架）、《指数基金投资指南》（实操方法）。先建立框架，再深入实践。',type:'pos'},
+    {icon:'🎯',tag:'目标',scenario:'想设定财务目标但不知道设多少合适',feedback:'财务目标要具体：不是"我要变富"，而是"我要在5年内存够50万"。把大目标分解成小目标：5年50万→每年10万→每月8000。把数字写下来，目标才有可能实现。',type:'pos'},
+    {icon:'🏃',tag:'节流',scenario:'想省钱但不知道从哪里开始',feedback:'省钱从"最大漏斗"开始：房租（是否降级）、交通（是否拼车）、餐饮（是否带饭）。这三个通常占支出的60%以上，优化它们比省奶茶钱有效10倍。',type:'pos'},
+    {icon:'💸',tag:'冲动',scenario:'总是忍不住消费，该怎么控制',feedback:'控制冲动消费的方法：设置购物冷静期（加购物车等一周）、删除购物App、关闭花呗。把钱先存起来而不是放在消费账户里。每笔消费前问自己：这是需要还是想要？',type:'pos'},
+    {icon:'📱',tag:'订阅',scenario:'订阅太多，每月自动扣款不知不觉',feedback:'做一次订阅审计：打开银行/支付宝/微信的月度账单，列出所有自动扣款项目。然后问自己：每一个订阅真的用了吗？没用的立即取消，不确定的就先取消再装回来。',type:'pos'},
+    {icon:'💳',tag:'信用卡',scenario:'信用卡债务越欠越多，不知道怎么办',feedback:'信用卡债务是财务危机的前兆。立刻停止继续刷卡，然后制定还款计划：先还清最低还款额以上的部分，避免利滚利。如果自己搞不定，找专业的债务咨询。',type:'neg'},
+    {icon:'📉',tag:'亏损',scenario:'投资亏了很多，想割肉又不甘心',feedback:'亏损时最重要的是区分：是市场波动（应该持有）还是资产本身出了问题（应该止损）。如果是前者，不要在低位卖出——卖出后亏损就变成了真实的。耐心等待市场恢复。',type:'neg'},
+    {icon:'🏠',tag:'房贷',scenario:'房贷利率降了，要不要提前还贷',feedback:'是否提前还贷要看：你的投资收益率是否高于房贷利率。如果投资能稳定跑赢房贷利率，就不急着还；如果不能，就提前还贷。另外，保持一定的现金流很重要，不要全部还掉。',type:'neg'},
+    {icon:'🎁',tag:'人情',scenario:'人情消费太大，月光甚至透支',feedback:'人情消费是财务黑洞。设定一个"人情预算"：每月最多花收入的X%，超出的一律拒绝。真正的朋友不会因为你不买单就疏远你，讨好型消费只会让自己财务紧张。',type:'neg'},
+    {icon:'🛍️',tag:'攀比',scenario:'看到别人买什么就想买，忍不住攀比',feedback:'攀比是财富积累最大的敌人。每个人的财务起点和路径都不同，你看到的只是别人想让你看到的。建立一个自己的财务目标，只和自己的目标比，不和别人比。',type:'neg'},
+    {icon:'💰',tag:'借贷',scenario:'借了钱给朋友，现在要不回来',feedback:'借钱给别人有一个原则：只借你承受得起的金额，只借不指望还回来的钱。借钱之前先想清楚：如果对方不还，我能接受吗？如果不能，就不要借。',type:'neg'},
+    {icon:'📈',tag:'投机',scenario:'想赚快钱，考虑过炒股/虚拟货币',feedback:'快钱思维是财富最大的敌人。股市里80%的散户在亏损，虚拟货币更是高风险投资。如果想投资，先从指数基金开始，用5~10年的视角来看，而不是想着"一夜暴富"。',type:'neg'},
+    {icon:'🏃',tag:'借口',scenario:'总是说"等我收入高了再开始理财",feedback:'等你收入高了再理财是一个永远的借口。真正的理财不是有多少钱才开始，而是从管理已有的钱开始。哪怕每月只存500块，也要现在开始。习惯比金额重要得多。',type:'neg'}
+  ],
+  idea:[
+    {icon:'💰',tag:'储蓄',scenario:'想尝试52周存钱法',feedback:'52周存钱法：第一周存10块，之后每周比上周多存10块，到第52周存520块，全年能存13780元。这是一个很好的储蓄习惯培养工具，关键是坚持，不要中途放弃。',type:'pos'},
+    {icon:'📊',tag:'记账',scenario:'想用Excel做一个家庭财务追踪表',feedback:'Excel做财务追踪是个好工具。建议包含这几个维度：月度收入/支出/结余、分类支出占比、储蓄率、净资产变化。每个月更新一次，一年后你会对自己的财务状况有清晰认知。',type:'pos'},
+    {icon:'📈',tag:'投资',scenario:'想开始定投指数基金，该怎么选',feedback:'指数基金选择建议：沪深300（A股核心资产）+中证500（中小盘）+标普500（美国资产，分散风险）。定投频率建议每月一次，长期坚持，不择时。选费率低的ETF，手续费差1%长期差很多。',type:'pos'},
+    {icon:'🏠',tag:'节流',scenario:'想减少外卖开支，自己带饭',feedback:'带饭是减少餐饮开支最有效的方式之一。每天带饭一个月可以节省600~1200元（按每天省20~40元计算）。关键是提前准备：周日批量备菜，工作日只需要加热。省钱又健康。',type:'pos'},
+    {icon:'🤝',tag:'副业',scenario:'想做一个理财知识分享账号',feedback:'做理财知识分享是个好方向，可以同时学习+输出+建立影响力。内容可以围绕：个人理财经验、读书笔记、避坑指南等。形式可以是公众号、小红书或B站。开始比完美重要。',type:'pos'},
+    {icon:'💳',tag:'还款',scenario:'有多张信用卡，想整合成一笔低息贷款',feedback:'信用卡整合是聪明的方法：用一笔低息贷款（比如消费贷、信用贷）一次性还清所有高息信用卡，然后只还一笔低息贷款。但前提是改掉继续用信用卡的习惯，否则债务会更大。',type:'pos'},
+    {icon:'📚',tag:'学习',scenario:'想系统学习财务规划',feedback:'系统学习财务规划的路径：第一步理财思维（看书/课程），第二步基础技能（记账+预算），第三步投资入门（指数基金），第四步保险配置，第五步税务规划。按顺序来，不着急。',type:'pos'},
+    {icon:'🎁',tag:'礼物',scenario:'想给家人买保险但预算有限',feedback:'预算有限时先保"家庭经济支柱"：谁赚钱最多就先保谁，保额是年收入的5~10倍。产品选消费型定期险，保费低保障高。等收入增加了再加保终身险。',type:'pos'},
+    {icon:'🏦',tag:'存款',scenario:'想开一个专门的储蓄账户',feedback:'专门开一个储蓄账户，和消费账户分开，是很好的心理隔离方法。发工资后立刻把固定比例转入储蓄账户，剩下的才用于日常消费。眼不见为净，存钱会更容易。',type:'pos'},
+    {icon:'💸',tag:'省钱',scenario:'想戒掉每天一杯奶茶的习惯',feedback:'每天一杯奶茶（按20元计）一个月600元，一年7200元，10年就是7.2万。把这笔钱改成定投指数基金，按年化8%算，10年后是10.6万。这就是一杯奶茶的时间价值。',type:'pos'},
+    {icon:'📈',tag:'配置',scenario:'想做一个资产配置方案',feedback:'资产配置的原则：核心（70~80%）放稳健资产（存款/债券/指数基金），卫星（20~30%）放成长资产（股票/主动基金）。年龄越大，稳健比例越高。建议先做风险测评，了解自己的风险偏好。',type:'pos'},
+    {icon:'🏠',tag:'租房',scenario:'想和房东谈降租，可行吗',feedback:'谈降租完全可以，而且比你想象的更常见。技巧：了解周边租金行情、表达长期续约意愿、提出"如果降10%可以年付"等方案。大多数房东宁愿小幅降租也不愿意换租客。',type:'pos'},
+    {icon:'💰',tag:'借钱',scenario:'朋友要借钱，该怎么处理',feedback:'借钱的原则：先评估自己的能力和意愿，只借"即使不还也能承受"的金额。要求对方写借条是合理的，不丢人。如果金额大，可以建议对方走正规借贷渠道。',type:'pos'},
+    {icon:'📱',tag:'App',scenario:'想用一个记账App，哪个好用',feedback:'记账App选择建议：随手记（功能全）、MoneyWings（界面好）、支付宝记账本（自动同步）。选一个顺手的最重要，不要花太多时间在工具选择上，关键是坚持记录。',type:'pos'},
+    {icon:'🏦',tag:'利率',scenario:'存款利率越来越低，钱放哪里好',feedback:'低利率环境下，单纯存定期已经不够了。可以考虑：货币基金（流动性好）、国债（安全+利率优于定存）、债券基金（收益稍高）、或提高权益资产比例。具体看你的风险承受能力和资金使用时间。',type:'neg'},
+    {icon:'📈',tag:'炒股',scenario:'想试试短线炒股，能赚钱吗',feedback:'短线炒股对99%的人来说不赚钱。机构有信息和速度优势，散户频繁交易只会给券商交手续费。建议把精力放在提升主业收入+长期定投指数基金上，这比炒股靠谱100倍。',type:'neg'},
+    {icon:'💰',tag:'高息',scenario:'有人推荐高收益理财，年化15%，靠谱吗',feedback:'年化15%的理财产品99%是骗局。正规律所的投资收益：银行存款2~4%、国债3~4%、债券基金4~6%、股票指数6~10%、主动基金10~15%（不保证）。超过10%要谨慎，超过15%基本是骗局。',type:'neg'},
+    {icon:'🏠',tag:'买房',scenario:'要不要趁低利率买房投资',feedback:'买房自住vs投资是两回事。投资买房要看租金回报率（建议>3%才能覆盖贷款+维护成本）、空置率、人口趋势。当前环境下，投资房产要非常谨慎，不建议加杠杆炒房。',type:'neg'},
+    {icon:'🎁',tag:'分期',scenario:'看到"0息分期"就想用',feedback:'0息分期往往有服务费或手续费，实际利率可能很高。商家不会做赔本买卖。下次看到0息分期，先算一下实际年化利率，或者直接问：这个分期的真实成本是多少？',type:'neg'},
+    {icon:'💳',tag:'花呗',scenario:'习惯用花呗消费，感觉像不用钱一样',feedback:'花呗让你"感觉"钱不是钱，但账单来时是真金白银要还的。试着关掉花呗/信用卡，只用储蓄卡消费。真实感受到钱在减少，才是节制的开始。',type:'neg'}
+  ],
+  cheer:[
+    {icon:'💰',tag:'储蓄',scenario:'第一次存款突破10万！',feedback:'10万是一个很有分量的数字，这是无数次"先存后花"积累出来的。这个数字代表的不只是钱，更是你对财务的重视和自律。继续保持，你的财富雪球会越滚越大。',type:'pos'},
+    {icon:'📈',tag:'收益',scenario:'投资收益第一次超过了自己的工资收入！',feedback:'投资收益超过工资收入是一个历史性时刻。这意味着你的钱开始为你工作了，不只是你在为钱工作。虽然只是开始，但这个转变意义重大。继续扩大这个差距。',type:'pos'},
+    {icon:'🏠',tag:'还债',scenario:'终于还清了所有债务！',feedback:'无债一身轻！还清债务是财务自由的真正开始。从今天开始，你赚的每一分钱都是自己的。这个成就背后是无数次的自律和坚持，值得骄傲。',type:'pos'},
+    {icon:'🏦',tag:'首付',scenario:'存够了一套小房子的首付！',feedback:'存够首付是很多人的人生目标之一。你做到了！这个积累过程让你学会了储蓄、延迟满足、抵制诱惑。这些能力会让你受益终身。接下来的还贷路上，你也会走得稳健。',type:'pos'},
+    {icon:'📊',tag:'记账',scenario:'坚持记账一整年，终于搞清楚了财务状况',feedback:'一整年的记账数据是一笔财富。你现在对自己的收入、支出、储蓄率、净资产变化都有了清晰认知。这是财务管理的根基，也是财务自由的基础。',type:'pos'},
+    {icon:'💳',tag:'清卡',scenario:'第一次把信用卡全部还清并关闭了！',feedback:'告别信用卡是财务成熟的重要标志。你不再需要借贷来生活，赚多少花多少，这才是真正踏实的财务状态。不用再被账单追着跑的感觉，只有经历过的人才懂。',type:'pos'},
+    {icon:'🏆',tag:'目标',scenario:'提前完成了5年财务目标！',feedback:'提前完成目标说明你的执行力和财务规划能力都在成长。给自己设定下一个更大的目标吧——你会发现，当你认真对待金钱时，它会给你惊喜的回报。',type:'pos'},
+    {icon:'📚',tag:'学习',scenario:'通过理财学习，避开了好几个坑',feedback:'学习理财知识最重要的作用不是"赚钱"，而是"避坑"。你能避开高息陷阱、传销骗局、不靠谱投资，这本身就是巨大的财富保护。谢谢你在学习上的投入。',type:'pos'},
+    {icon:'🤝',tag:'副业',scenario:'副业收入终于稳定超过主业了！',feedback:'副业收入超过主业是一个转折点。你不再完全依赖一份工资，有了更多的选择权和安全感。但要注意税务合规，把副业收入管理好，这是一份真正的自由。',type:'pos'},
+    {icon:'💼',tag:'加薪',scenario:'通过提升技能成功谈下了50%的加薪！',feedback:'50%的加薪是对你价值的巨大认可。能谈下这个数字，说明你有扎实的价值、充分的准备和谈判的勇气。把加薪的部分继续存起来或做投资，让加薪产生复利效应。',type:'pos'},
+    {icon:'📈',tag:'资产',scenario:'净资产第一次突破了100万！',feedback:'净资产100万是很多人的阶段性目标，你做到了！这代表着你多年的积累、选择和坚持。这不只是一个数字，更是你财务能力的证明。继续保持，下一个100万会更早到来。',type:'pos'},
+    {icon:'🛡️',tag:'保障',scenario:'给全家配齐了保险，安心了',feedback:'配齐保险是给家人最大的安全感。有了它，疾病和意外不会摧毁你的财务积累。这是一份理性的爱，也是财务成熟的重要标志。安心去拼搏吧，后方已经稳固。',type:'pos'},
+    {icon:'📱',tag:'节流',scenario:'通过记账发现并优化了一个大漏斗，省了3000元/月',feedback:'找到并堵住一个财务漏斗是最有效的"赚钱"方式。3000元一个月，一年就是3.6万，而且这个优化是永久的。这比找一份月薪3000的工作更轻松，也更持续。',type:'pos'},
+    {icon:'🏦',tag:'利率',scenario:'通过转贷，每年节省了2万利息',feedback:'节省2万利息是实打实的财务优化。这说明你认真对待自己的贷款，积极寻找最优方案。这种主动管理财务的态度，是财富积累最重要的能力之一。',type:'pos'},
+    {icon:'📈',tag:'分散',scenario:'完成了资产配置优化，风险降低了',feedback:'资产配置优化是一个成熟投资者才有的动作。你开始关注风险而不是只盯着收益，这是财务认知的巨大进步。分散风险不会减少收益，但能让你睡得更安稳。',type:'pos'},
+    {icon:'💰',tag:'捐赠',scenario:'第一次用自己的投资收益做了一笔捐赠',feedback:'用投资收益做捐赠是一个很有意义的里程碑。这说明你的财富积累已经足够让你有余力回馈社会。这是财务自由的最高形式：有能力帮助他人。',type:'pos'},
+    {icon:'🎓',tag:'传承',scenario:'开始给孩子们做财商教育了',feedback:'财商教育是父母给孩子最珍贵的礼物之一。教会孩子储蓄、延迟满足、分辨需要和想要，这是会影响他们一生的能力。你在做一件非常有价值的事情。',type:'pos'},
+    {icon:'🏠',tag:'退休',scenario:'退休储蓄第一次突破了500万',feedback:'500万的退休储蓄是退休安全感的重要基础。按4%的安全提现率，每年可以提取20万，相当于月入1.7万。这个数字意味着你离真正的财务自由越来越近了。',type:'pos'},
+    {icon:'🌟',tag:'自由',scenario:'被动收入第一次覆盖了全部生活开支',feedback:'被动收入覆盖生活开支是财务自由的定义。你不再需要为了钱而工作，有了真正的选择权。这个成就来之不易，是无数次自律和智慧的结晶。',type:'pos'},
+    {icon:'🎉',tag:'里程碑',scenario:'财务自由度达到了80%',feedback:'财务自由度80%意味着你已经很大程度上掌握了生活的主动权。20%还需要工作来满足，但已经不用再为钱而焦虑。继续前进，真正的自由就在前方。',type:'pos'}
+  ],
+  report:[
+    {icon:'💰',tag:'本月',scenario:'本月储蓄率30%，超过预期',feedback:'30%的储蓄率是健康财务的重要标志。你把三分之一的收入存下来了，而且没有影响生活质量。这个比例继续保持，5年后你会惊讶于积累的数字。',type:'pos'},
+    {icon:'📈',tag:'本月',scenario:'本月投资收益不错，跑赢了基准',feedback:'跑赢基准说明你的资产配置和投资决策是有效的。继续保持这个方向，但不要因为一个月的表现就改变长期策略。市场短期波动不代表长期趋势。',type:'pos'},
+    {icon:'💳',tag:'本月',scenario:'本月信用卡消费控制在预算内，没有超支',feedback:'信用卡消费不超支说明你的预算管理在起作用。这是一个很基础的财务自律，但它会让你的财务状况越来越稳定。继续保持。',type:'pos'},
+    {icon:'🏦',tag:'本月',scenario:'本月提前还了一笔房贷',feedback:'提前还贷减少了本金，会显著降低未来的总利息支出。这个动作让"无债一身轻"的那一天更近了。继续保持这种主动管理债务的习惯。',type:'pos'},
+    {icon:'📊',tag:'本月',scenario:'本月记账完整率100%，没有漏记',feedback:'100%的记账完整率说明这件事已经真正成为了习惯。有了完整的数据，你对财务的认知会越来越清晰。这是一个很好的开始。',type:'pos'},
+    {icon:'💵',tag:'本月',scenario:'副业收入第一次超过5000元',feedback:'副业收入5000元是一个不错的里程碑。这个数字如果能持续，相当于每年多了一份"第14薪"。更重要的是，你验证了自己的技能可以变现。',type:'pos'},
+    {icon:'🛡️',tag:'本月',scenario:'给全家做了保单年检，保障充足',feedback:'年度保单检视是很好的财务习惯。保障充足意味着你的家庭在风险面前有了护城河。这份安心是无价的。',type:'pos'},
+    {icon:'📚',tag:'本月',scenario:'读完了一本财务规划的书',feedback:'每个月读一本财务类书籍是很好的习惯。财务知识的积累是复利效应最强的投资——知识会一直留在你脑子里，不会贬值。继续保持这个学习节奏。',type:'pos'},
+    {icon:'🏠',tag:'本月',scenario:'家庭开支优化了，减少了2000元不必要的支出',feedback:'减少2000元不必要支出意味着每月多2000元可用于储蓄或投资。一年就是2.4万，而且这个改变是永久性的。这是财务优化的最佳路径。',type:'pos'},
+    {icon:'💰',tag:'本月',scenario:'紧急备用金账户余额达到了6个月生活费',feedback:'紧急备用金存够是财务安全的重要里程碑。有了它，失业、意外、突发情况都不会影响你的核心财务计划。这是给自己和家人最大的安全感。',type:'pos'},
+    {icon:'📱',tag:'本月',scenario:'订阅费没控制住，超预算了500元',feedback:'订阅费超支是最容易忽略的漏财洞。下个月做一次订阅审计，取消不用的订阅。500元一个月，一年就是6000元，这笔钱值得认真对待。',type:'neg'},
+    {icon:'📉',tag:'本月',scenario:'投资收益为负，心态有点受影响',feedback:'投资短期亏损是正常的，不要因为情绪做决定。回顾一下你的资产配置是否还合理，如果没问题，就保持定投。市场终会恢复，但情绪性操作会让损失变成真实的。',type:'neg'},
+    {icon:'💸',tag:'本月',scenario:'人情支出太大，占了收入的20%',feedback:'人情支出占收入20%偏高，说明在这方面需要优化。设定一个硬性上限（比如10%），超出的温和拒绝。真正懂你的人不会因为你不买单而疏远。',type:'neg'},
+    {icon:'🎁',tag:'本月',scenario:'冲动购物花了3000元，有些后悔',feedback:'冲动购物花了3000元不是世界末日。下次消费前，设置一个24小时冷静期。这个习惯会让你避免大部分冲动消费，让后悔变成可以预防的事情。',type:'neg'},
+    {icon:'🏠',tag:'本月',scenario:'房贷还款后生活质量下降明显',feedback:'房贷压力影响生活质量需要认真对待。可以考虑：延长还款年限、用公积金冲抵、或者和银行商量调整还款方式。不要硬撑，找到可持续的还款节奏。',type:'neg'},
+    {icon:'📈',tag:'本月',scenario:'跟风买了一个理财产品，亏了',feedback:'跟风投资亏损是常见的事情。重要的是反思：为什么没有自己分析就买了？以后坚持自己的投资逻辑，不懂的不投。这个教训值3000元，很贵但很宝贵。',type:'neg'},
+    {icon:'💳',tag:'本月',scenario:'最低还款额还款，利息滚了不少',feedback:'只还最低还款额会让利息迅速累积，这是信用卡最危险的用法。下个月想办法全额还款，如果做不到，尽快做一笔低息贷款整合债务，停止利息的利滚利。',type:'neg'},
+    {icon:'📱',tag:'本月',scenario:'为了面子消费花了很多不该花的',feedback:'面子消费是财富积累的大敌。从今天开始，区分"我需要"和"别人觉得我需要"。真正的自信来自内在，不需要用消费来证明。',type:'neg'},
+    {icon:'🏃',tag:'本月',scenario:'完全没有存下钱，月光族',feedback:'月光是财务问题的信号。先不要自责，从账单分析开始：钱都花在哪里了？哪些是可以优化的？先有数据，才有改变。月光不可怕，不知道为什么月光才可怕。',type:'neg'},
+    {icon:'💰',tag:'本月',scenario:'借出去的钱要不回来，有点烦',feedback:'借出去的钱要不回来是常见的问题。下次记住：只借你承受得起不还的金额。或者干脆走正规借贷渠道，保护好自己的财务，也保护好关系。',type:'neg'}
+  ]
+};
+
+let currentQAType = null;
+let currentQADir = 'result';
 function askPartner(type) {
   const partner = currentPartner || PARTNERS[0];
   const style = partner.style || 'gentle';
-  const labels = { progress: '📈 进展', struggle: '😣 困难', idea: '💡 想法', cheer: '🎉 喜事' };
-  const replies = {
-    gentle: {
-      progress: { pos: ['说说最近的财务进展，我帮你分析分析。', '好，跟我讲讲你最近的改变。'], neg: ['哪里还没达到预期？说说看。'] },
-      struggle: { pos: ['有困难是好事，说明你在突破！'], neg: ['没关系，一起想办法。'] },
-      idea: { pos: ['好想法！说说你的灵感。'], neg: ['说说你的困惑，我帮你推演。'] },
-      cheer: { pos: ['哈哈！好事！快说！🎉'], neg: ['好事！让我沾沾喜气！🎊'] }
-    },
-    passion: {
-      progress: { pos: ['冲！说说你的战果！🔥'], neg: ['什么卡住了？冲！💪'] },
-      struggle: { pos: ['困难算什么，你是最棒的！💪'], neg: ['没有过不去的坎！🔥'] },
-      idea: { pos: ['好创意！🔥 让我听听！'], neg: ['说说你的想法！⚡'] },
-      cheer: { pos: ['🎉🎉🎉 说！我要听！'], neg: ['哈哈！好事！🎊'] }
-    },
-    rational: {
-      progress: { pos: ['汇报收到。数据记录中。📊'], neg: ['什么因素影响了财务进展？📊'] },
-      struggle: { pos: ['困难是数据点在积累经验。'], neg: ['从数据角度看，怎么解决？📊'] },
-      idea: { pos: ['好。说说的核心假设是什么。📊'], neg: ['说说你的财务逻辑。📊'] },
-      cheer: { pos: ['📊 记录这一时刻。'], neg: ['好事！量化一下？📊'] }
-    },
-    tsundere: {
-      progress: { pos: ['……行吧，算你有点进展。'], neg: ['又卡了？哼。'] },
-      struggle: { pos: ['困难谁都有。说吧。'], neg: ['……算了，我帮你。😒'] },
-      idea: { pos: ['😏 什么想法？说来听听。'], neg: ['说说看。🤷'] },
-      cheer: { pos: ['……算你有点本事。😏'], neg: ['好事？😏'] }
-    }
+  const emoji = partner.emoji;
+  const typeConfig = {
+    progress:{label:'📈 进展',panel:'progress',dir:'result',intro:{gentle:['说说最近的财务进展，我帮你分析分析 🌿','好，跟我讲讲你最近的改变 💫'], passion:['冲！说说你的战果！🔥','好！让我听听你的进展！⚡'], rational:['汇报收到。数据记录中。📊','好。说说关键指标的变化。'], tsundere:['……行吧，算你有点进展。说吧。😏','又卡了？……哼，我听听。😏']}},
+    struggle:{label:'😣 困难',panel:'struggle',dir:'solution',intro:{gentle:['有困难是正常的，说说看 💙','没关系，一起想办法 🌿'], passion:['困难算什么，你是最棒的！💪','来！我帮你拆解！🔥'], rational:['困难是数据点在积累经验。说，我帮你分析。📊'], tsundere:['困难谁都有。说吧，我勉强帮你。😒','……算了，我帮你想想。😒']}},
+    idea:{label:'💡 想法',panel:'idea',dir:'result',intro:{gentle:['好想法！说说你的灵感来源 🌿','来，展开讲讲这个点子 💫'], passion:['好创意！🔥 让我听听！','来！展开讲！我要感受你的热情！⚡'], rational:['好。说说的核心假设是什么。📊','从数据角度看，这个想法的可行性如何？'], tsundere:['😏 什么想法？说来听听，不保证有用。','说说看。🤷']}},
+    cheer:{label:'🎉 喜事',panel:'cheer',dir:'result',intro:{gentle:['哈哈！好事！快说！我要听！🎉','哈哈！恭喜！这种时刻值得好好庆祝！💫'], passion:['🎉🎉🎉 说！我要听！全部细节！','哈哈！太棒了！这种时刻绝对要截图留念！🔥'], rational:['📊 积极情绪有利于持续行动。说细节。','好的势头要保持。数据上有什么支撑？'], tsundere:['😏 哼，还行吧。什么好事？','……算你有点本事。说，什么事？😏']}},
+    report:{label:'📣 汇报进展',panel:'report',dir:'result',intro:{gentle:['收到。说给我听听 🌿','好，让我了解你的最新情况 💫'], passion:['冲！汇报收到！🔥','好！让我听听！⚡'], rational:['汇报收到。数据记录中。📊','好。说说关键变化。'], tsundere:['……行吧，说吧。😏','又卡了？……哼，我听听。😏']}},
+    question:{label:'🤔 有问题想问',panel:'question',dir:'solution',intro:{gentle:['问吧，我尽力回答 💙'], passion:['问！什么问题都能接住！💪'], rational:['好的。给出你的问题。📊'], tsundere:['🤷 问就问，不保证你能听懂。😏']}}
   };
-  showPartnerMsg(labels[type], false);
-  setTimeout(() => {
-    const arr = replies[style]?.[type]?.pos || replies.gentle[type].pos;
-    showPartnerMsg(partner.emoji + ' ' + arr[Math.floor(Math.random() * arr.length)], true);
-  }, 800);
+  const cfg = typeConfig[type] || typeConfig.progress;
+  const introArr = cfg.intro[style] || cfg.intro.gentle;
+  const intro = introArr[Math.floor(Math.random() * introArr.length)];
+  showPartnerMsg(cfg.label, false);
+  setTimeout(() => { showPartnerMsg(emoji + ' ' + intro, true); setTimeout(() => openTypePanel(cfg.panel, cfg.dir), 500); }, 700);
 }
-
-let currentQAType = null;
-
-function openQAPanel(type) {
-  currentQAType = type;
-  const data = type === 'question' ? QA_DATA : PROGRESS_DATA;
-  const title = type === 'question' ? '🤔 有问题想问' : '📣 汇报一下进展';
-  const sub  = type === 'question' ? '选择一个最符合你情况的问题，我来给你解答' : '说说现在的情况，我给你针对性的反馈';
-  document.getElementById('qaTitle').innerText = title;
-  document.getElementById('qaSub').innerText = sub;
-
-  const scroll = document.getElementById('qaScroll');
-  scroll.innerHTML = '';
-
-  // 正向
-  if (data.pos.length) {
-    const posLabel = document.createElement('div');
-    posLabel.style.cssText = 'font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;';
-    posLabel.innerText = '⬆️ 好的进展 / 想得到鼓励';
-    scroll.appendChild(posLabel);
-    data.pos.forEach((item, i) => {
-      scroll.appendChild(makeQACard(type, 'pos', i, item));
-    });
-  }
-
-  // 负向
-  if (data.neg.length) {
-    const negLabel = document.createElement('div');
-    negLabel.style.cssText = 'font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;';
-    negLabel.innerText = '⬇️ 不好的情况 / 需要引导';
-    scroll.appendChild(negLabel);
-    data.neg.forEach((item, i) => {
-      scroll.appendChild(makeQACard(type, 'neg', i, item));
-    });
-  }
-
+function openTypePanel(panel, dir) {
+  currentQAType = panel; currentQADir = dir;
+  const data = TYPE_SCENES_FIN[panel] || [];
+  const titleMap = {progress:'📈 选择一个最符合你情况的进展', struggle:'😣 选择一个你正在面对的困难', idea:'💡 选择一个你想聊的想法', cheer:'🎉 选择一件你想分享的喜事', report:'📣 汇报一下本月财务情况', question:'🤔 有问题想问？选一个最接近的'};
+  const subMap = {result:'选择后我会和你共情，然后给出结果导向的反馈 💫', solution:'选择后我会和你共情，然后一起想办法 💪'};
+  document.getElementById('qaTitle').innerText = titleMap[panel] || panel;
+  document.getElementById('qaSub').innerText = subMap[dir] || '';
+  const scroll = document.getElementById('qaScroll'); scroll.innerHTML = '';
+  const posItems = data.filter(i => i.type === 'pos');
+  if (posItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;'; l.innerText='⬆️ 好的进展 / 想得到鼓励'; scroll.appendChild(l); posItems.forEach((item, i) => { const realIdx = data.indexOf(item); const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item,realIdx),300);}; scroll.appendChild(card); }); }
+  const negItems = data.filter(i => i.type === 'neg');
+  if (negItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;'; l.innerText='⬇️ 遇到困难 / 需要引导'; scroll.appendChild(l); negItems.forEach((item, i) => { const realIdx = data.indexOf(item); const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item,realIdx),300);}; scroll.appendChild(card); }); }
   document.getElementById('qaOverlay').classList.add('show');
-  // 点击遮罩关闭
-  document.getElementById('qaOverlay').onclick = function(e) {
-    if (e.target === document.getElementById('qaOverlay')) closeQAPanel();
-  };
+  document.getElementById('qaOverlay').onclick = function(e) { if (e.target === document.getElementById('qaOverlay')) closeQAPanel(); };
 }
-
-function makeQACard(type, polarity, index, item) {
-  const card = document.createElement('div');
-  card.className = `qa-card ${polarity}`;
-  card.innerHTML = `
-    <div class="qa-card-icon">${item.icon}</div>
-    <div class="qa-card-text">${item.question || item.scenario}</div>
-    <div class="qa-card-tag ${polarity}">${item.tag}</div>
-  `;
-  card.onclick = () => {
-    closeQAPanel();
-    setTimeout(() => showFeedback(type, polarity, index), 300);
-  };
-  return card;
-}
-
-function closeQAPanel() {
-  document.getElementById('qaOverlay').classList.remove('show');
-  document.getElementById('qaOverlay').onclick = null;
-}
-
-function showFeedback(type, polarity, index) {
-  const data = type === 'question' ? QA_DATA : PROGRESS_DATA;
-  const item = data[polarity][index];
+function showTypeFeedback(panel, dir, item, index) {
   const partner = currentPartner || PARTNERS[0];
-
+  const style = partner.style || 'gentle';
+  const emoji = partner.emoji;
+  const isPos = item.type === 'pos';
+  const empathy = getEmpathy(style, dir, isPos);
+  const feedback = getFeedback(style, dir, isPos);
   const fbCard = document.getElementById('fbCard');
-  fbCard.className = `fb-card ${polarity}`;
+  fbCard.className = `fb-card ${item.type}`;
   document.getElementById('fbEmoji').innerText = item.icon;
   const labelEl = document.getElementById('fbLabel');
-  labelEl.innerText = polarity === 'pos' ? '✨ 正向' : '⚠️ 需要引导';
-  labelEl.className = `fb-label ${polarity}`;
-  document.getElementById('fbTitle').innerText = item.tag + '反馈';
-  document.getElementById('fbText').innerText = item.answer || item.feedback;
-  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${partner.emoji} ${partner.name}说：</div>"${getPartnerReply(partner.style, type, polarity)}"`;
-
+  labelEl.innerText = isPos ? '✨ 正向' : '⚠️ 需要引导';
+  labelEl.className = `fb-label ${item.type}`;
+  document.getElementById('fbTitle').innerText = item.tag;
+  document.getElementById('fbText').innerText = item.feedback;
+  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${emoji} ${partner.name}说：</div>"${empathy.replace(emoji,' ').trim()} <span style="color:#1565c0">${feedback}</span>"`;
   document.getElementById('fbOverlay').classList.add('show');
 }
-
-function getPartnerReply(style, type, polarity) {
-  const replies = {
-    gentle: {
-      question: {
-        pos: ['你真的在认真对待这件事，我很欣慰。', '这件事处理得很好，继续保持。'],
-        neg: ['别太自责，每个人都会有这样的时候。慢慢来。', '没关系，找到原因就好了，我们一起面对。']
-      },
-      progress: {
-        pos: ['你愿意分享这个，说明你在认真对待自己的变化，很好。', '进展不错，继续保持这个状态。'],
-        neg: ['别担心，这种情况很多人都遇到过。我们一起想办法。', '知道了。我们来看看怎么改善。']
-      }
-    },
-    passion: {
-      question: {
-        pos: ['这就对了！继续保持，你就是最棒的！', '干得漂亮！这就是进步的样子！'],
-        neg: ['小问题！哪有过不去的坎，继续冲！', '别怂！办法总比困难多，我们搞定它！']
-      },
-      progress: {
-        pos: ['太强了！继续保持这个劲头！', '这就是复利的力量！继续累积！'],
-        neg: ['就这？调整一下，继续干！', '这都不是事儿！战术调整一下，明天继续冲！']
-      }
-    },
-    rational: {
-      question: {
-        pos: ['判断正确。行为数据支持这一结论。', '这是合理的选择，决策合理。'],
-        neg: ['这是常见的现象，有科学解释。先分析原因。', '客观情况如此，调整策略即可。']
-      },
-      progress: {
-        pos: ['数据支持这一判断。继续执行当前方案。', '正增长符合预期。保持当前节奏。'],
-        neg: ['数据出现了波动。需要分析原因并调整。', '负向偏差在可控范围内，可以修正。']
-      }
-    },
-    tsundere: {
-      question: {
-        pos: ['……还行吧，勉强算你做对了。', '哼，总算做了一件对的事。'],
-        neg: ['怎么又这样，下次能不能提前想好？', '我就知道会这样……算了，说你怎么也没用。']
-      },
-      progress: {
-        pos: ['……行吧，算你有点进步。', '嗯。这次的事做得还可以。'],
-        neg: ['又来了？能不能上点心？', '哼，我就知道会出这种问题。']
-      }
-    }
-  };
-  const arr = replies[style]?.[type]?.[polarity] || replies.gentle[type][polarity];
+function getEmpathy(style, dir, isPos) {
+  const msgs={gentle:{result:{pos:['这种感觉真的很好，为你高兴 🌿','你做到了，这很重要 💫','这个进展很真实，继续保持 💚'],neg:['这种感觉我理解，不着急，慢慢来 💙','我听见了，陪你一起 🌿']},solution:{pos:['谢谢你告诉我这些 💙','愿意说出来本身就需要勇气 🌿'],neg:['能感觉到你的为难，我在这里 🤝','没关系，我们一起拆解 🌿']}},passion:{result:{pos:['太强了！继续保持！🔥','这就是进步！继续燃烧！🚀'],neg:['别急，调整一下！💪','小调整，继续冲！🔥']},solution:{pos:['好！说得好！我听到了！💪'],neg:['来！我帮你拆解！🔥','没有困难是过不去的！冲！💪']}},rational:{result:{pos:['数据记录在案。这个变化值得关注。📊','收到。行为数据显示你的方向正确。📈'],neg:['这种情况在过程中很常见。📊','数据出现波动，分析后可以调整。📋']},solution:{pos:['这种情况有方法可以优化。📊','收到，让我帮你拆解。🧩'],neg:['这个问题的本质可以进一步分析。📊','先拆解，再制定对策。🛠️']}},tsundere:{result:{pos:['……还行吧，算你有点料。😏','哼，还凑合。😶'],neg:['又来了？……哼，我听听。😒','就这样吧，我也习惯了。🤷']},solution:{pos:['……行吧，我勉强听一下。😒'],neg:['怎么又这样……说吧，我帮你。😒','哼，说吧，我看看能不能救。🤷']}}};
+  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
-
-function closeFeedback() {
-  document.getElementById('fbOverlay').classList.remove('show');
+function getFeedback(style, dir, isPos) {
+  const msgs={gentle:{result:{pos:['继续保持，你走的每一步都在积累 🌿','这个方向很对，坚持下去 💚','你比自己以为的更接近目标 💫'],neg:['不要因为这样就放弃，我们来看看怎么调整 🌿','先给自己一点耐心，我们慢慢来 💙']},solution:{pos:['找到突破口后继续往前 💪','我们来看看下一步可以怎么做 🌿'],neg:['说说具体卡在哪里，我帮你理清思路 🌿','这件事拆开来看，其实没有那么难 💙']}},passion:{result:{pos:['继续这个节奏，效果会越来越明显的！🔥','这就是复利！保持！💪'],neg:['调整一下，明天继续冲！⚡','战术修正，继续干！💪']},solution:{pos:['找对方法，继续冲！🔥'],neg:['来！我帮你拆解！没有过不去的坎！🔥','拆解完立刻行动！🚀']}},rational:{result:{pos:['继续执行当前方案，效果会逐步显现。📊','这个趋势值得坚持。📈'],neg:['需要分析原因后调整策略。📊','在可修正范围内，继续监测。📋']},solution:{pos:['有清晰的分析路径，可以优化。📊','建议先量化问题，再对症下药。🧩'],neg:['从数据入手，找核心原因。📊','把问题拆成小块，逐个击破。🛠️']}},tsundere:{result:{pos:['……行吧，算你有点进步。😏','嗯。还凑合。😶'],neg:['……我又来了。哼。😒']},solution:{pos:['说，我看看能不能帮。😒'],neg:['……算了，我帮你想想。😒','好吧，我勉强帮一下。🤷']}}};
+  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
 }
+function sendTalk(type) { askPartner(type); }
+function openQAPanel(type) { askPartner(type); }
+function makeQACard(type, polarity, index, item) { const card = document.createElement('div'); card.className=`qa-card ${polarity}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario||item.question||''}</div><div class="qa-card-tag ${polarity}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();}; return card; }
+function closeQAPanel() { document.getElementById('qaOverlay').classList.remove('show'); document.getElementById('qaOverlay').onclick = null; }
+function showFeedback(type, polarity, index) { const data = TYPE_SCENES_FIN[type]||[]; const item = data.filter(d=>d.type===polarity)[index]; if(item) showTypeFeedback(type,'result',item,index); }
+function getPartnerReply(style, type, polarity) { return getEmpathy(style, 'result', polarity==='pos'); }
+function closeFeedback() { document.getElementById('fbOverlay').classList.remove('show'); }
 
 function refreshDashboard() {
   let today = getToday(), history = getHistory();

@@ -550,8 +550,8 @@
         <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
       </div>
       <div class="talk-btn-row" style="margin-top:8px;">
-        <button class="talk-btn" onclick="openQAPanel('progress')">📣 汇报进展</button>
-        <button class="talk-btn" onclick="openQAPanel('question')">🤔 有问题想问</button>
+        <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
+        <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
       </div>
     </div>
 
@@ -594,8 +594,8 @@
       <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="openQAPanel('progress')">📣 汇报进展</button>
-      <button class="talk-btn" onclick="openQAPanel('question')">🤔 有问题想问</button>
+      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
+      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
     </div>
   </div>
 </div>
@@ -1595,42 +1595,219 @@ function showPartnerMsg(text, isAI) {
   if (area.children.length > 20) area.removeChild(area.children[0]);
 }
 
-// ===== 搭子tag交互（陪读妈妈版）=====
+// ===== TYPE_SCENES_MOM：陪读妈妈搭子6×20场景系统 =====
+const TYPE_SCENES_MOM = {
+  progress: [
+    {icon:'📚',tag:'学习',scenario:'孩子这次成绩明显进步了',feedback:'成绩进步是孩子努力的证明，也是你陪读付出的回报！问问孩子：这次进步最大的科目是什么？他觉得是哪里做对了？把有效的经验继续放大。',type:'pos'},
+    {icon:'💬',tag:'沟通',scenario:'和孩子进行了一次深入的亲子对话',feedback:'深度对话是亲子关系的黄金！记录这次对话中孩子说了什么、你们的共识是什么。这种连接感比任何成绩都重要。',type:'pos'},
+    {icon:'🌟',tag:'成长',scenario:'孩子自己主动提出了学习计划',feedback:'孩子主动是最珍贵的信号！这是内在动力的萌芽，不要打击、不要加码，给他空间去实践自己的计划。',type:'pos'},
+    {icon:'😌',tag:'情绪',scenario:'这周自己情绪比较稳定，没有急躁',feedback:'家长的情绪稳定是给孩子最好的礼物！复盘是什么让这周情绪更平稳——是调整了预期、还是找到了喘息的方式？把这个方法记下来。',type:'pos'},
+    {icon:'📖',tag:'习惯',scenario:'孩子开始养成早起学习的习惯了',feedback:'习惯养成是最扎实的进步！早起学习是高效学习的黄金习惯。可以和孩子一起制定一个奖励机制，强化这个习惯。',type:'pos'},
+    {icon:'🎯',tag:'目标',scenario:'帮孩子设定了一个清晰的阶段性目标',feedback:'目标清晰是行动的第一步！把大目标拆解成每周小目标，每周回顾进度。目标可视化让孩子更有方向感。',type:'pos'},
+    {icon:'🏆',tag:'鼓励',scenario:'及时发现了孩子的进步并给予了真诚鼓励',feedback:'真诚的鼓励比任何物质奖励都有力量！鼓励要具体——不是"你真棒"，而是"我发现你这次比上次更有耐心了，这就是进步"。',type:'pos'},
+    {icon:'🤝',tag:'协作',scenario:'和家里人就孩子的教育方式达成了共识',feedback:'家庭教育的合力是最强大的！把达成的共识写下来，全家人统一执行。一致性能给孩子最稳定的安全感。',type:'pos'},
+    {icon:'📱',tag:'资源',scenario:'找到了一个特别好的学习资源或工具',feedback:'好资源要分享！把这个资源的效果记录下来，问问孩子：用了之后感觉哪里不一样？好资源 + 孩子的认可才是最有效的验证。',type:'pos'},
+    {icon:'😴',tag:'作息',scenario:'孩子的作息时间终于规律了',feedback:'作息规律是高效学习的底层保障！记录这次建立规律作息的方法，以后遇到类似问题可以用上。',type:'pos'},
+    {icon:'💪',tag:'自律',scenario:'孩子这周自主完成作业，不用催了',feedback:'自主完成作业是高年级最重要的能力之一！问问孩子：不催也能做完的感觉怎么样？强化这种自我掌控感。',type:'pos'},
+    {icon:'🧠',tag:'方法',scenario:'孩子找到了一个适合自己的学习方法',feedback:'找到适合自己的方法是学习路上最重要的突破！鼓励孩子把这个方法写下来、分享给同学。教是最好的学。',type:'pos'},
+    {icon:'🌈',tag:'心态',scenario:'孩子对某门薄弱科目开始有信心了',feedback:'信心重建是最难的事！不要逼他马上变强，而是创造小成功体验：找一道简单题让他先做对，建立"我能行"的感觉。',type:'pos'},
+    {icon:'📝',tag:'总结',scenario:'孩子愿意主动做错题本/总结了',feedback:'自我总结是学霸的核心习惯！不要替他做，让他自己动手。可以提供模板，但内容要由他来写。',type:'pos'},
+    {icon:'🤗',tag:'关系',scenario:'孩子主动和你分享学校里的事情',feedback:'孩子愿意分享是亲子关系健康的信号！不要急着给建议，先听。问"你觉得呢？"比"你应该这样做"更有力量。',type:'pos'},
+    {icon:'🎯',tag:'专注',scenario:'孩子的专注时间明显变长了',feedback:'专注力提升是学习效率的核心！记录是什么环境或条件让孩子的专注力变好了——是安静的房间、还是番茄工作法？把这些条件固化下来。',type:'pos'},
+    {icon:'💡',tag:'理解',scenario:'某个知识点孩子终于理解透彻了',feedback:'理解透彻比刷题更重要！鼓励孩子把这个知识点讲给别人——讲出来才是真正的理解。可以让他给你讲。',type:'pos'},
+    {icon:'🏃',tag:'身体',scenario:'孩子的身体状态这周特别好',feedback:'好身体是好状态的基础！记录是什么让孩子的身体状态好起来——睡眠、运动还是饮食？这些因素比学习本身更重要。',type:'pos'},
+    {icon:'🌱',tag:'成长',scenario:'看到孩子在某方面有明显成长',feedback:'孩子的成长不止在学习上！记录这个成长时刻，问问孩子：你觉得自己在这个方面进步了多少？让孩子看见自己的变化。',type:'pos'},
+    {icon:'🎉',tag:'鼓励',scenario:'孩子因为某件事受到了老师的表扬',feedback:'来自外部的认可能极大增强孩子的内在动力！把这个表扬的时刻记下来，问问孩子：被表扬时是什么感觉？把这种感觉和他的目标连接起来。',type:'pos'},
+    {icon:'😤',tag:'压力',scenario:'孩子因为成绩下滑陷入自我怀疑',feedback:'成绩下滑不等于能力下滑！帮孩子区分"一次考试"和"我的价值"。问孩子：你觉得这次没考好，是哪里出了问题？是知识漏洞、还是考试状态？找到原因比追究结果更重要。',type:'neg'},
+    {icon:'📱',tag:'手机',scenario:'孩子沉迷手机，晚上不肯睡觉',feedback:'手机成瘾往往是更深层问题的症状。先问自己：孩子在学校/学习中是否有足够的成就感？找到让他愿意放下手机去做的事，比强行没收更有效。',type:'neg'},
+    {icon:'😠',tag:'冲突',scenario:'忍不住对孩子发了火，事后很自责',feedback:'发火后先和自己和解。自责消耗的能量比发火本身更大。找时间和孩子说：我刚才发火是因为我也很累，不是因为你不好。修复比自责更有价值。',type:'neg'},
+    {icon:'😔',tag:'迷茫',scenario:'不知道该管还是不该管，管多了怕逆反',feedback:'管与不管的核心标准是：这是孩子的课题还是家长的课题？孩子的学习是他的课题，你的任务是提供支持，而不是替他完成。减少控制，增加陪伴。',type:'neg'},
+    {icon:'📚',tag:'偏科',scenario:'孩子的偏科问题越来越严重',feedback:'偏科背后往往有情绪因素，而不单纯是能力问题。先和孩子聊聊：那门课让你感到最困难的是什么？是老师、知识点、还是自信心？找到情绪根源再对症下药。',type:'neg'},
+    {icon:'😴',tag:'作息',scenario:'孩子作息混乱，严重影响第二天状态',feedback:'作息是底层问题，会拖垮一切。先解决作息：设定固定的睡觉时间，哪怕从今天开始只提前15分钟。睡眠优先于一切学习任务。',type:'neg'},
+    {icon:'💬',tag:'冷战',scenario:'和孩子陷入了冷战，不知道怎么打破',feedback:'冷战期间，家长先打破僵局不需要"输"。发一条消息：妈妈/爸爸想和你好好说话，你什么时候准备好了来找我。用这种方式表示愿意沟通的姿态。',type:'neg'},
+    {icon:'😓',tag:'焦虑',scenario:'自己陷入深深的陪读焦虑，无法入睡',feedback:'家长的焦虑孩子能感受到。先照顾好自己：找可以倾诉的人聊聊，把焦虑写下来。记住：你焦虑不代表你没做好，焦虑说明你在乎。',type:'neg'},
+    {icon:'🏃',tag:'疲惫',scenario:'自己累到极限，感觉撑不住了',feedback:'你已经足够努力了，撑不住就说。先给自己放一天假——真正地放下陪读的事，去做让自己恢复能量的事情。照顾好自己才能照顾好孩子。',type:'neg'},
+    {icon:'🤷',tag:'方向',scenario:'不知道孩子的真正问题在哪里',feedback:'看不清问题时，去做观察而不是猜测。花一周时间记录孩子每天回家后的时间分配——学习、休息、玩手机各多少时间。数据会告诉你真相。',type:'neg'},
+    {icon:'😰',tag:'考试',scenario:'临近大考，孩子焦虑到失眠',feedback:'考试焦虑的解法不是"你别紧张"，而是具体的行动方案。带孩子制定一个可执行的考前复习计划，让焦虑转化为准备感，而不是无力感。',type:'neg'},
+    {icon:'😤',tag:'冲突',scenario:'因为作业问题和孩子发生了激烈冲突',feedback:'作业冲突是亲子关系的警钟。停下来问自己：这场冲突解决的是什么问题？孩子的作业，还是你的情绪？把冲突变成一次深度对话的机会。',type:'neg'},
+    {icon:'📉',tag:'效率',scenario:'孩子花很多时间学习但没有效果',feedback:'时间不等于效率。帮孩子诊断：他在学习的时候是真正专注，还是只是"坐在那里"？找到真正的效率杀手，比增加学习时间更重要。',type:'neg'},
+    {icon:'💔',tag:'孤立',scenario:'孩子说"你们都不理解我"',feedback:'"不理解"背后往往是在说"我需要被看见"。先不要辩解，先说：我可能真的没有完全理解你，但你愿意和我说说吗？打开耳朵比张开嘴巴更重要。',type:'neg'},
+    {icon:'😞',tag:'受挫',scenario:'孩子觉得自己不够好，很不自信',feedback:'不自信是青春期孩子的普遍状态，但需要被认真对待。找出孩子真正擅长的一个领域，在那里创造成功体验。自信需要从真实的能力感中建立。',type:'neg'},
+    {icon:'📱',tag:'沟通',scenario:'想和孩子沟通但总聊不起来',feedback:'聊不起来往往是沟通方式出了问题。不要从"今天学了什么"开始，从"你们班上最近有什么事有意思"开始。轻松的对话是深度对话的前提。',type:'neg'},
+    {icon:'⏰',tag:'拖延',scenario:'孩子严重拖延，说什么都不动',feedback:'拖延的背后往往是"这件事太难了"或"做了也没用"。先解决情绪，再解决行动：问他"你觉得这件事难在哪里？"把大任务切成最小可行步骤。',type:'neg'},
+    {icon:'🏫',tag:'人际',scenario:'孩子在学校被人际关系问题困扰',feedback:'人际关系问题是青少年的核心压力源之一。先听他说，不要急着给建议，问"你觉得呢？"让他自己想出办法。必要时和班主任沟通。',type:'neg'},
+    {icon:'😢',tag:'情绪',scenario:'孩子情绪波动大，一点小事就崩溃',feedback:'情绪崩溃往往是大脑在承压极限。不是在崩溃的那个时刻教他"控制情绪"，而是等他平静下来后，问他：刚才那个情绪是什么？你怎么想？帮助他认识情绪。',type:'neg'},
+    {icon:'📊',tag:'对比',scenario:'总是忍不住拿孩子和别人比较',feedback:'比较是伤害亲子关系的隐形杀手。每当想比较时，问自己：孩子上周有没有比这周进步的地方？把注意力从"他和别人差多少"转移到"他在哪里变好了"。',type:'neg'},
+  ],
+  struggle: [
+    {icon:'😤',tag:'压力',scenario:'孩子因为成绩焦虑到失眠',feedback:'考试焦虑要先处理情绪，再处理知识。带孩子做深呼吸练习（4-7-8呼吸法），然后一起制定一个可执行的复习计划，让焦虑转化为准备感。',type:'pos'},
+    {icon:'📱',tag:'手机',scenario:'手机使用时间无法控制，冲突不断',feedback:'手机冲突是权力之争，不要硬碰硬。召开家庭会议，和孩子一起制定手机使用规则，让他参与规则的制定，执行效果会好很多。',type:'pos'},
+    {icon:'😠',tag:'情绪',scenario:'忍不住对孩子发了火',feedback:'发火后先和自己和解，再和孩子修复。说：我刚才情绪失控了，是因为妈妈也很累，不是因为你不好。这种坦诚是最好的示范。',type:'pos'},
+    {icon:'😔',tag:'迷茫',scenario:'不知道该管还是不该管，管了怕逆反',feedback:'区分"谁的课题"：学习是孩子的课题，你负责支持而非控制。减少命令式语言，改用提问：你打算怎么安排今晚的学习？',type:'pos'},
+    {icon:'📚',tag:'偏科',scenario:'孩子的偏科问题很严重',feedback:'偏科的根源往往是情绪，不单纯是能力。先和孩子聊聊：那门课最让你害怕的是什么？找到情绪根源，再针对性解决。',type:'pos'},
+    {icon:'😴',tag:'作息',scenario:'孩子作息混乱影响第二天状态',feedback:'作息是底层保障，优先于一切学习任务。设定固定睡眠时间，哪怕每晚只提前15分钟，慢慢调整到合理区间。',type:'pos'},
+    {icon:'💬',tag:'沟通',scenario:'想和孩子沟通但总聊不起来',feedback:'从孩子感兴趣的话题入手，不要从学习开始。问他学校有什么有意思的事，建立轻松的对话氛围是深度沟通的前提。',type:'pos'},
+    {icon:'😓',tag:'焦虑',scenario:'自己陷入深深的陪读焦虑',feedback:'先照顾好自己。你焦虑孩子能感受到。每周给自己留一段"不陪读"的时间，去做让你真正放松的事情。',type:'pos'},
+    {icon:'⏰',tag:'拖延',scenario:'孩子严重拖延，什么事都拖着不做',feedback:'拖延背后往往是任务太大或缺乏动力。先把任务切成最小可行步骤：不是"今晚学习"，而是"先做第一道题"。完成最小步骤是突破的开始。',type:'pos'},
+    {icon:'🏃',tag:'疲惫',scenario:'自己累到极限，感觉快撑不住了',feedback:'你已经付出了很多。允许自己休息，这不是放弃，是战略调整。照顾好自己才能陪伴孩子走更远。',type:'pos'},
+    {icon:'📖',tag:'习惯',scenario:'孩子没有学习习惯，不知道怎么培养',feedback:'习惯从最小行动开始：不是"每天学习2小时"，而是"每天回家后先翻开书"。把新习惯和已有的日常绑定（比如放书包后立刻翻开书）。',type:'pos'},
+    {icon:'💡',tag:'方法',scenario:'孩子学习方法不对，低效努力',feedback:'学习方法比时间投入更重要。测试：让孩子用计时器记录每个任务的实际用时，找到效率低的原因。可能是分心、不懂规划，或只是时间估计错误。',type:'pos'},
+    {icon:'🌟',tag:'信心',scenario:'孩子觉得自己不够好，很不自信',feedback:'不自信来自缺乏成功体验。找出孩子真正擅长的领域，创造小成功体验。关键是"可做到"的难度 + "做到了"之后的认可。',type:'pos'},
+    {icon:'🤝',tag:'关系',scenario:'亲子关系紧张，孩子不愿和家长说话',feedback:'关系紧张时，减少评判，增加倾听。不要"回应"孩子的抱怨，而是"接收"它。先接住情绪，再处理问题。',type:'pos'},
+    {icon:'🏫',tag:'人际',scenario:'孩子在学校被人际问题困扰',feedback:'青少年的人际关系是核心压力源。先听他说，问：你觉得最好的处理方式是什么？必要时和班主任私下沟通，不直接介入孩子的冲突。',type:'pos'},
+    {icon:'😰',tag:'考试',scenario:'每次大考前孩子都特别焦虑',feedback:'考前焦虑的解法是做具体的准备计划，而不是告诉孩子"别紧张"。帮孩子制定考前3天的复习计划，有计划才有安全感。',type:'pos'},
+    {icon:'🎯',tag:'目标',scenario:'孩子没有学习目标，不知道为什么学',feedback:'目标不能家长硬设，要孩子自己认同。问他：如果你有一年的时间让某件事变好，你最想改变什么？把大目标拆成小目标。',type:'pos'},
+    {icon:'😞',tag:'受挫',scenario:'孩子经历了一次重大考试失利',feedback:'考试失利后不要先分析分数，先处理情绪。等孩子平静下来，问：你觉得这次考试告诉了我们什么？把失败转化为信息而不是羞耻。',type:'pos'},
+    {icon:'📝',tag:'总结',scenario:'孩子不愿做错题本/总结',feedback:'错题本是工具，不是惩罚。先让孩子理解：错题本是给自己看的，不是给老师交作业。找到他愿意记录的理由，而不是强制执行。',type:'pos'},
+    {icon:'🧠',tag:'压力',scenario:'孩子压力太大，不愿意和家长说',feedback:'孩子不说可能是因为以前说了之后得到的是建议而不是理解。先说：我只是想听听，你说什么我都不会给建议。创造安全的说话环境。',type:'pos'},
+  ],
+  idea: [
+    {icon:'📱',tag:'工具',scenario:'想到一个帮孩子管理时间的App或方法',feedback:'好想法！时间管理工具的关键是简单不复杂。先用纸质方法（周计划表）验证孩子的接受度，再考虑数字工具。不要一开始就做复杂的系统。',type:'pos'},
+    {icon:'🏆',tag:'激励',scenario:'想到一个家庭积分奖励机制',feedback:'奖励机制设计要谨慎！原则是：奖励学习行为而不是结果，奖励要即时（当天兑现而非一个月后），不要把奖励变成交易条件。',type:'pos'},
+    {icon:'📖',tag:'习惯',scenario:'想到一个培养孩子阅读习惯的方法',feedback:'阅读习惯的关键是"触手可及"。把书放在孩子经常待的地方，降低开始的阻力。找到他感兴趣的题材比逼他读"有用"的书更重要。',type:'pos'},
+    {icon:'💬',tag:'沟通',scenario:'想到一个可以改善亲子沟通的方法',feedback:'改善沟通从"问什么"开始！把"今天学了什么"换成"今天什么事让你印象最深刻？"好的问题是好沟通的起点。',type:'pos'},
+    {icon:'🎯',tag:'目标',scenario:'想帮孩子设计一个更有吸引力的学习目标',feedback:'有吸引力的目标要和孩子一起设定，而不是家长单方面决定。用"如果做到了……你会有什么感觉？"来引导他自己说出目标的意义。',type:'pos'},
+    {icon:'🏃',tag:'作息',scenario:'想调整孩子的作息时间表',feedback:'作息调整要"渐进"，不要"一步到位"。每3天提前15分钟，用自然的方式调整生物钟。强制提前只会制造更多反抗。',type:'pos'},
+    {icon:'🌟',tag:'信心',scenario:'想找一个帮孩子重建自信的方法',feedback:'自信建立在"真实的能力感"上，不是虚假的鼓励。找到孩子做得好的一件事（哪怕很小），创造"做到"的机会，然后真诚认可。',type:'pos'},
+    {icon:'🤝',tag:'协作',scenario:'想到一个让家里人教育方式统一的方法',feedback:'家庭一致性的关键是"开会"不是"指责"。召开家庭会议，让每个人说出自己的教育期望，找出最大公约数，形成共同约定。',type:'pos'},
+    {icon:'📚',tag:'资源',scenario:'发现了一个很好的学习资源/课程',feedback:'好资源要适配！先问孩子：你觉得这个课/书适合你吗？孩子的认同感决定了资源是否有效。好资源 + 无感 = 浪费。',type:'pos'},
+    {icon:'🧠',tag:'方法',scenario:'想到一个提高孩子记忆效率的方法',feedback:'记忆方法因人而异！可以尝试：睡前复习法（当天睡前过一遍）、主动回忆法（遮住内容自己背一遍）、间隔复习法（1天后、3天后、7天后复习）。',type:'pos'},
+    {icon:'😌',tag:'自我',scenario:'想找一个能让自己也喘口气的方式',feedback:'照顾好自己不是自私，是必要的战略！每周给自己留2小时完全属于自己的时间，去做让你恢复能量的事情，这是可持续陪读的基础。',type:'pos'},
+    {icon:'🌈',tag:'情绪',scenario:'想到一个帮助孩子管理情绪的方法',feedback:'情绪管理要从"命名"开始。教孩子给自己的情绪命名：当我心跳加速时，我可能是在焦虑。情绪被命名后就不再那么可怕。',type:'pos'},
+    {icon:'📝',tag:'总结',scenario:'想到一个让孩子愿意做错题本的方法',feedback:'错题本的关键是"有意义"而不是"完整"。从一门孩子最喜欢的课开始，让他自己选择记录哪道题，这道题为什么值得记。',type:'pos'},
+    {icon:'🏫',tag:'人际',scenario:'想帮孩子改善和同学的关系',feedback:'改善人际关系要从孩子的视角出发，而不是家长的判断。先问孩子：你觉得最好的做法是什么？提供选项而不是指令。',type:'pos'},
+    {icon:'🎉',tag:'仪式',scenario:'想在家里设立一个"庆祝小进步"的仪式',feedback:'小庆祝仪式能强化正向行为！每周选一个"本周最棒时刻"在家庭餐桌上分享。庆祝的对象是进步行为，不是结果。',type:'pos'},
+    {icon:'🌱',tag:'成长',scenario:'想到一个帮助孩子认识自己优点的办法',feedback:'用"成就清单"替代"缺点清单"。和孩子一起列出过去1年他做成的10件事（不论大小），贴在家里显眼位置。自我认知是自信的起点。',type:'pos'},
+    {icon:'💡',tag:'创意',scenario:'想到一个让学习变得更有趣的方法',feedback:'兴趣是最好的老师！找孩子感兴趣的内容和学科知识的结合点。比如喜欢游戏的孩子，可以研究游戏设计中的数学原理。',type:'pos'},
+    {icon:'📅',tag:'计划',scenario:'想设计一个寒暑假的学习计划',feedback:'寒暑假计划要"弹性"而非"精确到小时"。设定3个主要目标（大任务），每天有2~3小时专注学习，其余时间自由安排。留白是创造力的来源。',type:'pos'},
+    {icon:'🔄',tag:'节奏',scenario:'想到一个让家庭节奏更规律的方法',feedback:'规律家庭节奏从"固定节点"开始：固定的晚餐时间、固定的周末家庭活动时间。规律让孩子有安全感，减少日常冲突。',type:'pos'},
+    {icon:'🗺️',tag:'方向',scenario:'想帮孩子找到未来职业方向',feedback:'职业探索要从"体验"出发，不是"说教"。带孩子参观不同的工作场所，或看职业纪录片。让他体验"做什么让我感到有意义"。',type:'pos'},
+  ],
+  cheer: [
+    {icon:'🏆',tag:'成绩',scenario:'孩子这次考试进步了！',feedback:'成绩进步是孩子努力的证明！问问孩子：这次进步最大的科目是什么？是哪里做对了？把有效的方法继续放大，而不是立刻加码。',type:'pos'},
+    {icon:'🌟',tag:'成长',scenario:'孩子某方面的成长让你特别感动',feedback:'孩子的成长常常藏在细节里！把这一刻记下来，写一封信或在餐桌上说出来。这种被看见的感觉比任何奖励都有力量。',type:'pos'},
+    {icon:'💬',tag:'关系',scenario:'和孩子进行了一次特别温暖的对话',feedback:'这种对话是亲子关系的黄金！记录这次对话中你最触动的一点。记住这个感觉，以后遇到困难时可以回想起这段连接。',type:'pos'},
+    {icon:'📚',tag:'习惯',scenario:'孩子坚持了一个好习惯超过21天',feedback:'21天是习惯养成的里程碑！和孩子一起庆祝这个成就，问问他：这个习惯给你带来了什么变化？用他自己的话来强化这个习惯的价值。',type:'pos'},
+    {icon:'🎉',tag:'突破',scenario:'孩子克服了一个一直以来的弱点',feedback:'克服弱点是最有力量的成长！把这个突破故事讲给家人听，让孩子感受到：我是有能力改变的人。这种自我效能感会迁移到其他领域。',type:'pos'},
+    {icon:'🏃',tag:'自律',scenario:'孩子这周完全自主管理好了时间',feedback:'自主管理是青春期最重要的能力之一！不要在这个时候"趁热打铁"加码，给他空间享受这份掌控感。家长的克制是对孩子最好的鼓励。',type:'pos'},
+    {icon:'🤝',tag:'协作',scenario:'家里人就教育问题达成了重要共识',feedback:'家庭合力的时刻值得庆祝！把达成的共识写下来，贴在墙上。家庭一致性是给孩子最稳定的支持。',type:'pos'},
+    {icon:'😌',tag:'情绪',scenario:'自己这周情绪特别稳定，陪读状态很好',feedback:'你的情绪稳定是孩子最好的环境！这种状态值得保护。记录是什么让这周情绪好，把它变成可复制的习惯。',type:'pos'},
+    {icon:'💪',tag:'坚持',scenario:'孩子坚持完成了一件很难的事',feedback:'坚持是最稀缺的能力！和孩子一起回顾：是什么让你坚持到了最后？把这个经验总结出来，变成"我能坚持"的方法论。',type:'pos'},
+    {icon:'🌈',tag:'阳光',scenario:'孩子今天状态特别好，整个人都在发光',feedback:'孩子状态好的时候最容易建立连接！这种时候可以多聊几句，问问他：今天什么事让你状态这么好？把这种状态和他的日常行为关联起来。',type:'pos'},
+    {icon:'🏅',tag:'认可',scenario:'孩子受到了老师的表扬',feedback:'外部认可是强有力的正向信号！问孩子：被表扬时是什么感觉？让他把这种正向情绪和具体的努力行为关联起来。',type:'pos'},
+    {icon:'📱',tag:'平衡',scenario:'孩子这周手机使用和学习平衡得很好',feedback:'平衡能力是自我管理的高阶技能！这是他自己做到的，不是管出来的。认可他的自律，而不是监控他的时间。',type:'pos'},
+    {icon:'🤗',tag:'陪伴',scenario:'一家人度过了一个特别美好的周末',feedback:'高质量的家庭时光是最好的情感银行！记住这一天的氛围，创造更多这样的时刻。亲子关系的存款就在这些美好时刻里。',type:'pos'},
+    {icon:'💡',tag:'领悟',scenario:'孩子突然对某个知识点有了深层理解',feedback:'领悟时刻是学习中最美的部分！不要打断这个过程，让他沉浸在"我懂了"的感觉里。可以说：你这个理解角度很有意思。',type:'pos'},
+    {icon:'🎯',tag:'目标',scenario:'孩子这周完成了自己设定的目标',feedback:'目标完成是自我效能感的最佳来源！和他一起复盘：这个目标对你意味着什么？下一个目标是什么？让这种成就感持续驱动他。',type:'pos'},
+    {icon:'😄',tag:'笑容',scenario:'孩子今天笑得特别开心',feedback:'孩子的笑容是最真实的快乐信号！这种时刻值得被保护。问问孩子：今天什么事让你这么开心？记住它，创造更多这样的情境。',type:'pos'},
+    {icon:'💪',tag:'韧性',scenario:'孩子经历挫折后自己调整了过来',feedback:'自我修复能力是最重要的心理韧性！这种能力不是教出来的，而是在安全的家庭环境里自然发展的。你给了他这个空间。',type:'pos'},
+    {icon:'🌟',tag:'优点',scenario:'发现自己对孩子的了解比以前更深了',feedback:'对孩子的深度理解是陪读路上最珍贵的收获！保持这份好奇心，用"观察"替代"判断"，你会越来越懂你的孩子。',type:'pos'},
+    {icon:'🤝',tag:'信任',scenario:'孩子愿意把他最真实的困惑告诉你',feedback:'孩子愿意说出最真实的困惑是最大的信任！不要急于给建议，先说谢谢他愿意告诉你。然后问：你希望我做什么？',type:'pos'},
+    {icon:'🏆',tag:'里程碑',scenario:'陪读路上达到了一个重要里程碑',feedback:'陪读长征的里程碑值得被记住！不管是孩子的进步还是你自己的成长，都值得庆祝。拍一张照片，记录这个时刻。',type:'pos'},
+  ],
+  report: [
+    {icon:'📚',tag:'学习',scenario:'孩子这周学习状态明显比上周好',feedback:'状态提升是改变开始的信号！分析是哪里变了——作息、心态、还是环境？把这个变化因素固化下来。',type:'pos'},
+    {icon:'📊',tag:'数据',scenario:'本周陪读时间分配有了改善',feedback:'时间分配优化是效率提升的前提！复盘这周：你花在陪读上的时间和精力，哪些是值得的，哪些是可以减少的？',type:'pos'},
+    {icon:'😌',tag:'状态',scenario:'自己这周情绪状态比上周稳定多了',feedback:'你的情绪稳定是孩子最好的环境！把上周情绪波动的原因和这周稳定的原因做对比分析，找出有效的自我调节方法。',type:'pos'},
+    {icon:'🤝',tag:'沟通',scenario:'这周和孩子的有效对话比上周多',feedback:'对话量的增加说明亲子关系在改善！回顾本周的对话：哪些话题孩子更愿意聊？用这个规律继续创造对话机会。',type:'pos'},
+    {icon:'📖',tag:'习惯',scenario:'孩子这周开始养成某个新习惯了',feedback:'新习惯的开始是最难的阶段！记录这个习惯的具体触发条件（比如：放学回家后先做什么？），把触发条件固定下来。',type:'pos'},
+    {icon:'💪',tag:'效率',scenario:'这周孩子的学习效率有明显提升',feedback:'效率提升是最有价值的变化！分析是哪里变了——环境、任务分解方式、还是时间管理？把这个有效方法固化到日常。',type:'pos'},
+    {icon:'🌟',tag:'成长',scenario:'这周自己在某个方面做得比之前好',feedback:'你自己的成长是孩子最好的示范！记录这个进步——是耐心更好了，还是沟通方式更有效了？这种觉察本身就是成长。',type:'pos'},
+    {icon:'📱',tag:'工具',scenario:'这周尝试了一个新的陪读工具或方法',feedback:'方法迭代是陪读能力的提升！记录这个方法的效果：是有效、一般、还是没效果？好的方法要持续用，没效果的果断换。',type:'pos'},
+    {icon:'💡',tag:'领悟',scenario:'这周对孩子的某个问题有了新的理解',feedback:'理解孩子是陪读路上最珍贵的进步！把这个新理解写下来，在遇到类似情境时提醒自己：你对孩子的理解比你以为的更深。',type:'pos'},
+    {icon:'🏃',tag:'平衡',scenario:'这周成功做到了更多工作与生活的平衡',feedback:'平衡感是可持续陪读的基础！记录是什么让这周更平衡——是设置了边界、还是学会了放手？把有效的策略变成习惯。',type:'pos'},
+    {icon:'😔',tag:'挫折',scenario:'这周陪读中遇到了一个挫折',feedback:'每个挫折都是学习机会！复盘：这个挫折教了你什么？如果重新来，你会怎么调整？带着这个经验，你会处理得更好。',type:'neg'},
+    {icon:'😓',tag:'疲惫',scenario:'这周自己特别累，感觉付出了很多却效果不大',feedback:'付出感太强往往是方法不对，不是不够努力。复盘：本周的陪读投入是否高效？是否有低效的沟通或过度介入？',type:'neg'},
+    {icon:'📉',tag:'退步',scenario:'孩子的某个问题这周变严重了',feedback:'问题变严重是先兆，要认真对待！不要只看表面现象，去找根本原因：是压力、环境还是人际关系？找到根源再行动。',type:'neg'},
+    {icon:'😤',tag:'冲突',scenario:'这周和孩子的冲突比上周多',feedback:'冲突增加是关系需要调整的信号！复盘这些冲突：都是因为什么话题？你的反应和孩子的反应是什么？有没有可以提前化解的方式？',type:'neg'},
+    {icon:'😰',tag:'焦虑',scenario:'自己这周的焦虑感明显增强',feedback:'焦虑是你的身体在告诉你需要调整。先照顾好自己：找可以倾诉的人，把焦虑说出来。记住，你不需要解决所有问题。',type:'neg'},
+    {icon:'⏰',tag:'拖延',scenario:'孩子这周的学习计划有很多没完成',feedback:'计划没完成要先问原因，不是追问结果。问孩子：是计划太难了，还是没找到动力？调整计划本身也是一种能力。',type:'neg'},
+    {icon:'💔',tag:'距离',scenario:'感觉这周和孩子的距离变远了',feedback:'距离感出现时，先从自己开始修复。不要逼孩子亲近，主动创造一些轻松的相处机会，哪怕只是给他倒杯水。',type:'neg'},
+    {icon:'📚',tag:'学习',scenario:'孩子的学习这周没有进展',feedback:'没有进展不等于退步！先确认是不是进入了平台期。和孩子聊聊：最近什么让你觉得没有进展？是哪个环节卡住了？',type:'neg'},
+    {icon:'😞',tag:'低落',scenario:'孩子这周情绪一直比较低落',feedback:'孩子情绪低落要先处理情绪，再处理事情。不要问"你怎么了"，问"我能帮你什么"。给他空间说，如果他不说，也尊重他的节奏。',type:'neg'},
+    {icon:'🏃',tag:'疲惫',scenario:'自己也累到快撑不住了',feedback:'你已经付出了很多。先给自己放一天假，去做让你真正放松的事情，不是刷手机那种放松，而是真正的休息。照顾好自己才能陪孩子走更远。',type:'neg'},
+  ],
+  question: [
+    {icon:'📚',tag:'学习',scenario:'孩子成绩不稳定，该怎么帮他提升？',feedback:'成绩不稳定往往是学习方法和考试策略的问题，不是能力问题。分析孩子的错题：哪类错误最多？是不懂、粗心、还是时间不够？找到根源再针对性训练。',type:'pos'},
+    {icon:'📱',tag:'手机',scenario:'孩子沉迷手机游戏，该怎么管？',feedback:'手机管理不是"管"出来的，是"约定"出来的。召开家庭会议，和孩子一起制定规则，让他参与制定，执行效果会好很多。规则要具体（几点到几点），不是笼统的"少玩手机"。',type:'pos'},
+    {icon:'😠',tag:'情绪',scenario:'孩子一学习就情绪崩溃，怎么引导？',feedback:'情绪崩溃要先接住情绪，再处理事情。不要在崩溃时讲道理，等他平静后问：学习时最让你感到难受的是什么？找到情绪根源比强迫学习更重要。',type:'pos'},
+    {icon:'💬',tag:'沟通',scenario:'孩子不愿和家长沟通，该怎么办？',feedback:'孩子不愿意说，往往是因为说了之后得到的是建议而不是倾听。先说：我就是想听听，不给建议。创造安全的说话环境比任何技巧都重要。',type:'pos'},
+    {icon:'⏰',tag:'时间',scenario:'孩子拖拉磨蹭，怎么帮他提高效率？',feedback:'磨蹭往往是任务太大或太模糊。帮他把大任务切成最小步骤：不是"做作业"，而是"先做第一道数学题"。每完成一步给一个小认可。',type:'pos'},
+    {icon:'🌟',tag:'信心',scenario:'孩子觉得自己不够好，怎么重建自信？',feedback:'自信从"做到"中来，不是从"鼓励"中来。找出孩子真正擅长的一个领域，创造小成功体验，然后认可这个体验。关键是可做到 + 被看见。',type:'pos'},
+    {icon:'🏃',tag:'作息',scenario:'孩子作息混乱，怎么帮他调整过来？',feedback:'作息调整要渐进，不能一步到位。每3天提前15分钟，用自然的方式调整。不要强制，而是用早晨的光线、定时的早餐来引导生物钟。',type:'pos'},
+    {icon:'📖',tag:'习惯',scenario:'孩子没有学习习惯，怎么培养？',feedback:'习惯从最小行动开始。不是"每天学习2小时"，而是"回家后先翻开书"。把新习惯和已有的日常绑定，固定触发条件和时间点。',type:'pos'},
+    {icon:'📚',tag:'偏科',scenario:'孩子严重偏科，该怎么解决？',feedback:'偏科的根源往往是情绪，不单纯是能力问题。先和孩子聊聊：那门课最让你害怕的是什么？找到情绪根源再对症下药，而不是刷题。',type:'pos'},
+    {icon:'🧠',tag:'压力',scenario:'孩子压力太大，怎么帮他缓解？',feedback:'压力太大时，先确认：是外部压力（家长/老师期望）还是自我压力？然后对症处理。不要说"别紧张"，而是和他一起制定可执行的计划，让压力转化为准备感。',type:'pos'},
+    {icon:'🤝',tag:'关系',scenario:'和孩子关系很僵，不知道怎么修复？',feedback:'关系修复从"停止评判"开始。减少对孩子的评价，增加对他的好奇。问他感兴趣的话题，去了解他的世界，而不是试图改变他。',type:'pos'},
+    {icon:'💪',tag:'自律',scenario:'孩子不自觉，需要家长盯着才学',feedback:'不自觉是因为缺乏内在动力，不是因为懒。问他：如果你不用考试，你想做什么？找到他真正有热情的事情，让那份热情延伸到学习中。',type:'pos'},
+    {icon:'🏫',tag:'人际',scenario:'孩子在学校被孤立，该怎么帮？',feedback:'被孤立首先要了解原因，不盲目介入。不要教孩子"告老师"，而是问他：你觉得最好的做法是什么？必要时和班主任私下沟通。',type:'pos'},
+    {icon:'😰',tag:'考试',scenario:'大考前孩子特别焦虑，怎么帮他准备？',feedback:'考前焦虑的解法是做具体的准备计划，而不是"你别紧张"。帮孩子制定考前3天复习计划，有计划才有安全感。考试前一天以放松为主。',type:'pos'},
+    {icon:'🎯',tag:'目标',scenario:'孩子没有学习目标，该怎么帮他设定？',feedback:'目标要孩子自己认同，不是家长强加。用问题引导：如果你有一年时间让你变好，你最想改变什么？把大目标和孩子自己认同的价值连接起来。',type:'pos'},
+    {icon:'📝',tag:'总结',scenario:'孩子不愿做错题本和总结，该怎么引导？',feedback:'错题本是给自己看的，不是给老师交的作业。让孩子自己选择记录哪道题，强调这是"给自己看的财富"，而不是任务。',type:'pos'},
+    {icon:'🧩',tag:'方法',scenario:'孩子学习方法低效，该怎么教他？',feedback:'学习方法要因人而异，不是有唯一正确的"学霸方法"。可以让他做"学习日志"：记录每次学习的时间、任务、完成度，找到低效的原因。',type:'pos'},
+    {icon:'😓',tag:'焦虑',scenario:'自己因为陪读焦虑到失眠',feedback:'陪读焦虑是很多家长的共同感受，你不是一个人。先照顾好自己：每周给自己留2小时不陪读的时间。记住，你焦虑孩子能感受到，你的平静是他的安全港湾。',type:'pos'},
+    {icon:'🏃',tag:'平衡',scenario:'工作陪读两边顾不过来，怎么平衡？',feedback:'平衡不是把时间切成完美的两半，而是在关键时刻做优先级排序。和家人分工，明确哪些必须你做，哪些可以委托。用质量代替数量，高质量陪伴1小时胜过心不在焉的3小时。',type:'pos'},
+    {icon:'💡',tag:'成长',scenario:'孩子青春期了，不知道怎么跟他相处？',feedback:'青春期孩子需要的是"顾问"不是"指挥官"。减少命令，增加提问：你打算怎么做？结果会怎样？给他做决定的空间，同时保持你在身边的陪伴感。',type:'pos'},
+  ]
+};
+
+// ===== askPartner：6分类入口（陪读妈妈版）=====
+let currentQAType = '';
+let currentQADir = '';
+
 function askPartner(type) {
   let pid = getSelectedPartnerId();
   let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
-  const labels = { progress: '📈 进展', struggle: '😣 困难', idea: '💡 想法', cheer: '🎉 喜事' };
-  const replies = {
-    gentle: {
-      progress: { pos: ['说说最近陪读的进展，我帮你分析分析。', '好，跟我讲讲你最近的状态变化。'], neg: ['哪里还没达到预期？说说看。'] },
-      struggle: { pos: ['有困难是好事，说明你在成长！'], neg: ['没关系，一起想办法。'] },
-      idea: { pos: ['好想法！说说你的灵感。'], neg: ['说说你的困惑，我帮你推演。'] },
-      cheer: { pos: ['哈哈！好事！快说！🎉'], neg: ['好事！让我沾沾喜气！🎊'] }
-    },
-    passion: {
-      progress: { pos: ['冲！说说你的陪读战果！🔥'], neg: ['什么卡住了？冲！💪'] },
-      struggle: { pos: ['困难算什么，你是最棒的！💪'], neg: ['没有过不去的坎！🔥'] },
-      idea: { pos: ['好创意！🔥 让我听听！'], neg: ['说说你的想法！⚡'] },
-      cheer: { pos: ['🎉🎉🎉 说！我要听！'], neg: ['哈哈！好事！🎊'] }
-    },
-    rational: {
-      progress: { pos: ['汇报收到。数据记录中。📊'], neg: ['什么因素影响了陪读进展？📊'] },
-      struggle: { pos: ['困难是数据点在积累经验。'], neg: ['从数据角度看，怎么解决？📊'] },
-      idea: { pos: ['好。说说的核心假设是什么。📊'], neg: ['说说你的思考逻辑。📊'] },
-      cheer: { pos: ['📊 记录这一时刻。'], neg: ['好事！量化一下？📊'] }
-    },
-    tsundere: {
-      progress: { pos: ['……行吧，算你有点进展。'], neg: ['又卡了？哼。'] },
-      struggle: { pos: ['困难谁都有。说吧。'], neg: ['……算了，我帮你。😒'] },
-      idea: { pos: ['😏 什么想法？说来听听。'], neg: ['说说看。🤷'] },
-      cheer: { pos: ['……算你有点本事。😏'], neg: ['好事？😏'] }
-    }
+  const style = partner.style || 'gentle';
+  const emoji = partner.emoji;
+  const typeConfig = {
+    progress:{label:'📈 进展',panel:'progress',dir:'result',intro:{gentle:['说说最近陪读的进展，我帮你分析分析。💙','好，跟我讲讲你最近的状态变化 🌿'], passion:['冲！说说你的陪读战果！🔥','好！让我听听！⚡'], rational:['汇报收到。数据记录中。📊','好，说说关键变化。'], tsundere:['……行吧，算你有点进展。😏','又卡了？哼。😏']}},
+    struggle:{label:'😣 困难',panel:'struggle',dir:'solution',intro:{gentle:['有困难是好事，说明你在成长！💙','没关系，一起想办法 🌿'], passion:['困难算什么，你是最棒的！💪','来！我帮你拆解！🔥'], rational:['困难是数据点在积累经验。说，我帮你分析。📊'], tsundere:['困难谁都有。说吧。😒','……算了，我帮你想想办法。😒']}},
+    idea:{label:'💡 想法',panel:'idea',dir:'result',intro:{gentle:['好想法！说说你的灵感来源 🌿','来，展开讲讲这个点子 💫'], passion:['好创意！🔥 让我听听！','来！展开讲！我要感受你的热情！⚡'], rational:['好。说说你的核心假设是什么。📊','从认知角度看，这个想法的可行性如何？'], tsundere:['😏 什么想法？说来听听。','说说看。🤷']}},
+    cheer:{label:'🎉 喜事',panel:'cheer',dir:'result',intro:{gentle:['哈哈！好事！快说！我要听！🎉','哈哈！这种时刻值得好好庆祝！💫'], passion:['🎉🎉🎉 说！我要听！全部细节！','哈哈！太棒了！🔥'], rational:['📊 积极情绪有利于持续行动。说细节。','好的势头要保持。'], tsundere:['😏 哼，还行吧。什么好事？','……算你有点本事。说，什么事？😏']}},
+    report:{label:'📣 汇报进展',panel:'report',dir:'result',intro:{gentle:['收到。说给我听听 🌿','好，让我了解你的最新情况 💫'], passion:['冲！汇报收到！🔥','好！让我听听！⚡'], rational:['汇报收到。数据记录中。📊','好，说说关键变化。'], tsundere:['……行吧，说吧。😏','又来了？……哼，我听听。😏']}},
+    question:{label:'🤔 有问题想问',panel:'question',dir:'solution',intro:{gentle:['问吧，我尽力回答 💙'], passion:['问！什么问题都能接住！💪'], rational:['好的。给出你的问题。📊'], tsundere:['🤷 问就问，不保证你能听懂。😏']}}
   };
-  showPartnerMsg(labels[type], false);
+  const cfg = typeConfig[type] || typeConfig.progress;
+  const introArr = cfg.intro[style] || cfg.intro.gentle;
+  const intro = introArr[Math.floor(Math.random() * introArr.length)];
+  showPartnerMsg(cfg.label, false);
+  setTimeout(() => { showPartnerMsg(emoji + ' ' + intro, true); setTimeout(() => openTypePanel(cfg.panel, cfg.dir), 500); }, 700);
+}
+
+function openTypePanel(panel, dir) {
+  currentQAType = panel; currentQADir = dir;
+  const data = TYPE_SCENES_MOM[panel] || [];
+  const titleMap = {progress:'📈 选择一个最符合你情况的陪读进展', struggle:'😣 选择一个你正在面对的陪读困难', idea:'💡 选择一个你想聊的陪读想法', cheer:'🎉 选择一件你想分享的陪读喜事', report:'📣 汇报一下这周的陪读状态', question:'🤔 有问题想问？选一个最接近的'};
+  const subMap = {result:'选择后我会和你共情，然后给出结果导向的反馈 💫', solution:'选择后我会和你共情，然后一起想办法 💪'};
+  document.getElementById('qaTitle').innerText = titleMap[panel] || panel;
+  document.getElementById('qaSub').innerText = subMap[dir] || '';
+  const scroll = document.getElementById('qaScroll'); scroll.innerHTML = '';
+  const posItems = data.filter(i => i.type === 'pos');
+  if (posItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;'; l.innerText='⬆️ 好的进展 / 想得到鼓励'; scroll.appendChild(l); posItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
+  const negItems = data.filter(i => i.type === 'neg');
+  if (negItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;'; l.innerText='⬇️ 遇到困难 / 需要引导'; scroll.appendChild(l); negItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
+  document.getElementById('qaOverlay').classList.add('show');
+}
+
+function showTypeFeedback(panel, dir, item) {
+  let pid = getSelectedPartnerId();
+  let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
+  const style = partner.style || 'gentle';
+  const emoji = partner.emoji;
+  const empathyMap = {
+    progress: {gentle:'💙 你在陪读路上一直在努力，我看到了。', passion:'🔥 你的陪读付出一定会有回报！', rational:'📊 这是一条值得记录的路。', tsundere:'……还算有点进展吧。😏'},
+    struggle: {gentle:'💙 陪读的路上没有标准答案，我们在摸索。', passion:'💪 妈妈也是人，允许自己疲惫。', rational:'📊 每个问题都有数据可分析。', tsundere:'😒 这种情况挺常见的。'},
+    idea: {gentle:'💡 好想法！陪读的路上需要灵感和创意。', passion:'🚀 这个想法值得试试！', rational:'📊 先假设再验证。', tsundere:'🤷 说来听听。'},
+    cheer: {gentle:'🎉 好事！你的努力被看见了！', passion:'🔥🎉 陪读妈妈也有高光时刻！', rational:'📊 这种正向数据要保持。', tsundere:'😏 ……还行吧。'},
+    report: {gentle:'💙 认真汇报的妈妈值得尊敬。', passion:'💪 你在做很了不起的事！', rational:'📊 数据很重要，谢谢你的汇报。', tsundere:'……知道了。😏'},
+    question: {gentle:'💙 问就是走在对的路上。', passion:'💪 问就对了！', rational:'📊 问题清晰是答案的一半。', tsundere:'🤷 问就问吧。'}
+  };
+  const empathy = empathyMap[panel]?.[style] || empathyMap[panel]?.['gentle'] || '💙 我听到了。';
+  showPartnerMsg(empathy, true);
   setTimeout(() => {
-    const arr = replies[partner.style]?.[type]?.pos || replies.gentle[type].pos;
-    showPartnerMsg(partner.emoji + ' ' + arr[Math.floor(Math.random() * arr.length)], true);
-  }, 800);
+    showPartnerMsg(emoji + ' ' + item.feedback, true);
+  }, 900);
 }
 
 // ==================== 进展页 ====================
