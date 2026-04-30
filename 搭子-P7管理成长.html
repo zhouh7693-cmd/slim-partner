@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>P7管理成长搭子 · 签到神器</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+    body {
+      background: linear-gradient(145deg, #f0f2f5 0%, #e4e8f0 100%);
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      padding: 16px 16px 90px;
+    }
+
+    /* ===== Tab Bar ===== */
+    .tab-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: white;
+      display: flex; justify-content: space-around;
+      padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+      border-radius: 24px 24px 0 0;
+      z-index: 100;
+    }
+    .tab-item {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 3px; padding: 6px 12px; cursor: pointer;
+      border-radius: 16px; transition: all 0.2s;
+    }
+    .tab-item.active { background: #f0f4fd; }
+    .tab-item .tab-icon { font-size: 22px; }
+    .tab-item .tab-label { font-size: 10px; color: #8f9eae; font-weight: 500; }
+    .tab-item.active .tab-label { color: #3a5fcd; font-weight: 700; }
+
+    /* ===== Pages ===== */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ===== 打卡页面 ===== */
+    .partner-selector {
+      max-width: 400px; margin: 0 auto;
+      background: white; border-radius: 48px;
+      padding: 28px 20px 32px;
+      /* 未选搭子时遮罩全屏，阻止底层按钮被误触 */
+      position: fixed; inset: 0;
+      z-index: 100;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      box-sizing: border-box;
+    }
+    #partnerSelectorMask {
+      display: none; /* JS 控制显示 */
+      position: fixed; inset: 0; z-index: 99;
+      background: rgba(0,0,0,0.4);
+    }
+    .selector-title {
+      font-size: 28px; font-weight: 700; text-align: center;
+      background: linear-gradient(135deg, #3a5fcd, #1a3a8a);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin-bottom: 8px;
+    }
+    .selector-sub { text-align: center; color: #6c7a89; margin-bottom: 28px; font-size: 15px; }
+    .partner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+    .partner-card {
+      background: #fff; border-radius: 28px; padding: 20px 12px 16px; text-align: center;
+      cursor: pointer; box-shadow: 0 6px 14px rgba(0,0,0,0.03);
+      border: 1.5px solid #e9edf2; transition: all 0.2s;
+    }
+    .partner-card.selected { border-color: #3a5fcd; background: #f0f4fd; transform: scale(0.98); }
+    .partner-emoji { font-size: 48px; margin-bottom: 12px; }
+    .partner-name { font-weight: 700; font-size: 18px; margin-bottom: 6px; }
+    .partner-desc { font-size: 13px; color: #6c7a89; }
+    .confirm-btn {
+      background: #3a5fcd; color: white; border: none;
+      width: 100%; padding: 16px; border-radius: 60px;
+      font-size: 18px; font-weight: 600; cursor: pointer;
+    }
+    .confirm-btn:active { background: #2a4eb0; transform: scale(0.97); }
+
+    .card {
+      max-width: 420px; margin: 0 auto;
+      background: white; border-radius: 44px;
+      padding: 28px 24px 32px;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+      margin-bottom: 20px; text-align: center;
+    }
+    .partner-badge {
+      display: inline-block; background: #eef2f5; padding: 6px 16px;
+      border-radius: 40px; font-size: 14px; margin-bottom: 20px; color: #3a5fcd;
+    }
+    .question { font-size: 22px; font-weight: 600; margin-bottom: 24px; }
+    .checkin-btn {
+      width: 170px; height: 170px;
+      background: linear-gradient(145deg, #3a5fcd, #2240a0);
+      border-radius: 100%; margin: 0 auto 24px;
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+      color: white; cursor: pointer;
+      box-shadow: 0 20px 30px -8px rgba(58,95,205,0.4);
+      transition: transform 0.15s;
+    }
+    .checkin-btn:active { transform: scale(0.96); }
+    .checkin-status { font-size: 28px; font-weight: 800; }
+    .checkin-sub { font-size: 13px; opacity: 0.9; margin-top: 6px; }
+    .continuous { font-size: 44px; font-weight: 800; margin: 8px 0 4px; color: #3a5fcd; }
+    .continuous-label { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
+    .week-progress { background: white; border-radius: 36px; padding: 18px 20px; margin-bottom: 20px; max-width: 420px; margin-left: auto; margin-right: auto; }
+    .week-title { font-weight: 600; margin-bottom: 16px; display: flex; justify-content: space-between; }
+    .week-dots { display: flex; justify-content: space-between; gap: 8px; }
+    .day-item { flex: 1; text-align: center; }
+    .day-name { font-size: 12px; color: #8f9eae; margin-bottom: 6px; }
+    .dot { width: 40px; height: 40px; background: #eef2f5; border-radius: 100%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 18px; transition: all 0.2s; }
+    .dot.checked { background: #3a5fcd; color: white; }
+
+    /* ===== 搭子消息气泡 ===== */
+    .chat-area { max-width: 420px; margin: 0 auto 20px; }
+    .msg-bubble-wrap { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 12px; }
+    .msg-avatar { font-size: 32px; flex-shrink: 0; }
+    .msg-bubble {
+      background: white; border-radius: 18px 18px 18px 4px;
+      padding: 12px 16px; max-width: 75%; font-size: 15px;
+      line-height: 1.5; color: #2b3a4a;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      animation: bubbleIn 0.3s ease;
+    }
+    .msg-bubble.ai { border-radius: 18px 18px 4px 18px; background: #f0f4fd; }
+    @keyframes bubbleIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .typing-indicator { display: flex; gap: 4px; padding: 4px 0; }
+    .typing-indicator span { width: 6px; height: 6px; background: #b0bec5; border-radius: 50%; animation: bounce 1.2s infinite; }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%,80%,100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1.2); opacity: 1; } }
+
+    /* ===== 搭子交互按钮 ===== */
+    .interaction-panel { max-width: 420px; margin: 0 auto 20px; background: white; border-radius: 28px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .panel-label { font-size: 12px; color: #8f9eae; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
+    .mood-row { display: flex; justify-content: space-around; margin-bottom: 14px; }
+    .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; }
+    .mood-btn:hover, .mood-btn:active { background: #f0f4fd; transform: scale(1.15); }
+    .talk-btn-row { display: flex; gap: 8px; }
+    .talk-btn {
+      flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #e9edf2;
+      background: white; font-size: 14px; font-weight: 500; color: #3a5fcd;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .talk-btn:active { background: #f0f4fd; transform: scale(0.97); }
+
+    /* ===== 分享卡片入口 ===== */
+    .share-inline-card {
+      max-width: 420px; margin: 0 auto 20px;
+      background: linear-gradient(135deg, #f0f4fd, #e8edf8);
+      border-radius: 24px; padding: 16px 20px;
+      border: 1px solid #c8d4f5;
+    }
+    .share-inline-label { font-size: 11px; color: #8f9eae; letter-spacing: 0.5px; margin-bottom: 10px; }
+    .share-inline-preview {
+      background: white; border-radius: 16px; padding: 14px 16px; margin-bottom: 12px;
+      font-size: 13px; color: #2b5a7a; display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .share-copy-row { display: flex; gap: 8px; }
+    .share-copy-btn, .share-link-btn {
+      flex: 1; padding: 10px; border-radius: 16px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      border: none; transition: all 0.15s;
+    }
+    .share-copy-btn { background: #3a5fcd; color: white; }
+    .share-copy-btn:active { background: #2a4eb0; transform: scale(0.97); }
+    .share-link-btn { background: white; color: #3a5fcd; border: 1.5px solid #b8c8f5; }
+    .share-link-btn:active { transform: scale(0.97); }
+
+    footer { font-size: 12px; text-align: center; color: #8f9eae; margin-top: 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
+
+    /* ===== SOP 游戏页面 ===== */
+    .sop-page { max-width: 420px; margin: 0 auto; }
+    .sop-header { background: white; border-radius: 32px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
+    .sop-title { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #3a5fcd, #e91e63); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 4px; }
+    .sop-sub { font-size: 13px; color: #8f9eae; margin-bottom: 14px; }
+    .sop-score-row { display: flex; justify-content: center; gap: 24px; }
+    .sop-score { text-align: center; }
+    .sop-score-num { font-size: 28px; font-weight: 800; color: #3a5fcd; }
+    .sop-score-label { font-size: 11px; color: #8f9eae; }
+    .sop-progress-wrap { margin-top: 12px; display: flex; align-items: center; gap: 10px; }
+    .sop-progress-bg { flex: 1; height: 8px; background: #eef2f5; border-radius: 10px; overflow: hidden; }
+    .sop-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #3a5fcd, #6c8cef); border-radius: 10px; transition: width 0.4s ease; }
+    .sop-progress-text { font-size: 12px; font-weight: 600; color: #8f9eae; min-width: 40px; text-align: right; }
+    .sop-category-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; }
+    .sop-cat-tab { padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; border: none; background: #eef2f5; color: #6c7a89; transition: all 0.2s; flex-shrink: 0; }
+    .sop-cat-tab.active { background: linear-gradient(135deg, #3a5fcd, #2a4eb0); color: white; }
+    /* ===== SOP 清单模式 ===== */
+    .sop-game-card { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); position: relative; overflow: hidden; }
+    .sop-cat-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 12px; color: #8f9eae; }
+    .sop-cat-progress-bar { flex: 1; height: 4px; background: #eef2f5; border-radius: 4px; overflow: hidden; }
+    .sop-cat-progress-fill { height: 100%; background: #3a5fcd; border-radius: 4px; transition: width 0.3s; }
+    .sop-habit-card { text-align: center; padding: 8px 0 20px; }
+    .sop-habit-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #8f9eae; margin-bottom: 10px; }
+    .sop-habit-label.pos { color: #2e7d32; }
+    .sop-habit-label.neg { color: #c62828; }
+    .sop-habit-emoji { font-size: 40px; margin-bottom: 8px; display: block; }
+    .sop-habit-text { font-size: 17px; font-weight: 600; color: #2b5a7a; line-height: 1.5; margin-bottom: 4px; }
+    .sop-habit-sub { font-size: 12px; color: #8f9eae; margin-bottom: 20px; }
+    .sop-btn-row { display: flex; gap: 12px; }
+    .sop-btn { flex: 1; padding: 14px 8px; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .sop-btn:active { transform: scale(0.97); }
+    .sop-btn.yes { background: #e8f5e9; color: #2e7d32; border: 2px solid #a5d6a7; }
+    .sop-btn.no { background: #fff3f3; color: #c62828; border: 2px solid #ffcdd2; }
+    .sop-btn.done { background: #eef2f5; color: #8f9eae; border: 2px solid #d0d8e0; }
+    .sop-btn .sop-btn-pts { font-size: 12px; opacity: 0.8; }
+    .sop-cat-summary { background: #f7f9fc; border-radius: 16px; padding: 16px; text-align: center; }
+    .sop-cat-summary-icon { font-size: 36px; margin-bottom: 8px; }
+    .sop-cat-summary-title { font-size: 15px; font-weight: 700; color: #2b5a7a; margin-bottom: 4px; }
+    .sop-cat-summary-sub { font-size: 12px; color: #8f9eae; }
+    .sop-tip { background: #fff9e6; border-radius: 16px; padding: 14px 16px; margin-bottom: 16px; border: 1px solid #ffe599; }
+    .sop-tip-title { font-size: 13px; font-weight: 700; color: #b8860b; margin-bottom: 6px; }
+    .sop-tip-item { font-size: 12px; color: #7a6a3a; margin-bottom: 3px; }
+    .sop-done-state { background: white; border-radius: 32px; padding: 40px 24px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .sop-done-icon { font-size: 64px; margin-bottom: 16px; }
+    .sop-done-title { font-size: 22px; font-weight: 800; color: #2b5a7a; margin-bottom: 8px; }
+    .sop-done-sub { font-size: 14px; color: #8f9eae; margin-bottom: 24px; }
+    .sop-reset-btn { padding: 12px 32px; border-radius: 60px; border: none; background: linear-gradient(135deg, #3a5fcd, #2240a0); color: white; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .sop-reset-btn:active { transform: scale(0.97); }
+
+    /* ===== SOP 引导遮罩 ===== */
+    #sopGuideOverlay {
+      display: none; position: fixed; inset: 0; z-index: 50;
+      background: rgba(0,0,0,0.7); border-radius: 0;
+      display: flex; align-items: center; justify-content: center; padding: 24px;
+    }
+    #sopGuideOverlay.hidden { display: none; }
+    .sop-guide-card {
+      background: white; border-radius: 32px; padding: 32px 24px;
+      max-width: 360px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .sop-guide-icon { font-size: 56px; margin-bottom: 16px; }
+    .sop-guide-title { font-size: 20px; font-weight: 800; color: #2b5a7a; margin-bottom: 12px; }
+    .sop-guide-desc { font-size: 14px; color: #6c7a89; line-height: 1.6; margin-bottom: 24px; }
+    .sop-guide-btn { width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #3a5fcd, #2240a0); color: white; font-size: 16px; font-weight: 600; cursor: pointer; }
+    .sop-guide-btn:active { transform: scale(0.97); }
+
+    /* ===== SOP 浮层 ===== */
+    .fb-overlay {
+      display: none; position: fixed; inset: 0; z-index: 40;
+      background: rgba(0,0,0,0.5); align-items: flex-end; justify-content: center;
+    }
+    .fb-overlay.show { display: flex; }
+    .fb-sheet {
+      background: white; border-radius: 28px 28px 0 0; padding: 24px 20px max(24px, env(safe-area-inset-bottom));
+      max-width: 440px; width: 100%; max-height: 80vh; overflow-y: auto;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .fb-emoji { font-size: 48px; text-align: center; margin-bottom: 12px; }
+    .fb-tag { text-align: center; font-size: 12px; font-weight: 700; color: #3a5fcd; margin-bottom: 12px; letter-spacing: 1px; }
+    .fb-scenario { text-align: center; font-size: 15px; color: #4a5568; margin-bottom: 20px; line-height: 1.6; padding: 0 8px; }
+    .fb-divider { height: 1px; background: #eef2f5; margin-bottom: 20px; }
+    .fb-feedback { font-size: 15px; line-height: 1.7; color: #2b3a4a; }
+    .fb-label { font-size: 11px; font-weight: 700; color: #8f9eae; margin-bottom: 8px; letter-spacing: 0.5px; }
+    .fb-close { width: 100%; padding: 14px; border-radius: 60px; border: none; background: #3a5fcd; color: white; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 20px; }
+    .fb-close:active { background: #2a4eb0; }
+
+    /* ===== QA 面板 ===== */
+    .qa-overlay {
+      display: none; position: fixed; inset: 0; z-index: 40;
+      background: rgba(0,0,0,0.5); align-items: flex-end; justify-content: center;
+    }
+    .qa-overlay.show { display: flex; }
+    .qa-sheet {
+      background: white; border-radius: 28px 28px 0 0; padding: 24px 20px max(24px, env(safe-area-inset-bottom));
+      max-width: 440px; width: 100%; max-height: 80vh; overflow-y: auto;
+      animation: slideUp 0.3s ease;
+    }
+    .qa-title { font-size: 18px; font-weight: 700; color: #2b5a7a; margin-bottom: 6px; }
+    .qa-sub { font-size: 13px; color: #8f9eae; margin-bottom: 16px; }
+    .qa-scroll { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-height: 50vh; overflow-y: auto; }
+    .qa-item {
+      background: #f7f9fc; border-radius: 16px; padding: 14px 12px; cursor: pointer;
+      border: 1.5px solid #e9edf2; transition: all 0.15s; text-align: center;
+    }
+    .qa-item:active { background: #eef6fb; border-color: #3a5fcd; transform: scale(0.97); }
+    .qa-icon { font-size: 28px; margin-bottom: 6px; }
+    .qa-tag { font-size: 12px; font-weight: 700; color: #3a5fcd; margin-bottom: 4px; }
+    .qa-text { font-size: 13px; color: #4a5568; line-height: 1.4; }
+    .qa-close { width: 100%; padding: 12px; border-radius: 60px; border: 1.5px solid #e9edf2; background: white; color: #8f9eae; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 16px; }
+    .qa-close:active { background: #f0f4f8; }
+
+    /* ===== SOP Tab ===== */
+    .sop-cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .sop-cat-btn {
+      background: white; border-radius: 20px; padding: 16px 12px;
+      text-align: center; cursor: pointer; border: 1.5px solid #e9edf2;
+      transition: all 0.15s; box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+    .sop-cat-btn:active { transform: scale(0.97); background: #f0f4fd; }
+    .sop-cat-icon { font-size: 32px; margin-bottom: 6px; }
+    .sop-cat-name { font-size: 14px; font-weight: 700; color: #2b5a7a; margin-bottom: 3px; }
+    .sop-cat-desc { font-size: 11px; color: #8f9eae; }
+    .sop-cat-done { font-size: 12px; color: #3a5fcd; font-weight: 600; margin-top: 4px; }
+    .sop-all-done { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-radius: 20px; padding: 20px; text-align: center; }
+    .sop-all-done-icon { font-size: 40px; margin-bottom: 8px; }
+    .sop-all-done-title { font-size: 16px; font-weight: 700; color: #2e7d32; margin-bottom: 4px; }
+    .sop-all-done-sub { font-size: 13px; color: #558b52; }
+  </style>
+</head>
+<body>
+
+<!-- 搭子选择遮罩 -->
+<div id="partnerSelectorMask"></div>
+
+<!-- 搭子选择器 -->
+<div class="partner-selector" id="partnerSelector">
+  <div class="selector-title">选一个管理搭子 🤝</div>
+  <div class="selector-sub">陪你度过P7到P8的成长期</div>
+  <div class="partner-grid" id="partnerGrid"></div>
+  <button class="confirm-btn" id="confirmBtn" onclick="confirmPartner()">确认搭子 →</button>
+</div>
+
+<!-- Tab Bar -->
+<div class="tab-bar" id="tabBar" style="display:none;">
+  <div class="tab-item active" onclick="switchTab('checkin')">
+    <div class="tab-icon">🏠</div><div class="tab-label">打卡</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('chat')">
+    <div class="tab-icon">💬</div><div class="tab-label">搭子</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('sop')">
+    <div class="tab-icon">📋</div><div class="tab-label">自检</div>
+  </div>
+</div>
+
+<!-- ===== 打卡页面 ===== -->
+<div class="page active" id="checkinPage">
+  <div class="card">
+    <div class="partner-badge" id="partnerBadge">🏋️ 管理教练</div>
+    <div class="question" id="dailyQuestion">今日管理反思：你今天主动推动了哪件事？</div>
+    <div class="checkin-btn" onclick="doCheckin()">
+      <div class="checkin-status" id="checkinStatus">打卡</div>
+      <div class="checkin-sub" id="checkinSub">点击记录今日</div>
+    </div>
+    <div class="continuous" id="continuousCount">0</div>
+    <div class="continuous-label">连续打卡天数</div>
+  </div>
+
+  <div class="week-progress" id="weekProgress"></div>
+</div>
+
+<!-- ===== 搭子聊天页面 ===== -->
+<div class="page" id="chatPage">
+  <div class="chat-area" id="chatArea"></div>
+  <div class="interaction-panel" id="interactionPanel">
+    <div class="panel-label">你想和我聊什么？</div>
+    <div class="talk-btn-row">
+      <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
+      <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
+    </div>
+    <div class="talk-btn-row" style="margin-top:8px;">
+      <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
+      <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
+    </div>
+    <div class="talk-btn-row" style="margin-top:8px;">
+      <button class="talk-btn" onclick="askPartner('report')">📣 汇报</button>
+      <button class="talk-btn" onclick="askPartner('question')">🤔 提问</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SOP 自检页面 ===== -->
+<div class="page" id="sopPage">
+  <div class="sop-page">
+    <div class="sop-header">
+      <div class="sop-title">P7管理成长自检</div>
+      <div class="sop-sub">每天10题，照见真实的自己</div>
+      <div class="sop-score-row">
+        <div class="sop-score">
+          <div class="sop-score-num" id="sopScore">0</div>
+          <div class="sop-score-label">获得积分</div>
+        </div>
+        <div class="sop-score">
+          <div class="sop-score-num" id="sopDone">0/50</div>
+          <div class="sop-score-label">已完成</div>
+        </div>
+      </div>
+      <div class="sop-progress-wrap">
+        <div class="sop-progress-bg"><div class="sop-progress-bar" id="sopProgressBar"></div></div>
+        <div class="sop-progress-text" id="sopProgressText">0%</div>
+      </div>
+    </div>
+
+    <!-- SOP 分类入口 -->
+    <div class="sop-cat-grid" id="sopCatGrid"></div>
+
+    <!-- SOP 游戏区 -->
+    <div class="sop-game-card" id="sopGameCard" style="display:none;">
+      <div class="sop-cat-progress" id="sopCatProgress"></div>
+      <div class="sop-habit-card">
+        <div class="sop-habit-label" id="sopHabitLabel">习惯</div>
+        <span class="sop-habit-emoji" id="sopHabitEmoji">💪</span>
+        <div class="sop-habit-text" id="sopHabitText">测试文本</div>
+        <div class="sop-habit-sub" id="sopHabitSub">测试副文本</div>
+      </div>
+      <div class="sop-btn-row">
+        <button class="sop-btn yes" id="sopYesBtn" onclick="answerSOP('yes')">
+          <span>✅ 做到了</span>
+          <span class="sop-btn-pts">+3分</span>
+        </button>
+        <button class="sop-btn no" id="sopNoBtn" onclick="answerSOP('no')">
+          <span>❌ 没做到</span>
+          <span class="sop-btn-pts">+0分</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SOP 完成态 -->
+    <div class="sop-done-state" id="sopDoneState" style="display:none;">
+      <div class="sop-done-icon">🎉</div>
+      <div class="sop-done-title">今日自检完成！</div>
+      <div class="sop-done-sub" id="sopDoneSub">又完成了一次自我审视</div>
+      <button class="sop-reset-btn" onclick="resetSOP()">明天再来 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- SOP 引导遮罩 -->
+<div id="sopGuideOverlay">
+  <div class="sop-guide-card">
+    <div class="sop-guide-icon">📋</div>
+    <div class="sop-guide-title">P7管理自检说明</div>
+    <div class="sop-guide-desc">
+      每天10个分类，每个分类随机展示1个正向习惯+1个负向习惯。<br><br>
+      诚实作答 → 搭子会给你真实反馈。<br>
+      记住：看见问题是改变的第一步。
+    </div>
+    <button class="sop-guide-btn" onclick="closeSOPGuide()">我知道了</button>
+  </div>
+</div>
+
+<!-- FB 浮层（场景反馈） -->
+<div class="fb-overlay" id="fbOverlay">
+  <div class="fb-sheet">
+    <div class="fb-emoji" id="fbEmoji">💡</div>
+    <div class="fb-tag" id="fbTag">标签</div>
+    <div class="fb-scenario" id="fbScenario">场景描述</div>
+    <div class="fb-divider"></div>
+    <div class="fb-label">搭子反馈</div>
+    <div class="fb-feedback" id="fbFeedback">反馈内容</div>
+    <button class="fb-close" onclick="closeFBOverlay()">收到，继续</button>
+  </div>
+</div>
+
+<!-- QA 面板（搭子6类交互） -->
+<div class="qa-overlay" id="qaOverlay">
+  <div class="qa-sheet">
+    <div class="qa-title" id="qaTitle">选择场景</div>
+    <div class="qa-sub" id="qaSub">选择后我会和你共情，然后给出反馈</div>
+    <div class="qa-scroll" id="qaScroll"></div>
+    <button class="qa-close" onclick="closeQA()">取消</button>
+  </div>
+</div>
+
+<footer>P7管理成长搭子 · 每一天比昨天更清醒</footer>
+
+<script>
+// ===== 搭子配置 =====
+const PARTNERS = [
+  {
+    id: 'coach',
+    emoji: '🎖️',
+    name: '砺行',
+    desc: '管理教练 · 严厉有建设性',
+    intro: '我是砺行，P7管理成长搭子。我的风格：直接、不留情面、但一定对你有帮助。我是来帮你从"执行者"进化成"业务Owner"的。能接受吗？',
+    style: 'rational',
+    tagline: '管理没有捷径，只有照见自己'
+  }
+];
+
+// ===== STORAGE =====
+const STORAGE = {
+  PARTNER: 'slim_partner_p7',
+  HISTORY: 'slim_history_p7',
+  SOP: 'slim_sop_p7',
+  SOP_STREAKS: 'slim_sop_streaks_p7'
+};
+
+// ===== TYPE_SCENES_P7：6分类 × 20条场景 =====
+const TYPE_SCENES_P7 = {
+  progress: [
+    {icon:'📊',tag:'数据',scenario:'今天亲自看了后台数据，对业务有了真实的判断',feedback:'👍 看数据是P7的基本功。今天你做到了。关键是要形成习惯：每天看、日日看。不只是看，要问自己：数据背后说明了什么？风险在哪里？下周的预期是什么？持续追问，才能从"知道数据"进化到"用数据做判断"。',type:'pos'},
+    {icon:'💪',tag:'决策',scenario:'今天主动做了一个业务决策，没有等上级拍板',feedback:'👍 这个决策本身可能对也可能错，但"主动做决策"这件事本身是对的。P7的价值在于：你离业务最近，信息最及时，应该比上级更快做出判断。做对了积累信任，做错了也是学习。怕犯错而不敢决策，是最大的错误。',type:'pos'},
+    {icon:'🎯',tag:'风险',scenario:'主动发现了项目风险，并提前干预了',feedback:'👍 能预判风险是P7的核心能力之一。很多人是等风险爆发了才反应，你已经开始提前看见了。关键是：发现了风险，有没有说出来？很多P7看见了但不说，怕被认为是"多事"。风险要尽早暴露，这是对团队负责。',type:'pos'},
+    {icon:'🗣️',tag:'汇报',scenario:'今天汇报时，给出了自己的分析判断，不是只说事实',feedback:'👍 从"说事实"到"说判断"是P7的重要升级。事实是原材料，判断是成品。你的汇报应该让上级做选择题，而不是问答题。试着每次汇报先说结论，再说支撑逻辑。这会让你的影响力大幅提升。',type:'pos'},
+    {icon:'🤝',tag:'跨部门',scenario:'主动找了HR/法务/财务，直接沟通解决了一个卡点',feedback:'👍 跨部门协作是P7的必修课。很多人卡在那里等别人来推动，你今天主动出击了。关键心态：你是P7，你有权、有责任推动这件事。不要自我设限说"这不是我的职责"——只要影响业务结果的，都是你的职责。',type:'pos'},
+    {icon:'👥',tag:'团队',scenario:'今天给下属布置了明确的任务，没有模糊地带',feedback:'👍 任务明确是管理的基本功。模糊的任务 = 模糊的结果。你的下属应该能回答：做什么、什么时候做、做完给谁看、什么标准算完成。做到了这个程度，管理效率会大幅提升，下属也不会反复来问你。',type:'pos'},
+    {icon:'📋',tag:'流程',scenario:'优化了一个跨部门协作的流程，减少了等待时间',feedback:'👍 流程优化是P7的重要贡献之一。你今天做了一件很多人"想过但没做"的事。关键是把这个流程文档化——不要只存在你脑子里，变成团队可复用的规则。好的P7不只自己高效，还能让整个团队的协作效率提升。',type:'pos'},
+    {icon:'🚫',tag:'授权',scenario:'把一件流程性工作授权出去了，节省了自己的时间',feedback:'👍 授权是P7必须学会的能力。你不是一个人在战斗，要把时间和精力放在"只有你能做的事"上。判断标准：这件事的核心价值是什么？如果是流程执行，就授权；如果是判断决策，就留着。',type:'pos'},
+    {icon:'🔍',tag:'复盘',scenario:'今天对一个问题做了复盘，找到了根本原因',feedback:'👍 复盘能力是P7的高级能力。很多问题反复发生，是因为没有找到根因——只是在表面打补丁。你今天找到了根因，这很棒。关键是把复盘结论变成行动项：谁在什么时间做什么改变？只有行动的复盘才是有效的。',type:'pos'},
+    {icon:'📈',tag:'洞察',scenario:'向上沟通时，先说了结论和观点，再给数据',feedback:'👍 这就是"结果导向汇报"！这个习惯一旦养成，你会发现自己汇报效果大幅提升。上级时间有限，先给结论让他快速判断是否需要深入，再给数据支撑——这是高效沟通的黄金结构。',type:'pos'},
+    {icon:'😰',tag:'滞后',scenario:'今天对下属的问题后知后觉，被上级提醒才意识到',feedback:'⚠️ "后知后觉"是P7的大敌。上级提醒你，说明你已经错过了最佳干预时间。下属的小动作、情绪变化、项目风险——你应该比上级先看见。解决方式：建立自己的信息渠道，每天主动找下属过一遍关键事项，不要等汇报。',type:'neg'},
+    {icon:'🤷',tag:'旁观',scenario:'遇到问题第一反应是"让下属去解决"或"等别人反馈"',feedback:'⚠️ "指派"不等于"管理"。P7需要的是"自己主动找方法"，不是"把问题转嫁出去"。遇到卡点，先问自己：我有没有什么资源、权限、信息是可以直接用的？如果有，先自己推动试试。实在推不动，再升级。',type:'neg'},
+    {icon:'🕐',tag:'拖延',scenario:'研究新业务半年了，还没有实质性进展',feedback:'⚠️ 半年没有进展，说明要么方法有问题，要么方向不清晰，要么就是在"假装研究"。新业务研究要有时间盒：比如2周内找到工具和方法，4周内出第一份分析报告。给自己设deadline，否则永远不会有结果。',type:'neg'},
+    {icon:'😶',tag:'沉默',scenario:'上级问起一个业务情况，我答不上来，需要临时查',feedback:'⚠️ P7应该是"业务活地图"。上级问你，说明这个问题你应该能回答。临时查 = 你平时不看 = 你对业务没有持续跟踪。解决方法：每天固定时间看核心数据，形成习惯，而不是需要时才去找。',type:'neg'},
+    {icon:'🚫',tag:'设限',scenario:'觉得某件事"不是我的职责"，所以没有推动',feedback:'⚠️ "职责边界"是P7最常见的自我设限。只要影响业务结果的，都是你的职责。你是P7，你有权限、有资源、有影响力去推动这件事。主动承担是晋升的必经之路——不承担，就永远只是P7。',type:'neg'},
+    {icon:'📑',tag:'表面',scenario:'做了一件流程性工作，感觉很有成就感但没有业务价值',feedback:'⚠️ 流程工作做完很有满足感，但P7的核心价值不在这里。你的价值在于：业务增长、团队成长、风险控制。流程优化到一定程度边际效益递减，要学会把时间投资在更高杠杆的事情上。',type:'neg'},
+    {icon:'😤',tag:'借口',scenario:'招聘招不到，就觉得是HR的问题',feedback:'⚠️ 招聘是所有管理者的核心责任，不是HR一个人的事。你有没有亲自去捞简历？有没有主动给猎头打电话？有没有在行业活动中主动认识人？P7要用一切资源解决团队问题，不是等别人帮你解决。',type:'neg'},
+    {icon:'📉',tag:'汇报',scenario:'写了一份很长的PPT，但只说了事实，没有洞察和判断',feedback:'⚠️ "流水账式汇报"是P7常见的问题。上级不需要你告诉他发生了什么，他需要你告诉他：你怎么看？为什么？下一步怎么办？试着每次写完PPT后问自己：我的3个核心观点是什么？没有观点的PPT就是浪费时间。',type:'neg'},
+    {icon:'👀',tag:'依赖',scenario:'下属向我汇报了一个问题，我说"我问问上级"',feedback:'⚠️ 这句话一说，下属就知道：遇到问题找上级，而不要找你。P7应该是那个能给出判断和决策的人，而不是上级和下属之间的传声筒。你要能给下属一个明确的意见，哪怕是"我的判断是这样，但我们再确认一下"。',type:'neg'},
+    {icon:'⏰',tag:'无效',scenario:'今天大部分时间都在处理琐事，感觉没有做什么重要的事',feedback:'⚠️ 时间分配是P7最重要的决策之一。如果你每天80%的时间在流程和琐事上，你就是一个流程管理者，不是业务管理者。试着每天问自己：今天最重要的3件事是什么？先做完这3件，再处理其他的。',type:'neg'}
+  ],
+  struggle: [
+    {icon:'😣',tag:'下属不听',scenario:'下属不听我的指令，更愿意听其他总监的',feedback:'🔑 下属不听，往往不是因为"不尊重你"，而是因为"你的指令没有价值"。P7的权威来自业务能力，不是职级。下次布置任务时，加一句"我为什么这么要求"，让下属理解你的判断逻辑。有逻辑的指令，下属才会跟。',type:'pos'},
+    {icon:'📊',tag:'不看数据',scenario:'不想看业务后台，觉得数据枯燥，看不出什么',feedback:'🔑 数据枯燥是借口。数据枯燥是因为你还没有建立"数据→洞察→行动"的连接。试着每次只看一个核心指标：今天这个数字是多少？为什么？今天和昨天比有什么变化？连续看一周，你自然会发现规律，就会想看更多。',type:'pos'},
+    {icon:'😩',tag:'不敢用权',scenario:'不敢用高级总监的权限，怕被认为"越权"',feedback:'🔑 P7有P7的权限，用了才叫权限。权限不是上级给的，是公司赋予你这个职级的职责。如果推动一件合理的事情需要用你的权限，你不用，这件事就推不动，业务结果就受影响。用权限是履行职责，不是越权。',type:'pos'},
+    {icon:'🤝',tag:'跨部门卡',scenario:'HR/法务/财务总是卡我的需求，不知道怎么推动',feedback:'🔑 被卡通常有两个原因：你要求的事情不清晰，或者对方不知道这件事的重要性。下次找跨部门协作时，先说清楚：这件事的业务影响是什么？时间节点是什么？不完成的代价是什么？说清楚价值，对方才会重视。',type:'pos'},
+    {icon:'📋',tag:'流程繁琐',scenario:'每天被流程性工作淹没，没有时间做业务',feedback:'🔑 流程工作之所以占据你的时间，通常是因为你没有把流程标准化。找到一个重复出现超过3次的工作，把它写成SOP，然后授权出去。你只负责：例外情况 + 定期检查。这样你才能腾出手做真正重要的事。',type:'pos'},
+    {icon:'💬',tag:'汇报差',scenario:'觉得自己汇报能力差，上级听完没有反馈',feedback:'🔑 汇报没有反馈，往往是因为你没有给上级"决策点"。好的汇报结构：① 结论先行 ② 3个支撑点 ③ 你需要的决策/支持是什么。上级听完不知道要做什么，是P7汇报最常见的问题。',type:'pos'},
+    {icon:'😤',tag:'下属弱',scenario:'觉得下属能力不够，很多事情自己做更快',feedback:'🔑 "自己做更快"是P7最危险的想法。它让你变成团队里最能干的人，却是团队里最没价值的人。P7的时间应该花在"赋能下属"上：把一件事的判断逻辑教给下属，让他能独立完成10次，而不是你亲自做10次。',type:'pos'},
+    {icon:'🕐',tag:'没时间',scenario:'每天很忙，但感觉没有做什么有成就感的事',feedback:'🔑 "忙但没有成就感"通常意味着时间在低价值事情上流失。建议做一周时间日志：每小时记录在做什么。一周后你会清晰看见时间黑洞。然后问自己：哪些事情可以不做？哪些可以授权？哪些可以压缩？答案往往就在眼前。',type:'pos'},
+    {icon:'😔',tag:'自我怀疑',scenario:'觉得自己可能不适合做管理，更适合一个人干',feedback:'🔑 自我怀疑是正常的，但"一个人干"是一个舒适区陷阱。P6晋升到P7，是从"自己干得好"到"让别人干得好"的跨越。这个能力需要练习，不是一夜之间就会的。给自己6个月刻意练习这个能力，再做判断。',type:'pos'},
+    {icon:'🎯',tag:'目标模糊',scenario:'不清楚P7到底要做什么，感觉什么都要管一点',feedback:'🔑 P7的核心职责：业务结果、团队管理、跨部门协同。具体来说：① 你负责的业务是否在轨道上？② 你的团队是否在成长？③ 跨部门协作是否顺畅？围绕这三点思考，其他都是细节。',type:'pos'},
+    {icon:'😰',tag:'被架空',scenario:'下属绕过我直接找上级，上级也不找我确认',feedback:'⚠️ 这个情况很危险。你可能已经是"信息盲区"了。下属越级汇报，说明他觉得找你没用；上级不找你，说明他觉得你不掌握关键信息。解决方法：主动找上级定期同步（每周至少一次），主动找下属过关键事项，建立你自己的信息流。',type:'neg'},
+    {icon:'📉',tag:'低效会议',scenario:'参加了很多会议，但感觉没有做出什么决定',feedback:'⚠️ "开会但不决策"是组织的癌症。去任何会议之前，先问自己：我在这个会议里的角色是什么？我需要推动什么决定？会议结束时，确认：谁在什么时间做什么？如果会议结束没有行动项，这场会议就是低效的。',type:'neg'},
+    {icon:'😣',tag:'客户疏离',scenario:'客户有什么问题不找我，而是找我的下属',feedback:'⚠️ 客户不找你，说明他们不觉得你能解决问题，或者你跟他们的关系不够深。下次客户沟通，主动参与，而不是让下属代理。让客户记住你、信任你，愿意在遇到问题时第一个想到你，这是P7的重要资产。',type:'neg'},
+    {icon:'💭',tag:'想太多',scenario:'遇到问题时一直在脑子里想，但迟迟没有行动',feedback:'⚠️ 想太多但不行动，是P7最常见的效能杀手。想3个方案，选一个，先行动，在行动中修正。完美方案在行动中才会出现，不是在脑子里。先做5分钟的粗糙行动，比想2小时完美方案有价值得多。',type:'neg'},
+    {icon:'🤷',tag:'没重点',scenario:'同时推进很多件事，每件都做了一部分但没有一件做完',feedback:'⚠️ "什么都做了一点，什么都没做完"是P7的职业倦怠信号。要学会做减法：每周列出最重要的3件事，其他都是"可以做的"而不是"必须做的"。把前3件做到100分，比10件事都做到40分有价值得多。',type:'neg'},
+    {icon:'😖',tag:'不敢说',scenario:'在上级面前不敢发表自己的观点，怕说错',feedback:'⚠️ "怕说错"是P7的最大成长障碍。你不说，上级就不知道你的判断力和思考深度。P7的价值在于你能提供独特的业务视角——这是上级的盲区。说错了，上级会纠正你；不说，你就永远不知道对不对。开口，永远比沉默安全。',type:'neg'},
+    {icon:'📧',tag:'邮件多',scenario:'每天处理邮件和消息就占了大部分工作时间',feedback:'⚠️ 邮件和消息是"别人的优先级"，不是你的。设定固定时间处理邮件（每天2~3次，每次30分钟），而不是实时回复。对大多数邮件，回复"收到，我看一下"就够了，不需要立即处理。保护自己的时间，是P7必须学会的事。',type:'neg'},
+    {icon:'🏃',tag:'跑现场',scenario:'总是等下属汇报了才知道发生了什么',feedback:'⚠️ "等汇报才知道情况"说明你已经是信息链的最末端了。建立主动的信息获取机制：每天主动问下属3个关键问题，每周至少去现场（客户、项目现场）一次，永远不要只靠邮件和会议了解业务。',type:'neg'},
+    {icon:'⏰',tag:'无边界',scenario:'工作时间被各种事情切成碎片，无法专注',feedback:'⚠️ 时间碎片化是P7效率的杀手。每天给自己设定2~3个"深度工作时间"（每次至少60分钟），这段时间不查看邮件、不接非紧急电话、只专注处理最重要的事。这是提升工作质量和效率最简单有效的方法。',type:'neg'},
+    {icon:'😤',tag:'推不动',scenario:'觉得自己推动不了事情，职级不够用',feedback:'⚠️ "职级不够"通常不是真正的原因。你是P7，你有足够的权限和资源。真正的问题是：你有没有说清楚这件事的重要性？你有没有找对人？你有没有说"这是业务必须，不是我的个人需求"？推动事情需要方法，不是靠职级硬压。',type:'neg'}
+  ],
+  idea: [
+    {icon:'💡',tag:'数据',scenario:'想建一个业务数据看板，让团队每天能看到核心指标',feedback:'💡 这个想法很好！数据透明是团队高效的基础。关键落地：① 选5~7个核心指标，不要多 ② 看板每天更新 ③ 定义每个指标的预警线 ④ 谁对指标负责要明确。数据看板建了不用是浪费时间，要确保团队真的在看、在用、在讨论。',type:'pos'},
+    {icon:'🎯',tag:'目标',scenario:'想给团队每月设定OKR，而不是只做KPI',feedback:'💡 OKR比KPI更适合管理成熟度高的团队，因为它关注"挑战目标"而不是"保底完成"。落地建议：目标（O）不要超过3个，每个目标配2~4个关键结果（KR）。KR要可量化、有时间节点。开始时可以试点一个小组，成功后再推广。',type:'pos'},
+    {icon:'📚',tag:'学习',scenario:'想每周组织一次业务学习会，大家轮流分享行业动态',feedback:'💡 这个做法很好，能提升团队的整体业务认知。落地关键：① 每次不超过30分钟 ② 分享者要有自己的观点，不是简单转发 ③ 设定一个固定时间（比如周二早上）形成规律。好的学习文化一旦建立，是团队最持久的资产。',type:'pos'},
+    {icon:'🤝',tag:'协同',scenario:'想拉通产品和运营的周会，减少信息不对称',feedback:'💡 跨部门信息不对称是协作效率的杀手。关键设计：① 会议要有限时（30分钟以内）② 要有固定议程 ③ 要有会议纪要和行动项 ④ 核心目的是对齐优先级，不是信息同步（那是邮件做的事）。建议先试行一个月，再根据效果调整。',type:'pos'},
+    {icon:'📋',tag:'流程',scenario:'想把某个重复性的工作变成标准化SOP，减少出错率',feedback:'💡 SOP是管理规模化的工具。写SOP的关键：① 不要写"应该怎么做"，要写"实际怎么做" ② 每一步都要有明确的判断标准 ③ 结尾要有"如果出问题了怎么办"的说明。写完SOP要测试一遍，确保按文档操作的人能得到正确结果。',type:'pos'},
+    {icon:'👥',tag:'招聘',scenario:'想建立一套面试评分标准，减少面试官主观偏差',feedback:'💡 好的面试标准能大幅提升招聘质量。设计要点：① 每个维度定义清晰的行为标准（如"逻辑清晰：能用自己的话复述候选人观点并追问"）② 多位面试官独立评分后再讨论 ③ 重点考察"做过什么"而不是"会什么"。',type:'pos'},
+    {icon:'💰',tag:'预算',scenario:'想给团队申请一笔学习基金，支持大家参加外部培训',feedback:'💡 投资团队学习是最划算的投资。落地方式：① 设定明确的学习目标（不是"提升能力"这种虚的）② 要求学习后内部分享（把一个人的学习变成团队的学习）③ 追踪应用效果——学了什么、用在了哪里、带来了什么改变。',type:'pos'},
+    {icon:'🎤',tag:'汇报',scenario:'想把团队周报改成"结论+风险+建议"的格式',feedback:'💡 格式改变能倒逼思维方式升级。新的周报结构：① 结论（1~3句话，让上级立刻知道重点）② 风险（本周遇到的问题和风险）③ 建议（需要上级做什么决策或支持）。这个格式可以让周报时间减半，信息价值翻倍。',type:'pos'},
+    {icon:'🔄',tag:'复盘',scenario:'想对每个重要项目做复盘，形成团队知识积累',feedback:'💡 复盘是团队成长最重要的机制。好的复盘要做到：① 邀请当事人，而不是管理者主导 ② 聚焦"下次可以做得更好"，而不是追责 ③ 每个复盘必须输出3个可执行的下一步行动。复盘要定期做，形成团队的习惯和文化。',type:'pos'},
+    {icon:'⚡',tag:'决策',scenario:'想建立一个"72小时决策规则"，避免议而不决',feedback:'💡 这个规则很好！关键设计：① 72小时内必须做出决定（做 or 不做 or 需要更多信息） ② 决定者要明确（谁拍板） ③ 做不了的决定要升级并说明原因。议而不决是组织效率的毒瘤，有deadline才能真正推进。',type:'pos'},
+    {icon:'💡',tag:'会议',scenario:'想把所有会议都改成站立会议，节省时间',feedback:'⚠️ 站立会议适合每日站会和快速同步，不适合需要深度讨论的决策会议。不是所有会议都适合站立。分类处理：信息同步类（5~15分钟站立）、问题讨论类（30~60分钟坐下）、决策类（提前发材料，会上直接讨论）。用对了形式才有效。',type:'neg'},
+    {icon:'📊',tag:'监控',scenario:'想给所有工作环节都加上数据监控指标',feedback:'⚠️ 指标不是越多越好。超过7个核心指标，团队就记不住、执行力分散。建议只关注3~5个"北极星指标"，其他指标作为辅助参考，不做日常追踪。指标要定期评估——如果一个指标从来没人讨论过，说明它不重要，可以删掉。',type:'neg'},
+    {icon:'🤖',tag:'工具',scenario:'想引入一套管理系统来解决团队协作问题',feedback:'⚠️ 工具解决不了协作问题，它只能提高已有协作的效率。如果团队协作本身有障碍（职责不清、优先级不一致、信任缺失），上任何工具都是浪费。先把协作流程和职责定义清楚，再选择合适的工具。工具是放大器，不是解决方案。',type:'neg'},
+    {icon:'👔',tag:'考核',scenario:'想给团队引入更复杂的绩效考核体系',feedback:'⚠️ 绩效考核越复杂，执行成本越高，团队注意力越分散。建议先用简单的考核机制（目标和结果），运行稳定后再逐步增加维度。考核的目的是推动好的行为，不是制造文书工作。如果考核本身占据了团队太多精力，就本末倒置了。',type:'neg'},
+    {icon:'📣',tag:'目标',scenario:'想给团队设定很有挑战性的目标来激发潜能',feedback:'⚠️ 高目标要配合高支持。不是喊口号"我们要做到行业第一"，而是给团队提供达到目标需要的资源、培训、时间和权限。如果目标很高但团队没有得到相应的支持，目标只会制造挫败感而不是激发潜能。挑战性目标 + 充分支持 = 真正的进步。',type:'neg'},
+    {icon:'🏆',tag:'竞争',scenario:'想在团队引入排名竞争来提升绩效',feedback:'⚠️ 过度竞争会破坏团队协作。当团队成员之间互相竞争，他们就不愿意互相帮助、资源共享。排名机制适合可量化的个人贡献者，不适合需要协作的管理团队。建议用"团队整体目标达成度"来衡量，而不是个人排名。',type:'neg'},
+    {icon:'📧',tag:'日报',scenario:'想让大家每天写日报来跟踪工作进度',feedback:'⚠️ 日报如果变成形式，就完全失去意义，而且会消耗团队的信任感。如果要日报，只问3件事：① 今天最重要的1件事 ② 遇到的卡点 ③ 明天计划做什么。内容要精简，管理者要认真阅读并给反馈，否则写了也没人愿意认真写。',type:'neg'},
+    {icon:'🎓',tag:'培训',scenario:'想安排很多外部培训课程来提升团队能力',feedback:'⚠️ 培训不等于学习。学习要转化到工作行为改变才算有效，否则只是"知道"而不是"做到"。建议：① 选择培训时先问"这个培训解决什么具体问题" ② 培训后必须有实践环节和反馈 ③ 跟踪培训后3个月的工作行为改变。',type:'neg'},
+    {icon:'🚫',tag:'规则',scenario:'想制定很多新规则来减少工作中的混乱',feedback:'⚠️ 规则越多，执行成本越高，灰色地带也越多。不是所有混乱都需要规则来解决，有时候混乱是因为信息不对称或者目标不清晰。先解决根本问题，再考虑是否需要规则。好的规则是那些被大家自愿遵守的，而不是靠监督执行的。',type:'neg'},
+    {icon:'💬',tag:'沟通',scenario:'想把所有沟通都放在群里，让信息透明化',feedback:'⚠️ 信息透明是好目标，但所有沟通都放群里会产生噪音。不同信息适合不同渠道：决策和需要追踪的放群里，日常碎片沟通用私信，敏感话题当面谈。按信息性质分流，才能既保证透明度，又避免信息过载。',type:'neg'}
+  ],
+  cheer: [
+    {icon:'🎯',tag:'首次',scenario:'第一次主动向上级做了一个业务决策建议！',feedback:'🔥 这个"第一次"值得记住！主动提供决策建议，是P7从"执行指令"到"影响业务"的标志。你不再只是接收任务，而是开始创造价值。继续这个势头，下一步：让你的建议附上清晰的利弊分析和行动方案，你会发现自己越来越接近真正的业务Owner。',type:'pos'},
+    {icon:'📊',tag:'洞察',scenario:'向上汇报时第一次提炼出了3个核心洞察！',feedback:'🔥 "从流水账到有洞察"是P7最关键的升级之一。你今天做到了！洞察的价值不在于你"看见了什么"，而在于你"帮助上级看见了什么"。以后每次汇报前，强迫自己提炼3个洞察再开口，这个习惯会让你受益无穷。',type:'pos'},
+    {icon:'🤝',tag:'突破',scenario:'今天搞定了跨部门协作的老大难问题！',feedback:'🔥 这个问题卡了多久了？你的主动介入终于打破了僵局。这件事的意义不只是解决了一个问题，而是证明了：P7是可以推动跨部门协作的，你不是无能为力的。继续用这个经验去解决下一个跨部门卡点。',type:'pos'},
+    {icon:'👥',tag:'团队',scenario:'今天下属主动来找我请教问题，而不是绕过我',feedback:'🔥 这个变化很重要！下属愿意来找你，说明他信任你能给他有价值的反馈。继续强化：当下属带着问题来找你，先问"你觉得怎么办"，再给建议。培养他自己解决问题的能力，而不是替他做决定。',type:'pos'},
+    {icon:'💪',tag:'自省',scenario:'今天面对批评时没有防御，而是问了自己"他说的是真的吗"',feedback:'🔥 这个自我对话很成熟。很多人听到批评第一反应是反驳，而你是先判断"是否真实"。能这样做的人，成长速度会比别人快10倍。批评是免费的镜子——如果你愿意照的话。',type:'pos'},
+    {icon:'📈',tag:'管理',scenario:'今天给下属布置任务时，第一次说了"为什么我要你这么做"',feedback:'🔥 你开始理解"赋能"而不是"指派"了。告诉下属"为什么"，是让他们从"执行者"变成"思考者"的关键。一旦他们理解了逻辑，很多事情不需要你再重复，他们自己能判断。',type:'pos'},
+    {icon:'🎤',tag:'汇报',scenario:'今天汇报时主动说了一个风险，而不是等上级发现',feedback:'🔥 主动暴露风险比被动被发现强100倍。上级不怕风险，怕的是"被蒙在鼓里"。你今天选择了诚实和主动，这是建立信任的最快方式。继续这个做法，信任积累到一定程度，你的判断力就会被上级认可。',type:'pos'},
+    {icon:'⚡',tag:'主动',scenario:'今天主动接手了一件没有人愿意管的棘手事情',feedback:'🔥 棘手的事情往往是最能展示能力的机会。你今天主动承担了，说明你愿意为业务结果负责。这种人会被上级记住，被组织需要。解决了这件事，你会发现自己比之前更强了。',type:'pos'},
+    {icon:'🔍',tag:'学习',scenario:'今天主动研究了一个新业务/新渠道，有了第一份分析',feedback:'🔥 你走出了"舒适区"去研究未知领域，这是P7最重要的成长行为。新业务研究不要等别人给你讲，自己先啃一遍，拿出自己的理解和判断，再和上级讨论，这样的成长速度最快。',type:'pos'},
+    {icon:'🏆',tag:'反馈',scenario:'今天主动找上级要了一次反馈！',feedback:'🔥 主动要反馈是成长最快的方式之一。大多数人等着被评价，而你选择主动伸手要镜子。这说明你不是在等别人来评判你，而是自己在主导自己的成长路径。这种主动性能让你在P7群体里脱颖而出。',type:'pos'},
+    {icon:'📣',tag:'影响',scenario:'今天用自己的判断说服了上级改变了一个决定',feedback:'⚠️ 说服上级改变决定是P7影响力升级的标志。你有胆量表达不同意见，有能力用逻辑说服对方。这很重要。但也要注意方式：提供数据和逻辑之外，给上级留够"体面退场"的空间——让他感觉是他自己做出了判断，而不是被你逼的。',type:'neg'},
+    {icon:'🌟',tag:'认可',scenario:'今天上级在公开场合表扬了我的判断力',feedback:'⚠️ 被表扬当然好！但要小心：一次表扬不代表你已经是P7的标杆了。把它当成动力，继续做到每一次都这样有判断力，而不是因为一次表扬就开始飘。真正的P7是被所有人持续认可，不是偶然被夸一次。',type:'neg'},
+    {icon:'💼',tag:'加薪',scenario:'今天收到了绩效加薪通知',feedback:'⚠️ 加薪是对过去的认可，不是对未来的保证。你接下来的价值，在于你能不能持续创造超越你薪资的贡献。如果拿到加薪就开始松懈，P7的下一关（更高级别的业务owner角色）会越来越远。庆祝一下，然后继续战斗。',type:'neg'},
+    {icon:'👥',tag:'招聘',scenario:'今天成功招聘到了一个很难招的岗位',feedback:'⚠️ 招聘成功是团队建设的重要里程碑。但这只是开始：新人的融入、成长、发挥价值，还有很长的路要走。接下来的90天，多关注这个人的工作状态和成长，帮助他在团队里建立信心和成绩。',type:'neg'},
+    {icon:'🏅',tag:'成就',scenario:'今天完成了一个自己从没做过的管理动作（比如裁员/升职谈话）',feedback:'⚠️ 第一次做艰难的管理决策，过程中的纠结是正常的。重要的是你没有回避，而是正面面对了。做完之后记得给自己复盘：哪里做得好？哪里可以改进？硬的管理决策（比如裁员）做完会有情绪消耗，给自己一点恢复时间。',type:'neg'},
+    {icon:'📋',tag:'流程',scenario:'今天优化了一个流程，团队效率明显提升了',feedback:'⚠️ 流程优化的成就感是真实的，但也要警惕：把太多精力放在流程优化上，反而忽略了业务本身。流程优化到一定程度，边际效益递减。把更多时间放在业务增长和团队能力提升上——那是P7更大的杠杆。',type:'neg'},
+    {icon:'🗣️',tag:'演讲',scenario:'今天第一次独立对客户做了一个业务汇报',feedback:'⚠️ 独立面对客户做汇报是P7的重要里程碑！你今天做到了。但这只是开始：下次要关注客户的反馈——他们问了你什么问题？有没有什么是你没有回答好的？每次汇报后做简短复盘，你会进步得很快。',type:'neg'},
+    {icon:'🎯',tag:'目标',scenario:'今天帮助团队把一个模糊的目标拆解成了可执行的任务',feedback:'⚠️ 把模糊变清晰是P7的核心能力之一。但要注意：拆解只是开始，关键是跟踪落地。好的目标管理是：设定 → 拆解 → 过程跟踪 → 复盘调整。后面两步才是真正考验管理功力的地方。',type:'neg'},
+    {icon:'🚀',tag:'突破',scenario:'今天突破了一个长期困扰团队的技术/管理难题',feedback:'⚠️ 解决了棘手问题当然值得庆祝！但更重要的是：这个问题的解决方式能不能变成团队的通用方法论？如果一个问题的解决方案可以被复制，这个问题的解决价值就放大了10倍。试着把这个经验写成文档或者分享给团队。',type:'neg'},
+    {icon:'🤝',tag:'关系',scenario:'今天和上级进行了一次很顺畅的深度对齐',feedback:'⚠️ 顺畅的沟通说明你们之间的信任在建立。但要保持：一次好沟通不等于没问题。继续保持定期、主动、诚实的沟通频率，让这成为你的习惯而不是一次例外。持续的关系维护比偶尔的深度对齐更有价值。',type:'neg'}
+  ],
+  report: [
+    {icon:'📊',tag:'本周',scenario:'本周我亲自看了业务数据，对每个项目的状态有了判断',feedback:'📋 本周你做了P7最重要的事：看数据、做判断。这是把"知道发生什么"变成"知道意味着什么"的关键。下一步：把你对每个项目的判断写下来，周五回顾一下，看看实际结果是否验证了你的判断。这是训练业务敏锐度最有效的方式。',type:'pos'},
+    {icon:'👥',tag:'本周',scenario:'本周给每个下属布置任务时，都说明了"为什么"',feedback:'📋 "为什么"是赋能的关键。当你解释了指令背后的逻辑，下属就不再只是执行者，而是开始理解你的判断思路。持续这样做，你会发现你的团队越来越"像你"——不是模仿行为，而是模仿思考方式。',type:'pos'},
+    {icon:'🤝',tag:'本周',scenario:'本周主动跨部门推动了1件被卡了很久的事',feedback:'📋 本周你展示了P7该有的推动力。被卡很久的事情，往往不是能力问题，而是"没有人在意"的问题。你主动站出来说"这件事很重要，大家来配合"，问题就开始松动了。继续用这个方法，不要等别人来解决。',type:'pos'},
+    {icon:'🎯',tag:'本周',scenario:'本周汇报时，主动提炼了结论+风险+建议，上级有反馈',feedback:'📋 你开始用结构化的方式汇报了，而且上级给了反馈——这说明你的汇报内容有价值。继续优化：每次汇报后问自己：上级今天做了哪个决定？这个决定是不是我推动的？如果是，你的汇报影响力就在积累。',type:'pos'},
+    {icon:'📚',tag:'本周',scenario:'本周花时间研究了一个之前不了解的业务方向',feedback:'📋 本周你在拓展自己的认知边界。研究新业务不要只是"看了"，要产出：2~3页的分析报告、一份竞品对比、或者给上级的策略建议。只有输出才能验证你是否真的理解了。',type:'pos'},
+    {icon:'💡',tag:'本周',scenario:'本周发现了一个业务问题，并提出了解决方案',feedback:'📋 发现问题+提出解决方案，是P7从"反映问题"到"解决问题"的标志。这很棒！继续：提出方案后，跟踪落实了吗？P7的价值不只是提方案，而是推动方案落地产生结果。',type:'pos'},
+    {icon:'🔄',tag:'本周',scenario:'本周对一个问题做了复盘，形成了可执行的改进措施',feedback:'📋 本周你做了一次有效的复盘。复盘的价值在于行动改变，不是记录过去。关键检查：改进措施有没有分配到责任人？有没有设定完成时间？如果只是"下次注意"，那就等于没有复盘。',type:'pos'},
+    {icon:'⚡',tag:'本周',scenario:'本周拒绝了一件低价值的事情，腾出了时间做高价值的事',feedback:'📋 "不做什么"和"做什么"同样重要。能拒绝低价值的事情，说明你在保护自己的时间和精力，这是P7必须有的自律。继续这个做法：每周问自己，这周做的事情里，有哪件其实可以不做？',type:'pos'},
+    {icon:'🎤',tag:'本周',scenario:'本周和客户有一次直接沟通，解决了他们的一个问题',feedback:'📋 本周你直接面对了客户。客户需要的是"能解决问题的人"，而不是"能转达问题的人"。你做到了！继续保持和客户的直接连接，这能让你比任何人都更早知道业务里真正发生的是什么。',type:'pos'},
+    {icon:'💬',tag:'本周',scenario:'本周主动找上级要了一次反馈，得到了具体的成长建议',feedback:'📋 主动要反馈是成长加速器。本周你做了很多P7做不到的事：看数据、推动跨部门、提出解决方案。这些行为本身就是在践行上级的反馈。你不需要等上级告诉你该怎么做——你自己已经在做了。',type:'pos'},
+    {icon:'📉',tag:'本周',scenario:'本周团队有一个目标没有达成',feedback:'📋 没达成目标不丢人，假装没看见才丢人。复盘一下：是因为目标设得不现实？还是执行出了问题？如果是目标问题，是谁设的？如果是执行问题，哪里出了问题？诚实回答这些问题，才能避免下周犯同样的错误。',type:'neg'},
+    {icon:'🕐',tag:'本周',scenario:'本周大部分时间在处理流程和琐事，没有做业务决策',feedback:'📋 时间分布是P7最重要的自我管理课题。回顾一下：本周做了多少"只有我能做"的事？如果大部分时间在处理别人也能做的事，说明你的时间授权出了问题。下周开始，每天早上花10分钟决定"今天最重要的3件事"。',type:'neg'},
+    {icon:'😶',tag:'本周',scenario:'本周上级问了一个业务问题，我没有答上来',feedback:'📋 答不上来说明你的业务覆盖有盲区。这不是最大的问题，最大的问题是：答不上来之后你有没有去补上这个盲区？找时间研究一下这个问题的答案，下次被问到时，你要有自己的判断。',type:'neg'},
+    {icon:'📧',tag:'本周',scenario:'本周被大量邮件和消息打断，没有完成一件完整的事',feedback:'📋 被打断是常态，但被打断后没有完成任何事不是。解决方法：每天设定2~3个"不能被打断"的核心时段（每次至少60分钟）。在这段时间里，关闭邮件通知，告诉团队你有重要的事要做。保护自己的深度工作时间，是对自己和业务负责。',type:'neg'},
+    {icon:'🤷',tag:'本周',scenario:'本周有一个跨部门协作问题卡住了，不知道怎么处理',feedback:'📋 跨部门卡住时，大多数人的做法是"等"或者"绕"。P7的做法是"找到能推动这件事的人，直接沟通"。这个人通常不是执行者，而是执行者的上级，或者另一个有影响力的P7。不要绕路，直接找到关键人。',type:'neg'},
+    {icon:'👀',tag:'本周',scenario:'本周没有主动找下属了解情况，都是他们来找我',feedback:'📋 被动等待是管理盲区形成的开始。下属找你，说明他们需要你做决定；你找他们，才能主动发现问题。建议每天固定一个时间（比如下午4点）主动找1~2个下属聊10分钟，不要等他们来找你。',type:'neg'},
+    {icon:'📑',tag:'本周',scenario:'本周做了一件自己觉得很有价值但上级好像没看见的事',feedback:'📋 这是一个常见的P7困境：你觉得有价值，上级不觉得。解决方法：做完重要的事之后，主动找上级汇报，不要等他来问。上级很忙，他可能真的没看见——你需要主动展示你的贡献。',type:'neg'},
+    {icon:'😰',tag:'本周',scenario:'本周被上级批评了，感觉很委屈',feedback:'📋 被批评后感到委屈是正常情绪，但先别急着委屈。问自己：他说的有没有道理？如果有一点是对的，那个点是什么？批评里有价值的那部分，是免费的管理咨询——哪怕批评的方式让你不舒服，内容可能仍然是真实的。',type:'neg'},
+    {icon:'⏰',tag:'本周',scenario:'本周加班很多，但感觉效率不高',feedback:'📋 加班多但效率不高，说明时间可能没有花在刀刃上。试试做一周时间日志：每小时记录在做什么。一周后你会发现，时间黑洞往往在：反复修改同一份材料、低效的会议、犹豫不决而反复讨论同一件事。找到黑洞，才能堵住它。',type:'neg'},
+    {icon:'🏃',tag:'本周',scenario:'本周没有做新业务研究，觉得还没准备好',feedback:'📋 "没准备好"是研究新事物的最大障碍。新业务研究不需要"准备好"，需要的是"先开始"。不需要系统性地学完所有东西才去行动——边做边学、边学边调整才是P7应该有的节奏。本周找个30分钟的窗口，先把新业务的三个基本问题回答了：市场多大？谁在做？我们有什么机会？',type:'neg'}
+  ],
+  question: [
+    {icon:'🤔',tag:'定位',scenario:'P7和P6的核心区别到底是什么？',feedback:'🔑 P6：能把交给他的事情做好，是优秀的执行者。P7：能自己发现问题、定义问题、解决没人解决的问题，是业务的Owner。简单说：P6是"把事做对"，P7是"做对的事"。从P6到P7的跨越，是从"别人告诉我做什么"到"我自己判断该做什么"的跨越。',type:'pos'},
+    {icon:'🤔',tag:'权威',scenario:'怎么建立基于能力而不是职级的管理权威？',feedback:'🔑 管理权威来自三件事：① 能帮下属解决他们解决不了的问题 ② 能看到下属看不到的风险和机会 ③ 能在关键时刻做出正确的判断。这三件事都靠积累，不靠任命。每次帮团队解决一个真实的问题，你的权威就积累一点。',type:'pos'},
+    {icon:'🤔',tag:'汇报',scenario:'上级总是不认可我的判断，是我的问题还是他的问题？',feedback:'🔑 先假设是你的问题。先问自己：我的判断有没有数据支撑？有没有考虑上级的视角？有没有给他足够的信息来做决定？如果这三件事都做到了，上级还是不认可，那说明你们对业务优先级的理解不同，那就需要更深度的对齐，而不是争输赢。',type:'pos'},
+    {icon:'🤔',tag:'授权',scenario:'下属能力弱，做得慢还总出错，我自己做更快，要不要继续授权？',feedback:'🔑 下属"弱"是正常现象，"弱而不成长"才是问题。如果你授权了但没有给反馈和指导，下属永远弱下去。正确的授权 = 明确目标 + 过程跟踪 + 及时反馈 + 允许犯错。如果授权了就不管，那确实不如自己做。',type:'pos'},
+    {icon:'🤔',tag:'时间',scenario:'每天被各种事情打断，怎么才能有时间做真正重要的事？',feedback:'🔑 关键不是"挤时间"，而是"保护时间"。每天设定2个"深度工作时段"（每次60~90分钟），这段时间关掉邮件、不接非紧急电话、只处理最重要的事。其他事情都在这两个时段之外处理。',type:'pos'},
+    {icon:'🤔',tag:'上级',scenario:'上级布置任务时总是不清楚，我怎么要求他说明白？',feedback:'🔑 不要直接说"你说清楚点"——这样上级会觉得你在质疑他。试着用"确认式提问"：上级说完，你用自己的话复述一遍："所以您的意思是，我需要做X，目标是Y，截止时间是Z，对吗？"这样既确认了理解，又不伤上级面子，他还会觉得你在积极对齐。',type:'pos'},
+    {icon:'🤔',tag:'团队',scenario:'下属之间有矛盾，我应该介入调解吗？',feedback:'🔑 看阶段。如果矛盾刚开始，让子弹飞一会儿——有时候冲突是团队磨合的正常过程。如果矛盾已经影响到工作结果，必须介入。介入的方式：分别聊，听完双方说法，然后明确规则：冲突可以，但要以业务结果为导向，私人情绪不能带入工作。',type:'pos'},
+    {icon:'🤔',tag:'决策',scenario:'需要在信息不完整时做决策，但总担心做错怎么办？',feedback:'🔑 信息永远不可能"完整"。P7的核心能力之一就是"在不确定性中做决策"并"对决策负责"。做决策之前，问自己：最坏的情况是什么？我能承受吗？如果能，就做。如果不能承受，就升级（找上级一起判断）。等所有信息都齐全才做决策，往往已经错过了最佳时机。',type:'pos'},
+    {icon:'🤔',tag:'跨部门',scenario:'跨部门协作总是被卡，但对方级别比我低，我还是叫不动',feedback:'🔑 叫不动对方，不是因为你级别不够，是因为你还没有说清楚这件事对他的价值。找对方之前，想清楚：这件事对对方有什么好处？对他团队的价值是什么？如果找不到价值，就创造价值：可以说"这件事做完，我欠你一个，以后需要资源我优先支持"。',type:'pos'},
+    {icon:'🤔',tag:'目标',scenario:'团队目标设得太高，明显不可能完成，要不要如实告诉上级？',feedback:'🔑 一定要告诉上级，而且要早说。说的时候带方案："按目前资源，A目标可以实现，B目标需要增加X资源或者调整范围。"上级不怕目标完不成，怕的是"突然发现完不成"。提前预警是P7的专业性体现，不是示弱。',type:'pos'},
+    {icon:'🤔',tag:'客户',scenario:'客户总是不满意我的服务，但我不知道问题在哪里',feedback:'🔑 主动约客户直接聊。不要猜测，不要通过下属转述。直接问客户：您觉得我哪里做得不够好？您最希望我改进什么？客户最知道问题在哪里，只是你很少直接去问。这个对话可能不舒服，但它是提升服务质量最快的路径。',type:'neg'},
+    {icon:'🤔',tag:'绩效',scenario:'要给下属打低绩效，很抗拒，怎么办？',feedback:'🔑 低绩效员工留在团队里，对其他人不公平，对公司不负责，对他自己也不好。正确的处理方式：① 提前沟通期望和差距（不要在打绩效时才说） ② 给改进计划和支持 ③ 如果还是不行，果断处理。低绩效的处理体现的是管理者的公平和专业，不处理才是不专业。',type:'neg'},
+    {icon:'🤔',tag:'批评',scenario:'被上级当众批评了，很没面子，要不要当场反驳？',feedback:'🔑 不要当场反驳。当众反驳上级，无论对错，都会被解读为"不服管"。正确做法：当下先接收（"收到，我复盘一下"），会后再私下找上级对齐。如果上级说得不对，私下沟通更有效，也更维护上级的权威。私下沟通时，用数据说话，不要说情绪。',type:'neg'},
+    {icon:'🤔',tag:'裁员',scenario:'需要裁员，但没有经验，很怕做错',feedback:'🔑 裁员是管理者最难的决策之一。首先确认：裁员的决策是公司/上级做出的，你的职责是执行。其次，你的职责是"人性化地执行"：提前通知、说明原因、给补偿、给推荐（有的话）。做这些决定时，保持诚实和尊重——这是你唯一能控制的部分。',type:'neg'},
+    {icon:'🤔',tag:'自我',scenario:'觉得自己不适合做管理，想回去做个人贡献者，要放弃吗？',feedback:'🔑 先别急着放弃，问自己三个问题：① 我不适应的具体是什么？（是决策压力？还是人际冲突？还是缺乏成就感？）② 这个问题在个人贡献者岗位上不存在吗？（其实也存在，只是换了形式）③ 有没有可能我还没学会，所以觉得不适合？给P7的管理能力6个月刻意练习期，再做判断。',type:'neg'},
+    {icon:'🤔',tag:'政治',scenario:'公司内部有一些"政治"斗争，我应该站队吗？',feedback:'🔑 P7的生存原则：永远站在"业务结果"这边，不站队。政治斗争的本质是利益争夺，而利益争夺最受伤的是业务。专注于做出可衡量的业务贡献，是你最强的保护伞。做好了业务价值，谁都需要你；做不好，站哪队都没用。',type:'neg'},
+    {icon:'🤔',tag:'晋升',scenario:'觉得自己已经做到P7的要求了，但没有被晋升，接下来怎么办？',feedback:'🔑 P7到P8的跨越，不是"做到了P7的要求"就能完成的，需要"展示了P8的能力"。具体来说：你在哪些事情上展示了超越P7的判断力？有没有带出过P6的人？有没有独立推动过一个有规模的业务变革？如果这些都没有，说明你还没有展示够。',type:'neg'},
+    {icon:'🤔',tag:'能力',scenario:'觉得自己有一项专长，但不知道在管理上怎么用它',feedback:'🔑 找到专长和管理工作的连接点。比如：如果你数据分析很强，就用数据帮团队做决策；如果你沟通能力强，就用它处理跨部门协调；如果你技术很强，就用它赢得下属的技术信任。每个专长都可以转化为管理优势，关键是找到那个连接点。',type:'neg'},
+    {icon:'🤔',tag:'焦虑',scenario:'总觉得自己做得不够好，焦虑感很强，怎么处理？',feedback:'🔑 适度的焦虑是正常的，说明你有追求。过度焦虑往往来自"想要控制结果"的心态。P7能控制的是自己的行为和判断，不能控制的是上级怎么想、市场怎么变、团队怎么反应。专注于你能控制的部分，接受你不能控制的部分，这是P7情绪管理的重要课题。',type:'neg'},
+    {icon:'🤔',tag:'平衡',scenario:'工作很忙，感觉没有时间照顾家庭，怎么平衡？',feedback:'🔑 平衡不是"时间一样多"，而是"最重要的事情不被牺牲"。先问自己：家庭的底线是什么？哪件事是绝对不能缺席的？把这件事固定下来，然后用它来约束工作时间的边界。比如：如果孩子的周末活动不能缺席，就把它写在日历上，然后用工作安排围绕这个边界。',type:'neg'}
+  ]
+};
+
+// ===== 全局状态 =====
+let currentPartner = null;
+let selectedPartnerId = null;
+let continuousCount = 0;
+let currentTab = 'checkin';
+let currentQAType = null;
+let currentQADir = 'result';
+
+// ===== DOMContentLoaded =====
+document.addEventListener('DOMContentLoaded', function() {
+  renderPartnerGrid();
+  renderWeekProgress();
+  renderSOP();
+
+  var stored = localStorage.getItem(STORAGE.PARTNER);
+  if (stored) {
+    try {
+      var p = JSON.parse(stored);
+      currentPartner = p;
+      selectedPartnerId = p.id;
+      document.querySelectorAll('.partner-card').forEach(function(card) {
+        card.classList.toggle('selected', card.dataset.id === p.id);
+      });
+      confirmPartner();
+    } catch(e) {}
+  } else {
+    document.getElementById('partnerSelector').style.display = 'flex';
+    document.getElementById('tabBar').style.display = 'none';
+  }
+
+  autoCloseSOPGuide();
+});
+
+// ===== 搭子选择器 =====
+function renderPartnerGrid() {
+  var grid = document.getElementById('partnerGrid');
+  grid.innerHTML = '';
+  PARTNERS.forEach(function(p) {
+    var card = document.createElement('div');
+    card.className = 'partner-card';
+    card.dataset.id = p.id;
+    card.innerHTML = '<div class="partner-emoji">' + p.emoji + '</div><div class="partner-name">' + p.name + '</div><div class="partner-desc">' + p.desc + '</div>';
+    card.onclick = function() {
+      selectedPartnerId = p.id;
+      document.querySelectorAll('.partner-card').forEach(function(c) { c.classList.remove('selected'); });
+      card.classList.add('selected');
+    };
+    grid.appendChild(card);
+  });
+}
+
+function confirmPartner() {
+  if (!selectedPartnerId) selectedPartnerId = PARTNERS[0].id;
+  var partner = PARTNERS.find(function(p) { return p.id === selectedPartnerId; }) || PARTNERS[0];
+  currentPartner = partner;
+  localStorage.setItem(STORAGE.PARTNER, JSON.stringify(partner));
+
+  var badge = document.getElementById('partnerBadge');
+  badge.innerHTML = partner.emoji + ' ' + partner.name;
+
+  document.getElementById('partnerSelector').style.display = 'none';
+  document.getElementById('partnerSelectorMask').style.display = 'none';
+  document.getElementById('tabBar').style.display = 'flex';
+
+  loadHistory();
+  renderWeekProgress();
+}
+
+// ===== 打卡逻辑 =====
+function loadHistory() {
+  try {
+    var h = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
+    var today = getToday();
+    var todayEntry = h.find(function(e) { return e.date === today; });
+    updateCheckinUI(todayEntry ? 1 : 0, h);
+  } catch(e) { updateCheckinUI(0, []); }
+}
+
+function getToday() {
+  var d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function getLastNDates(n) {
+  var dates = [];
+  var d = new Date();
+  for (var i = n - 1; i >= 0; i--) {
+    var dt = new Date(d);
+    dt.setDate(d.getDate() - i);
+    dates.push(dt.getFullYear() + '-' + String(dt.getMonth()+1).padStart(2,'0') + '-' + String(dt.getDate()).padStart(2,'0'));
+  }
+  return dates;
+}
+
+function getDayName(dateStr) {
+  var d = new Date(dateStr + 'T00:00:00');
+  return ['日','一','二','三','四','五','六'][d.getDay()];
+}
+
+function updateCheckinUI(checked, history) {
+  var today = getToday();
+  document.getElementById('checkinStatus').innerText = checked ? '已打卡 ✓' : '打卡';
+  document.getElementById('checkinSub').innerText = checked ? '今日已完成' : '点击记录今日';
+
+  var days = getLastNDates(7);
+  var dayNames = ['一','二','三','四','五','六','日'];
+  var startDay = (new Date(days[0] + 'T00:00:00')).getDay();
+
+  continuousCount = 0;
+  for (var i = days.length - 1; i >= 0; i--) {
+    var found = history.find(function(e) { return e.date === days[i]; });
+    if (found) continuousCount++;
+    else break;
+  }
+  document.getElementById('continuousCount').innerText = continuousCount;
+
+  var weekHtml = '<div class="week-title"><span>本周进度</span><span>' + continuousCount + '/7 天</span></div><div class="week-dots">';
+  var offset = startDay === 0 ? 6 : startDay - 1;
+  for (var i = 0; i < 7; i++) {
+    var d = i < offset ? '' : days[i - offset];
+    var name = dayNames[i];
+    var checked = d && history.find(function(e) { return e.date === d; });
+    weekHtml += '<div class="day-item"><div class="day-name">' + name + '</div><div class="dot' + (checked ? ' checked' : '') + '">' + (d ? (checked ? '✓' : '·') : '') + '</div></div>';
+  }
+  weekHtml += '</div>';
+  document.getElementById('weekProgress').innerHTML = weekHtml;
+}
+
+function doCheckin() {
+  var today = getToday();
+  var history = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
+  if (!history.find(function(e) { return e.date === today; })) {
+    history.push({date: today, partner: currentPartner ? currentPartner.id : ''});
+    localStorage.setItem(STORAGE.HISTORY, JSON.stringify(history));
+  }
+  updateCheckinUI(1, history);
+
+  var emoji = (currentPartner && currentPartner.emoji) || '🎖️';
+  var msgs = [
+    '好，' + (currentPartner && currentPartner.name || '砺行') + '收到了。打卡是起点，更重要的是：你今天主动推动了哪件事？',
+    '收到。今天的管理反思完成了吗？',
+    '👍 记录完毕。今天哪件事最能体现你的管理者角色？'
+  ];
+  appendPartnerMsg(msgs[Math.floor(Math.random() * msgs.length)]);
+}
+
+// ===== 搭子消息 =====
+function appendPartnerMsg(html, isAI) {
+  var chat = document.getElementById('chatArea');
+  var emoji = (currentPartner && currentPartner.emoji) || '🎖️';
+  var wrap = document.createElement('div');
+  wrap.className = 'msg-bubble-wrap';
+  wrap.innerHTML = '<div class="msg-avatar">' + emoji + '</div><div class="msg-bubble' + (isAI ? ' ai' : '') + '">' + html + '</div>';
+  chat.appendChild(wrap);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function showPartnerMsg(html, isAI) {
+  var chat = document.getElementById('chatArea');
+  chat.innerHTML = '';
+  var emoji = (currentPartner && currentPartner.emoji) || '🎖️';
+  var wrap = document.createElement('div');
+  wrap.className = 'msg-bubble-wrap';
+  wrap.innerHTML = '<div class="msg-avatar">' + emoji + '</div><div class="msg-bubble' + (isAI ? ' ai' : '') + '">' + html + '</div>';
+  chat.appendChild(wrap);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function askPartner(type) {
+  var partner = currentPartner || PARTNERS[0];
+  var style = partner.style || 'rational';
+  var emoji = partner.emoji;
+  var typeConfig = {
+    progress: {label:'📈 进展', panel:'progress', dir:'result', intro:{rational:['收到。说说你最近的管理进展。📊','好。先汇报你认为最有价值的那件事。📊']}},
+    struggle: {label:'😣 困难', panel:'struggle', dir:'solution', intro:{rational:['困难是正常的。说，我帮你分析。📊','说。没有解决不了的卡点，只有没找到的方法。📊']}},
+    idea: {label:'💡 想法', panel:'idea', dir:'result', intro:{rational:['好。说说你的核心假设是什么。📊','想法很好。说——它解决的是什么问题？📊']}},
+    cheer: {label:'🎉 喜事', panel:'cheer', dir:'result', intro:{rational:['👍 好事。说，数据支撑是什么？📊','好的势头继续保持。说，是什么促成的？📊']}},
+    report: {label:'📣 汇报', panel:'report', dir:'result', intro:{rational:['📊 周报收到。说结论。📊','好。核心数据是什么？📊']}},
+    question: {label:'🤔 提问', panel:'question', dir:'solution', intro:{rational:['📊 说你的问题。📊','问就问，不保证答案你爱听。📊']}}
+  };
+  var cfg = typeConfig[type] || typeConfig.progress;
+  var introArr = cfg.intro[style] || cfg.intro.rational;
+  var intro = introArr[Math.floor(Math.random() * introArr.length)];
+  switchTab('chat');
+  showPartnerMsg(cfg.label, false);
+  setTimeout(function() {
+    appendPartnerMsg(emoji + ' ' + intro, true);
+    setTimeout(function() { openTypePanel(cfg.panel, cfg.dir); }, 500);
+  }, 700);
+}
+
+function openTypePanel(panel, dir) {
+  currentQAType = panel; currentQADir = dir;
+  var data = TYPE_SCENES_P7[panel] || [];
+  var titleMap = {
+    progress:'📈 选择一个你最近在管理上的进展',
+    struggle:'😣 选择一个你正在面对的管理困难',
+    idea:'💡 选择一个你有的管理想法',
+    cheer:'🎉 选择一件你最近的管理成就',
+    report:'📣 汇报一下本周的管理情况',
+    question:'🤔 有问题想问？选一个最接近的'
+  };
+  var subMap = {
+    result:'选择后我会给出结果导向的分析 💡',
+    solution:'选择后我会和你一起想办法 🔑'
+  };
+  document.getElementById('qaTitle').innerText = titleMap[panel] || panel;
+  document.getElementById('qaSub').innerText = subMap[dir] || '';
+  var scroll = document.getElementById('qaScroll');
+  scroll.innerHTML = '';
+  data.forEach(function(item, i) {
+    var div = document.createElement('div');
+    div.className = 'qa-item';
+    div.innerHTML = '<div class="qa-icon">' + item.icon + '</div><div class="qa-tag">' + item.tag + '</div><div class="qa-text">' + item.scenario + '</div>';
+    div.onclick = function() {
+      closeQA();
+      showFeedback(item, i);
+    };
+    scroll.appendChild(div);
+  });
+  document.getElementById('qaOverlay').classList.add('show');
+}
+
+function showFeedback(item, index) {
+  document.getElementById('fbEmoji').innerText = item.icon;
+  document.getElementById('fbTag').innerText = item.tag;
+  document.getElementById('fbScenario').innerText = item.scenario;
+  document.getElementById('fbFeedback').innerHTML = item.feedback;
+  document.getElementById('fbOverlay').classList.add('show');
+
+  var partner = currentPartner || PARTNERS[0];
+  var emoji = partner.emoji;
+  var cheerMsgs = [
+    emoji + ' ' + item.feedback.split('\n')[0],
+    emoji + ' 这个反馈，记住了吗？'
+  ];
+  setTimeout(function() { appendPartnerMsg(cheerMsgs[Math.floor(Math.random() * cheerMsgs.length)], true); }, 300);
+}
+
+function closeFBOverlay() { document.getElementById('fbOverlay').classList.remove('show'); }
+function closeQA() { document.getElementById('qaOverlay').classList.remove('show'); }
+
+// ===== Tab切换 =====
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById(tab + 'Page').classList.add('active');
+  document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
+  event.currentTarget.classList.add('active');
+}
+
+// ===== SOP自检 =====
+var SOP_CATEGORIES = [
+  {id:'cat1', name:'业务感知', icon:'📊', desc:'数据、风险、判断力', color:'#3a5fcd'},
+  {id:'cat2', name:'管理权威', icon:'💪', desc:'指导、授权、追结果', color:'#e91e63'},
+  {id:'cat3', name:'洞察汇报', icon:'🔍', desc:'提炼、分析、表达力', color:'#ff9800'},
+  {id:'cat4', name:'主动解决', icon:'⚡', desc:'不等待、不推诿、找方法', color:'#4caf50'},
+  {id:'cat5', name:'自我认知', icon:'🧭', desc:'优势、定位、成长方向', color:'#9c27b0'}
+];
+
+var SOP_HABITS = {
+  cat1: [
+    {emoji:'📊', pos:true, text:'每天亲自查看至少一个核心业务数据', sub:'不依赖下属汇报，用自己的眼睛看业务'},
+    {emoji:'📉', pos:false, text:'等别人提醒才意识到业务风险', sub:'建立主动的风险预警习惯'},
+    {emoji:'🎯', pos:true, text:'对每个项目能说出"哪里做得好/不好"', sub:'没有判断力的P7等于没有方向感'},
+    {emoji:'😶', pos:false, text:'上级问起业务时答不上来', sub:'业务盲区是P7最大的危险信号'}
+  ],
+  cat2: [
+    {emoji:'🤝', pos:true, text:'布置任务时说明"为什么"这个要求', sub:'赋能不是指派，是让下属理解你的判断逻辑'},
+    {emoji:'🏃', pos:false, text:'觉得下属做太慢就自己干了', sub:'自己做最快，但团队永远成长不了'},
+    {emoji:'✅', pos:true, text:'对不配合的下属敢于追结果', sub:'善良不等于放任，管理需要对结果负责'},
+    {emoji:'😰', pos:false, text:'下属更愿意听其他总监的话', sub:'思考：是权威不足，还是判断力不足？'}
+  ],
+  cat3: [
+    {emoji:'💬', pos:true, text:'每次汇报先说结论，再给数据', sub:'上级的时间比你少，他需要结论先行'},
+    {emoji:'📝', pos:false, text:'汇报只是罗列事实，没有洞察', sub:'事实是原材料，洞察才是成品'},
+    {emoji:'📋', pos:true, text:'强制提炼3个重点+1个风险+1个建议', sub:'结构化输出是P7的基本功'},
+    {emoji:'🤷', pos:false, text:'上级听完我的汇报没有反馈', sub:'没有反馈往往意味着"没有价值"，需要反思'}
+  ],
+  cat4: [
+    {emoji:'🔥', pos:true, text:'遇到问题先想2个解决方案再升级', sub:'升级时带方案，是P7的专业性体现'},
+    {emoji:'🕐', pos:false, text:'等别人来推动，不主动介入', sub:'主动是P7和P6最大的行为区别'},
+    {emoji:'⚡', pos:true, text:'主动用P7权限推动了一件跨部门的事', sub:'权限是用来履行职责的，不是摆设'},
+    {emoji:'🚫', pos:false, text:'觉得"不是我的职责"所以没推动', sub:'影响业务结果的事，都是你的职责'}
+  ],
+  cat5: [
+    {emoji:'🧭', pos:true, text:'今天问了自己：我擅长什么？公司需要什么？', sub:'找准交集点，才能产生最大的职业价值'},
+    {emoji:'😔', pos:false, text:'成就感来自"完成了流程"而不是"业务增长"', sub:'流程是手段，业务结果才是目的'},
+    {emoji:'📈', pos:true, text:'回答出了"哪件事只有我能做"', sub:'不可替代性是P7的核心竞争力'},
+    {emoji:'🤷', pos:false, text:'不清楚自己在P7阶段应该达到什么标准', sub:'标准不清，努力就没有方向'}
+  ]
+};
+
+function renderSOP() {
+  var grid = document.getElementById('sopCatGrid');
+  grid.innerHTML = '';
+  SOP_CATEGORIES.forEach(function(cat) {
+    var done = getSOPDone(cat.id);
+    var total = SOP_HABITS[cat.id].length;
+    var div = document.createElement('div');
+    div.className = 'sop-cat-btn';
+    div.innerHTML = '<div class="sop-cat-icon">' + cat.icon + '</div><div class="sop-cat-name">' + cat.name + '</div><div class="sop-cat-desc">' + cat.desc + '</div>' + (done > 0 ? '<div class="sop-cat-done">已完成 ' + done + '/' + total + '</div>' : '');
+    div.onclick = function() { startSOPCat(cat.id); };
+    grid.appendChild(div);
+  });
+  updateSOPStats();
+}
+
+function getSOPDone(catId) {
+  try {
+    var data = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}');
+    return data[catId] ? Object.keys(data[catId]).length : 0;
+  } catch(e) { return 0; }
+}
+
+function startSOPCat(catId) {
+  var habits = SOP_HABITS[catId];
+  if (!habits) return;
+  var catData = {};
+  try { catData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}')[catId] || {}; } catch(e) {}
+
+  var undone = habits.filter(function(h, i) { return !catData['h' + i]; });
+  if (undone.length === 0) {
+    var card = document.getElementById('sopGameCard');
+    var doneState = document.getElementById('sopDoneState');
+    card.style.display = 'none';
+    doneState.style.display = 'block';
+    document.getElementById('sopDoneSub').innerText = catId + ' 全部完成！';
+    return;
+  }
+
+  var h = undone[Math.floor(Math.random() * undone.length)];
+  var habitIdx = habits.indexOf(h);
+  var cat = SOP_CATEGORIES.find(function(c) { return c.id === catId; });
+
+  document.getElementById('sopCatProgress').innerHTML = '<span>' + cat.icon + ' ' + cat.name + '</span><div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:' + (getSOPDone(catId) / habits.length * 100) + '%"></div></div><span>' + getSOPDone(catId) + '/' + habits.length + '</span>';
+  document.getElementById('sopHabitLabel').innerText = h.pos ? '✅ 正向习惯' : '❌ 待改进';
+  document.getElementById('sopHabitLabel').className = 'sop-habit-label ' + (h.pos ? 'pos' : 'neg');
+  document.getElementById('sopHabitEmoji').innerText = h.emoji;
+  document.getElementById('sopHabitText').innerText = h.text;
+  document.getElementById('sopHabitSub').innerText = h.sub;
+
+  document.getElementById('sopGameCard').style.display = 'block';
+  document.getElementById('sopDoneState').style.display = 'none';
+  document.getElementById('sopGameCard').dataset.cat = catId;
+  document.getElementById('sopGameCard').dataset.idx = habitIdx;
+}
+
+function answerSOP(ans) {
+  var card = document.getElementById('sopGameCard');
+  var catId = card.dataset.cat;
+  var habitIdx = parseInt(card.dataset.idx);
+  var h = SOP_HABITS[catId][habitIdx];
+
+  var allData = {};
+  try { allData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}'); } catch(e) {}
+  if (!allData[catId]) allData[catId] = {};
+  allData[catId]['h' + habitIdx] = ans;
+  localStorage.setItem(STORAGE.SOP, JSON.stringify(allData));
+
+  if (ans === 'yes') {
+    var pts = parseInt(localStorage.getItem(STORAGE.SOP_STREAKS) || '0');
+    pts += 3;
+    localStorage.setItem(STORAGE.SOP_STREAKS, pts);
+  }
+
+  var feedbackMsg = '';
+  if (h.pos && ans === 'yes') {
+    feedbackMsg = '✅ 这个习惯继续保持，它在塑造你的管理能力。';
+  } else if (h.pos && ans === 'no') {
+    feedbackMsg = '⚠️ 这个正向习惯还没建立，今天就是开始的好时机。';
+  } else if (!h.pos && ans === 'yes') {
+    feedbackMsg = '⚠️ 你有这个问题。先承认它，这是改变的第一步。';
+  } else {
+    feedbackMsg = '✅ 能意识到这个问题，已经走在很多人前面了。';
+  }
+
+  appendPartnerMsg(feedbackMsg, true);
+  updateSOPStats();
+
+  setTimeout(function() {
+    var done = getSOPDone(catId);
+    var total = SOP_HABITS[catId].length;
+    if (done >= total) {
+      document.getElementById('sopGameCard').style.display = 'none';
+      document.getElementById('sopDoneState').style.display = 'block';
+      document.getElementById('sopDoneSub').innerText = '✅ ' + (SOP_CATEGORIES.find(function(c) { return c.id === catId; }) || {}).name + ' 自检完成！';
+    } else {
+      startSOPCat(catId);
+    }
+    renderSOP();
+  }, 1500);
+}
+
+function updateSOPStats() {
+  var total = 0, done = 0;
+  SOP_CATEGORIES.forEach(function(cat) {
+    var habits = SOP_HABITS[cat.id] || [];
+    total += habits.length;
+    done += getSOPDone(cat.id);
+  });
+  var pts = parseInt(localStorage.getItem(STORAGE.SOP_STREAKS) || '0');
+  document.getElementById('sopScore').innerText = pts;
+  document.getElementById('sopDone').innerText = done + '/' + total;
+  var pct = total > 0 ? Math.round(done / total * 100) : 0;
+  document.getElementById('sopProgressBar').style.width = pct + '%';
+  document.getElementById('sopProgressText').innerText = pct + '%';
+}
+
+function resetSOP() {
+  localStorage.removeItem(STORAGE.SOP);
+  localStorage.removeItem(STORAGE.SOP_STREAKS);
+  renderSOP();
+  document.getElementById('sopGameCard').style.display = 'none';
+  document.getElementById('sopDoneState').style.display = 'none';
+}
+
+function autoCloseSOPGuide() {
+  var overlay = document.getElementById('sopGuideOverlay');
+  if (overlay) {
+    setTimeout(function() { overlay.classList.add('hidden'); }, 5000);
+  }
+}
+
+function closeSOPGuide() {
+  document.getElementById('sopGuideOverlay').classList.add('hidden');
+}
+
+// ===== 分享逻辑 =====
+function copyShareText() {
+  var text = '我用 ' + (currentPartner && currentPartner.name || '砺行') + ' 管理搭子连续打卡 ' + continuousCount + ' 天了！P7管理成长搭子：' + window.location.href;
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  alert('已复制到剪贴板！');
+}
+</script>
+</body>
+</html>
