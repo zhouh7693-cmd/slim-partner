@@ -43,6 +43,17 @@
       background: white; border-radius: 48px;
       padding: 28px 20px 32px;
       box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+      /* 未选搭子时遮罩全屏，阻止底层按钮被误触 */
+      position: fixed; inset: 0;
+      z-index: 100;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      box-sizing: border-box;
+    }
+    #partnerSelectorMask {
+      display: none; /* JS 控制显示 */
+      position: fixed; inset: 0; z-index: 99;
+      background: rgba(0,0,0,0.4);
     }
     .selector-title {
       font-size: 28px; font-weight: 700; text-align: center;
@@ -464,6 +475,9 @@
 
 <!-- ===== Page: 打卡 ===== -->
 <div id="page-checkin" class="page active">
+
+  <!-- 未选搭子时的遮罩层 -->
+  <div id="partnerSelectorMask"></div>
 
   <!-- 搭子选择器 -->
   <div id="partnerSelector" class="partner-selector">
@@ -1302,6 +1316,28 @@ const TYPE_SCENES_REL = {
     {icon:'💭',tag:'本月',scenario:'被误解了，一直解释不清楚',feedback:'不是所有误解都能被当场解释清楚。如果已经尽力，就给彼此一些时间。行动往往比言语更有说服力。',type:'neg'},
     {icon:'🫥',tag:'本月',scenario:'某段关系在悄悄疏远，但没有明显的原因',feedback:'关系疏远通常有原因，只是可能还没有浮出水面。先主动一点，创造一些互动的机会，看看对方是否愿意重新连接。如果对方没有回应，也是一种答案。',type:'neg'},
     {icon:'😖',tag:'本月',scenario:'被某个重要的人伤害了',feedback:'被重要的人伤害是双重的痛苦：既失去了信任，又失去了连接。首先照顾好自己的情绪，然后决定这段关系是否值得修复。',type:'neg'}
+  ],
+  question: [
+    {icon:'🗣️',tag:'沟通',scenario:'有话想说但不知道怎么开口',feedback:'开口的勇气比完美的话术更重要。可以先从"我观察到……"和"我感受到……"开始。不需要准备完美的表达，真诚本身就是最好的沟通。',type:'pos'},
+    {icon:'🛡️',tag:'边界',scenario:'不知道怎么拒绝别人的要求',feedback:'拒绝时不需要解释太多。简单直接："我这次帮不了你"或"这个我做不了"。拒绝是保护自己的边界，不是伤害对方。学会说"不"，才能更好地说"好"。',type:'pos'},
+    {icon:'👂',tag:'倾听',scenario:'想更好地倾听别人，但总是忍不住打断',feedback:'倾听是一项技能，需要刻意练习。下次对话时，试着在对方说完后停顿2秒再回应，给自己时间消化。"复述确认"也是一个好方法：把对方的话重复一遍，确认自己理解了。',type:'pos'},
+    {icon:'💬',tag:'表达',scenario:'想表达感谢但觉得说出来很尴尬',feedback:'真诚的感谢永远不会尴尬。而且对方可能一直在等这句感谢。不要等"完美的时机"，现在就是最好的时机。一句简单的"谢谢你，你对我很重要"，力量比你想象的更大。',type:'pos'},
+    {icon:'🤝',tag:'冲突',scenario:'和朋友有分歧，想修复关系但不知道怎么开口',feedback:'主动联系不需要完美的理由。一句"最近怎么样？"就足够。如果真的在乎这段关系，主动迈出第一步不代表你输了，代表你在乎。',type:'pos'},
+    {icon:'🏠',tag:'家庭',scenario:'想和父母有更好的沟通方式',feedback:'和父母的代际差异是普遍的，但不是不可跨越的。试着换一种沟通策略：不争对错，只分享感受。"我理解你的担心，我想和你分享我的想法"比"你不懂"更有效。',type:'pos'},
+    {icon:'💑',tag:'伴侣',scenario:'感觉和伴侣越来越没有话说了',feedback:'没有话说的背后可能是"没有共同的体验"。创造新的共同经历：一起做饭、一起散步、一起看一部剧。共同记忆是话题的来源，也是关系的粘合剂。',type:'pos'},
+    {icon:'🎁',tag:'送礼',scenario:'想给重要的人一个惊喜但不知道送什么',feedback:'最好的礼物往往不是最贵的，而是"被看见"的礼物。想想对方最近说过什么想要的东西、提到过什么问题、最近在忙什么。一张手写卡片+一件小东西，往往比奢侈品更有温度。',type:'pos'},
+    {icon:'🌟',tag:'支持',scenario:'朋友遇到困难，想帮忙但不知道怎么做',feedback:'帮忙的最高境界是"让对方感到被支持而不是被评判"。可以说："我不知道能帮什么，但我在这里。"有时候陪伴本身比解决方案更重要。',type:'pos'},
+    {icon:'🤗',tag:'矛盾',scenario:'和家人有矛盾，不知道该不该主动和解',feedback:'主动和解不代表你错了，代表你在乎这段关系。发一条信息："我知道上次我们有不同的看法，我还是想和你好好相处。"给彼此一个台阶。',type:'pos'},
+    {icon:'😰',tag:'孤立',scenario:'感觉身边没有真正的朋友，很孤独',feedback:'孤独感不一定是因为没有朋友，有时候身边有人但感觉不被理解也会孤独。试着主动迈出一步：参加一个活动、加入一个社群、和老朋友重新联系。友谊需要培育，主动是第一步。',type:'neg'},
+    {icon:'😣',tag:'强势',scenario:'身边的人总是控制欲很强，让我很不舒服',feedback:'不舒服是你的直觉在告诉你边界被侵犯。温和但坚定地表达你的感受和边界。如果对方持续不尊重，你的感受比维持关系更重要。',type:'neg'},
+    {icon:'😔',tag:'失望',scenario:'对某段关系感到失望，不知道该继续还是放弃',feedback:'评估一段关系：它让你更好了还是更差了？短期内会有波动，但长期趋势是关键。问问自己：这段关系的净影响是正的还是负的？',type:'neg'},
+    {icon:'💔',tag:'伤害',scenario:'被信任的人伤害了，不知道还能不能重新信任',feedback:'被伤害后重新信任需要时间，而且不是所有关系都值得修复。先照顾好自己的感受，再决定下一步。不是所有的裂痕都需要修补，有时候放下也是一种答案。',type:'neg'},
+    {icon:'😤',tag:'争执',scenario:'和家人/伴侣总是吵架，不知道怎么停止',feedback:'吵架往往不是"事情"的问题，而是"情绪"的问题。停下来先处理情绪，再讨论事情。可以说："我们现在情绪都有点激动，休息一下再谈。"这不是逃避，是智慧。',type:'neg'},
+    {icon:'🏃',tag:'回避',scenario:'不善社交，社交场合总是很紧张',feedback:'社交紧张是可以通过练习改善的。不需要成为社交达人，只需要找到让自己舒服的社交方式。可以先从小规模、一对一的交流开始，逐步建立信心。',type:'neg'},
+    {icon:'😒',tag:'比较',scenario:'看到别人的亲密关系，再看看自己的，觉得很差',feedback:'朋友圈里展示的是别人的"精选集"，不是全部。每段关系都有自己的问题和美好，专注于你们关系里真实的进步，而不是和"别人家"比较。',type:'neg'},
+    {icon:'🗓️',tag:'疏远',scenario:'有些朋友渐渐不联系了，是不是关系就这样了',feedback:'关系会自然流动，有些会走远，有些会重新靠近。不需要为每一段疏远感到愧疚。主动联系一次：如果对方有回应，关系还在；如果没有，这也是一个答案。',type:'neg'},
+    {icon:'😶',tag:'沉默',scenario:'有冲突时对方不说话，让我更焦虑',feedback:'对方的沉默可能是一种情绪自我保护，也可能是一种操控。先确认自己的感受是合理的。温和但坚定地表达："我需要听到你的想法，一起解决。"',type:'neg'},
+    {icon:'💬',tag:'代沟',scenario:'和长辈沟通总是不在一个频道',feedback:'代际沟通的差异来自成长背景不同。不需要完全理解对方的世界观，只需要尊重。可以分享你的感受，而不是试图说服对方改变观点。',type:'neg'}
   ]
 };
 let currentQAType = null;
@@ -1450,6 +1486,8 @@ function confirmPartner() {
   document.querySelectorAll('.partner-card').forEach(c => c.classList.remove('selected'));
   const card = document.getElementById('pc-' + saved);
   if (card) card.classList.add('selected');
+  var mask = document.getElementById('partnerSelectorMask');
+  if (mask) mask.style.display = 'none';
   startApp();
 }
 
@@ -1468,6 +1506,8 @@ function startApp() {
   } else {
     document.getElementById('partnerSelector').style.display = 'block';
     document.getElementById('dashboard').style.display = 'none';
+    var mask = document.getElementById('partnerSelectorMask');
+    if (mask) mask.style.display = 'block';
     renderPartnerSelector();
   }
   // 24小时未打卡提醒检查

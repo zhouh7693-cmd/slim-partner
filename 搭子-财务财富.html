@@ -43,6 +43,17 @@
       background: white; border-radius: 48px;
       padding: 28px 20px 32px;
       box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+      /* 未选搭子时遮罩全屏，阻止底层按钮被误触 */
+      position: fixed; inset: 0;
+      z-index: 100;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      box-sizing: border-box;
+    }
+    #partnerSelectorMask {
+      display: none; /* JS 控制显示 */
+      position: fixed; inset: 0; z-index: 99;
+      background: rgba(0,0,0,0.4);
     }
     .selector-title {
       font-size: 28px; font-weight: 800; text-align: center;
@@ -545,6 +556,9 @@
 <!-- ===== Page: 打卡 ===== -->
 <div id="page-checkin" class="page active">
 
+  <!-- 未选搭子时的遮罩层 -->
+  <div id="partnerSelectorMask"></div>
+
   <!-- 搭子选择器 -->
   <div id="partnerSelector" class="partner-selector">
     <div class="selector-title">选个财富搭子</div>
@@ -921,6 +935,8 @@ function slimConfirmPartner() {
   localStorage.setItem('slim_partner_finance', saved);
   var btn = document.getElementById('confirmPartnerBtn');
   if (btn) { btn.textContent = '✅ 进入中…'; btn.style.background = 'linear-gradient(135deg,#888,#555)'; }
+  var mask = document.getElementById('partnerSelectorMask');
+  if (mask) mask.style.display = 'none';
   if (typeof startApp === 'function') startApp();
 }
 
@@ -1357,6 +1373,28 @@ const TYPE_SCENES_FIN = {
     {icon:'📱',tag:'本月',scenario:'为了面子消费花了很多不该花的',feedback:'面子消费是财富积累的大敌。从今天开始，区分"我需要"和"别人觉得我需要"。真正的自信来自内在，不需要用消费来证明。',type:'neg'},
     {icon:'🏃',tag:'本月',scenario:'完全没有存下钱，月光族',feedback:'月光是财务问题的信号。先不要自责，从账单分析开始：钱都花在哪里了？哪些是可以优化的？先有数据，才有改变。月光不可怕，不知道为什么月光才可怕。',type:'neg'},
     {icon:'💰',tag:'本月',scenario:'借出去的钱要不回来，有点烦',feedback:'借出去的钱要不回来是常见的问题。下次记住：只借你承受得起不还的金额。或者干脆走正规借贷渠道，保护好自己的财务，也保护好关系。',type:'neg'}
+  ],
+  question: [
+    {icon:'💰',tag:'起步',scenario:'刚工作没积蓄，现在开始理财来得及吗',feedback:'来得及，而且越早越好。刚开始哪怕每月只存500元，通过时间和复利，10年后的差距会非常大。不要等"有更多钱"才开始，现在就拿出收入的10%~20%存起来。',type:'pos'},
+    {icon:'🏦',tag:'储蓄',scenario:'每月工资到手应该怎么分配才合理',feedback:'有一个简单框架：50%必要支出（房租、生活费）+ 20%储蓄/投资 + 20%自我提升 + 10%享受/应急。刚开始可能做不到，慢慢调整，关键是先"先支付自己"——收入到手先存再花。',type:'pos'},
+    {icon:'⚠️',tag:'应急',scenario:'应该存多少钱作为紧急备用金才够',feedback:'紧急备用金建议存3~6个月的生活费。能覆盖失业、意外、医疗等突发情况。一般建议先存够3个月，然后开始投资，再用6个月作为目标逐步积累。',type:'pos'},
+    {icon:'📈',tag:'基金',scenario:'基金定投每个月应该投多少钱',feedback:'没有标准答案，取决于你的收入和支出。一个参考：每月结余的30%~50%用于定投。或者用"目标法"——你想10年存100万，每月需要投多少？倒推回来就是你的定投目标。',type:'pos'},
+    {icon:'💳',tag:'债务',scenario:'欠了信用卡最低还款额，利息滚得很厉害怎么办',feedback:'最低还款额是信用卡最危险的用法，利息按全部欠款计算且日息累加。解决方案：1）尽量全额还款；2）做一笔低息贷款（信用贷/消费贷）一次性还清信用卡，然后只还一笔低息贷款；3）向家人借款并制定还款计划。',type:'pos'},
+    {icon:'🏠',tag:'买房',scenario:'现在要不要买房，还是继续租房观望',feedback:'买房还是租房取决于你的财务状况和生活计划。如果你的财务目标是积累资产，且有稳定的收入和首付，买房是合理选择。如果你的收入不稳定或可能在未来换城市，租房更灵活。',type:'pos'},
+    {icon:'🛡️',tag:'保险',scenario:'普通人需要买哪些保险才够',feedback:'基础保障：医疗险（优先）+ 意外险 + 重疾险，这三个是普通人的必备。医疗险一年几百元可以报销上百万医疗费，是性价比最高的保险。先保大人再保孩子，先保健康再保储蓄。',type:'pos'},
+    {icon:'📊',tag:'记账',scenario:'记了三个月账了，感觉记了没什么用',feedback:'记账的目的是改变，不是记录本身。三个月的数据可以分析：你的钱都花在哪里了？哪些是非必要的？能优化的空间有多大？找到"拿铁因子"（每天的小额浪费），优化后每月能多存多少？',type:'pos'},
+    {icon:'💎',tag:'目标',scenario:'存到多少钱可以开始投资',feedback:'没有"门槛"。理论上1元就可以开始定投。但建议：先存够紧急备用金（3~6个月生活费），然后用闲钱（3年以上不用）开始投资。不要因为"本金少"就不开始，时间和复利比本金更重要。',type:'pos'},
+    {icon:'📉',tag:'亏损',scenario:'投资基金亏了20%，要不要割肉止损',feedback:'亏损20%不一定是止损的理由，关键看：你持有的是什么基金？基金本身有没有问题？你的投资目标是什么？如果是指数基金且你还有10年以上的投资周期，继续定投反而是积累份额的好时机。',type:'pos'},
+    {icon:'🎰',tag:'股票',scenario:'身边朋友都在炒股赚钱，我要不要也开户',feedback:'普通人不建议直接炒个股。个股需要专业知识、时间和精力，而且风险极高。普通人投资建议：宽基指数基金（沪深300、标普500）+ 债券组合，风险分散、长期收益稳定。',type:'neg'},
+    {icon:'🪙',tag:'加密',scenario:'看到别人炒币赚了很多，我能跟吗',feedback:'加密货币是高风险资产，适合有专业知识的投资者，而且要接受可能亏损全部本金。如果你不是非常了解这个市场，不建议配置超过资产的5%。更重要的是：不要因为"别人赚了"就盲目跟进。',type:'neg'},
+    {icon:'🏆',tag:'收益',scenario:'看到年化10%的理财产品，想买但又怕不安全',feedback:'超过无风险收益率（国债利率）的高收益，一定对应更高的风险。关键是理解"你赚的是谁的钱"：如果是实体经济产生的利润，可信；如果是靠拉人头赚钱，就是庞氏骗局。',type:'neg'},
+    {icon:'📱',tag:'App',scenario:'网上很多理财课，要不要花钱买来学',feedback:'大部分基础理财知识是免费的（书籍、网站、公开课）。付费课要谨慎：1）先看免费内容判断质量；2）不要相信"年入百万"之类的承诺；3）真正有价值的课通常定价几百元，不会卖几千元。',type:'neg'},
+    {icon:'💸',tag:'人情',scenario:'亲戚朋友总来借钱，不借怕伤感情',feedback:'借钱给朋友有一个原则：只借你能承受不还的金额。如果不借，最好的方式是坦诚说明自己的财务状况，不必编造理由。真正的朋友会理解，真正的关系不会因为一次拒绝而破裂。',type:'neg'},
+    {icon:'🛍️',tag:'消费',scenario:'双十一、618这种购物节，忍不住想买怎么办',feedback:'购物节利用的是"稀缺感"和"占便宜心理"。解法：1）提前列购物清单，只买清单上的；2）把想买的东西加入购物车，等一周再决定；3）计算这些钱存下来的复利价值，往往会让你重新考虑。',type:'neg'},
+    {icon:'🏠',tag:'退休',scenario:'感觉退休离我很远，现在不需要规划',feedback:'越早规划越轻松。如果从25岁开始每月存1000元，年化6%，60岁时大约有230万。如果35岁才开始，同样条件下只有110万。晚了10年，少了一半。时间是最大的资产，不要浪费。',type:'neg'},
+    {icon:'💰',tag:'工资',scenario:'工资涨了但还是不够花，钱去哪了',feedback:'收入增加后，支出通常也会增加（想要更好的车子、房子、衣服）。这是"收入增长陷阱"。解法：每次涨工资，把增加的50%用于储蓄或投资，而不是全部花掉。',type:'neg'},
+    {icon:'📊',tag:'分散',scenario:'我的钱全部放在余额宝里，安全吗',feedback:'余额宝是货币基金，风险很低，但收益也最低（年化约1.5%~2%）。长期来看，通胀会侵蚀购买力。建议分散配置：紧急备用金放余额宝，其他资金根据目标分配到债券基金、指数基金等。',type:'neg'},
+    {icon:'🚗',tag:'车贷',scenario:'想贷款买一辆好车，感觉很有面子',feedback:'车是消耗品，从落地那天起就开始贬值。贷款买车的隐形成本包括：贷款利息、保险、停车费、油费、保养。一辆20万的车，5年总成本可能接近30万。评估清楚再决定。',type:'neg'}
   ]
 };
 
@@ -1653,6 +1691,8 @@ function startApp() {
   } else {
     document.getElementById('partnerSelector').style.display = 'block';
     document.getElementById('dashboard').style.display = 'none';
+    var mask = document.getElementById('partnerSelectorMask');
+    if (mask) mask.style.display = 'block';
     renderPartnerSelector();
   }
   // 24小时未打卡提醒检查

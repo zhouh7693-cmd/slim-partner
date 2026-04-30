@@ -42,6 +42,18 @@
       max-width: 400px; margin: 0 auto;
       background: white; border-radius: 48px;
       padding: 28px 20px 32px;
+      /* 未选搭子时遮罩全屏，阻止底层按钮被误触 */
+      position: fixed; inset: 0;
+      z-index: 100;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      box-sizing: border-box;
+    }
+    #partnerSelectorMask {
+      display: none; /* JS 控制显示 */
+      position: fixed; inset: 0; z-index: 99;
+      background: rgba(0,0,0,0.4);
+    }
       box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
     }
     .selector-title {
@@ -498,6 +510,9 @@
 
 <!-- ===== Page: 打卡 ===== -->
 <div id="page-checkin" class="page active">
+
+  <!-- 未选搭子时的遮罩层 -->
+  <div id="partnerSelectorMask"></div>
 
   <!-- 搭子选择器 -->
   <div id="partnerSelector" class="partner-selector">
@@ -1304,6 +1319,28 @@ const TYPE_SCENES_BODY = {
     {icon:'⚖️',tag:'本周',scenario:'体重和上周一样，没有进展',feedback:'体重停滞通常有几个原因：平台期（正常现象）、肌肉在增长（体型在变但体重不变）、或者饮食需要调整。测一下腰围和体脂率，会有更准确的信息。',type:'neg'},
     {icon:'💊',tag:'本周',scenario:'因为感冒休息了一周',feedback:'感冒时运动对身体恢复没有帮助，反而可能延长病程。好好休息、多喝水、等完全康复后再恢复运动，这是明智的选择，不要有心理负担。',type:'neg'},
     {icon:'🥺',tag:'本周',scenario:'本周有几天完全放弃了运动',feedback:'几天不动不意味着失败，这是正常的波动。重要的是：不要因为"已经停了几天"就彻底放弃，现在重新开始就好。运动是一辈子的事，不差这几天。',type:'neg'}
+  ],
+  question: [
+    {icon:'🏋️',tag:'频率',scenario:'力量训练应该每周练几次效果最好？',feedback:'新手建议每周2~3次，同一肌肉群至少休息48小时。随着适应，可以增加到每周3~5次，但要注意不是每天都练同一个部位。',type:'pos'},
+    {icon:'🍽️',tag:'饥饿',scenario:'减脂期晚上太饿了，忍不住想吃宵夜怎么办',feedback:'晚间饥饿通常有几个原因：白天吃得不够、蛋白质摄入不足、或者只是习惯性嘴馋。先喝一杯水，等10分钟看看。如果还是饿，吃一小把坚果或一个鸡蛋，比忍住不吃然后暴食好得多。',type:'pos'},
+    {icon:'⚖️',tag:'停滞',scenario:'体重已经两周没变化了，是平台期吗？',feedback:'两周的平台期很正常，身体在适应。试着改变：调整训练内容（换一种运动）、改变热量摄入（稍微增减）、加入力量训练刺激肌肉。平台期通常2~4周会突破。',type:'pos'},
+    {icon:'💊',tag:'补剂',scenario:'蛋白粉、支链氨基酸这些补剂真的有用吗',feedback:'正常饮食均衡的话，大部分补剂不是必须的。蛋白质可以从食物中获取（鸡胸、鱼、蛋、豆类）。只有在饮食无法保证蛋白质摄入时，蛋白粉才是合理选择。',type:'pos'},
+    {icon:'🏃',tag:'跑步',scenario:'跑步应该空腹跑还是饭后跑，哪个效果更好？',feedback:'各有优缺点。空腹跑脂肪燃烧比例稍高，但运动表现会下降，适合低强度（快走/慢跑）。高强度运动需要提前补充能量，否则容易低血糖。建议根据训练强度选择。',type:'pos'},
+    {icon:'💧',tag:'饮水',scenario:'每天应该喝多少水才够？怎么判断喝够了',feedback:'大约每公斤体重30~35ml，比如60公斤的人每天约1.8~2.1L。判断标准：小便颜色淡黄说明够了，深黄色说明还需要补水。运动量大、出汗多时要额外补充。',type:'pos'},
+    {icon:'😴',tag:'睡眠',scenario:'睡眠不好会影响运动效果吗',feedback:'睡眠对运动效果影响巨大。睡不好时：肌肉修复减慢、力量下降、激素紊乱（皮质醇升高、睾酮下降）、食欲增加。每天保证7~9小时睡眠，优先于任何补剂和训练计划。',type:'pos'},
+    {icon:'🧘',tag:'拉伸',scenario:'运动后拉伸到底有没有必要，每次要拉多久',feedback:'运动后静态拉伸能保持肌肉弹性、减少受伤风险、改善关节活动度。每个部位保持15~30秒，做2~3组，总共10~15分钟。不要在冷的肌肉上强力拉伸，先轻微活动热身。',type:'pos'},
+    {icon:'🍎',tag:'饮食',scenario:'运动后什么时候吃、吃什么对恢复最好',feedback:'运动后30~60分钟是营养窗口期：补充蛋白质（帮助肌肉修复）+ 碳水（补充能量消耗）。一个鸡蛋+一根香蕉，或者希腊酸奶+水果，都是简单有效的选择。',type:'pos'},
+    {icon:'⏰',tag:'时间',scenario:'每天只有30分钟，怎么安排运动最有效',feedback:'30分钟可以高效利用：5分钟动态热身→20分钟主体（HIIT或力量训练）→5分钟冷身拉伸。或者做一套20分钟的全身训练，全部搞定。关键是每天都做，哪怕短。',type:'pos'},
+    {icon:'🏋️',tag:'肌肉',scenario:'女生做力量训练会不会练成肌肉女',feedback:'女性因为激素原因，练成大块肌肉几乎不可能。适当力量训练会让女性身材更紧致、线条更好看、体态更挺拔、基础代谢更高。放心练，这是对自己最好的投资。',type:'neg'},
+    {icon:'⚡',tag:'强度',scenario:'想每天高强度训练快速出效果，可以吗',feedback:'高强度训练需要充分恢复。每天高强度会让身体进入疲劳状态：受伤风险增加、免疫力下降、情绪受影响、训练效果反而变差。运动效果来自"训练+恢复"的循环，缺一不可。',type:'neg'},
+    {icon:'⚖️',tag:'局部',scenario:'想只瘦肚子/手臂，只练那个部位可以吗',feedback:'局部减脂是迷思。脂肪是全身统一消耗的，没有"练哪里瘦哪里"。减脂靠饮食和有氧，塑形靠力量训练。全身配合才能达到理想效果。',type:'neg'},
+    {icon:'💪',tag:'重量',scenario:'力量训练应该选大重量少次数，还是小重量多次数',feedback:'两种都有效但目标不同。大重量（1~6次）主要提升力量；中等重量（8~12次）主要增肌；轻重量高次数（15次以上）主要耐力和塑形。建议混合使用，针对不同目标。',type:'neg'},
+    {icon:'🥗',tag:'饮食',scenario:'减脂期一定要吃得很"干净"吗',feedback:'不一定。关键是热量和营养素比例，不是食物的"干净"程度。适度享受美食（80/20法则）对长期坚持更有帮助。过于严苛的饮食容易引发暴食，得不偿失。',type:'neg'},
+    {icon:'🏊',tag:'种类',scenario:'游泳和跑步，哪个对健康和减脂效果更好',feedback:'两者都好。游泳对关节零冲击，适合关节有问题的人；跑步对心肺刺激更强，热量消耗效率高。选择你更喜欢、能坚持的那个。最好的运动是你能坚持的那个。',type:'neg'},
+    {icon:'📱',tag:'App',scenario:'要不要买运动手表来帮助监控运动',feedback:'运动手表是工具，不是必需品。先确认自己能不能坚持运动，再考虑买更好的装备。初学者不需要心率数据，用"感觉"判断强度就够了：能说话但不能唱歌 = 中等强度。',type:'neg'},
+    {icon:'🍕',tag:'欺骗',scenario:'吃了一顿大餐后，第二天体重涨了2斤',feedback:'体重单日波动2斤很正常，大部分是水分变化（盐分、碳水、储水）。一次大餐不会真正增脂，脂肪的增长需要持续的热量过剩。别因为一次"放纵"就放弃，坚持才是关键。',type:'neg'},
+    {icon:'🧠',tag:'动力',scenario:'总是坚持不下来，需要买私教课吗',feedback:'私教有帮助，但不是唯一解。找运动搭子、加入运动群组、提前安排固定时间、和朋友互相监督，这些方法成本低但很有效。先试试这些，如果还是不行再考虑私教。',type:'neg'},
+    {icon:'😫',tag:'疲惫',scenario:'运动后总觉得特别累，影响第二天工作',feedback:'运动后疲劳通常是训练过度或营养不足的信号。检查：睡够了吗？蛋白质吃够了吗？运动强度是不是太高了？适当降低强度，增加休息，让身体有时间恢复。',type:'neg'}
   ]
 };
 
@@ -1503,6 +1540,9 @@ function renderPartnerSelector() {
 
 function confirmPartner() {
   let saved = localStorage.getItem(STORAGE.PARTNER);
+  // 隐藏遮罩层
+  const mask = document.getElementById('partnerSelectorMask');
+  if (mask) mask.style.display = 'none';
   if (!saved || !PARTNERS.some(p => p.id === saved)) {
     saved = PARTNERS[0].id;
     localStorage.setItem(STORAGE.PARTNER, saved);
@@ -1528,6 +1568,8 @@ function startApp() {
   } else {
     document.getElementById('partnerSelector').style.display = 'block';
     document.getElementById('dashboard').style.display = 'none';
+    var mask = document.getElementById('partnerSelectorMask');
+    if (mask) mask.style.display = 'block';
     renderPartnerSelector();
   }
   // 24小时未打卡提醒检查

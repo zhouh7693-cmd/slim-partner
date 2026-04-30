@@ -43,6 +43,17 @@
       background: white; border-radius: 48px;
       padding: 28px 20px 32px;
       box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+      /* 未选搭子时遮罩全屏，阻止底层按钮被误触 */
+      position: fixed; inset: 0;
+      z-index: 100;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      box-sizing: border-box;
+    }
+    #partnerSelectorMask {
+      display: none; /* JS 控制显示 */
+      position: fixed; inset: 0; z-index: 99;
+      background: rgba(0,0,0,0.4);
     }
     .selector-title {
       font-size: 28px; font-weight: 700; text-align: center;
@@ -462,6 +473,9 @@
 
 <!-- ===== Page: 打卡 ===== -->
 <div id="page-checkin" class="page active">
+
+  <!-- 未选搭子时的遮罩层 -->
+  <div id="partnerSelectorMask"></div>
 
   <!-- 搭子选择器 -->
   <div id="partnerSelector" class="partner-selector">
@@ -1299,6 +1313,28 @@ const TYPE_SCENES_MIS = {
     {icon:'🌀',tag:'本月',scenario:'在很多方向之间摇摆，不知道该选哪个',feedback:'方向摇摆是因为没有足够聚焦。选择一个方向，开始做，然后在行动中评估。如果错了，修正就是了。等待不会带来清晰，只有行动才会。',type:'neg'},
     {icon:'😰',tag:'本月',scenario:'觉得自己的使命方向不够"大"',feedback:'使命不分大小。不要被"改变世界"的叙事绑架。照顾好你的家人、帮助好你身边的人、推动一个小问题的解决，都是真正的使命。',type:'neg'},
     {icon:'💭',tag:'本月',scenario:'觉得自己不够好，不配追求自己的使命',feedback:'"不够好"是一种阻抗，不是事实。你不需要等到"足够好"才开始，你的存在本身就是意义。现在就可以开始。',type:'neg'}
+  ],
+  question: [
+    {icon:'🎯',tag:'方向',scenario:'不知道自己真正想做什么，很迷茫',feedback:'不知道方向是正常的，没有人一开始就很清晰。试着回答这个问题："如果钱不是问题，我每天最想做的是什么？"从这个问题开始探索。方向不是想出来的，是在尝试中浮现的。',type:'pos'},
+    {icon:'🚀',tag:'开始',scenario:'有很想做的事，但不知道该不该迈出第一步',feedback:'不知道该不该做的原因，往往是信息不够。最好的方法是"小步实验"：以最小的成本试一下，比如花一个月每周做2小时。如果感觉对，再加大投入。行动是最好的信息收集。',type:'pos'},
+    {icon:'💪',tag:'勇气',scenario:'想做一件事但害怕失败，一直不敢行动',feedback:'失败是信息，不是结局。托马斯·爱迪生失败了1000多次才发明了电灯泡。每一次失败都在告诉你什么方法不行，这比成功更有价值。',type:'pos'},
+    {icon:'📊',tag:'评估',scenario:'想知道自己选择的方向是不是对的',feedback:'判断方向是否正确有几个信号：你做这件事的时候是否感到充实？是否有进步感？是否能帮助到别人？如果这三个都是"是"，方向大概率是对的。',type:'pos'},
+    {icon:'🌱',tag:'成长',scenario:'觉得自己没有擅长的东西',feedback:'没有人生来就有"擅长"的东西。擅长是通过刻意练习建立起来的。找到一件你愿意长期投入的事，持续练习，这就是你的擅长。',type:'pos'},
+    {icon:'🧭',tag:'意义',scenario:'每天做的事感觉没有意义，怎么办',feedback:'意义感不是"找到"的，是"建构"的。同样一件事，视角不同，意义就不同。试着问自己：这件事帮助了谁？影响了谁？即使是很小的影响，也是一种意义。',type:'pos'},
+    {icon:'⏰',tag:'时机',scenario:'想转行但担心现在年龄太大了',feedback:'转行从来没有"太晚"这一说。有人在50岁开始创业，有人在60岁学新语言。年龄是资源，不是障碍。你积累的经验和人脉，往往在新领域比年轻人更有优势。',type:'pos'},
+    {icon:'🔥',tag:'热情',scenario:'找到了自己热爱的事，但不知道怎么变成事业',feedback:'把热爱变成事业是一个过程，不需要一步到位。先把热爱作为副业或业余项目发展，当它能稳定支撑你的生活时，再考虑全职。节奏可以慢慢来。',type:'pos'},
+    {icon:'💼',tag:'主业',scenario:'工作能赚钱但没有意义感，很矛盾',feedback:'工作的意义感不一定来自工作本身。可以尝试：找到工作里的小意义点、在业余时间做有意义的事、或者寻找内部调岗的机会。不需要一下子全盘改变。',type:'pos'},
+    {icon:'🤝',tag:'导师',scenario:'想找一个能指引方向的前辈，不知道怎么找',feedback:'主动表达你是谁、你想要什么、你欣赏对方的什么。好的导师关系建立在真诚和互惠上。LinkedIn、行业社群、校友网络都是找到导师的好渠道。',type:'pos'},
+    {icon:'😰',tag:'恐惧',scenario:'有很想做的事，但想到要面对不确定性就退缩了',feedback:'不确定性是所有新领域的标配。接受"我不知道我在做什么"这个状态，是成长者的标志。问自己：最坏的情况是什么？我能接受吗？如果能，就开始做。',type:'neg'},
+    {icon:'😩',tag:'疲惫',scenario:'一直在追求目标，但感觉越来越累',feedback:'持续透支是一种信号：你的目标可能需要调整节奏，或者需要重新评估目标本身。休息不是放弃，是为了走得更远。不要把"冲刺"变成常态。',type:'neg'},
+    {icon:'😔',tag:'失败',scenario:'尝试了一件重要的事，结果失败了，很打击',feedback:'失败的价值在于它给了你真实的信息。分析一下：哪里出了问题？是方法？是时机？还是目标本身需要调整？每一次失败都让你离正确答案更近一步。',type:'neg'},
+    {icon:'🌀',tag:'方向',scenario:'有很多想做的事，不知道该选哪个',feedback:'选择太多反而是阻力。找一张纸，写下所有想做的事，然后问自己：哪个做成了会对其他事有帮助？选择那个"杠杆点最高的"开始。',type:'neg'},
+    {icon:'😶',tag:'借口',scenario:'一直在"准备"但从没真正开始',feedback:'"准备"是逃避的最好借口。设定一个开始截止日期：无论准备得多不充分，到日期就开始。真正的学习发生在行动中，不是准备中。',type:'neg'},
+    {icon:'👀',tag:'比较',scenario:'看到别人成功了，感觉自己很失败',feedback:'你看到的是别人的结果，不是过程。每个成功的人都有过你看不到的挣扎。专注于你自己的路径，和自己的过去比，而不是和别人的现在比。',type:'neg'},
+    {icon:'🏆',tag:'目标',scenario:'目标设得太大了，感觉永远达不到',feedback:'大目标需要拆解成小步骤。把年度目标拆成季度、月、周目标。每一周都有一个可以完成的"小目标"，这样你每周都有成就感。',type:'neg'},
+    {icon:'💰',tag:'收入',scenario:'想做的事不能赚钱，不敢开始',feedback:'能否赚钱不是判断一件事价值的唯一标准。但如果你需要养家糊口，可以先做两件事：1）在主业中寻找有意义的方面；2）把想做的事作为副业发展，逐步过渡。',type:'neg'},
+    {icon:'🛡️',tag:'自信',scenario:'觉得自己没有拿得出手的能力',feedback:'没有"拿得出手"是因为还没有足够的练习。能力 = 热情 + 时间 + 方法。找到你有热情的方向，刻意练习，三年后你就是这个领域的"拿得出手的人"。',type:'neg'},
+    {icon:'⏳',tag:'等待',scenario:'觉得自己需要更多准备才敢开始',feedback:'没有人是完全准备好的。你永远会觉得"还差一点"。设一个硬性截止日期，到时候就开始。真正的学习在行动中发生，不是在准备中。',type:'neg'}
   ]
 };
 let currentQAType = null;
@@ -1445,6 +1481,8 @@ function confirmPartner() {
   document.querySelectorAll('.partner-card').forEach(c => c.classList.remove('selected'));
   const card = document.getElementById('pc-' + saved);
   if (card) card.classList.add('selected');
+  var mask = document.getElementById('partnerSelectorMask');
+  if (mask) mask.style.display = 'none';
   startApp();
 }
 
@@ -1463,6 +1501,8 @@ function startApp() {
   } else {
     document.getElementById('partnerSelector').style.display = 'block';
     document.getElementById('dashboard').style.display = 'none';
+    var mask = document.getElementById('partnerSelectorMask');
+    if (mask) mask.style.display = 'block';
     renderPartnerSelector();
   }
   // 24小时未打卡提醒检查

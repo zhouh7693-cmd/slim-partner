@@ -43,6 +43,17 @@
       background: white; border-radius: 48px;
       padding: 28px 20px 32px;
       box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+      /* 未选搭子时遮罩全屏，阻止底层按钮被误触 */
+      position: fixed; inset: 0;
+      z-index: 100;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      box-sizing: border-box;
+    }
+    #partnerSelectorMask {
+      display: none; /* JS 控制显示 */
+      position: fixed; inset: 0; z-index: 99;
+      background: rgba(0,0,0,0.4);
     }
     .selector-title {
       font-size: 28px; font-weight: 700; text-align: center;
@@ -464,6 +475,9 @@
 
 <!-- ===== Page: 打卡 ===== -->
 <div id="page-checkin" class="page active">
+
+  <!-- 未选搭子时的遮罩层 -->
+  <div id="partnerSelectorMask"></div>
 
   <!-- 搭子选择器 -->
   <div id="partnerSelector" class="partner-selector">
@@ -1892,6 +1906,28 @@ const TYPE_SCENES_SPR = {
     {icon:'💭',tag:'本月',scenario:'自我否定声音变大，开始怀疑自己的价值',feedback:'自我否定的声音变大是一个需要认真对待的信号。试着把这些声音写下来，然后问自己：这是事实，还是我对自己的偏见？往往写下来之后，你会发现很多声音是夸大的。',type:'neg'},
     {icon:'🎭',tag:'本月',scenario:'在别人面前表演得很累，感觉越来越假',feedback:'戴着面具表演太久会消耗大量的精神能量。这个月你需要好好休息，并认真考虑：在哪个人面前可以不戴面具？你需要给自己找一个可以真实的空间。',type:'neg'},
     {icon:'🌀',tag:'本月',scenario:'情绪起伏很大，时而亢奋时而低落',feedback:'情绪剧烈起伏往往意味着内在的不稳定。试着建立更稳定的日常节律：固定睡眠时间、固定运动时间。身体节奏稳定了，情绪也会随之稳定。',type:'neg'}
+  ],
+  question: [
+    {icon:'🧘',tag:'冥想',scenario:'冥想时脑子里总是一堆念头，根本静不下来',feedback:'这是正常的！冥想不是让脑子变空，而是"观察念头"的能力。专注呼吸，当发现走神了，温柔地回到呼吸上。这就是练习。每一次"发现走神并回来"都是在锻炼专注力。',type:'pos'},
+    {icon:'📖',tag:'阅读',scenario:'想培养阅读习惯，但总是读不进去',feedback:'读不进去通常有两个原因：书不够有趣、或者读的时间太长。先从每天5分钟开始，读任何你感兴趣的东西。5分钟读不完一章也没关系，重点是建立"每天读"的习惯。',type:'pos'},
+    {icon:'😊',tag:'快乐',scenario:'怎样才能让自己真正快乐起来',feedback:'真正的快乐不是来自"得到什么"，而是来自"减少内耗"。减少自我批评、减少和他人的比较、减少对他人认可的依赖，你会发现快乐其实一直都在。',type:'pos'},
+    {icon:'🎯',tag:'专注',scenario:'总是三分钟热度，怎么才能变得专注',feedback:'三分钟热度说明你开始的冲动是好的，缺的是"持续的理由"。把大目标拆成微目标：每天只做5分钟，做了就打勾。持续21天后，它会变成自动行为。',type:'pos'},
+    {icon:'💬',tag:'倾诉',scenario:'心里有事不知道跟谁说，憋着很难受',feedback:'倾诉不一定要找朋友。可以写日记、可以对着手机录音、可以找心理咨询师。有时候光是"说出来"本身就能释放很大压力，不需要对方给建议。',type:'pos'},
+    {icon:'🏃',tag:'运动',scenario:'听说运动能改善情绪，真的有用吗',feedback:'运动对情绪的改善有大量科学依据。运动能促进内啡肽分泌、降低皮质醇、改善睡眠。建议从每天10分钟的散步开始，持续两周，你会感受到变化。',type:'pos'},
+    {icon:'☀️',tag:'户外',scenario:'待在室内时间太长了，感觉整个人闷闷的',feedback:'人是需要阳光和自然的动物，这是写在基因里的。每周至少安排一次户外活动，哪怕只是公园散步20分钟。自然光和绿色环境能显著降低压力激素水平。',type:'pos'},
+    {icon:'🛋️',tag:'独处',scenario:'一个人待着会胡思乱想，是不是有问题',feedback:'独处时胡思乱想，说明你还没有学会和自己相处。这不是问题，是一个需要学习的能力。试试冥想、写日记、或者有意识地做一件需要专注的事（做饭、手工）。',type:'pos'},
+    {icon:'🎨',tag:'创作',scenario:'想培养一个能长期坚持的精神爱好',feedback:'精神爱好没有"最好的"，只有"最适合你的"。尝试几个：读书、写作、绘画、音乐、冥想、园艺。关键是选择一个能让你进入"心流"状态的活动。',type:'pos'},
+    {icon:'🌱',tag:'成长',scenario:'觉得自己没有进步，很焦虑怎么办',feedback:'没有进步感通常是因为进步太小，感觉不到。试着记录每天的小变化：今天比昨天多走了100步、今天睡得早了一点。把这些小变化写下来，你会发现自己一直在进步。',type:'pos'},
+    {icon:'😰',tag:'焦虑',scenario:'总是莫名感到焦虑，但不知道在焦虑什么',feedback:'这种"不知道在焦虑什么"的焦虑，往往是身体在表达一些被忽略的需求。检查一下：睡眠够吗？运动了吗？社交有吗？信息过载了吗？解决这些基本问题，焦虑往往会缓解。',type:'neg'},
+    {icon:'😔',tag:'低落',scenario:'情绪持续低落，但不想告诉任何人',feedback:'不想告诉别人是正常的，但持续低落不应该被忽视。试试写日记记录情绪（不需要给别人看），如果持续两周以上，建议寻求专业支持。照顾自己的情绪，是勇敢，不是软弱。',type:'neg'},
+    {icon:'😤',tag:'愤怒',scenario:'最近容易被小事激怒，怎么控制情绪',feedback:'容易被小事激怒往往是内在压力积累的表现。先处理压力来源（睡眠、运动、信息过载），再练情绪调节：深呼吸、数到10、离开现场。记住，情绪不是敌人，失控才是。',type:'neg'},
+    {icon:'😴',tag:'失眠',scenario:'晚上翻来覆去睡不着，白天精神很差',feedback:'失眠往往是焦虑和睡眠习惯问题的结合。试试：固定起床时间（即使睡不好也按时起）、睡前1小时不用手机、卧室只用来睡觉。如果持续失眠，建议就医。',type:'neg'},
+    {icon:'🪞',tag:'比较',scenario:'总是忍不住和别人比较，然后觉得自己很差',feedback:'和别人比较是人性，但要注意你在"和谁比"。你在朋友圈看到的是别人的"精选集"，不是真实生活。试着只和自己的过去比：今天的我比一个月前好了多少？',type:'neg'},
+    {icon:'🤐',tag:'表达',scenario:'明明有情绪但表达不出来，憋在心里特别难受',feedback:'情绪表达需要练习。从"记录"开始：每天用三个词描述自己的情绪（焦虑、平静、兴奋……）。慢慢地，你会发现自己能更精准地识别和表达感受。',type:'neg'},
+    {icon:'📱',tag:'消耗',scenario:'刷手机停不下来，感觉时间都被浪费了',feedback:'刷手机上瘾是因为多巴胺驱动。解法不是"禁止自己"，而是找到替代：运动、聊天、创作都能提供多巴胺。或者给手机设置物理限制（放到另一个房间）。',type:'neg'},
+    {icon:'😣',tag:'纠结',scenario:'对很多事都提不起兴趣，觉得什么都没意思',feedback:'提不起兴趣可能是抑郁倾向的一个信号。试着从小事开始：起床后做2分钟伸展、走到户外晒太阳、给朋友发一条消息。这些小行为可以打破"无兴趣"的循环。',type:'neg'},
+    {icon:'🌀',tag:'混乱',scenario:'脑子里总是一团乱麻，想不清楚事情',feedback:'大脑混乱时，把想法写下来。把脑子里所有的念头写在一张纸上，然后分类：哪些重要？哪些紧急？哪些可以放下？写下来之后，你会发现脑子轻松很多。',type:'neg'},
+    {icon:'💭',tag:'自责',scenario:'总是后悔过去的选择，陷入自我否定',feedback:'后悔过去是人的本能，但沉溺于后悔是自我消耗。过去的选择是在当时信息下的最佳判断。从过去中学习，然后放手。未来会由今天的选择决定，不是由昨天的决定。',type:'neg'}
   ]
 };
 let currentQAType = null;
@@ -2038,6 +2074,8 @@ function confirmPartner() {
   document.querySelectorAll('.partner-card').forEach(c => c.classList.remove('selected'));
   const card = document.getElementById('pc-' + saved);
   if (card) card.classList.add('selected');
+  var mask = document.getElementById('partnerSelectorMask');
+  if (mask) mask.style.display = 'none';
   startApp();
 }
 
@@ -2056,6 +2094,8 @@ function startApp() {
   } else {
     document.getElementById('partnerSelector').style.display = 'block';
     document.getElementById('dashboard').style.display = 'none';
+    var mask = document.getElementById('partnerSelectorMask');
+    if (mask) mask.style.display = 'block';
     renderPartnerSelector();
   }
   // 24小时未打卡提醒检查
