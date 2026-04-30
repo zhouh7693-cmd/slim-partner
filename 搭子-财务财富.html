@@ -1310,7 +1310,7 @@ const TYPE_SCENES_FIN = {
     {icon:'🛍️',tag:'攀比',scenario:'看到别人买什么就想买，忍不住攀比',feedback:'攀比是财富积累最大的敌人。每个人的财务起点和路径都不同，你看到的只是别人想让你看到的。建立一个自己的财务目标，只和自己的目标比，不和别人比。',type:'neg'},
     {icon:'💰',tag:'借贷',scenario:'借了钱给朋友，现在要不回来',feedback:'借钱给别人有一个原则：只借你承受得起的金额，只借不指望还回来的钱。借钱之前先想清楚：如果对方不还，我能接受吗？如果不能，就不要借。',type:'neg'},
     {icon:'📈',tag:'投机',scenario:'想赚快钱，考虑过炒股/虚拟货币',feedback:'快钱思维是财富最大的敌人。股市里80%的散户在亏损，虚拟货币更是高风险投资。如果想投资，先从指数基金开始，用5~10年的视角来看，而不是想着"一夜暴富"。',type:'neg'},
-    {icon:'🏃',tag:'借口',scenario:'总是说"等我收入高了再开始理财",feedback:'等你收入高了再理财是一个永远的借口。真正的理财不是有多少钱才开始，而是从管理已有的钱开始。哪怕每月只存500块，也要现在开始。习惯比金额重要得多。',type:'neg'}
+    {icon:'🏃',tag:'借口',scenario:'总是说"等我收入高了再开始理财',feedback:'等你收入高了再理财是一个永远的借口。真正的理财不是有多少钱才开始，而是从管理已有的钱开始。哪怕每月只存500块，也要现在开始。习惯比金额重要得多。',type:'neg'}
   ],
   idea:[
     {icon:'💰',tag:'储蓄',scenario:'想尝试52周存钱法',feedback:'52周存钱法：第一周存10块，之后每周比上周多存10块，到第52周存520块，全年能存13780元。这是一个很好的储蓄习惯培养工具，关键是坚持，不要中途放弃。',type:'pos'},
@@ -1883,6 +1883,18 @@ function showToast(msg, duration = 2000) {
 function copyShareLink() {
   let url = getSiteUrl() + '搭子-财务财富.html';
   navigator.clipboard.writeText(url).then(() => showToast('✅ 邀请链接已复制，快发给朋友吧！'));
+}
+function copyShareText() {
+  let history = getHistory();
+  let continuous = history.length > 0 ? computeContinuous(history, getToday()) : 0;
+  let partner = currentPartner ? currentPartner.emoji + ' ' + currentPartner.name : '';
+  let lines = ['💰 财务财富搭子每日打卡'];
+  if (partner) lines.push('搭子：' + partner);
+  lines.push('已坚持 ' + continuous + ' 天');
+  let today = getToday();
+  let todayEntry = history.find(h => h.date === today);
+  if (todayEntry && todayEntry.weight) lines.push('体重：' + todayEntry.weight + ' kg');
+  navigator.clipboard.writeText(lines.join('\n')).then(() => showToast('✅ 分享文字已复制！'));
 }
 function previewShareCard() {
   let url = getSiteUrl() + 'share.html';
