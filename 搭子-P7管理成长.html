@@ -860,6 +860,10 @@ function closeQA() { document.getElementById('qaOverlay').classList.remove('show
 
 // ===== Tab切换 =====
 function switchTab(tab) {
+  // 关闭所有可能遮挡的弹窗
+  document.getElementById('qaOverlay').classList.remove('show');
+  document.getElementById('fbOverlay').classList.remove('show');
+  document.getElementById('sopGuideOverlay').classList.add('hidden');
   currentTab = tab;
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   document.getElementById(tab + 'Page').classList.add('active');
