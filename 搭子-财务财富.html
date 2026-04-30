@@ -1050,6 +1050,10 @@ const PROGRESS_DATA = {
 
 // ==================== Tab 导航 ====================
 function switchTab(tab) {
+  // 关闭所有可能遮挡的弹窗
+  document.querySelectorAll('.qa-overlay,.fb-overlay,.sop-finish-overlay,.neg-critic-overlay,.pos-reward-overlay').forEach(el => el.classList.remove('show'));
+  document.getElementById('partnerOverlay').style.display = 'none';
+  document.getElementById('achievementOverlay').style.display = 'none';
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => {
     p.classList.remove('active');
