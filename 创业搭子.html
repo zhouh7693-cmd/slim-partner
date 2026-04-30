@@ -954,7 +954,7 @@ function askPartner(type) {
   const introArr = cfg.intro[style] || cfg.intro['战友'];
   const intro = introArr[Math.floor(Math.random() * introArr.length)];
   appendMsg('😀', cfg.label);
-  setTimeout(() => { appendMsg(emoji + ' ' + intro, true); setTimeout(() => openTypePanel(cfg.panel, cfg.dir), 500); }, 700);
+  setTimeout(() => { appendMsg(emoji, intro, true); setTimeout(() => openTypePanel(cfg.panel, cfg.dir), 500); }, 700);
 }
 
 function openTypePanel(panel, dir) {
@@ -1132,8 +1132,18 @@ function openQAPanel(type) {
 
 function selectQA(tag, question, answer, emoji) {
   closeQAPanel();
-  appendMsg('😊', `${tag}：${question}`);
-  setTimeout(() => appendMsg(emoji + ' ' + answer, true), 1200);
+  // 用 fbOverlay 弹窗展示，避免长文字挤进气泡
+  const p = selectedPartner !== null ? PARTNER_STYLES[selectedPartner] : null;
+  const fbCard = document.getElementById('fbCard');
+  fbCard.className = 'fb-card pos';
+  document.getElementById('fbEmoji').innerText = '💡';
+  const labelEl = document.getElementById('fbLabel');
+  labelEl.innerText = tag;
+  labelEl.className = 'fb-label pos';
+  document.getElementById('fbTitle').innerText = question;
+  document.getElementById('fbText').innerText = answer;
+  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${emoji} ${p ? p.name : '搭子'}说：</div>"${answer.slice(0,40)}…"`;
+  document.getElementById('fbOverlay').classList.add('show');
 }
 
 function closeQAPanel() {
