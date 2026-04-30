@@ -115,6 +115,16 @@
       animation: bubbleIn 0.3s ease;
     }
     .msg-bubble.ai { border-radius: 18px 18px 4px 18px; background: #eef2ff; }
+    .msg-bubble.ai.feedback-bubble {
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 85%;
+    }
+    .msg-bubble.ai.feedback-bubble .fback-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #2b3a4a;
+    }
     @keyframes bubbleIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     .typing-indicator { display: flex; gap: 4px; padding: 4px 0; }
     .typing-indicator span { width: 6px; height: 6px; background: #b0bec5; border-radius: 50%; animation: bounce 1.2s infinite; }
@@ -322,12 +332,55 @@
       grid-template-columns: 1fr 1fr; gap: 12px;
     }
     .qa-card {
-      background: #f5f5f5; border-radius: 16px; padding: 14px;
+      background: #f5f5f5; border-radius: 16px; padding: 14px 12px;
       cursor: pointer; transition: all 0.2s; text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
     }
     .qa-card:active { background: #eef2ff; transform: scale(0.97); }
+    .qa-card-icon { font-size: 26px; line-height: 1; }
+    .qa-card-text { font-size: 12px; font-weight: 600; color: #2b2b3a; line-height: 1.4; text-align: center; }
+    .qa-card-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.5px; }
+    .qa-card-tag.pos { background: #e8f5e9; color: #2e7d32; }
+    .qa-card-tag.neg { background: #ffebee; color: #c62828; }
     .qa-card-title { font-size: 13px; font-weight: 700; color: #1a237e; }
     .qa-card-sub { font-size: 11px; color: #8f9eae; margin-top: 4px; line-height: 1.4; }
+
+    /* ===== 反馈弹窗 ===== */
+    .fb-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 500; padding: 20px;
+    }
+    .fb-overlay.show { display: flex; }
+    .fb-card {
+      background: white; border-radius: 32px; padding: 32px 24px;
+      max-width: 340px; width: 100%; text-align: center;
+    }
+    .fb-card.pos { border-top: 5px solid #43a047; animation: fbPop 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+    .fb-card.neg { border-top: 5px solid #ef5350; animation: fbShake 0.5s ease; }
+    @keyframes fbPop { from { transform: scale(0.5); opacity:0; } to { transform: scale(1); opacity:1; } }
+    @keyframes fbShake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+    .fb-emoji { font-size: 64px; margin-bottom: 12px; }
+    .fb-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; border-radius: 20px; display: inline-block; padding: 2px 12px; }
+    .fb-label.pos { background: #e8f5e9; color: #2e7d32; }
+    .fb-label.neg { background: #fff3f3; color: #c62828; }
+    .fb-title { font-size: 20px; font-weight: 800; color: #1a237e; margin-bottom: 10px; }
+    .fb-text { font-size: 14px; color: #6c7a89; line-height: 1.7; margin-bottom: 16px; text-align: left; }
+    .fb-partner-quote {
+      background: #f4f6fb; border-radius: 12px; padding: 12px 16px;
+      font-size: 13px; color: #3a4a5a; font-style: italic;
+      margin-bottom: 20px; line-height: 1.6; text-align: left;
+    }
+    .fb-partner-label { font-size: 11px; color: #8f9eae; margin-bottom: 6px; font-style: normal; font-weight: 600; }
+    .fb-btn { background: #3949ab; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
+    .fb-btn:active { transform: scale(0.97); }
   </style>
 </head>
 <body>
@@ -923,20 +976,43 @@ function showTypeFeedback(panel, dir, item) {
   const p = PARTNER_STYLES[selectedPartner];
   const style = p ? p.style : '战友';
   const emoji = p ? p.emoji : '🚀';
-  const empathyMap = {
-    progress: {'理性':'📊 数据说话，我来做分析。','热血':'🔥 你在改变世界，我为你骄傲！','冷静':'🧭 进展就是方向，你走在正确的路上。','战友':'🤝 一起走过来，你不是一个人在战斗！'},
-    struggle: {'理性':'🧩 问题拆解是创始人最重要的能力。我帮你。','热血':'💪 创业没有坦途，你在积累经验值！','冷静':'🧭 困难是信号，先看清它。','战友':'🤝 难的时候说，我在。'},
-    idea: {'理性':'📊 假设先行，我来帮你验证。','热血':'🚀 好想法！让它成为下一个里程碑！','冷静':'🗺️ 逻辑推演是检验想法的最好方式。','战友':'💡 你的想法值得被认真对待！'},
-    cheer: {'理性':'📊 这是你实力的体现！','热血':'🔥🎉 庆祝！你是最棒的！','冷静':'🧭 好的势头要用好。','战友':'🏆 你的成功是我的成功，我们一起庆祝！'},
-    report: {'理性':'📊 收到，数据很重要。','热血':'💪 汇报就是进步的开始！','冷静':'🧭 记录是优化的基础。','战友':'🤝 认真汇报的人值得尊重！'},
-    question: {'理性':'📊 问题清晰是答案的一半。','热血':'💪 问就对了！','冷静':'🗺️ 分析问题比解决问题更重要。','战友':'🤝 问吧，我们一起想！'}
-  };
-  const empathy = empathyMap[panel]?.[style] || empathyMap[panel]?.['战友'] || '🤝 我听到了。';
-  appendMsg(emoji, empathy);
-  setTimeout(() => {
-    appendMsg(emoji + ' ' + item.feedback, true);
-  }, 900);
+  const isPos = item.type === 'pos';
+  const empathy = getEmpathy(style, dir, isPos);
+  const feedback = getFeedback(style, dir, isPos);
+  const fbCard = document.getElementById('fbCard');
+  fbCard.className = `fb-card ${item.type}`;
+  document.getElementById('fbEmoji').innerText = item.icon;
+  const labelEl = document.getElementById('fbLabel');
+  labelEl.innerText = isPos ? '✨ 正向' : '⚠️ 需要引导';
+  labelEl.className = `fb-label ${item.type}`;
+  document.getElementById('fbTitle').innerText = item.tag;
+  document.getElementById('fbText').innerText = item.feedback;
+  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${emoji} ${p ? p.name : '搭子'}说：</div>"${empathy.replace(emoji,' ').trim()} <span style="color:#1a237e">${feedback}</span>"`;
+  document.getElementById('fbOverlay').classList.add('show');
 }
+function getEmpathy(style, dir, isPos) {
+  const msgs = {
+    '理性': { result:{ pos:['数据说话，进展记录在案。📊','收到。这个变化值得关注。📈'], neg:['问题先拆解，情绪先放一边。🧩','困难是决策优化的信号。📋'] }, solution:{ pos:['这种情况有方法可以推演。📊'], neg:['先说清楚情况，我帮你分析。🧭'] } },
+    '热血': { result:{ pos:['🔥 这才是创业的感觉！','太棒了！你在改变世界！🚀'], neg:['💪 困难算什么，来！拆它！','你比这个困难强！⚡'] }, solution:{ pos:['好！说得好！我接住了！💪'], neg:['来！没有过不去的坎！🔥'] } },
+    '冷静': { result:{ pos:['收到，方向正确。🧭','好的势头，继续。📊'], neg:['这种情况先冷静看清楚。🗺️','先做记录，再寻对策。📋'] }, solution:{ pos:['好问题，有方法。🗺️'], neg:['把问题说清楚，我帮你推演。🧭'] } },
+    '战友': { result:{ pos:['好样的！和你一起走过来 🤝','你做到了，我为你骄傲 💪'], neg:['说出来就好，我在听 💙','不是一个人在扛 🤝'] }, solution:{ pos:['问吧，我尽力 💙'], neg:['难的时候说出来，搭子在 🤝'] } }
+  };
+  const m = msgs[style] || msgs['战友'];
+  const arr = m[dir]?.[isPos?'pos':'neg'] || m.result[isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+function getFeedback(style, dir, isPos) {
+  const msgs = {
+    '理性': { result:{ pos:['继续执行，效果会逐步复利。📈','这个趋势值得坚持，加大投入。📊'], neg:['需要重新分析，找出核心变量。🧩','在可修正范围内，继续监测数据。📋'] }, solution:{ pos:['把方法固化下来，形成可复用的SOP。📊'], neg:['从第一性原理拆解，找根本原因。🛠️'] } },
+    '热血': { result:{ pos:['保持这个节奏，效果会越来越明显！🔥','这就是复利，继续冲！🚀'], neg:['调整一下战术，继续往前冲！💪','大方向没错，小优化一下！⚡'] }, solution:{ pos:['把这个方法发扬光大！🔥'], neg:['来！我帮你拆解！没有过不去的关！💪'] } },
+    '冷静': { result:{ pos:['把这个变化复盘清楚，再往前走。🧭','好趋势要稳住，别操之过急。📊'], neg:['先稳住节奏，找到关键杠杆点。🗺️','复盘一次，找到可控变量。📋'] }, solution:{ pos:['有清晰的思路，可以推进。🗺️'], neg:['把问题拆成几个维度，逐个分析。🧭'] } },
+    '战友': { result:{ pos:['一起走过来的，我见证了你的进步 🤝','继续，我陪你 💪'], neg:['我们一起想办法，你不是一个人 💙','调整一下，一起继续 🤝'] }, solution:{ pos:['我们一起找方法 💙'], neg:['说说具体情况，我帮你想 🤝'] } }
+  };
+  const m = msgs[style] || msgs['战友'];
+  const arr = m[dir]?.[isPos?'pos':'neg'] || m.result[isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+function closeFeedback() { document.getElementById('fbOverlay').classList.remove('show'); }
 
 function sendMood(mood) {
   // 情绪 × 搭子类型 差异化回复矩阵（共情 + 贴合人设）
@@ -1645,6 +1721,18 @@ document.addEventListener('DOMContentLoaded', function() {
       <button class="qa-close" onclick="closeQAPanel()">✕</button>
     </div>
     <div class="qa-scroll" id="qaScroll"></div>
+  </div>
+</div>
+
+<!-- ===== 反馈弹窗 ===== -->
+<div class="fb-overlay" id="fbOverlay" onclick="if(event.target===this)closeFeedback()">
+  <div class="fb-card" id="fbCard">
+    <div class="fb-emoji" id="fbEmoji">✨</div>
+    <div class="fb-label" id="fbLabel">正向</div>
+    <div class="fb-title" id="fbTitle"></div>
+    <div class="fb-text" id="fbText"></div>
+    <div class="fb-partner-quote" id="fbQuote"></div>
+    <button class="fb-btn" onclick="closeFeedback()">✅ 知道了</button>
   </div>
 </div>
 </body>

@@ -454,6 +454,10 @@
     <div class="tab-icon">🏠</div>
     <div class="tab-label">打卡</div>
   </div>
+  <div class="tab-item" onclick="switchTab('partner')">
+    <div class="tab-icon">💬</div>
+    <div class="tab-label">搭子</div>
+  </div>
   <div class="tab-item" onclick="switchTab('sop')">
     <div class="tab-icon">🎯</div>
     <div class="tab-label">SOP</div>
@@ -466,14 +470,11 @@
     <div class="tab-icon">📣</div>
     <div class="tab-label">分享</div>
   </div>
-  <div class="tab-item" onclick="switchTab('partner')">
-    <div class="tab-icon">💬</div>
-    <div class="tab-label">搭子</div>
-  </div>
 </div>
 
 <!-- ===== Page: 打卡 ===== -->
 <div id="page-checkin" class="page active">
+
 
   <!-- 搭子选择器 -->
   <div id="partnerSelector" class="partner-selector">
@@ -1917,7 +1918,7 @@ function switchTab(tab) {
     p.classList.remove('active');
     p.style.display = 'none';
   });
-  const tabs = ['checkin','sop','progress','share','partner'];
+  const tabs = ['checkin','partner','sop','progress','share'];
   const tabIdx = tabs.indexOf(tab);
   if (tabIdx !== -1) document.querySelectorAll('.tab-item')[tabIdx].classList.add('active');
   const pageEl = document.getElementById('page-' + tab);
