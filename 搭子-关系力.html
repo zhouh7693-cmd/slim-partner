@@ -1155,7 +1155,8 @@ function generateCoachReply(userText) {
       } else {
         // 所有步骤已完成，直接生成报告
         addChatMessage('coach', ack);
-        setTimeout(() => generateMcKinseyReport(), 1000);
+        // 直接生成报告，无需等待（纯前端生成，瞬间完成）
+        generateMcKinseyReport();
         return;
       }
     }
@@ -1165,7 +1166,8 @@ function generateCoachReply(userText) {
   const nextNode = COACH_MCKINSEY_CONFIG.dialogTree[nextStep]?.[nextSub];
   if (!nextNode) {
     addChatMessage('coach', ack);
-    setTimeout(() => generateMcKinseyReport(), 1000);
+    // 直接生成报告，无需等待
+    generateMcKinseyReport();
     return;
   }
 
