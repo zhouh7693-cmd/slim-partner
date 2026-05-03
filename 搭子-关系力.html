@@ -183,6 +183,9 @@
     .chat-input-area textarea { flex: 1; padding: 12px 16px; border-radius: 16px; border: 1.5px solid #e9edf2; font-size: 14px; resize: none; outline: none; font-family: inherit; min-height: 44px; }
     .chat-send-btn { padding: 12px 20px; border-radius: 16px; border: none; background: linear-gradient(135deg, #d97706, #b45309); color: white; font-size: 14px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
     .chat-send-btn:active { transform: scale(0.97); }
+    .coach-prompt { text-align: center; color: #d97706; font-size: 13px; font-weight: 600; padding: 8px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
 
     /* 麦肯锡诊断报告 */
     .coach-report-mckinsey { background: white; border-radius: 32px; padding: 28px 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
@@ -340,7 +343,10 @@
         <div class="progress-step" id="progressStep3">③ 优先级行动</div>
       </div>
       <div class="chat-messages" id="chatMessages"></div>
-      <div class="chat-input-area">
+      <div class="coach-prompt" id="coachPrompt" style="display:none;">
+        💡 请在下方输入框中回复...
+      </div>
+      <div class="chat-input-area" id="chatInputArea">
         <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
         <button class="chat-send-btn" onclick="sendCoachMsg()">发送</button>
       </div>
@@ -985,6 +991,11 @@ function addChatMessage(role, text) {
   container.scrollTop = container.scrollHeight;
   // 记录历史
   chatHistory.push({ role, text });
+  // 如果是教练消息，显示提示并聚焦输入框
+  if (role === 'coach') {
+    document.getElementById('coachPrompt').style.display = 'block';
+    document.getElementById('coachInput').focus();
+  }
 }
 
 function sendCoachMsg() {
@@ -992,6 +1003,8 @@ function sendCoachMsg() {
   const text = input.value.trim();
   if (!text) return;
   input.value = '';
+  // 隐藏提示
+  document.getElementById('coachPrompt').style.display = 'none';
   // 显示用户消息
   addChatMessage('user', text);
   // 保存用户输入
@@ -1222,32 +1235,168 @@ function generateMcKinseyReport() {
 }
 
 function buildDynamicActions(inputs) {
-  const behavior = (inputs.analyze?.[0] || '').toLowerCase();
-  const scenario = (inputs.define?.[0] || '').toLowerCase();
+  const defineText = (inputs.define?.[0] || '').toLowerCase();
+  const analyzeText = (inputs.analyze?.[0] || '').toLowerCase();
+  const allText = defineText + ' ' + analyzeText;
   const actions = [];
 
-  // P0 快赢（高影响 + 低投入）→ 基于用户行为模式动态生成
-  if (behavior.includes('直接') || behavior.includes('建议')) {
-    actions.push({ priority: 'P0 · 快赢', action: '下次互动时，先问"你怎么看？"再分享你的想法', impact: '快速降低对方防御', effort: '低' });
-  } else if (behavior.includes('回避') || behavior.includes('沉默')) {
-    actions.push({ priority: 'P0 · 快赢', action: '下次对方说话时，用"嗯/哦/然后呢"鼓励对方多说', impact: '快速建立安全感', effort: '低' });
-  } else if (behavior.includes('催') || behavior.includes('着急')) {
-    actions.push({ priority: 'P0 · 快赢', action: '下次先停顿3秒，让对方先说', impact: '快速降低对方压力', effort: '低' });
-  } else {
-    actions.push({ priority: 'P0 · 快赢', action: '下次互动时，先问"你最近怎么样"，再谈事', impact: '快速降低对方防御', effort: '低' });
+  // ===== P0 快赢（高影响 + 低投入）=====
+  let p0Added = false;
+
+  // 冲突/争吵类
+  if (allText.match(/吵|冲突|争执|对立|矛盾|不爽|生气|愤怒|发火/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '下次感觉要吵起来时，说"我需要冷静一下，10分钟后再聊"',
+      impact: '避免冲动发言伤害关系',
+      effort: '低'
+    });
+    p0Added = true;
   }
 
-  // P1 重要（高影响 + 高投入）
-  if (scenario.includes('同事') || scenario.includes('工作')) {
-    actions.push({ priority: 'P1 · 重要', action: '用"我需要你的帮助"替代"你应该"，每周主动1次非工作话题', impact: '改变权力动态', effort: '中' });
-  } else if (scenario.includes('家人') || scenario.includes('伴侣') || scenario.includes('老公') || scenario.includes('老婆')) {
-    actions.push({ priority: 'P1 · 重要', action: '每周安排1次无手机对话时间（15分钟）', impact: '重建情感连接', effort: '中' });
-  } else {
-    actions.push({ priority: 'P1 · 重要', action: '用"我需要你的帮助"替代"你应该"', impact: '改变权力动态', effort: '中' });
+  // 沟通不畅/沉默类
+  if (!p0Added && allText.match(/不说话|沉默|回避|冷暴力|不理我|没回应|敷衍/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '发一条破冰消息："最近在想我们之间的事，想和你聊聊"',
+      impact: '打破沉默僵局',
+      effort: '低'
+    });
+    p0Added = true;
   }
 
-  // P2 长期（系统变革）
-  actions.push({ priority: 'P2 · 长期', action: '建立定期1:1沟通机制，不只在有问题时才找对方', impact: '重构关系结构', effort: '高' });
+  // 讨好/委屈自己类
+  if (!p0Added && allText.match(/讨好|妥协|让步|不敢|怕冲突|委屈|忍|迁就/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '今天找一件小事练习说"不"（例如"我更想去A而不是B"）',
+      impact: '建立边界感，停止过度讨好',
+      effort: '低'
+    });
+    p0Added = true;
+  }
+
+  // 缺乏信任/欺骗类
+  if (!p0Added && allText.match(/不信任|骗|隐瞒|秘密|怀疑|猜忌|撒谎/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '主动分享一件你之前没说的事（例如"我最近压力挺大的"）',
+      impact: '用透明化重建信任',
+      effort: '低'
+    });
+    p0Added = true;
+  }
+
+  // 控制/被控制类
+  if (!p0Added && allText.match(/控制|管我|唠叨|催|逼|压力|说教/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '下次对方开始说教时，说"我听到了，让我自己试试看"',
+      impact: '建立平等对话模式',
+      effort: '低'
+    });
+    p0Added = true;
+  }
+
+  // 默认P0（通用）
+  if (!p0Added) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '今晚找对方聊10分钟，你只问"你最近怎么样？"然后闭嘴听',
+      impact: '用深度倾听快速改善关系',
+      effort: '低'
+    });
+  }
+
+  // ===== P1 重要（高影响 + 中投入）=====
+  let p1Added = false;
+
+  // 职场关系
+  if (allText.match(/同事|老板|上级|下属|客户|开会|工作|职场|公司|商务/)) {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '每周找1位关键同事聊15分钟（不聊工作），问"你最近在忙什么？"',
+      impact: '建立职场人情账户',
+      effort: '中'
+    });
+    p1Added = true;
+  }
+
+  // 亲密关系
+  if (!p1Added && allText.match(/老公|老婆|伴侣|对象|男朋友|女朋友|恋爱|婚姻|夫妻/)) {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '每周设立30分钟"无手机时间"，只聊感受不聊事务',
+      impact: '重建亲密感',
+      effort: '中'
+    });
+    p1Added = true;
+  }
+
+  // 亲子关系
+  if (!p1Added && allText.match(/孩子|女儿|儿子|育儿|陪读|妈妈|爸爸|家庭/)) {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '每周做一次"只夸不教"对话，孩子说什么都不批评',
+      impact: '建立孩子的表达安全感',
+      effort: '中'
+    });
+    p1Added = true;
+  }
+
+  // 朋友关系
+  if (!p1Added && allText.match(/朋友|闺蜜|兄弟|社交|人脉/)) {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '主动约一次"无目的聚会"（纯吃饭/散步，不聊吐槽）',
+      impact: '加深朋友连接',
+      effort: '中'
+    });
+    p1Added = true;
+  }
+
+  // 默认P1（通用）
+  if (!p1Added) {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '做一次关系盘点：列出3个重要关系，写下"我最近存入了什么？取走了什么？"',
+      impact: '明确关系现状，指导未来行动',
+      effort: '中'
+    });
+  }
+
+  // ===== P2 长期（系统变革）=====
+
+  // 根据问题类型推荐不同的学习资源
+  if (allText.match(/冲突|争吵|沟通|不说话|沉默/)) {
+    actions.push({
+      priority: 'P2 · 长期',
+      action: '读《非暴力沟通》或《关键对话》，每周1-2章，刻意练习书中的句式',
+      impact: '建立系统性沟通能力',
+      effort: '高'
+    });
+  } else if (allText.match(/讨好|边界|不敢|委屈|控制/)) {
+    actions.push({
+      priority: 'P2 · 长期',
+      action: '读《边界》或《不再讨好》，做笔记记录"我的边界在哪里"',
+      impact: '从讨好/控制模式切换到平等模式',
+      effort: '高'
+    });
+  } else if (allText.match(/信任|骗|隐瞒|怀疑/)) {
+    actions.push({
+      priority: 'P2 · 长期',
+      action: '读《信任的速度》或《亲密关系》，理解信任的建立/破坏机制',
+      impact: '建立健康的信任模式',
+      effort: '高'
+    });
+  } else {
+    actions.push({
+      priority: 'P2 · 长期',
+      action: '参加关系力课程/工作坊（线上或线下），系统提升关系能力',
+      impact: '全面提升关系力',
+      effort: '高'
+    });
+  }
 
   return actions;
 }
