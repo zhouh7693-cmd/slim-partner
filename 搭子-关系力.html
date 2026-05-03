@@ -899,20 +899,15 @@ const COACH_MCKINSEY_CONFIG = {
         next: 'define2'
       },
       {
-        coach: null, // 动态生成具体问题
+        coach: 'DYNAMIC_QUESTIONS', // 动态生成具体问题
         keywords: {
           'default': 'define3'
         },
         next: 'define3'
       },
       {
-        coach: '基于你的描述，让我帮你确认几个关键点：',
-        keywords: {},
-        next: 'define4'
-      },
-      {
         coach: '好的，我已记录你的核心问题。让我们进入第二步：结构化分析。',
-        keywords: { '是|对|ok|OK': 'analyze1' },
+        keywords: { '是|对|ok|OK': 'analyze1', '补充|不对|不是': 'define2' },
         next: 'analyze1',
         // 按钮配置 - 让用户确认核心问题
         buttons: [
@@ -1158,9 +1153,14 @@ function generateCoachReply(userText) {
     return;
   }
 
-  const nextQ = nextNode.coach || '';
+  let nextQ = nextNode.coach || '';
   let reply = ack;
-  if (nextQ) {
+
+  // 如果是动态问题标记，调用 generateDynamicReply 生成具体问题
+  if (nextQ === 'DYNAMIC_QUESTIONS') {
+    nextQ = generateDynamicQuestions(userText);
+    reply = ack + '\n\n' + nextQ;
+  } else if (nextQ) {
     reply += '\n\n' + nextQ;
   }
   reply = replacePlaceholders(reply, userText);
@@ -1198,52 +1198,49 @@ function buildAck(step, subStep, userText) {
   return `收到，谢谢分享。`;
 }
 
-function generateDynamicReply(step, subStep, userText) {
-  // 基于用户输入动态生成回复
-  if (step === 'define') {
-    if (subStep === 1) {
-      // 根据用户描述，生成2-3个具体问题
-      const userInput = userText.toLowerCase();
-      let questions = [];
+function generateDynamicQuestions(userText) {
+  // 基于用户输入，生成3个具体问题让用户回答
+  const text = userText.toLowerCase();
+  let questions = [];
 
-      // 问题1：你做了什么
-      questions.push('在这件事上，你当时是怎么做的？');
-
-      // 问题2：对方怎么反应
-      questions.push('对方当时的反应是什么？');
-
-      // 问题3：根据关键词加问
-      if (userInput.match(/吵|冲突|生气|愤怒/)) {
-        questions.push('吵完之后，后来是怎么收场的？');
-      } else if (userInput.match(/不理|冷漠|沉默/)) {
-        questions.push('这种情况持续多久了？');
-      } else if (userInput.match(/拒绝|反对|不同意/)) {
-        questions.push('对方拒绝的理由是什么？');
-      } else {
-        questions.push('你最希望的结果是什么？');
-      }
-
-      return questions.map((q, i) => `${i + 1}. ${q}`).join('\n');
-    }
-    if (subStep === 2) {
-      // 基于用户输入生成核心问题总结
-      const scenario = userInputs.define?.[0] || '这个场景';
-      const analysis = userInputs.define?.[1] || '';
-      return `根据你的描述，我帮你总结一下核心问题：\n\n📌 核心问题：\n在"${scenario.substring(0, 30)}"这件事上，你希望得到尊重/理解/支持，但目前没有。\n\n📌 关键点：\n${analysis.split('\n').slice(0, 2).join('\n')}\n\n这个总结准确吗？`;
-    }
+  // 问题1：你当时具体做了什么？
+  if (text.match(/吵|冲突|争执|生气|愤怒/)) {
+    questions.push('1️⃣ 吵架时，你说了什么或做了什么？');
+  } else if (text.match(/不理|冷漠|沉默|不回应/)) {
+    questions.push('1️⃣ 对方不理你的时候，你是怎么做的？');
+  } else if (text.match(/拒绝|反对|不同意/)) {
+    questions.push('1️⃣ 对方拒绝你的时候，你说了什么？');
+  } else if (text.match(/控制|管|唠叨/)) {
+    questions.push('1️⃣ 对方管你/唠叨你的时候，你是怎么回应的？');
+  } else {
+    questions.push('1️⃣ 当时你说了什么或做了什么？');
   }
-  if (step === 'analyze') {
-    if (subStep === 0) {
-      return `好的，我记录了你的行为模式："${userText.substring(0, 50)}..."\n\n现在②：对方通常如何回应你？（例如：对方会防御 / 对方会沉默 / 对方会反过来催我...）`;
-    }
-    if (subStep === 1) {
-      return `很好！现在我有了双方的行为模式，让我用MECE框架分析：\n\n【你的行为模式】${userInputs.analyze?.[0] || ''}\n→ 让对方感受到：你可能太急了\n\n【对方的反应模式】${userText}\n→ 让关系陷入：你说你的，我做我的\n\n【关系结构】\n• 权力动态：偏单向\n• 信息流动：不充分\n• 情绪账户：透支\n\n现在，你想先从哪个维度突破？\nA. 调整我的行为模式\nB. 引导对方的反应\nC. 重构关系结构`;
-    }
+
+  // 问题2：对方怎么反应的？
+  if (text.match(/吵|冲突|争执|生气|愤怒/)) {
+    questions.push('2️⃣ 对方当时的反应是什么？（比如：跟你吵 / 沉默 / 摔门走 / 冷战...）');
+  } else if (text.match(/不理|冷漠|沉默/)) {
+    questions.push('2️⃣ 对方是怎么表现冷漠的？（比如：不回消息 / 敷衍 / 叹气...）');
+  } else if (text.match(/拒绝|反对/)) {
+    questions.push('2️⃣ 对方拒绝的理由是什么？（比如：忙、不需要、说没时间...）');
+  } else {
+    questions.push('2️⃣ 对方当时的反应是什么？');
   }
-  if (step === 'act') {
-    return `你选择了：'${userText}'。现在用 Impact/Effort 矩阵给你3个行动建议：\n\n【P0 · 快赢】{具体行动1}\n【P1 · 重要】{具体行动2}\n【P2 · 长期】{具体行动3}`;
+
+  // 问题3：根据关键词动态生成
+  if (text.match(/同事|老板|工作/)) {
+    questions.push('3️⃣ 这次事件之后，你们的工作配合变了吗？');
+  } else if (text.match(/老公|老婆|伴侣|恋爱/)) {
+    questions.push('3️⃣ 这次之后，你们之间的关系有没有变化？');
+  } else if (text.match(/孩子|女儿|儿子/)) {
+    questions.push('3️⃣ 这件事对孩子有什么影响吗？');
+  } else if (text.match(/朋友|闺蜜|兄弟/)) {
+    questions.push('3️⃣ 这次之后，你们的联系变少了吗？');
+  } else {
+    questions.push('3️⃣ 你最希望的结果是什么？');
   }
-  return '请继续，我在听...';
+
+  return questions.join('\n');
 }
 
 function replacePlaceholders(text, userText) {
