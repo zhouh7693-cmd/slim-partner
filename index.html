@@ -493,6 +493,10 @@
     <div class="tab-icon">📣</div>
     <div class="tab-label">分享</div>
   </div>
+  <div class="tab-item" onclick="switchTab('coach')">
+    <div class="tab-icon">🎓</div>
+    <div class="tab-label">教练</div>
+  </div>
 </div>
 
 <!-- ===== Page: 打卡 ===== -->
@@ -798,6 +802,27 @@
       <button class="talk-btn" onclick="askPartner('report')">📣 汇报</button>
       <button class="talk-btn" onclick="askPartner('question')">🤔 提问</button>
     </div>
+  </div>
+</div>
+
+<!-- ===== Page: 教练 ===== -->
+<div id="page-coach" class="page" style="display:none;">
+  <div style="padding:16px 12px 80px;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:24px;font-weight:700;color:#333;">🎓 减肥教练</div>
+      <div style="font-size:13px;color:#999;margin-top:4px;">帮你拆解减肥卡点，制定行动方案</div>
+    </div>
+    <div style="text-align:center;margin-bottom:20px;">
+      <button id="coachStartBtn" onclick="startCoach()" style="background:linear-gradient(135deg,#3de882,#26a65b);color:white;border:none;border-radius:16px;padding:16px 32px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(46,213,115,0.35);">🚀 开始教练对话</button>
+      <button id="coachRestartBtn" onclick="startCoach()" style="display:none;background:#f0f0f0;color:#666;border:none;border-radius:12px;padding:10px 20px;font-size:13px;cursor:pointer;margin-top:8px;">🔄 重新开始</button>
+    </div>
+    <div id="coachChat" style="display:none;">
+      <div id="coachMessages" style="max-height:380px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
+      <div id="coachBtnArea" style="display:none;background:#f8fff8;border-radius:14px;padding:12px;margin-bottom:10px;"></div>
+      <div id="coachPrompt" class="coach-prompt" style="display:none;">💡 请在下方输入框中回复，按 Enter 发送</div>
+      <div class="generating-report" id="coachGenerating" style="display:none;">⏳ 正在生成诊断报告，请稍候...</div>
+    </div>
+    <div id="coachReport" style="display:none;"></div>
   </div>
 </div>
 
@@ -1271,7 +1296,7 @@ function switchTab(tab) {
     p.classList.remove('active');
     p.style.display = 'none';
   });
-  const tabs = ['checkin','partner','weight','sop','progress','share'];
+  const tabs = ['checkin','partner','weight','sop','progress','share','coach'];
   const tabIdx = tabs.indexOf(tab);
   if (tabIdx !== -1) document.querySelectorAll('.tab-item')[tabIdx].classList.add('active');
   const pageEl = document.getElementById(`page-${tab}`);
@@ -3243,6 +3268,285 @@ function renderPartnerPage() {
   }
 }
 
+// ==================== 教练对话 ====================
+const coachDialogueNodes = {
+  start: { coach: '请描述你最近的减肥状态：\n\n遇到了什么卡点？是什么让你感觉减不下去了？', next: 'define0' },
+  define0: { coach: 'DYNAMIC_QUESTIONS', next: 'define1' },
+  define1: { coach: '根据你的描述，让我帮你界定核心问题：\n\n📌 核心问题：减肥动力不足，遇到平台期/诱惑/情绪性进食。\n\n这个总结准确吗？', next: 'define2' },
+  define2: {
+    keywords: { '✅ 是的': 'analyze0', '❌ 补充': 'define0' },
+    coach: '',
+    next: 'analyze0'
+  },
+  analyze0: { coach: '好的，让我们深入分析。请回答：\n\n① 你一般在什么情况下会暴饮暴食或放弃控制饮食？\n\n（比如：晚上加班 / 情绪低落 / 周末聚会 / 看到美食广告...）', next: 'analyze1' },
+  analyze1: {
+    coach: '现在让我从三个维度帮你分析：\n\n📊 行为模式：暴饮暴食通常是大脑对压力/情绪的逃避反应\n🔄 循环陷阱：节食→压力大→暴食→内疚→更严格节食→循环\n🎯 突破点：不是更努力，而是改变触发链条\n\n你想从哪个维度先突破？\n\nA. 调整饮食策略（不再节食，而是改变饮食结构）\nB. 管理情绪触发（找到替代性减压方式）\nC. 重构动力系统（找到比"瘦"更持久的目标）', next: 'analyze2' },
+  analyze2: {
+    coach: 'DYNAMIC_DIMENSION_CHOICE',
+    next: 'act0'
+  },
+  act0: { coach: '好的，根据你的情况，我给你三个行动建议：\n\n【P0 · 快赢（今天就能做）】\n找到一个替代性减压活动（散步/拉伸/冷水洗脸），记在手机备忘录\n\n【P1 · 重要（本周内做）】\n把"不吃饭"改成"吃对的食物"——每餐保证蛋白质+蔬菜，减少精制碳水\n\n【P2 · 长期（系统改变）】\n找到比体重数字更重要的健康指标：精力水平、睡眠质量、衣服松紧度\n\n你想先从哪个优先级开始行动？\n\nP0 · 快赢\nP1 · 重要\nP2 · 长期', next: 'report' },
+  report: { coach: '', next: null }
+};
+
+let coachState = { step: 'start', subStep: 0, inputs: {}, history: [] };
+
+function startCoach() {
+  coachState = { step: 'start', subStep: 0, inputs: {}, history: [] };
+  document.getElementById('coachStartBtn').style.display = 'none';
+  document.getElementById('coachRestartBtn').style.display = 'block';
+  document.getElementById('coachChat').style.display = 'block';
+  document.getElementById('coachReport').style.display = 'none';
+  document.getElementById('coachMessages').innerHTML = '';
+  document.getElementById('coachBtnArea').style.display = 'none';
+  document.getElementById('coachPrompt').style.display = 'none';
+  document.getElementById('coachGenerating').style.display = 'none';
+  addCoachMessage('coach', '👋 你好！我是你的减肥教练。\n\n我可以帮你：\n• 拆解减肥卡点的真实原因\n• 分析你的行为模式和触发链条\n• 制定可落地的行动方案\n\n请描述你最近的减肥状态：\n\n遇到了什么卡点？是什么让你感觉减不下去了？');
+  showCoachInput();
+}
+
+function addCoachMessage(role, text) {
+  const el = document.createElement('div');
+  el.className = `msg msg-${role}`;
+  el.textContent = text;
+  document.getElementById('coachMessages').appendChild(el);
+  el.scrollIntoView({ behavior: 'smooth' });
+}
+
+function showCoachInput() {
+  document.getElementById('coachPrompt').style.display = 'block';
+  const inp = document.getElementById('coachInput');
+  if (!inp) {
+    const inpEl = document.createElement('input');
+    inpEl.id = 'coachInput';
+    inpEl.type = 'text';
+    inpEl.placeholder = '输入你的回复，按 Enter 发送...';
+    inpEl.style = 'width:100%;padding:10px 14px;border:1.5px solid #3de882;border-radius:12px;font-size:14px;box-sizing:border-box;outline:none;';
+    inpEl.onkeydown = function(e) { if(e.key==='Enter') submitCoachInput(); };
+    document.getElementById('coachChat').appendChild(inpEl);
+  } else {
+    inp.style.display = '';
+    inp.value = '';
+    inp.focus();
+  }
+}
+
+function hideCoachInput() {
+  const inp = document.getElementById('coachInput');
+  if (inp) inp.style.display = 'none';
+  document.getElementById('coachPrompt').style.display = 'none';
+}
+
+function submitCoachInput() {
+  const inp = document.getElementById('coachInput');
+  if (!inp || !inp.value.trim()) return;
+  const userText = inp.value.trim();
+  addCoachMessage('user', userText);
+  hideCoachInput();
+  document.getElementById('coachBtnArea').style.display = 'none';
+  processCoachStep(userText);
+}
+
+function processCoachStep(userText) {
+  const node = coachDialogueNodes[coachState.step];
+  if (!node) { generateCoachReport(); return; }
+
+  if (coachState.step === 'define1') {
+    coachState.inputs.define = (coachState.inputs.define || []).concat(userText);
+    if (coachState.subStep === 0) {
+      // Waiting for dynamic questions to be answered
+      coachState.subStep++;
+      setTimeout(() => {
+        addCoachMessage('coach', coachDialogueNodes.define1.coach);
+        showCoachInput();
+      }, 300);
+      return;
+    } else if (coachState.subStep === 1) {
+      // Got answer to dynamic questions
+      coachState.step = 'define2';
+      coachState.subStep = 0;
+      addCoachMessage('coach', coachDialogueNodes.define2.coach);
+      showCoachChoiceButtons('define2');
+      return;
+    }
+  }
+
+  if (coachState.step === 'define2') {
+    coachState.step = 'analyze0';
+    coachState.subStep = 0;
+    setTimeout(() => {
+      addCoachMessage('coach', coachDialogueNodes.analyze0.coach);
+      showCoachInput();
+    }, 300);
+    return;
+  }
+
+  if (coachState.step === 'analyze1') {
+    coachState.inputs.analyze = (coachState.inputs.analyze || []).concat(userText);
+    coachState.step = 'analyze2';
+    coachState.subStep = 0;
+    setTimeout(() => {
+      addCoachMessage('coach', coachDialogueNodes.analyze1.coach);
+      showCoachChoiceButtons('analyze2');
+    }, 300);
+    return;
+  }
+
+  if (coachState.step === 'analyze2') {
+    coachState.inputs.dimension = userText;
+    coachState.step = 'act0';
+    coachState.subStep = 0;
+    setTimeout(() => {
+      addCoachMessage('coach', coachDialogueNodes.act0.coach);
+      showCoachChoiceButtons('act0');
+    }, 300);
+    return;
+  }
+
+  if (coachState.step === 'act0') {
+    coachState.inputs.priority = userText;
+    coachState.step = 'report';
+    setTimeout(() => generateCoachReport(), 300);
+    return;
+  }
+
+  // Default: move to next node
+  if (node.next) {
+    coachState.step = node.next;
+    coachState.subStep = 0;
+    if (coachDialogueNodes[coachState.step]) {
+      const nextNode = coachDialogueNodes[coachState.step];
+      if (nextNode.coach) {
+        addCoachMessage('coach', nextNode.coach);
+        if (nextNode.coach === 'DYNAMIC_QUESTIONS') {
+          // Show dynamic questions as choices
+          showCoachChoiceButtons('define1');
+        } else if (nextNode.keywords) {
+          showCoachChoiceButtons(coachState.step);
+        } else {
+          showCoachInput();
+        }
+      } else if (nextNode.next) {
+        processCoachStep('');
+      } else {
+        generateCoachReport();
+      }
+    } else {
+      generateCoachReport();
+    }
+  } else {
+    generateCoachReport();
+  }
+}
+
+function showCoachChoiceButtons(step) {
+  const area = document.getElementById('coachBtnArea');
+  area.innerHTML = '';
+  area.style.display = 'block';
+
+  if (step === 'define2') {
+    const btns = [
+      { text: '✅ 是的，没问题', value: '✅ 是的' },
+      { text: '❌ 不太对，我补充一下', value: '❌ 补充' }
+    ];
+    btns.forEach(b => {
+      const el = document.createElement('button');
+      el.className = 'coach-btn';
+      el.textContent = b.text;
+      el.onclick = () => { addCoachMessage('user', b.value); hideCoachInput(); area.style.display='none'; processCoachStep(b.value); };
+      area.appendChild(el);
+    });
+  } else if (step === 'analyze2') {
+    const btns = [
+      { text: 'A. 调整饮食策略', value: 'A' },
+      { text: 'B. 管理情绪触发', value: 'B' },
+      { text: 'C. 重构动力系统', value: 'C' }
+    ];
+    btns.forEach(b => {
+      const el = document.createElement('button');
+      el.className = 'coach-btn';
+      el.textContent = b.text;
+      el.onclick = () => { addCoachMessage('user', b.value); hideCoachInput(); area.style.display='none'; processCoachStep(b.value); };
+      area.appendChild(el);
+    });
+  } else if (step === 'act0') {
+    const btns = [
+      { text: '🟢 P0 · 快赢（今天就能做）', value: 'P0' },
+      { text: '🟠 P1 · 重要（本周内做）', value: 'P1' },
+      { text: '🔴 P2 · 长期（系统改变）', value: 'P2' }
+    ];
+    btns.forEach(b => {
+      const el = document.createElement('button');
+      el.className = 'coach-btn';
+      el.textContent = b.text;
+      el.onclick = () => { addCoachMessage('user', b.value); hideCoachInput(); area.style.display='none'; processCoachStep(b.value); };
+      area.appendChild(el);
+    });
+  } else if (step === 'define1') {
+    const questions = [
+      '① 你当时吃了什么？大概多少量？',
+      '② 吃完后的感受是什么？',
+      '③ 下次遇到同样情况，你会怎么做？'
+    ];
+    questions.forEach((q, i) => {
+      const el = document.createElement('button');
+      el.className = 'coach-btn';
+      el.textContent = q;
+      el.onclick = () => {
+        addCoachMessage('user', q);
+        hideCoachInput();
+        area.style.display = 'none';
+        coachState.subStep = 1;
+        processCoachStep(q);
+      };
+      area.appendChild(el);
+    });
+  }
+}
+
+function generateCoachReport() {
+  document.getElementById('coachChat').style.display = 'none';
+  const el = document.getElementById('coachReport');
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div class="coach-report-section" style="text-align:center;">
+      <div style="font-size:32px;margin-bottom:8px;">🎉</div>
+      <div style="font-size:16px;font-weight:700;color:#333;">教练对话完成</div>
+      <div style="font-size:13px;color:#888;margin-top:4px;">以下是你的行动方案</div>
+    </div>
+    <div class="coach-report-section">
+      <div class="coach-report-title">🔍 问题诊断</div>
+      <div class="coach-report-content">
+        <p>根据你的描述，主要卡点集中在：<strong>饮食执行层面</strong>和<strong>情绪管理</strong>两个维度。</p>
+        <p>你不是"意志力不够"，而是缺少：</p>
+        <span class="coach-diagnosis-tag">替代性减压方式</span>
+        <span class="coach-diagnosis-tag">稳定的饮食节奏</span>
+        <span class="coach-diagnosis-tag">可量化的非体重指标</span>
+      </div>
+    </div>
+    <div class="coach-report-section">
+      <div class="coach-report-title">🎯 推荐行动</div>
+      <div class="coach-report-content">
+        <p><strong>P0 快赢（今天就能做）：</strong></p>
+        <span class="coach-action-tag">找一个替代减压活动</span>
+        <span class="coach-action-tag">记录今天吃了什么</span>
+        <p style="margin-top:8px;"><strong>P1 重要（本周内做）：</strong></p>
+        <span class="coach-action-tag">每餐必须有蛋白质</span>
+        <span class="coach-action-tag">戒掉"最后一顿"思维</span>
+        <p style="margin-top:8px;"><strong>P2 长期（系统改变）：</strong></p>
+        <span class="coach-action-tag">建立精力/睡眠/情绪记录</span>
+        <span class="coach-action-tag">找到减肥的内在动机</span>
+      </div>
+    </div>
+    <div class="coach-report-section" style="text-align:center;background:#fffde7;">
+      <div style="font-size:13px;color:#f57f17;line-height:1.7;">
+        💡 <strong>记住：</strong>减肥不是短跑，是生活方式的改变。<br>
+        每天进步一点点，比一次性突击更有效。
+      </div>
+    </div>
+  `;
+}
+
 // ==================== 初始化 ====================
 startApp();
 </script>
@@ -3272,6 +3576,21 @@ startApp();
 <style>
 @keyframes achievementPop { from { transform:scale(0.5);opacity:0; } to { transform:scale(1);opacity:1; } }
 @keyframes achievementBounce { 0%,100% { transform:translateX(-50%) translateY(0); } 50% { transform:translateX(-50%) translateY(-10px); } }
+.coach-prompt { text-align:center; color:#d97706; font-size:13px; font-weight:600; padding:8px; animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+.generating-report { text-align:center; color:#0891b2; font-size:14px; font-weight:600; padding:16px; animation:blink 1.5s infinite; }
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+.msg { max-width:85%; padding:10px 14px; border-radius:16px; margin-bottom:8px; line-height:1.6; font-size:14px; word-break:break-all; }
+.msg-coach { background:#fff; color:#333; border:1.5px solid #e0e0e0; border-bottom-left-radius:4px; align-self:flex-start; }
+.msg-user { background:#3de882; color:#fff; border-bottom-right-radius:4px; align-self:flex-end; }
+#coachMessages { display:flex; flex-direction:column; gap:8px; }
+.coach-btn { display:block; width:100%; text-align:left; padding:10px 14px; background:#f8fff8; border:1.5px solid #3de882; border-radius:12px; font-size:13px; color:#333; cursor:pointer; margin-bottom:6px; transition:all 0.2s; }
+.coach-btn:hover { background:#3de882; color:#fff; }
+.coach-report-section { background:#fff; border-radius:16px; padding:16px; margin-bottom:12px; border:1.5px solid #e8e8e8; }
+.coach-report-title { font-size:15px; font-weight:700; color:#2b5a7a; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.coach-report-content { font-size:13px; color:#555; line-height:1.7; }
+.coach-diagnosis-tag { display:inline-block; background:#fff3e0; color:#e65100; border-radius:20px; padding:2px 10px; font-size:12px; font-weight:600; margin:2px; }
+.coach-action-tag { display:inline-block; background:#e8f5e9; color:#2e7d32; border-radius:20px; padding:2px 10px; font-size:12px; font-weight:600; margin:2px; }
 </style>
 
 </body>
