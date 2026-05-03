@@ -371,11 +371,11 @@
     .fb-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; border-radius: 20px; display: inline-block; padding: 2px 12px; }
     .fb-label.pos { background: #e8f5e9; color: #2e7d32; }
     .fb-label.neg { background: #fff3f3; color: #c62828; }
-    .fb-title { font-size: 20px; font-weight: 800; color: #1a237e; margin-bottom: 10px; }
+    .fb-title { font-size: 20px; font-weight: 800; color: #2b5a7a; margin-bottom: 10px; }
     .fb-text { font-size: 14px; color: #6c7a89; line-height: 1.7; margin-bottom: 16px; text-align: left; }
     .fb-partner-quote {
-      background: #f4f6fb; border-radius: 12px; padding: 12px 16px;
-      font-size: 13px; color: #3a4a5a; font-style: italic;
+      background: #f7f9fc; border-radius: 12px; padding: 12px 16px;
+      font-size: 14px; color: #3a4a5a; font-style: italic;
       margin-bottom: 20px; line-height: 1.6; text-align: left;
     }
     .fb-partner-label { font-size: 11px; color: #8f9eae; margin-bottom: 6px; font-style: normal; font-weight: 600; }
@@ -987,7 +987,7 @@ function showTypeFeedback(panel, dir, item) {
   labelEl.className = `fb-label ${item.type}`;
   document.getElementById('fbTitle').innerText = item.tag;
   document.getElementById('fbText').innerText = item.feedback;
-  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${emoji} ${p ? p.name : '搭子'}说：</div>"${empathy.replace(emoji,' ').trim()} <span style="color:#1a237e">${feedback}</span>"`;
+  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${emoji} ${p ? p.name : '搭子'}说：</div>"${empathy.replace(emoji,' ').trim()} <span style="color:#1565c0">${feedback}</span>"`;
   document.getElementById('fbOverlay').classList.add('show');
 }
 function getEmpathy(style, dir, isPos) {
@@ -1456,7 +1456,7 @@ function showSOPFinish() {
   const hist = load(STORAGE.SOP_HISTORY, []);
   hist.push({ date: today, totalScore: allScores, cats: SOP_CATS.map(c => ({ id: c.id, yes: sopState.catYes[c.id], no: sopState.catNo[c.id] })) });
   save(STORAGE.SOP_HISTORY, hist);
-  save(STORAGE.SOP_TODAY, { date: today, totalScore: allScores });
+  save(STORAGE.SOP_TODAY, { date: today, totalScore: allScores, cats: SOP_CATS.map(c => ({ id: c.id, yes: sopState.catYes[c.id] || 0, no: sopState.catNo[c.id] || 0 })) });
 
   // 渲染弹窗
   document.getElementById('sopFinishScore').textContent = `${pct}%`;
@@ -1529,9 +1529,10 @@ function getTotalFeedback(pct, score) {
 function renderSOPDoneState() {
   const today = getToday();
   const todaySOP = load(STORAGE.SOP_TODAY);
+  if (!todaySOP || !todaySOP.date) { initSOP(); return; }
   const hist = load(STORAGE.SOP_HISTORY, []);
   const maxPossible = SOP_CATS.reduce((t, c) => t + c.habits.reduce((s, h) => s + Math.max(0, h.score), 0), 0);
-  const pct = maxPossible > 0 ? Math.round((todaySOP.totalScore / maxPossible) * 100) : 0;
+  const pct = maxPossible > 0 ? Math.round(((todaySOP.totalScore || 0) / maxPossible) * 100) : 0;
   const recentHist = hist.slice(-7);
   const maxScore = Math.max(...recentHist.map(h => h.totalScore), 1);
 
@@ -1542,7 +1543,8 @@ function renderSOPDoneState() {
         <div class="sop-done-score">${pct}%</div>
         <div class="sop-done-label">SOP 践行得分 · ${today}</div>
         <div class="sop-done-detail">${SOP_CATS.map(cat => {
-          const catData = todaySOP.cats.find(c => c.id === cat.id);
+          const cats = todaySOP.cats || [];
+          const catData = cats.find(c => c.id === cat.id);
           const catScore = cat.habits.reduce((s, h, i) => {
             const ans = catData ? (catData.yes > i ? true : false) : false;
             return s + (ans ? Math.max(0, h.score) : 0);
