@@ -185,6 +185,16 @@
     .chat-send-btn:active { transform: scale(0.97); }
     .coach-prompt { text-align: center; color: #d97706; font-size: 13px; font-weight: 600; padding: 8px; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+    /* 按钮式问答样式 */
+    .coach-buttons { padding: 12px 16px; background: #fafafa; border-top: 1px solid #e5e7eb; }
+    .coach-btn-prompt { font-size: 13px; color: #6b7280; margin-bottom: 10px; text-align: center; }
+    .coach-btn-list { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .coach-choice-btn { flex: 1; min-width: 120px; max-width: 180px; padding: 12px 16px; border: 2px solid #f97316; background: white; color: #f97316; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .coach-choice-btn:hover { background: #f97316; color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(249,115,22,0.3); }
+    .coach-choice-btn.yes { border-color: #22c55e; color: #22c55e; }
+    .coach-choice-btn.yes:hover { background: #22c55e; color: white; box-shadow: 0 4px 12px rgba(34,197,94,0.3); }
+    .coach-choice-btn.no { border-color: #ef4444; color: #ef4444; }
+    .coach-choice-btn.no:hover { background: #ef4444; color: white; box-shadow: 0 4px 12px rgba(239,68,68,0.3); }
 
 
     /* 麦肯锡诊断报告 */
@@ -349,6 +359,11 @@
       <div class="chat-input-area" id="chatInputArea">
         <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
         <button class="chat-send-btn" onclick="sendCoachMsg()">发送</button>
+      </div>
+      <!-- 按钮式问答容器 -->
+      <div class="coach-buttons" id="coachButtons" style="display:none;">
+        <div class="coach-btn-prompt" id="coachBtnPrompt"></div>
+        <div class="coach-btn-list" id="coachBtnList"></div>
       </div>
     </div>
 
@@ -911,16 +926,28 @@ const COACH_MCKINSEY_CONFIG = {
         next: 'analyze3'
       },
       {
-        coach: '很好！现在我有了足够的信息，用MECE框架给你结构化分析：\n\n【维度1：你的行为模式】\n{基于用户输入的分析}\n\n【维度2：对方的反应模式】\n{基于用户输入的分析}\n\n【维度3：关系结构】\n{权力动态分析} / {信息流动分析} / {情绪账户状态}\n\n现在进入第③步：优先级行动。你想先从哪个维度突破？\nA. 调整我的行为模式（改变自己）\nB. 引导对方的反应（影响对方）\nC. 重构关系结构（改变互动规则）',
+        coach: '很好！现在我有了足够的信息，用MECE框架给你结构化分析：\n\n【维度1：你的行为模式】\n{基于用户输入的分析}\n\n【维度2：对方的反应模式】\n{基于用户输入的分析}\n\n【维度3：关系结构】\n{权力动态分析} / {信息流动分析} / {情绪账户状态}\n\n现在进入第③步：优先级行动。你想先从哪个维度突破？',
         keywords: { 'A|调整|自己': 'act1', 'B|引导|对方': 'act1', 'C|重构|规则': 'act1' },
-        next: 'act1'
+        next: 'act1',
+        // 按钮配置
+        buttons: [
+          { label: 'A. 调整我的行为模式', value: 'A', style: '' },
+          { label: 'B. 引导对方的反应', value: 'B', style: '' },
+          { label: 'C. 重构关系结构', value: 'C', style: '' }
+        ]
       }
     ],
     act: [
       {
-        coach: '好的，你选择了{用户选择}。现在我用Impact/Effort矩阵，给你3个优先行动建议：\n\n【P0 · 快赢】{具体行动1}，预计耗时{时间}，成功概率{概率}\n【P1 · 重要】{具体行动2}，预计耗时{时间}，成功概率{概率}\n【P2 · 长期】{具体行动3}，预计耗时{时间}，成功概率{概率}\n\n请选择一个你想先试的行动（输入P0/P1/P2），我会帮你细化成"下一步行动"。',
-        keywords: { 'P0|P1|P2': 'act2' },
-        next: 'act2'
+        coach: '好的，你选择了{用户选择}。现在我用Impact/Effort矩阵，给你3个优先行动建议：\n\n【P0 · 快赢】{具体行动1}，预计耗时{时间}，成功概率{概率}\n【P1 · 重要】{具体行动2}，预计耗时{时间}，成功概率{概率}\n【P2 · 长期】{具体行动3}，预计耗时{时间}，成功概率{概率}\n\n请选择一个你想先试的行动，我会帮你细化成"下一步行动"：',
+        keywords: { 'P0': 'act2', 'P1': 'act2', 'P2': 'act2' },
+        next: 'act2',
+        // 按钮配置
+        buttons: [
+          { label: 'P0 · 快赢（今天就能做）', value: 'P0', style: 'yes' },
+          { label: 'P1 · 重要（本周内做）', value: 'P1', style: '' },
+          { label: 'P2 · 长期（系统改变）', value: 'P2', style: 'no' }
+        ]
       },
       {
         coach: '太好了！让我们把"{用户选择}"细化成可执行的下一步：\n\n【下一步行动】\n• 具体做什么：{细化行动}\n• 什么时候做：{时间}\n• 怎么判断有效：{成功标准}\n\n【备份方案】如果第一次没效果，试试：{替代方案}\n\n麦肯锡方法论告诉我们：只做有数据的决策。所以，请在执行后记录：对方的反应 + 你的感受。下周一我们复盘。\n\n正在为你生成MECE诊断报告...',
@@ -991,11 +1018,52 @@ function addChatMessage(role, text) {
   container.scrollTop = container.scrollHeight;
   // 记录历史
   chatHistory.push({ role, text });
-  // 如果是教练消息，显示提示并聚焦输入框
+  // 如果是教练消息
   if (role === 'coach') {
-    document.getElementById('coachPrompt').style.display = 'block';
-    document.getElementById('coachInput').focus();
+    // 获取当前节点，检查是否有按钮配置
+    const tree = COACH_MCKINSEY_CONFIG.dialogTree[coachStep];
+    const currentNode = tree ? tree[coachSubStep] : null;
+    if (currentNode && currentNode.buttons && currentNode.buttons.length > 0) {
+      // 显示按钮，隐藏输入框
+      showCoachButtons(currentNode.buttons);
+    } else {
+      // 显示输入框，隐藏按钮
+      document.getElementById('chatInputArea').style.display = 'flex';
+      document.getElementById('coachButtons').style.display = 'none';
+      document.getElementById('coachPrompt').style.display = 'block';
+      document.getElementById('coachInput').focus();
+    }
   }
+}
+
+// 显示教练按钮
+function showCoachButtons(buttons) {
+  const container = document.getElementById('coachButtons');
+  const btnList = document.getElementById('coachBtnList');
+  const btnPrompt = document.getElementById('coachBtnPrompt');
+  btnPrompt.textContent = '请选择：';
+  btnList.innerHTML = '';
+  buttons.forEach(btn => {
+    const btnEl = document.createElement('button');
+    btnEl.className = `coach-choice-btn ${btn.style || ''}`;
+    btnEl.textContent = btn.label;
+    btnEl.onclick = () => handleCoachButtonClick(btn.value, btn.label);
+    btnList.appendChild(btnEl);
+  });
+  container.style.display = 'block';
+  document.getElementById('chatInputArea').style.display = 'none';
+  document.getElementById('coachPrompt').style.display = 'none';
+}
+
+// 处理按钮点击
+function handleCoachButtonClick(value, label) {
+  // 显示用户选择的按钮
+  addChatMessage('user', label);
+  // 保存用户输入
+  if (!userInputs[coachStep]) userInputs[coachStep] = [];
+  userInputs[coachStep].push(value);
+  // 生成教练回复
+  setTimeout(() => generateCoachReply(value), 800);
 }
 
 function sendCoachMsg() {
@@ -1003,8 +1071,9 @@ function sendCoachMsg() {
   const text = input.value.trim();
   if (!text) return;
   input.value = '';
-  // 隐藏提示
+  // 隐藏提示和按钮
   document.getElementById('coachPrompt').style.display = 'none';
+  document.getElementById('coachButtons').style.display = 'none';
   // 显示用户消息
   addChatMessage('user', text);
   // 保存用户输入
@@ -1120,17 +1189,6 @@ function buildAck(step, subStep, userText) {
     return `你选择了：'${userText}'。现在用 Impact/Effort 矩阵给你3个行动建议：`;
   }
   return `收到，谢谢分享。`;
-}
-
-function sendCoachMsg() {
-  const input = document.getElementById('coachInput');
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  addChatMessage('user', text);
-  if (!userInputs[coachStep]) userInputs[coachStep] = [];
-  userInputs[coachStep].push(text);
-  setTimeout(() => generateCoachReply(text), 800);
 }
 
 function generateDynamicReply(step, subStep, userText) {
