@@ -397,21 +397,33 @@
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
       display: none; align-items: center; justify-content: center;
-      z-index: 300; padding: 20px;
+      z-index: 400; padding: 20px;
     }
     .fb-overlay.show { display: flex; }
     .fb-card {
       background: white; border-radius: 28px; padding: 28px 20px;
       max-width: 340px; width: 100%;
-      animation: sopPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       box-shadow: 0 24px 60px rgba(0,0,0,0.22);
       text-align: center;
     }
-    .fb-icon { font-size: 52px; display: block; margin-bottom: 12px; }
-    .fb-title { font-size: 20px; font-weight: 800; color: #2b2b3a; margin-bottom: 6px; }
-    .fb-text { font-size: 14px; color: #6c7a89; line-height: 1.7; margin-bottom: 16px; }
+    .fb-card.pos { border-top: 5px solid #43a047; animation: fbPop 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+    .fb-card.neg { border-top: 5px solid #ef5350; animation: fbShake 0.5s ease; }
+    @keyframes fbPop { from { transform: scale(0.5); opacity:0; } to { transform: scale(1); opacity:1; } }
+    @keyframes fbShake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+    .fb-emoji { font-size: 64px; margin-bottom: 12px; }
+    .fb-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; border-radius: 20px; display: inline-block; padding: 2px 12px; }
+    .fb-label.pos { background: #e8f5e9; color: #2e7d32; }
+    .fb-label.neg { background: #fff3f3; color: #c62828; }
+    .fb-title { font-size: 20px; font-weight: 800; color: #2b5a7a; margin-bottom: 10px; }
+    .fb-text { font-size: 14px; color: #6c7a89; line-height: 1.7; margin-bottom: 16px; text-align: left; }
     .fb-partner-quote {
-      background: #f7f4fb; border-radius: 12px; padding: 12px 16px;
+      background: #f7f9fc; border-radius: 12px; padding: 12px 16px;
       font-size: 14px; color: #3a4a5a; font-style: italic;
       margin-bottom: 20px; line-height: 1.6;
       text-align: left;
@@ -686,14 +698,14 @@
       <button onclick="askPartner('report')" style="margin-top:14px;padding:12px 24px;background:white;border:2px solid #ce93d8;border-radius:50px;font-size:14px;font-weight:600;color:#9c27b0;cursor:pointer;">💬 汇报今日进展</button>
     </div>
 
-    <div class="fb-overlay" id="fbOverlay">
-      <div class="fb-card">
-        <span class="fb-icon" id="fbIcon">🌸</span>
+    <div class="fb-overlay" id="fbOverlay" onclick="if(event.target===this)closeFeedback()">
+      <div class="fb-card" id="fbCard">
+        <div class="fb-emoji" id="fbEmoji">🌸</div>
+        <div class="fb-label" id="fbLabel">搭子说</div>
         <div class="fb-title" id="fbTitle">温柔陪伴型</div>
         <div class="fb-text" id="fbText">陪伴是最长情的告白。你的每一次温柔回应，都在为孩子积累安全感。</div>
-        <div class="fb-partner-label" id="fbPartnerLabel" style="text-align:left;">— 来自搭子的悄悄话</div>
         <div class="fb-partner-quote" id="fbQuote">"孩子需要的不是完美的父母，而是不完美的父母愿意陪着他们一起成长。"</div>
-        <button onclick="closeFeedback()" class="fb-btn">✨ 收到鼓励！</button>
+        <button class="fb-btn" onclick="closeFeedback()">✅ 知道了</button>
       </div>
     </div>
   </div>
@@ -1796,6 +1808,7 @@ function showTypeFeedback(panel, dir, item) {
   let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
   const style = partner.style || 'gentle';
   const emoji = partner.emoji;
+  const isPos = item.type === 'pos';
   const empathyMap = {
     progress: {gentle:'💙 你在陪读路上一直在努力，我看到了。', passion:'🔥 你的陪读付出一定会有回报！', rational:'📊 这是一条值得记录的路。', tsundere:'……还算有点进展吧。😏'},
     struggle: {gentle:'💙 陪读的路上没有标准答案，我们在摸索。', passion:'💪 妈妈也是人，允许自己疲惫。', rational:'📊 每个问题都有数据可分析。', tsundere:'😒 这种情况挺常见的。'},
@@ -1805,10 +1818,16 @@ function showTypeFeedback(panel, dir, item) {
     question: {gentle:'💙 问就是走在对的路上。', passion:'💪 问就对了！', rational:'📊 问题清晰是答案的一半。', tsundere:'🤷 问就问吧。'}
   };
   const empathy = empathyMap[panel]?.[style] || empathyMap[panel]?.['gentle'] || '💙 我听到了。';
-  showPartnerMsg(empathy, true);
-  setTimeout(() => {
-    showPartnerMsg(emoji + ' ' + item.feedback, true);
-  }, 900);
+  const fbCard = document.getElementById('fbCard');
+  fbCard.className = `fb-card ${item.type}`;
+  document.getElementById('fbEmoji').innerText = item.icon;
+  const labelEl = document.getElementById('fbLabel');
+  labelEl.innerText = isPos ? '✨ 正向' : '⚠️ 需要引导';
+  labelEl.className = `fb-label ${item.type}`;
+  document.getElementById('fbTitle').innerText = item.tag;
+  document.getElementById('fbText').innerText = item.feedback;
+  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${emoji} ${partner.name}说：</div>"${empathy.replace(emoji,' ').trim()}"`;
+  document.getElementById('fbOverlay').classList.add('show');
 }
 
 // ==================== 进展页 ====================

@@ -150,47 +150,74 @@
     .qa-card-tag.pos { background: #d97706; color: white; }
     .qa-card-tag.neg { background: #ef5350; color: white; }
 
-    /* ── 教练Tab ── */
+    /* ── 教练Tab（麦肯锡风格） ── */
     .coach-page { max-width: 420px; margin: 0 auto; }
-    .coach-header { background: white; border-radius: 32px; padding: 24px 20px 20px; margin-bottom: 16px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-    .coach-header-icon { font-size: 48px; margin-bottom: 12px; }
-    .coach-header-title { font-size: 20px; font-weight: 800; color: #2b3a4a; margin-bottom: 6px; }
-    .coach-header-sub { font-size: 13px; color: #8f9eae; line-height: 1.5; }
+
+    /* 教练介绍页 */
+    .coach-intro { background: white; border-radius: 32px; padding: 32px 24px; margin-bottom: 16px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .coach-intro-icon { font-size: 56px; margin-bottom: 16px; }
+    .coach-intro-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #d97706, #b45309); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+    .coach-intro-sub { font-size: 14px; color: #6c7a89; margin-bottom: 24px; }
+    .coach-method-steps { display: flex; gap: 12px; margin-bottom: 28px; }
+    .method-step { flex: 1; background: #fff8f0; border-radius: 16px; padding: 14px 8px; font-size: 13px; font-weight: 700; color: #d97706; line-height: 1.5; }
+    .step-num { display: block; font-size: 20px; margin-bottom: 4px; }
+    .step-desc { font-size: 11px; font-weight: 500; color: #b45309; }
+    .coach-intro-note { font-size: 11px; color: #8f9eae; margin-top: 16px; }
     .coach-start-btn { margin-top: 18px; width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #d97706, #b45309); color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.15s; }
     .coach-start-btn:active { transform: scale(0.97); }
 
-    /* 教练问答 */
-    .coach-q-card { background: white; border-radius: 32px; padding: 28px 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
-    .coach-q-num { font-size: 11px; font-weight: 700; color: #d97706; letter-spacing: 1px; margin-bottom: 10px; }
-    .coach-q-text { font-size: 17px; font-weight: 700; color: #2b3a4a; line-height: 1.5; margin-bottom: 24px; }
-    .coach-q-hint { font-size: 12px; color: #8f9eae; margin-bottom: 16px; }
-    .coach-ans-row { display: flex; gap: 12px; }
-    .coach-ans-btn { flex: 1; padding: 14px 8px; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: pointer; border: 2px solid #e9edf2; background: white; transition: all 0.15s; }
-    .coach-ans-btn:active { transform: scale(0.97); }
-    .coach-ans-btn.yes { color: #b45309; border-color: #fcd34d; }
-    .coach-ans-btn.yes:active { background: #fff8f0; }
-    .coach-ans-btn.no { color: #c62828; border-color: #ffcdd2; }
-    .coach-ans-btn.no:active { background: #fff3f3; }
+    /* 对话界面 */
+    .coach-chat { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .coach-progress-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+    .progress-step { flex: 1; text-align: center; font-size: 11px; font-weight: 700; color: #8f9eae; padding: 8px 4px; border-radius: 12px; background: #f5f5f5; transition: all 0.3s; line-height: 1.4; }
+    .progress-step.active { background: #fff8f0; color: #d97706; }
+    .chat-messages { max-height: 380px; overflow-y: auto; margin-bottom: 16px; padding: 8px; }
+    .chat-msg { margin-bottom: 16px; animation: msgIn 0.3s ease; }
+    .chat-msg.coach { display: flex; gap: 8px; align-items: flex-start; }
+    .chat-msg.user { display: flex; gap: 8px; align-items: flex-start; flex-direction: row-reverse; }
+    .chat-avatar { font-size: 28px; flex-shrink: 0; }
+    .chat-bubble { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.6; color: #2b3a4a; }
+    .chat-msg.coach .chat-bubble { background: #fff8f0; border-radius: 18px 18px 18px 4px; }
+    .chat-msg.user .chat-bubble { background: linear-gradient(135deg, #d97706, #b45309); color: white; border-radius: 18px 18px 4px 18px; }
+    .chat-input-area { display: flex; gap: 8px; align-items: flex-end; }
+    .chat-input-area textarea { flex: 1; padding: 12px 16px; border-radius: 16px; border: 1.5px solid #e9edf2; font-size: 14px; resize: none; outline: none; font-family: inherit; min-height: 44px; }
+    .chat-send-btn { padding: 12px 20px; border-radius: 16px; border: none; background: linear-gradient(135deg, #d97706, #b45309); color: white; font-size: 14px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
+    .chat-send-btn:active { transform: scale(0.97); }
 
-    /* 诊断报告 */
-    .coach-report { background: white; border-radius: 32px; padding: 28px 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-    .report-title { font-size: 20px; font-weight: 800; color: #2b3a4a; text-align: center; margin-bottom: 4px; }
-    .report-sub { font-size: 13px; color: #8f9eae; text-align: center; margin-bottom: 24px; }
-    .report-overall { text-align: center; margin-bottom: 24px; }
-    .report-score { font-size: 56px; font-weight: 800; background: linear-gradient(135deg, #d97706, #f59e0b); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .report-score-label { font-size: 13px; color: #8f9eae; margin-top: 4px; }
-    .report-dim { background: #fdf6f0; border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; }
-    .report-dim-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-    .report-dim-name { font-size: 14px; font-weight: 700; color: #2b3a4a; }
-    .report-dim-score { font-size: 13px; font-weight: 700; }
-    .report-dim-bar-bg { width: 100%; height: 6px; background: #e9edf2; border-radius: 6px; overflow: hidden; margin-bottom: 6px; }
-    .report-dim-bar { height: 100%; border-radius: 6px; transition: width 0.5s ease; }
-    .report-dim-desc { font-size: 12px; color: #6c7a89; line-height: 1.5; }
-    .report-tip { background: #fff8f0; border-radius: 16px; padding: 16px; margin-top: 16px; }
-    .report-tip-title { font-size: 13px; font-weight: 700; color: #d97706; margin-bottom: 8px; }
-    .report-tip-text { font-size: 13px; color: #6c7a89; line-height: 1.6; }
-    .report-restart { margin-top: 20px; width: 100%; padding: 14px; border-radius: 60px; border: 2px solid #fcd34d; background: white; color: #d97706; font-size: 15px; font-weight: 700; cursor: pointer; }
-    .report-restart:active { background: #fff8f0; }
+    /* 麦肯锡诊断报告 */
+    .coach-report-mckinsey { background: white; border-radius: 32px; padding: 28px 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .report-header { text-align: center; margin-bottom: 24px; }
+    .report-icon { font-size: 48px; margin-bottom: 12px; }
+    .report-title { font-size: 20px; font-weight: 800; color: #2b3a4a; margin-bottom: 4px; }
+    .report-subtitle { font-size: 12px; color: #8f9eae; }
+    .report-core-conclusion { background: linear-gradient(135deg, #fff8f0, #fff4ec); border-radius: 20px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #d97706; }
+    .report-core-conclusion h3 { font-size: 15px; font-weight: 700; color: #d97706; margin-bottom: 8px; }
+    .report-core-conclusion p { font-size: 14px; color: #2b3a4a; line-height: 1.6; }
+    .report-mece-analysis { margin-bottom: 20px; }
+    .report-mece-analysis h3 { font-size: 15px; font-weight: 700; color: #2b3a4a; margin-bottom: 12px; }
+    .mece-dimension { background: #fdf6f0; border-radius: 16px; padding: 14px; margin-bottom: 10px; }
+    .mece-dim-title { font-size: 14px; font-weight: 700; color: #d97706; margin-bottom: 6px; }
+    .mece-dim-score { font-size: 12px; color: #8f9eae; margin-bottom: 6px; }
+    .mece-dim-desc { font-size: 13px; color: #6c7a89; line-height: 1.5; }
+    .report-priority-actions { margin-bottom: 20px; }
+    .report-priority-actions h3 { font-size: 15px; font-weight: 700; color: #2b3a4a; margin-bottom: 12px; }
+    .action-item { background: white; border-radius: 16px; padding: 14px; margin-bottom: 8px; border-left: 4px solid #d97706; }
+    .action-priority { font-size: 11px; font-weight: 700; color: #d97706; margin-bottom: 4px; }
+    .action-text { font-size: 14px; color: #2b3a4a; line-height: 1.5; }
+    .report-next-step { background: #fff8f0; border-radius: 16px; padding: 16px; margin-bottom: 20px; }
+    .report-next-step h3 { font-size: 15px; font-weight: 700; color: #d97706; margin-bottom: 8px; }
+    .report-next-step p { font-size: 14px; color: #2b3a4a; line-height: 1.6; }
+    .coach-restart-btn { width: 100%; padding: 14px; border-radius: 60px; border: 2px solid #fcd34d; background: white; color: #d97706; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 12px; }
+    .coach-restart-btn:active { background: #fff8f0; }
+    .report-impact-effort { background: #f0f9ff; border-radius: 16px; padding: 16px; margin-bottom: 20px; }
+    .report-impact-effort h3 { font-size: 15px; font-weight: 700; color: #2b3a4a; margin-bottom: 12px; }
+    .ie-item { font-size: 14px; color: #2b3a4a; margin-bottom: 8px; }
+    .ie-tag { display: inline-block; padding: 2px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; margin-right: 8px; }
+    .ie-p0 { background: #dcfce7; color: #166534; }
+    .ie-p1 { background: #fef9c3; color: #854d0e; }
+    .ie-p2 { background: #ede9fe; color: #6b21a8; }
+
+    @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -288,28 +315,50 @@
   </div>
 </div>
 
-<!-- 教练页 -->
+<!-- 教练页 · 麦肯锡风格深度对话教练 -->
 <div class="page" id="coachPage">
   <div class="coach-page" id="coachPageContent">
-    <!-- 起始页 -->
-    <div class="coach-header" id="coachStart">
-      <div class="coach-header-icon">🎓</div>
-      <div class="coach-header-title">关系力教练诊断</div>
-      <div class="coach-header-sub">5个问题，诊断你在5个关系力维度上的真实水平。<br>诚实作答，教练才能给你有用的反馈。</div>
-      <button class="coach-start-btn" onclick="startCoach()">开始诊断 →</button>
+    <!-- 教练介绍页 -->
+    <div class="coach-intro" id="coachIntro">
+      <div class="coach-intro-icon">🎓</div>
+      <div class="coach-intro-title">麦肯锡风格关系力教练</div>
+      <div class="coach-intro-sub">用结构化思维，3步搞定关系难题</div>
+      <div class="coach-method-steps">
+        <div class="method-step"><span class="step-num">①</span> 界定问题<br><span class="step-desc">明确核心冲突</span></div>
+        <div class="method-step"><span class="step-num">②</span> 结构化分析<br><span class="step-desc">MECE拆解根因</span></div>
+        <div class="method-step"><span class="step-num">③</span> 优先级行动<br><span class="step-desc">可执行的下一步</span></div>
+      </div>
+      <button class="coach-start-btn" onclick="startCoach()">开始深度对话 →</button>
+      <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
     </div>
-    <!-- 问答页 -->
-    <div class="coach-q-card" id="coachQCard" style="display:none;">
-      <div class="coach-q-num" id="coachQNum">第 1 / 5 题</div>
-      <div class="coach-q-text" id="coachQText"></div>
-      <div class="coach-q-hint" id="coachQHint"></div>
-      <div class="coach-ans-row">
-        <button class="coach-ans-btn yes" onclick="answerCoach(true)">✅ 做到了</button>
-        <button class="coach-ans-btn no" onclick="answerCoach(false)">❌ 没做到</button>
+
+    <!-- 对话界面 -->
+    <div class="coach-chat" id="coachChat" style="display:none;">
+      <div class="coach-progress-bar">
+        <div class="progress-step active" id="progressStep1">① 界定问题</div>
+        <div class="progress-step" id="progressStep2">② 结构化分析</div>
+        <div class="progress-step" id="progressStep3">③ 优先级行动</div>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-area">
+        <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
+        <button class="chat-send-btn" onclick="sendCoachMsg()">发送</button>
       </div>
     </div>
-    <!-- 报告页 -->
-    <div class="coach-report" id="coachReport" style="display:none;"></div>
+
+    <!-- 诊断报告页 -->
+    <div class="coach-report-mckinsey" id="coachReport" style="display:none;">
+      <div class="report-header">
+        <div class="report-icon">📊</div>
+        <div class="report-title">麦肯锡风格关系力诊断报告</div>
+        <div class="report-subtitle">基于结构化分析框架 · MECE原则 · 行动导向</div>
+      </div>
+      <div class="report-core-conclusion" id="reportCoreConclusion"></div>
+      <div class="report-mece-analysis" id="reportMECE"></div>
+      <div class="report-priority-actions" id="reportActions"></div>
+      <div class="report-next-step" id="reportNextStep"></div>
+      <button class="coach-restart-btn" onclick="restartCoach()">🔄 重新对话</button>
+    </div>
   </div>
 </div>
 
@@ -811,139 +860,403 @@ function closeFBOverlay() {
   document.getElementById('fbOverlay').classList.remove('show');
 }
 
-// ===== 教练诊断 =====
-const COACH_QS = [
-  {
-    dim: 'listen', dimName: '倾听力', icon: '👂',
-    q: '最近一次有人对你说话时，你放下了手机、看着对方、等他说完再开口？',
-    hint: '倾听力不是"我在听"，而是"对方感受到我在听"。',
-    yesTip: '做得好！专注倾听是最被低估的关系力。继续保持这个习惯。',
-    noTip: '下次试试：把手机放桌上（屏幕朝下），眼神看着对方，等他自然停顿再开口。这个动作值千金。'
+// ===== 麦肯锡风格教练诊断 =====
+const COACH_MCKINSEY_CONFIG = {
+  name: '麦肯锡关系力教练',
+  persona: '你是拥有10年组织发展经验的麦肯锡风格教练。你的思维严谨（金字塔原理、MECE），你的提问犀利（直击本质），你的建议 actionable（下一步可立即执行）。你不给鸡汤，只给结构化洞察。',
+  steps: [
+    { id: 'define', label: '界定问题', icon: '🎯' },
+    { id: 'analyze', label: '结构化分析', icon: '🔍' },
+    { id: 'act', label: '优先级行动', icon: '🚀' }
+  ],
+  // 对话树（纯前端模拟，关键词触发）
+  dialogTree: {
+    define: [
+      {
+        coach: '你好！我是麦肯锡风格关系力教练。我们用3步搞定你的关系难题：①界定问题 → ②结构化分析 → ③优先级行动。\n\n先说说：最近哪段关系让你感到困扰或不顺？（请描述具体场景：背景+冲突+你的应对）',
+        keywords: {},
+        next: 'define2'
+      },
+      {
+        coach: null, // 用户回复后动态生成
+        keywords: {
+          '冲突|争执|吵架|矛盾': '我听到了冲突。让我们先界定：这是一次性事件，还是反复出现的模式？',
+          '冷漠|不理|冷暴力': '我听到了冷漠。让我们界定：对方是一直如此，还是最近变了？',
+          '拒绝|说不|不同意': '我听到了拒绝。让我们界定：是这件事本身的问题，还是你们关系状态的问题？',
+          'default': '我听到了你的描述。让我们界定核心问题：在你描述的事情里，最让你不舒服的那个瞬间是什么？为什么？'
+        },
+        next: 'define3'
+      },
+      {
+        coach: '好的，我已经理解了你的情境。让我用金字塔原理总结一下：\n\n【核心问题】你在{场景}中，感到{情绪}，因为{核心冲突}。\n\n对吗？如果有偏差，请补充；如果OK，请回复"OK"，我们进入下一步分析。',
+        keywords: { 'OK|对|是的|没错': 'analyze1' },
+        next: 'analyze1'
+      }
+    ],
+    analyze: [
+      {
+        coach: '现在进入结构化分析。我用MECE框架，从3个维度拆解你的问题：\n\n① 你的行为模式（你在关系中习惯性做什么？）\n② 对方的反应模式（对方如何回应你的行为？）\n③ 关系结构（权力/信息/情绪三者如何分布？）\n\n请先回答①：在这个场景下，你通常的行为模式是什么？（例如：我习惯直接给建议 / 我习惯回避冲突 / 我习惯先催进度...）',
+        keywords: {},
+        next: 'analyze2'
+      },
+      {
+        coach: '好的，我记录了你的行为模式。现在②：对方通常如何回应你？（例如：对方会防御 / 对方会沉默 / 对方会反过来催我...）',
+        keywords: {},
+        next: 'analyze3'
+      },
+      {
+        coach: '很好！现在我有了足够的信息，用MECE框架给你结构化分析：\n\n【维度1：你的行为模式】\n{基于用户输入的分析}\n\n【维度2：对方的反应模式】\n{基于用户输入的分析}\n\n【维度3：关系结构】\n{权力动态分析} / {信息流动分析} / {情绪账户状态}\n\n现在进入第③步：优先级行动。你想先从哪个维度突破？\nA. 调整我的行为模式（改变自己）\nB. 引导对方的反应（影响对方）\nC. 重构关系结构（改变互动规则）',
+        keywords: { 'A|调整|自己': 'act1', 'B|引导|对方': 'act1', 'C|重构|规则': 'act1' },
+        next: 'act1'
+      }
+    ],
+    act: [
+      {
+        coach: '好的，你选择了{用户选择}。现在我用Impact/Effort矩阵，给你3个优先行动建议：\n\n【P0 · 快赢】{具体行动1}，预计耗时{时间}，成功概率{概率}\n【P1 · 重要】{具体行动2}，预计耗时{时间}，成功概率{概率}\n【P2 · 长期】{具体行动3}，预计耗时{时间}，成功概率{概率}\n\n请选择一个你想先试的行动（输入P0/P1/P2），我会帮你细化成"下一步行动"。',
+        keywords: { 'P0|P1|P2': 'act2' },
+        next: 'act2'
+      },
+      {
+        coach: '太好了！让我们把"{用户选择}"细化成可执行的下一步：\n\n【下一步行动】\n• 具体做什么：{细化行动}\n• 什么时候做：{时间}\n• 怎么判断有效：{成功标准}\n\n【备份方案】如果第一次没效果，试试：{替代方案}\n\n麦肯锡方法论告诉我们：只做有数据的决策。所以，请在执行后记录：对方的反应 + 你的感受。下周一我们复盘。\n\n正在为你生成MECE诊断报告...',
+        keywords: {},
+        next: 'report'
+      }
+    ]
   },
-  {
-    dim: 'express', dimName: '表达力', icon: '💬',
-    q: '最近一次催进度或提要求时，你先说了"有什么我可以帮你的"，而不是直接说"什么时候能完成"？',
-    hint: '表达力的核心：让对方感受到"我们在同一条船上"。',
-    yesTip: '太棒了！"帮"的姿势比"催"的姿势有效10倍。你已经掌握了表达力的精髓。',
-    noTip: '试试换一个开头："我这边准备到XXX了，你那边有什么我可以提前帮忙的吗？"——先帮，再谈你的需求。'
-  },
-  {
-    dim: 'empathy', dimName: '共情力', icon: '🤝',
-    q: '最近一次别人拒绝你或说不的时候，你先问了"你这边是什么情况"，而不是继续说服他？',
-    hint: '共情力不是"我觉得你应该"，而是"我想理解你的处境"。',
-    yesTip: '非常好的习惯！接住对方的"不"，再找替代方案，这是顶级共情力的表现。',
-    noTip: '下次被拒绝时，先说："好的，我理解。你这边主要是卡在哪里？"——听懂了他的难处，才有下一步。'
-  },
-  {
-    dim: 'boundary', dimName: '边界感', icon: '🌿',
-    q: '最近一次你需要拒绝别人时，你给了一个替代方案，而不是只说"不"？',
-    hint: '好的边界感不是"拒绝"，而是"关上一扇门，开一扇窗"。',
-    yesTip: '边界感拿捏得很好！拒绝时不让人绝望，反而让人感受到你的真诚和用心。',
-    noTip: '试试："这个我很想帮，但我现在XXX优先级很高，要不你先看看YYY，我ZZZ之后来协助你？"——拒绝的是"现在"，不是"这件事"。'
-  },
-  {
-    dim: 'energy', dimName: '能量感', icon: '✨',
-    q: '最近一次和人互动时，你主动先问了"你最近怎么样"，而不只是直奔主题谈事情？',
-    hint: '能量感就是：让别人在你身边，感受到自己更有力量、更愿意开口。',
-    yesTip: '这就是能量感！"你最近怎么样"这7个字，是性价比最高的人情投资，没有之一。',
-    noTip: '下次见面或打电话，前30秒先聊人，再聊事。"你最近怎么样"——这句话能改变整段关系的温度。'
+  // 分析报告模板（金字塔原理）
+  reportTemplate: {
+    coreConclusion: '【核心结论】你在{场景}场景下，倾向于{行为模式}，导致{结果}。根本原因在于{根因}。',
+    meceAnalysis: [
+      { dimension: '你的行为模式', score: 0, desc: '' },
+      { dimension: '对方的反应模式', score: 0, desc: '' },
+      { dimension: '关系结构（权力/信息/情绪）', score: 0, desc: '' }
+    ],
+    priorityActions: [
+      { priority: 'P0 · 快赢', action: '', impact: '', effort: '' },
+      { priority: 'P1 · 重要', action: '', impact: '', effort: '' },
+      { priority: 'P2 · 长期', action: '', impact: '', effort: '' }
+    ],
+    nextStep: '【本周试验】{具体行动}\n【判断标准】{成功标准}\n【复盘时间】下周一'
   }
-];
+};
 
-let coachIdx = 0;
-let coachAnswers = [];
+// 对话状态
+let coachStep = '';       // 当前步骤：define / analyze / act / report
+let coachSubStep = 0;    // 当前子步骤索引
+let pendingNextStep = null; // 待应用的下一步（防止步骤推进bug）
+let pendingNextSub = 0;
+let chatHistory = [];     // 对话历史
+let userInputs = {};      // 用户在各步骤的输入
 
 function startCoach() {
-  coachIdx = 0;
-  coachAnswers = [];
-  document.getElementById('coachStart').style.display = 'none';
-  document.getElementById('coachQCard').style.display = 'block';
+  coachStep = 'define';
+  coachSubStep = 0;
+  chatHistory = [];
+  userInputs = {};
+  document.getElementById('coachIntro').style.display = 'none';
+  document.getElementById('coachChat').style.display = 'block';
   document.getElementById('coachReport').style.display = 'none';
-  renderCoachQ();
+  updateProgressBar();
+  // 发送教练第一条消息
+  const firstMsg = COACH_MCKINSEY_CONFIG.dialogTree.define[0].coach;
+  addChatMessage('coach', firstMsg);
 }
 
-function renderCoachQ() {
-  const q = COACH_QS[coachIdx];
-  if (!q) { showCoachReport(); return; }
-  document.getElementById('coachQNum').textContent = `第 ${coachIdx+1} / ${COACH_QS.length} 题 · ${q.dimName}`;
-  document.getElementById('coachQText').textContent = q.q;
-  document.getElementById('coachQHint').textContent = q.hint;
-  document.getElementById('coachQCard').style.display = 'block';
-  document.getElementById('coachReport').style.display = 'none';
+function updateProgressBar() {
+  const steps = ['define', 'analyze', 'act'];
+  steps.forEach((s, i) => {
+    const el = document.getElementById(`progressStep${i+1}`);
+    if (!el) return;
+    if (coachStep === s) { el.classList.add('active'); }
+    else { el.classList.remove('active'); }
+  });
 }
 
-function answerCoach(isYes) {
-  const q = COACH_QS[coachIdx];
-  coachAnswers.push({ ...q, ans: isYes });
-  coachIdx++;
-  if (coachIdx >= COACH_QS.length) {
-    showCoachReport();
-  } else {
-    renderCoachQ();
+function addChatMessage(role, text) {
+  const container = document.getElementById('chatMessages');
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `chat-msg ${role}`;
+  const avatar = role === 'coach' ? '🎓' : '🧑';
+  msgDiv.innerHTML = `
+    <div class="chat-avatar">${avatar}</div>
+    <div class="chat-bubble">${text.replace(/\n/g, '<br>')}</div>
+  `;
+  container.appendChild(msgDiv);
+  container.scrollTop = container.scrollHeight;
+  // 记录历史
+  chatHistory.push({ role, text });
+}
+
+function sendCoachMsg() {
+  const input = document.getElementById('coachInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  // 显示用户消息
+  addChatMessage('user', text);
+  // 保存用户输入
+  if (!userInputs[coachStep]) userInputs[coachStep] = [];
+  userInputs[coachStep].push(text);
+  // 生成教练回复（模拟延迟）
+  setTimeout(() => generateCoachReply(text), 800);
+}
+
+function generateCoachReply(userText) {
+  // 获取当前节点（用户刚回答完的节点）
+  const tree = COACH_MCKINSEY_CONFIG.dialogTree[coachStep];
+  if (!tree) { generateMcKinseyReport(); return; }
+  const currentNode = tree[coachSubStep];
+  if (!currentNode) { generateMcKinseyReport(); return; }
+
+  // ① 生成确认语（基于当前节点和用户回复）
+  let ack = buildAck(coachStep, coachSubStep, userText);
+
+  // ② 关键词匹配，决定下一个节点
+  let nextStep = coachStep;
+  let nextSub = coachSubStep + 1;
+  let jumped = false;
+
+  if (currentNode.keywords) {
+    let matched = false;
+    for (const [kw, target] of Object.entries(currentNode.keywords)) {
+      if (kw === 'default') continue;
+      const regex = new RegExp(kw, 'i');
+      if (regex.test(userText)) {
+        matched = true;
+        const m = target.match(/^([a-z]+)(\d+)$/);
+        if (m) {
+          nextStep = m[1];
+          nextSub = parseInt(m[2]);
+        }
+        jumped = true;
+        break;
+      }
+    }
+    if (!matched && currentNode.keywords.default) {
+      const target = currentNode.keywords.default;
+      const m = target.match(/^([a-z]+)(\d+)$/);
+      if (m) {
+        nextStep = m[1];
+        nextSub = parseInt(m[2]);
+      }
+      jumped = true;
+    }
   }
+
+  // ③ 如果没跳转，顺序推进；如果超出当前步骤长度，进入下一个大步骤
+  if (!jumped) {
+    const curTree = COACH_MCKINSEY_CONFIG.dialogTree[coachStep];
+    if (!curTree || nextSub >= curTree.length) {
+      const stepIdx = COACH_MCKINSEY_CONFIG.steps.findIndex(s => s.id === coachStep);
+      if (stepIdx < COACH_MCKINSEY_CONFIG.steps.length - 1) {
+        nextStep = COACH_MCKINSEY_CONFIG.steps[stepIdx + 1].id;
+        nextSub = 0;
+        updateProgressBar();
+      } else {
+        // 所有步骤已完成，直接生成报告
+        addChatMessage('coach', ack);
+        setTimeout(() => generateMcKinseyReport(), 1000);
+        return;
+      }
+    }
+  }
+
+  // ④ 获取下一个节点，把"提问"附加到确认语末尾
+  const nextNode = COACH_MCKINSEY_CONFIG.dialogTree[nextStep]?.[nextSub];
+  if (!nextNode) {
+    addChatMessage('coach', ack);
+    setTimeout(() => generateMcKinseyReport(), 1000);
+    return;
+  }
+
+  const nextQ = nextNode.coach || '';
+  let reply = ack;
+  if (nextQ) {
+    reply += '\n\n' + nextQ;
+  }
+  reply = replacePlaceholders(reply, userText);
+
+  // ⑤ 更新全局状态（在显示回复后更新）
+  coachStep = nextStep;
+  coachSubStep = nextSub;
+
+  addChatMessage('coach', reply);
 }
 
-function showCoachReport() {
-  document.getElementById('coachQCard').style.display = 'none';
+function buildAck(step, subStep, userText) {
+  // 根据当前步骤和子步骤，生成简短确认语
+  if (step === 'define') {
+    if (subStep === 0) {
+      // 用户刚描述完场景
+      return `收到，你描述的场景是："${userText.substring(0, 60)}..."\n让我帮你界定核心问题：`;
+    }
+    if (subStep === 1) {
+      // 用户回答了"是一次性事件还是反复模式"
+      return `明白。你已经界定了核心问题：在"${userInputs.define?.[0]?.substring(0, 30) || '你的场景'}"中，你感到不舒服。对吗？如果OK请回复"OK"进入分析。`;
+    }
+  }
+  if (step === 'analyze') {
+    if (subStep === 0) {
+      return `好的，我记录了你的行为模式："${userText.substring(0, 50)}..."`;
+    }
+    if (subStep === 1) {
+      return `很好！现在我有了双方的行为模式，让我用MECE框架分析：\n【你的行为模式】${userInputs.analyze?.[0] || ''}\n→ 让对方感受到：你可能太急了\n【对方的反应模式】${userText}\n→ 让关系陷入：你说你的，我做我的\n【关系结构】权力动态偏单向 / 信息流动不充分 / 情绪账户透支\n\n现在，你想先从哪个维度突破？\nA. 调整我的行为模式（改变自己）\nB. 引导对方的反应（影响对方）\nC. 重构关系结构（改变互动规则）`;
+    }
+  }
+  if (step === 'act') {
+    return `你选择了：'${userText}'。现在用 Impact/Effort 矩阵给你3个行动建议：`;
+  }
+  return `收到，谢谢分享。`;
+}
+
+function sendCoachMsg() {
+  const input = document.getElementById('coachInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addChatMessage('user', text);
+  if (!userInputs[coachStep]) userInputs[coachStep] = [];
+  userInputs[coachStep].push(text);
+  setTimeout(() => generateCoachReply(text), 800);
+}
+
+function generateDynamicReply(step, subStep, userText) {
+  // 基于用户输入动态生成回复（简化版，纯前端模拟）
+  if (step === 'define') {
+    if (subStep === 1) {
+      return `我听到了你的描述。让我帮你界定核心问题：\n\n从你的描述中，我注意到{关键模式}。\n\n请确认：核心问题是不是——在{场景}中，你需要{需求}，但对方{障碍}，导致你感到{情绪}？\n\n如果OK，请回复"OK"，我们进入分析。`;
+    }
+  }
+  if (step === 'analyze') {
+    if (subStep === 0) {
+      return `好的，我记录了你的行为模式："${userText.substring(0, 50)}..."\n\n现在②：对方通常如何回应你？（例如：对方会防御 / 对方会沉默 / 对方会反过来催我...）`;
+    }
+    if (subStep === 1) {
+      return `很好！现在我有了双方的行为模式。让我用MECE框架分析：\n\n【你的行为模式】${userInputs.analyze?.[0] || ''}\n→ 这会让对方感受到：{影响}\n\n【对方的反应模式】${userText}\n→ 这会让关系陷入：{循环}\n\n【关系结构】\n• 权力动态：{分析}\n• 信息流动：{分析}\n• 情绪账户：{分析}\n\n现在，你想先从哪个维度突破？\nA. 调整我的行为模式\nB. 引导对方的反应\nC. 重构关系结构`;
+    }
+  }
+  if (step === 'act') {
+    return `好的，你选择了{选项}。现在我用Impact/Effort矩阵给你3个行动建议：\n\n【P0 · 快赢】{行动1}\n【P1 · 重要】{行动2}\n【P2 · 长期】{行动3}\n\n请选择P0/P1/P2，我帮你细化成下一步行动。`;
+  }
+  return '请继续，我在听...';
+}
+
+function replacePlaceholders(text, userText) {
+  if (!text) return '';
+  // 简化版占位符替换
+  text = text.replace(/{用户选择}/g, userText.substring(0, 20));
+  text = text.replace(/{场景}/g, userInputs.define?.[0]?.substring(0, 30) || '你的关系场景');
+  text = text.replace(/{情绪}/g, '不舒服');
+  text = text.replace(/{核心冲突}/g, '需求和现实的差距');
+  return text;
+}
+
+function generateMcKinseyReport() {
+  document.getElementById('coachChat').style.display = 'none';
   const reportEl = document.getElementById('coachReport');
   reportEl.style.display = 'block';
 
-  // 计算每维度得分
-  const dimScores = {};
-  COACH_QS.forEach(q => { dimScores[q.dim] = 0; });
-  coachAnswers.forEach(a => { if (a.ans) dimScores[a.dim] += 20; });
+  const inputs = userInputs;
+  const actions = buildDynamicActions(inputs);
 
-  const totalScore = Object.values(dimScores).reduce((s,v)=>s+v, 0);
-  const maxScore = COACH_QS.length * 20;
+  const report = {
+    coreConclusion: `【核心结论】你在"${inputs.define?.[0]?.substring(0, 50) || '最近的关系场景'}"中，倾向于${(inputs.analyze?.[0] || '某种行为模式').substring(0, 30)}，导致关系陷入僵局。根本原因在于双方的行为模式形成了负向循环。`,
+    mece: [
+      { dim: '你的行为模式', score: 6, desc: inputs.analyze?.[0] || '待补充', color: '#d97706' },
+      { dim: '对方的反应模式', score: 5, desc: inputs.analyze?.[1] || '待补充', color: '#0891b2' },
+      { dim: '关系结构', score: 4, desc: '权力动态偏单向 / 信息流动不充分 / 情绪账户透支', color: '#7c3aed' }
+    ],
+    actions: actions,
+    nextStep: `【本周试验】${inputs.analyze?.[0] ? '调整你的互动方式，先倾听再表达' : '主动问候对方，不只在有问题时才联系'}\n【判断标准】对方回应变得更开放（主动说更多信息）\n【复盘时间】建议下周一找我复盘`
+  };
 
   let html = `
-    <div class="report-title">🎓 关系力诊断报告</div>
-    <div class="report-sub">教练陪你照了一次镜子，以下是诊断结果</div>
-    <div class="report-overall">
-      <div class="report-score">${totalScore}</div>
-      <div class="report-score-label">总分 ${totalScore}/${maxScore}</div>
-    </div>`;
-
-  const dimColors = { listen:'#d97706', express:'#0891b2', empathy:'#16a34a', boundary:'#7c3aed', energy:'#db2777' };
-  COACH_QS.forEach(q => {
-    const score = dimScores[q.dim];
-    const pct = score;
-    const color = dimColors[q.dim] || '#d97706';
-    const ans = coachAnswers.find(a=>a.dim===q.dim);
-    const tip = ans ? (ans.ans ? ans.yesTip : ans.noTip) : '';
-    html += `
-      <div class="report-dim">
-        <div class="report-dim-header">
-          <span class="report-dim-name">${q.icon} ${q.dimName}</span>
-          <span class="report-dim-score" style="color:${color}">${score}分</span>
-        </div>
-        <div class="report-dim-bar-bg"><div class="report-dim-bar" style="width:${pct}%;background:${color}"></div></div>
-        <div class="report-dim-desc">${tip}</div>
-      </div>`;
-  });
-
-  // 综合建议
-  let level = '', levelColor = '';
-  if (totalScore >= 80) { level = '关系力高手 🌟'; levelColor = '#16a34a'; }
-  else if (totalScore >= 60) { level = '关系力良好，有提升空间 👍'; levelColor = '#d97706'; }
-  else if (totalScore >= 40) { level = '关系力待加强，建议刻意练习 💪'; levelColor = '#ea580c'; }
-  else { level = '关系力是你的短板，但好消息是提升空间巨大 🌱'; levelColor = '#dc2626'; }
-
-  html += `
-    <div class="report-tip">
-      <div class="report-tip-title" style="color:${levelColor}">综合评估：${level}</div>
-      <div class="report-tip-text">关系力不是性格，是技能。技能靠练，不靠想。每天选一个维度刻意练习，30天后你会看到明显变化。</div>
+    <div class="report-header">
+      <div class="report-icon">📊</div>
+      <div class="report-title">麦肯锡风格关系力诊断报告</div>
+      <div class="report-subtitle">基于结构化分析框架 · MECE原则 · 行动导向</div>
     </div>
-    <button class="report-restart" onclick="restartCoach()">🔄 再测一次</button>`;
+
+    <div class="report-core-conclusion">
+      <h3>🎯 核心结论（金字塔顶端）</h3>
+      <p>${report.coreConclusion}</p>
+    </div>
+
+    <div class="report-mece-analysis">
+      <h3>📋 MECE结构化分析</h3>
+      ${report.mece.map(m => `
+        <div class="mece-dimension">
+          <div class="mece-dim-title">${m.dim} <span style="color:${m.color}">${m.score}/10</span></div>
+          <div class="mece-dim-desc">${m.desc}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="report-impact-effort">
+      <h3>📊 Impact/Effort 矩阵说明</h3>
+      <div class="ie-item"><span class="ie-tag ie-p0">P0 · 快赢</span>高影响 + 低投入 → 立即可做，快速见效</div>
+      <div class="ie-item"><span class="ie-tag ie-p1">P1 · 重要</span>高影响 + 高投入 → 值得规划，中期突破</div>
+      <div class="ie-item"><span class="ie-tag ie-p2">P2 · 长期</span>中影响 + 高投入 → 系统变革，长期收益</div>
+    </div>
+
+    <div class="report-priority-actions">
+      <h3>🚀 优先级行动（Impact/Effort矩阵）</h3>
+      ${report.actions.map(a => `
+        <div class="action-item">
+          <div class="action-priority">${a.priority}</div>
+          <div class="action-text"><strong>行动：</strong>${a.action}<br><strong>影响：</strong>${a.impact} | <strong>投入：</strong>${a.effort}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="report-next-step">
+      <h3>👣 下一步行动（actionable）</h3>
+      <p>${report.nextStep.replace(/\n/g, '<br>')}</p>
+    </div>
+
+    <button class="coach-restart-btn" onclick="restartCoach()">🔄 重新对话</button>
+  `;
 
   reportEl.innerHTML = html;
   reportEl.scrollTop = 0;
 }
 
+function buildDynamicActions(inputs) {
+  const behavior = (inputs.analyze?.[0] || '').toLowerCase();
+  const scenario = (inputs.define?.[0] || '').toLowerCase();
+  const actions = [];
+
+  // P0 快赢（高影响 + 低投入）→ 基于用户行为模式动态生成
+  if (behavior.includes('直接') || behavior.includes('建议')) {
+    actions.push({ priority: 'P0 · 快赢', action: '下次互动时，先问"你怎么看？"再分享你的想法', impact: '快速降低对方防御', effort: '低' });
+  } else if (behavior.includes('回避') || behavior.includes('沉默')) {
+    actions.push({ priority: 'P0 · 快赢', action: '下次对方说话时，用"嗯/哦/然后呢"鼓励对方多说', impact: '快速建立安全感', effort: '低' });
+  } else if (behavior.includes('催') || behavior.includes('着急')) {
+    actions.push({ priority: 'P0 · 快赢', action: '下次先停顿3秒，让对方先说', impact: '快速降低对方压力', effort: '低' });
+  } else {
+    actions.push({ priority: 'P0 · 快赢', action: '下次互动时，先问"你最近怎么样"，再谈事', impact: '快速降低对方防御', effort: '低' });
+  }
+
+  // P1 重要（高影响 + 高投入）
+  if (scenario.includes('同事') || scenario.includes('工作')) {
+    actions.push({ priority: 'P1 · 重要', action: '用"我需要你的帮助"替代"你应该"，每周主动1次非工作话题', impact: '改变权力动态', effort: '中' });
+  } else if (scenario.includes('家人') || scenario.includes('伴侣') || scenario.includes('老公') || scenario.includes('老婆')) {
+    actions.push({ priority: 'P1 · 重要', action: '每周安排1次无手机对话时间（15分钟）', impact: '重建情感连接', effort: '中' });
+  } else {
+    actions.push({ priority: 'P1 · 重要', action: '用"我需要你的帮助"替代"你应该"', impact: '改变权力动态', effort: '中' });
+  }
+
+  // P2 长期（系统变革）
+  actions.push({ priority: 'P2 · 长期', action: '建立定期1:1沟通机制，不只在有问题时才找对方', impact: '重构关系结构', effort: '高' });
+
+  return actions;
+}
+
 function restartCoach() {
   document.getElementById('coachReport').style.display = 'none';
-  document.getElementById('coachStart').style.display = 'block';
-  document.getElementById('coachQCard').style.display = 'none';
+  document.getElementById('coachChat').style.display = 'none';
+  document.getElementById('coachIntro').style.display = 'block';
+  document.getElementById('chatMessages').innerHTML = '';
 }
 
 // ===== Tab切换 =====
