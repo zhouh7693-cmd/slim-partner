@@ -7,105 +7,48 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    background: #f3f0f9;
+    background: #f5f3fa;
     font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
     min-height: 100vh;
-    padding: 0 0 48px;
+    padding: 0 0 40px;
   }
 
-  /* ── 顶部 Hero ── */
+  /* ── 顶部 Hero（简化） ── */
   .hero {
     background: linear-gradient(135deg, #6b46c1 0%, #9b6ce8 100%);
-    padding: 36px 20px 28px;
+    padding: 28px 16px 22px;
     text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    bottom: -20px; left: 0; right: 0;
-    height: 40px;
-    background: #f3f0f9;
-    border-radius: 50% 50% 0 0 / 40px 40px 0 0;
-  }
-  .hero-badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.18);
     color: #fff;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    border-radius: 20px;
-    padding: 3px 12px;
-    margin-bottom: 12px;
   }
-  .hero h1 {
-    font-size: 26px;
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: 1px;
-  }
-  .hero p {
-    font-size: 13px;
-    color: rgba(255,255,255,0.75);
-    margin-top: 6px;
-  }
+  .hero h1 { font-size: 20px; font-weight: 800; letter-spacing: 1px; }
+  .hero p { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 4px; }
   .hero-count {
-    margin-top: 16px;
+    margin-top: 14px;
     display: flex;
     justify-content: center;
-    gap: 24px;
+    gap: 28px;
   }
-  .hero-count-item {
-    text-align: center;
-  }
-  .hero-count-item .num {
-    font-size: 22px;
-    font-weight: 800;
-    color: #fff;
-  }
-  .hero-count-item .label {
-    font-size: 11px;
-    color: rgba(255,255,255,0.7);
-    margin-top: 2px;
-  }
+  .hero-count .num { font-size: 20px; font-weight: 800; }
+  .hero-count .label { font-size: 10px; color: rgba(255,255,255,0.65); margin-top: 1px; }
 
   /* ── 区块 ── */
-  .section {
-    padding: 20px 16px 0;
-  }
+  .section { padding: 16px 14px 0; }
   .section-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 12px;
+    gap: 6px;
+    margin-bottom: 10px;
   }
-  .section-icon {
-    font-size: 16px;
-    line-height: 1;
-  }
-  .section-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: #5b3fa6;
-    letter-spacing: 0.5px;
-  }
-  .section-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to right, rgba(91,63,166,0.15), transparent);
-  }
+  .section-icon { font-size: 14px; }
+  .section-title { font-size: 12px; font-weight: 700; color: #5b3fa6; letter-spacing: 0.5px; }
+  .section-line { flex: 1; height: 1px; background: linear-gradient(to right, rgba(91,63,166,0.12), transparent); }
 
   /* ── 卡片网格 ── */
   .card-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 9px;
   }
-  .card-grid.cols-1 { grid-template-columns: 1fr; }
-  .card-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
 
   /* ── 基础卡片 ── */
   a.card {
@@ -114,115 +57,91 @@
     align-items: center;
     justify-content: center;
     background: #fff;
-    border-radius: 14px;
-    padding: 16px 10px;
+    border-radius: 13px;
+    padding: 14px 8px 12px;
     text-decoration: none;
-    box-shadow: 0 2px 10px rgba(91,63,166,0.07);
-    transition: transform 0.15s, box-shadow 0.15s;
-    min-height: 84px;
+    box-shadow: 0 1px 8px rgba(91,63,166,0.06);
+    transition: transform 0.15s;
+    min-height: 82px;
     position: relative;
     overflow: hidden;
   }
-  a.card:active {
-    transform: scale(0.96);
-    box-shadow: 0 1px 5px rgba(91,63,166,0.1);
-  }
-  .card-emoji {
-    font-size: 26px;
-    margin-bottom: 7px;
-    line-height: 1;
-  }
+  a.card:active { transform: scale(0.96); }
+  .card-emoji { font-size: 24px; margin-bottom: 5px; line-height: 1; }
   .card-label {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     color: #2d2d2d;
     text-align: center;
     line-height: 1.3;
   }
   .card-sub {
-    font-size: 10px;
+    font-size: 9px;
     color: #aaa;
-    margin-top: 3px;
+    margin-top: 2px;
     text-align: center;
-    line-height: 1.4;
+    line-height: 1.3;
   }
 
-  /* ── 横版特色卡（full width） ── */
-  a.card.wide {
-    grid-column: 1 / -1;
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: 14px;
-    padding: 16px 20px;
-    min-height: 68px;
+  /* ── 跨两列的大卡（减肥搭子/陪读妈妈） ── */
+  a.card.tall {
+    grid-column: span 1;
+    min-height: 100px;
+    padding: 16px 10px 14px;
   }
-  a.card.wide .card-emoji { font-size: 30px; margin-bottom: 0; flex-shrink: 0; }
-  a.card.wide .card-info { text-align: left; }
-  a.card.wide .card-label { font-size: 15px; }
-  a.card.wide .card-sub { font-size: 11px; }
+  a.card.tall .card-emoji { font-size: 28px; margin-bottom: 7px; }
+  a.card.tall .card-label { font-size: 13px; }
+  a.card.tall .card-sub { font-size: 10px; }
 
-  /* ── 主打卡（紫色渐变） ── */
-  a.card.primary {
-    background: linear-gradient(135deg, #7b5ea7 0%, #a87edc 100%);
-  }
-  a.card.primary .card-label { color: #fff; }
-  a.card.primary .card-sub { color: rgba(255,255,255,0.75); }
+  /* ── 色系 ── */
+  a.card.primary { background: linear-gradient(160deg, #7b5ea7, #a87edc); }
+  a.card.primary .card-label,
+  a.card.primary .card-sub { color: #fff; }
 
-  /* ── 暖色系（创业/管理） ── */
-  a.card.warm {
-    background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
-  }
-  a.card.warm .card-label { color: #fff; }
-  a.card.warm .card-sub { color: rgba(255,255,255,0.8); }
+  a.card.blue { background: linear-gradient(160deg, #2563eb, #60a5fa); }
+  a.card.blue .card-label,
+  a.card.blue .card-sub { color: #fff; }
 
-  /* ── 绿色系（Owner） ── */
-  a.card.green {
-    background: linear-gradient(135deg, #059669 0%, #34d399 100%);
-  }
-  a.card.green .card-label { color: #fff; }
-  a.card.green .card-sub { color: rgba(255,255,255,0.8); }
+  a.card.warm { background: linear-gradient(160deg, #f97316, #fbbf24); }
+  a.card.warm .card-label,
+  a.card.warm .card-sub { color: #fff; }
 
-  /* ── 玫瑰色系（关系力） ── */
-  a.card.rose {
-    background: linear-gradient(135deg, #e05c97 0%, #f9a8d4 100%);
-  }
-  a.card.rose .card-label { color: #fff; }
-  a.card.rose .card-sub { color: rgba(255,255,255,0.8); }
+  a.card.purple { background: linear-gradient(160deg, #7c3aed, #a78bfa); }
+  a.card.purple .card-label,
+  a.card.purple .card-sub { color: #fff; }
 
-  /* ── 蓝色系（陪读） ── */
-  a.card.blue {
-    background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%);
-  }
-  a.card.blue .card-label { color: #fff; }
-  a.card.blue .card-sub { color: rgba(255,255,255,0.8); }
+  a.card.green { background: linear-gradient(160deg, #059669, #34d399); }
+  a.card.green .card-label,
+  a.card.green .card-sub { color: #fff; }
 
-  /* ── 工具类（分享/帮助） ── */
-  a.card.tool {
-    background: linear-gradient(135deg, #94a3b8 0%, #cbd5e1 100%);
-  }
-  a.card.tool .card-label { color: #fff; }
-  a.card.tool .card-sub { color: rgba(255,255,255,0.8); }
+  a.card.rose { background: linear-gradient(160deg, #e05c97, #f9a8d4); }
+  a.card.rose .card-label,
+  a.card.rose .card-sub { color: #fff; }
+
+  a.card.tool { background: linear-gradient(160deg, #94a3b8, #cbd5e1); }
+  a.card.tool .card-label,
+  a.card.tool .card-sub { color: #fff; }
 
   /* ── NEW 角标 ── */
   .badge-new {
     position: absolute;
-    top: 8px; right: 8px;
+    top: 6px; right: 6px;
     background: #ef4444;
     color: #fff;
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 700;
-    border-radius: 6px;
-    padding: 1px 5px;
-    letter-spacing: 0.5px;
+    border-radius: 5px;
+    padding: 1px 4px;
+    letter-spacing: 0.3px;
   }
 
   /* ── 底部 ── */
   .footer {
     text-align: center;
-    font-size: 11px;
+    font-size: 10px;
     color: #ccc;
-    margin-top: 32px;
-    padding: 0 20px;
+    margin-top: 28px;
+    padding: 0 16px;
   }
 </style>
 </head>
@@ -230,85 +149,70 @@
 
 <!-- Hero -->
 <div class="hero">
-  <div class="hero-badge">Slim Partner</div>
   <h1>🌟 每日搭子中心</h1>
   <p>选一个搭子，开始今天的成长打卡</p>
   <div class="hero-count">
-    <div class="hero-count-item">
-      <div class="num">10</div>
-      <div class="label">搭子数量</div>
-    </div>
-    <div class="hero-count-item">
-      <div class="num">5</div>
-      <div class="label">成长维度</div>
-    </div>
-    <div class="hero-count-item">
-      <div class="num">∞</div>
-      <div class="label">每日打卡</div>
-    </div>
+    <div><div class="num">10</div><div class="label">搭子</div></div>
+    <div><div class="num">5</div><div class="label">维度</div></div>
+    <div><div class="num">∞</div><div class="label">每日打卡</div></div>
   </div>
 </div>
 
-<!-- 核心打卡 -->
+<!-- 核心打卡：减肥 + 陪读妈妈 并排 -->
 <div class="section">
   <div class="section-header">
     <span class="section-icon">🏠</span>
     <span class="section-title">核心打卡</span>
     <div class="section-line"></div>
   </div>
-  <div class="card-grid cols-1">
-    <a class="card wide primary" href="https://zhouh7693-cmd.github.io/slim-partner/index.html" target="_blank">
+  <div class="card-grid">
+    <a class="card tall primary" href="https://zhouh7693-cmd.github.io/slim-partner/index.html" target="_blank">
       <span class="card-emoji">🏃</span>
-      <div class="card-info">
-        <div class="card-label">减肥搭子打卡</div>
-        <div class="card-sub">每日饮食 · 体重记录 · 习惯养成</div>
-      </div>
+      <div class="card-label">减肥搭子</div>
+      <div class="card-sub">饮食 · 体重 · 习惯</div>
+    </a>
+    <a class="card tall blue" href="https://zhouh7693-cmd.github.io/slim-partner/陪读妈妈搭子.html" target="_blank">
+      <span class="card-emoji">👩‍👧</span>
+      <div class="card-label">陪读妈妈</div>
+      <div class="card-sub">高一 · 亲子成长</div>
     </a>
   </div>
 </div>
 
-<!-- 职场成长 -->
+<!-- 职场成长：双列 -->
 <div class="section">
   <div class="section-header">
     <span class="section-icon">💼</span>
     <span class="section-title">职场成长</span>
     <div class="section-line"></div>
   </div>
-  <div class="card-grid cols-1">
-    <a class="card wide warm" href="https://zhouh7693-cmd.github.io/slim-partner/创业搭子.html" target="_blank">
+  <div class="card-grid">
+    <a class="card warm" href="https://zhouh7693-cmd.github.io/slim-partner/创业搭子.html" target="_blank">
       <span class="card-emoji">🚀</span>
-      <div class="card-info">
-        <div class="card-label">创业搭子</div>
-        <div class="card-sub">5维度 · 每日创业复盘 SOP</div>
-      </div>
+      <div class="card-label">创业搭子</div>
+      <div class="card-sub">5维度复盘</div>
     </a>
-    <a class="card wide primary" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-P7管理成长.html" target="_blank">
+    <a class="card purple" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-P7管理成长.html" target="_blank">
       <span class="card-emoji">💼</span>
-      <div class="card-info">
-        <div class="card-label">P7升P8 管理成长</div>
-        <div class="card-sub">5维度 · 每日管理自检 SOP</div>
-      </div>
+      <div class="card-label">P7→P8</div>
+      <div class="card-sub">管理成长</div>
     </a>
-    <a class="card wide green" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-业务Owner.html" target="_blank">
+    <a class="card green" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-业务Owner.html" target="_blank">
       <span class="card-emoji">🌿</span>
-      <div class="card-info">
-        <div class="card-label">业务 Owner 搭子</div>
-        <div class="card-sub">稳进 · Owner思维 · 数据驱动</div>
-      </div>
+      <div class="card-label">业务 Owner</div>
+      <div class="card-sub">稳进 · 数据驱动</div>
       <span class="badge-new">NEW</span>
     </a>
-    <a class="card wide rose" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-关系力.html" target="_blank">
+    <a class="card rose" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-关系力.html" target="_blank">
       <span class="card-emoji">🌸</span>
-      <div class="card-info">
-        <div class="card-label">关系力修炼搭子</div>
-        <div class="card-sub">职场关系 · 共情表达 · 高级感</div>
-      </div>
+      <div class="card-label">关系力修炼</div>
+      <div class="card-sub">共情 · 高级感</div>
       <span class="badge-new">NEW</span>
     </a>
   </div>
 </div>
 
-<!-- 五大财富 -->
+<!-- 五大财富 SOP：双列 -->
 <div class="section">
   <div class="section-header">
     <span class="section-icon">✨</span>
@@ -319,50 +223,32 @@
     <a class="card" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-身体财富.html" target="_blank">
       <span class="card-emoji">💪</span>
       <div class="card-label">身体财富</div>
-      <div class="card-sub">运动 · 睡眠<br>健康习惯</div>
+      <div class="card-sub">运动·睡眠·健康</div>
     </a>
     <a class="card" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-财务财富.html" target="_blank">
       <span class="card-emoji">💰</span>
       <div class="card-label">财务财富</div>
-      <div class="card-sub">收入 · 储蓄<br>投资规划</div>
+      <div class="card-sub">收入·储蓄·投资</div>
     </a>
     <a class="card" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-精神财富.html" target="_blank">
       <span class="card-emoji">🕊️</span>
       <div class="card-label">精神财富</div>
-      <div class="card-sub">阅读 · 冥想<br>内在成长</div>
+      <div class="card-sub">阅读·冥想·成长</div>
     </a>
     <a class="card" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-关系财富.html" target="_blank">
       <span class="card-emoji">❤️</span>
       <div class="card-label">关系财富</div>
-      <div class="card-sub">家人 · 朋友<br>深度连接</div>
+      <div class="card-sub">家人·朋友·连接</div>
     </a>
-    <a class="card" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-使命财富.html" target="_blank">
+    <a class="card" href="https://zhouh7693-cmd.github.io/slim-partner/搭子-使命财富.html" target="_blank" style="grid-column: span 2;">
       <span class="card-emoji">🎯</span>
       <div class="card-label">使命财富</div>
-      <div class="card-sub">目标 · 价值<br>人生贡献</div>
+      <div class="card-sub">目标 · 价值 · 人生贡献</div>
     </a>
   </div>
 </div>
 
-<!-- 家庭陪伴 -->
-<div class="section">
-  <div class="section-header">
-    <span class="section-icon">🏡</span>
-    <span class="section-title">家庭陪伴</span>
-    <div class="section-line"></div>
-  </div>
-  <div class="card-grid cols-1">
-    <a class="card wide blue" href="https://zhouh7693-cmd.github.io/slim-partner/陪读妈妈搭子.html" target="_blank">
-      <span class="card-emoji">👩‍👧</span>
-      <div class="card-info">
-        <div class="card-label">陪读妈妈搭子</div>
-        <div class="card-sub">高一 · 每日陪读复盘 SOP · 亲子成长</div>
-      </div>
-    </a>
-  </div>
-</div>
-
-<!-- 帮助 & 分享 -->
+<!-- 工具 & 分享：双列 -->
 <div class="section">
   <div class="section-header">
     <span class="section-icon">🔧</span>
@@ -373,12 +259,10 @@
     <a class="card tool" href="https://zhouh7693-cmd.github.io/slim-partner/guide.html" target="_blank">
       <span class="card-emoji">📖</span>
       <div class="card-label">使用指南</div>
-      <div class="card-sub">第一次用？<br>先看这里</div>
     </a>
     <a class="card tool" href="https://zhouh7693-cmd.github.io/slim-partner/share.html" target="_blank">
       <span class="card-emoji">📣</span>
       <div class="card-label">分享卡片</div>
-      <div class="card-sub">生成打卡海报<br>邀请搭子</div>
     </a>
   </div>
 </div>
