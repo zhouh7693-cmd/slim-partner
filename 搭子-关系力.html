@@ -185,6 +185,8 @@
     .chat-send-btn:active { transform: scale(0.97); }
     .coach-prompt { text-align: center; color: #d97706; font-size: 13px; font-weight: 600; padding: 8px; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .generating-report { text-align: center; color: #0891b2; font-size: 14px; font-weight: 600; padding: 16px; animation: blink 1.5s infinite; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
     /* 按钮式问答样式 */
     .coach-buttons { padding: 12px 16px; background: #fafafa; border-top: 1px solid #e5e7eb; }
     .coach-btn-prompt { font-size: 13px; color: #6b7280; margin-bottom: 10px; text-align: center; }
@@ -1022,18 +1024,32 @@ function addChatMessage(role, text) {
   chatHistory.push({ role, text });
   // 如果是教练消息
   if (role === 'coach') {
-    // 获取当前节点，检查是否有按钮配置
-    const tree = COACH_MCKINSEY_CONFIG.dialogTree[coachStep];
-    const currentNode = tree ? tree[coachSubStep] : null;
-    if (currentNode && currentNode.buttons && currentNode.buttons.length > 0) {
-      // 显示按钮，隐藏输入框
-      showCoachButtons(currentNode.buttons);
-    } else {
-      // 显示输入框，隐藏按钮
-      document.getElementById('chatInputArea').style.display = 'flex';
+    // 检查是否是"生成报告中"的消息
+    if (text.includes('生成报告') || text.includes('正在为你')) {
+      // 隐藏输入框和按钮，显示"生成中"提示
+      document.getElementById('chatInputArea').style.display = 'none';
       document.getElementById('coachButtons').style.display = 'none';
-      document.getElementById('coachPrompt').style.display = 'block';
-      document.getElementById('coachInput').focus();
+      document.getElementById('coachPrompt').style.display = 'none';
+      // 显示生成提示
+      const generatingMsg = document.createElement('div');
+      generatingMsg.id = 'generatingReport';
+      generatingMsg.className = 'generating-report';
+      generatingMsg.innerHTML = '⏳ 正在生成MECE诊断报告，请稍候...';
+      document.getElementById('coachChat').appendChild(generatingMsg);
+    } else {
+      // 获取当前节点，检查是否有按钮配置
+      const tree = COACH_MCKINSEY_CONFIG.dialogTree[coachStep];
+      const currentNode = tree ? tree[coachSubStep] : null;
+      if (currentNode && currentNode.buttons && currentNode.buttons.length > 0) {
+        // 显示按钮，隐藏输入框
+        showCoachButtons(currentNode.buttons);
+      } else {
+        // 显示输入框，隐藏按钮
+        document.getElementById('chatInputArea').style.display = 'flex';
+        document.getElementById('coachButtons').style.display = 'none';
+        document.getElementById('coachPrompt').style.display = 'block';
+        document.getElementById('coachInput').focus();
+      }
     }
   }
 }
@@ -1254,6 +1270,10 @@ function replacePlaceholders(text, userText) {
 }
 
 function generateMcKinseyReport() {
+  // 清除生成提示
+  const genEl = document.getElementById('generatingReport');
+  if (genEl) genEl.remove();
+
   document.getElementById('coachChat').style.display = 'none';
   const reportEl = document.getElementById('coachReport');
   reportEl.style.display = 'block';
