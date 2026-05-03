@@ -149,6 +149,48 @@
     .qa-card-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-left: auto; flex-shrink: 0; }
     .qa-card-tag.pos { background: #d97706; color: white; }
     .qa-card-tag.neg { background: #ef5350; color: white; }
+
+    /* ── 教练Tab ── */
+    .coach-page { max-width: 420px; margin: 0 auto; }
+    .coach-header { background: white; border-radius: 32px; padding: 24px 20px 20px; margin-bottom: 16px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .coach-header-icon { font-size: 48px; margin-bottom: 12px; }
+    .coach-header-title { font-size: 20px; font-weight: 800; color: #2b3a4a; margin-bottom: 6px; }
+    .coach-header-sub { font-size: 13px; color: #8f9eae; line-height: 1.5; }
+    .coach-start-btn { margin-top: 18px; width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #d97706, #b45309); color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.15s; }
+    .coach-start-btn:active { transform: scale(0.97); }
+
+    /* 教练问答 */
+    .coach-q-card { background: white; border-radius: 32px; padding: 28px 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
+    .coach-q-num { font-size: 11px; font-weight: 700; color: #d97706; letter-spacing: 1px; margin-bottom: 10px; }
+    .coach-q-text { font-size: 17px; font-weight: 700; color: #2b3a4a; line-height: 1.5; margin-bottom: 24px; }
+    .coach-q-hint { font-size: 12px; color: #8f9eae; margin-bottom: 16px; }
+    .coach-ans-row { display: flex; gap: 12px; }
+    .coach-ans-btn { flex: 1; padding: 14px 8px; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: pointer; border: 2px solid #e9edf2; background: white; transition: all 0.15s; }
+    .coach-ans-btn:active { transform: scale(0.97); }
+    .coach-ans-btn.yes { color: #b45309; border-color: #fcd34d; }
+    .coach-ans-btn.yes:active { background: #fff8f0; }
+    .coach-ans-btn.no { color: #c62828; border-color: #ffcdd2; }
+    .coach-ans-btn.no:active { background: #fff3f3; }
+
+    /* 诊断报告 */
+    .coach-report { background: white; border-radius: 32px; padding: 28px 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .report-title { font-size: 20px; font-weight: 800; color: #2b3a4a; text-align: center; margin-bottom: 4px; }
+    .report-sub { font-size: 13px; color: #8f9eae; text-align: center; margin-bottom: 24px; }
+    .report-overall { text-align: center; margin-bottom: 24px; }
+    .report-score { font-size: 56px; font-weight: 800; background: linear-gradient(135deg, #d97706, #f59e0b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .report-score-label { font-size: 13px; color: #8f9eae; margin-top: 4px; }
+    .report-dim { background: #fdf6f0; border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; }
+    .report-dim-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .report-dim-name { font-size: 14px; font-weight: 700; color: #2b3a4a; }
+    .report-dim-score { font-size: 13px; font-weight: 700; }
+    .report-dim-bar-bg { width: 100%; height: 6px; background: #e9edf2; border-radius: 6px; overflow: hidden; margin-bottom: 6px; }
+    .report-dim-bar { height: 100%; border-radius: 6px; transition: width 0.5s ease; }
+    .report-dim-desc { font-size: 12px; color: #6c7a89; line-height: 1.5; }
+    .report-tip { background: #fff8f0; border-radius: 16px; padding: 16px; margin-top: 16px; }
+    .report-tip-title { font-size: 13px; font-weight: 700; color: #d97706; margin-bottom: 8px; }
+    .report-tip-text { font-size: 13px; color: #6c7a89; line-height: 1.6; }
+    .report-restart { margin-top: 20px; width: 100%; padding: 14px; border-radius: 60px; border: 2px solid #fcd34d; background: white; color: #d97706; font-size: 15px; font-weight: 700; cursor: pointer; }
+    .report-restart:active { background: #fff8f0; }
   </style>
 </head>
 <body>
@@ -170,6 +212,9 @@
   </div>
   <div class="tab-item" onclick="switchTab('sop')">
     <div class="tab-icon">📋</div><div class="tab-label">自检</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('coach')">
+    <div class="tab-icon">🎓</div><div class="tab-label">教练</div>
   </div>
 </div>
 
@@ -240,6 +285,31 @@
       <div class="sop-done-sub" id="sopDoneSub">又完成了一次关系力审视</div>
       <button class="sop-reset-btn" onclick="resetSOP()">明天再来 →</button>
     </div>
+  </div>
+</div>
+
+<!-- 教练页 -->
+<div class="page" id="coachPage">
+  <div class="coach-page" id="coachPageContent">
+    <!-- 起始页 -->
+    <div class="coach-header" id="coachStart">
+      <div class="coach-header-icon">🎓</div>
+      <div class="coach-header-title">关系力教练诊断</div>
+      <div class="coach-header-sub">5个问题，诊断你在5个关系力维度上的真实水平。<br>诚实作答，教练才能给你有用的反馈。</div>
+      <button class="coach-start-btn" onclick="startCoach()">开始诊断 →</button>
+    </div>
+    <!-- 问答页 -->
+    <div class="coach-q-card" id="coachQCard" style="display:none;">
+      <div class="coach-q-num" id="coachQNum">第 1 / 5 题</div>
+      <div class="coach-q-text" id="coachQText"></div>
+      <div class="coach-q-hint" id="coachQHint"></div>
+      <div class="coach-ans-row">
+        <button class="coach-ans-btn yes" onclick="answerCoach(true)">✅ 做到了</button>
+        <button class="coach-ans-btn no" onclick="answerCoach(false)">❌ 没做到</button>
+      </div>
+    </div>
+    <!-- 报告页 -->
+    <div class="coach-report" id="coachReport" style="display:none;"></div>
   </div>
 </div>
 
@@ -741,6 +811,141 @@ function closeFBOverlay() {
   document.getElementById('fbOverlay').classList.remove('show');
 }
 
+// ===== 教练诊断 =====
+const COACH_QS = [
+  {
+    dim: 'listen', dimName: '倾听力', icon: '👂',
+    q: '最近一次有人对你说话时，你放下了手机、看着对方、等他说完再开口？',
+    hint: '倾听力不是"我在听"，而是"对方感受到我在听"。',
+    yesTip: '做得好！专注倾听是最被低估的关系力。继续保持这个习惯。',
+    noTip: '下次试试：把手机放桌上（屏幕朝下），眼神看着对方，等他自然停顿再开口。这个动作值千金。'
+  },
+  {
+    dim: 'express', dimName: '表达力', icon: '💬',
+    q: '最近一次催进度或提要求时，你先说了"有什么我可以帮你的"，而不是直接说"什么时候能完成"？',
+    hint: '表达力的核心：让对方感受到"我们在同一条船上"。',
+    yesTip: '太棒了！"帮"的姿势比"催"的姿势有效10倍。你已经掌握了表达力的精髓。',
+    noTip: '试试换一个开头："我这边准备到XXX了，你那边有什么我可以提前帮忙的吗？"——先帮，再谈你的需求。'
+  },
+  {
+    dim: 'empathy', dimName: '共情力', icon: '🤝',
+    q: '最近一次别人拒绝你或说不的时候，你先问了"你这边是什么情况"，而不是继续说服他？',
+    hint: '共情力不是"我觉得你应该"，而是"我想理解你的处境"。',
+    yesTip: '非常好的习惯！接住对方的"不"，再找替代方案，这是顶级共情力的表现。',
+    noTip: '下次被拒绝时，先说："好的，我理解。你这边主要是卡在哪里？"——听懂了他的难处，才有下一步。'
+  },
+  {
+    dim: 'boundary', dimName: '边界感', icon: '🌿',
+    q: '最近一次你需要拒绝别人时，你给了一个替代方案，而不是只说"不"？',
+    hint: '好的边界感不是"拒绝"，而是"关上一扇门，开一扇窗"。',
+    yesTip: '边界感拿捏得很好！拒绝时不让人绝望，反而让人感受到你的真诚和用心。',
+    noTip: '试试："这个我很想帮，但我现在XXX优先级很高，要不你先看看YYY，我ZZZ之后来协助你？"——拒绝的是"现在"，不是"这件事"。'
+  },
+  {
+    dim: 'energy', dimName: '能量感', icon: '✨',
+    q: '最近一次和人互动时，你主动先问了"你最近怎么样"，而不只是直奔主题谈事情？',
+    hint: '能量感就是：让别人在你身边，感受到自己更有力量、更愿意开口。',
+    yesTip: '这就是能量感！"你最近怎么样"这7个字，是性价比最高的人情投资，没有之一。',
+    noTip: '下次见面或打电话，前30秒先聊人，再聊事。"你最近怎么样"——这句话能改变整段关系的温度。'
+  }
+];
+
+let coachIdx = 0;
+let coachAnswers = [];
+
+function startCoach() {
+  coachIdx = 0;
+  coachAnswers = [];
+  document.getElementById('coachStart').style.display = 'none';
+  document.getElementById('coachQCard').style.display = 'block';
+  document.getElementById('coachReport').style.display = 'none';
+  renderCoachQ();
+}
+
+function renderCoachQ() {
+  const q = COACH_QS[coachIdx];
+  if (!q) { showCoachReport(); return; }
+  document.getElementById('coachQNum').textContent = `第 ${coachIdx+1} / ${COACH_QS.length} 题 · ${q.dimName}`;
+  document.getElementById('coachQText').textContent = q.q;
+  document.getElementById('coachQHint').textContent = q.hint;
+  document.getElementById('coachQCard').style.display = 'block';
+  document.getElementById('coachReport').style.display = 'none';
+}
+
+function answerCoach(isYes) {
+  const q = COACH_QS[coachIdx];
+  coachAnswers.push({ ...q, ans: isYes });
+  coachIdx++;
+  if (coachIdx >= COACH_QS.length) {
+    showCoachReport();
+  } else {
+    renderCoachQ();
+  }
+}
+
+function showCoachReport() {
+  document.getElementById('coachQCard').style.display = 'none';
+  const reportEl = document.getElementById('coachReport');
+  reportEl.style.display = 'block';
+
+  // 计算每维度得分
+  const dimScores = {};
+  COACH_QS.forEach(q => { dimScores[q.dim] = 0; });
+  coachAnswers.forEach(a => { if (a.ans) dimScores[a.dim] += 20; });
+
+  const totalScore = Object.values(dimScores).reduce((s,v)=>s+v, 0);
+  const maxScore = COACH_QS.length * 20;
+
+  let html = `
+    <div class="report-title">🎓 关系力诊断报告</div>
+    <div class="report-sub">教练陪你照了一次镜子，以下是诊断结果</div>
+    <div class="report-overall">
+      <div class="report-score">${totalScore}</div>
+      <div class="report-score-label">总分 ${totalScore}/${maxScore}</div>
+    </div>`;
+
+  const dimColors = { listen:'#d97706', express:'#0891b2', empathy:'#16a34a', boundary:'#7c3aed', energy:'#db2777' };
+  COACH_QS.forEach(q => {
+    const score = dimScores[q.dim];
+    const pct = score;
+    const color = dimColors[q.dim] || '#d97706';
+    const ans = coachAnswers.find(a=>a.dim===q.dim);
+    const tip = ans ? (ans.ans ? ans.yesTip : ans.noTip) : '';
+    html += `
+      <div class="report-dim">
+        <div class="report-dim-header">
+          <span class="report-dim-name">${q.icon} ${q.dimName}</span>
+          <span class="report-dim-score" style="color:${color}">${score}分</span>
+        </div>
+        <div class="report-dim-bar-bg"><div class="report-dim-bar" style="width:${pct}%;background:${color}"></div></div>
+        <div class="report-dim-desc">${tip}</div>
+      </div>`;
+  });
+
+  // 综合建议
+  let level = '', levelColor = '';
+  if (totalScore >= 80) { level = '关系力高手 🌟'; levelColor = '#16a34a'; }
+  else if (totalScore >= 60) { level = '关系力良好，有提升空间 👍'; levelColor = '#d97706'; }
+  else if (totalScore >= 40) { level = '关系力待加强，建议刻意练习 💪'; levelColor = '#ea580c'; }
+  else { level = '关系力是你的短板，但好消息是提升空间巨大 🌱'; levelColor = '#dc2626'; }
+
+  html += `
+    <div class="report-tip">
+      <div class="report-tip-title" style="color:${levelColor}">综合评估：${level}</div>
+      <div class="report-tip-text">关系力不是性格，是技能。技能靠练，不靠想。每天选一个维度刻意练习，30天后你会看到明显变化。</div>
+    </div>
+    <button class="report-restart" onclick="restartCoach()">🔄 再测一次</button>`;
+
+  reportEl.innerHTML = html;
+  reportEl.scrollTop = 0;
+}
+
+function restartCoach() {
+  document.getElementById('coachReport').style.display = 'none';
+  document.getElementById('coachStart').style.display = 'block';
+  document.getElementById('coachQCard').style.display = 'none';
+}
+
 // ===== Tab切换 =====
 function switchTab(tab, e) {
   // 关闭所有遮罩
@@ -757,8 +962,8 @@ function switchTabDirect(tab) {
   currentTab = tab;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-  const pageMap = { checkin:'checkinPage', chat:'chatPage', sop:'sopPage' };
-  const idxMap = { checkin:0, chat:1, sop:2 };
+  const pageMap = { checkin:'checkinPage', chat:'chatPage', sop:'sopPage', coach:'coachPage' };
+  const idxMap = { checkin:0, chat:1, sop:2, coach:3 };
   const pg = document.getElementById(pageMap[tab]);
   if (pg) pg.classList.add('active');
   const tabs = document.querySelectorAll('.tab-item');
