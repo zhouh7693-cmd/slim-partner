@@ -474,7 +474,7 @@ function confirmPartner() {
   initDashboard();
   renderSOP();
   autoCloseSOPGuide();
-  switchTab('chat');
+  switchTabDirect('chat');
   setTimeout(function() {
     appendPartnerMsg(currentPartner.emoji + ' ' + currentPartner.intro, true);
   }, 600);
@@ -691,9 +691,18 @@ function renderSOP() {
   SOP_CATEGORIES.forEach(function(cat) {
     var done = getSOPDone(cat.id);
     var total = SOP_HABITS[cat.id].length;
+    var pct = total > 0 ? Math.round(done / total * 100) : 0;
     var div = document.createElement('div');
     div.className = 'sop-cat-btn';
-    div.innerHTML = '<div class="sop-cat-icon">' + cat.icon + '</div><div class="sop-cat-name">' + cat.name + '</div><div class="sop-cat-desc">' + cat.desc + '</div>' + (done > 0 ? '<div class="sop-cat-done">已完成 ' + done + '/' + total + '</div>' : '');
+    var progressTag = '';
+    if (done > 0 && done < total) {
+      progressTag = '<div style="margin-top:8px;"><div style="height:4px;background:#eef2f5;border-radius:4px;overflow:hidden;"><div style="height:100%;width:' + pct + '%;background:#16a34a;border-radius:4px;transition:width 0.3s;"></div></div><div class="sop-cat-done" style="margin-top:3px;">' + done + '/' + total + ' · ' + pct + '%</div></div>';
+    } else if (done >= total) {
+      progressTag = '<div style="margin-top:8px;"><div style="height:4px;background:#eef2f5;border-radius:4px;overflow:hidden;"><div style="height:100%;width:100%;background:#16a34a;border-radius:4px;"></div></div><div class="sop-cat-done" style="margin-top:3px;">✅ 已完成</div></div>';
+    } else {
+      progressTag = '<div style="margin-top:8px;height:4px;background:#eef2f5;border-radius:4px;"></div>';
+    }
+    div.innerHTML = '<div class="sop-cat-icon">' + cat.icon + '</div><div class="sop-cat-name">' + cat.name + '</div><div class="sop-cat-desc">' + cat.desc + '</div>' + progressTag;
     div.onclick = function() { startSOPCat(cat.id); };
     grid.appendChild(div);
   });
