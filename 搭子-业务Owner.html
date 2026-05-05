@@ -158,6 +158,71 @@
     .coach-report-section { background: #f0fdf4; border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; }
     .coach-report-label { font-size: 12px; font-weight: 700; color: #16a34a; text-transform: uppercase; margin-bottom: 6px; }
     .coach-report-value { font-size: 14px; color: #333; line-height: 1.5; }
+  /* ===== 教练页面（麦肯锡风格） ===== */
+  .coach-intro { background: white; border-radius: 32px; padding: 32px 24px; margin-bottom: 16px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+  .coach-intro-icon { font-size: 56px; margin-bottom: 16px; }
+  .coach-intro-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #16a34a, #15803d); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+  .coach-intro-sub { font-size: 14px; color: #6c7a89; margin-bottom: 24px; }
+  .coach-method-steps { display: flex; gap: 12px; margin-bottom: 28px; }
+  .method-step { flex: 1; background: #f0fdf4; border-radius: 16px; padding: 14px 8px; font-size: 13px; font-weight: 700; color: #16a34a; line-height: 1.5; }
+  .step-num { display: block; font-size: 20px; margin-bottom: 4px; }
+  .step-desc { font-size: 11px; font-weight: 500; color: #15803d; }
+  .coach-intro-note { font-size: 11px; color: #8f9eae; margin-top: 16px; }
+  .coach-start-btn { margin-top: 18px; width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #16a34a, #15803d); color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.15s; }
+  .coach-start-btn:active { transform: scale(0.97); }
+  .coach-chat { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+  .coach-progress-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+  .progress-step { flex: 1; text-align: center; font-size: 11px; font-weight: 700; color: #8f9eae; padding: 8px 4px; border-radius: 12px; background: #f5f5f5; transition: all 0.3s; line-height: 1.4; }
+  .progress-step.active { background: #f0fdf4; color: #16a34a; }
+  .chat-messages { max-height: 380px; overflow-y: auto; margin-bottom: 16px; padding: 8px; }
+  .chat-msg { margin-bottom: 16px; animation: msgIn 0.3s ease; }
+  .chat-msg.coach { display: flex; gap: 8px; align-items: flex-start; }
+  .chat-msg.user { display: flex; gap: 8px; align-items: flex-start; flex-direction: row-reverse; }
+  .chat-avatar { font-size: 28px; flex-shrink: 0; }
+  .chat-bubble { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.6; color: #2b3a4a; }
+  .chat-msg.coach .chat-bubble { background: #f0fdf4; border-radius: 18px 18px 18px 4px; }
+  .chat-msg.user .chat-bubble { background: linear-gradient(135deg, #16a34a, #15803d); color: white; border-radius: 18px 18px 4px 18px; }
+  .chat-input-area { display: flex; gap: 8px; align-items: flex-end; }
+  .chat-input-area textarea { flex: 1; padding: 12px 16px; border-radius: 16px; border: 1.5px solid #e9edf2; font-size: 14px; resize: none; outline: none; font-family: inherit; min-height: 44px; }
+  .chat-send-btn { padding: 12px 20px; border-radius: 16px; border: none; background: linear-gradient(135deg, #16a34a, #15803d); color: white; font-size: 14px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
+  .chat-send-btn:active { transform: scale(0.97); }
+  .coach-prompt { text-align: center; color: #16a34a; font-size: 13px; font-weight: 600; padding: 8px; animation: coachPulse 2s infinite; }
+  @keyframes coachPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+  .generating-report { text-align: center; color: #0891b2; font-size: 14px; font-weight: 600; padding: 16px; animation: coachBlink 1.5s infinite; }
+  @keyframes coachBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .coach-buttons { padding: 12px 16px; background: #fafafa; border-top: 1px solid #e5e7eb; }
+  .coach-btn-prompt { font-size: 13px; color: #6b7280; margin-bottom: 10px; text-align: center; }
+  .coach-btn-list { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .coach-choice-btn { flex: 1; min-width: 120px; max-width: 180px; padding: 12px 16px; border: 2px solid #16a34a; background: white; color: #16a34a; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .coach-choice-btn:hover { background: #16a34a; color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(22,163,74,0.3); }
+  .coach-choice-btn.yes { border-color: #22c55e; color: #22c55e; }
+  .coach-choice-btn.yes:hover { background: #22c55e; color: white; }
+  .coach-choice-btn.no { border-color: #ef4444; color: #ef4444; }
+  .coach-choice-btn.no:hover { background: #ef4444; color: white; }
+  .coach-report-mckinsey { background: white; border-radius: 32px; padding: 28px 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+  .report-header { text-align: center; margin-bottom: 24px; }
+  .report-icon { font-size: 48px; margin-bottom: 12px; }
+  .report-title { font-size: 20px; font-weight: 800; color: #2b3a4a; margin-bottom: 4px; }
+  .report-subtitle { font-size: 12px; color: #8f9eae; }
+  .report-core-conclusion { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 20px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #16a34a; }
+  .report-core-conclusion h3 { font-size: 15px; font-weight: 700; color: #16a34a; margin-bottom: 8px; }
+  .report-core-conclusion p { font-size: 14px; color: #2b3a4a; line-height: 1.6; }
+  .report-mece-analysis { margin-bottom: 20px; }
+  .report-mece-analysis h3 { font-size: 15px; font-weight: 700; color: #2b3a4a; margin-bottom: 12px; }
+  .mece-dimension { background: #f0fdf4; border-radius: 16px; padding: 14px; margin-bottom: 10px; }
+  .mece-dim-title { font-size: 14px; font-weight: 700; color: #16a34a; margin-bottom: 6px; }
+  .mece-dim-desc { font-size: 13px; color: #6c7a89; line-height: 1.5; }
+  .report-priority-actions { margin-bottom: 20px; }
+  .report-priority-actions h3 { font-size: 15px; font-weight: 700; color: #2b3a4a; margin-bottom: 12px; }
+  .action-item { background: white; border-radius: 16px; padding: 14px; margin-bottom: 8px; border-left: 4px solid #16a34a; }
+  .action-priority { font-size: 11px; font-weight: 700; color: #16a34a; margin-bottom: 4px; }
+  .action-text { font-size: 14px; color: #2b3a4a; line-height: 1.5; }
+  .report-next-step { background: #f0fdf4; border-radius: 16px; padding: 16px; margin-bottom: 20px; }
+  .report-next-step h3 { font-size: 15px; font-weight: 700; color: #16a34a; margin-bottom: 8px; }
+  .report-next-step p { font-size: 14px; color: #2b3a4a; line-height: 1.6; }
+  .coach-restart-btn { width: 100%; padding: 14px; border-radius: 60px; border: 2px solid #16a34a; background: white; color: #16a34a; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 12px; }
+  .coach-restart-btn:active { background: #f0fdf4; }
+  @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -194,17 +259,54 @@
   </div>
 </div>
 
-<!-- ===== 教练页面 ===== -->
-<div class="page" id="coachPage">
-  <div class="coach-container" id="coachChat">
-    <div class="chat-messages" id="chatMessages"></div>
-    <div class="coach-progress-bar" id="coachProgressBar" style="display:none;"><div class="coach-progress-fill" id="coachProgressFill"></div></div>
-    <div class="chat-input-area" id="chatInputArea" style="display:none;">
-      <input class="chat-input" id="coachInput" placeholder="输入你的回答..." onkeydown="if(event.key==='Enter')sendCoachMsg()">
-      <button class="chat-send-btn" onclick="sendCoachMsg()">发送</button>
+<!-- ===== 教练页面（麦肯锡风格） ===== -->
+<div class="page" id="coachPage" style="display:none;">
+  <div class="coach-page" id="coachPageContent">
+    <!-- 教练介绍页 -->
+    <div class="coach-intro" id="coachIntro">
+      <div class="coach-intro-icon">🎓</div>
+      <div class="coach-intro-title">麦肯锡风格业务Owner教练</div>
+      <div class="coach-intro-sub">用结构化思维，3步搞定业务难题</div>
+      <div class="coach-method-steps">
+        <div class="method-step"><span class="step-num">①</span> 界定问题<br><span class="step-desc">明确核心冲突</span></div>
+        <div class="method-step"><span class="step-num">②</span> 结构化分析<br><span class="step-desc">MECE拆解根因</span></div>
+        <div class="method-step"><span class="step-num">③</span> 优先级行动<br><span class="step-desc">可执行的下一步</span></div>
+      </div>
+      <button class="coach-start-btn" onclick="startCoachOwner()">开始深度对话 →</button>
+      <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
+    </div>
+    <!-- 对话界面 -->
+    <div class="coach-chat" id="coachChat" style="display:none;">
+      <div class="coach-progress-bar">
+        <div class="progress-step active" id="progressStep1">① 界定问题</div>
+        <div class="progress-step" id="progressStep2">② 结构化分析</div>
+        <div class="progress-step" id="progressStep3">③ 优先级行动</div>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="coach-prompt" id="coachPrompt" style="display:none;">💡 请在下方输入框中回复...</div>
+      <div class="chat-input-area" id="chatInputArea">
+        <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
+        <button class="chat-send-btn" onclick="sendCoachMsgOwner()">发送</button>
+      </div>
+      <div class="coach-buttons" id="coachButtons" style="display:none;">
+        <div class="coach-btn-prompt" id="coachBtnPrompt"></div>
+        <div class="coach-btn-list" id="coachBtnList"></div>
+      </div>
+    </div>
+    <!-- 诊断报告页 -->
+    <div class="coach-report-mckinsey" id="coachReport" style="display:none;">
+      <div class="report-header">
+        <div class="report-icon">📊</div>
+        <div class="report-title">麦肯锡风格业务Owner诊断报告</div>
+        <div class="report-subtitle">基于结构化分析框架 · MECE原则 · 行动导向</div>
+      </div>
+      <div class="report-core-conclusion" id="reportCoreConclusion"></div>
+      <div class="report-mece-analysis" id="reportMECE"></div>
+      <div class="report-priority-actions" id="reportActions"></div>
+      <div class="report-next-step" id="reportNextStep"></div>
+      <button class="coach-restart-btn" onclick="restartCoachOwner()">🔄 重新对话</button>
     </div>
   </div>
-  <div class="coach-report" id="coachReport" style="display:none;"></div>
 </div>
 
 <div class="page active" id="checkinPage">
@@ -901,7 +1003,6 @@ function switchTab(tab, evt) {
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   if (tab === 'coach') {
     if (coachPg) { coachPg.classList.add('active'); coachPg.style.display = ''; }
-    initCoach();
   } else {
     var pe = document.getElementById(tab + 'Page');
     if (pe) pe.classList.add('active');
@@ -946,92 +1047,6 @@ function copyShareText() {
   alert('已复制到剪贴板！');
 }
 
-// ===== 教练功能 =====
-var COACH_QS_OWNER = [
-  { q: '你目前负责的业务，最大的一块收入来源是什么？它稳定吗？' },
-  { q: '过去一个月，你主动推动了哪个业务决策？' },
-  { q: '在品牌方/平台关系中，你觉得自己最有影响力的地方是什么？' },
-  { q: '你最大的业务焦虑是什么？是增长、利润、还是团队？' },
-  { q: '如果接下来60天只看一个指标，你会选哪个？为什么？' },
-  { q: '给30天后的自己写一句话：' }
-];
-var coachStateOwner = { qIdx: 0, answers: [] };
-
-function initCoach() {
-  var el = document.getElementById('coachChat');
-  var msgs = document.getElementById('chatMessages');
-  if (!el || !msgs) return;
-  el.style.display = 'block';
-  coachStateOwner = { qIdx: 0, answers: [] };
-  msgs.innerHTML = '<div style="text-align:center;padding:40px 20px;"><div style="font-size:48px;margin-bottom:16px;">🧠</div><div style="font-size:18px;font-weight:700;color:#16a34a;margin-bottom:8px;">业务Owner教练</div><div style="font-size:14px;color:#888;margin-bottom:24px;">McKinsey式结构化对话，帮你理清业务Owner思维</div><button class="coach-start-btn" onclick="startCoachDialogOwner()">🚀 开始对话</button></div>';
-  var pBar = document.getElementById('coachProgressBar');
-  if (pBar) { pBar.style.display = 'none'; }
-  var ia = document.getElementById('chatInputArea');
-  if (ia) ia.style.display = 'none';
-  var r = document.getElementById('coachReport');
-  if (r) r.style.display = 'none';
-}
-
-function startCoachDialogOwner() {
-  var msgs = document.getElementById('chatMessages');
-  var ia = document.getElementById('chatInputArea');
-  if (msgs) msgs.innerHTML = '';
-  if (ia) { ia.style.display = 'flex'; var inp = document.getElementById('coachInput'); if (inp) inp.focus(); }
-  var pBar = document.getElementById('coachProgressBar');
-  if (pBar) pBar.style.display = 'block';
-  showCoachBubbleOwner(COACH_QS_OWNER[0].q);
-}
-
-function showCoachBubbleOwner(text) {
-  var msgs = document.getElementById('chatMessages');
-  if (!msgs) return;
-  msgs.innerHTML += '<div style="display:flex;"><div class="chat-bubble coach">' + text + '</div></div>';
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function sendCoachMsg() {
-  var inp = document.getElementById('coachInput');
-  if (!inp || !inp.value.trim()) return;
-  var text = inp.value.trim();
-  inp.value = '';
-  var msgs = document.getElementById('chatMessages');
-  if (msgs) { msgs.innerHTML += '<div style="display:flex;justify-content:flex-end;"><div class="chat-bubble user">' + text + '</div></div>'; msgs.scrollTop = msgs.scrollHeight; }
-  coachStateOwner.answers.push(text);
-  coachStateOwner.qIdx++;
-  var pBar = document.getElementById('coachProgressBar');
-  if (pBar) { var fill = document.getElementById('coachProgressFill'); if (fill) fill.style.width = Math.round((coachStateOwner.qIdx / COACH_QS_OWNER.length) * 100) + '%'; }
-  if (coachStateOwner.qIdx < COACH_QS_OWNER.length) {
-    setTimeout(function() { showCoachBubbleOwner(COACH_QS_OWNER[coachStateOwner.qIdx].q); }, 600);
-  } else {
-    setTimeout(showCoachReportOwner, 800);
-  }
-}
-
-function showCoachReportOwner() {
-  var el = document.getElementById('coachChat');
-  if (el) el.style.display = 'none';
-  var r = document.getElementById('coachReport');
-  if (!r) {
-    r = document.createElement('div');
-    r.id = 'coachReport';
-    r.className = 'coach-report';
-    var container = document.querySelector('.coach-container');
-    if (container) container.appendChild(r);
-    return;
-  }
-  r.style.display = 'block';
-  var html = '<div class="coach-report-title">🧠 业务Owner教练洞察报告</div>';
-  if (coachStateOwner.answers[0]) html += '<div class="coach-report-section"><div class="coach-report-label">核心收入来源</div><div class="coach-report-value">' + coachStateOwner.answers[0] + '</div></div>';
-  if (coachStateOwner.answers[1]) html += '<div class="coach-report-section"><div class="coach-report-label">主动推动的决策</div><div class="coach-report-value">' + coachStateOwner.answers[1] + '</div></div>';
-  if (coachStateOwner.answers[2]) html += '<div class="coach-report-section"><div class="coach-report-label">最有影响力的地方</div><div class="coach-report-value">' + coachStateOwner.answers[2] + '</div></div>';
-  if (coachStateOwner.answers[3]) html += '<div class="coach-report-section"><div class="coach-report-label">最大业务焦虑</div><div class="coach-report-value">' + coachStateOwner.answers[3] + '</div></div>';
-  if (coachStateOwner.answers[4]) html += '<div class="coach-report-section"><div class="coach-report-label">60天唯一指标</div><div class="coach-report-value" style="font-weight:700;color:#16a34a;">' + coachStateOwner.answers[4] + '</div></div>';
-  if (coachStateOwner.answers[5]) html += '<div class="coach-report-section"><div class="coach-report-label">给30天后的自己</div><div class="coach-report-value" style="font-weight:700;color:#16a34a;">' + coachStateOwner.answers[5] + '</div></div>';
-  html += '<div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:16px;padding:16px;margin-top:16px;"><div style="font-weight:700;color:#16a34a;margin-bottom:8px;">💡 So What?</div><div style="font-size:14px;color:#555;line-height:1.6;">业务Owner不是职位，是思维方式。从"执行任务"到"承担结果"，从"等待指令"到"主动判断"。你今天照见的每一个盲区，都是下一次进化的起点。</div></div>';
-  html += '<div style="text-align:center;margin-top:20px;"><button class="coach-start-btn" onclick="initCoach()">🔄 再来一次</button></div>';
-  r.innerHTML = html;
-}
-
 // ===== 进展页面初始化 =====
 function initProgressPage() {
   var streak = parseInt(localStorage.getItem(STORAGE.KEY + '_streak') || '0');
@@ -1045,6 +1060,7 @@ function initProgressPage() {
   if (elToday) elToday.innerText = today;
 }
 </script>
+<script src="coach-业务Owner.js"></script>
 
 <!-- ===== Page: 进展 ===== -->
 <div id="progressPage" class="page">
