@@ -886,7 +886,7 @@ function closeSOPGuide() {
 }
 
 // ===== Tab切换 =====
-function switchTab(tab) {
+function switchTab(tab, evt) {
   // 打卡前必须先完成SOP
   if (tab === 'checkin' && !sopCompletedToday) {
     alert('⏰ 请先完成今日SOP，再来打卡！');
@@ -909,10 +909,16 @@ function switchTab(tab) {
   }
   // 精确高亮当前tab按钮
   document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
-  var tabMap = {chat:0, coach:1, sop:2, checkin:3, data:4, progress:5, share:6};
-  var tabs = document.querySelectorAll('.tab-item');
-  if (tabMap[tab] !== undefined && tabs[tabMap[tab]]) {
-    tabs[tabMap[tab]].classList.add('active');
+  // 优先用evt.currentTarget，回退到tabMap索引
+  var targetTab = evt && evt.currentTarget ? evt.currentTarget : null;
+  if (targetTab) {
+    targetTab.classList.add('active');
+  } else {
+    var tabMap = {chat:0, coach:1, sop:2, checkin:3, data:4, progress:5, share:6};
+    var tabs = document.querySelectorAll('.tab-item');
+    if (tabMap[tab] !== undefined && tabs[tabMap[tab]]) {
+      tabs[tabMap[tab]].classList.add('active');
+    }
   }
 }
 
