@@ -1793,6 +1793,13 @@ function startApp() {
     let p = PARTNERS.find(pp => pp.id === currentPartner);
     document.getElementById('currentPartnerBadge').innerHTML = `${p.emoji} ${p.name}`;
     partnerIdx = PARTNERS.indexOf(p);
+    // 更新搭子页面的搭子卡片
+    let avatarB = document.getElementById('partnerAvatarB');
+    let nameB = document.getElementById('partnerNameB');
+    let styleB = document.getElementById('partnerStyleB');
+    if (avatarB) avatarB.textContent = p.emoji;
+    if (nameB) nameB.textContent = p.name;
+    if (styleB) styleB.textContent = p.desc || '';
     currentPartner = p;
     updateAvatarBtn();
     refreshDashboard();

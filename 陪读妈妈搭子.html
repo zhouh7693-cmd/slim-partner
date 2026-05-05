@@ -1561,6 +1561,13 @@ function confirmPartner() {
   if (badge) badge.innerHTML = `${partner.emoji} ${partner.name}`;
   let avatar = document.getElementById('avatarBtn');
   if (avatar) avatar.textContent = partner.emoji;
+  // 更新搭子页面的搭子卡片
+  let avatarB = document.getElementById('partnerAvatarB');
+  let nameB = document.getElementById('partnerNameB');
+  let styleB = document.getElementById('partnerStyleB');
+  if (avatarB) avatarB.textContent = partner.emoji;
+  if (nameB) nameB.textContent = partner.name;
+  if (styleB) styleB.textContent = partner.desc;
   // 更新打卡天数（可能用户之前已打卡）
   let today = getToday();
   let history = getHistory();
