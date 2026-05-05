@@ -577,13 +577,12 @@ const STORAGE = {
   PARTNER: 'slim_partner_entrepreneur',
   SOP_HISTORY: 'slim_sop_history_entrepreneur',
   SOP_TODAY: 'slim_sop_today_entrepreneur',
+  SOP: 'slim_sop_entrepreneur',
+  SHARE: 'slim_share_entrepreneur',
   WEIGHT: 'slim_weight_entrepreneur',
 };
 // SOP完成状态：打卡前必须先完成SOP
 var sopCompletedToday = localStorage.getItem('sop_completed_entrepreneur_' + new Date().toDateString()) === 'true';
-  SOP: 'slim_sop_entrepreneur',
-  SHARE: 'slim_share_entrepreneur'
-};
 
 // ===== SOP 配置 =====
 const SOP_CATS = [
