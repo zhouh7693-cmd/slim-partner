@@ -2081,7 +2081,7 @@ function openSharePage() {
 function switchTab(tab) {
   // 打卡前必须先完成SOP
   if (tab === 'checkin' && !sopCompletedToday) {
-    alert('⏰ 请先完成今日SOP，再来打卡！');
+    alert('⏰ 请先完成今日自检，再来打卡！');
     return;
   }
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
