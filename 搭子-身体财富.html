@@ -1106,8 +1106,7 @@ function switchTab(tab) {
   }
   if (tab === 'chat') renderPartnerPage();
   if (tab === 'data') {
-    drawWeightChart();
-    renderWeeklyReport();
+    renderWeightPage();
     // 自动填入上次健康数据
     let data = getWeightData();
     if (data.length > 0) {
@@ -2180,6 +2179,12 @@ function renderWeightRecords() {
     let dateStr = d.date === getToday() ? '今天' : d.date.slice(5);
     return `<div class="record-item"><span class="record-date">${dateStr}</span><span><span class="record-val">${d.value.toFixed(1)}</span><span class="record-change ${cls}">${prev ? sign+change.toFixed(1)+'kg' : ''}</span></span></div>`;
   }).join('');
+}
+
+function renderWeightPage() {
+  drawWeightChart();
+  renderWeightRecords();
+  renderWeeklyReport();
 }
 
 // ==================== SOP 游戏模块 ====================
