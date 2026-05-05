@@ -3332,7 +3332,7 @@ function addCoachMessage(role, text) {
   const el = document.createElement('div');
   el.className = `msg msg-${role}`;
   el.textContent = text;
-  document.getElementById('coachMessages').appendChild(el);
+  document.getElementById('chatMessages').appendChild(el);
   el.scrollIntoView({ behavior: 'smooth' });
 }
 
