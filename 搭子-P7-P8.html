@@ -1274,6 +1274,38 @@ function initP7DataPage() {
   if (elD) elD.innerText = today;
 }
 
+function initP7ProgressPage() {
+  var streak = parseInt(localStorage.getItem('slim_sop_streaks_p7') || '0');
+  var total = (JSON.parse(localStorage.getItem('slim_history_p7') || [])).length;
+  var today = localStorage.getItem('sop_completed_p7_' + new Date().toDateString()) === 'true' ? '✅' : '-';
+  var elS = document.getElementById('p7Streak2');
+  var elT = document.getElementById('p7Total2');
+  var elD = document.getElementById('p7Today2');
+  if (elS) elS.innerText = streak;
+  if (elT) elT.innerText = total;
+  if (elD) elD.innerText = today;
+}
+function copyP7Share() {
+  var text = '我用P7升P8成长自检搭子连续打卡' + (parseInt(localStorage.getItem('slim_sop_streaks_p7') || '0') + '天了！来一起做管理成长搭子！' + window.location.href;
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  alert('已复制到剪贴板！');
+}
+
+// 在switchTab中调用数据页和进展页初始化
+(function(){
+  var orig = switchTab;
+  window.switchTab = function(tab, evt){
+    orig(tab, evt);
+    if(tab==='data') initP7DataPage();
+    if(tab==='progress') initP7ProgressPage();
+  };
+})();
+
 </script>
 
 <!-- ===== Page: 进展 ===== -->
@@ -1313,37 +1345,11 @@ function initP7DataPage() {
   </div>
 </div>
 
-<script>
-function initP7ProgressPage() {
-  var streak = parseInt(localStorage.getItem('slim_sop_streaks_p7') || '0');
-  var total = (JSON.parse(localStorage.getItem('slim_history_p7') || [])).length;
-  var today = localStorage.getItem('sop_completed_p7_' + new Date().toDateString()) === 'true' ? '✅' : '-';
-  var elS = document.getElementById('p7Streak2');
-  var elT = document.getElementById('p7Total2');
-  var elD = document.getElementById('p7Today2');
-  if (elS) elS.innerText = streak;
-  if (elT) elT.innerText = total;
-  if (elD) elD.innerText = today;
-}
-function copyP7Share() {
-  var text = '我用P7升P8成长自检搭子连续打卡' + (parseInt(localStorage.getItem('slim_sop_streaks_p7') || '0') + '天了！来一起做管理成长搭子！' + window.location.href;
-  var ta = document.createElement('textarea');
-  ta.value = text;
-  document.body.appendChild(ta);
-  ta.select();
-  document.execCommand('copy');
-  document.body.removeChild(ta);
-  alert('已复制到剪贴板！');
-}
-// 在switchTab中调用数据页和进展页初始化（patch）
-(function(){
-  var orig = switchTab;
-  window.switchTab = function(tab){
-    orig(tab);
-    if(tab==='data') initP7DataPage();
-    if(tab==='progress') initP7ProgressPage();
-  };
-})();
-</script>
+
+
+
+
+
+
 </body>
 </html>
