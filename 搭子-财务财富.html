@@ -3124,10 +3124,8 @@ window.startApp = startApp;   // startApp 也暴露，防止作用域问题
 @keyframes achievementBounce { 0%,100% { transform:translateX(-50%) translateY(0); } 50% { transform:translateX(-50%) translateY(-10px); } }
 </style>
 
-<div id="page-coach" class="page">
-<div id="coachPage">
-  <div class="coach-page" id="coachPageContent">
-    <!-- 教练介绍页 -->
+  <!-- 教练页面 -->
+  <div id="coachPage" class="page coach-page">
     <div class="coach-intro" id="coachIntro">
       <div class="coach-intro-icon">🎓</div>
       <div class="coach-intro-title">麦肯锡风格财务财富教练</div>
@@ -3140,7 +3138,7 @@ window.startApp = startApp;   // startApp 也暴露，防止作用域问题
       <button class="coach-start-btn" onclick="startCoach()">开始深度对话 →</button>
       <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
     </div>
-    
+
     <!-- 对话界面 -->
     <div class="coach-chat" id="coachChat" style="display:none;">
       <div class="coach-progress-bar">
@@ -3161,12 +3159,10 @@ window.startApp = startApp;   // startApp 也暴露，防止作用域问题
         <div class="coach-btn-list" id="coachBtnList"></div>
       </div>
     </div>
-    
+
     <!-- 诊断报告页 -->
     <div class="coach-report-mckinsey" id="coachReport" style="display:none;"></div>
   </div>
-</div>
-</div><!-- end page-coach -->
 <script src="coach-财务财富.js"></script>
 </body>
 </html>

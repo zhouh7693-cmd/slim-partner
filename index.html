@@ -806,28 +806,40 @@
 </div>
 
 <!-- ===== Page: 教练 ===== -->
-<div id="page-coach" class="page" style="display:none;">
-  <div style="padding:16px 12px 80px;">
-    <div style="text-align:center;margin-bottom:20px;">
-      <div style="font-size:24px;font-weight:700;color:#333;">🎓 减肥教练</div>
-      <div style="font-size:13px;color:#999;margin-top:4px;">帮你拆解减肥卡点，制定行动方案</div>
+<div id="page-coach" class="page coach-page" style="display:none;">
+  <!-- 教练介绍页 -->
+  <div class="coach-intro" id="coachIntro">
+    <div class="coach-intro-icon">🎓</div>
+    <div class="coach-intro-title">麦肯锡风格减肥教练</div>
+    <div class="coach-intro-sub">用结构化思维，3步搞定减肥难题</div>
+    <div class="coach-method-steps">
+      <div class="method-step"><span class="step-num">①</span> 界定问题<br><span class="step-desc">明确核心冲突</span></div>
+      <div class="method-step"><span class="step-num">②</span> 结构化分析<br><span class="step-desc">MECE拆解根因</span></div>
+      <div class="method-step"><span class="step-num">③</span> 优先级行动<br><span class="step-desc">可执行的下一步</span></div>
     </div>
-    <div style="text-align:center;margin-bottom:20px;">
-      <button id="coachStartBtn" onclick="startCoach()" style="background:linear-gradient(135deg,#3de882,#26a65b);color:white;border:none;border-radius:16px;padding:16px 32px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(46,213,115,0.35);">🚀 开始教练对话</button>
-      <button id="coachRestartBtn" onclick="startCoach()" style="display:none;background:#f0f0f0;color:#666;border:none;border-radius:12px;padding:10px 20px;font-size:13px;cursor:pointer;margin-top:8px;">🔄 重新开始</button>
-    </div>
-    <div id="coachChat" style="display:none;">
-      <div id="coachMessages" style="height:calc(100vh - 340px);min-height:200px;max-height:500px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
-      <div id="coachPrompt" class="coach-prompt" style="display:none;">💡 请在下方输入框中回复，按 Enter 发送</div>
-      <div class="generating-report" id="coachGenerating" style="display:none;">⏳ 正在生成诊断报告，请稍候...</div>
-      <div class="chat-input-area" id="chatInputArea" style="display:none;">
-        <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
-        <button class="chat-send-btn" onclick="submitCoachInput()">发送</button>
-      </div>
-      <div id="coachBtnArea" style="display:none;background:#f8fff8;border-radius:14px;padding:12px;margin-bottom:10px;"></div>
-    </div>
-    <div id="coachReport" style="display:none;"></div>
+    <button class="coach-start-btn" onclick="startCoach()">🚀 开始对话</button>
+    <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
   </div>
+
+  <!-- 对话界面 -->
+  <div id="coachChat" style="display:none;">
+    <div class="coach-progress-bar">
+      <div class="progress-step active" id="progressStep1">① 界定问题</div>
+      <div class="progress-step" id="progressStep2">② 结构化分析</div>
+      <div class="progress-step" id="progressStep3">③ 优先级行动</div>
+    </div>
+    <div id="chatMessages" style="height:calc(100vh - 340px);min-height:200px;max-height:500px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
+    <div id="coachPrompt" class="coach-prompt" style="display:none;">💡 请在下方输入框中回复，按 Enter 发送</div>
+    <div class="generating-report" id="coachGenerating" style="display:none;">⏳ 正在生成诊断报告，请稍候...</div>
+    <div class="chat-input-area" id="chatInputArea" style="display:none;">
+      <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
+      <button class="chat-send-btn" onclick="submitCoachInput()">发送</button>
+    </div>
+    <div id="coachBtnArea" style="display:none;background:#f8fff8;border-radius:14px;padding:12px;margin-bottom:10px;"></div>
+  </div>
+
+  <!-- 诊断报告页 -->
+  <div id="coachReport" style="display:none;"></div>
 </div>
 
 <!-- ===== Toast ===== -->
@@ -3304,11 +3316,11 @@ let coachState = { step: 'start', subStep: 0, inputs: {}, history: [] };
 
 function startCoach() {
   coachState = { step: 'start', subStep: 0, inputs: {}, history: [] };
-  document.getElementById('coachStartBtn').style.display = 'none';
-  document.getElementById('coachRestartBtn').style.display = 'block';
+  var introEl = document.getElementById('coachIntro');
+  if (introEl) introEl.style.display = 'none';
   document.getElementById('coachChat').style.display = 'block';
   document.getElementById('coachReport').style.display = 'none';
-  document.getElementById('coachMessages').innerHTML = '';
+  document.getElementById('chatMessages').innerHTML = '';
   document.getElementById('coachBtnArea').style.display = 'none';
   document.getElementById('coachPrompt').style.display = 'none';
   document.getElementById('coachGenerating').style.display = 'none';
