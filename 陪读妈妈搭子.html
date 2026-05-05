@@ -599,7 +599,7 @@
 
 <!-- ===== Tab Bar ===== -->
 <div class="tab-bar">
-  <div class="tab-item active" onclick="switchTab('chat')">
+  <div class="tab-item active" onclick="switchTab('partner')">
     <div class="tab-icon">🏠</div>
     <div class="tab-label">搭子</div>
   </div>
@@ -2089,7 +2089,7 @@ function switchTab(tab) {
     p.classList.remove('active');
     p.style.display = 'none';
   });
-  const tabs = ['chat','coach','sop','checkin','data','progress','share'];
+  const tabs = ['partner','coach','sop','checkin','data','progress','share'];
   const tabIdx = tabs.indexOf(tab);
   if (tabIdx !== -1) document.querySelectorAll('.tab-item')[tabIdx].classList.add('active');
   // coach 页面id特殊处理

@@ -469,7 +469,7 @@
 
 <!-- ===== Tab Bar ===== -->
 <div class="tab-bar">
-  <div class="tab-item active" onclick="switchTab('chat')">
+  <div class="tab-item active" onclick="switchTab('partner')">
     <div class="tab-icon">💬</div>
     <div class="tab-label">搭子</div>
   </div>
@@ -1300,7 +1300,7 @@ function switchTab(tab) {
     p.classList.remove('active');
     p.style.display = 'none';
   });
-  const tabs = ['checkin','partner','weight','sop','progress','share','coach'];
+  const tabs = ['partner','coach','sop','checkin','weight','progress','share'];
   const tabIdx = tabs.indexOf(tab);
   if (tabIdx !== -1) document.querySelectorAll('.tab-item')[tabIdx].classList.add('active');
   const pageEl = document.getElementById(`page-${tab}`);
