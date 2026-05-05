@@ -340,11 +340,10 @@ const STORAGE = {
   PARTNER: 'slim_partner_owner',
   HISTORY: 'slim_history_owner',
   SOP: 'slim_sop_owner',
+  SOP_STREAKS: 'slim_sop_streaks_owner',
 };
 // SOP完成状态：打卡前必须先完成SOP
 var sopCompletedToday = localStorage.getItem('sop_completed_owner_' + new Date().toDateString()) === 'true';
-  SOP_STREAKS: 'slim_sop_streaks_owner'
-};
 
 // ===== TYPE_SCENES_OWNER：6分类 × 场景 =====
 const TYPE_SCENES_OWNER = {
