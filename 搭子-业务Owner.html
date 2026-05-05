@@ -171,25 +171,25 @@
 </div>
 
 <div class="tab-bar" id="tabBar" style="display:none;">
-  <div class="tab-item active" onclick="switchTab('chat')">
+  <div class="tab-item active" onclick="switchTab('chat', event)">
     <div class="tab-icon">🏠</div><div class="tab-label">搭子</div>
   </div>
-  <div class="tab-item" onclick="switchTab('coach')">
+  <div class="tab-item" onclick="switchTab('coach', event)">
     <div class="tab-icon">🎓</div><div class="tab-label">教练</div>
   </div>
-  <div class="tab-item" onclick="switchTab('sop')">
+  <div class="tab-item" onclick="switchTab('sop', event)">
     <div class="tab-icon">📋</div><div class="tab-label">自检</div>
   </div>
-  <div class="tab-item" onclick="switchTab('checkin')">
+  <div class="tab-item" onclick="switchTab('checkin', event)">
     <div class="tab-icon">✅</div><div class="tab-label">打卡</div>
   </div>
-  <div class="tab-item" onclick="switchTab('data')">
+  <div class="tab-item" onclick="switchTab('data', event)">
     <div class="tab-icon">📊</div><div class="tab-label">增长率</div>
   </div>
-  <div class="tab-item" onclick="switchTab('progress')">
+  <div class="tab-item" onclick="switchTab('progress', event)">
     <div class="tab-icon">📈</div><div class="tab-label">进展</div>
   </div>
-  <div class="tab-item" onclick="switchTab('share')">
+  <div class="tab-item" onclick="switchTab('share', event)">
     <div class="tab-icon">📣</div><div class="tab-label">分享</div>
   </div>
 </div>
@@ -907,8 +907,13 @@ function switchTab(tab) {
     var pe = document.getElementById(tab + 'Page');
     if (pe) pe.classList.add('active');
   }
+  // 精确高亮当前tab按钮
   document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
-  event.currentTarget.classList.add('active');
+  var tabMap = {chat:0, coach:1, sop:2, checkin:3, data:4, progress:5, share:6};
+  var tabs = document.querySelectorAll('.tab-item');
+  if (tabMap[tab] !== undefined && tabs[tabMap[tab]]) {
+    tabs[tabMap[tab]].classList.add('active');
+  }
 }
 
 function switchTabDirect(tab) {

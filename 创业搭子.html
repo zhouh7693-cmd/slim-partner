@@ -532,25 +532,25 @@
 
 <!-- 底部 Tab Bar -->
 <div class="tab-bar">
-  <div class="tab-item active" onclick="switchTab('chat')">
+  <div class="tab-item active" onclick="switchTab('chat', event)">
     <div class="tab-icon">🏠</div><div class="tab-label">搭子</div>
   </div>
-  <div class="tab-item" onclick="switchTab('coach')">
+  <div class="tab-item" onclick="switchTab('coach', event)">
     <div class="tab-icon">🎓</div><div class="tab-label">教练</div>
   </div>
-  <div class="tab-item" onclick="switchTab('sop')">
+  <div class="tab-item" onclick="switchTab('sop', event)">
     <div class="tab-icon">📋</div><div class="tab-label">自检</div>
   </div>
-  <div class="tab-item" onclick="switchTab('checkin')">
+  <div class="tab-item" onclick="switchTab('checkin', event)">
     <div class="tab-icon">✅</div><div class="tab-label">打卡</div>
   </div>
-  <div class="tab-item" onclick="switchTab('data')">
+  <div class="tab-item" onclick="switchTab('data', event)">
     <div class="tab-icon">📊</div><div class="tab-label">毛利</div>
   </div>
-  <div class="tab-item" onclick="switchTab('progress')">
+  <div class="tab-item" onclick="switchTab('progress', event)">
     <div class="tab-icon">📈</div><div class="tab-label">进展</div>
   </div>
-  <div class="tab-item" onclick="switchTab('share')">
+  <div class="tab-item" onclick="switchTab('share', event)">
     <div class="tab-icon">🚀</div><div class="tab-label">出发</div>
   </div>
 </div>
@@ -1322,7 +1322,7 @@ function renderHistoryChart(hist, maxScore) {
 }
 
 // ===== Tab 切换 =====
-function switchTab(tab) {
+function switchTab(tab, evt) {
   // 打卡前必须先完成SOP
   if (tab === 'checkin' && !sopCompletedToday) {
     alert('⏰ 请先完成今日SOP，再来打卡！');
@@ -1334,10 +1334,18 @@ function switchTab(tab) {
   const pageId = (tab === 'coach') ? 'coachPage' : `page-${tab}`;
   const pg = document.getElementById(pageId);
   if (pg) pg.classList.add('active');
-  document.querySelectorAll('.tab-item').forEach((t, i) => {
-    const tabs = ['chat','coach','sop','checkin','data','progress','share'];
-    t.classList.toggle('active', tabs[i] === tab);
-  });
+  // 精确找到当前tab按钮并高亮
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  const targetTab = evt && evt.currentTarget ? evt.currentTarget : null;
+  if (targetTab) {
+    targetTab.classList.add('active');
+  } else {
+    // 回退：用 tab 参数找到对应的按钮
+    document.querySelectorAll('.tab-item').forEach((t, i) => {
+      const tabs = ['chat','coach','sop','checkin','data','progress','share'];
+      t.classList.toggle('active', tabs[i] === tab);
+    });
+  }
   // 教练页面：显示介绍页，隐藏对话和报告
   if (tab === 'coach') {
     document.getElementById('coachIntro').style.display = 'block';
@@ -1909,5 +1917,89 @@ document.addEventListener('DOMContentLoaded', function() {
     <button class="fb-btn" onclick="closeFeedback()">✅ 知道了</button>
   </div>
 </div>
+
+<!-- ===== Page: 数据（毛利） ===== -->
+<div id="page-data" class="page">
+  <div style="padding:20px 16px 80px;max-width:420px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:24px;">
+      <div style="font-size:40px;margin-bottom:8px;">💰</div>
+      <div style="font-size:20px;font-weight:700;color:#ff6b35;">创业毛利记录</div>
+      <div style="font-size:13px;color:#999;margin-top:4px;">记录你的财务健康</div>
+    </div>
+
+    <!-- 毛利输入 -->
+    <div style="background:white;border-radius:24px;padding:24px 20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
+      <div style="font-size:14px;font-weight:700;color:#ff6b35;margin-bottom:16px;">📝 记录本期毛利</div>
+      <div style="margin-bottom:12px;">
+        <div style="font-size:12px;color:#888;margin-bottom:6px;">期间</div>
+        <input id="gmvPeriodInput" style="width:100%;padding:12px 16px;border-radius:12px;border:1.5px solid #ffe0d0;font-size:14px;box-sizing:border-box;outline:none;" placeholder="如：2026年5月">
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:16px;">
+        <div style="flex:1;">
+          <div style="font-size:12px;color:#888;margin-bottom:6px;">收入（元）</div>
+          <input id="gmvRevenueInput" type="number" style="width:100%;padding:12px 16px;border-radius:12px;border:1.5px solid #ffe0d0;font-size:14px;box-sizing:border-box;outline:none;" placeholder="如：50000">
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:12px;color:#888;margin-bottom:6px;">成本（元）</div>
+          <input id="gmvCostInput" type="number" style="width:100%;padding:12px 16px;border-radius:12px;border:1.5px solid #ffe0d0;font-size:14px;box-sizing:border-box;outline:none;" placeholder="如：30000">
+        </div>
+      </div>
+      <button onclick="saveGMV()" style="width:100%;padding:14px;border:none;border-radius:16px;background:linear-gradient(135deg,#ff6b35,#e65100);color:white;font-size:15px;font-weight:700;cursor:pointer;">✨ 记录毛利</button>
+      <div id="gmvSaveMsg" style="text-align:center;font-size:13px;color:#2e7d32;margin-top:10px;display:none;">✅ 已记录！</div>
+    </div>
+
+    <!-- 毛利历史 -->
+    <div style="background:white;border-radius:24px;padding:24px 20px;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
+      <div style="font-size:14px;font-weight:700;color:#ff6b35;margin-bottom:16px;">📈 毛利趋势</div>
+      <div id="gmvHistoryList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== 毛利数据功能 =====
+function saveGMV() {
+  var period = document.getElementById('gmvPeriodInput').value.trim();
+  var revenue = parseFloat(document.getElementById('gmvRevenueInput').value);
+  var cost = parseFloat(document.getElementById('gmvCostInput').value);
+  if (!period || isNaN(revenue) || isNaN(cost)) {
+    alert('请填写完整信息');
+    return;
+  }
+  var gm = revenue - cost;
+  var margin = revenue > 0 ? Math.round(gm / revenue * 100) : 0;
+  var records = JSON.parse(localStorage.getItem('slim_gmv_history') || '[]');
+  records.push({ period: period, revenue: revenue, cost: cost, gm: gm, margin: margin, date: new Date().toLocaleDateString() });
+  localStorage.setItem('slim_gmv_history', JSON.stringify(records));
+  document.getElementById('gmvSaveMsg').style.display = 'block';
+  setTimeout(function() { document.getElementById('gmvSaveMsg').style.display = 'none'; }, 2000);
+  renderGMVHistory();
+  document.getElementById('gmvPeriodInput').value = '';
+  document.getElementById('gmvRevenueInput').value = '';
+  document.getElementById('gmvCostInput').value = '';
+}
+function renderGMVHistory() {
+  var records = JSON.parse(localStorage.getItem('slim_gmv_history') || '[]');
+  var list = document.getElementById('gmvHistoryList');
+  if (!list) return;
+  if (records.length === 0) {
+    list.innerHTML = '<div style="text-align:center;color:#ccc;font-size:13px;padding:16px;">暂无记录，先去打卡再记录 📝</div>';
+    return;
+  }
+  list.innerHTML = records.slice(-10).reverse().map(function(r) {
+    var color = r.gm >= 0 ? '#43a047' : '#ef5350';
+    return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0;"><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:#333;">' + r.period + '</div><div style="font-size:11px;color:#888;">' + r.date + '</div></div><div><div style="font-size:15px;font-weight:700;color:' + color + ';">¥' + r.gm.toLocaleString() + '</div><div style="font-size:11px;color:#888;">毛利率 ' + r.margin + '%</div></div></div>';
+  }).join('');
+}
+var gmvObserver = new MutationObserver(function() {
+  var pageData = document.getElementById('page-data');
+  if (pageData && pageData.classList.contains('active')) {
+    renderGMVHistory();
+  }
+});
+if (document.getElementById('page-data')) {
+  gmvObserver.observe(document.getElementById('page-data'), { attributes: true, attributeFilter: ['class'] });
+}
+</script>
 </body>
 </html>
