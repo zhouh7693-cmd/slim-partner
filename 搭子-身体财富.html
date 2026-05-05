@@ -28,10 +28,10 @@
       gap: 3px; padding: 6px 12px; cursor: pointer;
       border-radius: 16px; transition: all 0.2s;
     }
-    .tab-item.active { background: #eef6fb; }
+    .tab-item.active { background: #f0fff4; }
     .tab-item .tab-icon { font-size: 22px; }
     .tab-item .tab-label { font-size: 10px; color: #8f9eae; font-weight: 500; }
-    .tab-item.active .tab-label { color: #3a7ca5; font-weight: 700; }
+    .tab-item.active .tab-label { color: #3de882; font-weight: 700; }
 
     /* ===== Pages ===== */
     .page { display: none; }
@@ -472,6 +472,82 @@
     .fb-btn { background: #3a7ca5; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
   </style>
+<style>
+    /* ── 教练Tab（身体财富主题） ── */
+    .coach-page { max-width: 420px; margin: 0 auto; }
+    .coach-intro { background: white; border-radius: 32px; padding: 32px 24px; margin-bottom: 16px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .coach-intro-icon { font-size: 56px; margin-bottom: 16px; }
+    .coach-intro-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #66bb6a, #2e7d32); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+    .coach-intro-sub { font-size: 14px; color: #6c7a89; margin-bottom: 24px; }
+    .coach-method-steps { display: flex; gap: 12px; margin-bottom: 28px; }
+    .method-step { flex: 1; background: #e8f5e9; border-radius: 16px; padding: 14px 8px; font-size: 13px; font-weight: 700; color: #66bb6a; line-height: 1.5; }
+    .step-num { display: block; font-size: 20px; margin-bottom: 4px; }
+    .step-desc { font-size: 11px; font-weight: 500; color: #2e7d32; }
+    .coach-intro-note { font-size: 11px; color: #8f9eae; margin-top: 16px; }
+    .coach-start-btn { margin-top: 18px; width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #66bb6a, #2e7d32); color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.15s; }
+    .coach-start-btn:active { transform: scale(0.97); }
+    .coach-chat { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .coach-progress-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+    .progress-step { flex: 1; text-align: center; font-size: 11px; font-weight: 700; color: #8f9eae; padding: 8px 4px; border-radius: 12px; background: #f5f5f5; transition: all 0.3s; line-height: 1.4; }
+    .progress-step.active { background: #e8f5e9; color: #66bb6a; }
+    .chat-messages { max-height: 380px; overflow-y: auto; margin-bottom: 16px; padding: 8px; }
+    .chat-msg { margin-bottom: 16px; animation: msgIn 0.3s ease; }
+    .chat-msg.coach { display: flex; gap: 8px; align-items: flex-start; }
+    .chat-msg.user { display: flex; gap: 8px; align-items: flex-start; flex-direction: row-reverse; }
+    .chat-avatar { font-size: 28px; flex-shrink: 0; }
+    .chat-bubble { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.6; color: #2b3a4a; }
+    .chat-msg.coach .chat-bubble { background: #e8f5e9; border-radius: 18px 18px 18px 4px; }
+    .chat-msg.user .chat-bubble { background: linear-gradient(135deg, #66bb6a, #2e7d32); color: white; border-radius: 18px 18px 4px 18px; }
+    .chat-input-area { display: flex; gap: 8px; align-items: flex-end; }
+    .chat-input-area textarea { flex: 1; padding: 12px 16px; border-radius: 16px; border: 1.5px solid #e9edf2; font-size: 14px; resize: none; outline: none; font-family: inherit; min-height: 44px; }
+    .chat-send-btn { padding: 12px 20px; border-radius: 16px; border: none; background: linear-gradient(135deg, #66bb6a, #2e7d32); color: white; font-size: 14px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
+    .chat-send-btn:active { transform: scale(0.97); }
+    .coach-prompt { text-align: center; color: #66bb6a; font-size: 13px; font-weight: 600; padding: 8px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .generating-report { text-align: center; color: #0891b2; font-size: 14px; font-weight: 600; padding: 16px; animation: blink 1.5s infinite; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .coach-buttons { padding: 12px 16px; background: #fafafa; border-top: 1px solid #e5e7eb; }
+    .coach-btn-prompt { font-size: 13px; color: #6b7280; margin-bottom: 10px; text-align: center; }
+    .coach-btn-list { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .coach-choice-btn { flex: 1; min-width: 120px; max-width: 180px; padding: 12px 16px; border: 2px solid #66bb6a; background: white; color: #66bb6a; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .coach-choice-btn:hover { background: #66bb6a; color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102,187,106,0.3); }
+    .coach-choice-btn.yes { border-color: #22c55e; color: #22c55e; }
+    .coach-choice-btn.yes:hover { background: #22c55e; color: white; box-shadow: 0 4px 12px rgba(34,197,94,0.3); }
+    .coach-choice-btn.no { border-color: #ef4444; color: #ef4444; }
+    .coach-choice-btn.no:hover { background: #ef4444; color: white; box-shadow: 0 4px 12px rgba(239,68,68,0.3); }
+    .coach-report-mckinsey { background: white; border-radius: 32px; padding: 28px 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .report-header { text-align: center; margin-bottom: 24px; }
+    .report-icon { font-size: 48px; margin-bottom: 12px; }
+    .report-title { font-size: 20px; font-weight: 800; color: #2b3a4a; margin-bottom: 4px; }
+    .report-subtitle { font-size: 12px; color: #8f9eae; }
+    .report-core-conclusion { background: linear-gradient(135deg, #e8f5e9, #f1f8e9); border-radius: 20px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #66bb6a; }
+    .report-core-conclusion h3 { font-size: 15px; font-weight: 700; color: #66bb6a; margin-bottom: 8px; }
+    .report-core-conclusion p { font-size: 14px; color: #2b3a4a; line-height: 1.6; }
+    .report-mece-analysis { margin-bottom: 20px; }
+    .report-mece-analysis h3 { font-size: 15px; font-weight: 700; color: #2b3a4a; margin-bottom: 12px; }
+    .mece-dimension { background: #fdf6f0; border-radius: 16px; padding: 14px; margin-bottom: 10px; }
+    .mece-dim-title { font-size: 14px; font-weight: 700; color: #66bb6a; margin-bottom: 6px; }
+    .mece-dim-score { font-size: 12px; color: #8f9eae; margin-bottom: 6px; }
+    .mece-dim-desc { font-size: 13px; color: #6c7a89; line-height: 1.5; }
+    .report-priority-actions { margin-bottom: 20px; }
+    .report-priority-actions h3 { font-size: 15px; font-weight: 700; color: #2b3a4a; margin-bottom: 12px; }
+    .action-item { background: white; border-radius: 16px; padding: 14px; margin-bottom: 8px; border-left: 4px solid #66bb6a; }
+    .action-priority { font-size: 11px; font-weight: 700; color: #66bb6a; margin-bottom: 4px; }
+    .action-text { font-size: 14px; color: #2b3a4a; line-height: 1.5; }
+    .report-next-step { background: #e8f5e9; border-radius: 16px; padding: 16px; margin-bottom: 20px; }
+    .report-next-step h3 { font-size: 15px; font-weight: 700; color: #66bb6a; margin-bottom: 8px; }
+    .report-next-step p { font-size: 14px; color: #2b3a4a; line-height: 1.6; }
+    .coach-restart-btn { width: 100%; padding: 14px; border-radius: 60px; border: 2px solid #66bb6a; background: white; color: #66bb6a; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 12px; }
+    .coach-restart-btn:active { background: #e8f5e9; }
+    .report-impact-effort { background: #f0f9ff; border-radius: 16px; padding: 16px; margin-bottom: 20px; }
+    .report-impact-effort h3 { font-size: 15px; font-weight: 700; color: #2b3a4a; margin-bottom: 12px; }
+    .ie-item { font-size: 14px; color: #2b3a4a; margin-bottom: 8px; }
+    .ie-tag { display: inline-block; padding: 2px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; margin-right: 8px; }
+    .ie-p0 { background: #dcfce7; color: #166534; }
+    .ie-p1 { background: #fef9c3; color: #854d0e; }
+    .ie-p2 { background: #ede9fe; color: #6b21a8; }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
 </head>
 <body>
 
@@ -482,24 +558,28 @@
 
 <!-- ===== Tab Bar ===== -->
 <div class="tab-bar">
-  <div class="tab-item active" onclick="switchTab('checkin')">
-    <div class="tab-icon">✅</div>
-    <div class="tab-label">打卡</div>
-  </div>
-  <div class="tab-item" onclick="switchTab('partner')">
-    <div class="tab-icon">💬</div>
+  <div class="tab-item active" onclick="switchTab('chat')">
+    <div class="tab-icon">🏠</div>
     <div class="tab-label">搭子</div>
   </div>
-  <div class="tab-item" onclick="switchTab('weight')">
-    <div class="tab-icon">⚖️</div>
-    <div class="tab-label">健康</div>
+  <div class="tab-item" onclick="switchTab('coach')">
+    <div class="tab-icon">🎓</div>
+    <div class="tab-label">教练</div>
   </div>
   <div class="tab-item" onclick="switchTab('sop')">
     <div class="tab-icon">🎯</div>
-    <div class="tab-label">SOP</div>
+    <div class="tab-label">自检</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('checkin')">
+    <div class="tab-icon">✅</div>
+    <div class="tab-label">打卡</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('data')">
+    <div class="tab-icon">⚖️</div>
+    <div class="tab-label">健康</div>
   </div>
   <div class="tab-item" onclick="switchTab('progress')">
-    <div class="tab-icon">📊</div>
+    <div class="tab-icon">📈</div>
     <div class="tab-label">进展</div>
   </div>
   <div class="tab-item" onclick="switchTab('share')">
@@ -604,7 +684,7 @@
 </div>
 
 <!-- ===== Page: 搭子 ===== -->
-<div id="page-partner" class="page" style="display:none;">
+<div id="page-chat" class="page" style="display:none;">
   <div style="padding:16px 12px 80px;">
     <div style="text-align:center;margin-bottom:20px;">
       <div style="font-size:24px;font-weight:700;color:#333;">💬 搭子</div>
@@ -636,8 +716,8 @@
   </div>
 </div>
 
-<!-- ===== Page: 体重 ===== -->
-<div id="page-weight" class="page">
+<!-- ===== Page: 健康数据 ===== -->
+<div id="page-data" class="page">
   <div class="weight-page">
     <div class="weight-header">
       <div class="weight-title">💪 身体财富记录</div>
@@ -888,6 +968,8 @@ const PARTNERS = [
   { id: 'tsundere', name: '毒舌但中肯型', emoji: '😏', style: 'tsundere', desc: '骂醒你，但句句在理', color: '#ce93d8' }
 ];
 const STORAGE = { PARTNER: 'slim_partner_body', HISTORY: 'slim_history_body', WEIGHT: 'slim_weight_body', SOP: 'slim_sop_body', SOP_STREAKS: 'slim_sop_streaks_body', TARGET_WEIGHT: 'slim_target_weight_body' };
+// SOP完成状态：打卡前必须先完成SOP
+var sopCompletedToday = localStorage.getItem('sop_completed_body_' + new Date().toDateString()) === 'true';
 const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner'; // GitHub Pages
 function getSiteUrl() {
   // 生产环境自动用当前域名
@@ -993,6 +1075,11 @@ const PROGRESS_DATA = {
 
 // ==================== Tab 导航 ====================
 function switchTab(tab) {
+  // 打卡前必须先完成SOP
+  if (tab === 'checkin' && !sopCompletedToday) {
+    alert('⏰ 请先完成今日SOP，再来打卡！');
+    return;
+  }
   // 关闭所有可能遮挡的弹窗
   document.querySelectorAll('.qa-overlay,.fb-overlay,.sop-finish-overlay,.neg-critic-overlay,.pos-reward-overlay').forEach(el => el.classList.remove('show'));
   document.getElementById('partnerOverlay').style.display = 'none';
@@ -1002,17 +1089,23 @@ function switchTab(tab) {
     p.classList.remove('active');
     p.style.display = 'none';
   });
-  const tabs = ['checkin','partner','weight','sop','progress','share'];
+  // 隐藏教练页
+  var coachPg = document.getElementById('coachPage');
+  if (coachPg) { coachPg.classList.remove('active'); coachPg.style.display = 'none'; }
+  const tabs = ['chat','coach','sop','checkin','data','progress','share'];
   const tabIdx = tabs.indexOf(tab);
-  if (tabIdx !== -1) document.querySelectorAll('.tab-item')[tabIdx].classList.add('active');
-  const pe = document.getElementById(`page-${tab}`);
-  if (pe) {
-    pe.classList.add('active');
-    pe.style.display = '';
+  if (tabIdx !== -1) { document.querySelectorAll('.tab-item')[tabIdx].classList.add('active'); }
+  if (tab === 'coach') {
+    if (coachPg) { coachPg.classList.add('active'); coachPg.style.display = ''; }
+  } else {
+    const pe = document.getElementById(`page-${tab}`);
+    if (pe) {
+      pe.classList.add('active');
+      pe.style.display = '';
+    }
   }
-  if (tab === 'progress') renderBodyProgress();
-  if (tab === 'partner') renderPartnerPage();
-  if (tab === 'weight') {
+  if (tab === 'chat') renderPartnerPage();
+  if (tab === 'data') {
     drawWeightChart();
     renderWeeklyReport();
     // 自动填入上次健康数据
@@ -1023,6 +1116,7 @@ function switchTab(tab) {
       if (inp) inp.placeholder = last.toFixed(1);
     }
   }
+  if (tab === 'progress') renderBodyProgress();
   if (tab === 'sop') initSOP();
   if (tab === 'share') renderSharePage();
 }
@@ -2409,6 +2503,9 @@ function submitSOPCat() {
   if (allDone) {
     if (!sopDone) {
       sopDone = true;
+      // 标记SOP已完成，允许打卡
+      sopCompletedToday = true;
+      localStorage.setItem('sop_completed_body_' + new Date().toDateString(), 'true');
       saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: getToday(), submittedCats: sopSubmittedCats });
       setTimeout(() => showSOPFinish(), 300);
     }
@@ -3182,5 +3279,47 @@ startApp();
 @keyframes achievementBounce { 0%,100% { transform:translateX(-50%) translateY(0); } 50% { transform:translateX(-50%) translateY(-10px); } }
 </style>
 
+<div id="coachPage">
+  <div class="coach-page" id="coachPageContent">
+    <!-- 教练介绍页 -->
+    <div class="coach-intro" id="coachIntro">
+      <div class="coach-intro-icon">🎓</div>
+      <div class="coach-intro-title">麦肯锡风格身体财富教练</div>
+      <div class="coach-intro-sub">用结构化思维，3步搞定健康难题</div>
+      <div class="coach-method-steps">
+        <div class="method-step"><span class="step-num">①</span> 界定问题<br><span class="step-desc">明确核心冲突</span></div>
+        <div class="method-step"><span class="step-num">②</span> 结构化分析<br><span class="step-desc">MECE拆解根因</span></div>
+        <div class="method-step"><span class="step-num">③</span> 优先级行动<br><span class="step-desc">可执行的下一步</span></div>
+      </div>
+      <button class="coach-start-btn" onclick="startCoach()">开始深度对话 →</button>
+      <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
+    </div>
+    
+    <!-- 对话界面 -->
+    <div class="coach-chat" id="coachChat" style="display:none;">
+      <div class="coach-progress-bar">
+        <div class="progress-step active" id="progressStep1">① 界定问题</div>
+        <div class="progress-step" id="progressStep2">② 结构化分析</div>
+        <div class="progress-step" id="progressStep3">③ 优先级行动</div>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="coach-prompt" id="coachPrompt" style="display:none;">
+        💡 请在下方输入框中回复...
+      </div>
+      <div class="chat-input-area" id="chatInputArea">
+        <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
+        <button class="chat-send-btn" onclick="sendCoachMsg()">发送</button>
+      </div>
+      <div class="coach-buttons" id="coachButtons" style="display:none;">
+        <div class="coach-btn-prompt" id="coachBtnPrompt"></div>
+        <div class="coach-btn-list" id="coachBtnList"></div>
+      </div>
+    </div>
+    
+    <!-- 诊断报告页 -->
+    <div class="coach-report-mckinsey" id="coachReport" style="display:none;"></div>
+  </div>
+</div>
+<script src="coach-身体财富.js"></script>
 </body>
 </html>

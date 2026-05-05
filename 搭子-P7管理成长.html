@@ -333,6 +333,26 @@
     .sop-all-done-icon { font-size: 40px; margin-bottom: 8px; }
     .sop-all-done-title { font-size: 16px; font-weight: 700; color: #2e7d32; margin-bottom: 4px; }
     .sop-all-done-sub { font-size: 13px; color: #558b52; }
+    /* ===== 教练样式 ===== */
+    .coach-container { height: calc(100vh - 200px); display: flex; flex-direction: column; padding: 0 16px; }
+    .coach-start-btn { background: #3a5fcd; color: white; border: none; border-radius: 40px; padding: 14px 32px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(58,95,205,0.3); }
+    .coach-start-btn:active { background: #2a4eb0; transform: scale(0.97); }
+    .chat-messages { flex: 1; overflow-y: auto; padding: 16px 0; display: flex; flex-direction: column; gap: 12px; }
+    .chat-bubble { padding: 14px 18px; border-radius: 20px; font-size: 15px; line-height: 1.6; max-width: 85%; }
+    .chat-bubble.coach { background: #f0f4fd; color: #333; border-bottom-left-radius: 6px; align-self: flex-start; }
+    .chat-bubble.user { background: #3a5fcd; color: white; border-bottom-right-radius: 6px; align-self: flex-end; }
+    .coach-progress-bar { background: #e8eef8; border-radius: 10px; height: 6px; margin: 8px 0 16px; overflow: hidden; }
+    .coach-progress-fill { height: 100%; background: #3a5fcd; border-radius: 10px; transition: width 0.3s; }
+    .chat-input-area { display: flex; gap: 10px; padding: 12px 0; border-top: 1px solid #e8eef8; }
+    .chat-input { flex: 1; border: 1.5px solid #d0d9e8; border-radius: 24px; padding: 12px 18px; font-size: 15px; outline: none; }
+    .chat-input:focus { border-color: #3a5fcd; }
+    .chat-send-btn { background: #3a5fcd; color: white; border: none; border-radius: 24px; padding: 12px 20px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .chat-send-btn:active { background: #2a4eb0; }
+    .coach-report { background: white; border-radius: 20px; padding: 24px 20px; margin: 0 16px 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .coach-report-title { font-size: 20px; font-weight: 800; color: #3a5fcd; margin-bottom: 20px; text-align: center; }
+    .coach-report-section { background: #f8faff; border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; }
+    .coach-report-label { font-size: 12px; font-weight: 700; color: #3a5fcd; text-transform: uppercase; margin-bottom: 6px; }
+    .coach-report-value { font-size: 14px; color: #333; line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -350,15 +370,40 @@
 
 <!-- Tab Bar -->
 <div class="tab-bar" id="tabBar" style="display:none;">
-  <div class="tab-item active" onclick="switchTab('checkin')">
-    <div class="tab-icon">🏠</div><div class="tab-label">打卡</div>
+  <div class="tab-item active" onclick="switchTab('chat')">
+    <div class="tab-icon">🏠</div><div class="tab-label">搭子</div>
   </div>
-  <div class="tab-item" onclick="switchTab('chat')">
-    <div class="tab-icon">💬</div><div class="tab-label">搭子</div>
+  <div class="tab-item" onclick="switchTab('coach')">
+    <div class="tab-icon">🎓</div><div class="tab-label">教练</div>
   </div>
   <div class="tab-item" onclick="switchTab('sop')">
     <div class="tab-icon">📋</div><div class="tab-label">自检</div>
   </div>
+  <div class="tab-item" onclick="switchTab('checkin')">
+    <div class="tab-icon">✅</div><div class="tab-label">打卡</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('data')">
+    <div class="tab-icon">📊</div><div class="tab-label">绩效</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('progress')">
+    <div class="tab-icon">📈</div><div class="tab-label">进展</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('share')">
+    <div class="tab-icon">📣</div><div class="tab-label">分享</div>
+  </div>
+</div>
+
+<!-- ===== 教练页面 ===== -->
+<div class="page" id="coachPage" style="display:none;">
+  <div class="coach-container" id="coachChat">
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="coach-progress-bar" id="coachProgressBar" style="display:none;"><div class="coach-progress-fill" id="coachProgressFill"></div></div>
+    <div class="chat-input-area" id="chatInputArea" style="display:none;">
+      <input class="chat-input" id="coachInput" placeholder="输入你的回答..." onkeydown="if(event.key==='Enter')sendCoachMsg()">
+      <button class="chat-send-btn" onclick="sendCoachMsg()">发送</button>
+    </div>
+  </div>
+  <div class="coach-report" id="coachReport" style="display:none;"></div>
 </div>
 
 <!-- ===== 打卡页面 ===== -->
@@ -393,6 +438,18 @@
     <div class="talk-btn-row" style="margin-top:8px;">
       <button class="talk-btn" onclick="askPartner('report')">📣 汇报</button>
       <button class="talk-btn" onclick="askPartner('question')">🤔 提问</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 数据记录（绩效） ===== -->
+<div class="page" id="dataPage">
+  <div style="padding:16px;max-width:520px;margin:0 auto;">
+    <div style="background:white;border-radius:24px;padding:24px 20px;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,0.06);text-align:center;">
+      <div style="font-size:48px;margin-bottom:8px;">📊</div>
+      <div style="font-size:18px;font-weight:700;margin-bottom:4px;">P7管理绩效记录</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">记录你的管理成长轨迹</div>
+      <div id="p7DataList" style="text-align:left;"></div>
     </div>
   </div>
 </div>
@@ -512,6 +569,9 @@ const STORAGE = {
   PARTNER: 'slim_partner_p7',
   HISTORY: 'slim_history_p7',
   SOP: 'slim_sop_p7',
+};
+// SOP完成状态：打卡前必须先完成SOP
+var sopCompletedToday = localStorage.getItem('sop_completed_p7_' + new Date().toDateString()) === 'true';
   SOP_STREAKS: 'slim_sop_streaks_p7'
 };
 
@@ -897,15 +957,30 @@ function closeQA() { document.getElementById('qaOverlay').classList.remove('show
 
 // ===== Tab切换 =====
 function switchTab(tab) {
+  // 打卡前必须先完成SOP
+  if (tab === 'checkin' && !sopCompletedToday) {
+    alert('⏰ 请先完成今日SOP，再来打卡！');
+    return;
+  }
   // 关闭所有可能遮挡的弹窗
   document.getElementById('qaOverlay').classList.remove('show');
   document.getElementById('fbOverlay').classList.remove('show');
   document.getElementById('sopGuideOverlay').classList.add('hidden');
+  // 隐藏教练页（如果不是切到教练）
+  var coachPg = document.getElementById('coachPage');
+  if (coachPg) { coachPg.classList.remove('active'); coachPg.style.display = 'none'; }
   currentTab = tab;
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-  document.getElementById(tab + 'Page').classList.add('active');
+  if (tab === 'coach') {
+    if (coachPg) { coachPg.style.display = ''; coachPg.classList.add('active'); }
+  } else {
+    var pe = document.getElementById(tab + 'Page');
+    if (pe) pe.classList.add('active');
+  }
   document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
   event.currentTarget.classList.add('active');
+  // 如果切到教练，初始化教练
+  if (tab === 'coach' && coachPg) { initCoach(); }
 }
 
 // ===== SOP自检 =====
@@ -1064,6 +1139,11 @@ function updateSOPStats() {
   var pct = total > 0 ? Math.round(done / total * 100) : 0;
   document.getElementById('sopProgressBar').style.width = pct + '%';
   document.getElementById('sopProgressText').innerText = pct + '%';
+  // 所有SOP完成，允许打卡
+  if (done >= total && total > 0) {
+    sopCompletedToday = true;
+    localStorage.setItem('sop_completed_p7_' + new Date().toDateString(), 'true');
+  }
 }
 
 function resetSOP() {
@@ -1096,6 +1176,145 @@ function copyShareText() {
   document.body.removeChild(ta);
   alert('已复制到剪贴板！');
 }
+
+// ===== 教练功能 =====
+var COACH_QS_P7 = [
+  { q: '你目前在管理上遇到的最大挑战是什么？' },
+  { q: '过去一个月，你觉得自己在哪件事上最有"Owner感"？' },
+  { q: '你跟上级的关系怎么样？有没有觉得被信任，或者有距离感？' },
+  { q: '你的团队现在最缺什么？人才、资源、还是方向感？' },
+  { q: '如果接下来90天只做一件事，你会选什么？为什么？' },
+  { q: '给30天后的自己写一句话：' }
+];
+var coachStateP7 = { qIdx: 0, answers: [] };
+
+function initCoach() {
+  var el = document.getElementById('coachChat');
+  var msgs = document.getElementById('chatMessages');
+  if (!el || !msgs) return;
+  el.style.display = 'block';
+  coachStateP7 = { qIdx: 0, answers: [] };
+  msgs.innerHTML = '<div style="text-align:center;padding:40px 20px;"><div style="font-size:48px;margin-bottom:16px;">🧠</div><div style="font-size:18px;font-weight:700;color:#3a5fcd;margin-bottom:8px;">P7管理教练</div><div style="font-size:14px;color:#888;margin-bottom:24px;">McKinsey式结构化对话，帮你照见管理盲区</div><button class="coach-start-btn" onclick="startCoachDialogP7()">🚀 开始对话</button></div>';
+  var pBar = document.getElementById('coachProgressBar');
+  if (pBar) { pBar.style.display = 'none'; }
+  var ia = document.getElementById('chatInputArea');
+  if (ia) ia.style.display = 'none';
+  var r = document.getElementById('coachReport');
+  if (r) r.style.display = 'none';
+}
+
+function startCoachDialogP7() {
+  var msgs = document.getElementById('chatMessages');
+  var ia = document.getElementById('chatInputArea');
+  if (msgs) msgs.innerHTML = '';
+  if (ia) { ia.style.display = 'flex'; var inp = document.getElementById('coachInput'); if (inp) inp.focus(); }
+  var pBar = document.getElementById('coachProgressBar');
+  if (pBar) pBar.style.display = 'block';
+  showCoachBubbleP7(COACH_QS_P7[0].q);
+}
+
+function showCoachBubbleP7(text) {
+  var msgs = document.getElementById('chatMessages');
+  if (!msgs) return;
+  msgs.innerHTML += '<div style="display:flex;"><div class="chat-bubble coach">' + text + '</div></div>';
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function sendCoachMsg() {
+  var inp = document.getElementById('coachInput');
+  if (!inp || !inp.value.trim()) return;
+  var text = inp.value.trim();
+  inp.value = '';
+  var msgs = document.getElementById('chatMessages');
+  if (msgs) { msgs.innerHTML += '<div style="display:flex;justify-content:flex-end;"><div class="chat-bubble user">' + text + '</div></div>'; msgs.scrollTop = msgs.scrollHeight; }
+  coachStateP7.answers.push(text);
+  coachStateP7.qIdx++;
+  var pBar = document.getElementById('coachProgressBar');
+  if (pBar) { var fill = document.getElementById('coachProgressFill'); if (fill) fill.style.width = Math.round((coachStateP7.qIdx / COACH_QS_P7.length) * 100) + '%'; }
+  if (coachStateP7.qIdx < COACH_QS_P7.length) {
+    setTimeout(function() { showCoachBubbleP7(COACH_QS_P7[coachStateP7.qIdx].q); }, 600);
+  } else {
+    setTimeout(showCoachReportP7, 800);
+  }
+}
+
+function showCoachReportP7() {
+  var el = document.getElementById('coachChat');
+  if (el) el.style.display = 'none';
+  var r = document.getElementById('coachReport');
+  if (!r) {
+    r = document.createElement('div');
+    r.id = 'coachReport';
+    r.className = 'coach-report';
+    var container = document.querySelector('.coach-container');
+    if (container) container.appendChild(r);
+    return;
+  }
+  r.style.display = 'block';
+  var html = '<div class="coach-report-title">🧠 P7管理教练洞察报告</div>';
+  if (coachStateP7.answers[0]) html += '<div class="coach-report-section"><div class="coach-report-label">最大挑战</div><div class="coach-report-value">' + coachStateP7.answers[0] + '</div></div>';
+  if (coachStateP7.answers[1]) html += '<div class="coach-report-section"><div class="coach-report-label">最有Owner感的时刻</div><div class="coach-report-value">' + coachStateP7.answers[1] + '</div></div>';
+  if (coachStateP7.answers[2]) html += '<div class="coach-report-section"><div class="coach-report-label">上下级关系</div><div class="coach-report-value">' + coachStateP7.answers[2] + '</div></div>';
+  if (coachStateP7.answers[3]) html += '<div class="coach-report-section"><div class="coach-report-label">团队短板</div><div class="coach-report-value">' + coachStateP7.answers[3] + '</div></div>';
+  if (coachStateP7.answers[4]) html += '<div class="coach-report-section"><div class="coach-report-label">90天聚焦</div><div class="coach-report-value" style="font-weight:700;color:#3a5fcd;">' + coachStateP7.answers[4] + '</div></div>';
+  if (coachStateP7.answers[5]) html += '<div class="coach-report-section"><div class="coach-report-label">给30天后的自己</div><div class="coach-report-value" style="font-weight:700;color:#3a5fcd;">' + coachStateP7.answers[5] + '</div></div>';
+  html += '<div style="background:linear-gradient(135deg,#eef2fd,#e8f0fe);border-radius:16px;padding:16px;margin-top:16px;"><div style="font-weight:700;color:#3a5fcd;margin-bottom:8px;">💡 So What?</div><div style="font-size:14px;color:#555;line-height:1.6;">P7到P8的跨越，不是职位升级，是认知升级。你今天遇到的挑战，是所有人从执行者进化成Owner的必经之路。照见它，面对它，然后专注做一件事。</div></div>';
+      html += '<div style="text-align:center;margin-top:20px;"><button class="coach-start-btn" onclick="initCoach()">🔄 再来一次</button></div>';
+  r.innerHTML = html;
+}
+
+// ===== 进展页面初始化 =====
+function initProgressPage() {
+  var streak = parseInt(localStorage.getItem('slim_p7_streak') || '0');
+  var total = (JSON.parse(localStorage.getItem('slim_p7_history') || [])).length;
+  var today = localStorage.getItem('slim_p7_today') ? '✅' : '-';
+  var elStreak = document.getElementById('p7StreakNum');
+  var elTotal = document.getElementById('p7TotalDays');
+  var elToday = document.getElementById('p7TodayStatus');
+  if (elStreak) elStreak.innerText = streak;
+  if (elTotal) elTotal.innerText = total;
+  if (elToday) elToday.innerText = today;
+}
 </script>
+
+<!-- ===== Page: 进展 ===== -->
+<div id="progressPage" class="page">
+  <div style="padding:16px;max-width:520px;margin:0 auto;">
+    <div style="background:white;border-radius:24px;padding:28px 20px;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,0.06);text-align:center;">
+      <div style="font-size:48px;margin-bottom:8px;">📊</div>
+      <div style="font-size:18px;font-weight:700;margin-bottom:4px;">P7升P8成长档案</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">你的管理 SOP 全局视图</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <div style="background:#f0f4fd;border-radius:16px;padding:12px 18px;text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:#3a5fcd;" id="p7StreakNum">0</div>
+          <div style="font-size:11px;color:#8f9eae;">连续天数</div>
+        </div>
+        <div style="background:#f0f4fd;border-radius:16px;padding:12px 18px;text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:#3a5fcd;" id="p7TotalDays">0</div>
+          <div style="font-size:11px;color:#8f9eae;">累计天数</div>
+        </div>
+        <div style="background:#fff3e0;border-radius:16px;padding:12px 18px;text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:#ea580c;" id="p7TodayStatus">-</div>
+          <div style="font-size:11px;color:#8f9eae;">今日打卡</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 分享 ===== -->
+<div class="page" id="sharePage">
+  <div style="padding:16px;max-width:520px;margin:0 auto;">
+    <div style="background:white;border-radius:24px;padding:24px 20px;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,0.06);text-align:center;">
+      <div style="font-size:48px;margin-bottom:8px;">📣</div>
+      <div style="font-size:18px;font-weight:700;margin-bottom:4px;">P7管理成长搭子</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">分享你的搭子，让更多人加入</div>
+      <button class="coach-start-btn" onclick="copyShareText()" style="background:linear-gradient(135deg,#3a5fcd,#3b82f6);color:white;border:none;padding:14px 28px;border-radius:16px;font-size:15px;font-weight:600;cursor:pointer;">
+        📋 复制分享文案
+      </button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

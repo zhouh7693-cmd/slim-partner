@@ -246,17 +246,23 @@
 </div>
 
 <div class="tab-bar" id="tabBar" style="display:none;">
-  <div class="tab-item active" onclick="switchTab('checkin')">
-    <div class="tab-icon">🏠</div><div class="tab-label">打卡</div>
-  </div>
-  <div class="tab-item" onclick="switchTab('chat')">
-    <div class="tab-icon">💬</div><div class="tab-label">搭子</div>
+  <div class="tab-item active" onclick="switchTab('chat')">
+    <div class="tab-icon">🏠</div><div class="tab-label">搭子</div>
   </div>
   <div class="tab-item" onclick="switchTab('sop')">
-    <div class="tab-icon">📋</div><div class="tab-label">自检</div>
+    <div class="tab-icon">📋</div><div class="tab-label">SOP</div>
   </div>
-  <div class="tab-item" onclick="switchTab('coach')">
-    <div class="tab-icon">🎓</div><div class="tab-label">教练</div>
+  <div class="tab-item" onclick="switchTab('checkin')">
+    <div class="tab-icon">✅</div><div class="tab-label">打卡</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('data')">
+    <div class="tab-icon">🌸</div><div class="tab-label">轻松度</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('progress')">
+    <div class="tab-icon">📈</div><div class="tab-label">进展</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('share')">
+    <div class="tab-icon">📣</div><div class="tab-label">分享</div>
   </div>
 </div>
 
@@ -326,6 +332,49 @@
       <div class="sop-done-title">今日关系自检完成！</div>
       <div class="sop-done-sub" id="sopDoneSub">又完成了一次关系力审视</div>
       <button class="sop-reset-btn" onclick="resetSOP()">明天再来 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 轻松度页 ===== -->
+<div class="page" id="dataPage" style="display:none;">
+  <div style="padding:20px 16px 100px;text-align:center;">
+    <div style="font-size:64px;margin-bottom:16px;">🌸</div>
+    <div style="font-size:22px;font-weight:700;color:#d97706;margin-bottom:8px;">轻松度</div>
+    <div style="font-size:14px;color:#888;margin-bottom:24px;">记录你今天的关系轻松指数</div>
+    <div style="background:white;border-radius:24px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+      <div style="font-size:14px;color:#666;line-height:1.8;">
+        在这里记录你今天处理关系时的轻松程度。<br>
+        从1（很紧张）到10（很轻松）打分。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 进展页 ===== -->
+<div class="page" id="progressPage" style="display:none;">
+  <div style="padding:20px 16px 100px;text-align:center;">
+    <div style="font-size:64px;margin-bottom:16px;">📈</div>
+    <div style="font-size:22px;font-weight:700;color:#d97706;margin-bottom:8px;">进展</div>
+    <div style="font-size:14px;color:#888;margin-bottom:24px;">你的关系力成长曲线</div>
+    <div style="background:white;border-radius:24px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+      <div style="font-size:14px;color:#666;line-height:1.8;">
+        坚持打卡，见证你的关系力成长。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 分享页 ===== -->
+<div class="page" id="sharePage" style="display:none;">
+  <div style="padding:20px 16px 100px;text-align:center;">
+    <div style="font-size:64px;margin-bottom:16px;">📣</div>
+    <div style="font-size:22px;font-weight:700;color:#d97706;margin-bottom:8px;">分享</div>
+    <div style="font-size:14px;color:#888;margin-bottom:24px;">邀请朋友一起修炼关系力</div>
+    <div style="background:white;border-radius:24px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+      <div style="font-size:14px;color:#666;line-height:1.8;">
+        推荐朋友使用关系力修炼搭子，一起提升关系力。
+      </div>
     </div>
   </div>
 </div>
@@ -1535,8 +1584,8 @@ function switchTabDirect(tab) {
   currentTab = tab;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-  const pageMap = { checkin:'checkinPage', chat:'chatPage', sop:'sopPage', coach:'coachPage' };
-  const idxMap = { checkin:0, chat:1, sop:2, coach:3 };
+  const pageMap = { checkin:'checkinPage', chat:'chatPage', sop:'sopPage', coach:'coachPage', data:'dataPage', progress:'progressPage', share:'sharePage' };
+  const idxMap = { checkin:0, chat:1, sop:2, coach:3, data:4, progress:5, share:6 };
   const pg = document.getElementById(pageMap[tab]);
   if (pg) pg.classList.add('active');
   const tabs = document.querySelectorAll('.tab-item');

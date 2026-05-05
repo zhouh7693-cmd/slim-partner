@@ -28,10 +28,10 @@
       gap: 3px; padding: 6px 12px; cursor: pointer;
       border-radius: 16px; transition: all 0.2s;
     }
-    .tab-item.active { background: #eef6fb; }
+    .tab-item.active { background: #e8f5e9; }
     .tab-item .tab-icon { font-size: 22px; }
     .tab-item .tab-label { font-size: 10px; color: #8f9eae; font-weight: 500; }
-    .tab-item.active .tab-label { color: #3a7ca5; font-weight: 700; }
+    .tab-item.active .tab-label { color: #66bb6a; font-weight: 700; }
 
     /* ===== Pages ===== */
     .page { display: none; }
@@ -451,20 +451,28 @@
 
 <!-- ===== Tab Bar ===== -->
 <div class="tab-bar">
-  <div class="tab-item active" onclick="switchTab('checkin')">
-    <div class="tab-icon">✅</div>
-    <div class="tab-label">打卡</div>
-  </div>
-  <div class="tab-item" onclick="switchTab('partner')">
-    <div class="tab-icon">💬</div>
+  <div class="tab-item active" onclick="switchTab('chat')">
+    <div class="tab-icon">🏠</div>
     <div class="tab-label">搭子</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('coach')">
+    <div class="tab-icon">🎓</div>
+    <div class="tab-label">教练</div>
   </div>
   <div class="tab-item" onclick="switchTab('sop')">
     <div class="tab-icon">🎯</div>
-    <div class="tab-label">SOP</div>
+    <div class="tab-label">自检</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('checkin')">
+    <div class="tab-icon">✅</div>
+    <div class="tab-label">打卡</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('data')">
+    <div class="tab-icon">📊</div>
+    <div class="tab-label">支持度</div>
   </div>
   <div class="tab-item" onclick="switchTab('progress')">
-    <div class="tab-icon">📊</div>
+    <div class="tab-icon">📈</div>
     <div class="tab-label">进展</div>
   </div>
   <div class="tab-item" onclick="switchTab('share')">
@@ -569,7 +577,7 @@
 </div>
 
 <!-- ===== Page: 搭子 ===== -->
-<div id="page-partner" class="page" style="display:none;">
+<div id="page-chat" class="page" style="display:none;">
   <div style="padding:16px 12px 80px;">
     <div style="text-align:center;margin-bottom:20px;">
       <div style="font-size:24px;font-weight:700;color:#333;">💬 搭子</div>
@@ -597,6 +605,22 @@
     <div class="talk-btn-row" style="margin-top:8px;">
       <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
       <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 支持度数据 ===== -->
+<div id="page-data" class="page">
+  <div style="padding:20px 16px 80px;text-align:center;">
+    <div style="font-size:48px;margin-bottom:16px;">🤝</div>
+    <div style="font-size:20px;font-weight:700;color:#388e3c;margin-bottom:8px;">支持度记录</div>
+    <div style="font-size:14px;color:#999;margin-bottom:32px;">记录你的人际互助网络</div>
+    <div style="background:#e8f5e9;border-radius:16px;padding:24px;text-align:left;font-size:14px;color:#666;line-height:1.8;">
+      <div style="font-weight:700;color:#388e3c;margin-bottom:12px;">💡 支持度是什么</div>
+      支持度 = 你能调动的有效人际资源。<br>
+      包括：深度关系数量、他人的实际帮助次数、信任你的人有多少。<br><br>
+      <div style="font-weight:700;color:#388e3c;margin-bottom:12px;">📝 记录方式</div>
+      在搭子页面汇报你的关系进展，我会帮你记录趋势。
     </div>
   </div>
 </div>
@@ -818,6 +842,8 @@ const PARTNERS = [
   { id: 'tsundere', name: '毒舌但中肯型', emoji: '😏', style: 'tsundere', desc: '骂醒你，但句句在理', color: '#ce93d8' }
 ];
 const STORAGE = { PARTNER: 'slim_partner_relationship', HISTORY: 'slim_history_relationship', WEIGHT: 'slim_weight_relationship', SOP: 'slim_sop_relationship', SOP_STREAKS: 'slim_sop_streaks_relationship', TARGET_WEIGHT: 'slim_target_weight_relationship' };
+// SOP完成状态：打卡前必须先完成SOP
+var sopCompletedToday = localStorage.getItem('sop_completed_relationship_' + new Date().toDateString()) === 'true';
 const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner'; // GitHub Pages
 function getSiteUrl() {
   // 生产环境自动用当前域名
@@ -917,28 +943,40 @@ const PROGRESS_DATA = {
 
 // ==================== Tab 导航 ====================
 function switchTab(tab) {
+  // 打卡前必须先完成SOP
+  if (tab === 'checkin' && !sopCompletedToday) {
+    alert('⏰ 请先完成今日SOP，再来打卡！');
+    return;
+  }
   // 关闭所有可能遮挡的弹窗
   document.querySelectorAll('.qa-overlay,.fb-overlay,.sop-finish-overlay,.neg-critic-overlay,.pos-reward-overlay').forEach(el => el.classList.remove('show'));
   document.getElementById('partnerOverlay').style.display = 'none';
   document.getElementById('achievementOverlay').style.display = 'none';
+  // 隐藏教练页
+  var coachPg = document.getElementById('coachPage');
+  if (coachPg) { coachPg.classList.remove('active'); coachPg.style.display = 'none'; }
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => {
     p.classList.remove('active');
     p.style.display = 'none';
   });
-  const tabs = ['checkin','partner','sop','progress','share'];
+  const tabs = ['chat','coach','sop','checkin','data','progress','share'];
   const tabIdx = tabs.indexOf(tab);
   if (tabIdx !== -1) document.querySelectorAll('.tab-item')[tabIdx].classList.add('active');
-  const pe = document.getElementById(`page-${tab}`);
-  if (pe) {
-    pe.classList.add('active');
-    pe.style.display = '';
+  if (tab === 'coach') {
+    if (coachPg) { coachPg.classList.add('active'); coachPg.style.display = ''; }
+  } else {
+    const pe = document.getElementById(`page-${tab}`);
+    if (pe) {
+      pe.classList.add('active');
+      pe.style.display = '';
+    }
   }
-  
+
+  if (tab === 'chat') renderPartnerPage();
   if (tab === 'sop') initSOP();
   if (tab === 'progress') renderRelProgress();
   if (tab === 'share') renderSharePage();
-  if (tab === 'partner') renderPartnerPage();
 }
 
 // ==================== 打卡功能 ====================
@@ -2155,6 +2193,9 @@ function submitSOPCat() {
   if (allDone) {
     if (!sopDone) {
       sopDone = true;
+      // 标记SOP已完成，允许打卡
+      sopCompletedToday = true;
+      localStorage.setItem('sop_completed_relationship_' + new Date().toDateString(), 'true');
       saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: getToday(), submittedCats: sopSubmittedCats });
       setTimeout(() => showSOPFinish(), 300);
     }

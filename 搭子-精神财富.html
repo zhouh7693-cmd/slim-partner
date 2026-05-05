@@ -451,20 +451,28 @@
 
 <!-- ===== Tab Bar ===== -->
 <div class="tab-bar">
-  <div class="tab-item active" onclick="switchTab('checkin')">
-    <div class="tab-icon">✅</div>
-    <div class="tab-label">打卡</div>
-  </div>
-  <div class="tab-item" onclick="switchTab('partner')">
-    <div class="tab-icon">💬</div>
+  <div class="tab-item active" onclick="switchTab('chat')">
+    <div class="tab-icon">🏠</div>
     <div class="tab-label">搭子</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('coach')">
+    <div class="tab-icon">🎓</div>
+    <div class="tab-label">教练</div>
   </div>
   <div class="tab-item" onclick="switchTab('sop')">
     <div class="tab-icon">🎯</div>
-    <div class="tab-label">SOP</div>
+    <div class="tab-label">自检</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('checkin')">
+    <div class="tab-icon">✅</div>
+    <div class="tab-label">打卡</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('data')">
+    <div class="tab-icon">📊</div>
+    <div class="tab-label">高级感</div>
   </div>
   <div class="tab-item" onclick="switchTab('progress')">
-    <div class="tab-icon">📊</div>
+    <div class="tab-icon">📈</div>
     <div class="tab-label">进展</div>
   </div>
   <div class="tab-item" onclick="switchTab('share')">
@@ -569,7 +577,7 @@
 </div>
 
 <!-- ===== Page: 搭子 ===== -->
-<div id="page-partner" class="page" style="display:none;">
+<div id="page-chat" class="page" style="display:none;">
   <div style="padding:16px 12px 80px;">
     <div style="text-align:center;margin-bottom:20px;">
       <div style="font-size:24px;font-weight:700;color:#333;">💬 搭子</div>
@@ -597,6 +605,22 @@
     <div class="talk-btn-row" style="margin-top:8px;">
       <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
       <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 高级感数据 ===== -->
+<div id="page-data" class="page">
+  <div style="padding:20px 16px 80px;text-align:center;">
+    <div style="font-size:48px;margin-bottom:16px;">✨</div>
+    <div style="font-size:20px;font-weight:700;color:#7b1fa2;margin-bottom:8px;">高级感记录</div>
+    <div style="font-size:14px;color:#999;margin-bottom:32px;">记录你的精神成长轨迹</div>
+    <div style="background:#f3e5f5;border-radius:16px;padding:24px;text-align:left;font-size:14px;color:#666;line-height:1.8;">
+      <div style="font-weight:700;color:#7b1fa2;margin-bottom:12px;">💡 高级感是什么</div>
+      高级感 = 你对自己精神世界的掌控程度。<br>
+      包括：阅读深度、思考质量、情绪稳定性、审美品位、创造力。<br><br>
+      <div style="font-weight:700;color:#7b1fa2;margin-bottom:12px;">📝 记录方式</div>
+      在搭子页面汇报你的精神进展，我会帮你记录趋势。
     </div>
   </div>
 </div>
@@ -817,6 +841,8 @@ const PARTNERS = [
   { id: 'tsundere', name: '毒舌但中肯型', emoji: '😏', style: 'tsundere', desc: '骂醒你，但句句在理', color: '#ce93d8' }
 ];
 const STORAGE = { PARTNER: 'slim_partner_spirit', HISTORY: 'slim_history_spirit', WEIGHT: 'slim_weight_spirit', SOP: 'slim_sop_spirit', SOP_STREAKS: 'slim_sop_streaks_spirit', TARGET_WEIGHT: 'slim_target_weight_spirit' };
+// SOP完成状态：打卡前必须先完成SOP
+var sopCompletedToday = localStorage.getItem('sop_completed_spirit_' + new Date().toDateString()) === 'true';
 const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner'; // GitHub Pages
 function getSiteUrl() {
   // 生产环境自动用当前域名
@@ -1193,6 +1219,9 @@ function submitSOPCat() {
   if (allDone) {
     if (!sopDone) {
       sopDone = true;
+      // 标记SOP已完成，允许打卡
+      sopCompletedToday = true;
+      localStorage.setItem('sop_completed_spirit_' + new Date().toDateString(), 'true');
       saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: getToday(), submittedCats: sopSubmittedCats });
       setTimeout(() => showSOPFinish(), 300);
     }
@@ -1507,28 +1536,40 @@ function closeSOPFinish() {
 
 // ==================== Tab 导航 ====================
 function switchTab(tab) {
+  // 打卡前必须先完成SOP
+  if (tab === 'checkin' && !sopCompletedToday) {
+    alert('⏰ 请先完成今日SOP，再来打卡！');
+    return;
+  }
   // 关闭所有可能遮挡的弹窗
   document.querySelectorAll('.qa-overlay,.fb-overlay,.sop-finish-overlay,.neg-critic-overlay,.pos-reward-overlay').forEach(el => el.classList.remove('show'));
   document.getElementById('partnerOverlay').style.display = 'none';
   document.getElementById('achievementOverlay').style.display = 'none';
+  // 隐藏教练页
+  var coachPg = document.getElementById('coachPage');
+  if (coachPg) { coachPg.classList.remove('active'); coachPg.style.display = 'none'; }
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => {
     p.classList.remove('active');
     p.style.display = 'none';
   });
-  const tabs = ['checkin','partner','sop','progress','share'];
+  const tabs = ['chat','coach','sop','checkin','data','progress','share'];
   const tabIdx = tabs.indexOf(tab);
   if (tabIdx !== -1) document.querySelectorAll('.tab-item')[tabIdx].classList.add('active');
-  const pe = document.getElementById(`page-${tab}`);
-  if (pe) {
-    pe.classList.add('active');
-    pe.style.display = '';
+  if (tab === 'coach') {
+    if (coachPg) { coachPg.classList.add('active'); coachPg.style.display = ''; }
+  } else {
+    const pe = document.getElementById(`page-${tab}`);
+    if (pe) {
+      pe.classList.add('active');
+      pe.style.display = '';
+    }
   }
 
+  if (tab === 'chat') renderPartnerPage();
   if (tab === 'sop') initSOP();
   if (tab === 'progress') renderSpiritProgress();
   if (tab === 'share') renderSharePage();
-  if (tab === 'partner') renderPartnerPage();
 }
 
 // ==================== 打卡功能 ====================
@@ -2556,5 +2597,81 @@ startApp();
 @keyframes achievementBounce { 0%,100% { transform:translateX(-50%) translateY(0); } 50% { transform:translateX(-50%) translateY(-10px); } }
 </style>
 
+  <!-- 教练功能 CSS -->
+  <style>
+    .coach-page { display: none; }
+    .coach-page.active { display: block; }
+    .coach-intro { background: white; border-radius: 32px; padding: 32px 24px; margin-bottom: 16px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .coach-intro-icon { font-size: 56px; margin-bottom: 16px; }
+    .coach-intro-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #7e57c2, #4a148c); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+    .coach-intro-sub { font-size: 14px; color: #6c7a89; margin-bottom: 24px; }
+    .coach-method-steps { display: flex; gap: 12px; margin-bottom: 28px; }
+    .method-step { flex: 1; background: #f5f0ff; border-radius: 16px; padding: 14px 8px; font-size: 13px; font-weight: 700; color: #7e57c2; line-height: 1.5; }
+    .step-num { display: block; font-size: 20px; margin-bottom: 4px; }
+    .step-desc { font-size: 11px; font-weight: 500; color: #4a148c; }
+    .coach-intro-note { font-size: 11px; color: #8f9eae; margin-top: 16px; }
+    .coach-start-btn { margin-top: 18px; width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #7e57c2, #4a148c); color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.15s; }
+    .coach-start-btn:active { transform: scale(0.97); }
+    .coach-chat { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .coach-progress-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+    .progress-step { flex: 1; text-align: center; font-size: 11px; font-weight: 700; color: #8f9eae; padding: 8px 4px; border-radius: 12px; background: #f5f5f5; transition: all 0.3s; line-height: 1.4; }
+    .progress-step.active { background: #f5f0ff; color: #7e57c2; }
+    .chat-messages { max-height: 380px; overflow-y: auto; margin-bottom: 16px; padding: 8px; }
+    .chat-msg { margin-bottom: 16px; animation: msgIn 0.3s ease; }
+    .chat-msg.coach { display: flex; gap: 8px; align-items: flex-start; }
+    .chat-msg.user { display: flex; gap: 8px; align-items: flex-start; flex-direction: row-reverse; }
+    .chat-avatar { font-size: 28px; flex-shrink: 0; }
+    .chat-bubble { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.6; color: #2b3a4a; }
+    .chat-msg.coach .chat-bubble { background: #f5f0ff; border-radius: 18px 18px 18px 4px; }
+    .chat-msg.user .chat-bubble { background: linear-gradient(135deg, #7e57c2, #4a148c); color: white; border-radius: 18px 18px 4px 18px; }
+    .chat-input-area { display: flex; gap: 8px; align-items: flex-end; }
+    .chat-input-area textarea { flex: 1; padding: 12px 16px; border-radius: 16px; border: 1.5px solid #e9edf2; font-size: 14px; resize: none; outline: none; font-family: inherit; min-height: 44px; }
+    .chat-send-btn { padding: 12px 20px; border-radius: 16px; border: none; background: linear-gradient(135deg, #7e57c2, #4a148c); color: white; font-size: 14px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
+    .chat-send-btn:active { transform: scale(0.97); }
+    .coach-prompt { text-align: center; color: #7e57c2; font-size: 13px; font-weight: 600; padding: 8px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .generating-report { text-align: center; color: #0891b2; font-size: 14px; font-weight: 600; padding: 16px; animation: blink 1.5s infinite; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .coach-buttons { padding: 12px 16px; background: #fafafa; border-top: 1px solid #e5e7eb; }
+    .coach-btn-prompt { font-size: 13px; color: #6b7280; margin-bottom: 10px; text-align: center; }
+    .coach-btn-list { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .coach-choice-btn { flex: 1; min-width: 120px; max-width: 180px; padding: 12px 16px; border: 2px solid #7e57c2; background: white; color: #7e57c2; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .coach-choice-btn:hover { background: #7e57c2; color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(126,87,194,0.3); }
+    .coach-choice-btn.yes { border-color: #22c55e; color: #22c55e; }
+    .coach-choice-btn.yes:hover { background: #22c55e; color: white; box-shadow: 0 4px 12px rgba(34,197,94,0.3); }
+    .coach-choice-btn.no { border-color: #ef4444; color: #ef4444; }
+    .coach-choice-btn.no:hover { background: #ef4444; color: white; box-shadow: 0 4px 12px rgba(239,68,68,0.3); }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+
+  <!-- 教练页面 -->
+  <div id="coachPage" class="page coach-page">
+    <div class="coach-intro" id="coachIntro">
+      <div class="coach-intro-icon">🎓</div>
+      <div class="coach-intro-title">精神教练 · 麦肯锡式深度对话</div>
+      <div class="coach-intro-sub">用MECE框架帮您拆解问题<br>找到根因，制定行动计划</div>
+      <div class="coach-method-steps">
+        <div class="method-step"><span class="step-num">📌</span>界定问题<br><span class="step-desc">精准描述挑战</span></div>
+        <div class="method-step"><span class="step-num">🔍</span>MECE分析<br><span class="step-desc">拆解核心维度</span></div>
+        <div class="method-step"><span class="step-num">🎯</span>行动计划<br><span class="step-desc">明确下一步</span></div>
+      </div>
+      <button class="coach-start-btn" onclick="startCoach()">🚀 开始对话</button>
+      <div class="coach-intro-note">💡 约5-8轮对话，生成专属行动报告</div>
+    </div>
+    <div id="coachChatArea" class="coach-chat" style="display:none;">
+      <div class="coach-progress-bar" id="coachProgressBar"></div>
+      <div class="chat-messages" id="coachMessages"></div>
+      <div class="chat-input-area" id="coachInputArea" style="display:flex;">
+        <textarea id="coachInput" placeholder="输入你的想法…" rows="1"></textarea>
+        <button class="chat-send-btn" onclick="sendCoachMessage()">发送</button>
+      </div>
+      <div class="coach-prompt" id="coachPrompt" style="display:none;"></div>
+      <div class="coach-buttons" id="coachButtons" style="display:none;"></div>
+      <div class="generating-report" id="generatingReport" style="display:none;">📊 正在生成麦肯锡式行动报告…</div>
+      <div id="coachReportArea" style="display:none;"></div>
+    </div>
+  </div>
+
+  <script src="coach-精神财富.js"></script>
 </body>
 </html>
