@@ -1151,7 +1151,7 @@ function switchTabDirect(tab) {
   if (tab === 'data') { renderWeightPage(); renderWeeklyReport(); }
   if (tab === 'share') { renderSharePage(); }
   document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
-  var idx = {checkin:0, chat:1, sop:2, data:4}[tab] || 0;
+  var idx = {checkin:0, chat:1, sop:2, coach:3, data:4, progress:5, share:6}[tab] || 0;
   var tabs = document.querySelectorAll('.tab-item');
   if (tabs[idx]) tabs[idx].classList.add('active');
 }

@@ -917,34 +917,9 @@ function confirmPartner() {
 
 // ===== Tab 导航 =====
 function switchTab(tab) {
-  // 关闭所有弹窗
-  document.querySelectorAll('.qa-overlay,.fb-overlay').forEach(function(el) { el.classList.remove('show'); });
-  // 隐藏所有页面
-  document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
-  document.querySelectorAll('.page').forEach(function(p) {
-    p.classList.remove('active');
-    p.style.display = 'none';
-  });
-  var coachPg = document.getElementById('coachPage');
-  if (coachPg) { coachPg.classList.remove('active'); coachPg.style.display = 'none'; }
-  // 高亮当前 tab
-  var tabs = ['chat','coach','sop','checkin','data','progress','share'];
-  var tabIdx = tabs.indexOf(tab);
-  if (tabIdx >= 0) {
-    var items = document.querySelectorAll('.tab-item');
-    if (items[tabIdx]) items[tabIdx].classList.add('active');
-  }
-  if (tab === 'coach') {
-    if (coachPg) { coachPg.classList.add('active'); coachPg.style.display = ''; }
-    initCoach();
-  } else {
-    var pe = document.getElementById('page-' + tab);
-    if (pe) { pe.classList.add('active'); pe.style.display = ''; }
-  }
-  if (tab === 'chat') renderPartnerPage && renderPartnerPage();
-  if (tab === 'sop') initSOP && initSOP();
-  if (tab === 'checkin') loadHistory && loadHistory();
-  if (tab === 'data') renderWeightPage && renderWeightPage();
+  // 已弃用 —— 下方有完整版 switchTab，此函数已被覆盖
+  // 留空防止报错（dead code）
+  return;
 }
 
 // ===== 打卡逻辑 =====
@@ -1292,6 +1267,10 @@ function switchTab(tab) {
     if (pe) pe.classList.add('active');
     renderWeightPage();
     renderWeeklyReport();
+  } else if (tab === 'progress') {
+    var pe = document.getElementById('progressPage');
+    if (pe) pe.classList.add('active');
+    if (typeof initP7ProgressPage === 'function') initP7ProgressPage();
   } else if (tab === 'share') {
     var pe = document.getElementById('sharePage');
     if (pe) pe.classList.add('active');
@@ -2343,23 +2322,7 @@ function copyP7Share() {
   document.body.removeChild(ta);
   alert('已复制到剪贴板！');
 }
-// 在switchTab中调用数据页和进展页初始化（patch）
-(function(){
-  var orig = switchTab;
-  window.switchTab = function(tab){
-    orig(tab);
-    if(tab==='data') {
-      initP7DataPage();
-      var dp = document.getElementById('page-data');
-      if(dp){ dp.classList.add('active'); dp.style.display = ''; }
-    }
-    if(tab==='progress') {
-      initP7ProgressPage();
-      var pp = document.getElementById('progressPage');
-      if(pp){ pp.classList.add('active'); pp.style.display = ''; }
-    }
-  };
-})();
+// monkey patch 已合并至上方 switchTab，此处已废弃
 </script>
 </body>
 </html>

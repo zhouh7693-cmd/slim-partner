@@ -518,13 +518,28 @@ function shareWeeklyReport() {
 
 <!-- ===== 进展页 ===== -->
 <div class="page" id="progressPage" style="display:none;">
-  <div style="padding:20px 16px 100px;text-align:center;">
-    <div style="font-size:64px;margin-bottom:16px;">📈</div>
-    <div style="font-size:22px;font-weight:700;color:#d97706;margin-bottom:8px;">进展</div>
-    <div style="font-size:14px;color:#888;margin-bottom:24px;">你的关系力成长曲线</div>
+  <div style="padding:20px 16px 100px;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:22px;font-weight:700;color:#d97706;">📈 进展</div>
+      <div style="font-size:14px;color:#888;margin-top:4px;">你的关系力修复记录</div>
+    </div>
     <div style="background:white;border-radius:24px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
-      <div style="font-size:14px;color:#666;line-height:1.8;">
-        坚持打卡，见证你的关系力成长。
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;text-align:center;">
+        <div style="background:#fffbeb;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#d97706;" id="relaxStreak">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">连续打卡</div>
+        </div>
+        <div style="background:#fffbeb;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#f59e0b;" id="relaxToday">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">今日打卡</div>
+        </div>
+        <div style="background:#fffbeb;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#fbbf24;" id="relaxTotal">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
+        </div>
+      </div>
+      <div style="font-size:14px;color:#666;line-height:1.8;" id="relaxProgressDetail">
+        加载中...
       </div>
     </div>
   </div>
@@ -1859,6 +1874,7 @@ function switchTabDirect(tab) {
   if (tab === 'chat') renderChat();
   if (tab === 'sop') renderSOP();
   if (tab === 'data') renderWeightPage();
+  if (tab === 'progress') { if (typeof initRelaxProgress === 'function') initRelaxProgress(); }
   if (tab === 'share') renderSharePage();
 }
 
@@ -1869,6 +1885,38 @@ document.getElementById('qaOverlay').addEventListener('click', function(e) {
 document.getElementById('fbOverlay').addEventListener('click', function(e) {
   if (e.target === this) this.classList.remove('show');
 });
+
+
+function initRelaxProgress() {
+  var history = JSON.parse(localStorage.getItem('slim_history') || '[]');
+  var relax = JSON.parse(localStorage.getItem('slim_relax_history') || '[]');
+  var today = new Date().toLocaleDateString();
+  // 计算连续打卡
+  var streak = 0;
+  var d = new Date();
+  for (var i = 0; i < 365; i++) {
+    if (history.includes(d.toLocaleDateString())) {
+      streak++;
+      d.setDate(d.getDate() - 1);
+    } else {
+      break;
+    }
+  }
+  var streakEl = document.getElementById('relaxStreak');
+  var todayEl = document.getElementById('relaxToday');
+  var totalEl = document.getElementById('relaxTotal');
+  var detailEl = document.getElementById('relaxProgressDetail');
+  if (streakEl) streakEl.innerText = streak;
+  if (todayEl) todayEl.innerText = history.includes(today) ? '✅' : '-';
+  if (totalEl) totalEl.innerText = history.length;
+  if (detailEl) {
+    var recent = relax.slice(-7);
+    var avg = recent.length > 0 ? (recent.reduce(function(s, r) { return s + r.rating; }, 0) / recent.length).toFixed(1) : '-';
+    detailEl.innerHTML = '累计打卡 <strong>' + history.length + '</strong> 天<br>' +
+      '今日：<strong>' + (history.includes(today) ? '已打卡 ✅' : '未打卡') + '</strong><br>' +
+      '最近7次平均轻松度：<strong>' + avg + '</strong>';
+  }
+}
 
 window.addEventListener('DOMContentLoaded', init);
 </script>

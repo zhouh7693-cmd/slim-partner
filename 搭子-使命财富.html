@@ -2847,10 +2847,7 @@ function getStreak() {
 function copyMainLink() {
   navigator.clipboard.writeText(getSiteUrl()+'搭子-使命财富.html').then(() => showToast('✅ 链接已复制！'));
 }
-function copyShareLink() {
-  let url = getSiteUrl() + '搭子-使命财富.html';
-  navigator.clipboard.writeText(url).then(() => showToast('✅ 邀请链接已复制，快发给朋友吧！'));
-}
+// 以下 copyShareLink 已弃用（上方已有正确版本）
 
 // ==================== Firebase ====================
 (function(){
