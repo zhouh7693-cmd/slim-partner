@@ -382,6 +382,14 @@
       <canvas id="chartCanvas" width="380" height="200"></canvas>
     </div>
 
+    <div class="weight-chart-card" id="weeklyReportCard">
+      <div class="chart-title">📊 本周进展</div>
+      <div id="weeklyReportContent">
+        <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>
+      </div>
+      <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#d97706,#b45309);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareWeeklyReport()">📤 分享本周进展</button>
+    </div>
+
     <div class="weight-records">
       <div class="records-title">📝 历史记录</div>
       <div id="weightRecords"></div>
@@ -432,6 +440,79 @@ function renderWeightRecords() {
     var color = r.rating >= 7 ? '#43a047' : r.rating >= 4 ? '#ff9800' : '#ef5350';
     return '<div class="record-item"><div class="record-emoji">' + emojis[r.rating] + '</div><div class="record-info"><div class="record-date">' + r.date + '</div>' + (r.note ? '<div class="record-note">' + r.note + '</div>' : '') + '</div><div class="record-score" style="color:' + color + '">' + r.rating + '</div></div>';
   }).join('');
+}
+
+function drawWeightChart() {
+  var canvas = document.getElementById('chartCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]').slice(-30);
+  var W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  if (records.length < 2) {
+    ctx.fillStyle = '#b0bec5'; ctx.font = '14px system-ui';
+    ctx.textAlign = 'center'; ctx.fillText('记录2次以上即可显示曲线', W / 2, H / 2);
+    var sub = document.getElementById('chartSub');
+    if (sub) sub.textContent = '坚持记录，趋势一目了然';
+    return;
+  }
+  var vals = records.map(function(r) { return r.rating; });
+  var minV = Math.min.apply(null, vals) * 0.8;
+  var maxV = Math.max.apply(null, vals) * 1.1;
+  var range = maxV - minV || 1;
+  var stepX = (W - 40) / Math.max(vals.length - 1, 1);
+  var pts = vals.map(function(v, i) {
+    return { x: 20 + i * stepX, y: H - 20 - ((v - minV) / range) * (H - 50) };
+  });
+  var grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, 'rgba(217,119,6,0.25)');
+  grad.addColorStop(1, 'rgba(217,119,6,0.02)');
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, H - 20);
+  pts.forEach(function(p) { ctx.lineTo(p.x, p.y); });
+  ctx.lineTo(pts[pts.length - 1].x, H - 20);
+  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+  ctx.beginPath();
+  pts.forEach(function(p, i) { i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); });
+  ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2.5; ctx.stroke();
+  pts.forEach(function(p) {
+    ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2; ctx.stroke();
+  });
+  var sub = document.getElementById('chartSub');
+  if (sub) sub.textContent = '最新：' + vals[vals.length - 1] + '分';
+}
+
+function renderWeeklyReport() {
+  var container = document.getElementById('weeklyReportContent');
+  if (!container) return;
+  var history = getHistory();
+  var now = new Date();
+  var weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+  var thisWeek = history.filter(function(h) { return new Date(h) >= weekAgo; });
+  var lastWeekStart = new Date(weekAgo); lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+  var lastWeek = history.filter(function(h) { return new Date(h) >= lastWeekStart && new Date(h) < weekAgo; });
+  if (thisWeek.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>';
+    return;
+  }
+  var avg = thisWeek.reduce(function(s, h) { return s + (parseFloat(h.split('|')[1]) || 0); }, 0) / thisWeek.length;
+  var trend = thisWeek.length >= lastWeek.length ? '↑ 比上周更积极！' : '比上周少打卡了，加油！';
+  container.innerHTML = '<div style="font-size:13px;line-height:2;color:#555;">' +
+    '本周打卡：<strong>' + thisWeek.length + '</strong> 天 | 上周：<strong>' + lastWeek.length + '</strong> 天<br>' +
+    '本周平均轻松度：<strong>' + avg.toFixed(1) + '</strong><br>' +
+    '<span style="color:#d97706;font-weight:600;">' + trend + '</span></div>';
+  var shareBtn = document.getElementById('shareWeeklyBtn');
+  if (shareBtn && thisWeek.length >= 3) shareBtn.style.display = 'block';
+}
+
+function shareWeeklyReport() {
+  var history = getHistory();
+  var now = new Date();
+  var weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+  var cnt = history.filter(function(h) { return new Date(h) >= weekAgo; }).length;
+  var text = '【关系力轻松度本周战绩】本周打卡 ' + cnt + ' 天，继续修复关系力！';
+  navigator.clipboard.writeText(text).then(function() { showToast('✅ 已复制，快去分享！'); }).catch(function() { showToast('复制失败'); });
 }
 </script>
 
@@ -1777,7 +1858,7 @@ function switchTabDirect(tab) {
   if (tabs[idxMap[tab]]) tabs[idxMap[tab]].classList.add('active');
   if (tab === 'chat') renderChat();
   if (tab === 'sop') renderSOP();
-  if (tab === 'data') renderWeightRecords();
+  if (tab === 'data') renderWeightPage();
   if (tab === 'share') renderSharePage();
 }
 

@@ -2148,6 +2148,7 @@ function renderWeightRecords() {
 function renderWeightPage() {
   drawWeightChart();
   renderWeightRecords();
+  renderWeeklyReport();
   var data = getWeightData();
   if (data.length > 0) {
     var inp = document.getElementById('weightInput');
@@ -2187,7 +2188,6 @@ function shareWeeklyReport() {
 
 function initP7DataPage() {
   renderWeightPage();
-  renderWeeklyReport();
   var streak = parseInt(localStorage.getItem('slim_sop_streaks_p7') || '0');
   var total = (JSON.parse(localStorage.getItem('slim_history_p7') || [])).length;
   var today = localStorage.getItem('sop_completed_p7_' + new Date().toDateString()) === 'true' ? '✅' : '-';
