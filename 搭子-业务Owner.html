@@ -52,9 +52,21 @@
     @keyframes bounce { 0%,80%,100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1.2); opacity: 1; } }
     .interaction-panel { max-width: 420px; margin: 0 auto 20px; background: white; border-radius: 28px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .panel-label { font-size: 12px; color: #8f9eae; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
+    .mood-row { display: flex; justify-content: space-around; margin-bottom: 14px; }
+    .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; }
+    .mood-btn:hover, .mood-btn:active { background: #f0fdf4; transform: scale(1.15); }
     .talk-btn-row { display: flex; gap: 8px; }
     .talk-btn { flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #e9edf2; background: white; font-size: 14px; font-weight: 500; color: #16a34a; cursor: pointer; transition: all 0.15s; }
     .talk-btn:active { background: #f0fdf4; transform: scale(0.97); }
+    .share-inline-card { max-width: 420px; margin: 0 auto 20px; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 24px; padding: 16px 20px; border: 1px solid #bbf7d0; }
+    .share-inline-label { font-size: 11px; color: #8f9eae; letter-spacing: 0.5px; margin-bottom: 10px; }
+    .share-inline-preview { background: white; border-radius: 16px; padding: 14px 16px; margin-bottom: 12px; font-size: 13px; color: #14532d; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .share-copy-row { display: flex; gap: 8px; }
+    .share-copy-btn, .share-link-btn { flex: 1; padding: 10px; border-radius: 16px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; }
+    .share-copy-btn { background: #16a34a; color: white; }
+    .share-copy-btn:active { opacity: 0.85; transform: scale(0.97); }
+    .share-link-btn { background: white; color: #16a34a; border: 1.5px solid #86efac; }
+    .share-link-btn:active { transform: scale(0.97); }
     footer { font-size: 12px; text-align: center; color: #8f9eae; margin-top: 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
     .sop-page { max-width: 420px; margin: 0 auto; }
     .sop-header { background: white; border-radius: 32px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
@@ -246,18 +258,31 @@
 <div class="page" id="chatPage">
   <div class="chat-area" id="chatArea"></div>
   <div class="interaction-panel" id="interactionPanel">
-    <div class="panel-label">你想和我聊什么？</div>
+    <div class="panel-label">👋 说说今天的情况</div>
+    <div class="mood-row" id="moodRow">
+      <button class="mood-btn" onclick="sendMood('happy')" title="开心">😊</button>
+      <button class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</button>
+      <button class="mood-btn" onclick="sendMood('sad')" title="低落">😔</button>
+      <button class="mood-btn" onclick="sendMood('tired')" title="疲惫">😤</button>
+    </div>
     <div class="talk-btn-row">
       <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
       <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
-    </div>
-    <div class="talk-btn-row" style="margin-top:8px;">
       <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
       <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="askPartner('report')">📣 汇报</button>
-      <button class="talk-btn" onclick="askPartner('question')">🤔 提问</button>
+      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
+      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
+    </div>
+  </div>
+
+  <div class="share-inline-card">
+    <div class="share-inline-label">📣 邀请其他业务伙伴</div>
+    <div class="share-inline-preview">💼 业务Owner成长搭子 — 陪你一起做真正的Owner</div>
+    <div class="share-copy-row">
+      <button class="share-copy-btn" onclick="copyShareLink()">复制邀请链接</button>
+      <button class="share-link-btn" onclick="openSharePage()">打开分享页</button>
     </div>
   </div>
 </div>
@@ -666,6 +691,26 @@ function appendPartnerMsg(text, isAI) {
   }
   area.appendChild(div);
   area.scrollTop = area.scrollHeight;
+}
+
+function sendMood(mood) {
+  var partner = currentPartner || PARTNERS[0];
+  var pStyle = partner.style || 'rational';
+  var emoji = partner.emoji;
+  var moodText = { happy: '今天状态不错！', neutral: '今天状态平稳。', sad: '今天心情有点低落……', tired: '今天感觉有点疲惫。' };
+  var replies = {
+    rational: {
+      happy: ['好状态。用好这个势头 💪', '保持，今天适合冲刺 📊', '好状态带来好决策 💼'],
+      neutral: ['平稳是业务常态 💼', '不急不躁，节奏稳 📊', '平静也是一种战斗力 💼'],
+      sad: ['低落也正常，说说 💼', '没有解决不了的事 📊', '卡住了？我们在 💼'],
+      tired: ['累了先休息，别硬撑 💼', '身体是本钱，今晚早睡 📊', '疲惫不是失败，是需要调整信号 💼']
+    }
+  };
+  var arr = replies[pStyle] || replies.rational;
+  var reply = moodText[mood] + ' ' + arr[mood][Math.floor(Math.random() * arr[mood].length)];
+  switchTabDirect('chat');
+  showPartnerMsg(moodText[mood], false);
+  setTimeout(function() { appendPartnerMsg(emoji + ' ' + reply, true); }, 700);
 }
 
 function askPartner(type) {
@@ -1117,6 +1162,9 @@ function copyShareText() {
   document.body.removeChild(ta);
   alert('已复制到剪贴板！');
 }
+function openSharePage() { window.open('https://zhouh7693-cmd.github.io/slim-partner/搭子-业务Owner.html', '_blank'); }
+function copyShareLink() { var text = '我用 ' + (currentPartner && currentPartner.name || '稳进') + ' 业务搭子连续打卡 ' + continuousCount + ' 天了！💼 业务Owner成长搭子：' + window.location.href; var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('已复制到剪贴板！'); }
+function showToast(msg) { var t = document.getElementById('toastEl'); if (!t) { t = document.createElement('div'); t.id = 'toastEl'; t.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);color:white;padding:12px 24px;border-radius:12px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;'; document.body.appendChild(t); } t.textContent = msg; t.style.opacity = '1'; setTimeout(function() { t.style.opacity = '0'; }, 2000); }
 
 // ===== 教练功能 =====
 var COACH_QS_OWNER = [

@@ -539,18 +539,31 @@
 <div class="page" id="chatPage">
   <div class="chat-area" id="chatArea"></div>
   <div class="interaction-panel" id="interactionPanel">
-    <div class="panel-label">你想和我聊什么？</div>
+    <div class="panel-label">👋 说说今天的情况</div>
+    <div class="mood-row" id="moodRow">
+      <button class="mood-btn" onclick="sendMood('happy')" title="开心">😊</button>
+      <button class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</button>
+      <button class="mood-btn" onclick="sendMood('sad')" title="低落">😔</button>
+      <button class="mood-btn" onclick="sendMood('tired')" title="疲惫">😤</button>
+    </div>
     <div class="talk-btn-row">
       <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
       <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
-    </div>
-    <div class="talk-btn-row" style="margin-top:8px;">
       <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
       <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="askPartner('report')">📣 汇报</button>
-      <button class="talk-btn" onclick="askPartner('question')">🤔 提问</button>
+      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
+      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
+    </div>
+  </div>
+
+  <div class="share-inline-card">
+    <div class="share-inline-label">📣 邀请其他同学</div>
+    <div class="share-inline-preview">🎓 P7升P8成长搭子 — 陪你一起迈向P8</div>
+    <div class="share-copy-row">
+      <button class="share-copy-btn" onclick="copyShareLink()">复制邀请链接</button>
+      <button class="share-link-btn" onclick="openSharePage()">打开分享页</button>
     </div>
   </div>
 </div>
@@ -1034,6 +1047,26 @@ function showPartnerMsg(html, isAI) {
   chat.scrollTop = chat.scrollHeight;
 }
 
+function sendMood(mood) {
+  var partner = currentPartner || PARTNERS[0];
+  var pStyle = partner.style || 'rational';
+  var emoji = partner.emoji;
+  var moodText = { happy: '今天状态不错！', neutral: '今天状态平稳。', sad: '今天心情有点低落……', tired: '今天感觉有点疲惫。' };
+  var replies = {
+    rational: {
+      happy: ['好状态。保持这个节奏 🎖️', '状态好的时候，适合做关键决策 💼', '好势头继续 🎖️'],
+      neutral: ['平稳是升P8的常态 🎖️', '不急不躁，节奏刚刚好 💼', '平静也是一种力量 🎖️'],
+      sad: ['低落也正常，说说看 🎖️', '没有迈不过去的坎 💼', '卡住了？我们一起想想 🎖️'],
+      tired: ['累了先休息，别硬撑 🎖️', '身体是本钱，今晚好好休息 💼', '疲惫是信号，需要调整节奏 🎖️']
+    }
+  };
+  var arr = replies[pStyle] || replies.rational;
+  var reply = moodText[mood] + ' ' + arr[mood][Math.floor(Math.random() * arr[mood].length)];
+  switchTabDirect('chat');
+  showPartnerMsg(moodText[mood], false);
+  setTimeout(function() { appendPartnerMsg(emoji + ' ' + reply, true); }, 700);
+}
+
 function askPartner(type) {
   var partner = currentPartner || PARTNERS[0];
   var style = partner.style || 'rational';
@@ -1467,6 +1500,9 @@ function copyShareText() {
   document.body.removeChild(ta);
   alert('已复制到剪贴板！');
 }
+function openSharePage() { window.open('https://zhouh7693-cmd.github.io/slim-partner/搭子-P7-P8.html', '_blank'); }
+function copyShareLink() { var text = '我用 ' + (currentPartner && currentPartner.name || '砺行') + ' 管理搭子连续打卡 ' + continuousCount + ' 天了！🎓 P7升P8成长搭子：' + window.location.href; var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('已复制到剪贴板！'); }
+function showToast(msg) { var t = document.getElementById('toastEl'); if (!t) { t = document.createElement('div'); t.id = 'toastEl'; t.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);color:white;padding:12px 24px;border-radius:12px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;'; document.body.appendChild(t); } t.textContent = msg; t.style.opacity = '1'; setTimeout(function() { t.style.opacity = '0'; }, 2000); }
 
 // ===== 教练功能（麦肯锡风格深度对话 · P7-P8搭子）=====
 let coachStep = '';
