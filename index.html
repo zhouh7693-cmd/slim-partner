@@ -2001,25 +2001,6 @@ function showToast(msg, duration = 2000) {
   setTimeout(() => t.classList.remove('show'), duration);
 }
 
-function copyShareLink() {
-  let url = getSiteUrl() + 'share.html';
-  // 添加用户数据参数
-  let history = getHistory();
-  let continuous = history.length > 0 ? computeContinuous(history, getToday()) : 0;
-  let weight = getWeightData();
-  let change = '';
-  if (weight.length >= 2) {
-    let c = (weight[weight.length-1].value - weight[0].value).toFixed(1);
-    change = (parseFloat(c) > 0 ? '+' : '') + c + 'kg';
-  }
-  let partner = currentPartner ? encodeURIComponent(currentPartner.emoji + ' ' + currentPartner.name) : '';
-  let params = new URLSearchParams();
-  if (continuous > 0) params.set('days', continuous);
-  if (change) params.set('change', change);
-  if (partner) params.set('partner', partner);
-  let fullUrl = url + (params.toString() ? '?' + params.toString() : '');
-  navigator.clipboard.writeText(fullUrl).then(() => showToast('✅ 邀请链接已复制，快发给朋友吧'));
-}
 function previewShareCard() {
   let url = getSiteUrl() + 'share.html';
   let history = getHistory();

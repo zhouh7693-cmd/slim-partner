@@ -1181,14 +1181,18 @@ function renderSharePage() {
   var d = new Date();
   for (var i = 0; i < 60; i++) {
     var dd = new Date(d); dd.setDate(d.getDate() - i);
-    if (history.some(function(h) { return h === today; })) { conDays++; break; }
+    if (history.some(function(h) { return h.date === dd.toISOString().slice(0,10) && h.checkin; })) conDays++;
     else if (i > 0) break;
   }
-  if (document.getElementById('shareStreak')) document.getElementById('shareStreak').textContent = (conDays > 0 ? conDays : 0) + '天';
-  if (document.getElementById('shareToday')) document.getElementById('shareToday').textContent = history.some(function(h) { return h === today; }) ? '已打卡' : '未打卡';
-  if (document.getElementById('shareTotal')) document.getElementById('shareTotal').textContent = history.length;
+  var streakEl = document.getElementById('shareStreak');
+  var todayEl = document.getElementById('shareToday');
+  var totalEl = document.getElementById('shareTotal');
+  var urlEl = document.getElementById('shareUrlDisplay');
+  if (streakEl) streakEl.textContent = conDays + '天';
+  if (todayEl) todayEl.textContent = history.some(function(h) { return h.date === today && h.checkin; }) ? '已打卡' : '未打卡';
+  if (totalEl) totalEl.textContent = history.length;
   var url = getSiteUrl() + '搭子-业务Owner.html';
-  if (document.getElementById('shareUrlDisplay')) document.getElementById('shareUrlDisplay').textContent = url;
+  if (urlEl) urlEl.textContent = url;
 }
 
 function copyShareLink() {
