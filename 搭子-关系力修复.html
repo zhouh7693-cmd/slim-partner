@@ -341,38 +341,99 @@
 
 <!-- ===== 轻松度页 ===== -->
 <div class="page" id="dataPage" style="display:none;">
-  <div class="weight-page">
-    <div class="weight-header">
-      <div class="weight-title">🌸 轻松度记录</div>
-      <div class="weight-sub" id="weightSummary">记录你的每一次变化</div>
-      <div class="weight-input-row">
-        <input class="weight-input" id="weightInput" type="number" step="1" min="0" max="10" placeholder="--">
-        <span class="weight-unit">分</span>
-        <button class="weight-add-btn" onclick="addWeight()">记录</button>
+  <div style="padding:20px 16px 100px;text-align:center;max-width:420px;margin:0 auto;">
+    <div style="font-size:48px;margin-bottom:8px;">🌸</div>
+    <div style="font-size:22px;font-weight:700;color:#d97706;margin-bottom:4px;">轻松度</div>
+    <div style="font-size:13px;color:#888;margin-bottom:20px;">记录你今天的关系轻松指数（1=紧张，10=轻松）</div>
+
+    <!-- 轻松度输入 -->
+    <div style="background:white;border-radius:24px;padding:24px 20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+      <div style="margin-bottom:16px;">
+        <div style="font-size:14px;font-weight:700;color:#d97706;margin-bottom:12px;">今天的轻松度评分</div>
+        <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;" id="relaxRatingStars">
+          <button class="relax-star" onclick="setRelaxRating(1)">1</button>
+          <button class="relax-star" onclick="setRelaxRating(2)">2</button>
+          <button class="relax-star" onclick="setRelaxRating(3)">3</button>
+          <button class="relax-star" onclick="setRelaxRating(4)">4</button>
+          <button class="relax-star" onclick="setRelaxRating(5)">5</button>
+          <button class="relax-star" onclick="setRelaxRating(6)">6</button>
+          <button class="relax-star" onclick="setRelaxRating(7)">7</button>
+          <button class="relax-star" onclick="setRelaxRating(8)">8</button>
+          <button class="relax-star" onclick="setRelaxRating(9)">9</button>
+          <button class="relax-star" onclick="setRelaxRating(10)">10</button>
+        </div>
+        <div id="relaxRatingLabel" style="font-size:16px;font-weight:700;color:#d97706;margin-bottom:16px;"></div>
       </div>
-    </div>
-
-    <div class="weight-chart-card">
-      <div class="chart-title">📈 轻松度曲线</div>
-      <div class="chart-sub" id="chartSub">坚持记录，趋势一目了然</div>
-      <canvas id="chartCanvas" width="380" height="200"></canvas>
-    </div>
-
-    <!-- 每周进步报告 -->
-    <div class="weight-chart-card" id="weeklyReportCard">
-      <div class="chart-title">📊 本周进展</div>
-      <div id="weeklyReportContent">
-        <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>
+      <div style="margin-bottom:16px;">
+        <div style="font-size:12px;color:#888;margin-bottom:6px;">记录说明（选填）</div>
+        <input id="relaxNoteInput" style="width:100%;padding:12px 16px;border-radius:12px;border:1.5px solid #ffe0d0;font-size:14px;box-sizing:border-box;outline:none;" placeholder="今天发生了什么让你感到轻松或不轻松...">
       </div>
-      <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#d97706,#b45309);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareWeeklyReport()">📤 分享本周进展</button>
+      <button onclick="saveRelaxRating()" style="width:100%;padding:14px;border:none;border-radius:16px;background:linear-gradient(135deg,#d97706,#b45309);color:white;font-size:15px;font-weight:700;cursor:pointer;">✨ 记录轻松度</button>
+      <div id="relaxSaveMsg" style="text-align:center;font-size:13px;color:#2e7d32;margin-top:10px;display:none;">✅ 已记录！</div>
     </div>
 
-    <div class="weight-records">
-      <div class="records-title">📝 历史记录</div>
-      <div id="weightRecords"></div>
+    <!-- 历史记录 -->
+    <div style="background:white;border-radius:24px;padding:24px 20px;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+      <div style="font-size:14px;font-weight:700;color:#d97706;margin-bottom:16px;">📈 轻松度趋势</div>
+      <div id="relaxHistoryList"></div>
     </div>
   </div>
 </div>
+
+<style>
+.relax-star { width:32px;height:32px;border-radius:50%;border:2px solid #ffe0d0;background:white;color:#d97706;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.15s; }
+.relax-star.selected { background:#d97706;color:white;border-color:#d97706; }
+</style>
+
+<script>
+var currentRelaxRating = 0;
+function setRelaxRating(n) {
+  currentRelaxRating = n;
+  var labels = ['','😰','😟','😕','😐','🙂','😊','😌','😄','🤩','✨'];
+  document.getElementById('relaxRatingLabel').textContent = n + '/10 — ' + labels[n];
+  document.querySelectorAll('.relax-star').forEach(function(btn, i) {
+    btn.classList.toggle('selected', i < n);
+  });
+}
+function saveRelaxRating() {
+  if (currentRelaxRating === 0) {
+    alert('请先点击选择1-10的评分');
+    return;
+  }
+  var note = document.getElementById('relaxNoteInput').value.trim();
+  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]');
+  records.push({ rating: currentRelaxRating, note: note, date: new Date().toLocaleDateString() });
+  localStorage.setItem('slim_relax_history', JSON.stringify(records));
+  document.getElementById('relaxSaveMsg').style.display = 'block';
+  setTimeout(function() { document.getElementById('relaxSaveMsg').style.display = 'none'; }, 2000);
+  renderRelaxHistory();
+  document.getElementById('relaxNoteInput').value = '';
+  currentRelaxRating = 0;
+  document.querySelectorAll('.relax-star').forEach(function(btn) { btn.classList.remove('selected'); });
+  document.getElementById('relaxRatingLabel').textContent = '';
+}
+function renderRelaxHistory() {
+  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]');
+  var list = document.getElementById('relaxHistoryList');
+  if (!list) return;
+  if (records.length === 0) {
+    list.innerHTML = '<div style="text-align:center;color:#ccc;font-size:13px;padding:16px;">暂无记录，先去打卡再记录 🌸</div>';
+    return;
+  }
+  var emojis = ['','😰','😟','😕','😐','🙂','😊','😌','😄','🤩','✨'];
+  list.innerHTML = records.slice(-10).reverse().map(function(r) {
+    var color = r.rating >= 7 ? '#43a047' : r.rating >= 4 ? '#ff9800' : '#ef5350';
+    return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0;"><div style="font-size:22px;">' + emojis[r.rating] + '</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:#333;">' + r.rating + '/10</div><div style="font-size:11px;color:#888;">' + r.date + '</div>' + (r.note ? '<div style="font-size:12px;color:#888;margin-top:2px;">' + r.note + '</div>' : '') + '</div><div style="font-size:15px;font-weight:700;color:' + color + ';">' + r.rating + '</div></div>';
+  }).join('');
+}
+var relaxObserver = new MutationObserver(function() {
+  var dp = document.getElementById('dataPage');
+  if (dp && dp.classList.contains('active')) renderRelaxHistory();
+});
+if (document.getElementById('dataPage')) {
+  relaxObserver.observe(document.getElementById('dataPage'), { attributes: true, attributeFilter: ['class'] });
+}
+</script>
 
 <!-- ===== 进展页 ===== -->
 <div class="page" id="progressPage" style="display:none;">
@@ -1608,13 +1669,14 @@ function switchTabDirect(tab) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   const pageMap = { checkin:'checkinPage', chat:'chatPage', sop:'sopPage', coach:'coachPage', data:'dataPage', progress:'progressPage', share:'sharePage' };
-  const idxMap = { chat:0, coach:1, sop:2, checkin:3, data:4, progress:5, share:6 };
+  const idxMap = { checkin:0, chat:1, sop:2, coach:3, data:4, progress:5, share:6 };
   const pg = document.getElementById(pageMap[tab]);
   if (pg) pg.classList.add('active');
   const tabs = document.querySelectorAll('.tab-item');
   if (tabs[idxMap[tab]]) tabs[idxMap[tab]].classList.add('active');
   if (tab === 'chat') renderChat();
   if (tab === 'sop') renderSOP();
+  if (tab === 'data') renderRelaxHistory();
 }
 
 // 点击遮罩关闭

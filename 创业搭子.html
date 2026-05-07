@@ -1917,87 +1917,144 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </div>
 
-<!-- ===== Page: 数据（毛利） ===== -->
+<!-- ===== Page: 毛利 ===== -->
 <div id="page-data" class="page">
-  <div style="padding:20px 16px 80px;max-width:420px;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:24px;">
-      <div style="font-size:40px;margin-bottom:8px;">💰</div>
-      <div style="font-size:20px;font-weight:700;color:#ff6b35;">创业毛利记录</div>
-      <div style="font-size:13px;color:#999;margin-top:4px;">记录你的财务健康</div>
+  <div class="weight-page">
+    <div class="weight-header">
+      <div class="weight-title">💰 毛利记录</div>
+      <div class="weight-sub" id="weightSummary">记录你的每一次变化</div>
+      <div class="weight-input-row">
+        <input class="weight-input" id="weightInput" type="number" step="0.01" min="0" max="9999999" placeholder="--">
+        <span class="weight-unit">¥</span>
+        <button class="weight-add-btn" onclick="addWeight()">记录</button>
+      </div>
     </div>
 
-    <!-- 毛利输入 -->
-    <div style="background:white;border-radius:24px;padding:24px 20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
-      <div style="font-size:14px;font-weight:700;color:#ff6b35;margin-bottom:16px;">📝 记录本期毛利</div>
-      <div style="margin-bottom:12px;">
-        <div style="font-size:12px;color:#888;margin-bottom:6px;">期间</div>
-        <input id="gmvPeriodInput" style="width:100%;padding:12px 16px;border-radius:12px;border:1.5px solid #ffe0d0;font-size:14px;box-sizing:border-box;outline:none;" placeholder="如：2026年5月">
-      </div>
-      <div style="display:flex;gap:12px;margin-bottom:16px;">
-        <div style="flex:1;">
-          <div style="font-size:12px;color:#888;margin-bottom:6px;">收入（元）</div>
-          <input id="gmvRevenueInput" type="number" style="width:100%;padding:12px 16px;border-radius:12px;border:1.5px solid #ffe0d0;font-size:14px;box-sizing:border-box;outline:none;" placeholder="如：50000">
-        </div>
-        <div style="flex:1;">
-          <div style="font-size:12px;color:#888;margin-bottom:6px;">成本（元）</div>
-          <input id="gmvCostInput" type="number" style="width:100%;padding:12px 16px;border-radius:12px;border:1.5px solid #ffe0d0;font-size:14px;box-sizing:border-box;outline:none;" placeholder="如：30000">
-        </div>
-      </div>
-      <button onclick="saveGMV()" style="width:100%;padding:14px;border:none;border-radius:16px;background:linear-gradient(135deg,#ff6b35,#e65100);color:white;font-size:15px;font-weight:700;cursor:pointer;">✨ 记录毛利</button>
-      <div id="gmvSaveMsg" style="text-align:center;font-size:13px;color:#2e7d32;margin-top:10px;display:none;">✅ 已记录！</div>
+    <div class="weight-chart-card">
+      <div class="chart-title">📈 毛利曲线</div>
+      <div class="chart-sub" id="chartSub">坚持记录，趋势一目了然</div>
+      <canvas id="chartCanvas" width="380" height="200"></canvas>
     </div>
 
-    <!-- 毛利历史 -->
-    <div style="background:white;border-radius:24px;padding:24px 20px;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
-      <div style="font-size:14px;font-weight:700;color:#ff6b35;margin-bottom:16px;">📈 毛利趋势</div>
-      <div id="gmvHistoryList"></div>
+    <!-- 每周进步报告 -->
+    <div class="weight-chart-card" id="weeklyReportCard">
+      <div class="chart-title">📊 本周进展</div>
+      <div id="weeklyReportContent">
+        <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>
+      </div>
+      <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b35,#ff9500);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareWeeklyReport()">📤 分享本周进展</button>
+    </div>
+
+    <div class="weight-records">
+      <div class="records-title">📝 历史记录</div>
+      <div id="weightRecords"></div>
     </div>
   </div>
 </div>
 
 <script>
-// ===== 毛利数据功能 =====
-function saveGMV() {
-  var period = document.getElementById('gmvPeriodInput').value.trim();
-  var revenue = parseFloat(document.getElementById('gmvRevenueInput').value);
-  var cost = parseFloat(document.getElementById('gmvCostInput').value);
-  if (!period || isNaN(revenue) || isNaN(cost)) {
-    alert('请填写完整信息');
+// ==================== 数据记录模块 ====================
+function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
+function saveWeightData(d) { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(d)); if(window.saveWeightToFirebase) saveWeightToFirebase(d); }
+
+function addWeight() {
+  let val = parseFloat(document.getElementById('weightInput').value);
+  if (!val || val < 0) { showToast('请输入有效金额'); return; }
+  let data = getWeightData();
+  let today = getToday();
+  data = data.filter(d => d.date !== today);
+  data.push({ date: today, value: val });
+  data.sort((a,b) => a.date.localeCompare(b.date));
+  try {
+    saveWeightData(data);
+  } catch(e) {
+    showToast('存储失败，请检查浏览器隐私设置');
     return;
   }
-  var gm = revenue - cost;
-  var margin = revenue > 0 ? Math.round(gm / revenue * 100) : 0;
-  var records = JSON.parse(localStorage.getItem('slim_gmv_history') || '[]');
-  records.push({ period: period, revenue: revenue, cost: cost, gm: gm, margin: margin, date: new Date().toLocaleDateString() });
-  localStorage.setItem('slim_gmv_history', JSON.stringify(records));
-  document.getElementById('gmvSaveMsg').style.display = 'block';
-  setTimeout(function() { document.getElementById('gmvSaveMsg').style.display = 'none'; }, 2000);
-  renderGMVHistory();
-  document.getElementById('gmvPeriodInput').value = '';
-  document.getElementById('gmvRevenueInput').value = '';
-  document.getElementById('gmvCostInput').value = '';
+  document.getElementById('weightInput').value = '';
+  showToast('✅ 记录成功：¥' + val.toLocaleString());
+  renderWeightPage();
 }
-function renderGMVHistory() {
-  var records = JSON.parse(localStorage.getItem('slim_gmv_history') || '[]');
-  var list = document.getElementById('gmvHistoryList');
-  if (!list) return;
-  if (records.length === 0) {
-    list.innerHTML = '<div style="text-align:center;color:#ccc;font-size:13px;padding:16px;">暂无记录，先去打卡再记录 📝</div>';
+
+function drawWeightChart() {
+  let canvas = document.getElementById('chartCanvas');
+  let ctx = canvas.getContext('2d');
+  let data = getWeightData().slice(-30);
+  let W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  if (data.length < 2) {
+    ctx.fillStyle = '#b0bec5'; ctx.font = '14px system-ui';
+    ctx.textAlign = 'center'; ctx.fillText('记录2次以上即可显示曲线', W/2, H/2);
     return;
   }
-  list.innerHTML = records.slice(-10).reverse().map(function(r) {
-    var color = r.gm >= 0 ? '#43a047' : '#ef5350';
-    return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0;"><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:#333;">' + r.period + '</div><div style="font-size:11px;color:#888;">' + r.date + '</div></div><div><div style="font-size:15px;font-weight:700;color:' + color + ';">¥' + r.gm.toLocaleString() + '</div><div style="font-size:11px;color:#888;">毛利率 ' + r.margin + '%</div></div></div>';
+  let vals = data.map(d => d.value);
+  let minV = Math.min(...vals) - 100, maxV = Math.max(...vals) + 100;
+  let toX = i => 20 + (i / (data.length -1)) * (W - 40);
+  let toY = v => H - 30 - ((v - minV) / (maxV - minV)) * (H - 60);
+  ctx.strokeStyle = '#fff3e0'; ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    let y = 20 + i * (H - 50) / 4;
+    ctx.beginPath(); ctx.moveTo(20,y); ctx.lineTo(W-20,y); ctx.stroke();
+    ctx.fillStyle = '#b0bec5'; ctx.font = '10px system-ui'; ctx.textAlign = 'right';
+    ctx.fillText((maxV - i*(maxV-minV)/4).toFixed(0), 18, y+3);
+  }
+  let grad = ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,'rgba(255,107,53,0.3)');
+  grad.addColorStop(1,'rgba(255,107,53,0)');
+  ctx.beginPath();
+  data.forEach((d,i) => { let x=toX(i),y=toY(d.value); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+  ctx.lineTo(toX(data.length-1), H-20);
+  ctx.lineTo(toX(0), H-20);
+  ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
+  ctx.beginPath(); ctx.strokeStyle='#ff6b35'; ctx.lineWidth=2.5;
+  data.forEach((d,i) => { let x=toX(i),y=toY(d.value); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+  ctx.stroke();
+  data.forEach((d,i) => { let x=toX(i),y=toY(d.value); ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fillStyle='#ff6b35'; ctx.fill(); });
+  ctx.fillStyle='#b0bec5'; ctx.font='10px system-ui'; ctx.textAlign='center';
+  data.forEach((d,i) => { if(data.length<=7||i===0||i===data.length-1) ctx.fillText(d.date.slice(5),toX(i),H-8); });
+  let latest = vals[vals.length-1];
+  let sub = document.getElementById('chartSub');
+  if (sub) sub.textContent = '最新记录：¥' + latest.toLocaleString();
+}
+
+function renderWeightRecords() {
+  let container = document.getElementById('weightRecords');
+  if (!container) return;
+  let data = getWeightData().slice().reverse();
+  if (data.length === 0) { container.innerHTML = '<div style="text-align:center;color:#b0bec5;padding:16px;font-size:13px;">还没有记录，快来记第一笔吧！</div>'; return; }
+  container.innerHTML = data.slice(0, 30).map(d => {
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;">' +
+      '<span style="color:#888;font-size:13px;">' + d.date + '</span>' +
+      '<span style="font-weight:700;color:#ff6b35;font-size:15px;">¥' + parseFloat(d.value).toLocaleString() + '</span>' +
+      '</div>';
   }).join('');
 }
-var gmvObserver = new MutationObserver(function() {
-  var pageData = document.getElementById('page-data');
-  if (pageData && pageData.classList.contains('active')) {
-    renderGMVHistory();
+
+function renderWeightPage() {
+  drawWeightChart();
+  renderWeightRecords();
+  renderWeeklyReport();
+}
+
+function renderWeeklyReport() {
+  let container = document.getElementById('weeklyReportContent');
+  if (!container) return;
+  let history = getHistory();
+  let now = new Date();
+  let weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+  let thisWeekHistory = history.filter(h => new Date(h) >= weekAgo);
+  let lastWeekStart = new Date(weekAgo); lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+  let lastWeekHistory = history.filter(h => new Date(h) >= lastWeekStart && new Date(h) < weekAgo);
+  if (thisWeekHistory.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>';
+    return;
   }
-});
-if (document.getElementById('page-data')) {
-  gmvObserver.observe(document.getElementById('page-data'), { attributes: true, attributeFilter: ['class'] });
+  let trend = thisWeekHistory.length >= lastWeekHistory.length ? '↑ 比上周更积极！' : '比上周少打卡了，加油！';
+  container.innerHTML = '<div style="font-size:13px;line-height:2;color:#555;">' +
+    '本周打卡：<strong>' + thisWeekHistory.length + '</strong> 天 &nbsp;|&nbsp; 上周：<strong>' + lastWeekHistory.length + '</strong> 天<br>' +
+    '<span style="color:#ff6b35;font-weight:600;">' + trend + '</span></div>';
+  let shareBtn = document.getElementById('shareWeeklyBtn');
+  if (shareBtn && thisWeekHistory.length >= 3) shareBtn.style.display = 'block';
 }
 </script>
 </body>

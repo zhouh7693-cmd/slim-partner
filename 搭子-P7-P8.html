@@ -75,6 +75,7 @@
       background: #3a5fcd; color: white; border: none;
       width: 100%; padding: 16px; border-radius: 60px;
       font-size: 18px; font-weight: 600; cursor: pointer;
+      position: relative; z-index: 101;
     }
     .confirm-btn:active { background: #2a4eb0; transform: scale(0.97); }
 
@@ -170,6 +171,29 @@
     .share-link-btn:active { transform: scale(0.97); }
 
     footer { font-size: 12px; text-align: center; color: #8f9eae; margin-top: 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
+
+    /* ===== 绩效记录页面 ===== */
+    .weight-page { max-width: 420px; margin: 0 auto; }
+    .weight-header { background: white; border-radius: 32px; padding: 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
+    .weight-title { font-size: 20px; font-weight: 700; color: #1e3a7a; margin-bottom: 4px; }
+    .weight-sub { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
+    .weight-input-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .weight-input { width: 120px; height: 52px; border-radius: 16px; border: 2px solid #e9edf2; text-align: center; font-size: 24px; font-weight: 700; color: #3a5fcd; outline: none; }
+    .weight-input:focus { border-color: #3a5fcd; }
+    .weight-unit { font-size: 18px; color: #8f9eae; font-weight: 500; }
+    .weight-add-btn { padding: 12px 24px; background: linear-gradient(135deg, #3a5fcd, #1e3a7a); color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(58,95,205,0.28); }
+    .weight-add-btn:active { opacity: 0.9; transform: scale(0.97); }
+    .weight-chart-card { background: white; border-radius: 32px; padding: 20px 16px 16px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .chart-title { font-size: 15px; font-weight: 700; color: #1e3a7a; margin-bottom: 4px; }
+    .chart-sub { font-size: 12px; color: #8f9eae; margin-bottom: 12px; }
+    #chartCanvas { width: 100%; border-radius: 12px; background: #fafcfe; }
+    .weight-records { background: white; border-radius: 32px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    .records-title { font-size: 15px; font-weight: 700; color: #1e3a7a; margin-bottom: 14px; }
+    .record-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f4f7; }
+    .record-item:last-child { border-bottom: none; }
+    .record-date { font-size: 13px; color: #8f9eae; }
+    .record-val { font-size: 18px; font-weight: 700; color: #3a5fcd; }
+    .record-change { font-size: 12px; margin-left: 6px; }
 
     /* ===== SOP 游戏页面 ===== */
     .sop-page { max-width: 420px; margin: 0 auto; }
@@ -353,71 +377,69 @@
     .coach-report-section { background: #f8faff; border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; }
     .coach-report-label { font-size: 12px; font-weight: 700; color: #3a5fcd; text-transform: uppercase; margin-bottom: 6px; }
     .coach-report-value { font-size: 14px; color: #333; line-height: 1.5; }
-  /* ===== 教练页面（麦肯锡风格） ===== */
-  .coach-intro { background: white; border-radius: 32px; padding: 32px 24px; margin-bottom: 16px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-  .coach-intro-icon { font-size: 56px; margin-bottom: 16px; }
-  .coach-intro-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #3a5fcd, #1a3a8a); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
-  .coach-intro-sub { font-size: 14px; color: #6c7a89; margin-bottom: 24px; }
-  .coach-method-steps { display: flex; gap: 12px; margin-bottom: 28px; }
-  .method-step { flex: 1; background: #f0f4fd; border-radius: 16px; padding: 14px 8px; font-size: 13px; font-weight: 700; color: #3a5fcd; line-height: 1.5; }
-  .step-num { display: block; font-size: 20px; margin-bottom: 4px; }
-  .step-desc { font-size: 11px; font-weight: 500; color: #2a4eb0; }
-  .coach-intro-note { font-size: 11px; color: #8f9eae; margin-top: 16px; }
-  .coach-start-btn { margin-top: 18px; width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #3a5fcd, #1a3a8a); color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.15s; }
-  .coach-start-btn:active { transform: scale(0.97); }
-  .coach-chat { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-  .coach-progress-bar { display: flex; gap: 8px; margin-bottom: 20px; }
-  .progress-step { flex: 1; text-align: center; font-size: 11px; font-weight: 700; color: #8f9eae; padding: 8px 4px; border-radius: 12px; background: #f5f5f5; transition: all 0.3s; line-height: 1.4; }
-  .progress-step.active { background: #f0f4fd; color: #3a5fcd; }
-  .chat-messages { max-height: 380px; overflow-y: auto; margin-bottom: 16px; padding: 8px; }
-  .chat-msg { margin-bottom: 16px; animation: msgIn 0.3s ease; }
-  .chat-msg.coach { display: flex; gap: 8px; align-items: flex-start; }
-  .chat-msg.user { display: flex; gap: 8px; align-items: flex-start; flex-direction: row-reverse; }
-  .chat-avatar { font-size: 28px; flex-shrink: 0; }
-  .chat-bubble { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.6; color: #2b3a4a; }
-  .chat-msg.coach .chat-bubble { background: #f0f4fd; border-radius: 18px 18px 18px 4px; }
-  .chat-msg.user .chat-bubble { background: linear-gradient(135deg, #3a5fcd, #1a3a8a); color: white; border-radius: 18px 18px 4px 18px; }
-  .chat-input-area { display: flex; gap: 8px; align-items: flex-end; }
-  .chat-input-area textarea { flex: 1; padding: 12px 16px; border-radius: 16px; border: 1.5px solid #e9edf2; font-size: 14px; resize: none; outline: none; font-family: inherit; min-height: 44px; }
-  .chat-send-btn { padding: 12px 20px; border-radius: 16px; border: none; background: linear-gradient(135deg, #3a5fcd, #1a3a8a); color: white; font-size: 14px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
-  .chat-send-btn:active { transform: scale(0.97); }
-  .coach-prompt { text-align: center; color: #3a5fcd; font-size: 13px; font-weight: 600; padding: 8px; animation: coachPulse 2s infinite; }
-  @keyframes coachPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
-  .generating-report { text-align: center; color: #0891b2; font-size: 14px; font-weight: 600; padding: 16px; animation: coachBlink 1.5s infinite; }
-  @keyframes coachBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
-  .coach-buttons { padding: 12px 16px; background: #fafafa; border-top: 1px solid #e5e7eb; }
-  .coach-btn-prompt { font-size: 13px; color: #6b7280; margin-bottom: 10px; text-align: center; }
-  .coach-btn-list { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-  .coach-choice-btn { flex: 1; min-width: 120px; max-width: 180px; padding: 12px 16px; border: 2px solid #3a5fcd; background: white; color: #3a5fcd; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-  .coach-choice-btn:hover { background: #3a5fcd; color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(58,95,205,0.3); }
-  .coach-choice-btn.yes { border-color: #22c55e; color: #22c55e; }
-  .coach-choice-btn.yes:hover { background: #22c55e; color: white; }
-  .coach-choice-btn.no { border-color: #ef4444; color: #ef4444; }
-  .coach-choice-btn.no:hover { background: #ef4444; color: white; }
-  .coach-report-mckinsey { background: white; border-radius: 32px; padding: 28px 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-  .report-header { text-align: center; margin-bottom: 24px; }
-  .report-icon { font-size: 48px; margin-bottom: 12px; }
-  .report-title { font-size: 20px; font-weight: 800; color: #2b3a4a; margin-bottom: 4px; }
-  .report-subtitle { font-size: 12px; color: #8f9eae; }
-  .report-core-conclusion { background: linear-gradient(135deg, #f0f4fd, #e8f0fe); border-radius: 20px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #3a5fcd; }
-  .report-core-conclusion h3 { font-size: 15px; font-weight: 700; color: #3a5fcd; margin-bottom: 8px; }
-  .report-core-conclusion p { font-size: 14px; color: #2b3a4a; line-height: 1.6; }
-  .report-mece-analysis { margin-bottom: 20px; }
-  .report-mece-analysis h3 { font-size: 15px; font-weight: 700; color: #2b3a4a; margin-bottom: 12px; }
-  .mece-dimension { background: #f0f8ff; border-radius: 16px; padding: 14px; margin-bottom: 10px; }
-  .mece-dim-title { font-size: 14px; font-weight: 700; color: #3a5fcd; margin-bottom: 6px; }
-  .mece-dim-desc { font-size: 13px; color: #6c7a89; line-height: 1.5; }
-  .report-priority-actions { margin-bottom: 20px; }
-  .report-priority-actions h3 { font-size: 15px; font-weight: 700; color: #2b3a4a; margin-bottom: 12px; }
-  .action-item { background: white; border-radius: 16px; padding: 14px; margin-bottom: 8px; border-left: 4px solid #3a5fcd; }
-  .action-priority { font-size: 11px; font-weight: 700; color: #3a5fcd; margin-bottom: 4px; }
-  .action-text { font-size: 14px; color: #2b3a4a; line-height: 1.5; }
-  .report-next-step { background: #f0f4fd; border-radius: 16px; padding: 16px; margin-bottom: 20px; }
-  .report-next-step h3 { font-size: 15px; font-weight: 700; color: #3a5fcd; margin-bottom: 8px; }
-  .report-next-step p { font-size: 14px; color: #2b3a4a; line-height: 1.6; }
-  .coach-restart-btn { width: 100%; padding: 14px; border-radius: 60px; border: 2px solid #3a5fcd; background: white; color: #3a5fcd; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 12px; }
-  .coach-restart-btn:active { background: #f0f4fd; }
-  @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    /* ===== 教练介绍卡 (McKinsey风格) ===== */
+    .coach-intro { background: white; border-radius: 32px; padding: 32px 24px; margin-bottom: 16px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .coach-intro-icon { font-size: 56px; margin-bottom: 16px; }
+    .coach-intro-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #3a5fcd, #1e3a7a); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+    .coach-intro-sub { font-size: 14px; color: #6c7a89; margin-bottom: 24px; }
+    .method-steps { display: flex; gap: 8px; margin-bottom: 24px; }
+    .method-step { flex: 1; background: #f0f4fd; border-radius: 16px; padding: 14px 8px; font-size: 13px; font-weight: 700; color: #3a5fcd; line-height: 1.5; }
+    .step-num { font-size: 18px; display: block; margin-bottom: 4px; }
+    .step-desc { font-size: 11px; font-weight: 500; color: #888; margin-top: 2px; display: block; }
+    .coach-intro-note { font-size: 11px; color: #8f9eae; margin-top: 16px; }
+    .coach-start-btn { margin-top: 18px; width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #3a5fcd, #1e3a7a); color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.15s; }
+    .coach-start-btn:active { transform: scale(0.97); }
+    /* ===== McKinsey教练对话样式 ===== */
+    .coach-progress-bar { display: flex; gap: 6px; padding: 12px 16px 0; }
+    .progress-step { flex: 1; text-align: center; padding: 6px 4px; border-radius: 10px; font-size: 11px; font-weight: 600; color: #aaa; background: #e8eef8; transition: all 0.3s; }
+    .progress-step.active { background: #3a5fcd; color: #fff; }
+    .chat-messages { flex: 1; overflow-y: auto; padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
+    .chat-msg { display: flex; gap: 8px; align-items: flex-start; }
+    .chat-msg.coach { align-self: flex-start; }
+    .chat-msg.user { align-self: flex-end; flex-direction: row-reverse; }
+    .chat-avatar { width: 28px; height: 28px; border-radius: 50%; background: #e8eef8; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+    .chat-bubble { max-width: 75%; padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.6; }
+    .chat-msg.coach .chat-bubble { background: #f0f4fd; color: #333; border-bottom-left-radius: 4px; }
+    .chat-msg.user .chat-bubble { background: #3a5fcd; color: white; border-bottom-right-radius: 4px; }
+    .chat-send-btn { background: #3a5fcd; color: white; border: none; border-radius: 24px; padding: 12px 20px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .chat-send-btn:active { background: #2a4eb0; }
+    .coach-buttons { padding: 0 16px 8px; }
+    .coach-btn-prompt { font-size: 12px; color: #888; margin-bottom: 8px; font-weight: 600; }
+    .coach-btn-list { display: flex; flex-direction: column; gap: 6px; }
+    .coach-choice-btn { display: block; width: 100%; text-align: left; padding: 10px 14px; background: #f0f4fd; border: 1.5px solid #3a5fcd; border-radius: 12px; font-size: 13px; color: #333; cursor: pointer; transition: all 0.2s; }
+    .coach-choice-btn:hover { background: #3a5fcd; color: white; }
+    .coach-choice-btn.yes { background: #3a5fcd; color: white; border-color: #3a5fcd; }
+    .coach-choice-btn.no { background: #fff; color: #999; border-color: #ddd; }
+    .generating-report { text-align: center; color: #888; font-size: 13px; padding: 16px; animation: pulse 2s infinite; }
+    .coach-report-mckinsey { padding: 16px 16px 80px; max-width: 420px; margin: 0 auto; }
+    .report-header { background: white; border-radius: 24px; padding: 24px 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; text-align: center; }
+    .report-icon { font-size: 40px; margin-bottom: 8px; }
+    .report-title { font-size: 18px; font-weight: 800; color: #1e3a7a; margin-bottom: 4px; }
+    .report-subtitle { font-size: 11px; color: #aaa; }
+    .report-core-conclusion { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    .report-core-conclusion h3 { font-size: 15px; font-weight: 700; color: #1e3a7a; margin-bottom: 10px; }
+    .report-core-conclusion p { font-size: 14px; color: #333; line-height: 1.6; }
+    .report-mece-analysis { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    .report-mece-analysis h3 { font-size: 15px; font-weight: 700; color: #1e3a7a; margin-bottom: 12px; }
+    .mece-dimension { background: #f0f4fd; border-radius: 14px; padding: 12px 14px; margin-bottom: 8px; }
+    .mece-dim-title { font-size: 13px; font-weight: 700; color: #333; margin-bottom: 4px; }
+    .mece-dim-desc { font-size: 12px; color: #666; line-height: 1.5; }
+    .report-impact-effort { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    .report-impact-effort h3 { font-size: 15px; font-weight: 700; color: #1e3a7a; margin-bottom: 10px; }
+    .ie-item { font-size: 12px; color: #666; margin-bottom: 6px; display: flex; gap: 6px; }
+    .ie-tag { display: inline-block; border-radius: 8px; padding: 2px 8px; font-weight: 700; font-size: 11px; }
+    .ie-tag.ie-p0 { background: #e8f5e9; color: #2e7d32; }
+    .ie-tag.ie-p1 { background: #fff3e0; color: #e65100; }
+    .ie-tag.ie-p2 { background: #f3e5f5; color: #7b1fa2; }
+    .report-priority-actions { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    .report-priority-actions h3 { font-size: 15px; font-weight: 700; color: #1e3a7a; margin-bottom: 12px; }
+    .action-item { display: flex; gap: 10px; margin-bottom: 10px; }
+    .action-priority { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 8px; background: #e8eef8; color: #3a5fcd; white-space: nowrap; }
+    .action-text { font-size: 13px; color: #333; line-height: 1.5; }
+    .report-next-step { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    .report-next-step h3 { font-size: 15px; font-weight: 700; color: #1e3a7a; margin-bottom: 10px; }
+    .report-next-step p { font-size: 13px; color: #666; line-height: 1.6; }
+    .coach-restart-btn { width: 100%; padding: 14px; border-radius: 14px; border: none; background: linear-gradient(135deg, #3a5fcd, #1e3a7a); color: white; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 8px; }
   </style>
 </head>
 <body>
@@ -430,7 +452,7 @@
   <div class="selector-title">选一个管理搭子 🤝</div>
   <div class="selector-sub">陪你度过P7到P8的成长期</div>
   <div class="partner-grid" id="partnerGrid"></div>
-  <button class="confirm-btn" id="confirmBtn" onclick="confirmPartner()">确认搭子 →</button>
+  <button class="confirm-btn" id="confirmBtn">确认搭子 →</button>
 </div>
 
 <!-- Tab Bar -->
@@ -458,56 +480,43 @@
   </div>
 </div>
 
-<!-- ===== 教练页面（麦肯锡风格） ===== -->
+<!-- ===== 教练页面 (McKinsey风格) ===== -->
 <div class="page" id="coachPage" style="display:none;">
-  <div class="coach-page" id="coachPageContent">
-    <!-- 教练介绍页 -->
-    <div class="coach-intro" id="coachIntro">
-      <div class="coach-intro-icon">🎓</div>
-      <div class="coach-intro-title">麦肯锡风格P7管理教练</div>
-      <div class="coach-intro-sub">用结构化思维，3步搞定管理难题</div>
-      <div class="coach-method-steps">
-        <div class="method-step"><span class="step-num">①</span> 界定问题<br><span class="step-desc">明确核心冲突</span></div>
-        <div class="method-step"><span class="step-num">②</span> 结构化分析<br><span class="step-desc">MECE拆解根因</span></div>
-        <div class="method-step"><span class="step-num">③</span> 优先级行动<br><span class="step-desc">可执行的下一步</span></div>
-      </div>
-      <button class="coach-start-btn" onclick="startCoachP7()">开始深度对话 →</button>
-      <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
+  <!-- 教练介绍卡 -->
+  <div class="coach-intro" id="coachIntro">
+    <div class="coach-intro-icon">🧠</div>
+    <div class="coach-intro-title">麦肯锡风格P7管理教练</div>
+    <div class="coach-intro-sub">帮你照见管理盲区，制定P7到P8的成长策略</div>
+    <div class="method-steps">
+      <div class="method-step"><span class="step-num">①</span> 诊断现状<br><span class="step-desc">找准管理卡点</span></div>
+      <div class="method-step"><span class="step-num">②</span> 策略分析<br><span class="step-desc">三层拆解问题</span></div>
+      <div class="method-step"><span class="step-num">③</span> 行动优先<br><span class="step-desc">可执行的下一步</span></div>
     </div>
-    <!-- 对话界面 -->
-    <div class="coach-chat" id="coachChat" style="display:none;">
-      <div class="coach-progress-bar">
-        <div class="progress-step active" id="progressStep1">① 界定问题</div>
-        <div class="progress-step" id="progressStep2">② 结构化分析</div>
-        <div class="progress-step" id="progressStep3">③ 优先级行动</div>
-      </div>
-      <div class="chat-messages" id="chatMessages"></div>
-      <div class="coach-prompt" id="coachPrompt" style="display:none;">
-        💡 请在下方输入框中回复...
-      </div>
-      <div class="chat-input-area" id="chatInputArea">
-        <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
-        <button class="chat-send-btn" onclick="sendCoachMsgP7()">发送</button>
-      </div>
-      <div class="coach-buttons" id="coachButtons" style="display:none;">
-        <div class="coach-btn-prompt" id="coachBtnPrompt"></div>
-        <div class="coach-btn-list" id="coachBtnList"></div>
-      </div>
+    <button class="coach-start-btn" onclick="startCoach()">开始深度对话 →</button>
+    <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
+  </div>
+  <!-- 对话界面 (McKinsey风格) -->
+  <div class="coach-container" id="coachChat" style="display:none;">
+    <div class="coach-progress-bar" id="coachProgressBar">
+      <div class="progress-step active" id="progressStep1">① 界定问题</div>
+      <div class="progress-step" id="progressStep2">② 结构化分析</div>
+      <div class="progress-step" id="progressStep3">③ 优先级行动</div>
     </div>
-    <!-- 诊断报告页 -->
-    <div class="coach-report-mckinsey" id="coachReport" style="display:none;">
-      <div class="report-header">
-        <div class="report-icon">📊</div>
-        <div class="report-title">麦肯锡风格P7管理诊断报告</div>
-        <div class="report-subtitle">基于结构化分析框架 · MECE原则 · 行动导向</div>
-      </div>
-      <div class="report-core-conclusion" id="reportCoreConclusion"></div>
-      <div class="report-mece-analysis" id="reportMECE"></div>
-      <div class="report-priority-actions" id="reportActions"></div>
-      <div class="report-next-step" id="reportNextStep"></div>
-      <button class="coach-restart-btn" onclick="restartCoachP7()">🔄 重新对话</button>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="coach-prompt" id="coachPrompt" style="display:none;">
+      💡 请在下方输入框中回复，按 Enter 发送
+    </div>
+    <div class="chat-input-area" id="chatInputArea" style="display:none;">
+      <input class="chat-input" id="coachInput" placeholder="输入你的回答..." onkeydown="if(event.key==='Enter')sendCoachMsg()">
+      <button class="chat-send-btn" onclick="sendCoachMsg()">发送</button>
+    </div>
+    <div class="coach-buttons" id="coachButtons" style="display:none;">
+      <div class="coach-btn-prompt" id="coachBtnPrompt"></div>
+      <div class="coach-btn-list" id="coachBtnList"></div>
     </div>
   </div>
+  <!-- 诊断报告页 -->
+  <div class="coach-report-mckinsey" id="coachReport" style="display:none;"></div>
 </div>
 
 <!-- ===== 打卡页面 ===== -->
@@ -662,8 +671,11 @@ const STORAGE = {
   HISTORY: 'slim_history_p7',
   SOP: 'slim_sop_p7',
   SOP_STREAKS: 'slim_sop_streaks_p7',
+  WEIGHT: 'slim_weight_p7',
 };
-// SOP完成状态：打卡前必须先完成SOP
+function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
+function showToast(msg) { var t = document.getElementById('toastEl'); if (!t) { t = document.createElement('div'); t.id = 'toastEl'; t.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);color:white;padding:12px 24px;border-radius:12px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;'; document.body.appendChild(t); } t.textContent = msg; t.style.opacity = '1'; setTimeout(function() { t.style.opacity = '0'; }, 2000); }
+// SOP完成状态：打卡前必须先完成自检
 var sopCompletedToday = localStorage.getItem('sop_completed_p7_' + new Date().toDateString()) === 'true';
 
 // ===== TYPE_SCENES_P7：6分类 × 20条场景 =====
@@ -813,7 +825,6 @@ let currentQADir = 'result';
 // ===== DOMContentLoaded =====
 document.addEventListener('DOMContentLoaded', function() {
   renderPartnerGrid();
-  renderWeekProgress();
   renderSOP();
 
   var stored = localStorage.getItem(STORAGE.PARTNER);
@@ -822,22 +833,37 @@ document.addEventListener('DOMContentLoaded', function() {
       var p = JSON.parse(stored);
       currentPartner = p;
       selectedPartnerId = p.id;
-      document.querySelectorAll('.partner-card').forEach(function(card) {
-        card.classList.toggle('selected', card.dataset.id === p.id);
-      });
       confirmPartner();
-    } catch(e) {}
+    } catch(e) {
+      showPartnerSelector();
+    }
   } else {
-    document.getElementById('partnerSelector').style.display = 'flex';
-    document.getElementById('tabBar').style.display = 'none';
+    showPartnerSelector();
   }
 
   autoCloseSOPGuide();
+
+  // 确认搭子按钮：用JS绑定点击，防止onclick在某些场景下失效
+  var confirmBtn = document.getElementById('confirmBtn');
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      confirmPartner();
+    });
+  }
 });
 
 // ===== 搭子选择器 =====
+function showPartnerSelector() {
+  document.getElementById('partnerSelector').style.display = 'flex';
+  document.getElementById('partnerSelectorMask').style.display = 'block';
+  document.getElementById('tabBar').style.display = 'none';
+  renderPartnerGrid();
+}
+
 function renderPartnerGrid() {
   var grid = document.getElementById('partnerGrid');
+  if (!grid) return;
   grid.innerHTML = '';
   PARTNERS.forEach(function(p) {
     var card = document.createElement('div');
@@ -854,20 +880,58 @@ function renderPartnerGrid() {
 }
 
 function confirmPartner() {
-  if (!selectedPartnerId) selectedPartnerId = PARTNERS[0].id;
-  var partner = PARTNERS.find(function(p) { return p.id === selectedPartnerId; }) || PARTNERS[0];
-  currentPartner = partner;
-  localStorage.setItem(STORAGE.PARTNER, JSON.stringify(partner));
+  try {
+    if (!selectedPartnerId) selectedPartnerId = PARTNERS[0].id;
+    var partner = PARTNERS.find(function(p) { return p.id === selectedPartnerId; }) || PARTNERS[0];
+    currentPartner = partner;
+    try { localStorage.setItem(STORAGE.PARTNER, JSON.stringify(partner)); } catch(e) {}
 
-  var badge = document.getElementById('partnerBadge');
-  badge.innerHTML = partner.emoji + ' ' + partner.name;
+    var badge = document.getElementById('partnerBadge');
+    if (badge) badge.innerHTML = partner.emoji + ' ' + partner.name;
 
-  document.getElementById('partnerSelector').style.display = 'none';
-  document.getElementById('partnerSelectorMask').style.display = 'none';
-  document.getElementById('tabBar').style.display = 'flex';
+    var sel = document.getElementById('partnerSelector');
+    if (sel) sel.style.display = 'none';
+    var mask = document.getElementById('partnerSelectorMask');
+    if (mask) mask.style.display = 'none';
+    var tabBar = document.getElementById('tabBar');
+    if (tabBar) tabBar.style.display = 'flex';
 
-  loadHistory();
-  renderWeekProgress();
+    if (typeof loadHistory === 'function') loadHistory();
+  } catch(e) {
+    alert('确认搭子出错：' + e.message);
+  }
+}
+
+// ===== Tab 导航 =====
+function switchTab(tab) {
+  // 关闭所有弹窗
+  document.querySelectorAll('.qa-overlay,.fb-overlay').forEach(function(el) { el.classList.remove('show'); });
+  // 隐藏所有页面
+  document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.page').forEach(function(p) {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
+  var coachPg = document.getElementById('coachPage');
+  if (coachPg) { coachPg.classList.remove('active'); coachPg.style.display = 'none'; }
+  // 高亮当前 tab
+  var tabs = ['chat','coach','sop','checkin','data','progress','share'];
+  var tabIdx = tabs.indexOf(tab);
+  if (tabIdx >= 0) {
+    var items = document.querySelectorAll('.tab-item');
+    if (items[tabIdx]) items[tabIdx].classList.add('active');
+  }
+  if (tab === 'coach') {
+    if (coachPg) { coachPg.classList.add('active'); coachPg.style.display = ''; }
+    initCoach();
+  } else {
+    var pe = document.getElementById('page-' + tab);
+    if (pe) { pe.classList.add('active'); pe.style.display = ''; }
+  }
+  if (tab === 'chat') renderPartnerPage && renderPartnerPage();
+  if (tab === 'sop') initSOP && initSOP();
+  if (tab === 'checkin') loadHistory && loadHistory();
+  if (tab === 'data') renderWeightPage && renderWeightPage();
 }
 
 // ===== 打卡逻辑 =====
@@ -1046,11 +1110,137 @@ function showFeedback(item, index) {
 function closeFBOverlay() { document.getElementById('fbOverlay').classList.remove('show'); }
 function closeQA() { document.getElementById('qaOverlay').classList.remove('show'); }
 
+// ===== 绩效记录功能 ====================
+function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
+
+function addWeight() {
+  var val = parseFloat(document.getElementById('weightInput').value);
+  if (!val || val < 0) { showToast('请输入有效的绩效分数'); return; }
+  var data = getWeightData();
+  var today = new Date().toISOString().slice(0, 10);
+  data = data.filter(function(d) { return d.date !== today; });
+  data.push({ date: today, value: val });
+  data.sort(function(a, b) { return a.date.localeCompare(b.date); });
+  localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(data));
+  document.getElementById('weightInput').value = '';
+  showToast('✅ 记录成功：' + val + '分');
+  drawWeightChart();
+  renderWeightRecords();
+}
+
+function drawWeightChart() {
+  var canvas = document.getElementById('chartCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var data = getWeightData().slice(-30);
+  var W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  if (data.length < 2) {
+    ctx.fillStyle = '#b0bec5'; ctx.font = '14px system-ui';
+    ctx.textAlign = 'center'; ctx.fillText('记录2次以上即可显示曲线', W / 2, H / 2);
+    var sub = document.getElementById('chartSub');
+    if (sub) sub.textContent = '坚持记录，趋势一目了然';
+    return;
+  }
+  var vals = data.map(function(d) { return d.value; });
+  var minV = Math.min.apply(null, vals) * 0.8;
+  var maxV = Math.max.apply(null, vals) * 1.1;
+  if (maxV === minV) { minV -= 10; maxV += 10; }
+  var toX = function(i) { return 20 + (i / (data.length - 1)) * (W - 40); };
+  var toY = function(v) { return H - 30 - ((v - minV) / (maxV - minV)) * (H - 60); };
+
+  ctx.strokeStyle = '#f0f4f7'; ctx.lineWidth = 1;
+  for (var i = 0; i <= 4; i++) {
+    var y = 20 + i * (H - 50) / 4;
+    ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(W - 20, y); ctx.stroke();
+    ctx.fillStyle = '#b0bec5'; ctx.font = '10px system-ui'; ctx.textAlign = 'right';
+    ctx.fillText(Math.round(maxV - i * (maxV - minV) / 4), 18, y + 3);
+  }
+
+  var grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, 'rgba(58,95,205,0.3)');
+  grad.addColorStop(1, 'rgba(58,95,205,0)');
+  ctx.beginPath();
+  data.forEach(function(d, i) { var x = toX(i), y = toY(d.value); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+  ctx.lineTo(toX(data.length - 1), H - 20);
+  ctx.lineTo(toX(0), H - 20);
+  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+
+  ctx.beginPath();
+  data.forEach(function(d, i) { var x = toX(i), y = toY(d.value); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+  ctx.strokeStyle = '#3a5fcd'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+
+  data.forEach(function(d, i) {
+    var x = toX(i), y = toY(d.value);
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#3a5fcd'; ctx.lineWidth = 2; ctx.stroke();
+  });
+
+  var today = new Date().toISOString().slice(0, 10);
+  var todayIdx = data.findIndex(function(d) { return d.date === today; });
+  if (todayIdx >= 0) {
+    var x = toX(todayIdx), y = toY(data[todayIdx].value);
+    ctx.fillStyle = '#e91e63'; ctx.font = 'bold 12px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('今天', x, y - 12);
+  }
+
+  var sub = document.getElementById('chartSub');
+  if (sub && data.length > 0) sub.textContent = '最新记录：' + data[data.length - 1].value + '分';
+}
+
+function renderWeightRecords() {
+  var container = document.getElementById('weightRecords');
+  if (!container) return;
+  var data = getWeightData().slice().reverse();
+  if (data.length === 0) {
+    container.innerHTML = '<div style="text-align:center;color:#b0bec5;padding:16px;font-size:13px;">还没有记录，快来记第一个绩效吧！</div>';
+    return;
+  }
+  container.innerHTML = data.slice(0, 30).map(function(d) {
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;">' +
+      '<span style="color:#888;font-size:13px;">' + d.date + '</span>' +
+      '<span style="font-weight:700;color:#3a5fcd;font-size:15px;">' + d.value + '分</span>' +
+      '</div>';
+  }).join('');
+}
+
+function renderWeightPage() {
+  drawWeightChart();
+  renderWeightRecords();
+  var data = getWeightData();
+  if (data.length > 0) {
+    var inp = document.getElementById('weightInput');
+    if (inp) inp.placeholder = data[data.length - 1].value;
+  }
+}
+
+function renderWeeklyReport() {
+  var container = document.getElementById('weeklyReportContent');
+  if (!container) return;
+  var now = new Date();
+  var weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+  var thisWeek = getHistory().filter(function(h) { return new Date(h) >= weekAgo; });
+  if (thisWeek.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>';
+    return;
+  }
+  container.innerHTML = '<div style="font-size:13px;line-height:2;color:#555;">本周打卡：<strong>' + thisWeek.length + '</strong> 天<br><span style="color:#3a5fcd;font-weight:600;">继续精进管理能力！</span></div>';
+  var shareBtn = document.getElementById('shareWeeklyBtn');
+  if (shareBtn && thisWeek.length >= 3) shareBtn.style.display = 'block';
+}
+
+function shareWeeklyReport() {
+  var cnt = getHistory().filter(function(h) { return new Date(h) >= new Date(Date.now() - 7 * 86400000); }).length;
+  var partner = currentPartner || PARTNERS[0];
+  var text = '【P7管理成长本周战绩】本周打卡 ' + cnt + ' 天，搭子：' + partner.emoji + partner.name + '。继续精进管理能力！';
+  navigator.clipboard.writeText(text).then(function() { showToast('✅ 已复制，快去分享！'); }).catch(function() { showToast('复制失败'); });
+}
+
 // ===== Tab切换 =====
-function switchTab(tab, evt) {
+function switchTab(tab) {
   // 打卡前必须先完成SOP
   if (tab === 'checkin' && !sopCompletedToday) {
-    alert('⏰ 请先完成今日自检，再来打卡！');
+    alert('⏰ 请先完成今日SOP，再来打卡！');
     return;
   }
   // 关闭所有可能遮挡的弹窗
@@ -1064,25 +1254,24 @@ function switchTab(tab, evt) {
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   if (tab === 'coach') {
     if (coachPg) { coachPg.style.display = ''; coachPg.classList.add('active'); }
+  } else if (tab === 'data') {
+    var pe = document.getElementById('dataPage');
+    if (pe) pe.classList.add('active');
+    renderWeightPage();
+    renderWeeklyReport();
   } else {
     var pe = document.getElementById(tab + 'Page');
     if (pe) pe.classList.add('active');
   }
   // 精确高亮当前tab按钮
   document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
-  // 优先用evt.currentTarget，回退到tabMap索引
-  var targetTab = evt && evt.currentTarget ? evt.currentTarget : null;
-  if (targetTab) {
-    targetTab.classList.add('active');
-  } else {
-    var tabMap = {chat:0, coach:1, sop:2, checkin:3, data:4, progress:5, share:6};
-    var tabs = document.querySelectorAll('.tab-item');
-    if (tabMap[tab] !== undefined && tabs[tabMap[tab]]) {
-      tabs[tabMap[tab]].classList.add('active');
-    }
+  var tabMap = {chat:0, coach:1, sop:2, checkin:3, data:4, progress:5, share:6};
+  var tabs = document.querySelectorAll('.tab-item');
+  if (tabMap[tab] !== undefined && tabs[tabMap[tab]]) {
+    tabs[tabMap[tab]].classList.add('active');
   }
   // 如果切到教练，初始化教练
-  if (tab === 'coach' && coachPg) { }
+  if (tab === 'coach' && coachPg) { initCoach(); }
 }
 
 // ===== SOP自检 =====
@@ -1279,9 +1468,646 @@ function copyShareText() {
   alert('已复制到剪贴板！');
 }
 
+// ===== 教练功能（麦肯锡风格深度对话 · P7-P8搭子）=====
+let coachStep = '';
+let coachSubStep = 0;
+let chatHistory = [];
+let userInputs = {};
 
-// ===== Page: 数据记录（绩效）===== 
+const COACH_MCKINSEY_CONFIG = {
+  steps: [
+    { id: 'define', name: '界定问题' },
+    { id: 'analyze', name: '结构化分析' },
+    { id: 'act', name: '优先级行动' }
+  ],
+  dialogTree: {
+    define: [
+      {
+        coach: '嗨！我是你的P7管理教练。用麦肯锡结构化思维，帮你照见管理盲区、找到P7到P8的成长路径。\n\n请先描述你最近在管理上遇到的最大挑战（尽量说清楚：什么让你觉得卡住了？和谁有关？）：',
+        keywords: { 'default': 'define1' }
+      },
+      {
+        coach: 'DYNAMIC_QUESTIONS',
+        keywords: { 'default': 'analyze0' }
+      }
+    ],
+    analyze: [
+      {
+        coach: '明白。现在请描述一下：在这个挑战场景里，你具体做了什么？产生了什么结果？\n\n（尽量客观描述行为和结果，不要评判对错）',
+        keywords: { 'default': 'analyze1' }
+      },
+      {
+        coach: '收到。现在让我用MECE框架帮你拆解这个问题：\n\n【你的决策模式】{用户选择}\n【上级的反馈】待补充\n【团队结构因素】资源/人才/流程\n\n请选择你想先突破的维度：\nA. 改变我的决策模式（我能控制的部分）\nB. 改善与上级的沟通（建立信任）\nC. 重构团队结构（改变资源/流程/支持）',
+        buttons: [
+          { label: 'A. 改变我的决策', value: 'A', style: 'yes' },
+          { label: 'B. 改善上级沟通', value: 'B', style: '' },
+          { label: 'C. 重构团队结构', value: 'C', style: 'no' }
+        ],
+        keywords: {
+          'A|改变|决策': 'act0',
+          'B|上级|沟通|信任': 'act0',
+          'C|团队|结构|资源': 'act0',
+          'default': 'act0'
+        }
+      }
+    ],
+    act: [
+      {
+        coach: '好的，你选择了维度 [{用户选择}]。现在用 Impact/Effort 矩阵，给你3个优先级行动建议：',
+        keywords: { 'default': 'report' }
+      }
+    ]
+  }
+};
+
+function initCoach() {
+  var ci = document.getElementById('coachIntro');
+  var cc = document.getElementById('coachChat');
+  var msgs = document.getElementById('chatMessages');
+  var r = document.getElementById('coachReport');
+  var pBar = document.getElementById('coachProgressBar');
+  var ia = document.getElementById('chatInputArea');
+  var btns = document.getElementById('coachButtons');
+  if (ci) ci.style.display = 'block';
+  if (cc) cc.style.display = 'none';
+  if (msgs) msgs.innerHTML = '';
+  if (r) r.style.display = 'none';
+  if (pBar) pBar.style.display = '';
+  if (ia) ia.style.display = 'none';
+  if (btns) btns.style.display = 'none';
+}
+
+function startCoach() {
+  coachStep = 'define';
+  coachSubStep = 0;
+  chatHistory = [];
+  userInputs = {};
+  var introEl = document.getElementById('coachIntro');
+  if (introEl) introEl.style.display = 'none';
+  var chatEl = document.getElementById('coachChat');
+  if (chatEl) chatEl.style.display = '';
+  var reportEl = document.getElementById('coachReport');
+  if (reportEl) reportEl.style.display = 'none';
+  updateProgressBar();
+  var firstMsg = COACH_MCKINSEY_CONFIG.dialogTree.define[0].coach;
+  addChatMessage('coach', firstMsg);
+}
+
+function updateProgressBar() {
+  var steps = ['define', 'analyze', 'act'];
+  steps.forEach(function(s, i) {
+    var el = document.getElementById('progressStep' + (i+1));
+    if (!el) return;
+    if (coachStep === s) { el.classList.add('active'); }
+    else { el.classList.remove('active'); }
+  });
+}
+
+function addChatMessage(role, text) {
+  var container = document.getElementById('chatMessages');
+  if (!container) return;
+  var msgDiv = document.createElement('div');
+  msgDiv.className = 'chat-msg ' + role;
+  var avatar = role === 'coach' ? '🎓' : '🧑';
+  msgDiv.innerHTML = '<div class="chat-avatar">' + avatar + '</div><div class="chat-bubble">' + text.replace(/\n/g, '<br>') + '</div>';
+  container.appendChild(msgDiv);
+  container.scrollTop = container.scrollHeight;
+  chatHistory.push({ role: role, text: text });
+  if (role === 'coach') {
+    if (text.indexOf('生成报告') !== -1 || text.indexOf('正在为你') !== -1) {
+      var inputArea = document.getElementById('chatInputArea');
+      if (inputArea) inputArea.style.display = 'none';
+      var buttonsEl = document.getElementById('coachButtons');
+      if (buttonsEl) buttonsEl.style.display = 'none';
+      var promptEl = document.getElementById('coachPrompt');
+      if (promptEl) promptEl.style.display = 'none';
+      var generatingMsg = document.createElement('div');
+      generatingMsg.id = 'generatingReport';
+      generatingMsg.className = 'generating-report';
+      generatingMsg.innerHTML = '⏳ 正在生成MECE诊断报告，请稍候...';
+      var chatEl = document.getElementById('coachChat');
+      if (chatEl) chatEl.appendChild(generatingMsg);
+    } else {
+      var tree = COACH_MCKINSEY_CONFIG.dialogTree[coachStep];
+      var currentNode = tree ? tree[coachSubStep] : null;
+      if (currentNode && currentNode.buttons && currentNode.buttons.length > 0) {
+        showCoachButtons(currentNode.buttons);
+      } else {
+        var inputArea2 = document.getElementById('chatInputArea');
+        if (inputArea2) inputArea2.style.display = 'flex';
+        var buttonsEl2 = document.getElementById('coachButtons');
+        if (buttonsEl2) buttonsEl2.style.display = 'none';
+        var promptEl2 = document.getElementById('coachPrompt');
+        if (promptEl2) promptEl2.style.display = 'block';
+        var input = document.getElementById('coachInput');
+        if (input) { input.value = ''; input.focus(); }
+      }
+    }
+  }
+}
+
+function showCoachButtons(buttons) {
+  var container = document.getElementById('coachButtons');
+  var btnList = document.getElementById('coachBtnList');
+  var btnPrompt = document.getElementById('coachBtnPrompt');
+  if (btnPrompt) btnPrompt.textContent = '请选择：';
+  if (btnList) btnList.innerHTML = '';
+  buttons.forEach(function(btn) {
+    var btnEl = document.createElement('button');
+    btnEl.className = 'coach-choice-btn ' + (btn.style || '');
+    btnEl.textContent = btn.label;
+    btnEl.onclick = function() { handleCoachButtonClick(btn.value, btn.label); };
+    if (btnList) btnList.appendChild(btnEl);
+  });
+  if (container) container.style.display = 'block';
+  var inputArea = document.getElementById('chatInputArea');
+  if (inputArea) inputArea.style.display = 'none';
+  var promptEl = document.getElementById('coachPrompt');
+  if (promptEl) promptEl.style.display = 'none';
+}
+
+function handleCoachButtonClick(value, label) {
+  addChatMessage('user', label);
+  if (!userInputs[coachStep]) userInputs[coachStep] = [];
+  userInputs[coachStep].push(value);
+  setTimeout(function() { generateCoachReply(value); }, 800);
+}
+
+function sendCoachMsg() {
+  var input = document.getElementById('coachInput');
+  if (!input) return;
+  var text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  var promptEl = document.getElementById('coachPrompt');
+  if (promptEl) promptEl.style.display = 'none';
+  var buttonsEl = document.getElementById('coachButtons');
+  if (buttonsEl) buttonsEl.style.display = 'none';
+  addChatMessage('user', text);
+  if (!userInputs[coachStep]) userInputs[coachStep] = [];
+  userInputs[coachStep].push(text);
+  setTimeout(function() { generateCoachReply(text); }, 800);
+}
+
+function generateCoachReply(userText) {
+  var tree = COACH_MCKINSEY_CONFIG.dialogTree[coachStep];
+  if (!tree) { generateMcKinseyReport(); return; }
+  var currentNode = tree[coachSubStep];
+  if (!currentNode) { generateMcKinseyReport(); return; }
+
+  var ack = buildAck(coachStep, coachSubStep, userText);
+  var nextStep = coachStep;
+  var nextSub = coachSubStep + 1;
+  var jumped = false;
+
+  if (currentNode.keywords) {
+    var matched = false;
+    var entries = Object.entries(currentNode.keywords);
+    for (var i = 0; i < entries.length; i++) {
+      var kw = entries[i][0];
+      var target = entries[i][1];
+      if (kw === 'default') continue;
+      var regex = new RegExp(kw, 'i');
+      if (regex.test(userText)) {
+        matched = true;
+        var m = target.match(/^([a-z]+)(\d+)$/);
+        if (m) {
+          nextStep = m[1];
+          nextSub = parseInt(m[2]);
+        }
+        jumped = true;
+        break;
+      }
+    }
+    if (!matched && currentNode.keywords.default) {
+      var target2 = currentNode.keywords.default;
+      var m2 = target2.match(/^([a-z]+)(\d+)$/);
+      if (m2) {
+        nextStep = m2[1];
+        nextSub = parseInt(m2[2]);
+      }
+      jumped = true;
+    }
+  }
+
+  if (!jumped) {
+    var curTree = COACH_MCKINSEY_CONFIG.dialogTree[coachStep];
+    if (!curTree || nextSub >= curTree.length) {
+      var stepIdx = -1;
+      for (var j = 0; j < COACH_MCKINSEY_CONFIG.steps.length; j++) {
+        if (COACH_MCKINSEY_CONFIG.steps[j].id === coachStep) { stepIdx = j; break; }
+      }
+      if (stepIdx < COACH_MCKINSEY_CONFIG.steps.length - 1) {
+        nextStep = COACH_MCKINSEY_CONFIG.steps[stepIdx + 1].id;
+        nextSub = 0;
+        updateProgressBar();
+      } else {
+        addChatMessage('coach', ack);
+        generateMcKinseyReport();
+        return;
+      }
+    }
+  }
+
+  var nextNode = COACH_MCKINSEY_CONFIG.dialogTree[nextStep] ? COACH_MCKINSEY_CONFIG.dialogTree[nextStep][nextSub] : null;
+  if (!nextNode) {
+    addChatMessage('coach', ack);
+    generateMcKinseyReport();
+    return;
+  }
+
+  var nextQ = nextNode.coach || '';
+  var reply = ack;
+
+  if (nextQ === 'DYNAMIC_QUESTIONS') {
+    nextQ = generateDynamicQuestions(userText);
+    reply = ack + '\n\n' + nextQ;
+  } else if (nextQ) {
+    reply += '\n\n' + nextQ;
+  }
+  reply = replacePlaceholders(reply, userText);
+
+  coachStep = nextStep;
+  coachSubStep = nextSub;
+
+  addChatMessage('coach', reply);
+}
+
+function buildAck(step, subStep, userText) {
+  if (step === 'define') {
+    if (subStep === 0) {
+      var displayText = userText.length > 50 ? userText.substring(0, 50) + '...' : userText;
+      return '收到！"' + displayText + '"。让我确认几个关键点：';
+    }
+    if (subStep === 1) {
+      return '明白，我记录了这些信息。让我总结一下你的核心管理挑战：';
+    }
+  }
+  if (step === 'analyze') {
+    if (subStep === 0) {
+      var displayText2 = userText.length > 50 ? userText.substring(0, 50) + '...' : userText;
+      return '好的，我记录了你的管理行为："' + displayText2 + '"';
+    }
+    if (subStep === 1) {
+      return '很好！现在我有了你的决策模式，让我用MECE框架分析：\n【你的决策模式】' + (userInputs.analyze ? userInputs.analyze[0] : '') + '\n→ 让上级感受到：你可能太急了\n【上级的反馈】' + userText + '\n→ 让管理陷入：你做你的，上级看他的\n【团队结构】资源 / 人才 / 流程 / 目标对齐\n\n现在，你想先从哪个维度突破？\nA. 改变我的决策模式（影响自己）\nB. 改善与上级的沟通（建立信任）\nC. 重构团队结构（改变环境）';
+    }
+  }
+  if (step === 'act') {
+    return '你选择了：' + userText + '。现在用 Impact/Effort 矩阵给你3个行动建议：';
+  }
+  return '收到，谢谢分享。';
+}
+
+function generateDynamicQuestions(userText) {
+  var text = userText.toLowerCase();
+  var questions = [];
+
+  if (text.match(/上级|老板|领导|汇报/)) {
+    questions.push('1️⃣ 当时你做了什么决定？上级怎么回应的？');
+  } else if (text.match(/团队|下属|管理|排兵布阵/)) {
+    questions.push('1️⃣ 团队成员的表现如何？你给了什么反馈？');
+  } else if (text.match(/方向|战略|优先级|决策/)) {
+    questions.push('1️⃣ 你做了什么样的决策？结果如何？');
+  } else if (text.match(/跨部门|协作|合作|资源/)) {
+    questions.push('1️⃣ 跨部门协作时，你说了什么？对方怎么回应？');
+  } else if (text.match(/绩效|OKR|目标|KPI/)) {
+    questions.push('1️⃣ 绩效/OKR推进中，谁有阻力？你怎么处理？');
+  } else {
+    questions.push('1️⃣ 当时你做了什么？产生了什么结果？');
+  }
+
+  questions.push('2️⃣ 这个挑战对你的团队/上级/业务有什么具体影响？');
+  questions.push('3️⃣ 如果这个问题解决了，最希望发生什么变化？');
+
+  return questions.join('\n');
+}
+
+function replacePlaceholders(text, userText) {
+  if (!text) return '';
+  text = text.replace(/\{用户选择\}/g, userText.substring(0, 20));
+  text = text.replace(/\{场景\}/g, (userInputs.define ? userInputs.define[0] : '你的管理场景') ? (userInputs.define ? userInputs.define[0].substring(0, 30) : '你的管理场景') : '你的管理场景');
+  text = text.replace(/\{情绪\}/g, '有压力');
+  text = text.replace(/\{核心冲突\}/g, '管理期望与现实的差距');
+  return text;
+}
+
+function generateMcKinseyReport() {
+  var genEl = document.getElementById('generatingReport');
+  if (genEl) genEl.remove();
+
+  var chatEl = document.getElementById('coachChat');
+  if (chatEl) chatEl.style.display = 'none';
+  var reportEl = document.getElementById('coachReport');
+  if (reportEl) reportEl.style.display = 'block';
+
+  var inputs = userInputs;
+  var actions = buildDynamicActions(inputs);
+
+  var coreText = (inputs.define ? inputs.define[0] : '最近的管理挑战') ? (inputs.define ? inputs.define[0].substring(0, 50) : '最近的管理挑战') : '最近的管理挑战';
+  var behaviorText = (inputs.analyze ? inputs.analyze[0] : '某种决策模式') ? (inputs.analyze ? inputs.analyze[0].substring(0, 30) : '某种决策模式') : '某种决策模式';
+
+  var html = '<div class="report-header">'
+    + '<div class="report-icon">🧠</div>'
+    + '<div class="report-title">麦肯锡风格P7管理诊断报告</div>'
+    + '<div class="report-subtitle">基于结构化分析框架 · MECE原则 · 行动导向</div>'
+    + '</div>'
+
+    + '<div class="report-core-conclusion">'
+    + '<h3>🎯 核心结论（金字塔顶端）</h3>'
+    + '<p>【核心结论】你在"' + coreText + '"中，倾向于' + behaviorText + '，导致管理陷入僵局。P7到P8的跨越，根本上是决策模式的升级——从"执行者思维"到"Owner思维"。</p>'
+    + '</div>'
+
+    + '<div class="report-mece-analysis">'
+    + '<h3>📋 MECE结构化分析</h3>'
+    + '<div class="mece-dimension"><div class="mece-dim-title">你的决策模式 <span style="color:#3a5fcd">6/10</span></div><div class="mece-dim-desc">' + (inputs.analyze ? inputs.analyze[0] : '待补充') + '</div></div>'
+    + '<div class="mece-dimension"><div class="mece-dim-title">上级的反馈模式 <span style="color:#0891b2">5/10</span></div><div class="mece-dim-desc">' + (inputs.analyze ? inputs.analyze[1] : '待补充') + '</div></div>'
+    + '<div class="mece-dimension"><div class="mece-dim-title">团队结构性因素 <span style="color:#7c3aed">4/10</span></div><div class="mece-dim-desc">资源 / 人才 / 流程 / 目标对齐</div></div>'
+    + '</div>'
+
+    + '<div class="report-impact-effort">'
+    + '<h3>📊 Impact/Effort 矩阵说明</h3>'
+    + '<div class="ie-item"><span class="ie-tag ie-p0">P0 · 快赢</span>高影响 + 低投入 → 立即可做，快速见效</div>'
+    + '<div class="ie-item"><span class="ie-tag ie-p1">P1 · 重要</span>高影响 + 高投入 → 值得规划，中期突破</div>'
+    + '<div class="ie-item"><span class="ie-tag ie-p2">P2 · 长期</span>中影响 + 高投入 → 系统变革，长期收益</div>'
+    + '</div>'
+
+    + '<div class="report-priority-actions">'
+    + '<h3>🚀 优先级行动（Impact/Effort矩阵）</h3>'
+    + actions.map(function(a) {
+        return '<div class="action-item"><div class="action-priority">' + a.priority + '</div>'
+          + '<div class="action-text"><strong>行动：</strong>' + a.action + '<br><strong>影响：</strong>' + a.impact + ' | <strong>投入：</strong>' + a.effort + '</div></div>';
+      }).join('')
+    + '</div>'
+
+    + '<div class="report-next-step">'
+    + '<h3>👣 下一步行动（actionable）</h3>'
+    + '<p>' + (inputs.analyze && inputs.analyze[0] ? '【本周试验】主动与上级做一次1:1，明确上级对你最重要的3件事' : '【本周试验】记录每天最重要的管理决策，思考是否与上级期望对齐') + '<br>【判断标准】上级反馈变得更正向（信任感增加）<br>【复盘时间】建议下周一找我复盘</p>'
+    + '</div>'
+
+    + '<button class="coach-restart-btn" onclick="restartCoach()">🔄 重新对话</button>';
+
+  if (reportEl) reportEl.innerHTML = html;
+  if (reportEl) reportEl.scrollTop = 0;
+}
+
+function buildDynamicActions(inputs) {
+  var defineText = (inputs.define ? inputs.define[0] : '').toLowerCase();
+  var analyzeText = (inputs.analyze ? inputs.analyze[0] : '').toLowerCase();
+  var allText = defineText + ' ' + analyzeText;
+  var actions = [];
+
+  // P0 快赢
+  var p0Added = false;
+
+  if (allText.match(/上级|老板|领导|汇报/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '今天主动给上级发一条进度消息："X项目进展到Y阶段，遇到Z挑战，计划这样应对"',
+      impact: '建立主动汇报的习惯，消除上级的不安全感',
+      effort: '低'
+    });
+    p0Added = true;
+  }
+
+  if (!p0Added && allText.match(/团队|下属|管理|排兵布阵/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '今天找一个下属，做一次5分钟的"最近怎么样？"——只倾听不评判',
+      impact: '打破"布置任务才沟通"的习惯，建立信任',
+      effort: '低'
+    });
+    p0Added = true;
+  }
+
+  if (!p0Added && allText.match(/方向|战略|优先级|决策/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '今天写一个"最重要的一件事"，问自己：这件事对上级最重要吗？',
+      impact: '校准优先级，从"忙"变成"有效"',
+      effort: '低'
+    });
+    p0Added = true;
+  }
+
+  if (!p0Added && allText.match(/跨部门|协作|合作|资源/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '找到跨部门协作的关键人，发一条感谢信息或约一次15分钟的Coffee Chat',
+      impact: '打破信息壁垒，建立横向影响力',
+      effort: '低'
+    });
+    p0Added = true;
+  }
+
+  if (!p0Added) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '今天做一个"Owner意识检查"：列出你正在推动的3件事，问自己"没有我，这件事会发生吗？"',
+      impact: '照见自己的"假Owner"陷阱',
+      effort: '低'
+    });
+  }
+
+  // P1 重要
+  if (allText.match(/上级|老板|领导|汇报/)) {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '与上级建立每月1:1节奏，提前准备3个议题（你的挑战/你的请求/你的建议）',
+      impact: '从被动响应变成主动管理上级',
+      effort: '中'
+    });
+  } else if (allText.match(/团队|下属|排兵布阵/)) {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '对团队成员做一次Mini盘点：谁在超预期？谁在挣扎？谁需要帮助？并制定针对性计划',
+      impact: '从"我一个人扛"切换到"team owner"模式',
+      effort: '中'
+    });
+  } else if (allText.match(/方向|战略|优先级/)) {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '做一个OKR/目标的Pyramid对齐：从公司目标→团队目标→个人目标，确保每个目标都能回答"为什么重要"',
+      impact: '从"执行目标"到"理解目标意义"',
+      effort: '中'
+    });
+  } else {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '找一个管理导师/教练（公司内或外部），每月做一次管理复盘',
+      impact: '加速从"个人贡献者"到"管理者"的认知升级',
+      effort: '中'
+    });
+  }
+
+  // P2 长期
+  if (allText.match(/上级|领导|信任/)) {
+    actions.push({
+      priority: 'P2 · 长期',
+      action: '系统提升"向上管理"能力：读《横向领导力》或《一分钟经理人》，刻意练习书中的方法',
+      impact: '从"被管理"到"主动影响上级决策"',
+      effort: '高'
+    });
+  } else if (allText.match(/团队|人才|排兵布阵/)) {
+    actions.push({
+      priority: 'P2 · 长期',
+      action: '建立团队人才梯队规划：3个高潜+3个待提升+3个关键保留，制定6个月发展计划',
+      impact: '从"自己干"到"复制自己"的管理升级',
+      effort: '高'
+    });
+  } else {
+    actions.push({
+      priority: 'P2 · 长期',
+      action: '找到P8甚至更高级别的管理者作为榜样，系统学习他们的管理思维和工作方法',
+      impact: '从"做好当下的事"到"理解P8的思维模式"',
+      effort: '高'
+    });
+  }
+
+  return actions;
+}
+
+function restartCoach() {
+  var reportEl = document.getElementById('coachReport');
+  if (reportEl) reportEl.style.display = 'none';
+  var chatEl = document.getElementById('coachChat');
+  if (chatEl) chatEl.style.display = 'none';
+  var introEl = document.getElementById('coachIntro');
+  if (introEl) introEl.style.display = 'block';
+  var msgEl = document.getElementById('chatMessages');
+  if (msgEl) msgEl.innerHTML = '';
+}
+
+// ===== Page: 数据记录（绩效）=====
+function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
+function saveWeightData(d) { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(d)); }
+
+function addWeight() {
+  var val = parseFloat(document.getElementById('weightInput').value);
+  if (!val || val < 0) { showToast('请输入有效的绩效分数'); return; }
+  var data = getWeightData();
+  var today = new Date().toISOString().slice(0, 10);
+  data = data.filter(function(d) { return d.date !== today; });
+  data.push({ date: today, value: val });
+  data.sort(function(a, b) { return a.date.localeCompare(b.date); });
+  try { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(data)); } catch(e) { showToast('存储失败'); return; }
+  document.getElementById('weightInput').value = '';
+  showToast('✅ 记录成功：' + val + '分');
+  drawWeightChart();
+  renderWeightRecords();
+}
+
+function drawWeightChart() {
+  var canvas = document.getElementById('chartCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var data = getWeightData().slice(-30);
+  var W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  if (data.length < 2) {
+    ctx.fillStyle = '#b0bec5'; ctx.font = '14px system-ui';
+    ctx.textAlign = 'center'; ctx.fillText('记录2次以上即可显示曲线', W / 2, H / 2);
+    var sub = document.getElementById('chartSub');
+    if (sub) sub.textContent = '坚持记录，趋势一目了然';
+    return;
+  }
+  var vals = data.map(function(d) { return d.value; });
+  var minV = Math.min.apply(null, vals) * 0.8;
+  var maxV = Math.max.apply(null, vals) * 1.1;
+  if (maxV === minV) { minV -= 5; maxV += 5; }
+  var toX = function(i) { return 20 + (i / (data.length - 1)) * (W - 40); };
+  var toY = function(v) { return H - 30 - ((v - minV) / (maxV - minV)) * (H - 60); };
+  ctx.strokeStyle = '#f0f4f7'; ctx.lineWidth = 1;
+  for (var i = 0; i <= 4; i++) {
+    var y = 20 + i * (H - 50) / 4;
+    ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(W - 20, y); ctx.stroke();
+    ctx.fillStyle = '#b0bec5'; ctx.font = '10px system-ui'; ctx.textAlign = 'right';
+    ctx.fillText(Math.round(maxV - i * (maxV - minV) / 4), 18, y + 3);
+  }
+  var grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, 'rgba(58,95,205,0.2)');
+  grad.addColorStop(1, 'rgba(58,95,205,0)');
+  ctx.beginPath();
+  data.forEach(function(d, i) { var x = toX(i), y = toY(d.value); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+  ctx.lineTo(toX(data.length - 1), H - 20); ctx.lineTo(toX(0), H - 20); ctx.closePath();
+  ctx.fillStyle = grad; ctx.fill();
+  ctx.beginPath();
+  data.forEach(function(d, i) { var x = toX(i), y = toY(d.value); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+  ctx.strokeStyle = '#3a5fcd'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+  data.forEach(function(d, i) {
+    var x = toX(i), y = toY(d.value);
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#3a5fcd'; ctx.lineWidth = 2; ctx.stroke();
+  });
+  var today = new Date().toISOString().slice(0, 10);
+  var todayIdx = data.findIndex(function(d) { return d.date === today; });
+  if (todayIdx >= 0) {
+    var x = toX(todayIdx), y = toY(data[todayIdx].value);
+    ctx.fillStyle = '#e91e63'; ctx.font = 'bold 12px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('今天', x, y - 12);
+  }
+  var sub = document.getElementById('chartSub');
+  if (sub && data.length > 0) sub.textContent = '最新记录：' + data[data.length - 1].value + '分';
+}
+
+function renderWeightRecords() {
+  var container = document.getElementById('weightRecords');
+  if (!container) return;
+  var data = getWeightData().slice().reverse();
+  if (data.length === 0) {
+    container.innerHTML = '<div style="text-align:center;color:#b0bec5;padding:16px;font-size:13px;">还没有记录，快来记第一次绩效吧！</div>';
+    return;
+  }
+  container.innerHTML = data.slice(0, 30).map(function(d) {
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;">' +
+      '<span style="color:#888;font-size:13px;">' + d.date + '</span>' +
+      '<span style="font-weight:700;color:#3a5fcd;font-size:15px;">' + d.value + '分</span>' +
+      '</div>';
+  }).join('');
+}
+
+function renderWeightPage() {
+  drawWeightChart();
+  renderWeightRecords();
+  var data = getWeightData();
+  if (data.length > 0) {
+    var inp = document.getElementById('weightInput');
+    if (inp) inp.placeholder = data[data.length - 1].value;
+  }
+}
+
+function renderWeeklyReport() {
+  var container = document.getElementById('weeklyReportContent');
+  if (!container) return;
+  var history = getHistory();
+  var now = new Date();
+  var weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+  var thisWeek = history.filter(function(h) { return new Date(h) >= weekAgo; });
+  var lastWeekStart = new Date(weekAgo); lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+  var lastWeek = history.filter(function(h) { return new Date(h) >= lastWeekStart && new Date(h) < weekAgo; });
+  if (thisWeek.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>';
+    return;
+  }
+  var trend = thisWeek.length >= lastWeek.length ? '↑ 比上周更积极！' : '比上周少打卡了，加油！';
+  container.innerHTML = '<div style="font-size:13px;line-height:2;color:#555;">' +
+    '本周打卡：<strong>' + thisWeek.length + '</strong> 天 &nbsp;|&nbsp; 上周：<strong>' + lastWeek.length + '</strong> 天<br>' +
+    '<span style="color:#3a5fcd;font-weight:600;">' + trend + '</span></div>';
+  var shareBtn = document.getElementById('shareWeeklyBtn');
+  if (shareBtn && thisWeek.length >= 3) shareBtn.style.display = 'block';
+}
+
+function shareWeeklyReport() {
+  var history = getHistory();
+  var now = new Date();
+  var weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+  var cnt = history.filter(function(h) { return new Date(h) >= weekAgo; }).length;
+  var text = '【P7管理成长本周战绩】本周打卡 ' + cnt + ' 天，继续向P8进化！';
+  navigator.clipboard.writeText(text).then(function() { showToast('✅ 已复制，快去分享！'); }).catch(function() { showToast('复制失败'); });
+}
+
 function initP7DataPage() {
+  renderWeightPage();
+  renderWeeklyReport();
   var streak = parseInt(localStorage.getItem('slim_sop_streaks_p7') || '0');
   var total = (JSON.parse(localStorage.getItem('slim_history_p7') || [])).length;
   var today = localStorage.getItem('sop_completed_p7_' + new Date().toDateString()) === 'true' ? '✅' : '-';
@@ -1293,40 +2119,36 @@ function initP7DataPage() {
   if (elD) elD.innerText = today;
 }
 
-function initP7ProgressPage() {
-  var streak = parseInt(localStorage.getItem('slim_sop_streaks_p7') || '0');
-  var total = (JSON.parse(localStorage.getItem('slim_history_p7') || [])).length;
-  var today = localStorage.getItem('sop_completed_p7_' + new Date().toDateString()) === 'true' ? '✅' : '-';
-  var elS = document.getElementById('p7Streak2');
-  var elT = document.getElementById('p7Total2');
-  var elD = document.getElementById('p7Today2');
-  if (elS) elS.innerText = streak;
-  if (elT) elT.innerText = total;
-  if (elD) elD.innerText = today;
-}
-function copyP7Share() {
-  var text = '我用P7升P8成长自检搭子连续打卡' + (parseInt(localStorage.getItem('slim_sop_streaks_p7') || '0') + '天了！来一起做管理成长搭子！' + window.location.href;
-  var ta = document.createElement('textarea');
-  ta.value = text;
-  document.body.appendChild(ta);
-  ta.select();
-  document.execCommand('copy');
-  document.body.removeChild(ta);
-  alert('已复制到剪贴板！');
-}
-
-// 在switchTab中调用数据页和进展页初始化
-(function(){
-  var orig = switchTab;
-  window.switchTab = function(tab, evt){
-    orig(tab, evt);
-    if(tab==='data') initP7DataPage();
-    if(tab==='progress') initP7ProgressPage();
-  };
-})();
-
-</script>
-<script src="coach-P7-P8.js"></script>
+<!-- ===== Page: 绩效 ===== -->
+<div id="dataPage" class="page">
+  <div class="weight-page">
+    <div class="weight-header">
+      <div class="weight-title">📊 P7绩效记录</div>
+      <div class="weight-sub" id="weightSummary">记录你的每一次管理突破</div>
+      <div class="weight-input-row">
+        <input class="weight-input" id="weightInput" type="number" step="1" min="0" max="100" placeholder="--">
+        <span class="weight-unit">分</span>
+        <button class="weight-add-btn" onclick="addWeight()">记录</button>
+      </div>
+    </div>
+    <div class="weight-chart-card">
+      <div class="chart-title">📈 绩效曲线</div>
+      <div class="chart-sub" id="chartSub">坚持记录，趋势一目了然</div>
+      <canvas id="chartCanvas" width="380" height="200"></canvas>
+    </div>
+    <div class="weight-chart-card" id="weeklyReportCard">
+      <div class="chart-title">📊 本周进展</div>
+      <div id="weeklyReportContent">
+        <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>
+      </div>
+      <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#3a5fcd,#1e3a7a);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareWeeklyReport()">📤 分享本周进展</button>
+    </div>
+    <div class="weight-records">
+      <div class="records-title">📝 历史记录</div>
+      <div id="weightRecords"></div>
+    </div>
+  </div>
+</div>
 
 <!-- ===== Page: 进展 ===== -->
 <div id="progressPage" class="page">
@@ -1365,11 +2187,45 @@ function copyP7Share() {
   </div>
 </div>
 
-
-
-
-
-
-
+<script>
+function initP7ProgressPage() {
+  var streak = parseInt(localStorage.getItem('slim_sop_streaks_p7') || '0');
+  var total = (JSON.parse(localStorage.getItem('slim_history_p7') || [])).length;
+  var today = localStorage.getItem('sop_completed_p7_' + new Date().toDateString()) === 'true' ? '✅' : '-';
+  var elS = document.getElementById('p7Streak2');
+  var elT = document.getElementById('p7Total2');
+  var elD = document.getElementById('p7Today2');
+  if (elS) elS.innerText = streak;
+  if (elT) elT.innerText = total;
+  if (elD) elD.innerText = today;
+}
+function copyP7Share() {
+  var text = '我用P7升P8成长自检搭子连续打卡' + (parseInt(localStorage.getItem('slim_sop_streaks_p7') || '0') + '天了！来一起做管理成长搭子！' + window.location.href;
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  alert('已复制到剪贴板！');
+}
+// 在switchTab中调用数据页和进展页初始化（patch）
+(function(){
+  var orig = switchTab;
+  window.switchTab = function(tab){
+    orig(tab);
+    if(tab==='data') {
+      initP7DataPage();
+      var dp = document.getElementById('dataPage');
+      if(dp){ dp.classList.add('active'); dp.style.display = ''; }
+    }
+    if(tab==='progress') {
+      initP7ProgressPage();
+      var pp = document.getElementById('progressPage');
+      if(pp){ pp.classList.add('active'); pp.style.display = ''; }
+    }
+  };
+})();
+</script>
 </body>
 </html>
