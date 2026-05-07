@@ -442,6 +442,17 @@ function renderWeightRecords() {
   }).join('');
 }
 
+function renderWeightPage() {
+  drawWeightChart();
+  renderWeightRecords();
+  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]');
+  if (records.length > 0) {
+    var last = records[records.length - 1].rating;
+    var inp = document.getElementById('weightInput');
+    if (inp) inp.placeholder = '上次：' + last + '分';
+  }
+}
+
 function drawWeightChart() {
   var canvas = document.getElementById('chartCanvas');
   if (!canvas) return;
