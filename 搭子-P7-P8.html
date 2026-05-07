@@ -1255,7 +1255,7 @@ function switchTab(tab) {
   if (tab === 'coach') {
     if (coachPg) { coachPg.style.display = ''; coachPg.classList.add('active'); }
   } else if (tab === 'data') {
-    var pe = document.getElementById('dataPage');
+    var pe = document.getElementById('page-data');
     if (pe) pe.classList.add('active');
     renderWeightPage();
     renderWeeklyReport();
@@ -2120,7 +2120,7 @@ function initP7DataPage() {
 }
 
 <!-- ===== Page: 绩效 ===== -->
-<div id="dataPage" class="page">
+<div id="page-data" class="page">
   <div class="weight-page">
     <div class="weight-header">
       <div class="weight-title">📊 P7绩效记录</div>
@@ -2216,7 +2216,7 @@ function copyP7Share() {
     orig(tab);
     if(tab==='data') {
       initP7DataPage();
-      var dp = document.getElementById('dataPage');
+      var dp = document.getElementById('page-data');
       if(dp){ dp.classList.add('active'); dp.style.display = ''; }
     }
     if(tab==='progress') {
