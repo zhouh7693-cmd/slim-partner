@@ -1121,21 +1121,6 @@ function closeQA() { document.getElementById('qaOverlay').classList.remove('show
 // ===== 绩效记录功能 ====================
 function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
 
-function addWeight() {
-  var val = parseFloat(document.getElementById('weightInput').value);
-  if (!val || val < 0) { showToast('请输入有效的绩效分数'); return; }
-  var data = getWeightData();
-  var today = new Date().toISOString().slice(0, 10);
-  data = data.filter(function(d) { return d.date !== today; });
-  data.push({ date: today, value: val });
-  data.sort(function(a, b) { return a.date.localeCompare(b.date); });
-  localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(data));
-  document.getElementById('weightInput').value = '';
-  showToast('✅ 记录成功：' + val + '分');
-  drawWeightChart();
-  renderWeightRecords();
-}
-
 function drawWeightChart() {
   var canvas = document.getElementById('chartCanvas');
   if (!canvas) return;
