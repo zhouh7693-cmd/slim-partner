@@ -182,12 +182,12 @@
     .weight-input { width: 120px; height: 52px; border-radius: 16px; border: 2px solid #e9edf2; text-align: center; font-size: 24px; font-weight: 700; color: #3a7ca5; outline: none; }
     .weight-input:focus { border-color: #3a7ca5; }
     .weight-unit { font-size: 18px; color: #8f9eae; font-weight: 500; }
-    .weight-add-btn { padding: 12px 24px; background: #3a7ca5; color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; }
-    .weight-add-btn:active { background: #2b5a7a; }
+    .weight-add-btn { padding: 12px 24px; background: linear-gradient(135deg, #43a047, #2e7d52); color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(46,125,50,0.28); }
+    .weight-add-btn:active { opacity: 0.9; transform: scale(0.97); }
     .weight-chart-card { background: white; border-radius: 32px; padding: 20px 16px 16px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .chart-title { font-size: 15px; font-weight: 700; color: #2b5a7a; margin-bottom: 4px; }
     .chart-sub { font-size: 12px; color: #8f9eae; margin-bottom: 12px; }
-    #weightCanvas { width: 100%; border-radius: 12px; background: #fafcfe; }
+    #chartCanvas { width: 100%; border-radius: 12px; background: #fafcfe; }
     .weight-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 12px; }
     .wstat { background: #f7f9fc; border-radius: 16px; padding: 12px 8px; text-align: center; }
     .wstat-num { font-size: 20px; font-weight: 800; color: #3a7ca5; }
@@ -732,7 +732,7 @@
     <div class="weight-chart-card">
       <div class="chart-title">📈 健康曲线</div>
       <div class="chart-sub" id="chartSub">坚持记录，趋势一目了然</div>
-      <canvas id="weightCanvas" width="380" height="200"></canvas>
+      <canvas id="chartCanvas" width="380" height="200"></canvas>
       <div class="weight-stats" id="weightStats"></div>
     </div>
 
@@ -1884,7 +1884,7 @@ function addWeight() {
 }
 
 function drawWeightChart() {
-  let canvas = document.getElementById('weightCanvas');
+  let canvas = document.getElementById('chartCanvas');
   let ctx = canvas.getContext('2d');
   let data = getWeightData().slice(-30);
   let W = canvas.width, H = canvas.height;
