@@ -1292,6 +1292,10 @@ function switchTab(tab) {
     if (pe) pe.classList.add('active');
     renderWeightPage();
     renderWeeklyReport();
+  } else if (tab === 'share') {
+    var pe = document.getElementById('sharePage');
+    if (pe) pe.classList.add('active');
+    renderSharePage();
   } else {
     var pe = document.getElementById(tab + 'Page');
     if (pe) pe.classList.add('active');
@@ -1490,8 +1494,47 @@ function closeSOPGuide() {
 }
 
 // ===== 分享逻辑 =====
+const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner';
+function getSiteUrl() {
+  if (window.location.hostname && window.location.hostname.includes('netlify')) {
+    return window.location.origin + '/';
+  }
+  return SHARE_URL + '/';
+}
+
+function renderSharePage() {
+  var history = getHistory();
+  var today = getToday();
+  var conDays = 0;
+  var d = new Date();
+  for (var i = 0; i < 60; i++) {
+    var dd = new Date(d); dd.setDate(dd.getDate() - i);
+    if (history.some(function(h) { return h === today; })) { conDays++; break; }
+    else if (i > 0) break;
+  }
+  if (document.getElementById('shareStreak')) document.getElementById('shareStreak').textContent = (conDays > 0 ? conDays : 0) + '天';
+  if (document.getElementById('shareToday')) document.getElementById('shareToday').textContent = history.some(function(h) { return h === today; }) ? '已打卡' : '未打卡';
+  if (document.getElementById('shareTotal')) document.getElementById('shareTotal').textContent = history.length;
+  var url = getSiteUrl() + '搭子-P7-P8.html';
+  if (document.getElementById('shareUrlDisplay')) document.getElementById('shareUrlDisplay').textContent = url;
+}
+
+function copyShareLink() {
+  var url = getSiteUrl() + '搭子-P7-P8.html';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(function() { showToast('链接已复制！去分享给其他同学吧 🎓'); });
+  } else {
+    prompt('复制以下链接：', url);
+  }
+}
+
+function openSharePage() {
+  var url = getSiteUrl() + '搭子-P7-P8.html';
+  window.open(url, '_blank');
+}
+
 function copyShareText() {
-  var text = '我用 ' + (currentPartner && currentPartner.name || '砺行') + ' 管理搭子连续打卡 ' + continuousCount + ' 天了！P7升P8成长自检搭子：' + window.location.href;
+  var text = '我用 ' + (currentPartner && currentPartner.name || '砺行') + ' 管理搭子连续打卡 ' + continuousCount + ' 天了！🎓 P7升P8成长搭子：' + getSiteUrl() + '搭子-P7-P8.html';
   var ta = document.createElement('textarea');
   ta.value = text;
   document.body.appendChild(ta);
@@ -1500,9 +1543,6 @@ function copyShareText() {
   document.body.removeChild(ta);
   alert('已复制到剪贴板！');
 }
-function openSharePage() { window.open('https://zhouh7693-cmd.github.io/slim-partner/搭子-P7-P8.html', '_blank'); }
-function copyShareLink() { var text = '我用 ' + (currentPartner && currentPartner.name || '砺行') + ' 管理搭子连续打卡 ' + continuousCount + ' 天了！🎓 P7升P8成长搭子：' + window.location.href; var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('已复制到剪贴板！'); }
-function showToast(msg) { var t = document.getElementById('toastEl'); if (!t) { t = document.createElement('div'); t.id = 'toastEl'; t.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);color:white;padding:12px 24px;border-radius:12px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;'; document.body.appendChild(t); } t.textContent = msg; t.style.opacity = '1'; setTimeout(function() { t.style.opacity = '0'; }, 2000); }
 
 // ===== 教练功能（麦肯锡风格深度对话 · P7-P8搭子）=====
 let coachStep = '';
@@ -2213,12 +2253,66 @@ function initP7DataPage() {
 
 <!-- ===== Page: 分享 ===== -->
 <div id="sharePage" class="page">
-  <div style="padding:16px;max-width:520px;margin:0 auto;">
-    <div style="background:white;border-radius:24px;padding:32px 24px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.06);">
-      <div style="font-size:64px;margin-bottom:12px;">📣</div>
-      <div style="font-size:20px;font-weight:700;color:#3a5fcd;margin-bottom:8px;">邀请搭子伙伴</div>
-      <div style="font-size:14px;color:#6c7a89;margin-bottom:24px;">把链接发给朋友，一起做P7升P8成长搭子</div>
-      <button onclick="copyP7Share()" style="background:#3a5fcd;color:white;border:none;border-radius:60px;padding:14px 32px;font-size:16px;font-weight:600;cursor:pointer;width:100%;">📋 复制分享链接</button>
+  <div class="weight-page">
+    <div style="text-align:center;padding:16px 16px 0;">
+      <div style="font-size:22px;font-weight:700;color:#3a5fcd;">📣 分享</div>
+      <div style="font-size:13px;color:#8f9eae;margin-top:4px;">邀请其他同学一起迈向P8</div>
+    </div>
+
+    <!-- 我的状态 -->
+    <div class="sop-card" style="margin:16px 12px 12px;">
+      <div class="chart-title">🎓 我的状态</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
+        <div style="background:#f0f4fd;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#3a5fcd;" id="shareStreak">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">连续打卡</div>
+        </div>
+        <div style="background:#f0f4fd;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#5c6bc0;" id="shareToday">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">今日打卡</div>
+        </div>
+        <div style="background:#f0f4fd;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#7986cb;" id="shareTotal">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P7-P8介绍卡片 -->
+    <div class="sop-card" style="margin:0 12px 12px;">
+      <div class="chart-title">🎓 P7升P8成长搭子</div>
+      <div style="margin-top:12px;background:linear-gradient(135deg,#e8edf8,#f0f4fd);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;">
+        <div style="font-size:48px;margin-bottom:8px;">🎓</div>
+        <div style="font-size:16px;font-weight:700;color:#1a237e;margin-bottom:4px;">P7升P8成长搭子</div>
+        <div style="font-size:13px;color:#283593;line-height:1.6;margin-bottom:8px;">陪你一起迈向P8<br>每天5分钟自检，精进管理能力</div>
+        <div style="font-size:11px;color:#3a5fcd;">业务感知 · 管理权威 · 洞察汇报</div>
+      </div>
+      <div class="chart-title" style="margin-bottom:12px;">📋 SOP 复盘维度</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">📊</div>
+          <div style="font-size:12px;font-weight:600;color:#3a5fcd;">业务感知</div>
+        </div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">💪</div>
+          <div style="font-size:12px;font-weight:600;color:#e91e63;">管理权威</div>
+        </div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">🔍</div>
+          <div style="font-size:12px;font-weight:600;color:#ff9800;">洞察汇报</div>
+        </div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">⚡</div>
+          <div style="font-size:12px;font-weight:600;color:#4caf50;">主动解决</div>
+        </div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;grid-column:span 2;">
+          <div style="font-size:24px;">🧭</div>
+          <div style="font-size:12px;font-weight:600;color:#9c27b0;">自我认知</div>
+        </div>
+      </div>
+      <div class="chart-title">🔗 邀请链接</div>
+      <div style="background:#e8edf8;border-radius:12px;padding:12px 14px;font-size:13px;color:#1a237e;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay"></div>
+      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#3a5fcd,#5c6bc0);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(58,95,205,0.4);">📋 复制邀请链接</button>
     </div>
   </div>
 </div>

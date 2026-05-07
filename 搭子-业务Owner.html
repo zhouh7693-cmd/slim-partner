@@ -1124,6 +1124,10 @@ function switchTab(tab) {
     var pe = document.getElementById('progressPage');
     if (pe) pe.classList.add('active');
     initProgressPage();
+  } else if (tab === 'share') {
+    var pe = document.getElementById('sharePage');
+    if (pe) pe.classList.add('active');
+    renderSharePage();
   } else {
     var pe = document.getElementById(tab + 'Page');
     if (pe) pe.classList.add('active');
@@ -1145,6 +1149,7 @@ function switchTabDirect(tab) {
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   document.getElementById(tab + 'Page').classList.add('active');
   if (tab === 'data') { renderWeightPage(); renderWeeklyReport(); }
+  if (tab === 'share') { renderSharePage(); }
   document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
   var idx = {checkin:0, chat:1, sop:2, data:4}[tab] || 0;
   var tabs = document.querySelectorAll('.tab-item');
@@ -1152,8 +1157,56 @@ function switchTabDirect(tab) {
 }
 
 // ===== 分享 =====
+const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner';
+function getSiteUrl() {
+  if (window.location.hostname && window.location.hostname.includes('netlify')) {
+    return window.location.origin + '/';
+  }
+  return SHARE_URL + '/';
+}
+
+function getToday() {
+  var d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function getHistory() {
+  return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
+}
+
+function renderSharePage() {
+  var history = getHistory();
+  var today = getToday();
+  var conDays = 0;
+  var d = new Date();
+  for (var i = 0; i < 60; i++) {
+    var dd = new Date(d); dd.setDate(d.getDate() - i);
+    if (history.some(function(h) { return h === today; })) { conDays++; break; }
+    else if (i > 0) break;
+  }
+  if (document.getElementById('shareStreak')) document.getElementById('shareStreak').textContent = (conDays > 0 ? conDays : 0) + '天';
+  if (document.getElementById('shareToday')) document.getElementById('shareToday').textContent = history.some(function(h) { return h === today; }) ? '已打卡' : '未打卡';
+  if (document.getElementById('shareTotal')) document.getElementById('shareTotal').textContent = history.length;
+  var url = getSiteUrl() + '搭子-业务Owner.html';
+  if (document.getElementById('shareUrlDisplay')) document.getElementById('shareUrlDisplay').textContent = url;
+}
+
+function copyShareLink() {
+  var url = getSiteUrl() + '搭子-业务Owner.html';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(function() { showToast('链接已复制！去分享给其他业务伙伴吧 💼'); });
+  } else {
+    prompt('复制以下链接：', url);
+  }
+}
+
+function openSharePage() {
+  var url = getSiteUrl() + '搭子-业务Owner.html';
+  window.open(url, '_blank');
+}
+
 function copyShareText() {
-  var text = '我用 ' + (currentPartner && currentPartner.name || '稳进') + ' 业务搭子连续打卡 ' + continuousCount + ' 天了！业务Owner成长自检搭子：' + window.location.href;
+  var text = '我用 ' + (currentPartner && currentPartner.name || '稳进') + ' 业务搭子连续打卡 ' + continuousCount + ' 天了！💼 业务Owner成长搭子：' + getSiteUrl() + '搭子-业务Owner.html';
   var ta = document.createElement('textarea');
   ta.value = text;
   document.body.appendChild(ta);
@@ -1162,8 +1215,6 @@ function copyShareText() {
   document.body.removeChild(ta);
   alert('已复制到剪贴板！');
 }
-function openSharePage() { window.open('https://zhouh7693-cmd.github.io/slim-partner/搭子-业务Owner.html', '_blank'); }
-function copyShareLink() { var text = '我用 ' + (currentPartner && currentPartner.name || '稳进') + ' 业务搭子连续打卡 ' + continuousCount + ' 天了！💼 业务Owner成长搭子：' + window.location.href; var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('已复制到剪贴板！'); }
 function showToast(msg) { var t = document.getElementById('toastEl'); if (!t) { t = document.createElement('div'); t.id = 'toastEl'; t.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);color:white;padding:12px 24px;border-radius:12px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;'; document.body.appendChild(t); } t.textContent = msg; t.style.opacity = '1'; setTimeout(function() { t.style.opacity = '0'; }, 2000); }
 
 // ===== 教练功能 =====
@@ -1293,14 +1344,66 @@ function initProgressPage() {
 
 <!-- ===== Page: 分享 ===== -->
 <div class="page" id="sharePage">
-  <div style="padding:16px;max-width:520px;margin:0 auto;">
-    <div style="background:white;border-radius:24px;padding:24px 20px;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,0.06);text-align:center;">
-      <div style="font-size:48px;margin-bottom:8px;">📣</div>
-      <div style="font-size:18px;font-weight:700;margin-bottom:4px;">业务Owner搭子</div>
-      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">分享你的搭子，让更多人加入</div>
-      <button class="coach-start-btn" onclick="copyShareText()" style="background:linear-gradient(135deg,#16a34a,#22c55e);color:white;border:none;padding:14px 28px;border-radius:16px;font-size:15px;font-weight:600;cursor:pointer;">
-        📋 复制分享文案
-      </button>
+  <div class="sop-page">
+    <div style="text-align:center;padding:16px 16px 0;">
+      <div style="font-size:22px;font-weight:700;color:#16a34a;">📣 分享</div>
+      <div style="font-size:13px;color:#8f9eae;margin-top:4px;">邀请其他业务伙伴一起成长</div>
+    </div>
+
+    <!-- 我的状态 -->
+    <div class="sop-card" style="margin:16px 12px 12px;">
+      <div class="chart-title">🏢 我的状态</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
+        <div style="background:#f0fdf4;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#16a34a;" id="shareStreak">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">连续打卡</div>
+        </div>
+        <div style="background:#f0fdf4;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#22c55e;" id="shareToday">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">今日打卡</div>
+        </div>
+        <div style="background:#f0fdf4;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#4ade80;" id="shareTotal">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 业务Owner介绍卡片 -->
+    <div class="sop-card" style="margin:0 12px 12px;">
+      <div class="chart-title">💼 业务Owner成长搭子</div>
+      <div style="margin-top:12px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;">
+        <div style="font-size:48px;margin-bottom:8px;">💼</div>
+        <div style="font-size:16px;font-weight:700;color:#14532d;margin-bottom:4px;">业务Owner成长搭子</div>
+        <div style="font-size:13px;color:#166534;line-height:1.6;margin-bottom:8px;">陪你一起做真正的Owner<br>每天5分钟自检，推动业务增长</div>
+        <div style="font-size:11px;color:#16a34a;">品牌 · 平台 · Boss · 团队</div>
+      </div>
+      <div class="chart-title" style="margin-bottom:12px;">📋 SOP 复盘维度</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+        <div style="background:#f7fafc;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">📊</div>
+          <div style="font-size:12px;font-weight:600;color:#3a5fcd;">业务感知</div>
+        </div>
+        <div style="background:#f7fafc;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">💪</div>
+          <div style="font-size:12px;font-weight:600;color:#e91e63;">管理权威</div>
+        </div>
+        <div style="background:#f7fafc;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">🔍</div>
+          <div style="font-size:12px;font-weight:600;color:#ff9800;">洞察汇报</div>
+        </div>
+        <div style="background:#f7fafc;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">⚡</div>
+          <div style="font-size:12px;font-weight:600;color:#4caf50;">主动解决</div>
+        </div>
+        <div style="background:#f7fafc;border-radius:12px;padding:12px;text-align:center;grid-column:span 2;">
+          <div style="font-size:24px;">🧭</div>
+          <div style="font-size:12px;font-weight:600;color:#9c27b0;">自我认知</div>
+        </div>
+      </div>
+      <div class="chart-title">🔗 邀请链接</div>
+      <div style="background:#f0fdf4;border-radius:12px;padding:12px 14px;font-size:13px;color:#14532d;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay"></div>
+      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#16a34a,#22c55e);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(22,163,74,0.4);">📋 复制邀请链接</button>
     </div>
   </div>
 </div>

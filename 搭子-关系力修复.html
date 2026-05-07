@@ -451,14 +451,66 @@ function renderWeightRecords() {
 
 <!-- ===== 分享页 ===== -->
 <div class="page" id="sharePage" style="display:none;">
-  <div style="padding:20px 16px 100px;text-align:center;">
-    <div style="font-size:64px;margin-bottom:16px;">📣</div>
-    <div style="font-size:22px;font-weight:700;color:#d97706;margin-bottom:8px;">分享</div>
-    <div style="font-size:14px;color:#888;margin-bottom:24px;">邀请朋友一起修炼关系力</div>
-    <div style="background:white;border-radius:24px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
-      <div style="font-size:14px;color:#666;line-height:1.8;">
-        推荐朋友使用关系力修炼搭子，一起提升关系力。
+  <div style="max-width:420px;margin:0 auto;">
+    <div style="text-align:center;padding:16px 16px 0;">
+      <div style="font-size:22px;font-weight:700;color:#d97706;">📣 分享</div>
+      <div style="font-size:13px;color:#8f9eae;margin-top:4px;">邀请朋友一起修炼关系力</div>
+    </div>
+
+    <!-- 我的状态 -->
+    <div class="sop-card" style="margin:16px 12px 12px;">
+      <div class="chart-title">🌸 我的状态</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
+        <div style="background:#fffbeb;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#d97706;" id="shareStreak">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">连续打卡</div>
+        </div>
+        <div style="background:#fffbeb;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#f59e0b;" id="shareToday">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">今日打卡</div>
+        </div>
+        <div style="background:#fffbeb;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#fbbf24;" id="shareTotal">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
+        </div>
       </div>
+    </div>
+
+    <!-- 关系力修复搭子介绍卡片 -->
+    <div class="sop-card" style="margin:0 12px 12px;">
+      <div class="chart-title">🌸 关系力修复搭子</div>
+      <div style="margin-top:12px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;">
+        <div style="font-size:48px;margin-bottom:8px;">🤝</div>
+        <div style="font-size:16px;font-weight:700;color:#92400e;margin-bottom:4px;">关系力修复搭子</div>
+        <div style="font-size:13px;color:#b45309;line-height:1.6;margin-bottom:8px;">陪你修复重要关系<br>每天5分钟复盘，让关系更轻松</div>
+        <div style="font-size:11px;color:#d97706;">自我认知 · 沟通表达 · 共情能力</div>
+      </div>
+      <div class="chart-title" style="margin-bottom:12px;">📋 SOP 复盘维度</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+        <div style="background:#fef9ec;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">🧠</div>
+          <div style="font-size:12px;font-weight:600;color:#3a5fcd;">自我认知</div>
+        </div>
+        <div style="background:#fef9ec;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">💬</div>
+          <div style="font-size:12px;font-weight:600;color:#26a69a;">沟通表达</div>
+        </div>
+        <div style="background:#fef9ec;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">❤️</div>
+          <div style="font-size:12px;font-weight:600;color:#e91e63;">共情能力</div>
+        </div>
+        <div style="background:#fef9ec;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">🔄</div>
+          <div style="font-size:12px;font-weight:600;color:#ff9800;">主动行动</div>
+        </div>
+        <div style="background:#fef9ec;border-radius:12px;padding:12px;text-align:center;grid-column:span 2;">
+          <div style="font-size:24px;">🌱</div>
+          <div style="font-size:12px;font-weight:600;color:#9c27b0;">关系进展</div>
+        </div>
+      </div>
+      <div class="chart-title">🔗 邀请链接</div>
+      <div style="background:#fffbeb;border-radius:12px;padding:12px 14px;font-size:13px;color:#92400e;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay"></div>
+      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#d97706,#f59e0b);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(217,119,6,0.4);">📋 复制邀请链接</button>
     </div>
   </div>
 </div>
@@ -1652,6 +1704,55 @@ function restartCoach() {
   document.getElementById('chatMessages').innerHTML = '';
 }
 
+// ===== 分享 =====
+const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner';
+function getSiteUrl() {
+  if (window.location.hostname && window.location.hostname.includes('netlify')) {
+    return window.location.origin + '/';
+  }
+  return SHARE_URL + '/';
+}
+
+function getToday() { return new Date().toISOString().slice(0,10); }
+
+function renderSharePage() {
+  const history = getHistory();
+  const today = getToday();
+  const conDays = calcStreak(history);
+  if (document.getElementById('shareStreak')) document.getElementById('shareStreak').textContent = conDays + '天';
+  if (document.getElementById('shareToday')) document.getElementById('shareToday').textContent = history.some(h => h.date === today && h.checkin) ? '已打卡' : '未打卡';
+  if (document.getElementById('shareTotal')) document.getElementById('shareTotal').textContent = history.length;
+  const url = getSiteUrl() + '搭子-关系力修复.html';
+  if (document.getElementById('shareUrlDisplay')) document.getElementById('shareUrlDisplay').textContent = url;
+}
+
+function copyShareLink() {
+  const url = getSiteUrl() + '搭子-关系力修复.html';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => showToast('链接已复制！去分享给朋友吧 🌸'));
+  } else {
+    prompt('复制以下链接：', url);
+  }
+}
+
+function openSharePage() {
+  const url = getSiteUrl() + '搭子-关系力修复.html';
+  window.open(url, '_blank');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toastEl');
+  if (!t) {
+    const el = document.createElement('div');
+    el.id = 'toastEl';
+    el.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);color:white;padding:12px 24px;border-radius:12px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;';
+    document.body.appendChild(el);
+  }
+  document.getElementById('toastEl').textContent = msg;
+  document.getElementById('toastEl').style.opacity = '1';
+  setTimeout(() => { document.getElementById('toastEl').style.opacity = '0'; }, 2000);
+}
+
 // ===== Tab切换 =====
 function switchTab(tab, e) {
   // 关闭所有遮罩
@@ -1677,6 +1778,7 @@ function switchTabDirect(tab) {
   if (tab === 'chat') renderChat();
   if (tab === 'sop') renderSOP();
   if (tab === 'data') renderWeightRecords();
+  if (tab === 'share') renderSharePage();
 }
 
 // 点击遮罩关闭
