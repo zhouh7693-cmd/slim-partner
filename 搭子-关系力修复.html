@@ -361,26 +361,11 @@
     <div class="weight-header">
       <div class="weight-title">🌸 轻松度记录</div>
       <div class="weight-sub" id="weightSummary">记录你今天的关系轻松指数</div>
-      <div class="relax-stars-wrap">
-        <div class="relax-stars" id="relaxRatingStars">
-          <button class="relax-star" onclick="setRelaxRating(1)">1</button>
-          <button class="relax-star" onclick="setRelaxRating(2)">2</button>
-          <button class="relax-star" onclick="setRelaxRating(3)">3</button>
-          <button class="relax-star" onclick="setRelaxRating(4)">4</button>
-          <button class="relax-star" onclick="setRelaxRating(5)">5</button>
-          <button class="relax-star" onclick="setRelaxRating(6)">6</button>
-          <button class="relax-star" onclick="setRelaxRating(7)">7</button>
-          <button class="relax-star" onclick="setRelaxRating(8)">8</button>
-          <button class="relax-star" onclick="setRelaxRating(9)">9</button>
-          <button class="relax-star" onclick="setRelaxRating(10)">10</button>
-        </div>
-        <div id="relaxRatingLabel" class="relax-rating-label"></div>
+      <div class="weight-input-row">
+        <input class="weight-input" id="weightInput" type="number" step="0.1" min="0" max="10" placeholder="--">
+        <span class="weight-unit">/10</span>
+        <button class="weight-add-btn" onclick="addWeight()">记录</button>
       </div>
-      <div class="weight-input-row" style="margin-top:12px;">
-        <input id="relaxNoteInput" class="weight-input" style="flex:1;" placeholder="今天发生了什么...">
-        <button class="weight-add-btn" onclick="saveRelaxRating()">✨ 记录</button>
-      </div>
-      <div id="relaxSaveMsg" class="relax-save-msg">✅ 已记录！</div>
     </div>
 
     <div class="weight-chart-card" style="margin-top:16px;">
@@ -405,88 +390,85 @@
 </div>
 
 <script>
-var currentRelaxRating = 0;
-function setRelaxRating(n) {
-  currentRelaxRating = n;
-  var labels = ['','😰','😟','😕','😐','🙂','😊','😌','😄','🤩','✨'];
-  var labelEl = document.getElementById('relaxRatingLabel');
-  if (labelEl) labelEl.textContent = n + '/10 ' + labels[n];
-  document.querySelectorAll('.relax-star').forEach(function(btn, i) {
-    btn.classList.toggle('selected', i < n);
-  });
-}
-function saveRelaxRating() {
-  if (currentRelaxRating === 0) {
-    alert('请先点击选择1-10的评分');
-    return;
+// 财福数据使用 slim_relax_history 存储
+function getWeightData() { return JSON.parse(localStorage.getItem('slim_relax_history') || '[]'); }
+function saveWeightData(d) { localStorage.setItem('slim_relax_history', JSON.stringify(d)); }
+
+function addWeight() {
+  let val = parseFloat(document.getElementById('weightInput').value);
+  if (!val || val < 0 || val > 10) { showToast('请输入 0-10 之间的轻松度'); return; }
+  let data = getWeightData();
+  let today = getToday();
+  data = data.filter(d => d.date !== today);
+  data.push({ date: today, value: val });
+  data.sort((a, b) => a.date.localeCompare(b.date));
+  try {
+    localStorage.setItem('slim_relax_history', JSON.stringify(data));
+  } catch(e) {
+    showToast('⚠️ 存储失败，请检查浏览器隐私设置'); return;
   }
-  var note = document.getElementById('relaxNoteInput') ? document.getElementById('relaxNoteInput').value.trim() : '';
-  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]');
-  records.push({ rating: currentRelaxRating, note: note, date: new Date().toLocaleDateString() });
-  localStorage.setItem('slim_relax_history', JSON.stringify(records));
-  var msg = document.getElementById('relaxSaveMsg');
-  if (msg) { msg.style.display = 'block'; setTimeout(function() { msg.style.display = 'none'; }, 2000); }
-  var noteInput = document.getElementById('relaxNoteInput');
-  if (noteInput) noteInput.value = '';
-  currentRelaxRating = 0;
-  document.querySelectorAll('.relax-star').forEach(function(btn) { btn.classList.remove('selected'); });
-  var labelEl = document.getElementById('relaxRatingLabel');
-  if (labelEl) labelEl.textContent = '';
+  document.getElementById('weightInput').value = '';
+  showToast('✅ 记录成功：轻松度 ' + val);
+  drawWeightChart();
   renderWeightRecords();
 }
 function renderWeightRecords() {
-  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]');
-  var container = document.getElementById('weightRecords');
+  let records = getWeightData().slice(-20).reverse();
+  let container = document.getElementById('weightRecords');
   if (!container) return;
   if (records.length === 0) {
-    container.innerHTML = '<div style="text-align:center;color:#ccc;font-size:13px;padding:20px;">暂无记录，先去打卡再记录 🌸</div>';
+    container.innerHTML = '<div style="text-align:center;color:#ccc;font-size:13px;padding:20px;">暂无记录 🌸</div>';
     return;
   }
-  var emojis = ['','😰','😟','😕','😐','🙂','😊','😌','😄','🤩','✨'];
-  container.innerHTML = records.slice(-20).reverse().map(function(r) {
-    var color = r.rating >= 7 ? '#43a047' : r.rating >= 4 ? '#ff9800' : '#ef5350';
-    return '<div class="record-item"><div class="record-emoji">' + emojis[r.rating] + '</div><div class="record-info"><div class="record-date">' + r.date + '</div>' + (r.note ? '<div class="record-note">' + r.note + '</div>' : '') + '</div><div class="record-score" style="color:' + color + '">' + r.rating + '</div></div>';
+  container.innerHTML = records.map(function(r) {
+    let color = r.value >= 7 ? '#43a047' : r.value >= 4 ? '#ff9800' : '#ef5350';
+    return '<div class="record-item"><div class="record-date">' + r.date + '</div><div class="record-score" style="color:' + color + '">' + r.value + '/10</div></div>';
   }).join('');
 }
 
 function drawWeightChart() {
-  var canvas = document.getElementById('chartCanvas');
+  let canvas = document.getElementById('chartCanvas');
   if (!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]').slice(-30);
-  var W = canvas.width, H = canvas.height;
+  let ctx = canvas.getContext('2d');
+  let data = getWeightData().slice(-30);
+  let W = canvas.width, H = canvas.height;
   ctx.clearRect(0, 0, W, H);
-  if (records.length < 2) {
+  if (data.length < 2) {
     ctx.fillStyle = '#b0bec5'; ctx.font = '14px system-ui';
     ctx.textAlign = 'center'; ctx.fillText('记录2次以上即可显示曲线', W / 2, H / 2);
-    var sub = document.getElementById('chartSub');
+    let sub = document.getElementById('chartSub');
     if (sub) sub.textContent = '坚持记录，趋势一目了然';
     return;
   }
-  var vals = records.map(function(r) { return r.rating; });
-  var minV = Math.min.apply(null, vals) * 0.8;
-  var maxV = Math.max.apply(null, vals) * 1.1;
-  var range = maxV - minV || 1;
-  var stepX = (W - 40) / Math.max(vals.length - 1, 1);
-  var pts = vals.map(function(v, i) {
-    return { x: 20 + i * stepX, y: H - 20 - ((v - minV) / range) * (H - 50) };
-  });
-  var grad = ctx.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0, 'rgba(217,119,6,0.25)');
-  grad.addColorStop(1, 'rgba(217,119,6,0.02)');
+  let vals = data.map(d => d.value);
+  let minV = Math.min(...vals) * 0.9, maxV = Math.max(...vals) * 1.1;
+  if (maxV === minV) { minV -= 1; maxV += 1; }
+  let toX = i => 20 + (i / (data.length - 1)) * (W - 40);
+  let toY = v => H - 30 - ((v - minV) / (maxV - minV)) * (H - 60);
+  ctx.strokeStyle = '#f0f4f7'; ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    let y = 20 + i * (H - 50) / 4;
+    ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(W - 20, y); ctx.stroke();
+    ctx.fillStyle = '#b0bec5'; ctx.font = '10px system-ui'; ctx.textAlign = 'right';
+    ctx.fillText(Math.round(maxV - i * (maxV - minV) / 4), 16, y + 3);
+  }
+  let grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, 'rgba(217,119,6,0.2)');
+  grad.addColorStop(1, 'rgba(217,119,6,0)');
   ctx.beginPath();
-  ctx.moveTo(pts[0].x, H - 20);
-  pts.forEach(function(p) { ctx.lineTo(p.x, p.y); });
-  ctx.lineTo(pts[pts.length - 1].x, H - 20);
+  ctx.moveTo(toX(0), H - 30);
+  data.forEach((d, i) => ctx.lineTo(toX(i), toY(d.value)));
+  ctx.lineTo(toX(data.length - 1), H - 30);
   ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
   ctx.beginPath();
-  pts.forEach(function(p, i) { i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); });
+  data.forEach((d, i) => i === 0 ? ctx.moveTo(toX(i), toY(d.value)) : ctx.lineTo(toX(i), toY(d.value)));
   ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2.5; ctx.stroke();
-  pts.forEach(function(p) {
-    ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+  data.forEach((d, i) => {
+    ctx.beginPath(); ctx.arc(toX(i), toY(d.value), 4, 0, Math.PI * 2);
     ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2; ctx.stroke();
   });
-  var sub = document.getElementById('chartSub');
+  let sub = document.getElementById('chartSub');
+  if (sub) sub.textContent = '最近 ' + data.length + ' 条记录';
   if (sub) sub.textContent = '最新：' + vals[vals.length - 1] + '分';
 }
 
