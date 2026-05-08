@@ -917,9 +917,34 @@ function confirmPartner() {
 
 // ===== Tab 导航 =====
 function switchTab(tab) {
-  // 已弃用 —— 下方有完整版 switchTab，此函数已被覆盖
-  // 留空防止报错（dead code）
-  return;
+  // 关闭所有弹窗
+  document.querySelectorAll('.qa-overlay,.fb-overlay').forEach(function(el) { el.classList.remove('show'); });
+  // 隐藏所有页面
+  document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.page').forEach(function(p) {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
+  var coachPg = document.getElementById('coachPage');
+  if (coachPg) { coachPg.classList.remove('active'); coachPg.style.display = 'none'; }
+  // 高亮当前 tab
+  var tabs = ['chat','coach','sop','checkin','data','progress','share'];
+  var tabIdx = tabs.indexOf(tab);
+  if (tabIdx >= 0) {
+    var items = document.querySelectorAll('.tab-item');
+    if (items[tabIdx]) items[tabIdx].classList.add('active');
+  }
+  if (tab === 'coach') {
+    if (coachPg) { coachPg.classList.add('active'); coachPg.style.display = ''; }
+    initCoach();
+  } else {
+    var pe = document.getElementById('page-' + tab);
+    if (pe) { pe.classList.add('active'); pe.style.display = ''; }
+  }
+  if (tab === 'chat') renderPartnerPage && renderPartnerPage();
+  if (tab === 'sop') initSOP && initSOP();
+  if (tab === 'checkin') loadHistory && loadHistory();
+  if (tab === 'data') renderWeightPage && renderWeightPage();
 }
 
 // ===== 打卡逻辑 =====
@@ -1099,20 +1124,90 @@ function openTypePanel(panel, dir) {
   document.getElementById('qaOverlay').onclick = function(e) { if (e.target === document.getElementById('qaOverlay')) closeQA(); };
 }
 
+function getTypeEmpathy(style, panel, dir, isPos) {
+  var msgs = {
+    rational: {
+      result: { pos:['数据记录在案。这个进展值得关注。📊','收到。绩效数据显示方向正确。📈'],
+                neg:['这种情况在晋升过程中很常见。📊','数据出现波动，分析后可调整。📋'] },
+      solution:{ pos:['这种情况有方法可以优化。📊','收到，让我帮你分析。🧩'],
+                neg:['这个问题本质可以进一步分析。📊','先拆解，再制定对策。🛠️'] }
+    },
+    gentle: {
+      result: { pos:['这种感觉真的很好，为你高兴 🎖️','你做到了，这很重要 💫','这个进展很真实，继续保持 💚'],
+                neg:['这种感觉我理解，不着急，慢慢来 💙','我听见了，陪你一起 🎖️'] },
+      solution:{ pos:['谢谢你告诉我这些 💙','愿意说出来本身就需要勇气 🎖️'],
+                neg:['能感觉到你的为难，我在这里 🤝','没关系，我们一起拆解 💙'] }
+    },
+    passion: {
+      result: { pos:['太强了！继续保持！🔥','这就是进步！继续燃烧！🚀','干得漂亮！⚡'],
+                neg:['别急，调整一下！💪','小调整，继续冲！🔥'] },
+      solution:{ pos:['好！说得好！我听到了！💪','这种主动分享让我很高兴 🔥'],
+                neg:['来！我帮你拆解！🔥','没有困难是过不去的！冲！💪'] }
+    },
+    tsundere: {
+      result: { pos:['……还行吧，算你有点料。😏','哼，还凑合。😶'],
+                neg:['又来了？……哼，我听听。😒','算了，不说你了。🤷'] },
+      solution:{ pos:['……行吧，我勉强听一下。😒'],
+                neg:['怎么又这样……说吧，我帮你。😒','哼，说吧，我看看能不能救。🤷'] }
+    }
+  };
+  var arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.rational[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function getTypePartnerFeedback(style, panel, dir, isPos) {
+  var msgs = {
+    rational: {
+      result: { pos:['继续执行当前方案，效果会逐步显现。📊','这个趋势值得坚持。📈'],
+                neg:['需要分析原因后调整策略。📊','在可修正范围内，继续监测。📋'] },
+      solution:{ pos:['有清晰的分析路径，可以优化。📊','建议先量化问题，再对症下药。🧩'],
+                neg:['从数据入手，找核心原因。📊','把问题拆成小块，逐个击破。🛠️'] }
+    },
+    gentle: {
+      result: { pos:['继续保持，你走的每一步都在积累 🎖️','这个方向很对，坚持下去 💚','你比自己以为的更接近目标 💫'],
+                neg:['不要因为这样就放弃，我们来看看怎么调整 🎖️','先给自己一点耐心，我们慢慢来 💙'] },
+      solution:{ pos:['找到突破口后继续往前 💪','我们来看看下一步可以怎么做 🎖️'],
+                neg:['说说具体卡在哪里，我帮你理清思路 🎖️','这件事拆开来看，其实没有那么难 💙'] }
+    },
+    passion: {
+      result: { pos:['继续这个节奏，效果会越来越明显的！🔥','这就是复利！保持！💪'],
+                neg:['调整一下，明天继续冲！⚡','战术修正，继续干！💪'] },
+      solution:{ pos:['找对方法，继续冲！🔥'],
+                neg:['来！我帮你拆解！没有过不去的坎！🔥','拆解完立刻行动！🚀'] }
+    },
+    tsundere: {
+      result: { pos:['……行吧，算你有点进步。😏','嗯。还凑合。😶'],
+                neg:['……我又来了。哼。😒','就这样吧，我也习惯了。🤷'] },
+      solution:{ pos:['说，我看看能不能帮。😒'],
+                neg:['……算了，我帮你想想。😒','好吧，我勉强帮一下。🤷'] }
+    }
+  };
+  var arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.rational[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
 function showFeedback(item, index) {
+  var partner = currentPartner || PARTNERS[0];
+  var style = partner.style || 'rational';
+  var emoji = partner.emoji;
+  var isPos = item.type === 'pos';
+  var dir = currentQADir || 'result';
+
+  var empathy = getTypeEmpathy(style, item.panel || 'progress', dir, isPos);
+  var feedback = getTypePartnerFeedback(style, item.panel || 'progress', dir, isPos);
+
   var fbCard = document.getElementById('fbCard');
-  var typeClass = item.type === 'pos' ? 'pos' : 'neg';
+  var typeClass = isPos ? 'pos' : 'neg';
   fbCard.className = 'fb-card ' + typeClass;
   document.getElementById('fbEmoji').innerText = item.icon;
   var labelEl = document.getElementById('fbLabel');
   labelEl.className = 'fb-label ' + typeClass;
-  labelEl.innerText = item.type === 'pos' ? '✨ 正向' : '⚠️ 需要引导';
+  labelEl.innerText = isPos ? '✨ 正向' : '⚠️ 需要引导';
   document.getElementById('fbTitle').innerText = item.tag;
   document.getElementById('fbText').innerHTML = item.feedback.replace(/\n/g, '<br>');
-  var partner = currentPartner || PARTNERS[0];
-  document.getElementById('fbQuote').innerHTML = '<div class="fb-partner-label">' + partner.emoji + ' ' + partner.name + '说：</div>"' + item.feedback.split('\n')[0] + '"';
+  document.getElementById('fbQuote').innerHTML = '<div class="fb-partner-label">' + emoji + ' ' + partner.name + '说：</div>"' + empathy + ' <span style=\"color:#1565c0\">' + feedback + '</span>"';
   document.getElementById('fbOverlay').classList.add('show');
-  setTimeout(function() { appendPartnerMsg(partner.emoji + ' ' + item.feedback.split('\n')[0], true); }, 300);
+  setTimeout(function() { appendPartnerMsg(emoji + ' ' + empathy + ' ' + feedback, true); }, 300);
 }
 
 function closeFBOverlay() { document.getElementById('fbOverlay').classList.remove('show'); }
@@ -1120,6 +1215,21 @@ function closeQA() { document.getElementById('qaOverlay').classList.remove('show
 
 // ===== 绩效记录功能 ====================
 function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
+
+function addWeight() {
+  var val = parseFloat(document.getElementById('weightInput').value);
+  if (!val || val < 0) { showToast('请输入有效的绩效分数'); return; }
+  var data = getWeightData();
+  var today = new Date().toISOString().slice(0, 10);
+  data = data.filter(function(d) { return d.date !== today; });
+  data.push({ date: today, value: val });
+  data.sort(function(a, b) { return a.date.localeCompare(b.date); });
+  localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(data));
+  document.getElementById('weightInput').value = '';
+  showToast('✅ 记录成功：' + val + '分');
+  drawWeightChart();
+  renderWeightRecords();
+}
 
 function drawWeightChart() {
   var canvas = document.getElementById('chartCanvas');
@@ -1197,6 +1307,15 @@ function renderWeightRecords() {
   }).join('');
 }
 
+function renderWeightPage() {
+  drawWeightChart();
+  renderWeightRecords();
+  var data = getWeightData();
+  if (data.length > 0) {
+    var inp = document.getElementById('weightInput');
+    if (inp) inp.placeholder = data[data.length - 1].value;
+  }
+}
 
 function renderWeeklyReport() {
   var container = document.getElementById('weeklyReportContent');
@@ -1243,10 +1362,6 @@ function switchTab(tab) {
     if (pe) pe.classList.add('active');
     renderWeightPage();
     renderWeeklyReport();
-  } else if (tab === 'progress') {
-    var pe = document.getElementById('progressPage');
-    if (pe) pe.classList.add('active');
-    if (typeof initP7ProgressPage === 'function') initP7ProgressPage();
   } else if (tab === 'share') {
     var pe = document.getElementById('sharePage');
     if (pe) pe.classList.add('active');
@@ -2298,7 +2413,23 @@ function copyP7Share() {
   document.body.removeChild(ta);
   alert('已复制到剪贴板！');
 }
-// monkey patch 已合并至上方 switchTab，此处已废弃
+// 在switchTab中调用数据页和进展页初始化（patch）
+(function(){
+  var orig = switchTab;
+  window.switchTab = function(tab){
+    orig(tab);
+    if(tab==='data') {
+      initP7DataPage();
+      var dp = document.getElementById('page-data');
+      if(dp){ dp.classList.add('active'); dp.style.display = ''; }
+    }
+    if(tab==='progress') {
+      initP7ProgressPage();
+      var pp = document.getElementById('progressPage');
+      if(pp){ pp.classList.add('active'); pp.style.display = ''; }
+    }
+  };
+})();
 </script>
 </body>
 </html>

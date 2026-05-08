@@ -2031,21 +2031,78 @@ function openTypePanel(panel, dir) {
   document.getElementById('qaOverlay').classList.add('show');
 }
 
+function getTypeEmpathy(style, panel, dir, isPos) {
+  const msgs = {
+    gentle: {
+      result:    { pos: ['这种感觉真的很好，为你高兴 🌿', '你的陪读之路一直在前进，我看到了 💚', '陪读妈妈也有自己的小确幸 💫'],
+                   neg: ['这种心情我理解，陪伴孩子也是陪伴自己 💙', '我听见了，陪读妈妈也在成长 🌿'] },
+      solution:  { pos: ['谢谢你告诉我这些 💙', '愿意分享让我感到被信任 🌿'], neg: ['能感觉到你的为难，我在这里 🤝', '没关系，我们一起想想 🌿'] }
+    },
+    passion: {
+      result:    { pos: ['太强了！陪读妈妈的光芒藏不住！🔥', '这就是陪读的成就感！继续发光！🚀', '孩子看到你的努力了！💪'],
+                   neg: ['别急，调整一下节奏！💪', '小调整，继续冲！🔥'] },
+      solution:  { pos: ['好！说得好！我听到了！💪', '这种主动分享让我很高兴 🔥'], neg: ['来！我帮你拆解！🔥', '没有困难是过不去的！冲！💪'] }
+    },
+    rational: {
+      result:    { pos: ['数据记录在案。这个变化值得关注。📊', '收到。陪伴数据显示你的方向正确。📈', '陪读日志在积累，这是好事。📋'],
+                   neg: ['这种情况在陪读过程中很常见。📊', '情绪出现波动，先接纳再分析。📋'] },
+      solution:  { pos: ['这种情况有方法可以优化。📊', '收到，让我帮你拆解。🧩'], neg: ['这个问题的本质可以进一步分析。📊', '先拆解，再制定对策。🛠️'] }
+    },
+    tsundere: {
+      result:    { pos: ['……还行吧，算你有点料。😏', '哼，还凑合。😶', '嗯……还算可以吧。🙄'],
+                   neg: ['又来了？……哼，我听听。😒', '算了，不说你了。🤷'] },
+      solution:  { pos: ['……行吧，我勉强听一下。😒'], neg: ['怎么又这样……说吧，我帮你。😒', '哼，说吧，我看看能不能救。🤷'] }
+    }
+  };
+  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function getTypePartnerFeedback(style, panel, dir, isPos) {
+  const msgs = {
+    gentle: {
+      result:    { pos: ['继续保持，陪读妈妈也在闪闪发光 🌿', '这个方向很对，坚持下去 💚', '你比自己以为的更接近目标 💫'],
+                   neg: ['不要因为这样就放弃，我们来看看怎么调整 🌿', '先给自己一点耐心，我们慢慢来 💙'] },
+      solution:  { pos: ['找到突破口后继续往前 💪', '我们来看看下一步可以怎么做 🌿'],
+                   neg: ['说说具体卡在哪里，我帮你理清思路 🌿', '这件事拆开来看，其实没有那么难 💙'] }
+    },
+    passion: {
+      result:    { pos: ['继续这个节奏，效果会越来越明显的！🔥', '这就是复利！保持！💪', '孩子会感受到你的用心的！🔥'],
+                   neg: ['调整一下，明天继续冲！⚡', '战术修正，继续干！💪'] },
+      solution:  { pos: ['找对方法，继续冲！🔥', '说干就干！💪'],
+                   neg: ['来！我帮你拆解！没有过不去的坎！🔥', '拆解完立刻行动！🚀'] }
+    },
+    rational: {
+      result:    { pos: ['继续执行当前方案，效果会逐步显现。📊', '这个趋势值得坚持。📈'],
+                   neg: ['需要分析原因后调整策略。📊', '在可修正范围内，继续监测。📋'] },
+      solution:  { pos: ['有清晰的分析路径，可以优化。📊', '建议先量化问题，再对症下药。🧩'],
+                   neg: ['从数据入手，找核心原因。📊', '把问题拆成小块，逐个击破。🛠️'] }
+    },
+    tsundere: {
+      result:    { pos: ['……行吧，算你有点进步。😏', '嗯。还凑合。😶'],
+                   neg: ['……我又来了。哼。😒', '就这样吧，我也习惯了。🤷'] },
+      solution:  { pos: ['说，我看看能不能帮。😒'],
+                   neg: ['……算了，我帮你想想。😒', '好吧，我勉强帮一下。🤷'] }
+    }
+  };
+  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
 function showTypeFeedback(panel, dir, item) {
   let pid = getSelectedPartnerId();
   let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
   const style = partner.style || 'gentle';
   const emoji = partner.emoji;
   const isPos = item.type === 'pos';
-  const empathyMap = {
-    progress: {gentle:'💙 你在陪读路上一直在努力，我看到了。', passion:'🔥 你的陪读付出一定会有回报！', rational:'📊 这是一条值得记录的路。', tsundere:'……还算有点进展吧。😏'},
-    struggle: {gentle:'💙 陪读的路上没有标准答案，我们在摸索。', passion:'💪 妈妈也是人，允许自己疲惫。', rational:'📊 每个问题都有数据可分析。', tsundere:'😒 这种情况挺常见的。'},
-    idea: {gentle:'💡 好想法！陪读的路上需要灵感和创意。', passion:'🚀 这个想法值得试试！', rational:'📊 先假设再验证。', tsundere:'🤷 说来听听。'},
-    cheer: {gentle:'🎉 好事！你的努力被看见了！', passion:'🔥🎉 陪读妈妈也有高光时刻！', rational:'📊 这种正向数据要保持。', tsundere:'😏 ……还行吧。'},
-    report: {gentle:'💙 认真汇报的妈妈值得尊敬。', passion:'💪 你在做很了不起的事！', rational:'📊 数据很重要，谢谢你的汇报。', tsundere:'……知道了。😏'},
-    question: {gentle:'💙 问就是走在对的路上。', passion:'💪 问就对了！', rational:'📊 问题清晰是答案的一半。', tsundere:'🤷 问就问吧。'}
-  };
-  const empathy = empathyMap[panel]?.[style] || empathyMap[panel]?.['gentle'] || '💙 我听到了。';
+
+  // 搭子共情回复
+  const empathy = getTypeEmpathy(style, panel, dir, isPos);
+  const empathyMsg = emoji + ' ' + empathy;
+
+  // 搭子结果/方案导向反馈
+  const partnerFeedback = getTypePartnerFeedback(style, panel, dir, isPos);
+
   const fbCard = document.getElementById('fbCard');
   fbCard.className = `fb-card ${item.type}`;
   document.getElementById('fbEmoji').innerText = item.icon;
@@ -2054,7 +2111,9 @@ function showTypeFeedback(panel, dir, item) {
   labelEl.className = `fb-label ${item.type}`;
   document.getElementById('fbTitle').innerText = item.tag;
   document.getElementById('fbText').innerText = item.feedback;
-  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${emoji} ${partner.name}说：</div>"${empathy.replace(emoji,' ').trim()}"`;
+  document.getElementById('fbQuote').innerHTML =
+    `<div class="fb-partner-label">${emoji} ${partner.name}说：</div>"${empathyMsg.replace(emoji,' ').trim()} "<span style="color:#7b4da0">${partnerFeedback}</span>"`;
+
   document.getElementById('fbOverlay').classList.add('show');
 }
 

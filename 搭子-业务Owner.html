@@ -770,20 +770,90 @@ function openTypePanel(panel, dir) {
   document.getElementById('qaOverlay').onclick = function(e) { if (e.target === document.getElementById('qaOverlay')) closeQA(); };
 }
 
+function getTypeEmpathy(style, panel, dir, isPos) {
+  var msgs = {
+    rational: {
+      result: { pos:['数据记录在案。这个业务进展值得关注。📊','收到。业务数据显示方向正确。📈'],
+                neg:['这种情况在业务过程中很常见。📊','数据出现波动，分析后可调整。📋'] },
+      solution:{ pos:['这种情况有方法可以优化。📊','收到，让我帮你分析。🧩'],
+                neg:['这个问题本质可以进一步分析。📊','先拆解，再制定对策。🛠️'] }
+    },
+    gentle: {
+      result: { pos:['这种感觉真的很好，为你高兴 💼','你做到了，这很重要 💫','这个进展很真实，继续保持 💚'],
+                neg:['这种感觉我理解，不着急，慢慢来 💙','我听见了，陪你一起 💼'] },
+      solution:{ pos:['谢谢你告诉我这些 💙','愿意说出来本身就需要勇气 💼'],
+                neg:['能感觉到你的为难，我在这里 🤝','没关系，我们一起拆解 💙'] }
+    },
+    passion: {
+      result: { pos:['太强了！继续保持！🔥','这就是进步！继续燃烧！🚀','干得漂亮！⚡'],
+                neg:['别急，调整一下！💪','小调整，继续冲！🔥'] },
+      solution:{ pos:['好！说得好！我听到了！💪','这种主动分享让我很高兴 🔥'],
+                neg:['来！我帮你拆解！🔥','没有困难是过不去的！冲！💪'] }
+    },
+    tsundere: {
+      result: { pos:['……还行吧，算你有点料。😏','哼，还凑合。😶'],
+                neg:['又来了？……哼，我听听。😒','算了，不说你了。🤷'] },
+      solution:{ pos:['……行吧，我勉强听一下。😒'],
+                neg:['怎么又这样……说吧，我帮你。😒','哼，说吧，我看看能不能救。🤷'] }
+    }
+  };
+  var arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.rational[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function getTypePartnerFeedback(style, panel, dir, isPos) {
+  var msgs = {
+    rational: {
+      result: { pos:['继续执行当前方案，效果会逐步显现。📊','这个趋势值得坚持。📈'],
+                neg:['需要分析原因后调整策略。📊','在可修正范围内，继续监测。📋'] },
+      solution:{ pos:['有清晰的分析路径，可以优化。📊','建议先量化问题，再对症下药。🧩'],
+                neg:['从数据入手，找核心原因。📊','把问题拆成小块，逐个击破。🛠️'] }
+    },
+    gentle: {
+      result: { pos:['继续保持，你走的每一步都在积累 💼','这个方向很对，坚持下去 💚','你比自己以为的更接近目标 💫'],
+                neg:['不要因为这样就放弃，我们来看看怎么调整 💼','先给自己一点耐心，我们慢慢来 💙'] },
+      solution:{ pos:['找到突破口后继续往前 💪','我们来看看下一步可以怎么做 💼'],
+                neg:['说说具体卡在哪里，我帮你理清思路 💼','这件事拆开来看，其实没有那么难 💙'] }
+    },
+    passion: {
+      result: { pos:['继续这个节奏，效果会越来越明显的！🔥','这就是复利！保持！💪'],
+                neg:['调整一下，明天继续冲！⚡','战术修正，继续干！💪'] },
+      solution:{ pos:['找对方法，继续冲！🔥'],
+                neg:['来！我帮你拆解！没有过不去的坎！🔥','拆解完立刻行动！🚀'] }
+    },
+    tsundere: {
+      result: { pos:['……行吧，算你有点进步。😏','嗯。还凑合。😶'],
+                neg:['……我又来了。哼。😒','就这样吧，我也习惯了。🤷'] },
+      solution:{ pos:['说，我看看能不能帮。😒'],
+                neg:['……算了，我帮你想想。😒','好吧，我勉强帮一下。🤷'] }
+    }
+  };
+  var arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.rational[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
 function showFeedback(item, index) {
+  var partner = currentPartner || PARTNERS[0];
+  var style = partner.style || 'rational';
+  var emoji = partner.emoji;
+  var isPos = item.type === 'pos';
+  var dir = currentQADir || 'result';
+
+  var empathy = getTypeEmpathy(style, item.panel || 'progress', dir, isPos);
+  var feedback = getTypePartnerFeedback(style, item.panel || 'progress', dir, isPos);
+
   var fbCard = document.getElementById('fbCard');
-  var typeClass = item.type === 'pos' ? 'pos' : 'neg';
+  var typeClass = isPos ? 'pos' : 'neg';
   fbCard.className = 'fb-card ' + typeClass;
   document.getElementById('fbEmoji').innerText = item.icon;
   var labelEl = document.getElementById('fbLabel');
   labelEl.className = 'fb-label ' + typeClass;
-  labelEl.innerText = item.type === 'pos' ? '✨ 正向' : '⚠️ 需要引导';
+  labelEl.innerText = isPos ? '✨ 正向' : '⚠️ 需要引导';
   document.getElementById('fbTitle').innerText = item.tag;
   document.getElementById('fbText').innerHTML = item.feedback.replace(/\n/g, '<br>');
-  var partner = currentPartner || PARTNERS[0];
-  document.getElementById('fbQuote').innerHTML = '<div class="fb-partner-label">' + partner.emoji + ' ' + partner.name + '说：</div>"' + item.feedback.split('\n')[0] + '"';
+  document.getElementById('fbQuote').innerHTML = '<div class="fb-partner-label">' + emoji + ' ' + partner.name + '说：</div>"' + empathy + ' <span style=\"color:#1565c0\">' + feedback + '</span>"';
   document.getElementById('fbOverlay').classList.add('show');
-  setTimeout(function() { appendPartnerMsg(partner.emoji + ' ' + item.feedback.split('\n')[0], true); }, 300);
+  setTimeout(function() { appendPartnerMsg(emoji + ' ' + empathy + ' ' + feedback, true); }, 300);
 }
 
 function closeFBOverlay() { document.getElementById('fbOverlay').classList.remove('show'); }
@@ -1151,7 +1221,7 @@ function switchTabDirect(tab) {
   if (tab === 'data') { renderWeightPage(); renderWeeklyReport(); }
   if (tab === 'share') { renderSharePage(); }
   document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
-  var idx = {checkin:0, chat:1, sop:2, coach:3, data:4, progress:5, share:6}[tab] || 0;
+  var idx = {checkin:0, chat:1, sop:2, data:4}[tab] || 0;
   var tabs = document.querySelectorAll('.tab-item');
   if (tabs[idx]) tabs[idx].classList.add('active');
 }
