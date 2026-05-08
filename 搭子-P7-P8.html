@@ -448,11 +448,17 @@
 <div id="partnerSelectorMask"></div>
 
 <!-- 搭子选择器 -->
-<div class="partner-selector" id="partnerSelector">
+<div id="partnerSelector" class="partner-selector">
   <div class="selector-title">选一个管理搭子 🤝</div>
   <div class="selector-sub">陪你度过P7到P8的成长期</div>
-  <div class="partner-grid" id="partnerGrid"></div>
-  <button class="confirm-btn" id="confirmBtn" onclick="confirmPartner()">确认搭子 →</button>
+  <div class="partner-grid" id="partnerGrid">
+    <div class="partner-card selected" id="pc-coach" onclick="selectPartner('coach')">
+      <div class="partner-emoji">🎖️</div>
+      <div class="partner-name">砺行</div>
+      <div class="partner-desc">管理教练 · 严厉有建设性</div>
+    </div>
+  </div>
+  <button id="confirmPartnerBtn" class="confirm-btn" onclick="slimConfirmPartner();void 0">确认搭子 →</button>
 </div>
 
 <!-- Tab Bar -->
@@ -840,16 +846,12 @@ document.addEventListener('DOMContentLoaded', function() {
   renderPartnerGrid();
   renderSOP();
 
-  var stored = localStorage.getItem(STORAGE.PARTNER);
-  if (stored) {
-    try {
-      var p = JSON.parse(stored);
-      currentPartner = p;
-      selectedPartnerId = p.id;
-      confirmPartner();
-    } catch(e) {
-      showPartnerSelector();
-    }
+  var stored = localStorage.getItem('slim_partner_p7');
+  if (stored && PARTNERS.some(function(p) { return p.id === stored; })) {
+    selectedPartnerId = stored;
+    var p = PARTNERS.find(function(pp) { return pp.id === stored; });
+    currentPartner = p;
+    confirmPartner();
   } else {
     showPartnerSelector();
   }
@@ -857,7 +859,7 @@ document.addEventListener('DOMContentLoaded', function() {
   autoCloseSOPGuide();
 
   // 确认搭子按钮：用JS绑定点击，防止onclick在某些场景下失效
-  var confirmBtn = document.getElementById('confirmBtn');
+  var confirmBtn = document.getElementById('confirmPartnerBtn');
   if (confirmBtn) {
     confirmBtn.addEventListener('click', function(e) {
       e.preventDefault();
@@ -892,12 +894,43 @@ function renderPartnerGrid() {
   });
 }
 
+// ===== 全局函数（onclick 必须全局可见） ====================
+function selectPartner(id) {
+  document.querySelectorAll('.partner-card').forEach(c => c.classList.remove('selected'));
+  const card = document.getElementById('pc-' + id);
+  if (card) card.classList.add('selected');
+  localStorage.setItem(STORAGE.PARTNER, id);
+  if (window.savePartnerToFirebase) savePartnerToFirebase(id);
+}
+
+function slimConfirmPartner() {
+  var saved = localStorage.getItem('slim_partner_p7');
+  var selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
+  if (selectedCard) saved = selectedCard.id.replace('pc-', '');
+  if (!saved) saved = 'coach';
+  localStorage.setItem('slim_partner_p7', saved);
+  var btn = document.getElementById('confirmPartnerBtn');
+  if (btn) { btn.textContent = '✅ 进入中…'; btn.style.background = 'linear-gradient(135deg,#888,#555)'; }
+  var mask = document.getElementById('partnerSelectorMask');
+  if (mask) mask.style.display = 'none';
+  if (typeof startApp === 'function') startApp();
+}
+
+window.selectPartner = selectPartner;
+window.slimConfirmPartner = slimConfirmPartner;
+
 function confirmPartner() {
   try {
-    if (!selectedPartnerId) selectedPartnerId = PARTNERS[0].id;
-    var partner = PARTNERS.find(function(p) { return p.id === selectedPartnerId; }) || PARTNERS[0];
+    // 从localStorage获取选中的搭子ID（与slimConfirmPartner保持一致）
+    var saved = localStorage.getItem('slim_partner_p7');
+    var selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
+    if (selectedCard) saved = selectedCard.id.replace('pc-', '');
+    if (!saved) saved = 'coach';
+    localStorage.setItem('slim_partner_p7', saved);
+
+    var partner = PARTNERS.find(function(p) { return p.id === saved; }) || PARTNERS[0];
     currentPartner = partner;
-    try { localStorage.setItem(STORAGE.PARTNER, JSON.stringify(partner)); } catch(e) {}
+    selectedPartnerId = saved;
 
     var badge = document.getElementById('partnerBadge');
     if (badge) badge.innerHTML = partner.emoji + ' ' + partner.name;
