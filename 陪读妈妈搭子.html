@@ -2002,16 +2002,15 @@ function askPartner(type) {
   const style = partner.style || 'gentle';
   const emoji = partner.emoji;
   const typeConfig = {
-    progress:{label:'📈 进展',panel:'progress',dir:'result',intro:{gentle:['说说最近陪读的进展，我帮你分析分析。💙','好，跟我讲讲你最近的状态变化 🌿'], passion:['冲！说说你的陪读战果！🔥','好！让我听听！⚡'], rational:['汇报收到。数据记录中。📊','好，说说关键变化。'], tsundere:['……行吧，算你有点进展。😏','又卡了？哼。😏']}},
-    struggle:{label:'😣 困难',panel:'struggle',dir:'solution',intro:{gentle:['有困难是好事，说明你在成长！💙','没关系，一起想办法 🌿'], passion:['困难算什么，你是最棒的！💪','来！我帮你拆解！🔥'], rational:['困难是数据点在积累经验。说，我帮你分析。📊'], tsundere:['困难谁都有。说吧。😒','……算了，我帮你想想办法。😒']}},
-    idea:{label:'💡 想法',panel:'idea',dir:'result',intro:{gentle:['好想法！说说你的灵感来源 🌿','来，展开讲讲这个点子 💫'], passion:['好创意！🔥 让我听听！','来！展开讲！我要感受你的热情！⚡'], rational:['好。说说你的核心假设是什么。📊','从认知角度看，这个想法的可行性如何？'], tsundere:['😏 什么想法？说来听听。','说说看。🤷']}},
-    cheer:{label:'🎉 喜事',panel:'cheer',dir:'result',intro:{gentle:['哈哈！好事！快说！我要听！🎉','哈哈！这种时刻值得好好庆祝！💫'], passion:['🎉🎉🎉 说！我要听！全部细节！','哈哈！太棒了！🔥'], rational:['📊 积极情绪有利于持续行动。说细节。','好的势头要保持。'], tsundere:['😏 哼，还行吧。什么好事？','……算你有点本事。说，什么事？😏']}},
-    report:{label:'📣 汇报进展',panel:'report',dir:'result',intro:{gentle:['收到。说给我听听 🌿','好，让我了解你的最新情况 💫'], passion:['冲！汇报收到！🔥','好！让我听听！⚡'], rational:['汇报收到。数据记录中。📊','好，说说关键变化。'], tsundere:['……行吧，说吧。😏','又来了？……哼，我听听。😏']}},
-    question:{label:'🤔 有问题想问',panel:'question',dir:'solution',intro:{gentle:['问吧，我尽力回答 💙'], passion:['问！什么问题都能接住！💪'], rational:['好的。给出你的问题。📊'], tsundere:['🤷 问就问，不保证你能听懂。😏']}}
+    progress:{label:'📈 进展',panel:'progress',dir:'result'},
+    struggle:{label:'😣 困难',panel:'struggle',dir:'solution'},
+    idea:{label:'💡 想法',panel:'idea',dir:'result'},
+    cheer:{label:'🎉 喜事',panel:'cheer',dir:'result'},
+    report:{label:'📣 汇报进展',panel:'report',dir:'result'},
+    question:{label:'🤔 有问题想问',panel:'question',dir:'solution'}
   };
   const cfg = typeConfig[type] || typeConfig.progress;
-  const introArr = cfg.intro[style] || cfg.intro.gentle;
-  const intro = introArr[Math.floor(Math.random() * introArr.length)];
+  const intro = getTypeEmpathy(style, cfg.panel, cfg.dir, true);
   showPartnerMsg(cfg.label, false);
   setTimeout(() => { showPartnerMsg(emoji + ' ' + intro, true); setTimeout(() => openTypePanel(cfg.panel, cfg.dir), 500); }, 700);
 }
