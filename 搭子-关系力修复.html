@@ -487,13 +487,69 @@ function renderWeightRecords() {
 }
 
 function renderWeightPage() {
-  drawWeightChart();
   renderWeightRecords();
+  drawWeightChart();
+  renderWeeklyReport();
+  // 更新摘要
   var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]');
-  if (records.length > 0) {
-    var last = records[records.length - 1].rating;
-    var inp = document.getElementById('weightInput');
-    if (inp) inp.placeholder = '上次：' + last + '分';
+  var summary = document.getElementById('weightSummary');
+  if (summary) {
+    if (records.length > 0) {
+      var avg = Math.round(records.reduce(function(s, r) { return s + r.rating; }, 0) / records.length);
+      summary.textContent = '平均轻松度 ' + avg + '/10，共 ' + records.length + ' 条记录';
+    } else {
+      summary.textContent = '记录你今天的关系轻松指数';
+    }
+  }
+}
+
+function initProgressPage() {
+  // 更新进展页数据
+  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]');
+  var checkinHistory = getHistory();
+  var totalDays = checkinHistory.length;
+  var streak = calcStreak(checkinHistory);
+  var avgScore = records.length > 0
+    ? Math.round(records.reduce(function(s, r) { return s + r.rating; }, 0) / records.length) : 0;
+  var today = new Date().toISOString().slice(0,10);
+  var todayRecord = records.find(function(r) { return r.date === today; });
+  var todayScore = todayRecord ? todayRecord.rating : '-';
+
+  // 更新圆环
+  var circumference = 2 * Math.PI * 54;
+  var offset = circumference - (avgScore / 10) * circumference;
+  var ringEl = document.getElementById('relRingFill');
+  if (ringEl) ringEl.setAttribute('stroke-dashoffset', offset);
+  var pctEl = document.getElementById('relRingPct');
+  if (pctEl) pctEl.textContent = avgScore;
+
+  // 更新统计数据
+  var elements = [
+    { id: 'relStreakNum', value: streak },
+    { id: 'relTotalDays', value: totalDays },
+    { id: 'relTodayScore', value: todayScore }
+  ];
+  elements.forEach(function(item) {
+    var el = document.getElementById(item.id);
+    if (el) el.textContent = item.value;
+  });
+
+  // 更新趋势区域
+  var dimsEl = document.getElementById('relProgressDims');
+  if (dimsEl) {
+    if (records.length < 2) {
+      dimsEl.innerHTML = '<div style="text-align:center;padding:20px;color:#b0bec5;font-size:13px;">记录轻松度后查看趋势 📈</div>';
+    } else {
+      var recent = records.slice(-7);
+      dimsEl.innerHTML = recent.map(function(r) {
+        var emojis = ['','😰','😟','😕','😐','🙂','😊','😌','😄','🤩','✨'];
+        var color = r.rating >= 7 ? '#43a047' : r.rating >= 4 ? '#ff9800' : '#ef5350';
+        return '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0;">' +
+          '<div style="font-size:18px;width:28px;text-align:center;">' + emojis[r.rating] + '</div>' +
+          '<div style="flex:1;font-size:13px;color:#666;">' + r.date + '</div>' +
+          '<div style="font-size:14px;font-weight:700;color:' + color + ';">' + r.rating + '/10</div></div>';
+      }).join('');
+    }
   }
 }
 
