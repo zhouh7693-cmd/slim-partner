@@ -177,17 +177,17 @@
     .weight-header { background: white; border-radius: 32px; padding: 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
     .weight-title { font-size: 20px; font-weight: 700; color: #1e3a7a; margin-bottom: 4px; }
     .weight-sub { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
-    .weight-input-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
-    .weight-input { width: 120px; height: 52px; border-radius: 16px; border: 2px solid #e9edf2; text-align: center; font-size: 24px; font-weight: 700; color: #3a5fcd; outline: none; }
-    .weight-input:focus { border-color: #3a5fcd; }
+    .perf-input-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .perf-input { width: 120px; height: 52px; border-radius: 16px; border: 2px solid #e9edf2; text-align: center; font-size: 24px; font-weight: 700; color: #3a5fcd; outline: none; }
+    .perf-input:focus { border-color: #3a5fcd; }
     .weight-unit { font-size: 18px; color: #8f9eae; font-weight: 500; }
     .weight-add-btn { padding: 12px 24px; background: linear-gradient(135deg, #3a5fcd, #1e3a7a); color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(58,95,205,0.28); }
     .weight-add-btn:active { opacity: 0.9; transform: scale(0.97); }
     .weight-chart-card { background: white; border-radius: 32px; padding: 20px 16px 16px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .chart-title { font-size: 15px; font-weight: 700; color: #1e3a7a; margin-bottom: 4px; }
     .chart-sub { font-size: 12px; color: #8f9eae; margin-bottom: 12px; }
-    #chartCanvas { width: 100%; border-radius: 12px; background: #fafcfe; }
-    .weight-records { background: white; border-radius: 32px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    #perfChartCanvas { width: 100%; border-radius: 12px; background: #fafcfe; }
+    .perf-records { background: white; border-radius: 32px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); margin-bottom: 16px; }
     .records-title { font-size: 15px; font-weight: 700; color: #1e3a7a; margin-bottom: 14px; }
     .record-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f4f7; }
     .record-item:last-child { border-bottom: none; }
@@ -690,7 +690,7 @@ const STORAGE = {
   HISTORY: 'slim_history_p7',
   SOP: 'slim_sop_p7',
   SOP_STREAKS: 'slim_sop_streaks_p7',
-  WEIGHT: 'slim_weight_p7',
+  PERF: 'slim_perf_p7',
 };
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function showToast(msg) { var t = document.getElementById('toastEl'); if (!t) { t = document.createElement('div'); t.id = 'toastEl'; t.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);color:white;padding:12px 24px;border-radius:12px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;'; document.body.appendChild(t); } t.textContent = msg; t.style.opacity = '1'; setTimeout(function() { t.style.opacity = '0'; }, 2000); }
@@ -1236,8 +1236,8 @@ function switchTab(tab) {
   } else if (tab === 'data') {
     var pe = document.getElementById('page-data');
     if (pe) pe.classList.add('active');
-    renderWeightPage();
-    renderWeeklyReport();
+    renderPerfPage();
+    renderPerfWeeklyReport();
   } else if (tab === 'share') {
     var pe = document.getElementById('sharePage');
     if (pe) pe.classList.add('active');
@@ -2028,29 +2028,29 @@ function restartCoach() {
 }
 
 // ===== Page: 数据记录（绩效）=====
-function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
-function saveWeightData(d) { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(d)); }
+function getPerfData() { return JSON.parse(localStorage.getItem(STORAGE.PERF) || '[]'); }
+function savePerfData(d) { localStorage.setItem(STORAGE.PERF, JSON.stringify(d)); }
 
-function addWeight() {
-  var val = parseFloat(document.getElementById('weightInput').value);
+function addPerf() {
+  var val = parseFloat(document.getElementById('perfInput').value);
   if (!val || val < 0) { showToast('请输入有效的绩效分数'); return; }
-  var data = getWeightData();
+  var data = getPerfData();
   var today = new Date().toISOString().slice(0, 10);
   data = data.filter(function(d) { return d.date !== today; });
   data.push({ date: today, value: val });
   data.sort(function(a, b) { return a.date.localeCompare(b.date); });
-  try { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(data)); } catch(e) { showToast('存储失败'); return; }
-  document.getElementById('weightInput').value = '';
+  try { localStorage.setItem(STORAGE.PERF, JSON.stringify(data)); } catch(e) { showToast('存储失败'); return; }
+  document.getElementById('perfInput').value = '';
   showToast('✅ 记录成功：' + val + '分');
-  drawWeightChart();
-  renderWeightRecords();
+  drawPerfChart();
+  renderPerfRecords();
 }
 
-function drawWeightChart() {
-  var canvas = document.getElementById('chartCanvas');
+function drawPerfChart() {
+  var canvas = document.getElementById('perfChartCanvas');
   if (!canvas) return;
   var ctx = canvas.getContext('2d');
-  var data = getWeightData().slice(-30);
+  var data = getPerfData().slice(-30);
   var W = canvas.width, H = canvas.height;
   ctx.clearRect(0, 0, W, H);
   if (data.length < 2) {
@@ -2099,10 +2099,10 @@ function drawWeightChart() {
   if (sub && data.length > 0) sub.textContent = '最新记录：' + data[data.length - 1].value + '分';
 }
 
-function renderWeightRecords() {
-  var container = document.getElementById('weightRecords');
+function renderPerfRecords() {
+  var container = document.getElementById('perfRecords');
   if (!container) return;
-  var data = getWeightData().slice().reverse();
+  var data = getPerfData().slice().reverse();
   if (data.length === 0) {
     container.innerHTML = '<div style="text-align:center;color:#b0bec5;padding:16px;font-size:13px;">还没有记录，快来记第一次绩效吧！</div>';
     return;
@@ -2115,19 +2115,19 @@ function renderWeightRecords() {
   }).join('');
 }
 
-function renderWeightPage() {
-  drawWeightChart();
-  renderWeightRecords();
-  renderWeeklyReport();
-  var data = getWeightData();
+function renderPerfPage() {
+  drawPerfChart();
+  renderPerfRecords();
+  renderPerfWeeklyReport();
+  var data = getPerfData();
   if (data.length > 0) {
-    var inp = document.getElementById('weightInput');
+    var inp = document.getElementById('perfInput');
     if (inp) inp.placeholder = data[data.length - 1].value;
   }
 }
 
-function renderWeeklyReport() {
-  var container = document.getElementById('weeklyReportContent');
+function renderPerfWeeklyReport() {
+  var container = document.getElementById('perfWeeklyReportContent');
   if (!container) return;
   var history = getHistory();
   var now = new Date();
@@ -2143,11 +2143,11 @@ function renderWeeklyReport() {
   container.innerHTML = '<div style="font-size:13px;line-height:2;color:#555;">' +
     '本周打卡：<strong>' + thisWeek.length + '</strong> 天 &nbsp;|&nbsp; 上周：<strong>' + lastWeek.length + '</strong> 天<br>' +
     '<span style="color:#3a5fcd;font-weight:600;">' + trend + '</span></div>';
-  var shareBtn = document.getElementById('shareWeeklyBtn');
+  var shareBtn = document.getElementById('sharePerfWeeklyBtn');
   if (shareBtn && thisWeek.length >= 3) shareBtn.style.display = 'block';
 }
 
-function shareWeeklyReport() {
+function sharePerfWeeklyReport() {
   var history = getHistory();
   var now = new Date();
   var weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
@@ -2157,7 +2157,7 @@ function shareWeeklyReport() {
 }
 
 function initP7DataPage() {
-  renderWeightPage();
+  renderPerfPage();
   var streak = parseInt(localStorage.getItem('slim_sop_streaks_p7') || '0');
   var total = (JSON.parse(localStorage.getItem('slim_history_p7') || [])).length;
   var today = localStorage.getItem('sop_completed_p7_' + new Date().toDateString()) === 'true' ? '✅' : '-';
@@ -2174,28 +2174,28 @@ function initP7DataPage() {
   <div class="weight-page">
     <div class="weight-header">
       <div class="weight-title">📊 P7绩效记录</div>
-      <div class="weight-sub" id="weightSummary">记录你的每一次管理突破</div>
-      <div class="weight-input-row">
-        <input class="weight-input" id="weightInput" type="number" step="1" min="0" max="100" placeholder="--">
+      <div class="weight-sub" id="perfSummary">记录你的每一次管理突破</div>
+      <div class="perf-input-row">
+        <input class="perf-input" id="perfInput" type="number" step="1" min="0" max="100" placeholder="--">
         <span class="weight-unit">分</span>
-        <button class="weight-add-btn" onclick="addWeight()">记录</button>
+        <button class="weight-add-btn" onclick="addPerf()">记录</button>
       </div>
     </div>
     <div class="weight-chart-card">
       <div class="chart-title">📈 绩效曲线</div>
-      <div class="chart-sub" id="chartSub">坚持记录，趋势一目了然</div>
-      <canvas id="chartCanvas" width="380" height="200"></canvas>
+      <div class="chart-sub" id="perfChartSub">坚持记录，趋势一目了然</div>
+      <canvas id="perfChartCanvas" width="380" height="200"></canvas>
     </div>
     <div class="weight-chart-card" id="weeklyReportCard">
       <div class="chart-title">📊 本周进展</div>
-      <div id="weeklyReportContent">
+      <div id="perfWeeklyReportContent">
         <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>
       </div>
-      <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#3a5fcd,#1e3a7a);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareWeeklyReport()">📤 分享本周进展</button>
+      <button id="sharePerfWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#3a5fcd,#1e3a7a);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="sharePerfWeeklyReport()">📤 分享本周进展</button>
     </div>
-    <div class="weight-records">
+    <div class="perf-records">
       <div class="records-title">📝 历史记录</div>
-      <div id="weightRecords"></div>
+      <div id="perfRecords"></div>
     </div>
   </div>
 </div>
