@@ -882,16 +882,18 @@
       <button onclick="askPartner('report')" style="margin-top:14px;padding:12px 24px;background:white;border:2px solid #ce93d8;border-radius:50px;font-size:14px;font-weight:600;color:#9c27b0;cursor:pointer;">💬 汇报今日进展</button>
     </div>
 
-    <div class="fb-overlay" id="fbOverlay" onclick="if(event.target===this)closeFeedback()">
-      <div class="fb-card" id="fbCard">
-        <div class="fb-emoji" id="fbEmoji">🌸</div>
-        <div class="fb-label" id="fbLabel">搭子说</div>
-        <div class="fb-title" id="fbTitle">温柔陪伴型</div>
-        <div class="fb-text" id="fbText">陪伴是最长情的告白。你的每一次温柔回应，都在为孩子积累安全感。</div>
-        <div class="fb-partner-quote" id="fbQuote">"孩子需要的不是完美的父母，而是不完美的父母愿意陪着他们一起成长。"</div>
-        <button class="fb-btn" onclick="closeFeedback()">✅ 知道了</button>
-      </div>
-    </div>
+  </div>
+</div>
+
+<!-- ===== 搭子反馈弹窗（全局，移出page） ===== -->
+<div class="fb-overlay" id="fbOverlay" onclick="if(event.target===this)closeFeedback()">
+  <div class="fb-card" id="fbCard">
+    <div class="fb-emoji" id="fbEmoji">🌸</div>
+    <div class="fb-label" id="fbLabel">搭子说</div>
+    <div class="fb-title" id="fbTitle">温柔陪伴型</div>
+    <div class="fb-text" id="fbText">陪伴是最长情的告白。你的每一次温柔回应，都在为孩子积累安全感。</div>
+    <div class="fb-partner-quote" id="fbQuote">"孩子需要的不是完美的父母，而是不完美的父母愿意陪着他们一起成长。"</div>
+    <button class="fb-btn" onclick="closeFeedback()">✅ 知道了</button>
   </div>
 </div>
 
