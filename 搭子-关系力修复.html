@@ -59,50 +59,6 @@
     .talk-btn { flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #f0e6d8; background: white; font-size: 14px; font-weight: 500; color: #d97706; cursor: pointer; transition: all 0.15s; }
     .talk-btn:active { background: #fff8f0; transform: scale(0.97); }
     footer { font-size: 12px; text-align: center; color: #8f9eae; margin-top: 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
-    /* ===== 轻松度记录页面 ===== */
-    .weight-page { max-width: 420px; margin: 0 auto; }
-    .weight-header {
-      background: white; border-radius: 32px; padding: 24px; margin-bottom: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center;
-    }
-    .weight-title { font-size: 20px; font-weight: 700; color: #d97706; margin-bottom: 4px; }
-    .weight-sub { font-size: 13px; color: #8f9eae; margin-bottom: 14px; }
-    .weight-input-row { display: flex; align-items: center; justify-content: center; gap: 10px; }
-    .weight-input {
-      flex: 1; height: 46px; border-radius: 16px; border: 2px solid #f3e8d8;
-      text-align: center; font-size: 16px; color: #d97706; outline: none;
-      background: #fffaf5;
-    }
-    .weight-input:focus { border-color: #d97706; }
-    .weight-add-btn {
-      padding: 12px 20px; background: linear-gradient(135deg, #d97706, #b45309);
-      color: white; border: none; border-radius: 16px; font-size: 14px; font-weight: 600;
-      cursor: pointer; box-shadow: 0 4px 12px rgba(217,119,6,0.28);
-    }
-    .weight-add-btn:active { opacity: 0.9; transform: scale(0.97); }
-    .relax-save-msg { font-size: 13px; color: #43a047; margin-top: 8px; height: 18px; }
-    .relax-rating-label { font-size: 14px; color: #d97706; font-weight: 600; margin-bottom: 8px; height: 20px; }
-    .weight-chart-card {
-      background: white; border-radius: 32px; padding: 20px 16px 16px; margin-bottom: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-    }
-    .chart-title { font-size: 15px; font-weight: 700; color: #d97706; margin-bottom: 4px; }
-    .chart-sub { font-size: 12px; color: #8f9eae; margin-bottom: 12px; }
-    #chartCanvas { width: 100%; border-radius: 12px; background: #fafcfe; }
-    .weight-records {
-      background: white; border-radius: 32px; padding: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06); margin-bottom: 16px;
-    }
-    .records-title { font-size: 15px; font-weight: 700; color: #d97706; margin-bottom: 14px; }
-    .record-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f4f7; }
-    .record-item:last-child { border-bottom: none; }
-    .record-emoji { font-size: 28px; margin-right: 10px; flex-shrink: 0; }
-    .record-info { flex: 1; }
-    .record-date { font-size: 13px; color: #8f9eae; }
-    .record-note { font-size: 13px; color: #555; margin-top: 2px; }
-    .record-score { font-size: 20px; font-weight: 700; margin-left: 8px; }
-    .record-change { font-size: 12px; margin-left: 6px; }
-
     /* SOP自检 */
     .sop-page { max-width: 420px; margin: 0 auto; }
     .sop-header { background: white; border-radius: 32px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
@@ -336,6 +292,13 @@
 </div>
 
 <div class="page" id="chatPage">
+  <div class="partner-header" id="partnerHeader" style="display:flex;align-items:center;gap:12px;padding:16px;background:white;border-radius:20px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+    <div id="partnerAvatarB" style="font-size:40px;"></div>
+    <div>
+      <div id="partnerNameB" style="font-size:18px;font-weight:700;color:#333;"></div>
+      <div style="font-size:12px;color:#d97706;">你的关系力搭子</div>
+    </div>
+  </div>
   <div class="chat-area" id="chatArea"></div>
   <div class="interaction-panel" id="interactionPanel">
     <div class="panel-label">今天遇到了什么关系难题？</div>
@@ -486,6 +449,47 @@ function renderWeightRecords() {
   }).join('');
 }
 
+function drawWeightChart() {
+  var canvas = document.getElementById('chartCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]').slice(-30);
+  var W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  if (records.length < 2) {
+    ctx.fillStyle = '#b0bec5'; ctx.font = '14px system-ui';
+    ctx.textAlign = 'center'; ctx.fillText('记录2次以上即可显示曲线', W / 2, H / 2);
+    var sub = document.getElementById('chartSub');
+    if (sub) sub.textContent = '坚持记录，趋势一目了然';
+    return;
+  }
+  var vals = records.map(function(r) { return r.rating; });
+  var minV = Math.min.apply(null, vals) * 0.8;
+  var maxV = Math.max.apply(null, vals) * 1.1;
+  var range = maxV - minV || 1;
+  var stepX = (W - 40) / Math.max(vals.length - 1, 1);
+  var pts = vals.map(function(v, i) {
+    return { x: 20 + i * stepX, y: H - 20 - ((v - minV) / range) * (H - 50) };
+  });
+  var grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, 'rgba(217,119,6,0.25)');
+  grad.addColorStop(1, 'rgba(217,119,6,0.02)');
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, H - 20);
+  pts.forEach(function(p) { ctx.lineTo(p.x, p.y); });
+  ctx.lineTo(pts[pts.length - 1].x, H - 20);
+  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+  ctx.beginPath();
+  pts.forEach(function(p, i) { i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); });
+  ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2.5; ctx.stroke();
+  pts.forEach(function(p) {
+    ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2; ctx.stroke();
+  });
+  var sub = document.getElementById('chartSub');
+  if (sub) sub.textContent = '最新：' + vals[vals.length - 1] + '分';
+}
+
 function renderWeightPage() {
   renderWeightRecords();
   drawWeightChart();
@@ -553,47 +557,6 @@ function initProgressPage() {
   }
 }
 
-function drawWeightChart() {
-  var canvas = document.getElementById('chartCanvas');
-  if (!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]').slice(-30);
-  var W = canvas.width, H = canvas.height;
-  ctx.clearRect(0, 0, W, H);
-  if (records.length < 2) {
-    ctx.fillStyle = '#b0bec5'; ctx.font = '14px system-ui';
-    ctx.textAlign = 'center'; ctx.fillText('记录2次以上即可显示曲线', W / 2, H / 2);
-    var sub = document.getElementById('chartSub');
-    if (sub) sub.textContent = '坚持记录，趋势一目了然';
-    return;
-  }
-  var vals = records.map(function(r) { return r.rating; });
-  var minV = Math.min.apply(null, vals) * 0.8;
-  var maxV = Math.max.apply(null, vals) * 1.1;
-  var range = maxV - minV || 1;
-  var stepX = (W - 40) / Math.max(vals.length - 1, 1);
-  var pts = vals.map(function(v, i) {
-    return { x: 20 + i * stepX, y: H - 20 - ((v - minV) / range) * (H - 50) };
-  });
-  var grad = ctx.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0, 'rgba(217,119,6,0.25)');
-  grad.addColorStop(1, 'rgba(217,119,6,0.02)');
-  ctx.beginPath();
-  ctx.moveTo(pts[0].x, H - 20);
-  pts.forEach(function(p) { ctx.lineTo(p.x, p.y); });
-  ctx.lineTo(pts[pts.length - 1].x, H - 20);
-  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
-  ctx.beginPath();
-  pts.forEach(function(p, i) { i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); });
-  ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2.5; ctx.stroke();
-  pts.forEach(function(p) {
-    ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
-    ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2; ctx.stroke();
-  });
-  var sub = document.getElementById('chartSub');
-  if (sub) sub.textContent = '最新：' + vals[vals.length - 1] + '分';
-}
-
 function renderWeeklyReport() {
   var container = document.getElementById('weeklyReportContent');
   if (!container) return;
@@ -629,29 +592,49 @@ function shareWeeklyReport() {
 
 <!-- ===== 进展页 ===== -->
 <div class="page" id="progressPage" style="display:none;">
-  <div style="padding:20px 16px 100px;">
-    <div style="text-align:center;margin-bottom:20px;">
-      <div style="font-size:22px;font-weight:700;color:#d97706;">📈 进展</div>
-      <div style="font-size:14px;color:#888;margin-top:4px;">你的关系力修复记录</div>
+  <div class="weight-page">
+    <div class="weight-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;">
+      <div style="font-size:48px;margin-bottom:8px;">🤝</div>
+      <div class="chart-title" style="font-size:18px;margin-bottom:4px;">关系力修复进展</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">你的关系力成长曲线</div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;position:relative;">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <defs><linearGradient id="relRingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#d97706"/><stop offset="100%" stop-color="#b45309"/>
+          </linearGradient></defs>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#fef3c7" stroke-width="14"/>
+          <circle id="relRingFill" cx="70" cy="70" r="54" fill="none" stroke="url(#relRingGrad)" stroke-width="14"
+            stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"
+            transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.8s;"/>
+          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#d97706;" id="relRingPct">0</text>
+          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#8f9eae;">平均轻松度</text>
+        </svg>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <div style="background:#fef3c7;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#d97706;" id="relStreakNum">0</div>
+          <div style="font-size:11px;color:#8f9eae;">连续天数</div>
+        </div>
+        <div style="background:#fef9ec;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#16a34a;" id="relTotalDays">0</div>
+          <div style="font-size:11px;color:#8f9eae;">累计天数</div>
+        </div>
+        <div style="background:#fffbeb;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#ff6b35;" id="relTodayScore">-</div>
+          <div style="font-size:11px;color:#8f9eae;">今日得分</div>
+        </div>
+      </div>
     </div>
-    <div style="background:white;border-radius:24px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;text-align:center;">
-        <div style="background:#fffbeb;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#d97706;" id="relaxStreak">-</div>
-          <div style="font-size:11px;color:#888;margin-top:2px;">连续打卡</div>
-        </div>
-        <div style="background:#fffbeb;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#f59e0b;" id="relaxToday">-</div>
-          <div style="font-size:11px;color:#888;margin-top:2px;">今日打卡</div>
-        </div>
-        <div style="background:#fffbeb;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#fbbf24;" id="relaxTotal">-</div>
-          <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
-        </div>
+    <div class="weight-chart-card" style="margin-bottom:16px;">
+      <div class="chart-title">📊 轻松度趋势</div>
+      <div id="relProgressDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">
+        <div style="text-align:center;padding:20px;color:#b0bec5;font-size:13px;">记录轻松度后查看趋势 📈</div>
       </div>
-      <div style="font-size:14px;color:#666;line-height:1.8;" id="relaxProgressDetail">
-        加载中...
-      </div>
+    </div>
+    <div class="weight-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#fef3c7,#fef9ec);border:1px solid #fcd34d;margin-bottom:16px;">
+      <div style="font-size:36px;margin-bottom:8px;" id="relProgressPartnerEmoji">🤝</div>
+      <div style="font-size:14px;font-weight:700;color:#92400e;margin-bottom:4px;" id="relProgressPartnerName">关系力搭子</div>
+      <div style="font-size:13px;color:#b45309;line-height:1.6;" id="relProgressPartnerMsg">修复关系，让彼此都轻松 💫</div>
     </div>
   </div>
 </div>
@@ -1039,19 +1022,28 @@ function selectPartner(id) {
 }
 
 function confirmPartner() {
-  if (!selectedPartner) return;
+  // 如果没有选中搭子，自动选第一个
+  if (!selectedPartner && PARTNERS.length > 0) {
+    selectedPartner = PARTNERS[0].id;
+  }
+  if (!selectedPartner) {
+    alert('请先选择一个搭子');
+    return;
+  }
   currentPartner = PARTNERS.find(p => p.id === selectedPartner);
+  if (!currentPartner) currentPartner = PARTNERS[0];
   localStorage.setItem(STORAGE.PARTNER, selectedPartner);
   document.getElementById('partnerSelector').style.display = 'none';
   document.getElementById('tabBar').style.display = 'flex';
   renderCheckin();
   renderWeekProgress();
   switchTabDirect('chat');
-  const chatArea = document.getElementById('chatArea');
-  setTimeout(() => {
-    addBubble(chatArea, currentPartner.emoji, currentPartner.intro, false);
-  }, 300);
   renderSOP();
+  // 更新搭子页面的搭子信息
+  const avatarB = document.getElementById('partnerAvatarB');
+  const nameB = document.getElementById('partnerNameB');
+  if (avatarB) avatarB.textContent = currentPartner.emoji;
+  if (nameB) nameB.textContent = currentPartner.name;
 }
 
 // ===== 打卡 =====
@@ -1985,7 +1977,7 @@ function switchTabDirect(tab) {
   if (tab === 'chat') renderChat();
   if (tab === 'sop') renderSOP();
   if (tab === 'data') renderWeightPage();
-  if (tab === 'progress') { if (typeof initRelaxProgress === 'function') initRelaxProgress(); }
+  if (tab === 'progress') initProgressPage();
   if (tab === 'share') renderSharePage();
 }
 
@@ -1996,38 +1988,6 @@ document.getElementById('qaOverlay').addEventListener('click', function(e) {
 document.getElementById('fbOverlay').addEventListener('click', function(e) {
   if (e.target === this) this.classList.remove('show');
 });
-
-
-function initRelaxProgress() {
-  var history = JSON.parse(localStorage.getItem('slim_history') || '[]');
-  var relax = JSON.parse(localStorage.getItem('slim_relax_history') || '[]');
-  var today = new Date().toLocaleDateString();
-  // 计算连续打卡
-  var streak = 0;
-  var d = new Date();
-  for (var i = 0; i < 365; i++) {
-    if (history.includes(d.toLocaleDateString())) {
-      streak++;
-      d.setDate(d.getDate() - 1);
-    } else {
-      break;
-    }
-  }
-  var streakEl = document.getElementById('relaxStreak');
-  var todayEl = document.getElementById('relaxToday');
-  var totalEl = document.getElementById('relaxTotal');
-  var detailEl = document.getElementById('relaxProgressDetail');
-  if (streakEl) streakEl.innerText = streak;
-  if (todayEl) todayEl.innerText = history.includes(today) ? '✅' : '-';
-  if (totalEl) totalEl.innerText = history.length;
-  if (detailEl) {
-    var recent = relax.slice(-7);
-    var avg = recent.length > 0 ? (recent.reduce(function(s, r) { return s + r.rating; }, 0) / recent.length).toFixed(1) : '-';
-    detailEl.innerHTML = '累计打卡 <strong>' + history.length + '</strong> 天<br>' +
-      '今日：<strong>' + (history.includes(today) ? '已打卡 ✅' : '未打卡') + '</strong><br>' +
-      '最近7次平均轻松度：<strong>' + avg + '</strong>';
-  }
-}
 
 window.addEventListener('DOMContentLoaded', init);
 </script>
