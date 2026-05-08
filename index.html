@@ -1323,10 +1323,12 @@ function switchTab(tab) {
     p.classList.remove('active');
     p.style.display = 'none';
   });
-  const tabs = ['checkin','partner','weight','sop','progress','share','coach'];
+  const tabs = ['chat','coach','sop','checkin','weight','progress','share'];
   const tabIdx = tabs.indexOf(tab);
   if (tabIdx !== -1) document.querySelectorAll('.tab-item')[tabIdx].classList.add('active');
-  const pageEl = document.getElementById(`page-${tab}`);
+  // chat 对应 page-partner
+  const pageId = tab === 'chat' ? 'page-partner' : `page-${tab}`;
+  const pageEl = document.getElementById(pageId);
   if (pageEl) {
     pageEl.classList.add('active');
     pageEl.style.display = '';
@@ -1351,7 +1353,7 @@ function switchTab(tab) {
   if (tab === 'sop') initSOP();
   if (tab === 'progress') renderProgress();
   if (tab === 'share') renderSharePage();
-  if (tab === 'partner') renderPartnerPage();
+  if (tab === 'chat') renderPartnerPage();
 }
 
 // ==================== 打卡功能 ====================
