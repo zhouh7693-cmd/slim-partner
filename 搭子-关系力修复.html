@@ -1969,7 +1969,7 @@ function switchTabDirect(tab) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   const pageMap = { checkin:'checkinPage', chat:'chatPage', sop:'sopPage', coach:'coachPage', data:'page-data', progress:'progressPage', share:'sharePage' };
-  const idxMap = { checkin:0, chat:1, sop:2, coach:3, data:4, progress:5, share:6 };
+  const idxMap = { chat:0, coach:1, sop:2, checkin:3, data:4, progress:5, share:6 };
   const pg = document.getElementById(pageMap[tab]);
   if (pg) pg.classList.add('active');
   const tabs = document.querySelectorAll('.tab-item');
