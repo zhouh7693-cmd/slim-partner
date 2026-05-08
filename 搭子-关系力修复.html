@@ -477,11 +477,11 @@ function renderRelaxPage() {
   drawRelaxChart();
   renderRelaxWeeklyReport();
   // 更新摘要
-  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]');
+  var records = getRelaxData();
   var summary = document.getElementById('relaxSummary');
   if (summary) {
     if (records.length > 0) {
-      var avg = Math.round(records.reduce(function(s, r) { return s + r.rating; }, 0) / records.length);
+      var avg = Math.round(records.reduce(function(s, r) { return s + r.value; }, 0) / records.length);
       summary.textContent = '平均轻松度 ' + avg + '/10，共 ' + records.length + ' 条记录';
     } else {
       summary.textContent = '记录你今天的关系轻松指数';
@@ -491,15 +491,15 @@ function renderRelaxPage() {
 
 function initProgressPage() {
   // 更新进展页数据
-  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]');
+  var records = getRelaxData();
   var checkinHistory = getHistory();
   var totalDays = checkinHistory.length;
   var streak = calcStreak(checkinHistory);
   var avgScore = records.length > 0
-    ? Math.round(records.reduce(function(s, r) { return s + r.rating; }, 0) / records.length) : 0;
+    ? Math.round(records.reduce(function(s, r) { return s + r.value; }, 0) / records.length) : 0;
   var today = new Date().toISOString().slice(0,10);
   var todayRecord = records.find(function(r) { return r.date === today; });
-  var todayScore = todayRecord ? todayRecord.rating : '-';
+  var todayScore = todayRecord ? todayRecord.value : '-';
 
   // 更新圆环
   var circumference = 2 * Math.PI * 54;
@@ -529,11 +529,11 @@ function initProgressPage() {
       var recent = records.slice(-7);
       dimsEl.innerHTML = recent.map(function(r) {
         var emojis = ['','😰','😟','😕','😐','🙂','😊','😌','😄','🤩','✨'];
-        var color = r.rating >= 7 ? '#43a047' : r.rating >= 4 ? '#ff9800' : '#ef5350';
+        var color = r.value >= 7 ? '#43a047' : r.value >= 4 ? '#ff9800' : '#ef5350';
         return '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0;">' +
-          '<div style="font-size:18px;width:28px;text-align:center;">' + emojis[r.rating] + '</div>' +
+          '<div style="font-size:18px;width:28px;text-align:center;">' + emojis[Math.round(r.value)] + '</div>' +
           '<div style="flex:1;font-size:13px;color:#666;">' + r.date + '</div>' +
-          '<div style="font-size:14px;font-weight:700;color:' + color + ';">' + r.rating + '/10</div></div>';
+          '<div style="font-size:14px;font-weight:700;color:' + color + ';">' + r.value + '/10</div></div>';
       }).join('');
     }
   }
@@ -542,32 +542,63 @@ function initProgressPage() {
 function renderRelaxWeeklyReport() {
   var container = document.getElementById('relaxWeeklyReportContent');
   if (!container) return;
-  var history = getHistory();
+  var records = getRelaxData();
   var now = new Date();
   var weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
-  var thisWeek = history.filter(function(h) { return new Date(h) >= weekAgo; });
   var lastWeekStart = new Date(weekAgo); lastWeekStart.setDate(lastWeekStart.getDate() - 7);
-  var lastWeek = history.filter(function(h) { return new Date(h) >= lastWeekStart && new Date(h) < weekAgo; });
-  if (thisWeek.length === 0) {
+
+  var thisWeekRecords = records.filter(function(r) { return new Date(r.date) >= weekAgo; });
+  var lastWeekRecords = records.filter(function(r) { return new Date(r.date) >= lastWeekStart && new Date(r.date) < weekAgo; });
+
+  var checkinHistory = getHistory();
+  var thisWeekCheckin = checkinHistory.filter(function(h) { return new Date(h) >= weekAgo; });
+
+  if (thisWeekCheckin.length === 0) {
     container.innerHTML = '<div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>';
     return;
   }
-  var avg = thisWeek.reduce(function(s, h) { return s + (parseFloat(h.split('|')[1]) || 0); }, 0) / thisWeek.length;
-  var trend = thisWeek.length >= lastWeek.length ? '↑ 比上周更积极！' : '比上周少打卡了，加油！';
+
+  var avg = thisWeekRecords.length > 0
+    ? thisWeekRecords.reduce(function(s, r) { return s + r.value; }, 0) / thisWeekRecords.length
+    : 0;
+
+  var lastAvg = lastWeekRecords.length > 0
+    ? lastWeekRecords.reduce(function(s, r) { return s + r.value; }, 0) / lastWeekRecords.length
+    : 0;
+
+  var trend = avg >= lastAvg ? '↑ 比上周更轻松！' : '本周轻松度下降了，加油调整！';
+  var trendColor = avg >= lastAvg ? '#43a047' : '#ff9800';
+
   container.innerHTML = '<div style="font-size:13px;line-height:2;color:#555;">' +
-    '本周打卡：<strong>' + thisWeek.length + '</strong> 天 | 上周：<strong>' + lastWeek.length + '</strong> 天<br>' +
-    '本周平均轻松度：<strong>' + avg.toFixed(1) + '</strong><br>' +
-    '<span style="color:#d97706;font-weight:600;">' + trend + '</span></div>';
+    '本周打卡：<strong>' + thisWeekCheckin.length + '</strong> 天<br>' +
+    '本周平均轻松度：<strong>' + avg.toFixed(1) + '</strong> / 10<br>' +
+    '<span style="color:' + trendColor + ';font-weight:600;">' + trend + '</span></div>';
+
   var shareBtn = document.getElementById('shareRelaxWeeklyBtn');
-  if (shareBtn && thisWeek.length >= 3) shareBtn.style.display = 'block';
+  if (shareBtn && thisWeekCheckin.length >= 3) shareBtn.style.display = 'block';
 }
 
 function shareRelaxWeeklyReport() {
-  var history = getHistory();
+  var records = getRelaxData();
+  var checkinHistory = getHistory();
   var now = new Date();
   var weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
-  var cnt = history.filter(function(h) { return new Date(h) >= weekAgo; }).length;
-  var text = '【关系力轻松度本周战绩】本周打卡 ' + cnt + ' 天，继续修复关系力！';
+  var lastWeekStart = new Date(weekAgo); lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+
+  var thisWeekRecords = records.filter(function(r) { return new Date(r.date) >= weekAgo; });
+  var thisWeekCheckin = checkinHistory.filter(function(h) { return new Date(h) >= weekAgo; });
+  var partner = currentPartner || PARTNERS[0];
+
+  var avg = thisWeekRecords.length > 0
+    ? thisWeekRecords.reduce(function(s, r) { return s + r.value; }, 0) / thisWeekRecords.length
+    : 0;
+
+  var text = '🌸 关系力轻松度本周战绩\n' +
+    '搭子：' + partner.emoji + partner.name + '\n' +
+    '本周打卡：' + thisWeekCheckin.length + ' 天\n' +
+    '本周平均轻松度：' + avg.toFixed(1) + '/10\n' +
+    getToday() + ' 继续加油！';
+
   navigator.clipboard.writeText(text).then(function() { showToast('✅ 已复制，快去分享！'); }).catch(function() { showToast('复制失败'); });
 }
 </script>
