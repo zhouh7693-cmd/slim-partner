@@ -1197,15 +1197,6 @@ function renderWeightRecords() {
   }).join('');
 }
 
-function renderWeightPage() {
-  drawWeightChart();
-  renderWeightRecords();
-  var data = getWeightData();
-  if (data.length > 0) {
-    var inp = document.getElementById('weightInput');
-    if (inp) inp.placeholder = data[data.length - 1].value;
-  }
-}
 
 function renderWeeklyReport() {
   var container = document.getElementById('weeklyReportContent');
