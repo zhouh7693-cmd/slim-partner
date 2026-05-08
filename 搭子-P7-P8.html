@@ -915,36 +915,7 @@ function confirmPartner() {
   }
 }
 
-// ===== Tab 导航 =====
-function switchTab(tab) {
-  // 关闭所有弹窗
-  document.querySelectorAll('.qa-overlay,.fb-overlay').forEach(function(el) { el.classList.remove('show'); });
-  // 隐藏所有页面和tab高亮
-  document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
-  document.querySelectorAll('.page').forEach(function(p) {
-    p.classList.remove('active');
-    p.style.display = 'none';
-  });
-  // HTML page div顺序: checkin(0),chat(1),sop(2),data(3),progress(4),share(5),coach(6)
-  var idxMap = { chat:1, coach:6, sop:2, checkin:0, data:3, progress:4, share:5 };
-  var pageMap = { chat:'chatPage', coach:'coachPage', sop:'sopPage', checkin:'checkinPage', data:'page-data', progress:'progressPage', share:'sharePage' };
-  // 高亮tab
-  var items = document.querySelectorAll('.tab-item');
-  if (items[idxMap[tab]]) items[idxMap[tab]].classList.add('active');
-  // 显示page
-  var pg = document.getElementById(pageMap[tab]);
-  if (pg) { pg.classList.add('active'); pg.style.display = ''; }
-  // 初始化各tab内容
-  if (tab === 'coach') initCoach();
-  if (tab === 'chat') renderPartnerPage && renderPartnerPage();
-  if (tab === 'sop') initSOP && initSOP();
-  if (tab === 'checkin') loadHistory && loadHistory();
-  if (tab === 'data') renderWeightPage && renderWeightPage();
-  if (tab === 'progress') initProgressPage && initProgressPage();
-  if (tab === 'share') renderSharePage && renderSharePage();
-}
-
-// ===== 打卡逻辑 =====
+// ===== Tab切换 =====
 function loadHistory() {
   try {
     var h = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
@@ -1207,134 +1178,9 @@ function showFeedback(item, index) {
   setTimeout(function() { appendPartnerMsg(emoji + ' ' + empathy + ' ' + feedback, true); }, 300);
 }
 
+
 function closeFBOverlay() { document.getElementById('fbOverlay').classList.remove('show'); }
 function closeQA() { document.getElementById('qaOverlay').classList.remove('show'); }
-
-// ===== 绩效记录功能 ====================
-function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
-
-function addWeight() {
-  var val = parseFloat(document.getElementById('weightInput').value);
-  if (!val || val < 0) { showToast('请输入有效的绩效分数'); return; }
-  var data = getWeightData();
-  var today = new Date().toISOString().slice(0, 10);
-  data = data.filter(function(d) { return d.date !== today; });
-  data.push({ date: today, value: val });
-  data.sort(function(a, b) { return a.date.localeCompare(b.date); });
-  localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(data));
-  document.getElementById('weightInput').value = '';
-  showToast('✅ 记录成功：' + val + '分');
-  drawWeightChart();
-  renderWeightRecords();
-}
-
-function drawWeightChart() {
-  var canvas = document.getElementById('chartCanvas');
-  if (!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var data = getWeightData().slice(-30);
-  var W = canvas.width, H = canvas.height;
-  ctx.clearRect(0, 0, W, H);
-  if (data.length < 2) {
-    ctx.fillStyle = '#b0bec5'; ctx.font = '14px system-ui';
-    ctx.textAlign = 'center'; ctx.fillText('记录2次以上即可显示曲线', W / 2, H / 2);
-    var sub = document.getElementById('chartSub');
-    if (sub) sub.textContent = '坚持记录，趋势一目了然';
-    return;
-  }
-  var vals = data.map(function(d) { return d.value; });
-  var minV = Math.min.apply(null, vals) * 0.8;
-  var maxV = Math.max.apply(null, vals) * 1.1;
-  if (maxV === minV) { minV -= 10; maxV += 10; }
-  var toX = function(i) { return 20 + (i / (data.length - 1)) * (W - 40); };
-  var toY = function(v) { return H - 30 - ((v - minV) / (maxV - minV)) * (H - 60); };
-
-  ctx.strokeStyle = '#f0f4f7'; ctx.lineWidth = 1;
-  for (var i = 0; i <= 4; i++) {
-    var y = 20 + i * (H - 50) / 4;
-    ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(W - 20, y); ctx.stroke();
-    ctx.fillStyle = '#b0bec5'; ctx.font = '10px system-ui'; ctx.textAlign = 'right';
-    ctx.fillText(Math.round(maxV - i * (maxV - minV) / 4), 18, y + 3);
-  }
-
-  var grad = ctx.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0, 'rgba(58,95,205,0.3)');
-  grad.addColorStop(1, 'rgba(58,95,205,0)');
-  ctx.beginPath();
-  data.forEach(function(d, i) { var x = toX(i), y = toY(d.value); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
-  ctx.lineTo(toX(data.length - 1), H - 20);
-  ctx.lineTo(toX(0), H - 20);
-  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
-
-  ctx.beginPath();
-  data.forEach(function(d, i) { var x = toX(i), y = toY(d.value); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
-  ctx.strokeStyle = '#3a5fcd'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
-
-  data.forEach(function(d, i) {
-    var x = toX(i), y = toY(d.value);
-    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2);
-    ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#3a5fcd'; ctx.lineWidth = 2; ctx.stroke();
-  });
-
-  var today = new Date().toISOString().slice(0, 10);
-  var todayIdx = data.findIndex(function(d) { return d.date === today; });
-  if (todayIdx >= 0) {
-    var x = toX(todayIdx), y = toY(data[todayIdx].value);
-    ctx.fillStyle = '#e91e63'; ctx.font = 'bold 12px system-ui'; ctx.textAlign = 'center';
-    ctx.fillText('今天', x, y - 12);
-  }
-
-  var sub = document.getElementById('chartSub');
-  if (sub && data.length > 0) sub.textContent = '最新记录：' + data[data.length - 1].value + '分';
-}
-
-function renderWeightRecords() {
-  var container = document.getElementById('weightRecords');
-  if (!container) return;
-  var data = getWeightData().slice().reverse();
-  if (data.length === 0) {
-    container.innerHTML = '<div style="text-align:center;color:#b0bec5;padding:16px;font-size:13px;">还没有记录，快来记第一个绩效吧！</div>';
-    return;
-  }
-  container.innerHTML = data.slice(0, 30).map(function(d) {
-    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;">' +
-      '<span style="color:#888;font-size:13px;">' + d.date + '</span>' +
-      '<span style="font-weight:700;color:#3a5fcd;font-size:15px;">' + d.value + '分</span>' +
-      '</div>';
-  }).join('');
-}
-
-function renderWeightPage() {
-  drawWeightChart();
-  renderWeightRecords();
-  var data = getWeightData();
-  if (data.length > 0) {
-    var inp = document.getElementById('weightInput');
-    if (inp) inp.placeholder = data[data.length - 1].value;
-  }
-}
-
-function renderWeeklyReport() {
-  var container = document.getElementById('weeklyReportContent');
-  if (!container) return;
-  var now = new Date();
-  var weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
-  var thisWeek = getHistory().filter(function(h) { return new Date(h) >= weekAgo; });
-  if (thisWeek.length === 0) {
-    container.innerHTML = '<div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>';
-    return;
-  }
-  container.innerHTML = '<div style="font-size:13px;line-height:2;color:#555;">本周打卡：<strong>' + thisWeek.length + '</strong> 天<br><span style="color:#3a5fcd;font-weight:600;">继续精进管理能力！</span></div>';
-  var shareBtn = document.getElementById('shareWeeklyBtn');
-  if (shareBtn && thisWeek.length >= 3) shareBtn.style.display = 'block';
-}
-
-function shareWeeklyReport() {
-  var cnt = getHistory().filter(function(h) { return new Date(h) >= new Date(Date.now() - 7 * 86400000); }).length;
-  var partner = currentPartner || PARTNERS[0];
-  var text = '【P7管理成长本周战绩】本周打卡 ' + cnt + ' 天，搭子：' + partner.emoji + partner.name + '。继续精进管理能力！';
-  navigator.clipboard.writeText(text).then(function() { showToast('✅ 已复制，快去分享！'); }).catch(function() { showToast('复制失败'); });
-}
 
 // ===== Tab切换 =====
 function switchTab(tab) {
