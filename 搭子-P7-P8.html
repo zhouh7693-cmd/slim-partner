@@ -1220,8 +1220,12 @@ function switchTab(tab) {
   if (tabMap[tab] !== undefined && tabs[tabMap[tab]]) {
     tabs[tabMap[tab]].classList.add('active');
   }
-  // 如果切到教练，初始化教练
+  // 切换到教练，初始化教练
   if (tab === 'coach' && coachPg) { initCoach(); }
+  // 切换到自检，初始化SOP
+  if (tab === 'sop') { renderSOP(); }
+  // 切换到进展，初始化进展页
+  if (tab === 'progress') { initP7ProgressPage(); }
 }
 
 // ===== SOP自检 =====
