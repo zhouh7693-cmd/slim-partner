@@ -919,32 +919,29 @@ function confirmPartner() {
 function switchTab(tab) {
   // 关闭所有弹窗
   document.querySelectorAll('.qa-overlay,.fb-overlay').forEach(function(el) { el.classList.remove('show'); });
-  // 隐藏所有页面
+  // 隐藏所有页面和tab高亮
   document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
   document.querySelectorAll('.page').forEach(function(p) {
     p.classList.remove('active');
     p.style.display = 'none';
   });
-  var coachPg = document.getElementById('coachPage');
-  if (coachPg) { coachPg.classList.remove('active'); coachPg.style.display = 'none'; }
-  // 高亮当前 tab
-  var tabs = ['chat','coach','sop','checkin','data','progress','share'];
-  var tabIdx = tabs.indexOf(tab);
-  if (tabIdx >= 0) {
-    var items = document.querySelectorAll('.tab-item');
-    if (items[tabIdx]) items[tabIdx].classList.add('active');
-  }
-  if (tab === 'coach') {
-    if (coachPg) { coachPg.classList.add('active'); coachPg.style.display = ''; }
-    initCoach();
-  } else {
-    var pe = document.getElementById('page-' + tab);
-    if (pe) { pe.classList.add('active'); pe.style.display = ''; }
-  }
+  // HTML page div顺序: checkin(0),chat(1),sop(2),data(3),progress(4),share(5),coach(6)
+  var idxMap = { chat:1, coach:6, sop:2, checkin:0, data:3, progress:4, share:5 };
+  var pageMap = { chat:'chatPage', coach:'coachPage', sop:'sopPage', checkin:'checkinPage', data:'page-data', progress:'progressPage', share:'sharePage' };
+  // 高亮tab
+  var items = document.querySelectorAll('.tab-item');
+  if (items[idxMap[tab]]) items[idxMap[tab]].classList.add('active');
+  // 显示page
+  var pg = document.getElementById(pageMap[tab]);
+  if (pg) { pg.classList.add('active'); pg.style.display = ''; }
+  // 初始化各tab内容
+  if (tab === 'coach') initCoach();
   if (tab === 'chat') renderPartnerPage && renderPartnerPage();
   if (tab === 'sop') initSOP && initSOP();
   if (tab === 'checkin') loadHistory && loadHistory();
   if (tab === 'data') renderWeightPage && renderWeightPage();
+  if (tab === 'progress') initProgressPage && initProgressPage();
+  if (tab === 'share') renderSharePage && renderSharePage();
 }
 
 // ===== 打卡逻辑 =====
@@ -1570,6 +1567,26 @@ function getSiteUrl() {
     return window.location.origin + '/';
   }
   return SHARE_URL + '/';
+}
+
+function initProgressPage() {
+  var history = getHistory();
+  var today = getToday();
+  var todayRec = history.find(function(h) { return h.date === today; });
+  // 计算连续天数
+  var streak = 0;
+  var d = new Date();
+  for (var i = 0; i < 60; i++) {
+    var dd = new Date(d); dd.setDate(dd.getDate() - i);
+    var ds = dd.toISOString().slice(0,10);
+    if (history.some(function(h) { return h.date === ds && h.checkin; })) streak++;
+    else if (i > 0) break;
+  }
+  // 更新DOM
+  var el;
+  el = document.getElementById('p7Streak2'); if (el) el.textContent = streak;
+  el = document.getElementById('p7Total2'); if (el) el.textContent = history.length;
+  el = document.getElementById('p7Today2'); if (el) el.textContent = todayRec ? (todayRec.score || '-') : '-';
 }
 
 function renderSharePage() {
