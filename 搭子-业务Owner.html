@@ -1520,25 +1520,47 @@ function initProgressPage() {
 
 <!-- ===== Page: 进展 ===== -->
 <div id="progressPage" class="page">
-  <div style="padding:16px;max-width:520px;margin:0 auto;">
-    <div style="background:white;border-radius:24px;padding:24px 20px;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,0.06);text-align:center;">
-      <div style="font-size:48px;margin-bottom:8px;">📈</div>
-      <div style="font-size:18px;font-weight:700;margin-bottom:4px;">业务Owner成长档案</div>
+  <div class="weight-page">
+    <div class="weight-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;">
+      <div style="font-size:48px;margin-bottom:8px;">🏆</div>
+      <div class="chart-title" style="font-size:18px;margin-bottom:4px;">业务Owner成长进展</div>
       <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">你的业务 SOP 全局视图</div>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-        <div style="background:#f0fdf4;border-radius:16px;padding:12px 18px;text-align:center;">
-          <div style="font-size:20px;font-weight:800;color:#16a34a;" id="ownerStreak">0</div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;position:relative;">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <defs><linearGradient id="ownerRingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#16a34a"/><stop offset="100%" stop-color="#4ade80"/>
+          </linearGradient></defs>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#eef2f5" stroke-width="14"/>
+          <circle id="ownerRingFill" cx="70" cy="70" r="54" fill="none" stroke="url(#ownerRingGrad)" stroke-width="14"
+            stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"
+            transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.8s;"/>
+          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#16a34a;" id="ownerRingPct">0%</text>
+          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#8f9eae;">平均得分</text>
+        </svg>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <div style="background:#f0fdf4;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#16a34a;" id="ownerStreakNum">0</div>
           <div style="font-size:11px;color:#8f9eae;">连续天数</div>
         </div>
-        <div style="background:#eff6ff;border-radius:16px;padding:12px 18px;text-align:center;">
-          <div style="font-size:20px;font-weight:800;color:#3b82f6;" id="ownerTotal">0</div>
+        <div style="background:#eff6ff;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#3b82f6;" id="ownerTotalDays">0</div>
           <div style="font-size:11px;color:#8f9eae;">累计天数</div>
         </div>
-        <div style="background:#fff7ed;border-radius:16px;padding:12px 18px;text-align:center;">
-          <div style="font-size:20px;font-weight:800;color:#ea580c;" id="ownerToday">-</div>
+        <div style="background:#fff7ed;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#ea580c;" id="ownerTodayScore">-</div>
           <div style="font-size:11px;color:#8f9eae;">今日得分</div>
         </div>
       </div>
+    </div>
+    <div class="weight-chart-card" style="margin-bottom:16px;">
+      <div class="chart-title">📊 各维度平均得分</div>
+      <div id="ownerProgressDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+    <div class="weight-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;margin-bottom:16px;">
+      <div style="font-size:36px;margin-bottom:8px;" id="ownerProgressPartnerEmoji">🌿</div>
+      <div style="font-size:14px;font-weight:700;color:#15803d;margin-bottom:4px;" id="ownerProgressPartnerName">业务教练</div>
+      <div style="font-size:13px;color:#166534;line-height:1.6;" id="ownerProgressPartnerMsg">业务成长是一个长期过程，每天的小行动都在积累！</div>
     </div>
   </div>
 </div>
