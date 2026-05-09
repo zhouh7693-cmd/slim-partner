@@ -63,21 +63,22 @@
     .selector-sub { text-align: center; color: #6c7a89; margin-bottom: 28px; font-size: 15px; }
     .partner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
     .partner-card {
-      background: #fff; border-radius: 28px; padding: 20px 12px 16px; text-align: center;
-      cursor: pointer; box-shadow: 0 6px 14px rgba(0,0,0,0.03);
-      border: 1.5px solid #e9edf2; transition: all 0.2s;
+      background: #fff; border-radius: 24px; padding: 20px 12px 16px; text-align: center;
+      cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      border: 2px solid #e0e7ee; transition: all 0.22s;
     }
-    .partner-card.selected { border-color: #3a5fcd; background: #f0f4fd; transform: scale(0.98); }
+    .partner-card:hover { border-color: #3a5fcd; box-shadow: 0 6px 20px rgba(58,95,205,0.15); transform: translateY(-2px); }
+    .partner-card.selected { border-color: #3a5fcd; background: #f1f8e9; box-shadow: 0 6px 20px rgba(58,95,205,0.2); transform: translateY(-2px); }
     .partner-emoji { font-size: 48px; margin-bottom: 12px; }
     .partner-name { font-weight: 700; font-size: 18px; margin-bottom: 6px; }
     .partner-desc { font-size: 13px; color: #6c7a89; }
     .confirm-btn {
-      background: #3a5fcd; color: white; border: none;
+      background: linear-gradient(135deg, #3a5fcd, #2a4eb0); color: white; border: none;
       width: 100%; padding: 16px; border-radius: 60px;
-      font-size: 18px; font-weight: 600; cursor: pointer;
-      position: relative; z-index: 101;
+      font-size: 18px; font-weight: 700; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(58,95,205,0.35);
     }
-    .confirm-btn:active { background: #2a4eb0; transform: scale(0.97); }
+    .confirm-btn:active { transform: scale(0.97); opacity: 0.9; }
 
     .card {
       max-width: 420px; margin: 0 auto;

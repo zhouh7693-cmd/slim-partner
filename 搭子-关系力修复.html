@@ -21,13 +21,23 @@
     .selector-title { font-size: 26px; font-weight: 700; text-align: center; background: linear-gradient(135deg, #d97706, #b45309); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
     .selector-sub { text-align: center; color: #6c7a89; margin-bottom: 28px; font-size: 14px; line-height: 1.5; }
     .partner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; width: 100%; }
-    .partner-card { background: #fff; border-radius: 28px; padding: 18px 10px 14px; text-align: center; cursor: pointer; box-shadow: 0 6px 14px rgba(0,0,0,0.04); border: 1.5px solid #e9edf2; transition: all 0.2s; }
-    .partner-card.selected { border-color: #d97706; background: #fff8f0; transform: scale(0.98); }
+    .partner-card {
+      background: #fff; border-radius: 24px; padding: 20px 12px 16px; text-align: center;
+      cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      border: 2px solid #e0e7ee; transition: all 0.22s;
+    }
+    .partner-card:hover { border-color: #d97706; box-shadow: 0 6px 20px rgba(217,119,6,0.15); transform: translateY(-2px); }
+    .partner-card.selected { border-color: #d97706; background: #fefce8; box-shadow: 0 6px 20px rgba(217,119,6,0.2); transform: translateY(-2px); }
     .partner-emoji { font-size: 44px; margin-bottom: 10px; }
     .partner-name { font-weight: 700; font-size: 17px; margin-bottom: 5px; color: #2b3a4a; }
     .partner-desc { font-size: 12px; color: #6c7a89; line-height: 1.4; }
-    .confirm-btn { background: linear-gradient(135deg, #d97706, #b45309); color: white; border: none; width: 100%; padding: 16px; border-radius: 60px; font-size: 18px; font-weight: 600; cursor: pointer; }
-    .confirm-btn:active { opacity: 0.9; transform: scale(0.97); }
+    .confirm-btn {
+      background: linear-gradient(135deg, #d97706, #b45309); color: white; border: none;
+      width: 100%; padding: 16px; border-radius: 60px;
+      font-size: 18px; font-weight: 700; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(217,119,6,0.35);
+    }
+    .confirm-btn:active { transform: scale(0.97); opacity: 0.9; }
     /* 打卡页 */
     .card { max-width: 420px; margin: 0 auto; background: white; border-radius: 44px; padding: 28px 24px 32px; box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08); margin-bottom: 20px; text-align: center; }
     .partner-badge { display: inline-block; background: #fff8f0; padding: 6px 16px; border-radius: 40px; font-size: 14px; margin-bottom: 20px; color: #d97706; font-weight: 500; }
@@ -250,7 +260,7 @@
   <div class="selector-title">选一个关系力搭子 🌸</div>
   <div class="selector-sub">陪你把每段关系都变成<br>相互成就的合作关系</div>
   <div class="partner-grid" id="partnerGrid"></div>
-  <button class="confirm-btn" id="confirmBtn" onclick="confirmPartner()">确认搭子 →</button>
+  <button class="confirm-btn" id="confirmBtn" onclick="confirmPartner();void 0">确认搭子 →</button>
 </div>
 
 <div class="tab-bar" id="tabBar" style="display:none;">
