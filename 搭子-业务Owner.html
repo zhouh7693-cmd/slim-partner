@@ -1010,45 +1010,48 @@ var SOP_CATEGORIES = [
   {id:'cat5', name:'自我管理', icon:'🌿', desc:'节奏、边界、持续成长', color:'#dc2626'}
 ];
 
-var SOP_HABITS = {
-  cat1: [
-    {emoji:'🧭', pos:true, text:'今天主动做了一个业务方向的判断，没有等上级拍板', sub:'Owner不是等答案的人，是给答案的人'},
-    {emoji:'🏃', pos:false, text:'今天大部分时间在处理执行细节，没有做过一个业务判断', sub:'Owner的价值在判断，而不是执行'},
-    {emoji:'⚡', pos:true, text:'今天主动推进了一件"没人要求我做"的业务事项', sub:'主动性是Owner和执行者最大的分水岭'},
-    {emoji:'😶', pos:false, text:'遇到卡点时第一反应是"等上级决定"', sub:'试着把等待变成"我的建议是X，需要您确认的是Y"'}
-  ],
-  cat2: [
-    {emoji:'📊', pos:true, text:'今天主动看了ROI或毛利数据，并知道数字背后的原因', sub:'Owner用数字思考，不只是看数字'},
-    {emoji:'📉', pos:false, text:'今天听了下属的汇报数字，但没有自己验证', sub:'数字要亲自看，不能只靠别人的解读'},
-    {emoji:'💰', pos:true, text:'今天做决策时计算了净利润影响，不只看收入', sub:'"这件事能赚多少"比"这件事有多少GMV"更重要'},
-    {emoji:'🤷', pos:false, text:'被问到利润数据时，答不上来或者说不清楚', sub:'财务数据是Owner的基本功，每天早上花5分钟看一遍'}
-  ],
-  cat3: [
-    {emoji:'🤝', pos:true, text:'今天主动联系了一个品牌方，不是等他们来找我', sub:'品牌关系靠主动经营，靠被动响应只会越来越被动'},
-    {emoji:'😰', pos:false, text:'今天接到品牌方要求，立刻答应了，没有评估利润影响', sub:'任何承诺之前先算ROI，这是Owner的基本商业纪律'},
-    {emoji:'💼', pos:true, text:'今天和品牌方沟通时清晰表达了我们的立场和价值', sub:'有立场的服务商才有话语权，无立场的只能打价格战'},
-    {emoji:'😤', pos:false, text:'今天没有任何外部沟通，全天在处理内部事务', sub:'Owner的核心信息来自外部——品牌方、平台、市场'}
-  ],
-  cat4: [
-    {emoji:'💬', pos:true, text:'今天汇报或表达时，先说结论再给数据', sub:'结论先行是Owner与执行者在沟通上最显著的差异'},
-    {emoji:'📝', pos:false, text:'今天汇报时只是罗列了发生的事情，没有说出判断', sub:'事实是原材料，判断才是有价值的产品'},
-    {emoji:'📋', pos:true, text:'今天有一次表达带上了"我的建议是X，理由是Y"', sub:'有建议的汇报才是完整的汇报'},
-    {emoji:'😬', pos:false, text:'今天被问"你觉得应该怎么做"时，答不上来', sub:'每次汇报前逼自己准备好建议，这是Owner的功课'}
-  ],
-  cat5: [
-    {emoji:'🌿', pos:true, text:'今天设定了今日3件最重要的事，并专注在这3件上', sub:'Owner的稀缺资源是专注力，保护它比管理时间更重要'},
-    {emoji:'😔', pos:false, text:'今天被各种消息和临时需求打断，没有完成一件重要的事', sub:'碎片化工作是Owner效能最大的杀手，要主动建立保护机制'},
-    {emoji:'📈', pos:true, text:'今天花时间思考了"1年后我想成为什么样的Owner"', sub:'没有方向的成长只是在消耗能量，方向清晰才能积累动能'},
-    {emoji:'😤', pos:false, text:'今天工作和休息的边界模糊，状态一直在低水平运行', sub:'持续低效比偶尔休息更消耗生命，Owner要学会真正切换'}
-  ]
-};
+var SOP_HABITS = [
+  // cat: biz_mindset
+  {id:'biz_mindset_1', cat:'biz_mindset', emoji:'🧭', pos:true, text:'今天主动做了一个业务方向的判断，没有等上级拍板', sub:'Owner不是等答案的人，是给答案的人'},
+  {id:'biz_mindset_2', cat:'biz_mindset', emoji:'🏃', pos:false, text:'今天大部分时间在处理执行细节，没有做过一个业务判断', sub:'Owner的价值在判断，而不是执行'},
+  {id:'biz_mindset_3', cat:'biz_mindset', emoji:'⚡', pos:true, text:'今天主动推进了一件"没人要求我做"的业务事项', sub:'主动性是Owner和执行者最大的分水岭'},
+  {id:'biz_mindset_4', cat:'biz_mindset', emoji:'😶', pos:false, text:'遇到卡点时第一反应是"等上级决定"', sub:'试着把等待变成"我的建议是X，需要您确认的是Y"'},
+  // cat: data_finance
+  {id:'data_finance_1', cat:'data_finance', emoji:'📊', pos:true, text:'今天主动看了ROI或毛利数据，并知道数字背后的原因', sub:'Owner用数字思考，不只是看数字'},
+  {id:'data_finance_2', cat:'data_finance', emoji:'📉', pos:false, text:'今天听了下属的汇报数字，但没有自己验证', sub:'数字要亲自看，不能只靠别人的解读'},
+  {id:'data_finance_3', cat:'data_finance', emoji:'💰', pos:true, text:'今天做决策时计算了净利润影响，不只看收入', sub:'"这件事能赚多少"比"这件事有多少GMV"更重要'},
+  {id:'data_finance_4', cat:'data_finance', emoji:'🤷', pos:false, text:'被问到利润数据时，答不上来或者说不清楚', sub:'财务数据是Owner的基本功，每天早上花5分钟看一遍'},
+  // cat: brand_rel
+  {id:'brand_rel_1', cat:'brand_rel', emoji:'🤝', pos:true, text:'今天主动联系了一个品牌方，不是等他们来找我', sub:'品牌关系靠主动经营，靠被动响应只会越来越被动'},
+  {id:'brand_rel_2', cat:'brand_rel', emoji:'😰', pos:false, text:'今天接到品牌方要求，立刻答应了，没有评估利润影响', sub:'任何承诺之前先算ROI，这是Owner的基本商业纪律'},
+  {id:'brand_rel_3', cat:'brand_rel', emoji:'💼', pos:true, text:'今天和品牌方沟通时清晰表达了我们的立场和价值', sub:'有立场的服务商才有话语权，无立场的只能打价格战'},
+  {id:'brand_rel_4', cat:'brand_rel', emoji:'😤', pos:false, text:'今天没有任何外部沟通，全天在处理内部事务', sub:'Owner的核心信息来自外部——品牌方、平台、市场'},
+  // cat: report_comm
+  {id:'report_comm_1', cat:'report_comm', emoji:'💬', pos:true, text:'今天汇报或表达时，先说结论再给数据', sub:'结论先行是Owner与执行者在沟通上最显著的差异'},
+  {id:'report_comm_2', cat:'report_comm', emoji:'📝', pos:false, text:'今天汇报时只是罗列了发生的事情，没有说出判断', sub:'事实是原材料，判断才是有价值的产品'},
+  {id:'report_comm_3', cat:'report_comm', emoji:'📋', pos:true, text:'今天有一次表达带上了"我的建议是X，理由是Y"', sub:'有建议的汇报才是完整的汇报'},
+  {id:'report_comm_4', cat:'report_comm', emoji:'😬', pos:false, text:'今天被问"你觉得应该怎么做"时，答不上来', sub:'每次汇报前逼自己准备好建议，这是Owner的功课'},
+  // cat: self_mgmt
+  {id:'self_mgmt_1', cat:'self_mgmt', emoji:'🌿', pos:true, text:'今天设定了今日3件最重要的事，并专注在这3件上', sub:'Owner的稀缺资源是专注力，保护它比管理时间更重要'},
+  {id:'self_mgmt_2', cat:'self_mgmt', emoji:'😔', pos:false, text:'今天被各种消息和临时需求打断，没有完成一件重要的事', sub:'碎片化工作是Owner效能最大的杀手，要主动建立保护机制'},
+  {id:'self_mgmt_3', cat:'self_mgmt', emoji:'📈', pos:true, text:'今天花时间思考了"1年后我想成为什么样的Owner"', sub:'没有方向的成长只是在消耗能量，方向清晰才能积累动能'},
+  {id:'self_mgmt_4', cat:'self_mgmt', emoji:'😤', pos:false, text:'今天工作和休息的边界模糊，状态一直在低水平运行', sub:'持续低效比偶尔休息更消耗生命，Owner要学会真正切换'}
+];
+
+// 按分类建立索引，方便 SOP_HABITS_BY_CAT[catId] 访问
+var SOP_HABITS_BY_CAT = {};
+SOP_HABITS.forEach(function(h) {
+  if (!SOP_HABITS_BY_CAT[h.cat]) SOP_HABITS_BY_CAT[h.cat] = [];
+  SOP_HABITS_BY_CAT[h.cat].push(h);
+});
 
 function renderSOP() {
   var grid = document.getElementById('sopCatGrid');
   grid.innerHTML = '';
   SOP_CATEGORIES.forEach(function(cat) {
+    var habits = SOP_HABITS.filter(function(h) { return h.cat === cat.id; });
     var done = getSOPDone(cat.id);
-    var total = SOP_HABITS[cat.id].length;
+    var total = habits.length;
     var pct = total > 0 ? Math.round(done / total * 100) : 0;
     var div = document.createElement('div');
     div.className = 'sop-cat-btn';
@@ -1086,7 +1089,7 @@ function showSOPList(catId) {
 function renderSOPList(catId) {
   var container = document.getElementById('sopListContainer');
   container.innerHTML = '';
-  var habits = SOP_HABITS[catId] || [];
+  var habits = SOP_HABITS_BY_CAT[catId] || [];
   var catData = {};
   try { catData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}')[catId] || {}; } catch(e) {}
   habits.forEach(function(h, i) {
@@ -1112,7 +1115,7 @@ function renderSOPList(catId) {
 }
 
 function answerSOPItem(catId, habitIdx, ans) {
-  var h = SOP_HABITS[catId][habitIdx];
+  var h = SOP_HABITS_BY_CAT[catId][habitIdx];
   var allData = {};
   try { allData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}'); } catch(e) {}
   if (!allData[catId]) allData[catId] = {};
@@ -1149,7 +1152,7 @@ function getSOPDone(catId) {
 }
 
 function startSOPCat(catId) {
-  var habits = SOP_HABITS[catId];
+  var habits = SOP_HABITS_BY_CAT[catId];
   if (!habits) return;
   var catData = {};
   try { catData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}')[catId] || {}; } catch(e) {}
@@ -1181,7 +1184,7 @@ function answerSOP(ans) {
   var card = document.getElementById('sopGameCard');
   var catId = card.dataset.cat;
   var habitIdx = parseInt(card.dataset.idx);
-  var h = SOP_HABITS[catId][habitIdx];
+  var h = SOP_HABITS_BY_CAT[catId][habitIdx];
   var allData = {};
   try { allData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}'); } catch(e) {}
   if (!allData[catId]) allData[catId] = {};
@@ -1206,7 +1209,7 @@ function answerSOP(ans) {
   updateSOPStats();
   setTimeout(function() {
     var done = getSOPDone(catId);
-    var total = SOP_HABITS[catId].length;
+    var total = SOP_HABITS_BY_CAT[catId].length;
     if (done >= total) {
       document.getElementById('sopGameCard').style.display = 'none';
       document.getElementById('sopDoneState').style.display = 'block';
@@ -1221,7 +1224,7 @@ function answerSOP(ans) {
 function updateSOPStats() {
   var total = 0, done = 0;
   SOP_CATEGORIES.forEach(function(cat) {
-    var habits = SOP_HABITS[cat.id] || [];
+    var habits = SOP_HABITS_BY_CAT[cat.id] || [];
     total += habits.length;
     done += getSOPDone(cat.id);
   });
