@@ -287,7 +287,7 @@
   <div class="selector-title">选一个业务搭子 🤝</div>
   <div class="selector-sub">陪你从业务执行者进化成真正的Owner</div>
   <div class="partner-grid" id="partnerGrid"></div>
-  <button class="confirm-btn" id="confirmPartnerBtn" onclick="confirmPartner()">确认搭子 →</button>
+  <button class="confirm-btn" id="confirmPartnerBtn" onclick="console.log('业务Owner slimConfirmPartner clicked');slimConfirmPartner();void 0">确认搭子 →</button>
 </div>
 
 <div class="tab-bar" id="tabBar" style="display:none;">
@@ -681,7 +681,27 @@ function renderPartnerGrid() {
   }
 }
 
+function slimConfirmPartner() {
+  if (!currentPartner) {
+    // 尝试从选中的card获取
+    var selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
+    if (selectedCard && selectedCard._partner) {
+      currentPartner = selectedCard._partner;
+    } else if (PARTNERS_DATA.length > 0) {
+      currentPartner = PARTNERS_DATA[0];
+    }
+  }
+  if (!currentPartner) { alert('请先选择一个搭子'); return; }
+  var btn = document.getElementById('confirmPartnerBtn');
+  if (btn) { btn.textContent = '✅ 进入中…'; btn.style.background = 'linear-gradient(135deg,#888,#555)'; }
+  var mask = document.getElementById('partnerSelectorMask');
+  if (mask) mask.style.display = 'none';
+  // 直接调用confirmPartner完成初始化
+  confirmPartner();
+}
+
 function confirmPartner() {
+  console.log('业务Owner confirmPartner() called, currentPartner=', currentPartner);
   if (!currentPartner) { alert('请先选一个搭子'); return; }
   localStorage.setItem(STORAGE.PARTNER, JSON.stringify(currentPartner));
   document.getElementById('partnerSelector').style.display = 'none';

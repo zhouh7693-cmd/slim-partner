@@ -260,7 +260,7 @@
   <div class="selector-title">选一个关系力搭子 🌸</div>
   <div class="selector-sub">陪你把每段关系都变成<br>相互成就的合作关系</div>
   <div class="partner-grid" id="partnerGrid"></div>
-  <button class="confirm-btn" id="confirmBtn" onclick="confirmPartner();void 0">确认搭子 →</button>
+  <button class="confirm-btn" id="confirmBtn" onclick="console.log('关系力 slimConfirmPartner clicked');slimConfirmPartner();void 0">确认搭子 →</button>
 </div>
 
 <div class="tab-bar" id="tabBar" style="display:none;">
@@ -1044,7 +1044,21 @@ function selectPartner(id) {
   if (el) el.classList.add('selected');
 }
 
+function slimConfirmPartner() {
+  if (!selectedPartner && PARTNERS.length > 0) {
+    selectedPartner = PARTNERS[0].id;
+  }
+  if (!selectedPartner) { alert('请先选择一个搭子'); return; }
+  var btn = document.getElementById('confirmBtn');
+  if (btn) { btn.textContent = '✅ 进入中…'; btn.style.background = 'linear-gradient(135deg,#888,#555)'; }
+  var mask = document.getElementById('partnerSelectorMask');
+  if (mask) mask.style.display = 'none';
+  // 调用confirmPartner完成初始化
+  confirmPartner();
+}
+
 function confirmPartner() {
+  console.log('关系力 confirmPartner() called, selectedPartner=', selectedPartner);
   // 如果没有选中搭子，自动选第一个
   if (!selectedPartner && PARTNERS.length > 0) {
     selectedPartner = PARTNERS[0].id;
