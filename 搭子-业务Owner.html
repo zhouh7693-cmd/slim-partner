@@ -370,28 +370,28 @@
 <!-- ===== Page: 数据记录（增长率） ===== -->
 <div class="page" id="dataPage">
   <div class="biz-page">
-    <div class="weight-header">
-      <div class="weight-title">📊 业务增长率记录</div>
-      <div class="weight-sub" id="bizSummary">记录你的每一个业务突破</div>
-      <div class="weight-input-row">
-        <input class="weight-input" id="bizInput" type="number" step="0.1" min="0" max="999" placeholder="--">
-        <span class="weight-unit">%</span>
-        <button class="weight-add-btn" onclick="addBiz()">记录</button>
+    <div class="biz-header">
+      <div class="biz-title">📊 业务增长率记录</div>
+      <div class="biz-sub" id="bizSummary">记录你的每一个业务突破</div>
+      <div class="biz-input-row">
+        <input class="biz-input" id="bizInput" type="number" step="0.1" min="0" max="999" placeholder="--">
+        <span class="biz-unit">%</span>
+        <button class="biz-add-btn" onclick="addBiz()">记录</button>
       </div>
     </div>
-    <div class="weight-chart-card">
+    <div class="biz-chart-card">
       <div class="chart-title">📈 增长曲线</div>
       <div class="chart-sub" id="bizChartSub">坚持记录，趋势一目了然</div>
       <canvas id="bizChartCanvas" width="380" height="200"></canvas>
     </div>
-    <div class="weight-chart-card" id="weeklyReportCard">
+    <div class="biz-chart-card" id="weeklyReportCard">
       <div class="chart-title">📊 本周进展</div>
       <div id="bizWeeklyReportContent">
         <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>
       </div>
       <button id="shareBizWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#16a34a,#0d6e30);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareBizWeeklyReport()">📤 分享本周进展</button>
     </div>
-    <div class="weight-records">
+    <div class="biz-records">
       <div class="records-title">📝 历史记录</div>
       <div id="bizRecords"></div>
     </div>
@@ -1520,8 +1520,8 @@ function initProgressPage() {
 
 <!-- ===== Page: 进展 ===== -->
 <div id="progressPage" class="page">
-  <div class="weight-page">
-    <div class="weight-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;">
+  <div class="biz-page">
+    <div class="biz-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;">
       <div style="font-size:48px;margin-bottom:8px;">🏆</div>
       <div class="chart-title" style="font-size:18px;margin-bottom:4px;">业务Owner成长进展</div>
       <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">你的业务 SOP 全局视图</div>
@@ -1553,11 +1553,11 @@ function initProgressPage() {
         </div>
       </div>
     </div>
-    <div class="weight-chart-card" style="margin-bottom:16px;">
+    <div class="biz-chart-card" style="margin-bottom:16px;">
       <div class="chart-title">📊 各维度平均得分</div>
       <div id="ownerProgressDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;"></div>
     </div>
-    <div class="weight-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;margin-bottom:16px;">
+    <div class="biz-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;margin-bottom:16px;">
       <div style="font-size:36px;margin-bottom:8px;" id="ownerProgressPartnerEmoji">🌿</div>
       <div style="font-size:14px;font-weight:700;color:#15803d;margin-bottom:4px;" id="ownerProgressPartnerName">业务教练</div>
       <div style="font-size:13px;color:#166534;line-height:1.6;" id="ownerProgressPartnerMsg">业务成长是一个长期过程，每天的小行动都在积累！</div>
