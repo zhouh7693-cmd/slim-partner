@@ -1105,6 +1105,9 @@ function renderSOPList(catId) {
       '</div>';
     container.appendChild(item);
   });
+  // 所有项目已回答，显示确认提交按钮
+  var allAnswered = habits.every(function(h, i) { return catData['h' + i]; });
+  document.getElementById('sopListDoneBtn').style.display = allAnswered ? '' : 'none';
   updateSOPStats();
 }
 
