@@ -1377,9 +1377,16 @@ function showCoachReportOwner() {
 
 // ===== 进展页面初始化 =====
 function initProgressPage() {
-  var streak = parseInt(localStorage.getItem(STORAGE.KEY + '_streak') || '0');
-  var total = (JSON.parse(localStorage.getItem(STORAGE.HISTORY) || [])).length;
-  var today = localStorage.getItem(STORAGE.KEY + '_today') ? '✅' : '-';
+  var history = [];
+  try { history = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); } catch(e) {}
+  var total = history.length;
+  var today = history.indexOf(new Date().toLocaleDateString()) >= 0 ? '✅' : '-';
+  // 计算连续天数
+  var streak = 0;
+  var d = new Date();
+  while (true) {
+    if (history.indexOf(d.toLocaleDateString()) >= 0) { streak++; d.setDate(d.getDate() - 1); } else { break; }
+  }
   var elStreak = document.getElementById('ownerStreak');
   var elTotal = document.getElementById('ownerTotal');
   var elToday = document.getElementById('ownerToday');
