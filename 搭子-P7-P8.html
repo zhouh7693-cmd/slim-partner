@@ -992,6 +992,21 @@ function slimConfirmPartner() {
 window.selectPartner = selectPartner;
 window.slimConfirmPartner = slimConfirmPartner;
 
+function startApp() {
+  // 初始化搭子状态
+  var saved = localStorage.getItem('slim_partner_p7');
+  if (saved) {
+    var partner = PARTNERS.find(function(p) { return p.id === saved; });
+    if (partner) {
+      currentPartner = partner;
+      var badge = document.getElementById('partnerBadge');
+      if (badge) badge.innerHTML = partner.emoji + ' ' + partner.name;
+    }
+  }
+  // 默认切换到搭子页
+  switchTab('chat');
+}
+
 function confirmPartner() {
   try {
     // 从localStorage获取选中的搭子ID（与slimConfirmPartner保持一致）
@@ -1016,6 +1031,7 @@ function confirmPartner() {
     if (tabBar) tabBar.style.display = 'flex';
 
     if (typeof loadHistory === 'function') loadHistory();
+    startApp();
   } catch(e) {
     alert('确认搭子出错：' + e.message);
   }
