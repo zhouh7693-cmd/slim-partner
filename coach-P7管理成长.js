@@ -13,7 +13,7 @@ const COACH_MCKINSEY_CONFIG = {
   dialogTree: {
     define: [
       {
-        coach: '嗨！我是你的P7管理成长教练。用麦肯锡结构化思维，帮你拆解管理难题、找到可执行的管理突破点。\n\n请先描述你最近遇到的一个具体管理难题（尽量说清楚背景、你的目标、卡在哪里）：',
+        coach: '嗨！我是你的P7管理成长教练。用麦肯锡结构化思维，帮你拆解管理难题、建立可持续的领导力习惯。\n\n请先描述你最近遇到的一个具体管理难题（尽量说清楚背景、你的目标、卡在哪里）：',
         keywords: { 'default': 'define1' }
       },
       {
@@ -23,20 +23,20 @@ const COACH_MCKINSEY_CONFIG = {
     ],
     analyze: [
       {
-        coach: '明白。现在请描述一下：在这个管理场景中，你具体做了什么、团队/上级的反应如何？\n\n（尽量客观描述行为和反应，不要带评判）',
+        coach: '明白。现在请描述一下：在这个管理场景中，你具体做了什么决策、结果如何？\n\n（尽量客观描述行为和结果，不要带评判）',
         keywords: { 'default': 'analyze1' }
       },
       {
-        coach: '收到。现在让我用MECE框架拆解一下这个问题：\n\n【你的管理行为】{用户选择}\n【团队/上级反馈】待补充\n【结构因素】组织架构/资源限制/文化因素\n\n请选择你想先突破的维度：\nA. 改变我的管理行为（我能控制的部分）\nB. 改善团队/上级反馈（建立新的互动模式）\nC. 调整结构因素（改变环境/流程/资源）',
+        coach: '收到。现在让我用MECE框架拆解一下这个问题：\n\n【你的决策模式】{用户选择}\n【团队反馈】待补充\n【组织结构】团队结构/资源分配/公司政治\n\n请选择你想先突破的维度：\nA. 改变我的决策模式（我能控制的部分）\nB. 改善团队反馈（建立新的沟通机制）\nC. 调整组织结构（改变环境/流程/支持系统）',
         buttons: [
-          { label: 'A. 改变我的管理行为', value: 'A', style: 'yes' },
-          { label: 'B. 改善团队/上级反馈', value: 'B', style: '' },
-          { label: 'C. 调整结构因素', value: 'C', style: 'no' }
+          { label: 'A. 改变我的决策', value: 'A', style: 'yes' },
+          { label: 'B. 改善团队反馈', value: 'B', style: '' },
+          { label: 'C. 调整组织结构', value: 'C', style: 'no' }
         ],
         keywords: {
-          'A|改变|管理': 'act0',
+          'A|改变|决策': 'act0',
           'B|改善|反馈|团队': 'act0',
-          'C|调整|结构': 'act0',
+          'C|调整|结构|组织': 'act0',
           'default': 'act0'
         }
       }
@@ -98,8 +98,8 @@ function addChatMessage(role, text) {
       generatingMsg.id = 'generatingReport';
       generatingMsg.className = 'generating-report';
       generatingMsg.innerHTML = '⏳ 正在生成MECE诊断报告，请稍候...';
-      var chatEl2 = document.getElementById('coachChat');
-      if (chatEl2) chatEl2.appendChild(generatingMsg);
+      var chatEl = document.getElementById('coachChat');
+      if (chatEl) chatEl.appendChild(generatingMsg);
     } else {
       var tree = COACH_MCKINSEY_CONFIG.dialogTree[coachStep];
       var currentNode = tree ? tree[coachSubStep] : null;
@@ -259,10 +259,10 @@ function buildAck(step, subStep, userText) {
   if (step === 'analyze') {
     if (subStep === 0) {
       var displayText2 = userText.length > 50 ? userText.substring(0, 50) + '...' : userText;
-      return '好的，我记录了你的管理行为模式："' + displayText2 + '"';
+      return '好的，我记录了你的决策模式："' + displayText2 + '"';
     }
     if (subStep === 1) {
-      return '很好！现在我有了你的管理行为模式，让我用MECE框架分析：\n【你的管理行为】' + (userInputs.analyze ? userInputs.analyze[0] : '') + '\n→ 让团队感受到：你可能太急了\n【团队/上级反馈】' + userText + '\n→ 让管理陷入：你说你的，团队做它的\n【管理结构】组织架构 / 资源限制 / 文化因素\n\n现在，你想先从哪个维度突破？\nA. 调整我的管理行为（改变自己）\nB. 引导团队/上级的反馈（影响他人）\nC. 重构管理结构（改变互动规则）';
+      return '很好！现在我有了你的决策模式，让我用MECE框架分析：\n【你的决策模式】' + (userInputs.analyze ? userInputs.analyze[0] : '') + '\n→ 让团队感受到：你可能太急了\n【团队的反馈】' + userText + '\n→ 让管理陷入：你说你的，团队做它的\n【管理结构】团队结构 / 资源分配 / 公司政治\n\n现在，你想先从哪个维度突破？\nA. 调整我的决策模式（改变自己）\nB. 引导团队的反馈（影响团队感受）\nC. 重构管理结构（改变互动规则）';
     }
   }
   if (step === 'act') {
@@ -275,19 +275,19 @@ function generateDynamicQuestions(userText) {
   var text = userText.toLowerCase();
   var questions = [];
 
-  if (text.match(/团队|下属|员工/)) {
-    questions.push('1️⃣ 在团队管理上，你说了什么或做了什么？团队如何回应？');
-  } else if (text.match(/上级|领导|老板/)) {
+  if (text.match(/上级|老板|领导|汇报/)) {
     questions.push('1️⃣ 在向上管理上，你说了什么或做了什么？上级如何回应？');
-  } else if (text.match(/绩效|考核|目标/)) {
-    questions.push('1️⃣ 在绩效管理上，你说了什么或做了什么？结果如何回应？');
-  } else if (text.match(/项目|交付|进度/)) {
-    questions.push('1️⃣ 在项目管理上，你说了什么或做了什么？项目如何回应？');
+  } else if (text.match(/团队|下属|管理|排兵布阵/)) {
+    questions.push('1️⃣ 在团队管理上，你说了什么或做了什么？团队如何回应？');
+  } else if (text.match(/跨部门|协作|合作/)) {
+    questions.push('1️⃣ 在跨部门协作上，你说了什么或做了什么？对方如何回应？');
+  } else if (text.match(/战略|方向|决策/)) {
+    questions.push('1️⃣ 在战略决策上，你说了什么或做了什么？结果如何？');
   } else {
     questions.push('1️⃣ 当时你说了什么或做了什么？对方有什么反应？');
   }
 
-  questions.push('2️⃣ 这个问题对你的管理/职业发展有什么具体影响？');
+  questions.push('2️⃣ 这个问题对你的管理成效有什么具体影响？');
   questions.push('3️⃣ 你最希望的改变是什么？如果问题解决，你的管理会有什么不同？');
 
   return questions.join('\n');
@@ -296,7 +296,7 @@ function generateDynamicQuestions(userText) {
 function replacePlaceholders(text, userText) {
   if (!text) return '';
   text = text.replace(/\{用户选择\}/g, userText.substring(0, 20));
-  text = text.replace(/\{场景\}/g, userInputs.define ? (userInputs.define[0] ? userInputs.define[0].substring(0, 30) : '你的管理场景') : '你的管理场景');
+  text = text.replace(/\{场景\}/g, (userInputs.define ? userInputs.define[0].substring(0, 30) : '你的管理场景') : (userInputs.define ? userInputs.define[0].substring(0, 30) : '你的管理场景') : '你的管理场景');
   text = text.replace(/\{情绪\}/g, '不舒服');
   text = text.replace(/\{核心冲突\}/g, '管理期望与现实的差距');
   return text;
@@ -314,25 +314,25 @@ function generateMcKinseyReport() {
   var inputs = userInputs;
   var actions = buildDynamicActions(inputs);
 
-  var coreText = inputs.define ? (inputs.define[0] ? inputs.define[0].substring(0, 50) : '最近的管理场景') : '最近的管理场景';
-  var behaviorText = inputs.analyze ? (inputs.analyze[0] ? inputs.analyze[0].substring(0, 30) : '某种管理行为模式') : '某种管理行为模式';
+  var coreText = (inputs.define ? inputs.define[0] : '最近的管理场景') ? (inputs.define ? inputs.define[0].substring(0, 50) : '最近的管理场景') : '最近的管理场景';
+  var behaviorText = (inputs.analyze ? inputs.analyze[0] : '某种决策模式') ? (inputs.analyze ? inputs.analyze[0].substring(0, 30) : '某种决策模式') : '某种决策模式';
 
   var html = '<div class="report-header">'
-    + '<div class="report-icon">📊</div>'
+    + '<div class="report-icon">🎓</div>'
     + '<div class="report-title">麦肯锡风格P7管理成长诊断报告</div>'
     + '<div class="report-subtitle">基于结构化分析框架 · MECE原则 · 行动导向</div>'
     + '</div>'
 
     + '<div class="report-core-conclusion">'
     + '<h3>🎯 核心结论（金字塔顶端）</h3>'
-    + '<p>【核心结论】你在"' + coreText + '"中，倾向于' + behaviorText + '，导致管理陷入僵局。根本原因在于管理行为模式形成了负向循环。</p>'
+    + '<p>【核心结论】你在"' + coreText + '"中，倾向于' + behaviorText + '，导致管理陷入僵局。根本原因在于决策模式形成了负向循环。</p>'
     + '</div>'
 
     + '<div class="report-mece-analysis">'
     + '<h3>📋 MECE结构化分析</h3>'
-    + '<div class="mece-dimension"><div class="mece-dim-title">你的管理行为 <span style="color:#78909c">6/10</span></div><div class="mece-dim-desc">' + (inputs.analyze ? inputs.analyze[0] : '待补充') + '</div></div>'
-    + '<div class="mece-dimension"><div class="mece-dim-title">团队/上级反馈 <span style="color:#0891b2">5/10</span></div><div class="mece-dim-desc">' + (inputs.analyze ? inputs.analyze[1] : '待补充') + '</div></div>'
-    + '<div class="mece-dimension"><div class="mece-dim-title">管理结构 <span style="color:#7c3aed">4/10</span></div><div class="mece-dim-desc">组织架构 / 资源限制 / 文化因素</div></div>'
+    + '<div class="mece-dimension"><div class="mece-dim-title">你的决策模式 <span style="color:#2e7d52">6/10</span></div><div class="mece-dim-desc">' + (inputs.analyze ? inputs.analyze[0] : '待补充') + '</div></div>'
+    + '<div class="mece-dimension"><div class="mece-dim-title">团队的反馈模式 <span style="color:#0891b2">5/10</span></div><div class="mece-dim-desc">' + (inputs.analyze ? inputs.analyze[1] : '待补充') + '</div></div>'
+    + '<div class="mece-dimension"><div class="mece-dim-title">管理组织结构 <span style="color:#7c3aed">4/10</span></div><div class="mece-dim-desc">团队结构 / 资源分配 / 公司政治</div></div>'
     + '</div>'
 
     + '<div class="report-impact-effort">'
@@ -352,7 +352,7 @@ function generateMcKinseyReport() {
 
     + '<div class="report-next-step">'
     + '<h3>👣 下一步行动（actionable）</h3>'
-    + '<p>' + (inputs.analyze && inputs.analyze[0] ? '【本周试验】调整你的管理行为，先倾听再表达' : '【本周试验】主动和团队1on1，不只在有问题时才找他') + '<br>【判断标准】团队回应变得更开放（主动说更多信息）<br>【复盘时间】建议下周一找我复盘</p>'
+    + '<p>' + (inputs.analyze && inputs.analyze[0] ? '【本周试验】调整你的决策方式，先倾听团队的声音' : '【本周试验】主动寻求反馈，不只在1:1时才沟通') + '<br>【判断标准】团队回应变得更正向（主动性增加、沟通更顺畅）<br>【复盘时间】建议下周一找我复盘</p>'
     + '</div>'
 
     + '<button class="coach-restart-btn" onclick="restartCoach()">🔄 重新对话</button>';
@@ -362,39 +362,49 @@ function generateMcKinseyReport() {
 }
 
 function buildDynamicActions(inputs) {
-  var defineText = (inputs.define ? (inputs.define[0] || '') : '').toLowerCase();
-  var analyzeText = (inputs.analyze ? (inputs.analyze[0] || '') : '').toLowerCase();
+  var defineText = (inputs.define ? inputs.define[0] : '').toLowerCase();
+  var analyzeText = (inputs.analyze ? inputs.analyze[0] : '').toLowerCase();
   var allText = defineText + ' ' + analyzeText;
   var actions = [];
 
   // P0 快赢
   var p0Added = false;
 
-  if (allText.match(/团队|下属|员工/)) {
+  if (allText.match(/上级|老板|领导|汇报/)) {
     actions.push({
       priority: 'P0 · 快赢',
-      action: '明天找一位团队成员做10分钟1on1，你只问"最近怎么样？"然后闭嘴听',
-      impact: '用深度倾听快速改善团队关系',
+      action: '今天主动给上级发一条进度消息："X项目进展到Y阶段，遇到Z挑战，计划这样应对"',
+      impact: '建立主动汇报的习惯，消除上级的不安全感',
       effort: '低'
     });
     p0Added = true;
   }
 
-  if (!p0Added && allText.match(/上级|领导|老板/)) {
+  if (!p0Added && allText.match(/团队|下属|管理|排兵布阵/)) {
     actions.push({
       priority: 'P0 · 快赢',
-      action: '发一条消息给上级："最近在思考我们的协作，想和您聊聊"',
-      impact: '打破沟通僵局',
+      action: '今天找一个下属，做一次5分钟的"最近怎么样？"——只倾听不评判',
+      impact: '打破"布置任务才沟通"的习惯，建立信任',
       effort: '低'
     });
     p0Added = true;
   }
 
-  if (!p0Added && allText.match(/绩效|考核|目标/)) {
+  if (!p0Added && allText.match(/方向|战略|优先级|决策/)) {
     actions.push({
       priority: 'P0 · 快赢',
-      action: '今天找一件团队做对了的事，具体夸一夸（不说"但是"）',
-      impact: '建立团队自信心和安全感',
+      action: '今天写一个"最重要的一件事"，问自己：这件事对上级最重要吗？',
+      impact: '校准优先级，从"忙"变成"有效"',
+      effort: '低'
+    });
+    p0Added = true;
+  }
+
+  if (!p0Added && allText.match(/跨部门|协作|合作|资源/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '找到跨部门协作的关键人，发一条感谢信息或约一次15分钟的Coffee Chat',
+      impact: '打破信息壁垒，建立横向影响力',
       effort: '低'
     });
     p0Added = true;
@@ -403,43 +413,66 @@ function buildDynamicActions(inputs) {
   if (!p0Added) {
     actions.push({
       priority: 'P0 · 快赢',
-      action: '今晚睡前把明天的一件管理行动写下来（具体到时间地点）',
-      impact: '用执行意图提高行动概率',
+      action: '今天做一个"Owner意识检查"：列出你正在推动的3件事，问自己"没有我，这件事会发生吗？"',
+      impact: '照见自己的"假Owner"陷阱',
       effort: '低'
     });
   }
 
   // P1 重要
-  if (allText.match(/团队|下属/)) {
+  if (allText.match(/上级|老板|领导|汇报/)) {
     actions.push({
       priority: 'P1 · 重要',
-      action: '每周和每位直接下属做1次1on1（固定时间，30分钟）',
-      impact: '建立稳定沟通节奏，及时发现问题',
+      action: '与上级建立每月1:1节奏，提前准备3个议题（你的挑战/你的请求/你的建议）',
+      impact: '从被动响应变成主动管理上级',
       effort: '中'
     });
-  } else if (allText.match(/上级|领导/)) {
+  } else if (allText.match(/团队|下属|排兵布阵/)) {
     actions.push({
       priority: 'P1 · 重要',
-      action: '每周主动给上级发一次进展更新（结论先行+数据支撑）',
-      impact: '建立信任，让上级对你更放心',
+      action: '对团队成员做一次Mini盘点：谁在超预期？谁在挣扎？谁需要帮助？并制定针对性计划',
+      impact: '从"我一个人扛"切换到"team owner"模式',
+      effort: '中'
+    });
+  } else if (allText.match(/方向|战略|优先级/)) {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '做一个OKR/目标的Pyramid对齐：从公司目标→团队目标→个人目标，确保每个目标都能回答"为什么重要"',
+      impact: '从"执行目标"到"理解目标意义"',
       effort: '中'
     });
   } else {
     actions.push({
       priority: 'P1 · 重要',
-      action: '做一次管理盘点：管理行为/团队反馈/成长需求，列出"我做得好的"和"需要改变的"',
-      impact: '明确管理现状，指导未来行动',
+      action: '找一个管理导师/教练（公司内或外部），每月做一次管理复盘',
+      impact: '加速从"个人贡献者"到"管理者"的认知升级',
       effort: '中'
     });
   }
 
   // P2 长期
-  actions.push({
-    priority: 'P2 · 长期',
-    action: '读《格鲁夫给经理人的第一课》或《领导力21法则》，做笔记记录"我的管理触动点在哪里"',
-    impact: '从管理新手模式切换到成熟管理者模式',
-    effort: '高'
-  });
+  if (allText.match(/上级|领导|信任/)) {
+    actions.push({
+      priority: 'P2 · 长期',
+      action: '系统提升"向上管理"能力：读《横向领导力》或《一分钟经理人》，刻意练习书中的方法',
+      impact: '从"被管理"到"主动影响上级决策"',
+      effort: '高'
+    });
+  } else if (allText.match(/团队|人才|排兵布阵/)) {
+    actions.push({
+      priority: 'P2 · 长期',
+      action: '建立团队人才梯队规划：3个高潜+3个待提升+3个关键保留，制定6个月发展计划',
+      impact: '从"自己干"到"复制自己"的管理升级',
+      effort: '高'
+    });
+  } else {
+    actions.push({
+      priority: 'P2 · 长期',
+      action: '找到P8甚至更高级别的管理者作为榜样，系统学习他们的管理思维和工作方法',
+      impact: '从"做好当下的事"到"理解P8的思维模式"',
+      effort: '高'
+    });
+  }
 
   return actions;
 }
