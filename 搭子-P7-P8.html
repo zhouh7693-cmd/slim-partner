@@ -1004,28 +1004,19 @@ window.slimConfirmPartner = slimConfirmPartner;
 
 function confirmPartner() {
   try {
-    // 从localStorage获取选中的搭子ID（与slimConfirmPartner保持一致）
     var saved = localStorage.getItem('slim_partner_p7');
     var selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
     if (selectedCard) saved = selectedCard.id.replace('pc-', '');
     if (!saved) saved = 'coach';
     localStorage.setItem('slim_partner_p7', saved);
 
-    var partner = PARTNERS.find(function(p) { return p.id === saved; }) || PARTNERS[0];
-    currentPartner = partner;
-    selectedPartnerId = saved;
+    var btn = document.getElementById('confirmPartnerBtn');
+    if (btn) { btn.textContent = '✅ 进入中…'; btn.style.background = 'linear-gradient(135deg,#888,#555)'; }
 
-    var badge = document.getElementById('partnerBadge');
-    if (badge) badge.innerHTML = partner.emoji + ' ' + partner.name;
-
-    var sel = document.getElementById('partnerSelector');
-    if (sel) sel.style.display = 'none';
     var mask = document.getElementById('partnerSelectorMask');
     if (mask) mask.style.display = 'none';
-    var tabBar = document.getElementById('tabBar');
-    if (tabBar) tabBar.style.display = 'flex';
 
-    if (typeof loadHistory === 'function') loadHistory();
+    if (typeof startApp === 'function') startApp();
   } catch(e) {
     alert('确认搭子出错：' + e.message);
   }
