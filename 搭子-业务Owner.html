@@ -1038,40 +1038,52 @@ var SOP_HABITS = {
 
 // 初始化SOP页面
 function initSOP() {
-  // 检查今天是否已完成SOP
-  var today = new Date().toDateString();
-  var savedData = localStorage.getItem(STORAGE.SOP);
-  if (savedData) {
-    try {
-      var data = JSON.parse(savedData);
-      var total = 0;
-      var done = 0;
-      SOP_CATEGORIES.forEach(function(cat) {
-        var habits = SOP_HABITS[cat.id] || [];
-        total += habits.length;
-        // 正确计算已回答的题目数
-        if (data[cat.id]) {
-          done += Object.keys(data[cat.id]).length;
+  try {
+    console.log('[DEBUG] initSOP() 开始执行');
+    // 检查今天是否已完成SOP
+    var today = new Date().toDateString();
+    var savedData = localStorage.getItem(STORAGE.SOP);
+    if (savedData) {
+      try {
+        var data = JSON.parse(savedData);
+        var total = 0;
+        var done = 0;
+        SOP_CATEGORIES.forEach(function(cat) {
+          var habits = SOP_HABITS[cat.id] || [];
+          total += habits.length;
+          // 正确计算已回答的题目数
+          if (data[cat.id]) {
+            done += Object.keys(data[cat.id]).length;
+          }
+        });
+        if (done >= total && total > 0) {
+          console.log('[DEBUG] 今天SOP已完成，显示完成状态');
+          document.getElementById('sopGameCard').style.display = 'none';
+          document.getElementById('sopDoneState').style.display = 'block';
+          sopCompletedToday = true;
+          return;
         }
-      });
-      if (done >= total && total > 0) {
-        document.getElementById('sopGameCard').style.display = 'none';
-        document.getElementById('sopDoneState').style.display = 'block';
-        sopCompletedToday = true;
-        return;
-      }
-    } catch(e) { console.error('initSOP error:', e); }
-  }
-  renderSOP();
-  // 自动开始第一个未完成的分类
-  for (var i = 0; i < SOP_CATEGORIES.length; i++) {
-    var catId = SOP_CATEGORIES[i].id;
-    var done = getSOPDone(catId);
-    var total = SOP_HABITS[catId].length;
-    if (done < total) {
-      startSOPCat(catId);
-      break;
+      } catch(e) { console.error('[DEBUG] initSOP解析数据错误:', e); }
     }
+    console.log('[DEBUG] 调用 renderSOP()');
+    renderSOP();
+    // 自动开始第一个未完成的分类
+    console.log('[DEBUG] 准备自动开始第一个未完成的分类');
+    for (var i = 0; i < SOP_CATEGORIES.length; i++) {
+      var catId = SOP_CATEGORIES[i].id;
+      var done = getSOPDone(catId);
+      var total = SOP_HABITS[catId].length;
+      console.log('[DEBUG] catId:', catId, 'done:', done, 'total:', total);
+      if (done < total) {
+        console.log('[DEBUG] 调用 startSOPCat(', catId, ')');
+        startSOPCat(catId);
+        break;
+      }
+    }
+  } catch(e) {
+    console.error('[DEBUG] initSOP() 发生错误:', e);
+    // 强制显示分类网格
+    renderSOP();
   }
 }
 
@@ -1990,5 +2002,6 @@ function initProgressPage() {
 </html>
 
  
- < ! - -   D e p l o y :   0 5 / 1 0 / 2 0 2 6   1 8 : 3 0 : 1 3   - - >  
+ < ! - -   D e p l o y :   0 5 / 1 0 / 2 0 2 6   1 8 : 3 0 : 1 3   - - > 
+ 
  
