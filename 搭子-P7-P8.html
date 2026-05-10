@@ -1336,12 +1336,44 @@ function switchTab(tab) {
   // 切换到教练，初始化教练
   if (tab === 'coach' && coachPg) { initCoach(); }
   // 切换到自检，初始化SOP
-  if (tab === 'sop') { renderSOP(); }
+  if (tab === 'sop') { initSOP(); }
   // 切换到进展，初始化进展页
   if (tab === 'progress') { initP7ProgressPage(); }
 }
 
 // ===== SOP自检 =====
+// 初始化SOP页面
+function initSOP() {
+  try {
+    // 检查今天是否已完成SOP
+    var savedData = localStorage.getItem(STORAGE.SOP);
+    if (savedData) {
+      try {
+        var data = JSON.parse(savedData);
+        var total = 0;
+        var done = 0;
+        SOP_CATEGORIES.forEach(function(cat) {
+          var habits = SOP_HABITS[cat.id] || [];
+          total += habits.length;
+          if (data[cat.id]) {
+            done += Object.keys(data[cat.id]).length;
+          }
+        });
+        if (done >= total && total > 0) {
+          document.getElementById('sopGameCard').style.display = 'none';
+          document.getElementById('sopDoneState').style.display = 'block';
+          sopCompletedToday = true;
+          return;
+        }
+      } catch(e) { console.error('initSOP error:', e); }
+    }
+    renderSOP();
+  } catch(e) {
+    console.error('initSOP() error:', e);
+    renderSOP();
+  }
+}
+
 var SOP_CATEGORIES = [
   {id:'cat1', name:'业务感知', icon:'📊', desc:'数据、风险、判断力', color:'#3a5fcd'},
   {id:'cat2', name:'管理权威', icon:'💪', desc:'指导、授权、追结果', color:'#e91e63'},
@@ -1411,77 +1443,62 @@ function startSOPCat(catId) {
   var catData = {};
   try { catData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}')[catId] || {}; } catch(e) {}
 
-  var undone = habits.filter(function(h, i) { return !catData['h' + i]; });
-  if (undone.length === 0) {
-    var card = document.getElementById('sopGameCard');
-    var doneState = document.getElementById('sopDoneState');
-    card.style.display = 'none';
-    doneState.style.display = 'block';
-    document.getElementById('sopDoneSub').innerText = catId + ' 全部完成！';
-    return;
+  // 显示所有问题清单
+  var listContainer = document.getElementById('sopListContainer');
+  if (!listContainer) {
+    // 如果HTML中没有这个容器，创建一个
+    listContainer = document.createElement('div');
+    listContainer.id = 'sopListContainer';
+    listContainer.className = 'sop-list-container';
+    var gameCard = document.getElementById('sopGameCard');
+    if (gameCard) {
+      gameCard.insertBefore(listContainer, document.getElementById('sopCatProgress'));
+    }
   }
 
-  var h = undone[Math.floor(Math.random() * undone.length)];
-  var habitIdx = habits.indexOf(h);
-  var cat = SOP_CATEGORIES.find(function(c) { return c.id === catId; });
+  listContainer.innerHTML = '';
+  habits.forEach(function(h, i) {
+    var item = document.createElement('div');
+    item.className = 'sop-item' + (catData['h' + i] === true ? ' sop-item-yes' : (catData['h' + i] === false ? ' sop-item-no' : ''));
+    item.innerHTML = '<div class="sop-item-text">' + (h.emoji || '•') + ' ' + h.text + '<br><small style="color:#8f9eae;font-size:12px;">' + (h.sub || '') + '</small></div>' +
+      '<div class="sop-item-btns">' +
+        '<button class="sop-check-btn yes-btn' + (catData['h' + i] === true ? ' yes-checked' : '') + '" onclick="toggleSOPItem(\'' + catId + '\',' + i + ',true,this)">✅ 做到了</button>' +
+        '<button class="sop-check-btn no-btn' + (catData['h' + i] === false ? ' no-checked' : '') + '" onclick="toggleSOPItem(\'' + catId + '\',' + i + ',false,this)">❌ 没做到</button>' +
+      '</div>';
+    listContainer.appendChild(item);
+  });
 
-  document.getElementById('sopCatProgress').innerHTML = '<span>' + cat.icon + ' ' + cat.name + '</span><div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:' + (getSOPDone(catId) / habits.length * 100) + '%"></div></div><span>' + getSOPDone(catId) + '/' + habits.length + '</span>';
-  document.getElementById('sopHabitLabel').innerText = h.pos ? '✅ 正向习惯' : '❌ 待改进';
-  document.getElementById('sopHabitLabel').className = 'sop-habit-label ' + (h.pos ? 'pos' : 'neg');
-  document.getElementById('sopHabitEmoji').innerText = h.emoji;
-  document.getElementById('sopHabitText').innerText = h.text;
-  document.getElementById('sopHabitSub').innerText = h.sub;
+  // 更新进度
+  var done = Object.keys(catData).length;
+  var cat = SOP_CATEGORIES.find(function(c) { return c.id === catId; });
+  document.getElementById('sopCatProgress').innerHTML = '<span>' + cat.icon + ' ' + cat.name + '</span><div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:' + (done / habits.length * 100) + '%"></div></div><span>' + done + '/' + habits.length + '</span>';
 
   document.getElementById('sopGameCard').style.display = 'block';
   document.getElementById('sopDoneState').style.display = 'none';
   document.getElementById('sopGameCard').dataset.cat = catId;
-  document.getElementById('sopGameCard').dataset.idx = habitIdx;
 }
 
-function answerSOP(ans) {
-  var card = document.getElementById('sopGameCard');
-  var catId = card.dataset.cat;
-  var habitIdx = parseInt(card.dataset.idx);
-  var h = SOP_HABITS[catId][habitIdx];
-
-  var allData = {};
-  try { allData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}'); } catch(e) {}
-  if (!allData[catId]) allData[catId] = {};
-  allData[catId]['h' + habitIdx] = ans;
-  localStorage.setItem(STORAGE.SOP, JSON.stringify(allData));
-
-  if (ans === 'yes') {
-    var pts = parseInt(localStorage.getItem(STORAGE.SOP_STREAKS) || '0');
-    pts += 3;
-    localStorage.setItem(STORAGE.SOP_STREAKS, pts);
-  }
-
-  var feedbackMsg = '';
-  if (h.pos && ans === 'yes') {
-    feedbackMsg = '✅ 这个习惯继续保持，它在塑造你的管理能力。';
-  } else if (h.pos && ans === 'no') {
-    feedbackMsg = '⚠️ 这个正向习惯还没建立，今天就是开始的好时机。';
-  } else if (!h.pos && ans === 'yes') {
-    feedbackMsg = '⚠️ 你有这个问题。先承认它，这是改变的第一步。';
+function toggleSOPItem(catId, idx, val) {
+  var data = {};
+  try { data = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}'); } catch(e) {}
+  if (!data[catId]) data[catId] = {};
+  // 切换逻辑：如果已经选了相同的，就取消；否则设置新值
+  if (data[catId]['h' + idx] === val) {
+    delete data[catId]['h' + idx];
   } else {
-    feedbackMsg = '✅ 能意识到这个问题，已经走在很多人前面了。';
+    data[catId]['h' + idx] = val;
   }
-
-  appendPartnerMsg(feedbackMsg, true);
+  localStorage.setItem(STORAGE.SOP, JSON.stringify(data));
+  // 重新渲染本分类
+  startSOPCat(catId);
   updateSOPStats();
+}
 
-  setTimeout(function() {
-    var done = getSOPDone(catId);
-    var total = SOP_HABITS[catId].length;
-    if (done >= total) {
-      document.getElementById('sopGameCard').style.display = 'none';
-      document.getElementById('sopDoneState').style.display = 'block';
-      document.getElementById('sopDoneSub').innerText = '✅ ' + (SOP_CATEGORIES.find(function(c) { return c.id === catId; }) || {}).name + ' 自检完成！';
-    } else {
-      startSOPCat(catId);
-    }
-    renderSOP();
-  }, 1500);
+function submitSOPCat() {
+  alert('✅ 本维度已确认完成！可继续下一个维度。');
+  renderSOP();
+  document.getElementById('sopGameCard').style.display = 'none';
+  updateSOPStats();
 }
 
 function updateSOPStats() {
