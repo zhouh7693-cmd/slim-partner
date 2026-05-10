@@ -1045,18 +1045,22 @@ function initSOP() {
     try {
       var data = JSON.parse(savedData);
       var total = 0;
+      var done = 0;
       SOP_CATEGORIES.forEach(function(cat) {
         var habits = SOP_HABITS[cat.id] || [];
         total += habits.length;
+        // 正确计算已回答的题目数
+        if (data[cat.id]) {
+          done += Object.keys(data[cat.id]).length;
+        }
       });
-      var done = Object.keys(data).length;
       if (done >= total && total > 0) {
         document.getElementById('sopGameCard').style.display = 'none';
         document.getElementById('sopDoneState').style.display = 'block';
         sopCompletedToday = true;
         return;
       }
-    } catch(e) {}
+    } catch(e) { console.error('initSOP error:', e); }
   }
   renderSOP();
   // 自动开始第一个未完成的分类
@@ -1098,7 +1102,11 @@ function renderSOP() {
 function getSOPDone(catId) {
   try {
     var data = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}');
-    return data[catId] ? Object.keys(data[catId]).length : 0;
+    if (!data[catId]) return 0;
+    // 正确计算该分类下已回答的题目数
+    return Object.keys(data[catId]).filter(function(key) {
+      return data[catId][key] === 'yes' || data[catId][key] === 'no';
+    }).length;
   } catch(e) { return 0; }
 }
 
