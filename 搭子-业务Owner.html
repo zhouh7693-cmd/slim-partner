@@ -2640,48 +2640,6 @@ function renderPartnerGrid() {
   }
 }
 
-function confirmPartner() {
-  if (!currentPartner) { alert('请先选一个搭子'); return; }
-  localStorage.setItem(STORAGE.PARTNER, JSON.stringify(currentPartner));
-  document.getElementById('partnerSelector').style.display = 'none';
-  document.getElementById('partnerSelectorMask').style.display = 'none';
-  document.getElementById('tabBar').style.display = 'flex';
-  initDashboard();
-  renderSOP();
-  autoCloseSOPGuide();
-  switchTabDirect('chat');
-  setTimeout(function() {
-    appendPartnerMsg(currentPartner.emoji + ' ' + currentPartner.intro, true);
-  }, 600);
-}
-
-function initDashboard() {
-  if (!currentPartner) return;
-  document.getElementById('partnerBadge').innerText = currentPartner.emoji + ' ' + currentPartner.name;
-  var history = [];
-  try { history = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); } catch(e) {}
-  var today = new Date().toLocaleDateString();
-  hasCheckedToday = history.some(function(d) { return d === today; });
-
-  // calculate continuous count
-  continuousCount = 0;
-  var d = new Date();
-  while (true) {
-    var dateStr = d.toLocaleDateString();
-    if (history.indexOf(dateStr) >= 0) {
-      continuousCount++;
-      d.setDate(d.getDate() - 1);
-    } else { break; }
-  }
-  if (!hasCheckedToday) { continuousCount = Math.max(0, continuousCount); }
-
-  document.getElementById('continuousCount').innerText = continuousCount;
-  if (hasCheckedToday) {
-    document.getElementById('checkinStatus').innerText = '✅ 已打卡';
-    document.getElementById('checkinSub').innerText = '今日任务完成';
-  }
-  renderWeek(history);
-}
 
 function renderWeek(history) {
   var days = ['日','一','二','三','四','五','六'];
