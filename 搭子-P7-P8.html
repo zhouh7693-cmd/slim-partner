@@ -63,28 +63,27 @@
     .selector-sub { text-align: center; color: #6c7a89; margin-bottom: 28px; font-size: 15px; }
     .partner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
     .partner-card {
-      background: #fff; border-radius: 24px; padding: 20px 12px 16px; text-align: center;
-      cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-      border: 2px solid #e0e7ee; transition: all 0.22s;
+      background: #fff; border-radius: 28px; padding: 20px 12px 16px; text-align: center;
+      cursor: pointer; box-shadow: 0 6px 14px rgba(0,0,0,0.03);
+      border: 1.5px solid #e9edf2; transition: all 0.2s;
     }
-    .partner-card:hover { border-color: #3a5fcd; box-shadow: 0 6px 20px rgba(58,95,205,0.15); transform: translateY(-2px); }
-    .partner-card.selected { border-color: #3a5fcd; background: #f1f8e9; box-shadow: 0 6px 20px rgba(58,95,205,0.2); transform: translateY(-2px); }
+    .partner-card.selected { border-color: #3a5fcd; background: #f0f4fd; transform: scale(0.98); }
     .partner-emoji { font-size: 48px; margin-bottom: 12px; }
     .partner-name { font-weight: 700; font-size: 18px; margin-bottom: 6px; }
     .partner-desc { font-size: 13px; color: #6c7a89; }
     .confirm-btn {
-      background: linear-gradient(135deg, #3a5fcd, #2a4eb0); color: white; border: none;
+      background: #3a5fcd; color: white; border: none;
       width: 100%; padding: 16px; border-radius: 60px;
-      font-size: 18px; font-weight: 700; cursor: pointer;
-      box-shadow: 0 8px 24px rgba(58,95,205,0.35);
+      font-size: 18px; font-weight: 600; cursor: pointer;
+      position: relative; z-index: 101;
     }
-    .confirm-btn:active { transform: scale(0.97); opacity: 0.9; }
+    .confirm-btn:active { background: #2a4eb0; transform: scale(0.97); }
 
     .card {
       max-width: 420px; margin: 0 auto;
-      background: white; border-radius: 28px;
+      background: white; border-radius: 44px;
       padding: 28px 24px 32px;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.09);
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
       margin-bottom: 20px; text-align: center;
     }
     .partner-badge {
@@ -95,29 +94,24 @@
     .checkin-btn {
       width: 170px; height: 170px;
       background: linear-gradient(145deg, #3a5fcd, #2240a0);
-      border-radius: 50%; margin: 0 auto 24px;
+      border-radius: 100%; margin: 0 auto 24px;
       display: flex; align-items: center; justify-content: center; flex-direction: column;
       color: white; cursor: pointer;
-      box-shadow: 0 16px 32px -6px rgba(58,95,205,0.45);
-      transition: transform 0.15s, box-shadow 0.15s;
-      position: relative; overflow: hidden;
+      box-shadow: 0 20px 30px -8px rgba(58,95,205,0.4);
+      transition: transform 0.15s;
     }
-    .checkin-btn::after {
-      content: ''; position: absolute; top: -50%; left: -50%;
-      width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 60%);
-    }
-    .checkin-btn:active { transform: scale(0.96); box-shadow: 0 8px 20px -4px rgba(58,95,205,0.4); }
+    .checkin-btn:active { transform: scale(0.96); }
     .checkin-status { font-size: 28px; font-weight: 800; }
     .checkin-sub { font-size: 13px; opacity: 0.9; margin-top: 6px; }
     .continuous { font-size: 44px; font-weight: 800; margin: 8px 0 4px; color: #3a5fcd; }
     .continuous-label { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
-    .week-progress { background: white; border-radius: 28px; padding: 18px 20px; margin-bottom: 20px; max-width: 420px; margin-left: auto; margin-right: auto; box-shadow: 0 6px 20px rgba(0,0,0,0.07); }
+    .week-progress { background: white; border-radius: 36px; padding: 18px 20px; margin-bottom: 20px; max-width: 420px; margin-left: auto; margin-right: auto; }
     .week-title { font-weight: 600; margin-bottom: 16px; display: flex; justify-content: space-between; }
     .week-dots { display: flex; justify-content: space-between; gap: 8px; }
     .day-item { flex: 1; text-align: center; }
     .day-name { font-size: 12px; color: #8f9eae; margin-bottom: 6px; }
     .dot { width: 40px; height: 40px; background: #eef2f5; border-radius: 100%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 18px; transition: all 0.2s; }
-    .dot.checked { background: linear-gradient(135deg, #3a5fcd, #2240a0); color: white; box-shadow: 0 4px 10px rgba(58,95,205,0.35); }
+    .dot.checked { background: #3a5fcd; color: white; }
 
     /* ===== 搭子消息气泡 ===== */
     .chat-area { max-width: 420px; margin: 0 auto 20px; }
@@ -139,7 +133,7 @@
     @keyframes bounce { 0%,80%,100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1.2); opacity: 1; } }
 
     /* ===== 搭子交互按钮 ===== */
-    .interaction-panel { max-width: 420px; margin: 0 auto 20px; background: white; border-radius: 24px; padding: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.07); }
+    .interaction-panel { max-width: 420px; margin: 0 auto 20px; background: white; border-radius: 28px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .panel-label { font-size: 12px; color: #8f9eae; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
     .mood-row { display: flex; justify-content: space-around; margin-bottom: 14px; }
     .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; }
@@ -151,6 +145,19 @@
       cursor: pointer; transition: all 0.15s;
     }
     .talk-btn:active { background: #f0f4fd; transform: scale(0.97); }
+
+    /* ===== Partner Card（P7-P8主题） ===== */
+    .partnerCard {
+      display: flex; align-items: center;
+      background: white; border-radius: 20px;
+      padding: 16px; margin: 16px 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .partner-avatar { font-size: 48px; margin-right: 16px; }
+    .partner-info { flex: 1; }
+    .partner-name { font-size: 16px; font-weight: 700; color: #2b5a7a; margin-bottom: 4px; }
+    .partner-desc { font-size: 13px; color: #6c7a89; margin-bottom: 4px; }
+    .partner-status { font-size: 12px; color: #8f9eae; }
 
     /* ===== 分享卡片入口 ===== */
     .share-inline-card {
@@ -203,40 +210,22 @@
 
     /* ===== SOP 游戏页面 ===== */
     .sop-page { max-width: 420px; margin: 0 auto; }
-    .sop-header {
-      background: linear-gradient(135deg, #1a3a8a 0%, #3a5fcd 40%, #6c8cef 100%);
-      border-radius: 28px; padding: 24px 20px 20px; margin-bottom: 14px;
-      box-shadow: 0 12px 32px -6px rgba(30,60,180,0.35);
-      text-align: center; position: relative; overflow: hidden;
-    }
-    .sop-header::before {
-      content: ''; position: absolute; top: -30px; right: -30px;
-      width: 120px; height: 120px; background: rgba(255,255,255,0.06);
-      border-radius: 50%;
-    }
-    .sop-header::after {
-      content: ''; position: absolute; bottom: -20px; left: -20px;
-      width: 80px; height: 80px; background: rgba(255,255,255,0.05);
-      border-radius: 50%;
-    }
-    .sop-title { font-size: 22px; font-weight: 800; color: white; margin-bottom: 4px; letter-spacing: 0.5px; }
-    .sop-sub { font-size: 13px; color: rgba(255,255,255,0.72); margin-bottom: 16px; }
+    .sop-header { background: white; border-radius: 32px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
+    .sop-title { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #3a5fcd, #e91e63); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 4px; }
+    .sop-sub { font-size: 13px; color: #8f9eae; margin-bottom: 14px; }
     .sop-score-row { display: flex; justify-content: center; gap: 24px; }
     .sop-score { text-align: center; }
-    .sop-score-num { font-size: 28px; font-weight: 800; color: white; }
-    .sop-score-label { font-size: 11px; color: rgba(255,255,255,0.65); }
+    .sop-score-num { font-size: 28px; font-weight: 800; color: #3a5fcd; }
+    .sop-score-label { font-size: 11px; color: #8f9eae; }
     .sop-progress-wrap { margin-top: 12px; display: flex; align-items: center; gap: 10px; }
-    .sop-progress-bg { flex: 1; height: 8px; background: rgba(0,0,0,0.2); border-radius: 10px; overflow: hidden; }
+    .sop-progress-bg { flex: 1; height: 8px; background: #eef2f5; border-radius: 10px; overflow: hidden; }
     .sop-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #3a5fcd, #6c8cef); border-radius: 10px; transition: width 0.4s ease; }
-    .sop-progress-text { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.85); min-width: 40px; text-align: right; }
-    .sop-category-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 14px; scrollbar-width: none; }
-    .sop-category-tabs::-webkit-scrollbar { display: none; }
-    .sop-cat-tab { padding: 9px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; white-space: nowrap; cursor: pointer; border: 2px solid #e0e7ee; background: white; color: #6c7a89; transition: all 0.22s; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
-    .sop-cat-tab:hover { border-color: #3a5fcd; color: #2240a0; }
-    .sop-cat-tab.active { background: linear-gradient(135deg, #3a5fcd, #2240a0); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(58,95,205,0.35); }
+    .sop-progress-text { font-size: 12px; font-weight: 600; color: #8f9eae; min-width: 40px; text-align: right; }
+    .sop-category-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; }
+    .sop-cat-tab { padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; border: none; background: #eef2f5; color: #6c7a89; transition: all 0.2s; flex-shrink: 0; }
+    .sop-cat-tab.active { background: linear-gradient(135deg, #3a5fcd, #2a4eb0); color: white; }
     /* ===== SOP 清单模式 ===== */
-    .sop-game-card { background: white; border-radius: 28px; padding: 0; margin-bottom: 14px; box-shadow: 0 8px 28px rgba(0,0,0,0.09); overflow: hidden; }
-    .sop-game-card-inner { padding: 20px 20px 24px; }
+    .sop-game-card { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); position: relative; overflow: hidden; }
     .sop-cat-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 12px; color: #8f9eae; }
     .sop-cat-progress-bar { flex: 1; height: 4px; background: #eef2f5; border-radius: 4px; overflow: hidden; }
     .sop-cat-progress-fill { height: 100%; background: #3a5fcd; border-radius: 4px; transition: width 0.3s; }
@@ -250,21 +239,21 @@
     .sop-btn-row { display: flex; gap: 12px; }
     .sop-btn { flex: 1; padding: 14px 8px; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
     .sop-btn:active { transform: scale(0.97); }
-    .sop-btn.yes { background: linear-gradient(135deg, #3a5fcd, #2240a0); color: white; box-shadow: 0 4px 14px rgba(58,95,205,0.35); }
-    .sop-btn.no { background: linear-gradient(135deg, #ef5350, #c62828); color: white; box-shadow: 0 4px 14px rgba(239,83,80,0.35); }
+    .sop-btn.yes { background: #e8f5e9; color: #2e7d32; border: 2px solid #a5d6a7; }
+    .sop-btn.no { background: #fff3f3; color: #c62828; border: 2px solid #ffcdd2; }
     .sop-btn.done { background: #eef2f5; color: #8f9eae; border: 2px solid #d0d8e0; }
     .sop-btn .sop-btn-pts { font-size: 12px; opacity: 0.8; }
-    .sop-cat-summary { background: linear-gradient(135deg, #f0f4fd, #e8edf8); border-radius: 20px; padding: 20px 16px; text-align: center; border: 2px solid #a5b8e8; }
-    .sop-cat-summary-icon { font-size: 40px; margin-bottom: 10px; }
-    .sop-cat-summary-title { font-size: 16px; font-weight: 700; color: #0d2660; margin-bottom: 6px; }
-    .sop-cat-summary-sub { font-size: 13px; color: #1565c0; }
-    .sop-tip { background: linear-gradient(135deg, #fffde7, #fff9c4); border-radius: 20px; padding: 16px 18px; margin-bottom: 16px; border-left: 4px solid #f9a825; box-shadow: 0 4px 12px rgba(249,168,37,0.12); }
-    .sop-tip-title { font-size: 13px; font-weight: 700; color: #e65100; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-    .sop-tip-item { font-size: 13px; color: #37474f; line-height: 1.6; }
-    .sop-done-state { background: white; border-radius: 28px; padding: 36px 24px; text-align: center; box-shadow: 0 8px 28px rgba(0,0,0,0.10); }
-    .sop-done-emoji { font-size: 72px; margin-bottom: 16px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); }
-    .sop-done-title { font-size: 22px; font-weight: 800; color: #1a2a3a; margin-bottom: 8px; }
-    .sop-done-desc { font-size: 14px; color: #6c7a89; margin-bottom: 20px; }
+    .sop-cat-summary { background: #f7f9fc; border-radius: 16px; padding: 16px; text-align: center; }
+    .sop-cat-summary-icon { font-size: 36px; margin-bottom: 8px; }
+    .sop-cat-summary-title { font-size: 15px; font-weight: 700; color: #2b5a7a; margin-bottom: 4px; }
+    .sop-cat-summary-sub { font-size: 12px; color: #8f9eae; }
+    .sop-tip { background: #fff9e6; border-radius: 16px; padding: 14px 16px; margin-bottom: 16px; border: 1px solid #ffe599; }
+    .sop-tip-title { font-size: 13px; font-weight: 700; color: #b8860b; margin-bottom: 6px; }
+    .sop-tip-item { font-size: 12px; color: #7a6a3a; margin-bottom: 3px; }
+    .sop-done-state { background: white; border-radius: 32px; padding: 40px 24px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .sop-done-icon { font-size: 64px; margin-bottom: 16px; }
+    .sop-done-title { font-size: 22px; font-weight: 800; color: #2b5a7a; margin-bottom: 8px; }
+    .sop-done-sub { font-size: 14px; color: #8f9eae; margin-bottom: 24px; }
     .sop-reset-btn { padding: 12px 32px; border-radius: 60px; border: none; background: linear-gradient(135deg, #3a5fcd, #2240a0); color: white; font-size: 15px; font-weight: 600; cursor: pointer; }
     .sop-reset-btn:active { transform: scale(0.97); }
 
@@ -482,7 +471,7 @@
       <div class="partner-desc">管理教练 · 严厉有建设性</div>
     </div>
   </div>
-  <button id="confirmPartnerBtn" class="confirm-btn" onclick="console.log('P7-P8 slimConfirmPartner clicked');slimConfirmPartner();void 0">确认搭子 →</button>
+  <button id="confirmPartnerBtn" class="confirm-btn" onclick="slimConfirmPartner();void 0">确认搭子 →</button>
 </div>
 
 <!-- Tab Bar -->
@@ -567,6 +556,18 @@
 
 <!-- ===== 搭子聊天页面 ===== -->
 <div class="page" id="chatPage">
+  <!-- Partner Card（P7-P8主题） -->
+  <div class="partnerCard">
+    <div class="partner-avatar">🎓</div>
+    <div class="partner-info">
+      <div class="partner-name">P7升P8成长搭子</div>
+      <div class="partner-desc">陪你从P7到P8 · 管理+专业双通道</div>
+      <div class="partner-status">
+        <span style="color:#3a5fcd;font-weight:700;">匹配度90%</span> · 本月目标：管理能力+20%
+      </div>
+    </div>
+  </div>
+
   <div class="chat-area" id="chatArea"></div>
   <div class="interaction-panel" id="interactionPanel">
     <div class="panel-label">👋 说说今天的情况</div>
@@ -625,7 +626,6 @@
 
     <!-- SOP 游戏区 -->
     <div class="sop-game-card" id="sopGameCard" style="display:none;">
-      <div class="sop-game-card-inner">
       <div class="sop-cat-progress" id="sopCatProgress"></div>
       <div class="sop-habit-card">
         <div class="sop-habit-label" id="sopHabitLabel">习惯</div>
@@ -642,7 +642,6 @@
           <span>❌ 没做到</span>
           <span class="sop-btn-pts">+0分</span>
         </button>
-      </div>
       </div>
     </div>
 
@@ -946,7 +945,6 @@ window.selectPartner = selectPartner;
 window.slimConfirmPartner = slimConfirmPartner;
 
 function confirmPartner() {
-  console.log('P7-P8 confirmPartner() called, selectedPartner=', selectedPartner);
   try {
     // 从localStorage获取选中的搭子ID（与slimConfirmPartner保持一致）
     var saved = localStorage.getItem('slim_partner_p7');
@@ -1044,13 +1042,16 @@ function doCheckin() {
   }
   updateCheckinUI(1, history);
 
-  var emoji = (currentPartner && currentPartner.emoji) || '🎖️';
-  var msgs = [
-    '好，' + (currentPartner && currentPartner.name || '砺行') + '收到了。打卡是起点，更重要的是：你今天主动推动了哪件事？',
-    '收到。今天的管理反思完成了吗？',
-    '👍 记录完毕。今天哪件事最能体现你的管理者角色？'
+  // P7-P8主题打卡反馈
+  var p7CheckinMsgs = [
+    currentPartner.emoji + ' 打卡成功！今天你在哪个管理能力上实践了？🎓',
+    currentPartner.emoji + ' 打卡成功！今天主动做了哪个管理决策？💼',
+    currentPartner.emoji + ' 打卡成功！连续打卡' + continuousCount + '天，P7→P8的每一步都算数 💪'
   ];
-  appendPartnerMsg(msgs[Math.floor(Math.random() * msgs.length)]);
+  var randomMsg = p7CheckinMsgs[Math.floor(Math.random() * p7CheckinMsgs.length)];
+  setTimeout(function() {
+    appendPartnerMsg(randomMsg, true);
+  }, 600);
 }
 
 // ===== 搭子消息 =====
@@ -2230,10 +2231,28 @@ function initP7DataPage() {
 <!-- ===== Page: 进展 ===== -->
 <div id="progressPage" class="page">
   <div style="padding:16px;max-width:520px;margin:0 auto;">
+    <!-- 成长档案卡片 -->
     <div style="background:white;border-radius:24px;padding:24px 20px;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,0.06);text-align:center;">
       <div style="font-size:48px;margin-bottom:8px;">📈</div>
-      <div style="font-size:18px;font-weight:700;margin-bottom:4px;">P7管理成长档案</div>
-      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">你的管理SOP全局视图</div>
+      <div style="font-size:18px;font-weight:700;margin-bottom:4px;">P7升P8成长档案</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">结构化成长 · 管理+专业双通道</div>
+      
+      <!-- 圆环图：平均得分 -->
+      <div style="position:relative;width:120px;height:120px;margin:0 auto 20px;">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="54" stroke="#e5e7eb" stroke-width="8" fill="none"/>
+          <circle cx="60" cy="60" r="54" stroke="#3a5fcd" stroke-width="8" fill="none" 
+                  stroke-dasharray="339.3" 
+                  stroke-dashoffset="calc(339.3 * (1 - (p7AvgScore || 0) / 100))" 
+                  transform="rotate(-90 60 60)" id="p7ProgressRing"/>
+        </svg>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+          <div style="font-size:24px;font-weight:800;color:#3a5fcd;" id="p7AvgScore">0</div>
+          <div style="font-size:11px;color:#8f9eae;">平均得分</div>
+        </div>
+      </div>
+
+      <!-- 核心数据统计 -->
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
         <div style="background:#eef2fd;border-radius:16px;padding:12px 18px;text-align:center;">
           <div style="font-size:20px;font-weight:800;color:#3a5fcd;" id="p7Streak2">0</div>
@@ -2248,6 +2267,53 @@ function initP7DataPage() {
           <div style="font-size:11px;color:#8f9eae;">今日得分</div>
         </div>
       </div>
+    </div>
+
+    <!-- 各维度统计卡片 -->
+    <div style="background:white;border-radius:24px;padding:20px;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,0.06);">
+      <div style="font-size:16px;font-weight:700;color:#3a5fcd;margin-bottom:16px;">📊 各维度得分</div>
+      <div id="p7DimensionStats">
+        <div style="display:flex;align-items:center;margin-bottom:12px;">
+          <div style="width:80px;font-size:13px;color:#555;">管理决策</div>
+          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
+            <div style="width:0%;height:100%;background:#3a5fcd;border-radius:4px;transition:width 0.5s;" id="p7DimScore1"></div>
+          </div>
+          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#3a5fcd;" id="p7DimValue1">0</div>
+        </div>
+        <div style="display:flex;align-items:center;margin-bottom:12px;">
+          <div style="width:80px;font-size:13px;color:#555;">团队赋能</div>
+          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
+            <div style="width:0%;height:100%;background:#3a5fcd;border-radius:4px;transition:width 0.5s;" id="p7DimScore2"></div>
+          </div>
+          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#3a5fcd;" id="p7DimValue2">0</div>
+        </div>
+        <div style="display:flex;align-items:center;margin-bottom:12px;">
+          <div style="width:80px;font-size:13px;color:#555;">专业影响力</div>
+          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
+            <div style="width:0%;height:100%;background:#3a5fcd;border-radius:4px;transition:width 0.5s;" id="p7DimScore3"></div>
+          </div>
+          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#3a5fcd;" id="p7DimValue3">0</div>
+        </div>
+        <div style="display:flex;align-items:center;margin-bottom:12px;">
+          <div style="width:80px;font-size:13px;color:#555;">战略思维</div>
+          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
+            <div style="width:0%;height:100%;background:#3a5fcd;border-radius:4px;transition:width 0.5s;" id="p7DimScore4"></div>
+          </div>
+          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#3a5fcd;" id="p7DimValue4">0</div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <div style="width:80px;font-size:13px;color:#555;">自我管理</div>
+          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
+            <div style="width:0%;height:100%;background:#3a5fcd;border-radius:4px;transition:width 0.5s;" id="p7DimScore5"></div>
+          </div>
+          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#3a5fcd;" id="p7DimValue5">0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 搭子鼓励消息 -->
+    <div style="background:linear-gradient(135deg,#eef2fd,#e8edf8);border-radius:16px;padding:16px;text-align:center;">
+      <div style="font-size:14px;color:#555;line-height:1.6;" id="p7EncourageMsg">💪 坚持打卡，P7→P8的每一步都算数！</div>
     </div>
   </div>
 </div>
