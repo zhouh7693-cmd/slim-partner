@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>搭子导航 · 预览版</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #f5f3fa;
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    min-height: 100vh;
+    padding: 0 0 40px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(135deg, #6b46c1 0%, #9b6ce8 100%);
+    padding: 28px 16px 22px;
+    text-align: center;
+    color: #fff;
+  }
+  .hero h1 { font-size: 20px; font-weight: 800; letter-spacing: 1px; }
+  .hero p { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+  .hero-count {
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+  }
+  .hero-count .num { font-size: 20px; font-weight: 800; }
+  .hero-count .label { font-size: 10px; color: rgba(255,255,255,0.65); margin-top: 1px; }
+
+  /* ── 区块 ── */
+  .section { padding: 16px 14px 0; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .section-icon { font-size: 14px; }
+  .section-title { font-size: 12px; font-weight: 700; color: #5b3fa6; letter-spacing: 0.5px; }
+  .section-line { flex: 1; height: 1px; background: linear-gradient(to right, rgba(91,63,166,0.12), transparent); }
+
+  /* ── 卡片网格 ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+  }
+
+  /* ── 基础卡片 ── */
+  a.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 13px;
+    padding: 14px 8px 12px;
+    text-decoration: none;
+    box-shadow: 0 1px 8px rgba(91,63,166,0.06);
+    transition: transform 0.15s;
+    min-height: 82px;
+    position: relative;
+    overflow: hidden;
+  }
+  a.card:active { transform: scale(0.96); }
+  .card-emoji { font-size: 24px; margin-bottom: 5px; line-height: 1; }
+  .card-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #2d2d2d;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .card-sub {
+    font-size: 9px;
+    color: #aaa;
+    margin-top: 2px;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  /* ── 跨两列的大卡 ── */
+  a.card.tall {
+    min-height: 100px;
+    padding: 16px 10px 14px;
+  }
+  a.card.tall .card-emoji { font-size: 28px; margin-bottom: 7px; }
+  a.card.tall .card-label { font-size: 13px; }
+  a.card.tall .card-sub { font-size: 10px; }
+
+  /* ── 色系 ── */
+  a.card.primary { background: linear-gradient(160deg, #7b5ea7, #a87edc); }
+  a.card.primary .card-label,
+  a.card.primary .card-sub { color: #fff; }
+
+  a.card.blue { background: linear-gradient(160deg, #2563eb, #60a5fa); }
+  a.card.blue .card-label,
+  a.card.blue .card-sub { color: #fff; }
+
+  a.card.warm { background: linear-gradient(160deg, #f97316, #fbbf24); }
+  a.card.warm .card-label,
+  a.card.warm .card-sub { color: #fff; }
+
+  a.card.purple { background: linear-gradient(160deg, #7c3aed, #a78bfa); }
+  a.card.purple .card-label,
+  a.card.purple .card-sub { color: #fff; }
+
+  a.card.green { background: linear-gradient(160deg, #059669, #34d399); }
+  a.card.green .card-label,
+  a.card.green .card-sub { color: #fff; }
+
+  a.card.rose { background: linear-gradient(160deg, #e05c97, #f9a8d4); }
+  a.card.rose .card-label,
+  a.card.rose .card-sub { color: #fff; }
+
+  a.card.teal { background: linear-gradient(160deg, #0d9488, #2dd4bf); }
+  a.card.teal .card-label,
+  a.card.teal .card-sub { color: #fff; }
+
+  a.card.orange { background: linear-gradient(160deg, #ea580c, #fb923c); }
+  a.card.orange .card-label,
+  a.card.orange .card-sub { color: #fff; }
+
+  a.card.tool { background: linear-gradient(160deg, #94a3b8, #cbd5e1); }
+  a.card.tool .card-label,
+  a.card.tool .card-sub { color: #fff; }
+
+  /* ── NEW 角标 ── */
+  .badge-new {
+    position: absolute;
+    top: 6px; right: 6px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 8px;
+    font-weight: 700;
+    border-radius: 5px;
+    padding: 1px 4px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── 底部 ── */
+  .footer {
+    text-align: center;
+    font-size: 10px;
+    color: #ccc;
+    margin-top: 28px;
+    padding: 0 16px;
+  }
+  .preview-banner {
+    background: #fef3c7;
+    color: #92400e;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px;
+    letter-spacing: 0.3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="preview-banner">📌 本地预览版 · 链接指向本地文件</div>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>🌟 每日搭子中心</h1>
+  <p>选一个搭子，开始今天的成长打卡</p>
+  <div class="hero-count">
+    <div><div class="num">10</div><div class="label">搭子</div></div>
+    <div><div class="num">5</div><div class="label">财富维度</div></div>
+    <div><div class="num">∞</div><div class="label">每日打卡</div></div>
+  </div>
+</div>
+
+<!-- 核心打卡：减肥 + 陪读妈妈 并排 -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-icon">🏠</span>
+    <span class="section-title">核心打卡</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="card-grid">
+    <a class="card tall primary" href="index.html">
+      <span class="card-emoji">🏃</span>
+      <div class="card-label">减肥搭子</div>
+      <div class="card-sub">饮食 · 体重 · 习惯</div>
+    </a>
+    <a class="card tall blue" href="陪读妈妈搭子.html">
+      <span class="card-emoji">👩‍👧</span>
+      <div class="card-label">陪读妈妈</div>
+      <div class="card-sub">情绪·学业·沟通·平衡·成长</div>
+    </a>
+  </div>
+</div>
+
+<!-- 职场成长：双列 -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-icon">💼</span>
+    <span class="section-title">职场成长</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="card-grid">
+    <a class="card warm" href="创业搭子.html">
+      <span class="card-emoji">🚀</span>
+      <div class="card-label">创业搭子</div>
+      <div class="card-sub">方向·团队·产品·增长·心力</div>
+    </a>
+    <a class="card purple" href="搭子-P7-P8.html">
+      <span class="card-emoji">💼</span>
+      <div class="card-label">P7→P8</div>
+      <div class="card-sub">战略·团队·业务·协同·迭代</div>
+    </a>
+    <a class="card green" href="搭子-业务Owner.html">
+      <span class="card-emoji">🌿</span>
+      <div class="card-label">业务 Owner</div>
+      <div class="card-sub">Owner思维·数据·品牌·汇报·自律</div>
+      <span class="badge-new">NEW</span>
+    </a>
+    <a class="card rose" href="搭子-关系力修复.html">
+      <span class="card-emoji">🌸</span>
+      <div class="card-label">关系力修复</div>
+      <div class="card-sub">倾听·表达·共情·边界·能量</div>
+      <span class="badge-new">NEW</span>
+    </a>
+  </div>
+</div>
+
+<!-- 五大财富 SOP：双列 -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-icon">✨</span>
+    <span class="section-title">五大财富 SOP</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="card-grid">
+    <a class="card teal" href="搭子-身体财富.html">
+      <span class="card-emoji">💪</span>
+      <div class="card-label">身体财富</div>
+      <div class="card-sub">运动·睡眠·健康</div>
+    </a>
+    <a class="card orange" href="搭子-财务财富.html">
+      <span class="card-emoji">💰</span>
+      <div class="card-label">财务财富</div>
+      <div class="card-sub">收入·储蓄·投资</div>
+    </a>
+    <a class="card" href="搭子-精神财富.html">
+      <span class="card-emoji">🕊️</span>
+      <div class="card-label">精神财富</div>
+      <div class="card-sub">阅读·冥想·成长</div>
+    </a>
+    <a class="card" href="搭子-关系财富.html">
+      <span class="card-emoji">❤️</span>
+      <div class="card-label">关系财富</div>
+      <div class="card-sub">家人·朋友·连接</div>
+    </a>
+    <a class="card" href="搭子-使命财富.html" style="grid-column: span 2;">
+      <span class="card-emoji">🎯</span>
+      <div class="card-label">使命财富</div>
+      <div class="card-sub">目标 · 价值 · 人生贡献</div>
+    </a>
+  </div>
+</div>
+
+<!-- 工具 & 分享：双列 -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-icon">🔧</span>
+    <span class="section-title">工具 & 分享</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="card-grid">
+    <a class="card tool" href="guide.html">
+      <span class="card-emoji">📖</span>
+      <div class="card-label">使用指南</div>
+    </a>
+    <a class="card tool" href="share.html">
+      <span class="card-emoji">📣</span>
+      <div class="card-label">分享卡片</div>
+    </a>
+  </div>
+</div>
+
+<div class="footer">搭子系列 · 打卡成为更好的自己</div>
+
+</body>
+</html>

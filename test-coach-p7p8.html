@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>教练页面调试 - P7-P8</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, sans-serif; padding: 20px; background: #f5f5f5; }
+button { padding: 10px 20px; margin: 5px; border-radius: 8px; border: none; cursor: pointer; }
+.blue { background: #3a5fcd; color: white; }
+.red { background: #e53935; color: white; }
+.green { background: #4caf50; color: white; }
+#log { background: #1e1e1e; color: #4ec9b0; font-family: monospace; font-size: 13px; padding: 16px; border-radius: 8px; margin-top: 20px; min-height: 200px; white-space: pre-wrap; }
+.coach-intro { background: white; border-radius: 32px; padding: 28px 24px 24px; margin: 0 16px 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+.coach-intro-icon { font-size: 40px; text-align: center; margin-bottom: 10px; }
+.coach-intro-title { font-size: 20px; font-weight: 800; color: #1e3a7a; text-align: center; margin-bottom: 4px; }
+.coach-intro-desc { font-size: 13px; color: #8f9eae; text-align: center; margin-bottom: 18px; line-height: 1.6; }
+.method-steps { display: flex; gap: 8px; margin-bottom: 4px; }
+.method-step { flex: 1; background: #f0f4fd; border-radius: 14px; padding: 10px 8px; text-align: center; font-size: 12px; font-weight: 600; color: #3a5fcd; line-height: 1.4; }
+.step-num { font-size: 16px; display: block; margin-bottom: 2px; }
+.step-desc { font-size: 10px; font-weight: 500; color: #8f9eae; margin-top: 2px; display: block; }
+.coach-start-btn { margin-top: 16px; width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #3a5fcd, #1e3a7a); color: white; font-size: 16px; font-weight: 700; cursor: pointer; }
+#coachPage { background: #f0f4fd; min-height: 300px; padding: 16px 0; }
+#coachIntro { border: 3px dashed red; } /* DASHED RED BORDER TO SEE IT */
+</style>
+</head>
+<body>
+
+<button class="blue" onclick="runAllTests()">🧪 运行所有测试</button>
+<button class="blue" onclick="showCoachPage()">显示教练页</button>
+<button class="green" onclick="testInitCoach()">测试 initCoach()</button>
+<button class="red" onclick="clearLog()">清除日志</button>
+
+<h2 style="margin-top:16px">步骤说明：</h2>
+<ol style="margin-left:20px; line-height:2">
+  <li>点「显示教练页」→ 教练页应该出现（红色虚线边框区域 = coachIntro）</li>
+  <li>点「测试 initCoach()」→ coachIntro 应该显示，log 显示 "✅ initCoach OK"</li>
+  <li>如果 coachIntro 区域是空白 → 把 log 截图发给我</li>
+</ol>
+
+<div id="coachPage" style="display:none;">
+  <div class="coach-intro" id="coachIntro" style="display:none;">
+    <div class="coach-intro-icon">🧠</div>
+    <div class="coach-intro-title">麦肯锡风格P7管理教练</div>
+    <div class="coach-intro-desc">帮你照见管理盲区，制定P7到P8的成长策略</div>
+    <div class="method-steps">
+      <div class="method-step"><span class="step-num">①</span> 诊断现状<br><span class="step-desc">找准管理卡点</span></div>
+      <div class="method-step"><span class="step-num">②</span> 策略分析<br><span class="step-desc">三层拆解问题</span></div>
+      <div class="method-step"><span class="step-num">③</span> 行动优先<br><span class="step-desc">可执行的下一步</span></div>
+    </div>
+    <button class="coach-start-btn" onclick="alert('开始对话')">开始深度对话 →</button>
+    <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
+  </div>
+</div>
+
+<div id="log">日志输出区域...</div>
+
+<script>
+function log(msg) {
+  var el = document.getElementById('log');
+  el.textContent += '\n' + new Date().toLocaleTimeString() + ' ' + msg;
+}
+
+function clearLog() { document.getElementById('log').textContent = '日志已清除'; }
+
+function showCoachPage() {
+  log('--- showCoachPage() ---');
+  var pg = document.getElementById('coachPage');
+  var ci = document.getElementById('coachIntro');
+  log('coachPage 元素: ' + (pg ? '✅ 存在' : '❌ 不存在'));
+  log('coachIntro 元素: ' + (ci ? '✅ 存在' : '❌ 不存在'));
+  log('coachIntro 当前 display: ' + (ci ? window.getComputedStyle(ci).display : 'N/A'));
+  log('coachIntro offsetWidth: ' + (ci ? ci.offsetWidth : 'N/A'));
+  log('coachIntro offsetHeight: ' + (ci ? ci.offsetHeight : 'N/A'));
+  log('coachIntro innerHTML: ' + (ci ? ci.innerHTML.substring(0, 100) : 'N/A'));
+  pg.style.display = 'block';
+  log('coachPage.display → block');
+  log('coachIntro.display → block');
+  ci.style.display = 'block';
+  log('设置后 coachIntro display: ' + window.getComputedStyle(ci).display);
+}
+
+function testInitCoach() {
+  log('--- testInitCoach() ---');
+  try {
+    initCoach();
+    var ci = document.getElementById('coachIntro');
+    log('✅ initCoach OK');
+    log('coachIntro.style.display: ' + ci.style.display);
+    log('coachIntro computed display: ' + window.getComputedStyle(ci).display);
+    log('coachIntro offsetWidth: ' + ci.offsetWidth);
+    log('coachIntro offsetHeight: ' + ci.offsetHeight);
+    // 检查所有子元素
+    var children = ci.children;
+    for (var i = 0; i < children.length; i++) {
+      var c = children[i];
+      var visible = c.offsetWidth > 0 || c.offsetHeight > 0;
+      log('  子元素[' + i + '] <' + c.tagName + ' class=' + c.className + '> visible=' + visible + ' display=' + window.getComputedStyle(c).display);
+    }
+  } catch(e) {
+    log('❌ initCoach 报错: ' + e.message);
+  }
+}
+
+function initCoach() {
+  var ci = document.getElementById('coachIntro');
+  var cc = document.getElementById('coachChat');
+  if (ci) ci.style.display = 'block';
+  if (cc) cc.style.display = 'none';
+  log('initCoach 执行: ci.display=block, cc.display=none');
+}
+
+function runAllTests() {
+  clearLog();
+  log('=== 全部测试开始 ===');
+  // 检查关键元素
+  var ids = ['coachPage', 'coachIntro', 'coachChat', 'coachReport', 'chatMessages', 'coachProgressBar', 'chatInputArea', 'coachButtons'];
+  for (var i = 0; i < ids.length; i++) {
+    var el = document.getElementById(ids[i]);
+    log('ID=' + ids[i] + ': ' + (el ? '✅ 存在' : '❌ 不存在'));
+  }
+  // 检查CSS
+  log('');
+  log('=== CSS 检查 ===');
+  var ci = document.getElementById('coachIntro');
+  if (ci) {
+    var cs = window.getComputedStyle(ci);
+    log('coachIntro computed: display=' + cs.display + ', width=' + ci.offsetWidth + ', height=' + ci.offsetHeight);
+    log('coachIntro inline style: ' + ci.getAttribute('style'));
+  }
+  log('');
+  log('=== 测试完成 ===');
+  log('请查看 coachIntro 区域是否有红色虚线边框？');
+  log('如果 coachIntro offsetWidth/Height = 0，请截图日志发给我');
+}
+
+runAllTests();
+</script>
+</body>
+</html>

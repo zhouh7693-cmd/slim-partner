@@ -1,0 +1,1977 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>关系力修炼搭子 · 让别人感受到你在帮他</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+    body { background: linear-gradient(145deg, #fdf6f0 0%, #faeee4 100%); min-height: 100vh; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 16px 16px 90px; }
+    .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 8px 0 max(8px, env(safe-area-inset-bottom)); box-shadow: 0 -4px 20px rgba(0,0,0,0.08); border-radius: 24px 24px 0 0; z-index: 100; }
+    .tab-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 12px; cursor: pointer; border-radius: 16px; transition: all 0.2s; }
+    .tab-item.active { background: #fff4ec; }
+    .tab-item .tab-icon { font-size: 22px; }
+    .tab-item .tab-label { font-size: 10px; color: #8f9eae; font-weight: 500; }
+    .tab-item.active .tab-label { color: #d97706; font-weight: 700; }
+    .page { display: none; }
+    .page.active { display: block; }
+    /* 搭子选择器 */
+    .partner-selector { max-width: 400px; margin: 0 auto; background: white; border-radius: 48px; padding: 28px 20px 32px; position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; box-sizing: border-box; }
+    #partnerSelectorMask { display: none; position: fixed; inset: 0; z-index: 99; background: rgba(0,0,0,0.4); }
+    .selector-title { font-size: 26px; font-weight: 700; text-align: center; background: linear-gradient(135deg, #d97706, #b45309); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+    .selector-sub { text-align: center; color: #6c7a89; margin-bottom: 28px; font-size: 14px; line-height: 1.5; }
+    .partner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; width: 100%; }
+    .partner-card { background: #fff; border-radius: 28px; padding: 18px 10px 14px; text-align: center; cursor: pointer; box-shadow: 0 6px 14px rgba(0,0,0,0.04); border: 1.5px solid #e9edf2; transition: all 0.2s; }
+    .partner-card.selected { border-color: #d97706; background: #fff8f0; transform: scale(0.98); }
+    .partner-emoji { font-size: 44px; margin-bottom: 10px; }
+    .partner-name { font-weight: 700; font-size: 17px; margin-bottom: 5px; color: #2b3a4a; }
+    .partner-desc { font-size: 12px; color: #6c7a89; line-height: 1.4; }
+    .confirm-btn { background: linear-gradient(135deg, #d97706, #b45309); color: white; border: none; width: 100%; padding: 16px; border-radius: 60px; font-size: 18px; font-weight: 600; cursor: pointer; }
+    .confirm-btn:active { opacity: 0.9; transform: scale(0.97); }
+    /* 打卡页 */
+    .card { max-width: 420px; margin: 0 auto; background: white; border-radius: 44px; padding: 28px 24px 32px; box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08); margin-bottom: 20px; text-align: center; }
+    .partner-badge { display: inline-block; background: #fff8f0; padding: 6px 16px; border-radius: 40px; font-size: 14px; margin-bottom: 20px; color: #d97706; font-weight: 500; }
+    .question { font-size: 20px; font-weight: 600; margin-bottom: 24px; color: #2b3a4a; line-height: 1.5; }
+    .checkin-btn { width: 170px; height: 170px; background: linear-gradient(145deg, #d97706, #b45309); border-radius: 100%; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 20px 30px -8px rgba(217,119,6,0.35); transition: transform 0.15s; }
+    .checkin-btn:active { transform: scale(0.96); }
+    .checkin-status { font-size: 28px; font-weight: 800; }
+    .checkin-sub { font-size: 13px; opacity: 0.9; margin-top: 6px; }
+    .continuous { font-size: 44px; font-weight: 800; margin: 8px 0 4px; color: #d97706; }
+    .continuous-label { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
+    .week-progress { background: white; border-radius: 36px; padding: 18px 20px; margin-bottom: 20px; max-width: 420px; margin-left: auto; margin-right: auto; }
+    .week-title { font-weight: 600; margin-bottom: 16px; display: flex; justify-content: space-between; color: #2b3a4a; }
+    .week-dots { display: flex; justify-content: space-between; gap: 8px; }
+    .day-item { flex: 1; text-align: center; }
+    .day-name { font-size: 12px; color: #8f9eae; margin-bottom: 6px; }
+    .dot { width: 40px; height: 40px; background: #eef2f5; border-radius: 100%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 18px; transition: all 0.2s; }
+    .dot.checked { background: linear-gradient(135deg, #d97706, #b45309); color: white; }
+    /* 聊天页 */
+    .chat-area { max-width: 420px; margin: 0 auto 20px; }
+    .msg-bubble-wrap { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 12px; }
+    .msg-avatar { font-size: 32px; flex-shrink: 0; }
+    .msg-bubble { background: white; border-radius: 18px 18px 18px 4px; padding: 12px 16px; max-width: 78%; font-size: 15px; line-height: 1.6; color: #2b3a4a; box-shadow: 0 4px 12px rgba(0,0,0,0.06); animation: bubbleIn 0.3s ease; }
+    .msg-bubble.ai { border-radius: 18px 18px 4px 18px; background: #fff8f0; }
+    @keyframes bubbleIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes bounce { 0%,80%,100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1.2); opacity: 1; } }
+    .interaction-panel { max-width: 420px; margin: 0 auto 20px; background: white; border-radius: 28px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .panel-label { font-size: 12px; color: #8f9eae; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
+    .talk-btn-row { display: flex; gap: 8px; }
+    .talk-btn { flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #f0e6d8; background: white; font-size: 14px; font-weight: 500; color: #d97706; cursor: pointer; transition: all 0.15s; }
+    .talk-btn:active { background: #fff8f0; transform: scale(0.97); }
+    footer { font-size: 12px; text-align: center; color: #8f9eae; margin-top: 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
+    /* SOP自检 */
+    .sop-page { max-width: 420px; margin: 0 auto; }
+    .sop-header { background: white; border-radius: 32px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
+    .sop-title { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #d97706, #f59e0b); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 4px; }
+    .sop-sub { font-size: 13px; color: #8f9eae; margin-bottom: 14px; }
+    .sop-score-row { display: flex; justify-content: center; gap: 24px; }
+    .sop-score { text-align: center; }
+    .sop-score-num { font-size: 28px; font-weight: 800; color: #d97706; }
+    .sop-score-label { font-size: 11px; color: #8f9eae; }
+    .sop-progress-wrap { margin-top: 12px; display: flex; align-items: center; gap: 10px; }
+    .sop-progress-bg { flex: 1; height: 8px; background: #eef2f5; border-radius: 10px; overflow: hidden; }
+    .sop-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #d97706, #f59e0b); border-radius: 10px; transition: width 0.4s ease; }
+    .sop-progress-text { font-size: 12px; font-weight: 600; color: #8f9eae; min-width: 40px; text-align: right; }
+    .sop-game-card { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); position: relative; overflow: hidden; }
+    .sop-cat-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 12px; color: #8f9eae; }
+    .sop-cat-progress-bar { flex: 1; height: 4px; background: #eef2f5; border-radius: 4px; overflow: hidden; }
+    .sop-cat-progress-fill { height: 100%; background: #d97706; border-radius: 4px; transition: width 0.3s; }
+    .sop-habit-card { text-align: center; padding: 8px 0 20px; }
+    .sop-habit-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #8f9eae; margin-bottom: 10px; }
+    .sop-habit-label.pos { color: #d97706; }
+    .sop-habit-label.neg { color: #c62828; }
+    .sop-habit-emoji { font-size: 40px; margin-bottom: 8px; display: block; }
+    .sop-habit-text { font-size: 17px; font-weight: 600; color: #2b3a4a; line-height: 1.5; margin-bottom: 4px; }
+    .sop-habit-sub { font-size: 12px; color: #8f9eae; margin-bottom: 20px; }
+    .sop-btn-row { display: flex; gap: 12px; }
+    .sop-btn { flex: 1; padding: 14px 8px; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .sop-btn:active { transform: scale(0.97); }
+    .sop-btn.yes { background: #fff8f0; color: #b45309; border: 2px solid #fcd34d; }
+    .sop-btn.no { background: #fff3f3; color: #c62828; border: 2px solid #ffcdd2; }
+    .sop-btn .sop-btn-pts { font-size: 12px; opacity: 0.8; }
+    .sop-done-state { background: white; border-radius: 32px; padding: 40px 24px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .sop-done-icon { font-size: 64px; margin-bottom: 16px; }
+    .sop-done-title { font-size: 22px; font-weight: 800; color: #2b3a4a; margin-bottom: 8px; }
+    .sop-done-sub { font-size: 14px; color: #8f9eae; margin-bottom: 24px; }
+    .sop-reset-btn { padding: 12px 32px; border-radius: 60px; border: none; background: linear-gradient(135deg, #d97706, #b45309); color: white; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .sop-cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .sop-cat-btn { background: white; border-radius: 20px; padding: 16px 12px; text-align: center; cursor: pointer; border: 1.5px solid #e9edf2; transition: all 0.15s; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+    .sop-cat-btn:active { transform: scale(0.97); background: #fff8f0; }
+    .sop-cat-icon { font-size: 32px; margin-bottom: 6px; }
+    .sop-cat-name { font-size: 14px; font-weight: 700; color: #2b3a4a; margin-bottom: 3px; }
+    .sop-cat-desc { font-size: 11px; color: #8f9eae; }
+    .sop-cat-done { font-size: 12px; color: #d97706; font-weight: 600; margin-top: 4px; }
+    .sop-cat-progress-wrap { margin-top: 6px; }
+    .sop-cat-progress-bg { width: 100%; height: 4px; background: #eef2f5; border-radius: 4px; overflow: hidden; }
+    .sop-cat-progress-fill2 { height: 100%; background: linear-gradient(90deg,#d97706,#f59e0b); border-radius: 4px; transition: width 0.3s; }
+    .sop-cat-pct { font-size: 10px; color: #d97706; font-weight: 700; margin-top: 2px; }
+    /* SOP引导遮罩 */
+    #sopGuideOverlay { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; padding: 24px; }
+    #sopGuideOverlay.show { display: flex; }
+    .sop-guide-card { background: white; border-radius: 32px; padding: 32px 24px; max-width: 360px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .sop-guide-icon { font-size: 56px; margin-bottom: 16px; }
+    .sop-guide-title { font-size: 20px; font-weight: 800; color: #2b3a4a; margin-bottom: 12px; }
+    .sop-guide-desc { font-size: 14px; color: #6c7a89; line-height: 1.6; margin-bottom: 24px; }
+    .sop-guide-btn { width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #d97706, #b45309); color: white; font-size: 16px; font-weight: 600; cursor: pointer; }
+    /* 反馈弹窗 */
+    .fb-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; z-index: 500; padding: 20px; }
+    .fb-overlay.show { display: flex; }
+    .fb-card { background: white; border-radius: 32px; padding: 32px 24px; max-width: 340px; width: 100%; text-align: center; }
+    .fb-card.pos { border-top: 5px solid #d97706; animation: fbPop 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+    .fb-card.neg { border-top: 5px solid #ef5350; animation: fbShake 0.5s ease; }
+    @keyframes fbPop { from { transform: scale(0.5); opacity:0; } to { transform: scale(1); opacity:1; } }
+    @keyframes fbShake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-6px); } 80% { transform: translateX(6px); } }
+    .fb-emoji { font-size: 64px; margin-bottom: 12px; }
+    .fb-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; border-radius: 20px; display: inline-block; padding: 2px 12px; }
+    .fb-label.pos { background: #fff8f0; color: #d97706; }
+    .fb-label.neg { background: #fff3f3; color: #c62828; }
+    .fb-title { font-size: 20px; font-weight: 800; color: #2b3a4a; margin-bottom: 10px; }
+    .fb-text { font-size: 14px; color: #6c7a89; line-height: 1.7; margin-bottom: 16px; }
+    .fb-partner-quote { background: #fdf6f0; border-radius: 12px; padding: 12px 16px; font-size: 14px; color: #3a4a5a; font-style: italic; margin-bottom: 20px; line-height: 1.6; text-align: left; }
+    .fb-partner-label { font-size: 11px; color: #8f9eae; margin-bottom: 6px; font-style: normal; font-weight: 600; }
+    .fb-btn { background: linear-gradient(135deg, #d97706, #b45309); color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
+    /* 场景选择面板 */
+    .qa-overlay { display: none; position: fixed; inset: 0; z-index: 400; background: rgba(0,0,0,0.5); align-items: flex-end; justify-content: center; }
+    .qa-overlay.show { display: flex; }
+    .qa-panel { background: white; border-radius: 32px 32px 0 0; width: 100%; max-width: 420px; max-height: 82vh; display: flex; flex-direction: column; animation: slideUp 0.35s cubic-bezier(0.32,0.72,0,1); overflow: hidden; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .qa-handle { width: 40px; height: 4px; background: #d0d8e0; border-radius: 4px; margin: 12px auto 0; flex-shrink: 0; }
+    .qa-header { padding: 16px 20px 10px; flex-shrink: 0; text-align: center; border-bottom: 1px solid #f0f4f7; }
+    .qa-title { font-size: 18px; font-weight: 700; color: #2b3a4a; }
+    .qa-sub { font-size: 12px; color: #8f9eae; margin-top: 4px; }
+    .qa-scroll { overflow-y: auto; padding: 12px 16px 20px; flex: 1; }
+    .qa-card { background: #f7f9fc; border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; display: flex; align-items: center; gap: 10px; }
+    .qa-card:active { transform: scale(0.97); }
+    .qa-card.pos { border-color: #fde68a; background: #fffbeb; }
+    .qa-card.neg { border-color: #ffcdd2; background: #fff5f5; }
+    .qa-card-icon { font-size: 24px; flex-shrink: 0; }
+    .qa-card-text { font-size: 14px; color: #3a4a5a; line-height: 1.4; }
+    .qa-card-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-left: auto; flex-shrink: 0; }
+    .qa-card-tag.pos { background: #d97706; color: white; }
+    .qa-card-tag.neg { background: #ef5350; color: white; }
+
+    /* ── 教练Tab（麦肯锡风格） ── */
+    .coach-page { max-width: 420px; margin: 0 auto; }
+
+    /* 教练介绍页 */
+    .coach-intro { background: white; border-radius: 32px; padding: 32px 24px; margin-bottom: 16px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .coach-intro-icon { font-size: 56px; margin-bottom: 16px; }
+    .coach-intro-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #d97706, #b45309); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+    .coach-intro-sub { font-size: 14px; color: #6c7a89; margin-bottom: 24px; }
+    .coach-method-steps { display: flex; gap: 12px; margin-bottom: 28px; }
+    .method-step { flex: 1; background: #fff8f0; border-radius: 16px; padding: 14px 8px; font-size: 13px; font-weight: 700; color: #d97706; line-height: 1.5; }
+    .step-num { display: block; font-size: 20px; margin-bottom: 4px; }
+    .step-desc { font-size: 11px; font-weight: 500; color: #b45309; }
+    .coach-intro-note { font-size: 11px; color: #8f9eae; margin-top: 16px; }
+    .coach-start-btn { margin-top: 18px; width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #d97706, #b45309); color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.15s; }
+    .coach-start-btn:active { transform: scale(0.97); }
+
+    /* 对话界面 */
+    .coach-chat { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .coach-progress-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+    .progress-step { flex: 1; text-align: center; font-size: 11px; font-weight: 700; color: #8f9eae; padding: 8px 4px; border-radius: 12px; background: #f5f5f5; transition: all 0.3s; line-height: 1.4; }
+    .progress-step.active { background: #fff8f0; color: #d97706; }
+    .chat-messages { max-height: 380px; overflow-y: auto; margin-bottom: 16px; padding: 8px; }
+    .chat-msg { margin-bottom: 16px; animation: msgIn 0.3s ease; }
+    .chat-msg.coach { display: flex; gap: 8px; align-items: flex-start; }
+    .chat-msg.user { display: flex; gap: 8px; align-items: flex-start; flex-direction: row-reverse; }
+    .chat-avatar { font-size: 28px; flex-shrink: 0; }
+    .chat-bubble { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.6; color: #2b3a4a; }
+    .chat-msg.coach .chat-bubble { background: #fff8f0; border-radius: 18px 18px 18px 4px; }
+    .chat-msg.user .chat-bubble { background: linear-gradient(135deg, #d97706, #b45309); color: white; border-radius: 18px 18px 4px 18px; }
+    .chat-input-area { display: flex; gap: 8px; align-items: flex-end; }
+    .chat-input-area textarea { flex: 1; padding: 12px 16px; border-radius: 16px; border: 1.5px solid #e9edf2; font-size: 14px; resize: none; outline: none; font-family: inherit; min-height: 44px; }
+    .chat-send-btn { padding: 12px 20px; border-radius: 16px; border: none; background: linear-gradient(135deg, #d97706, #b45309); color: white; font-size: 14px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
+    .chat-send-btn:active { transform: scale(0.97); }
+    .coach-prompt { text-align: center; color: #d97706; font-size: 13px; font-weight: 600; padding: 8px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .generating-report { text-align: center; color: #0891b2; font-size: 14px; font-weight: 600; padding: 16px; animation: blink 1.5s infinite; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    /* 按钮式问答样式 */
+    .coach-buttons { padding: 12px 16px; background: #fafafa; border-top: 1px solid #e5e7eb; }
+    .coach-btn-prompt { font-size: 13px; color: #6b7280; margin-bottom: 10px; text-align: center; }
+    .coach-btn-list { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .coach-choice-btn { flex: 1; min-width: 120px; max-width: 180px; padding: 12px 16px; border: 2px solid #f97316; background: white; color: #f97316; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .coach-choice-btn:hover { background: #f97316; color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(249,115,22,0.3); }
+    .coach-choice-btn.yes { border-color: #22c55e; color: #22c55e; }
+    .coach-choice-btn.yes:hover { background: #22c55e; color: white; box-shadow: 0 4px 12px rgba(34,197,94,0.3); }
+    .coach-choice-btn.no { border-color: #ef4444; color: #ef4444; }
+    .coach-choice-btn.no:hover { background: #ef4444; color: white; box-shadow: 0 4px 12px rgba(239,68,68,0.3); }
+
+
+    /* 麦肯锡诊断报告 */
+    .coach-report-mckinsey { background: white; border-radius: 32px; padding: 28px 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .report-header { text-align: center; margin-bottom: 24px; }
+    .report-icon { font-size: 48px; margin-bottom: 12px; }
+    .report-title { font-size: 20px; font-weight: 800; color: #2b3a4a; margin-bottom: 4px; }
+    .report-subtitle { font-size: 12px; color: #8f9eae; }
+    .report-core-conclusion { background: linear-gradient(135deg, #fff8f0, #fff4ec); border-radius: 20px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #d97706; }
+    .report-core-conclusion h3 { font-size: 15px; font-weight: 700; color: #d97706; margin-bottom: 8px; }
+    .report-core-conclusion p { font-size: 14px; color: #2b3a4a; line-height: 1.6; }
+    .report-mece-analysis { margin-bottom: 20px; }
+    .report-mece-analysis h3 { font-size: 15px; font-weight: 700; color: #2b3a4a; margin-bottom: 12px; }
+    .mece-dimension { background: #fdf6f0; border-radius: 16px; padding: 14px; margin-bottom: 10px; }
+    .mece-dim-title { font-size: 14px; font-weight: 700; color: #d97706; margin-bottom: 6px; }
+    .mece-dim-score { font-size: 12px; color: #8f9eae; margin-bottom: 6px; }
+    .mece-dim-desc { font-size: 13px; color: #6c7a89; line-height: 1.5; }
+    .report-priority-actions { margin-bottom: 20px; }
+    .report-priority-actions h3 { font-size: 15px; font-weight: 700; color: #2b3a4a; margin-bottom: 12px; }
+    .action-item { background: white; border-radius: 16px; padding: 14px; margin-bottom: 8px; border-left: 4px solid #d97706; }
+    .action-priority { font-size: 11px; font-weight: 700; color: #d97706; margin-bottom: 4px; }
+    .action-text { font-size: 14px; color: #2b3a4a; line-height: 1.5; }
+    .report-next-step { background: #fff8f0; border-radius: 16px; padding: 16px; margin-bottom: 20px; }
+    .report-next-step h3 { font-size: 15px; font-weight: 700; color: #d97706; margin-bottom: 8px; }
+    .report-next-step p { font-size: 14px; color: #2b3a4a; line-height: 1.6; }
+    .coach-restart-btn { width: 100%; padding: 14px; border-radius: 60px; border: 2px solid #fcd34d; background: white; color: #d97706; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 12px; }
+    .coach-restart-btn:active { background: #fff8f0; }
+    .report-impact-effort { background: #f0f9ff; border-radius: 16px; padding: 16px; margin-bottom: 20px; }
+    .report-impact-effort h3 { font-size: 15px; font-weight: 700; color: #2b3a4a; margin-bottom: 12px; }
+    .ie-item { font-size: 14px; color: #2b3a4a; margin-bottom: 8px; }
+    .ie-tag { display: inline-block; padding: 2px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; margin-right: 8px; }
+    .ie-p0 { background: #dcfce7; color: #166534; }
+    .ie-p1 { background: #fef9c3; color: #854d0e; }
+    .ie-p2 { background: #ede9fe; color: #6b21a8; }
+
+    @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ===== 轻松度数据页新结构 ===== */
+    .relax-star { width:30px;height:30px;border-radius:50%;border:2px solid #ffe0d0;background:white;color:#d97706;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s; }
+    .relax-star.selected { background:#d97706;color:white;border-color:#d97706; }
+    .relax-stars-wrap { margin-bottom: 0; }
+    .relax-stars { display:flex;gap:4px;justify-content:center;margin-bottom:8px; }
+    .relax-rating-label { text-align:center;font-size:15px;font-weight:700;color:#d97706;margin-bottom:4px;min-height:20px; }
+    .relax-save-msg { text-align:center;font-size:13px;color:#43a047;margin-top:6px;display:none; }
+  </style>
+</head>
+<body>
+<div id="partnerSelectorMask"></div>
+
+<div class="partner-selector" id="partnerSelector">
+  <div class="selector-title">选一个关系力搭子 🌸</div>
+  <div class="selector-sub">陪你把每段关系都变成<br>相互成就的合作关系</div>
+  <div class="partner-grid" id="partnerGrid"></div>
+  <button class="confirm-btn" id="confirmBtn" onclick="confirmPartner()">确认搭子 →</button>
+</div>
+
+<div class="tab-bar" id="tabBar" style="display:none;">
+  <div class="tab-item active" onclick="switchTab('chat')">
+    <div class="tab-icon">🏠</div><div class="tab-label">搭子</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('coach')">
+    <div class="tab-icon">🎓</div><div class="tab-label">教练</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('sop')">
+    <div class="tab-icon">📋</div><div class="tab-label">自检</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('checkin')">
+    <div class="tab-icon">✅</div><div class="tab-label">打卡</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('data')">
+    <div class="tab-icon">🌸</div><div class="tab-label">轻松度</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('progress')">
+    <div class="tab-icon">📈</div><div class="tab-label">进展</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('share')">
+    <div class="tab-icon">📣</div><div class="tab-label">分享</div>
+  </div>
+</div>
+
+<div class="page active" id="checkinPage">
+  <div class="card">
+    <div class="partner-badge" id="partnerBadge">🌸 关系力教练</div>
+    <div class="question" id="dailyQuestion">今天，你有没有让某个人感受到"被帮助"而不是"被催"？</div>
+    <div class="checkin-btn" onclick="doCheckin()">
+      <div class="checkin-status" id="checkinStatus">打卡</div>
+      <div class="checkin-sub" id="checkinSub">点击记录今日</div>
+    </div>
+    <div class="continuous" id="continuousCount">0</div>
+    <div class="continuous-label">连续打卡天数</div>
+  </div>
+  <div class="week-progress" id="weekProgress"></div>
+</div>
+
+<div class="page" id="chatPage">
+  <div class="partner-header" id="partnerHeader" style="display:flex;align-items:center;gap:12px;padding:16px;background:white;border-radius:20px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+    <div id="partnerAvatarB" style="font-size:40px;"></div>
+    <div>
+      <div id="partnerNameB" style="font-size:18px;font-weight:700;color:#333;"></div>
+      <div style="font-size:12px;color:#d97706;">你的关系力搭子</div>
+    </div>
+  </div>
+  <div class="chat-area" id="chatArea"></div>
+  <div class="interaction-panel" id="interactionPanel">
+    <div class="panel-label">今天遇到了什么关系难题？</div>
+    <div class="talk-btn-row">
+      <button class="talk-btn" onclick="askPartner('colleague')">🤝 同事关系</button>
+      <button class="talk-btn" onclick="askPartner('brand')">🏷️ 品牌方</button>
+    </div>
+    <div class="talk-btn-row" style="margin-top:8px;">
+      <button class="talk-btn" onclick="askPartner('platform')">🏢 平台方</button>
+      <button class="talk-btn" onclick="askPartner('boss')">⬆️ 上级相处</button>
+    </div>
+    <div class="talk-btn-row" style="margin-top:8px;">
+      <button class="talk-btn" onclick="askPartner('team')">👥 带团队</button>
+      <button class="talk-btn" onclick="askPartner('self')">🪞 关系复盘</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="sopPage">
+  <div class="sop-page">
+    <div class="sop-header">
+      <div class="sop-title">关系力自检清单</div>
+      <div class="sop-sub">每天照镜子，看看今天是帮手还是压力源</div>
+      <div class="sop-score-row">
+        <div class="sop-score"><div class="sop-score-num" id="sopScore">0</div><div class="sop-score-label">获得积分</div></div>
+        <div class="sop-score"><div class="sop-score-num" id="sopDone">0/20</div><div class="sop-score-label">已完成</div></div>
+      </div>
+      <div class="sop-progress-wrap">
+        <div class="sop-progress-bg"><div class="sop-progress-bar" id="sopProgressBar"></div></div>
+        <div class="sop-progress-text" id="sopProgressText">0%</div>
+      </div>
+    </div>
+    <div class="sop-cat-grid" id="sopCatGrid"></div>
+    <div class="sop-game-card" id="sopGameCard" style="display:none;">
+      <div class="sop-cat-progress" id="sopCatProgress"></div>
+      <div class="sop-habit-card">
+        <div class="sop-habit-label" id="sopHabitLabel">习惯</div>
+        <span class="sop-habit-emoji" id="sopHabitEmoji">🌸</span>
+        <div class="sop-habit-text" id="sopHabitText"></div>
+        <div class="sop-habit-sub" id="sopHabitSub"></div>
+      </div>
+      <div class="sop-btn-row">
+        <button class="sop-btn yes" id="sopYesBtn" onclick="answerSOP('yes')"><span>✅ 做到了</span><span class="sop-btn-pts">+3分</span></button>
+        <button class="sop-btn no" id="sopNoBtn" onclick="answerSOP('no')"><span>❌ 没做到</span><span class="sop-btn-pts">+0分</span></button>
+      </div>
+    </div>
+    <div class="sop-done-state" id="sopDoneState" style="display:none;">
+      <div class="sop-done-icon">🌸</div>
+      <div class="sop-done-title">今日关系自检完成！</div>
+      <div class="sop-done-sub" id="sopDoneSub">又完成了一次关系力审视</div>
+      <button class="sop-reset-btn" onclick="resetSOP()">明天再来 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 轻松度页 ===== -->
+<!-- ===== Page: 轻松度 ===== -->
+<div id="page-data" class="page">
+  <div class="weight-page">
+    <div class="weight-header">
+      <div class="weight-title">🌸 轻松度记录</div>
+      <div class="weight-sub" id="weightSummary">记录你今天的关系轻松指数</div>
+      <div class="weight-input-row">
+        <input class="weight-input" id="weightInput" type="number" step="0.1" min="0" max="10" placeholder="--">
+        <span class="weight-unit">/10</span>
+        <button class="weight-add-btn" onclick="addRelax()">记录</button>
+      </div>
+    </div>
+
+    <div class="weight-chart-card" style="margin-top:16px;">
+      <div class="chart-title">📈 轻松度曲线</div>
+      <div class="chart-sub" id="chartSub">坚持记录，趋势一目了然</div>
+      <canvas id="chartCanvas" width="380" height="200"></canvas>
+    </div>
+
+    <div class="weight-chart-card" id="weeklyReportCard">
+      <div class="chart-title">📊 本周进展</div>
+      <div id="weeklyReportContent">
+        <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>
+      </div>
+      <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#d97706,#b45309);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareRelaxWeeklyReport()">📤 分享本周进展</button>
+    </div>
+
+    <div class="weight-records">
+      <div class="records-title">📝 历史记录</div>
+      <div id="weightRecords"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 财福数据使用 slim_relax_history 存储
+function getRelaxData() { return JSON.parse(localStorage.getItem('slim_relax_history') || '[]'); }
+function saveRelaxData(d) { localStorage.setItem('slim_relax_history', JSON.stringify(d)); }
+
+function addRelax() {
+  let val = parseFloat(document.getElementById('weightInput').value);
+  if (!val || val < 0 || val > 10) { showToast('请输入 0-10 之间的轻松度'); return; }
+  let data = getRelaxData();
+  let today = getToday();
+  data = data.filter(d => d.date !== today);
+  data.push({ date: today, value: val });
+  data.sort((a, b) => a.date.localeCompare(b.date));
+  try {
+    localStorage.setItem('slim_relax_history', JSON.stringify(data));
+  } catch(e) {
+    showToast('⚠️ 存储失败，请检查浏览器隐私设置'); return;
+  }
+  document.getElementById('weightInput').value = '';
+  showToast('✅ 记录成功：轻松度 ' + val);
+  drawRelaxChart();
+  renderRelaxHistory();
+}
+function renderRelaxHistory() {
+  let records = getRelaxData().slice(-20).reverse();
+  let container = document.getElementById('weightRecords');
+  if (!container) return;
+  if (records.length === 0) {
+    container.innerHTML = '<div style="text-align:center;color:#ccc;font-size:13px;padding:20px;">暂无记录 🌸</div>';
+    return;
+  }
+  container.innerHTML = records.map(function(r) {
+    let color = r.value >= 7 ? '#43a047' : r.value >= 4 ? '#ff9800' : '#ef5350';
+    return '<div class="record-item"><div class="record-date">' + r.date + '</div><div class="record-score" style="color:' + color + '">' + r.value + '/10</div></div>';
+  }).join('');
+}
+
+function drawRelaxChart() {
+  let canvas = document.getElementById('chartCanvas');
+  if (!canvas) return;
+  let ctx = canvas.getContext('2d');
+  let data = getRelaxData().slice(-30);
+  let W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  if (data.length < 2) {
+    ctx.fillStyle = '#b0bec5'; ctx.font = '14px system-ui';
+    ctx.textAlign = 'center'; ctx.fillText('记录2次以上即可显示曲线', W / 2, H / 2);
+    let sub = document.getElementById('chartSub');
+    if (sub) sub.textContent = '坚持记录，趋势一目了然';
+    return;
+  }
+  let vals = data.map(d => d.value);
+  let minV = Math.min(...vals) * 0.9, maxV = Math.max(...vals) * 1.1;
+  if (maxV === minV) { minV -= 1; maxV += 1; }
+  let toX = i => 20 + (i / (data.length - 1)) * (W - 40);
+  let toY = v => H - 30 - ((v - minV) / (maxV - minV)) * (H - 60);
+  ctx.strokeStyle = '#f0f4f7'; ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    let y = 20 + i * (H - 50) / 4;
+    ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(W - 20, y); ctx.stroke();
+    ctx.fillStyle = '#b0bec5'; ctx.font = '10px system-ui'; ctx.textAlign = 'right';
+    ctx.fillText(Math.round(maxV - i * (maxV - minV) / 4), 16, y + 3);
+  }
+  let grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, 'rgba(217,119,6,0.2)');
+  grad.addColorStop(1, 'rgba(217,119,6,0)');
+  ctx.beginPath();
+  ctx.moveTo(toX(0), H - 30);
+  data.forEach((d, i) => ctx.lineTo(toX(i), toY(d.value)));
+  ctx.lineTo(toX(data.length - 1), H - 30);
+  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+  ctx.beginPath();
+  data.forEach((d, i) => i === 0 ? ctx.moveTo(toX(i), toY(d.value)) : ctx.lineTo(toX(i), toY(d.value)));
+  ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2.5; ctx.stroke();
+  data.forEach((d, i) => {
+    ctx.beginPath(); ctx.arc(toX(i), toY(d.value), 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2; ctx.stroke();
+  });
+  let sub = document.getElementById('chartSub');
+  if (sub) sub.textContent = '最近 ' + data.length + ' 条记录';
+  if (sub) sub.textContent = '最新：' + vals[vals.length - 1] + '分';
+}
+
+function renderRelaxPage() {
+  renderRelaxHistory();
+  drawRelaxChart();
+  renderRelaxWeeklyReport();
+  // 更新摘要
+  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]');
+  var summary = document.getElementById('weightSummary');
+  if (summary) {
+    if (records.length > 0) {
+      var avg = Math.round(records.reduce(function(s, r) { return s + r.rating; }, 0) / records.length);
+      summary.textContent = '平均轻松度 ' + avg + '/10，共 ' + records.length + ' 条记录';
+    } else {
+      summary.textContent = '记录你今天的关系轻松指数';
+    }
+  }
+}
+
+function initProgressPage() {
+  // 更新进展页数据
+  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]');
+  var checkinHistory = getHistory();
+  var totalDays = checkinHistory.length;
+  var streak = calcStreak(checkinHistory);
+  var avgScore = records.length > 0
+    ? Math.round(records.reduce(function(s, r) { return s + r.rating; }, 0) / records.length) : 0;
+  var today = new Date().toISOString().slice(0,10);
+  var todayRecord = records.find(function(r) { return r.date === today; });
+  var todayScore = todayRecord ? todayRecord.rating : '-';
+
+  // 更新圆环
+  var circumference = 2 * Math.PI * 54;
+  var offset = circumference - (avgScore / 10) * circumference;
+  var ringEl = document.getElementById('relRingFill');
+  if (ringEl) ringEl.setAttribute('stroke-dashoffset', offset);
+  var pctEl = document.getElementById('relRingPct');
+  if (pctEl) pctEl.textContent = avgScore;
+
+  // 更新统计数据
+  var elements = [
+    { id: 'relStreakNum', value: streak },
+    { id: 'relTotalDays', value: totalDays },
+    { id: 'relTodayScore', value: todayScore }
+  ];
+  elements.forEach(function(item) {
+    var el = document.getElementById(item.id);
+    if (el) el.textContent = item.value;
+  });
+
+  // 更新趋势区域
+  var dimsEl = document.getElementById('relProgressDims');
+  if (dimsEl) {
+    if (records.length < 2) {
+      dimsEl.innerHTML = '<div style="text-align:center;padding:20px;color:#b0bec5;font-size:13px;">记录轻松度后查看趋势 📈</div>';
+    } else {
+      var recent = records.slice(-7);
+      dimsEl.innerHTML = recent.map(function(r) {
+        var emojis = ['','😰','😟','😕','😐','🙂','😊','😌','😄','🤩','✨'];
+        var color = r.rating >= 7 ? '#43a047' : r.rating >= 4 ? '#ff9800' : '#ef5350';
+        return '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0;">' +
+          '<div style="font-size:18px;width:28px;text-align:center;">' + emojis[r.rating] + '</div>' +
+          '<div style="flex:1;font-size:13px;color:#666;">' + r.date + '</div>' +
+          '<div style="font-size:14px;font-weight:700;color:' + color + ';">' + r.rating + '/10</div></div>';
+      }).join('');
+    }
+  }
+}
+
+function renderRelaxWeeklyReport() {
+  var container = document.getElementById('weeklyReportContent');
+  if (!container) return;
+  var history = getHistory();
+  var now = new Date();
+  var weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+  var thisWeek = history.filter(function(h) { return new Date(h) >= weekAgo; });
+  var lastWeekStart = new Date(weekAgo); lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+  var lastWeek = history.filter(function(h) { return new Date(h) >= lastWeekStart && new Date(h) < weekAgo; });
+  if (thisWeek.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>';
+    return;
+  }
+  var avg = thisWeek.reduce(function(s, h) { return s + (parseFloat(h.split('|')[1]) || 0); }, 0) / thisWeek.length;
+  var trend = thisWeek.length >= lastWeek.length ? '↑ 比上周更积极！' : '比上周少打卡了，加油！';
+  container.innerHTML = '<div style="font-size:13px;line-height:2;color:#555;">' +
+    '本周打卡：<strong>' + thisWeek.length + '</strong> 天 | 上周：<strong>' + lastWeek.length + '</strong> 天<br>' +
+    '本周平均轻松度：<strong>' + avg.toFixed(1) + '</strong><br>' +
+    '<span style="color:#d97706;font-weight:600;">' + trend + '</span></div>';
+  var shareBtn = document.getElementById('shareWeeklyBtn');
+  if (shareBtn && thisWeek.length >= 3) shareBtn.style.display = 'block';
+}
+
+function shareRelaxWeeklyReport() {
+  var history = getHistory();
+  var now = new Date();
+  var weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+  var cnt = history.filter(function(h) { return new Date(h) >= weekAgo; }).length;
+  var text = '【关系力轻松度本周战绩】本周打卡 ' + cnt + ' 天，继续修复关系力！';
+  navigator.clipboard.writeText(text).then(function() { showToast('✅ 已复制，快去分享！'); }).catch(function() { showToast('复制失败'); });
+}
+</script>
+
+<!-- ===== 进展页 ===== -->
+<div class="page" id="progressPage">
+  <div class="weight-page">
+    <div class="weight-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;">
+      <div style="font-size:48px;margin-bottom:8px;">🤝</div>
+      <div class="chart-title" style="font-size:18px;margin-bottom:4px;">关系力修复进展</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">你的关系力成长曲线</div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;position:relative;">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <defs><linearGradient id="relRingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#d97706"/><stop offset="100%" stop-color="#b45309"/>
+          </linearGradient></defs>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#fef3c7" stroke-width="14"/>
+          <circle id="relRingFill" cx="70" cy="70" r="54" fill="none" stroke="url(#relRingGrad)" stroke-width="14"
+            stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"
+            transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.8s;"/>
+          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#d97706;" id="relRingPct">0</text>
+          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#8f9eae;">平均轻松度</text>
+        </svg>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <div style="background:#fef3c7;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#d97706;" id="relStreakNum">0</div>
+          <div style="font-size:11px;color:#8f9eae;">连续天数</div>
+        </div>
+        <div style="background:#fef9ec;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#16a34a;" id="relTotalDays">0</div>
+          <div style="font-size:11px;color:#8f9eae;">累计天数</div>
+        </div>
+        <div style="background:#fffbeb;border-radius:16px;padding:10px 16px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#ff6b35;" id="relTodayScore">-</div>
+          <div style="font-size:11px;color:#8f9eae;">今日得分</div>
+        </div>
+      </div>
+    </div>
+    <div class="weight-chart-card" style="margin-bottom:16px;">
+      <div class="chart-title">📊 轻松度趋势</div>
+      <div id="relProgressDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">
+        <div style="text-align:center;padding:20px;color:#b0bec5;font-size:13px;">记录轻松度后查看趋势 📈</div>
+      </div>
+    </div>
+    <div class="weight-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#fef3c7,#fef9ec);border:1px solid #fcd34d;margin-bottom:16px;">
+      <div style="font-size:36px;margin-bottom:8px;" id="relProgressPartnerEmoji">🤝</div>
+      <div style="font-size:14px;font-weight:700;color:#92400e;margin-bottom:4px;" id="relProgressPartnerName">关系力搭子</div>
+      <div style="font-size:13px;color:#b45309;line-height:1.6;" id="relProgressPartnerMsg">修复关系，让彼此都轻松 💫</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 分享页 ===== -->
+<div class="page" id="sharePage">
+  <div style="max-width:420px;margin:0 auto;">
+    <div style="text-align:center;padding:16px 16px 0;">
+      <div style="font-size:22px;font-weight:700;color:#d97706;">📣 分享</div>
+      <div style="font-size:13px;color:#8f9eae;margin-top:4px;">邀请朋友一起修炼关系力</div>
+    </div>
+
+    <!-- 我的状态 -->
+    <div class="sop-card" style="margin:16px 12px 12px;">
+      <div class="chart-title">🌸 我的状态</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
+        <div style="background:#fffbeb;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#d97706;" id="shareStreak">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">连续打卡</div>
+        </div>
+        <div style="background:#fffbeb;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#f59e0b;" id="shareToday">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">今日打卡</div>
+        </div>
+        <div style="background:#fffbeb;border-radius:12px;padding:12px 6px;">
+          <div style="font-size:20px;font-weight:700;color:#fbbf24;" id="shareTotal">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 关系力修复搭子介绍卡片 -->
+    <div class="sop-card" style="margin:0 12px 12px;">
+      <div class="chart-title">🌸 关系力修复搭子</div>
+      <div style="margin-top:12px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;">
+        <div style="font-size:48px;margin-bottom:8px;">🤝</div>
+        <div style="font-size:16px;font-weight:700;color:#92400e;margin-bottom:4px;">关系力修复搭子</div>
+        <div style="font-size:13px;color:#b45309;line-height:1.6;margin-bottom:8px;">陪你修复重要关系<br>每天5分钟复盘，让关系更轻松</div>
+        <div style="font-size:11px;color:#d97706;">自我认知 · 沟通表达 · 共情能力</div>
+      </div>
+      <div class="chart-title" style="margin-bottom:12px;">📋 SOP 复盘维度</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+        <div style="background:#fef9ec;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">🧠</div>
+          <div style="font-size:12px;font-weight:600;color:#3a5fcd;">自我认知</div>
+        </div>
+        <div style="background:#fef9ec;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">💬</div>
+          <div style="font-size:12px;font-weight:600;color:#26a69a;">沟通表达</div>
+        </div>
+        <div style="background:#fef9ec;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">❤️</div>
+          <div style="font-size:12px;font-weight:600;color:#e91e63;">共情能力</div>
+        </div>
+        <div style="background:#fef9ec;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">🔄</div>
+          <div style="font-size:12px;font-weight:600;color:#ff9800;">主动行动</div>
+        </div>
+        <div style="background:#fef9ec;border-radius:12px;padding:12px;text-align:center;grid-column:span 2;">
+          <div style="font-size:24px;">🌱</div>
+          <div style="font-size:12px;font-weight:600;color:#9c27b0;">关系进展</div>
+        </div>
+      </div>
+      <div class="chart-title">🔗 邀请链接</div>
+      <div style="background:#fffbeb;border-radius:12px;padding:12px 14px;font-size:13px;color:#92400e;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay"></div>
+      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#d97706,#f59e0b);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(217,119,6,0.4);">📋 复制邀请链接</button>
+    </div>
+  </div>
+</div>
+
+<!-- 教练页 · 麦肯锡风格深度对话教练 -->
+<div class="page" id="coachPage">
+  <div class="coach-page" id="coachPageContent">
+    <!-- 教练介绍页 -->
+    <div class="coach-intro" id="coachIntro">
+      <div class="coach-intro-icon">🎓</div>
+      <div class="coach-intro-title">麦肯锡风格关系力教练</div>
+      <div class="coach-intro-sub">用结构化思维，3步搞定关系难题</div>
+      <div class="coach-method-steps">
+        <div class="method-step"><span class="step-num">①</span> 界定问题<br><span class="step-desc">明确核心冲突</span></div>
+        <div class="method-step"><span class="step-num">②</span> 结构化分析<br><span class="step-desc">MECE拆解根因</span></div>
+        <div class="method-step"><span class="step-num">③</span> 优先级行动<br><span class="step-desc">可执行的下一步</span></div>
+      </div>
+      <button class="coach-start-btn" onclick="startCoach()">开始深度对话 →</button>
+      <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
+    </div>
+
+    <!-- 对话界面 -->
+    <div class="coach-chat" id="coachChat" style="display:none;">
+      <div class="coach-progress-bar">
+        <div class="progress-step active" id="progressStep1">① 界定问题</div>
+        <div class="progress-step" id="progressStep2">② 结构化分析</div>
+        <div class="progress-step" id="progressStep3">③ 优先级行动</div>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="coach-prompt" id="coachPrompt" style="display:none;">
+        💡 请在下方输入框中回复...
+      </div>
+      <div class="chat-input-area" id="chatInputArea">
+        <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
+        <button class="chat-send-btn" onclick="sendCoachMsg()">发送</button>
+      </div>
+      <!-- 按钮式问答容器 -->
+      <div class="coach-buttons" id="coachButtons" style="display:none;">
+        <div class="coach-btn-prompt" id="coachBtnPrompt"></div>
+        <div class="coach-btn-list" id="coachBtnList"></div>
+      </div>
+    </div>
+
+    <!-- 诊断报告页 -->
+    <div class="coach-report-mckinsey" id="coachReport" style="display:none;">
+      <div class="report-header">
+        <div class="report-icon">📊</div>
+        <div class="report-title">麦肯锡风格关系力诊断报告</div>
+        <div class="report-subtitle">基于结构化分析框架 · MECE原则 · 行动导向</div>
+      </div>
+      <div class="report-core-conclusion" id="reportCoreConclusion"></div>
+      <div class="report-mece-analysis" id="reportMECE"></div>
+      <div class="report-priority-actions" id="reportActions"></div>
+      <div class="report-next-step" id="reportNextStep"></div>
+      <button class="coach-restart-btn" onclick="restartCoach()">🔄 重新对话</button>
+    </div>
+  </div>
+</div>
+
+<div id="sopGuideOverlay">
+  <div class="sop-guide-card">
+    <div class="sop-guide-icon">🌸</div>
+    <div class="sop-guide-title">关系力自检说明</div>
+    <div class="sop-guide-desc">5个维度，每个维度展示1个好习惯和1个雷区行为。<br><br>诚实作答，搭子给你真实反馈。<br>照镜子是改变的第一步。</div>
+    <button class="sop-guide-btn" onclick="closeSOPGuide()">我知道了，开始</button>
+  </div>
+</div>
+
+<div class="fb-overlay" id="fbOverlay">
+  <div class="fb-card" id="fbCard">
+    <div class="fb-emoji" id="fbEmoji">💡</div>
+    <div class="fb-label" id="fbLabel">正向</div>
+    <div class="fb-title" id="fbTitle"></div>
+    <div class="fb-text" id="fbText"></div>
+    <div class="fb-partner-quote" id="fbQuote"></div>
+    <button class="fb-btn" onclick="closeFBOverlay()">✅ 知道了</button>
+  </div>
+</div>
+
+<div class="qa-overlay" id="qaOverlay">
+  <div class="qa-panel">
+    <div class="qa-handle"></div>
+    <div class="qa-header">
+      <div class="qa-title" id="qaTitle">选择场景</div>
+      <div class="qa-sub" id="qaSub">说说你遇到了什么，我陪你想想怎么处理</div>
+    </div>
+    <div class="qa-scroll" id="qaScroll"></div>
+  </div>
+</div>
+
+<footer>关系力修炼搭子 · 让每段关系都成为你的助力</footer>
+<script>
+// ===== 搭子配置 =====
+const PARTNERS = [
+  {
+    id: 'warmth',
+    emoji: '🌸',
+    name: '暖场',
+    desc: '松弛而有温度 · 让人如沐春风',
+    intro: '我是暖场，你的关系力修炼搭子。我的风格：松弛、有温度、不制造压力。我们一起练习，让别人在你身边感受到"被支持"，而不是"被催"。',
+    style: 'warm',
+    tagline: '让别人感受到你在帮他，不是在催他'
+  },
+  {
+    id: 'mirror',
+    emoji: '🪞',
+    name: '明镜',
+    desc: '清醒而直接 · 帮你照见关系盲区',
+    intro: '我是明镜，你的关系力修炼搭子。我的风格：清醒、直接、不绕弯子。我帮你看见那些让别人感到有压力的行为，然后换一种方式。',
+    style: 'clear',
+    tagline: '先看见，才能改变'
+  },
+  {
+    id: 'bridge',
+    emoji: '🌉',
+    name: '桥接',
+    desc: '策略感强 · 帮你建立真正的合作关系',
+    intro: '我是桥接，你的关系力修炼搭子。我的风格：有策略、重结果、相信每段关系都可以设计。我陪你把每次沟通都变成相互成就的机会。',
+    style: 'strategic',
+    tagline: '每段关系都可以设计，每次沟通都是机会'
+  }
+];
+
+// ===== STORAGE =====
+const STORAGE = {
+  PARTNER: 'slim_partner_guanxi',
+  HISTORY: 'slim_history_guanxi',
+  SOP: 'slim_sop_guanxi',
+  SOP_STREAKS: 'slim_sop_streaks_guanxi'
+};
+
+// ===== 6分类场景 TYPE_SCENES_GUANXI =====
+const TYPE_SCENES_GUANXI = {
+
+  colleague: [
+    {icon:'😤',tag:'压力感',scenario:'我催了同事进度，结果对方明显不太高兴，关系变微妙了',feedback:'你感受到了张力。催进度最常见的问题是：方式让人觉得"你在质疑我"，而不是"我们在一起解决问题"。\n\n下次试试换一个句式：\n❌ "那个文件什么时候能给我？"\n✅ "我这边准备到XXX了，你那边有什么我可以提前帮忙的吗？"\n\n前者是催，后者是帮。同一个需求，感受完全不同。',type:'neg'},
+    {icon:'🙅',tag:'拒绝',scenario:'同事拒绝了我的请求，我感觉有点委屈，不知道下一步怎么办',feedback:'被拒绝是正常的，问题是你怎么接住这个"不"。\n\n被拒绝后很多人会陷入两种误区：① 强行解释再催一次 ② 冷战。两种都会损耗关系。\n\n可以试试第三种：接住+理解+侧门\n"好的，我理解你现在很忙。我想到了另一个方案，你看这样行不行？"\n\n先接住对方的处境，再提方案，成功率会高很多。',type:'neg'},
+    {icon:'🤝',tag:'合作',scenario:'我和一个同事今天达成了一个很顺畅的合作，感觉超好',feedback:'这种"顺畅感"很珍贵，值得复盘原因。\n\n顺畅合作背后通常有几个共同特征：① 双方都清楚各自要什么 ② 有一方主动承担了"粘合剂"角色 ③ 节奏对了。\n\n问一下自己：今天这次合作里，你做了哪件让对方更轻松的事？把那件事记下来，复制到下一次。',type:'pos'},
+    {icon:'💬',tag:'沟通',scenario:'我和某同事有分歧，不知道该怎么处理',feedback:'有分歧是正常的，问题是你在"赢得争论"还是"找到出路"。\n\n很多分歧之所以演变成冲突，是因为双方都在证明自己是对的。\n\n换一个切入点：先承认对方说的有道理的部分，再说你担心的地方。\n"你说的XXX我觉得有道理。我担心的是YYY，你觉得这个顾虑有没有道理？"\n\n让对方觉得你在听，才会有真正的对话。',type:'neg'},
+    {icon:'🌱',tag:'建立',scenario:'我想和某个同事建立更好的关系，但不知道从哪里开始',feedback:'关系是在"共同完成事情"中建立的，不是靠闲聊。\n\n最实用的方法：找一件对方在乎、你能帮上忙的事，主动帮一把。\n\n不需要很大，哪怕是："我看你上次提到XXX，我这边正好有个参考，要不要发给你？"\n\n先给予，关系就有了起点。',type:'pos'},
+    {icon:'😶',tag:'疏远',scenario:'我感觉和某个重要同事的关系变疏远了，想修复但不知道怎么开口',feedback:'关系变疏远最大的误区是：等对方来修复，或者找一个"正式场合"重新建立。\n\n其实不需要那么复杂。一个自然的小动作就够了：\n"最近忙吗？上次你说的XXX，后来怎么样了？"\n\n对方感受到的是：你记得我，你在乎我说的事。这比任何正式修复都有效。',type:'neg'},
+    {icon:'🔥',tag:'冲突',scenario:'我和同事发生了一次正面冲突，当时情绪都比较激动',feedback:'冲突发生后，最重要的不是"谁对谁错"，而是"关系怎么走"。\n\n激动时说的话，很多是在宣泄情绪，不是真实判断。复盘时把情绪去掉，你会发现真正的分歧点往往比冲突时看起来要小很多。\n\n24小时内，主动说一句话："上次我说话方式可能有点冲，不是要攻击你，只是太急了。"\n\n先软化，才有空间谈实质问题。',type:'neg'},
+    {icon:'⭐',tag:'信任',scenario:'我在团队里积累了一些信任，同事开始主动来问我建议',feedback:'同事主动来问你建议，说明你的关系力在生效。\n\n这个时候最重要的一件事：不要急着给答案，先充分理解对方的处境。\n\n"你目前最大的顾虑是什么？" 这一句话，比任何答案都更让人感到被理解。\n\n信任是在"你真的懂我"的那一刻建立的，不是在你给了正确答案的时候。',type:'pos'},
+    {icon:'📝',tag:'对齐',scenario:'我和跨部门同事在一个项目上总是对不齐，很影响效率',feedback:'跨部门对不齐，90%的原因不是"不配合"，而是"各自的优先级不同、但没有明说"。\n\n下次开始跨部门合作之前，先做一件事：\n"我们各自最在乎这个项目哪个指标？先把这个说清楚，才知道哪里会有张力。"\n\n让各自的诉求"上桌"，比闷头推进然后冲突效率高很多。',type:'neg'},
+    {icon:'🎯',tag:'影响力',scenario:'我想提升自己在团队中的影响力，但不想让人觉得我在抢风头',feedback:'影响力和"抢风头"的区别在于：你在让事情更好，还是在让自己更显眼？\n\n提升影响力最可持续的方式：主动解决别人没有注意到的问题，然后把功劳归给团队。\n\n这样一来，周围的人会感受到"有你在更轻松"，这种感受比任何自我宣传都有力。',type:'pos'},
+    {icon:'😔',tag:'被忽视',scenario:'我感觉自己的意见在团队会议上总是被忽视，有点沮丧',feedback:'意见被忽视，通常有两种原因：① 表达时机不对 ② 表达方式让人不容易接住。\n\n试试这个方法：在会议外，先和1-2个有影响力的人单独讨论，把他们变成"内应"。\n\n等到会议上，你说的话已经有人有共鸣了。群体共鸣比个人独唱有力得多。',type:'neg'},
+    {icon:'💡',tag:'提案',scenario:'我有一个不错的想法，想推动，但怕被人当成麻烦',feedback:'好想法被当成麻烦，通常是因为"光提问题没有方案"，或者"推太快让人觉得被逼"。\n\n推动想法的成熟方式：\n① 先把想法包装成"我在想能不能解决XXX问题"\n② 找到和你利益相关的人，先私下讨论，收集反馈\n③ 等有了1-2个支持者，再在大场合正式提出\n\n想法不怕好，怕的是推进姿势让人防御。',type:'pos'},
+    {icon:'🚧',tag:'边界',scenario:'同事总是把自己的工作甩给我，我不知道怎么拒绝又不伤感情',feedback:'害怕拒绝，本质是害怕关系受损。但一味接受，最终会让关系更不平衡。\n\n有温度的拒绝方式：不拒绝人，拒绝"这件事现在"。\n"这个我很想帮，但我现在手头XXX优先级很高，要不你先看看YYY能不能推进，我XXXX之后来协助你？"\n\n给对方一个替代方案，拒绝就不会变成一扇关上的门。',type:'neg'},
+    {icon:'🌟',tag:'认可',scenario:'我今天给了一个同事真诚的认可，对方明显很开心',feedback:'给予认可是最被低估的关系维护方式。\n\n研究显示，大多数人在工作中收到的正向反馈远少于负向反馈。你今天的一句话，可能是对方这周听到最好的话。\n\n继续保持这个习惯。而且要注意：好的认可是具体的，不是"你做得很好"，而是"你在XXX上处理得很好，因为YYY"。',type:'pos'},
+    {icon:'🤐',tag:'八卦',scenario:'我被卷入了办公室八卦，不知道该怎么处理',feedback:'被卷入八卦，最安全的姿势：不站队，不传播，不评论他人。\n\n一个简单的话术：\n"这事我不太了解，不好说。反正你们之间有什么直接沟通会更清楚。"\n\n然后把话题引开。你不需要表态，但你也不要成为传播链上的一环。\n\n关系力的一部分，是让人觉得和你说话很安全。',type:'neg'},
+  ],
+
+  brand: [
+    {icon:'😤',tag:'催稿',scenario:'品牌方催我提案，但我觉得时间根本不够，压力很大',feedback:'品牌方催你，通常不是真的在催时间，而是在确认："你还在管这件事吗？"\n\n最有效的缓解方式：主动透明。\n"我正在全力推进，目前到了XXX阶段，我预计YYY之前给你初稿，到时候先给你看方向对不对再细化。"\n\n他感受到你在掌控进度，催的频率会降低一半。',type:'neg'},
+    {icon:'🤝',tag:'信任',scenario:'我想和一个新品牌方建立长期合作关系，但不知道从哪里破冰',feedback:'新关系的破冰，不在于"你有多厉害"，而在于"你对他们了解多少"。\n\n第一次见面前，做一件事：研究他们最近3个月的核心动作（产品、渠道、活动），找到1-2个"你们在布局XXX"的具体观察。\n\n见面开口第一句："我注意到你们最近在做XXX，背后的逻辑是什么？"\n\n品牌方感受到的是：你是认真的，不是来应付的。',type:'pos'},
+    {icon:'💰',tag:'压价',scenario:'品牌方一直压价，我不知道该怎么谈才不伤感情',feedback:'品牌方压价，通常有两种动机：① 真的预算有限 ② 试探你的底线。\n\n应对前者：提出分阶段方案，先做一个小的，证明价值再谈全包。\n应对后者：不直接反驳，而是让价格和价值同框出现。\n"我理解预算压力。这个报价对应的是XXX，如果要降到YYY，我需要把ZZZ去掉，你觉得哪个更符合你们的优先级？"\n\n让对方做选择，不是让对方压你。',type:'neg'},
+    {icon:'😡',tag:'投诉',scenario:'品牌方对某个执行结果不满意，我不知道怎么处理',feedback:'品牌方不满，最忌讳的两件事：① 第一句话解释原因 ② 沉默。\n\n正确的接球方式：先表达你理解他们的感受，再说后续动作。\n"我理解这个结果让你失望了，你说的这个点确实没做到位。我现在马上XXX，YYY之前给你一个调整方案。"\n\n他要的不是解释，而是确认："你还有控制力吗？"',type:'neg'},
+    {icon:'📋',tag:'对齐',scenario:'和品牌方总是在执行阶段出现理解偏差，来来回回很耗时间',feedback:'执行阶段的偏差，80%在"立项确认"阶段就埋下了。\n\n解决方法：每次项目启动后，发一份"我的理解是这样的"总结邮件或微信长文。\n"本次合作，我理解的核心目标是XXX，执行方向是YYY，评估标准是ZZZ，你确认一下有没有偏差？"\n\n把隐性预期变成显性确认，偏差就少了。',type:'neg'},
+    {icon:'🌟',tag:'复购',scenario:'品牌方主动找我续签了合作，我想让这次合作更进一步',feedback:'品牌方主动续签，说明你通过了"结果验证"这一关。现在是从"执行关系"升级到"战略关系"的好机会。\n\n在续签谈判中，主动说一句话：\n"除了继续XXX，我这边还有一个观察——你们在YYY方面有一个机会，我有一些想法，我们可以聊聊吗？"\n\n从"接单者"到"提议者"，这是关系升级的关键跨越。',type:'pos'},
+    {icon:'🔄',tag:'调整',scenario:'品牌方临时改需求，把我的计划全打乱了，我很崩溃',feedback:'临时改需求是品牌合作中的常态，你崩溃的核心原因往往是"之前没有设置变更边界"。\n\n这次先吸收，但同时建立一个保护机制：\n"这次改动我们全力配合。考虑到下次类似的变更可能影响交付质量，我们可以约定一下：YYY之后的改动，走一个正式确认流程，这样能保证品质。"\n\n把痛点变成流程共识，保护你，也让对方更专业。',type:'neg'},
+    {icon:'💡',tag:'提案',scenario:'我想主动给品牌方提一个新的合作创意，但怕被拒绝',feedback:'主动提创意的姿势很重要：不要以"我有个好想法"开头，要以"我发现你们有个机会"开头。\n\n"我最近注意到你们的XXX数据有个有趣的现象，结合你们YYY方向，我有一个想法，需要5分钟给你分享吗？"\n\n这个姿势让对方感受到的是：你在帮我看生意，不是在推销自己。',type:'pos'},
+    {icon:'🤐',tag:'保密',scenario:'品牌方分享了一些内部信息，我不确定能不能和别人说',feedback:'品牌方分享内部信息，是在给你信任分。处理不好会迅速归零。\n\n原则：没有明确说"你可以分享"的信息，默认不分享。\n\n更好的做法：主动确认边界。"感谢你告诉我这些，这部分信息我会当作内部参考，不会对外透露。"\n\n你说出来，对方的信任感会翻倍。不说，对方也不知道你是否理解了这条边界。',type:'pos'},
+    {icon:'📊',tag:'汇报',scenario:'我需要向品牌方汇报项目进展，不知道怎么让他们感受到我们在掌控',feedback:'品牌方汇报的核心不是"展示数据"，而是让他们感受到：你知道方向在哪，你掌控节奏。\n\n结构建议：\n① 结论先行（本周完成了什么，达成了什么目标）\n② 数据支撑（用2-3个关键指标说明）\n③ 下步计划（下周做什么，什么时候给下一个里程碑）\n④ 你需要他们什么（明确提出你的需求）\n\n汇报完让对方有"我知道这件事在哪里"的感觉，关系就稳了。',type:'pos'},
+    {icon:'😰',tag:'失误',scenario:'这次合作我们犯了一个比较大的错误，我需要和品牌方沟通',feedback:'犯了错误和品牌方沟通，有一个反直觉的建议：主动第一个说，比被对方发现要好得多。\n\n沟通框架：\n① 直接说清楚发生了什么（不要模糊）\n② 承担责任（不要找外部原因）\n③ 说清楚弥补方案和时间线\n\n"这次我们在XXX上出了问题，责任在我们这边。我的处理方案是YYY，ZZZ天内完成。"\n\n主动、清晰、有方案——这是最强的危机公关。',type:'neg'},
+    {icon:'🌱',tag:'新合作',scenario:'我今天和一个品牌方进行了一次很顺利的初次会面',feedback:'好的初次会面是后续关系的起点，趁热打铁做两件事：\n\n① 24小时内发一条跟进信息："今天聊得很收获，你提到XXX让我很有启发。我有了一些想法，等整理好发给你看看。"\n\n② 想清楚下一次见面要带什么：带一个具体的想法或者一个你专门为他们准备的信息，让第二次见面一开始他们就感受到"你是认真的"。',type:'pos'},
+    {icon:'😶',tag:'冷淡',scenario:'品牌方最近回复越来越慢，感觉关系在变冷',feedback:'关系变冷，主动暖场比等待有效。\n\n不要发"最近怎么样""还在忙吗"这类没有内容的消息。\n\n试试发一条有价值的信息：\n"最近看到一个关于XXX（他们业务相关）的数据，想到你们可能会感兴趣，发给你看看。"\n\n给他一个有价值的东西，不是给他一个需要回应的压力。',type:'neg'},
+    {icon:'🏆',tag:'超预期',scenario:'这次合作结果超出了品牌方的预期，他们非常满意',feedback:'超预期的合作是建立深度关系的最佳时机。\n\n这个时候做两件事：\n① 做一个复盘，总结哪些做法带来了超预期的结果，让方法沉淀下来\n② 趁热推进关系升级："我们这次效果不错，我想聊聊下一阶段有没有更大的合作空间？"\n\n超预期是最好的背书，不要浪费它。',type:'pos'},
+  ],
+
+  platform: [
+    {icon:'📋',tag:'规则',scenario:'平台方突然改了规则，我很措手不及，不知道怎么和他们沟通',feedback:'平台改规则，很多时候你能争取的不是"不改"，而是"给我适应期"。\n\n沟通思路：不质疑规则，而是和对方一起算账。\n"新规则我们理解，但按这个执行，我们现有的XXX会受到影响。能不能给我们一个过渡窗口期，我们这边YYY之前完成调整？"\n\n平台运营也有KPI，他们也不希望合作商出问题。从"共同解决问题"的角度出发，空间更大。',type:'neg'},
+    {icon:'🤝',tag:'关系',scenario:'我想和平台的运营同学建立更好的个人关系，而不只是甲乙方',feedback:'从甲乙方变成"合作伙伴"，关键在于：让他们在你这里不只能完成任务，还能获得价值。\n\n方法：主动分享对他们有用的信息。\n"我最近注意到XXX品类有个趋势，结合你们平台的流量规律，我觉得有个机会，你有没有兴趣聊聊？"\n\n当你成为他们信息来源的一部分，关系就从事务性变成战略性了。',type:'pos'},
+    {icon:'💰',tag:'资源',scenario:'我想从平台争取更多资源和流量支持，但感觉话语权不够',feedback:'争取平台资源，比的不是谁嗓门大，而是谁的业务健康度更好、对平台价值更大。\n\n争取资源之前，先梳理你的"筹码"：\n① 过去合作的成绩（数据说话）\n② 你能帮平台实现的目标（他们的KPI）\n③ 你计划怎么用这些资源（有规划的商家更值得投入）\n\n把"我想要资源"换成"我有一个能帮你完成XXX目标的方案，需要YYY支持"，成功率会高很多。',type:'neg'},
+    {icon:'😤',tag:'投诉',scenario:'平台对我们的某个执行不满意，我需要去沟通解释',feedback:'被平台投诉，最忌讳的是第一句话就开始解释原因。\n\n正确的接球顺序：\n① 承认影响（不要先辩护）\n② 给出你的动作（立即能做什么）\n③ 再解释原因（如果有必要的话）\n\n"这个结果确实没达到标准，我们先XXX，YYY之前改正。原因是ZZZ，我们已经在流程上做了调整避免重复。"\n\n平台要的是：你有控制力，问题不会再发生。',type:'neg'},
+    {icon:'📊',tag:'数据',scenario:'我需要向平台方汇报我们的经营数据，想展示一个好印象',feedback:'向平台汇报数据，不要只展示好的数字，要展示"你是一个理解生意的商家"。\n\n有说服力的汇报结构：\n① 核心指标（GMV、转化率、复购率等，挑你最强的）\n② 增长驱动因素（说清楚为什么好，有可复制性）\n③ 下一步计划（你还打算怎么增长）\n④ 你需要什么配合（明确提出需求）\n\n有规划的商家，比有漂亮数据的商家更受平台信赖。',type:'pos'},
+    {icon:'🔄',tag:'政策',scenario:'平台的新政策对我们有利，但我不知道怎么最大化利用',feedback:'政策窗口期是弯道超车的机会，行动要快、要聚焦。\n\n最大化利用平台新政策的步骤：\n① 第一时间和平台运营确认政策细节（很多细节在公开文件里看不到）\n② 找出政策中与你的业务最匹配的2-3个点，深度跑通\n③ 快速出数据，用成绩换取平台更多资源\n\n赢得政策红利的，永远是反应最快、执行最准的那批人。',type:'pos'},
+    {icon:'😰',tag:'危机',scenario:'我们和平台之间出现了一个比较严重的合规问题',feedback:'平台合规危机，最重要的是"速度"和"态度"。\n\n你的第一反应决定了后续关系的走向。\n\n① 第一时间主动联系对接人（不要等平台来找你）\n② 用一句话说清楚：我们知道了，我们在处理，XXX时间前给你结果\n③ 处理完后做一个书面总结，说明原因、处理结果、防范措施\n\n危机处理好了，有时候反而能加深信任。关键是：快、主动、透明。',type:'neg'},
+    {icon:'🌱',tag:'新合作',scenario:'我们刚开始和一个新平台合作，想建立好第一印象',feedback:'第一印象的核心：让平台运营觉得和你合作"轻松、靠谱"。\n\n做好这三件事：\n① 响应快（24小时内回复所有消息）\n② 执行准（第一个项目不论大小，做到超预期）\n③ 沟通清晰（每次沟通后发一个"总结确认"）\n\n运营手里管着很多商家，"让他省心"是你最好的差异化竞争力。',type:'pos'},
+    {icon:'💬',tag:'谈判',scenario:'我在和平台谈一个重要的合作条件，压力很大',feedback:'谈判前，想清楚三件事：\n① 我最在乎的是什么（不可放弃的）\n② 我可以让步的是什么（可交换的）\n③ 对方最在乎的是什么（投其所好）\n\n好的谈判不是"我要赢"，而是"找到双方都能接受的方案"。\n\n让对方感受到：你在认真考虑他们的立场，你不是来博弈的，是来找合作路径的。这种姿态往往能争取到更好的条件。',type:'neg'},
+    {icon:'🏆',tag:'成绩',scenario:'我们在平台上取得了很好的成绩，想进一步深化合作',feedback:'拿到好成绩，正是深化合作的最佳时机。\n\n第一步：主动复盘，总结哪些打法有效，整理成"方法论"分享给平台运营。\n这让他们感受到：你不只是拿了好结果，你是理解为什么好的那个商家。\n\n第二步：提出升级合作的方向。"基于这次成绩，我有一个下阶段的计划，需要XXX支持，我们可以聊聊吗？"\n\n成绩是筹码，主动用才能最大化价值。',type:'pos'},
+  ],
+
+  boss: [
+    {icon:'😰',tag:'汇报',scenario:'我需要向上级汇报一个不好的结果，很担心他的反应',feedback:'汇报坏消息，越早越好，越清晰越好。\n\n不要等问题很严重了再说，不要把坏消息夹在好消息中间，不要只说问题不说方案。\n\n正确格式：\n"我需要和你说一个情况：XXX没有按计划完成，原因是YYY，我的处理方案是ZZZ，预计AAA时间恢复。"\n\n上级真正在意的不是"出没出问题"，而是"你有没有掌控力"。方案比问题更重要。',type:'neg'},
+    {icon:'💡',tag:'提案',scenario:'我有一个想法想提给上级，但怕他不感兴趣或者否定',feedback:'向上级提想法，有一个关键前置动作：确认这个想法和他当下最关注的事情是对齐的。\n\n开口前先说一句：\n"最近你在推进XXX，我有一个相关的想法，需要5分钟和你分享吗？"\n\n如果你的想法和他的优先级对上了，他会主动说"说来听听"。\n\n想法本身不重要，想法与他的目标的关联性，才是他愿不愿意听的关键。',type:'pos'},
+    {icon:'😤',tag:'压力',scenario:'上级最近给我很多压力，让我喘不过气',feedback:'上级的压力感，很多时候来自"信息不对称"——他不知道你在哪里、下一步是什么。\n\n主动透明能有效缓解这种压力：\n"我现在在XXX阶段，预计YYY完成，这中间有一个风险点是ZZZ，我的应对方案是AAA。"\n\n你给他清晰的"进度感"，他的压力就会转换成信任，而不是继续往下传导。',type:'neg'},
+    {icon:'🔄',tag:'意见',scenario:'上级否定了我的方案，但我觉得我的方案是对的',feedback:'被否定方案，先不要争。先理解他否定的原因。\n\n你可以问："你觉得现在方案最大的问题是什么？"\n\n90%的情况下，他否定的原因和你以为的原因不一样。理解了真实原因，你才能有效回应，而不是在错误的方向上辩护。\n\n如果理解后仍然觉得自己的方案更好，用数据和对比说话，而不是用坚持说话。',type:'neg'},
+    {icon:'🌱',tag:'信任',scenario:'我想赢得上级更多的信任，想在他眼里更可靠',feedback:'赢得上级信任，最快的路径不是"表现好"，而是"让他省心"。\n\n具体做法：\n① 主动汇报进展，不等他问\n② 遇到问题，带着方案来，不只是带问题\n③ 接到任务，先确认优先级和验收标准，再执行\n\n"你交给他的事不用担心"——这句话是信任最直接的表达。',type:'pos'},
+    {icon:'😶',tag:'冷淡',scenario:'上级最近对我不太关注，感觉存在感很低',feedback:'存在感低，通常不是因为你做得差，而是因为你的工作"不够可见"。\n\n解决方法：主动创造"接触点"。\n\n不是刷存在感，而是找到一个对他有价值的输入：\n"我最近研究了XXX，有一个发现觉得对你做YYY决策可能有用，方便发给你吗？"\n\n让他感受到：有你在，他多了一个有用的信息渠道。',type:'neg'},
+    {icon:'🔥',tag:'冲突',scenario:'我和上级有一次正面意见冲突，气氛很僵',feedback:'和上级意见冲突后，最重要的事：不要在情绪里耗着。\n\n24小时内找一个私下的机会，说一句话：\n"上次那次讨论，我可能方式上比较直接，但我的出发点是XXX，希望你理解我的考量。我还是想和你对齐一下方向。"\n\n先软化关系，再谈实质。很多人犯的错误是：带着情绪继续谈事，然后越谈越僵。',type:'neg'},
+    {icon:'⭐',tag:'认可',scenario:'上级给了我很正面的评价，我想趁机建立更深的信任',feedback:'收到认可，是关系升级的好时机。\n\n不要只是说"谢谢"，可以做一件事：把认可变成一个对话起点。\n\n"谢谢你的认可，这段时间我自己也有一些思考，想和你聊聊YYY方向，方便找个时间吗？"\n\n认可让他对你有好感，主动进入更深的对话让这个好感变成真正的信任资产。',type:'pos'},
+    {icon:'📋',tag:'对齐',scenario:'我感觉自己的工作方向和上级的预期有偏差，但不确定',feedback:'感觉有偏差，越早确认越好，拖着只会越偏越远。\n\n找一个合适的时机主动确认：\n"我想和你对齐一下：我这段时间的工作重心是XXX，你看这个方向对吗？还是有其他你更希望我聚焦的方向？"\n\n主动寻求对齐，会让上级感受到你"有方向感、在认真工作"，而不是"迷失了"。',type:'pos'},
+    {icon:'🚪',tag:'晋升',scenario:'我想向上级表达自己的晋升意愿，但不知道怎么开口',feedback:'表达晋升意愿，不要只说"我想升职"，要说"我已经在做更高级别应该做的事了，我想确认一下方向"。\n\n开口方式：\n"我最近在想，在XXX方面我想再承担更多，你觉得我下一步应该在哪里发力？我也想听听你对我的期待是什么。"\n\n让对方感受到：你在主动成长，不是在索取，是在寻求指引。这个姿态大多数上级都愿意支持。',type:'pos'},
+  ],
+
+  team: [
+    {icon:'😤',tag:'催进度',scenario:'我催了下属进度，但感觉他们有点抵触',feedback:'催进度产生抵触，通常不是因为你催，而是因为他们感受到"你在监督我、不信任我"。\n\n换一个框架：从"督促"变成"扫障碍"。\n"进展怎么样了？有什么我可以帮你去掉的障碍吗？"\n\n他感受到的不再是压力，而是支持。而你仍然掌握了进度信息。',type:'neg'},
+    {icon:'💬',tag:'反馈',scenario:'我需要给一个下属负面反馈，但怕伤害关系',feedback:'负面反馈是最被高估的"关系风险"。大多数人比你想的更能接受真实反馈，前提是方式对。\n\n方式要素：\n① 私下，不当众\n② 说行为，不说人格（"这次汇报的数据准备不够充分"，不是"你做事不认真"）\n③ 说影响（这样做带来了什么后果）\n④ 说期待（下次你希望怎么做）\n\n让他感受到：你给反馈是因为你在帮他，不是在批评他。',type:'neg'},
+    {icon:'🌱',tag:'培养',scenario:'我想更好地培养一个有潜力的下属，不知道从哪里入手',feedback:'培养下属最有效的方式不是"教"，而是"给机会+给反馈"。\n\n给他一个比他现在能力稍高一点的任务，然后告诉他：\n"这件事有点挑战，但我觉得你能做好。过程中有什么卡住的点，随时来找我。"\n\n这句话包含了：信任感、挑战感、支持感。三者叠加是最强的成长动力。',type:'pos'},
+    {icon:'😶',tag:'沉默',scenario:'团队里有成员在会议上总是不发言，我不知道该怎么调动',feedback:'沉默的成员，通常有两类原因：① 没有安全感（说了怕被否定）② 不清楚自己的发言是否被期待。\n\n调动方法：私下建立安全感，会议上创造"被邀请"的感觉。\n\n会前可以和他聊："你对XXX这个议题有什么看法？会上可以分享吗？"\n\n他在会上发言，是因为你让他提前有了准备，而不是突然被点名。',type:'neg'},
+    {icon:'🔥',tag:'冲突',scenario:'团队内部出现了成员间的冲突，氛围很紧张',feedback:'团队冲突，你的角色不是"裁判"，而是"翻译者"。\n\n大多数团队冲突的本质是：双方都有合理的诉求，但没有翻译成对方能接受的语言。\n\n分别和两个人聊，帮他们各自理解对方的核心诉求，然后把双方拉到一起，从"我们共同的目标是什么"开始谈。\n\n从各自的立场退到共同目标，冲突就有了解法。',type:'neg'},
+    {icon:'⭐',tag:'认可',scenario:'我想给团队成员更有意义的正面反馈，而不只是"干得好"',feedback:'有效的认可是具体的，不是笼统的。\n\n高质量认可的结构：\n"你在XXX这件事上做到了YYY，这让我们ZZZ（具体影响）。我觉得这体现了你AAA方面的能力，这是很有价值的。"\n\n具体 → 有理由 → 有影响 → 能力归因。\n\n这样的认可，他不只是"感觉好"，他还知道自己的哪个行为是值得继续的。',type:'pos'},
+    {icon:'📋',tag:'分工',scenario:'我感觉团队分工不太合理，导致有人超载有人闲着',feedback:'分工不均是团队低效和怨气的主要来源。\n\n重新调整分工之前，先做一件事：和每个成员分别聊，了解他们认为自己目前的工作负荷和擅长方向。\n\n两个原则：\n① 重活不一定交给"能干的那个"，要合理分配\n② 让人做和自己能力匹配的事，效率和满意度都更高\n\n分工是团队管理的基础，调整分工是最直接的团队健康投资。',type:'neg'},
+    {icon:'🎯',tag:'目标',scenario:'团队对目标的理解和我的理解有偏差，方向不一致',feedback:'目标对齐不是一次性的，是持续的工作。\n\n出现偏差后，不要急着"重新宣讲目标"，先搞清楚为什么会偏：\n"你理解我们这个阶段的核心目标是什么？"\n\n听完他的理解，你才能找到偏差的真正原因，是信息传递问题，还是执行中被其他事情冲淡了。\n\n对症下药，比重复说目标更有效。',type:'neg'},
+    {icon:'🚀',tag:'激励',scenario:'团队最近状态低迷，我想提振士气',feedback:'士气低迷，找到原因比喊口号更重要。\n\n士气低通常有三种原因：\n① 太累了（需要资源支持或减负）\n② 不知道做这件事有什么意义（需要意义感）\n③ 感觉做了也没人看到（需要认可）\n\n先和1-2个核心成员私下聊，了解真实感受，再根据原因对症处理。\n\n喊口号的领导很多，能找到真实原因的领导才让人愿意跟。',type:'neg'},
+    {icon:'💡',tag:'创新',scenario:'团队提出了一个大胆的想法，我想鼓励这种创新氛围',feedback:'鼓励创新氛围，最关键的一件事：不要在"提出"阶段否定。\n\n很多创新氛围死在这里：成员提出想法，管理者第一句话就是"但是""问题是""这个不现实"。\n\n换一个接球方式：\n"有意思，你觉得这个想法最需要先验证哪一个假设？"\n\n让他感受到：你在陪他推进，不是在否定他。即使最终想法没落地，这个体验让他下次还敢提。',type:'pos'},
+  ],
+
+  self: [
+    {icon:'🪞',tag:'复盘',scenario:'今天有一次沟通让我感觉对方不舒服，但我不确定哪里出了问题',feedback:'沟通让对方不舒服，复盘时可以检查这三个维度：\n\n① 时机：你选的时间和场合对吗？（公开场合的批评 vs 私下沟通差别很大）\n② 措辞：你说的是"行为"还是"人格"？（"这个方案不够完善"vs"你总是这样"）\n③ 节奏：你有没有先确认对方是否准备好听你说话？\n\n找到这三个维度里出了问题的那个，下次就能改。',type:'neg'},
+    {icon:'🌡️',tag:'情绪',scenario:'我今天情绪比较差，和某个人说话的方式可能不太好',feedback:'情绪影响沟通是人之常情，但意识到之后，有一个修复的机会。\n\n如果你觉得今天某次沟通受到了情绪影响，在24小时内主动说一句：\n"今天我状态不太好，说话方式可能有点冲，不是针对你，是我自己的原因。"\n\n主动承认，不仅不会让你显得软弱，反而会让对方感受到你的真诚和自我意识。这是极高的情商体现。',type:'neg'},
+    {icon:'💼',tag:'压力源',scenario:'我想知道自己是否无意中成了别人的压力源',feedback:'判断自己是否是压力源，可以观察几个信号：\n\n① 同事在你出现时会不会变得拘谨或话少\n② 你提问题时，对方是主动分享还是防御性回应\n③ 你催进度时，对方是解释原因还是直接认错\n\n如果这些信号偏负面，可能你的沟通方式在无意间传递了评判感。\n\n改变的起点：在每次对话开始时，先问"你现在方便聊吗"，先表达你理解对方的处境。',type:'neg'},
+    {icon:'🤲',tag:'帮助',scenario:'我今天做到了真正帮助一个人，而不是给他增加负担',feedback:'真正的帮助，是让对方感受到"有人和我一起"，而不是"我欠了一个人情"。\n\n记录一下今天这次帮助的关键：你做了什么让对方感到被支持而不是被施压？\n\n这个行为模式值得强化和复制。关系力不是一次性的，是一个持续练习的过程。',type:'pos'},
+    {icon:'⚡',tag:'冲动',scenario:'我今天说了一句话，事后感觉不太妥，可能伤到了别人',feedback:'说了不妥的话，不要拖，越早处理越好。\n\n你不需要大费周章地道歉，一句轻盈的话就够：\n"刚才那句话我说完就觉得方式不太对，就是想说……（你真实的意思），希望没有让你有不好的感受。"\n\n主动承认，不解释、不辩护，只是让对方知道你有意识到。这比"等事情过去"要有效得多。',type:'neg'},
+    {icon:'🌟',tag:'松弛感',scenario:'今天有人说我很有松弛感，我想理解这背后是什么',feedback:'松弛感的本质，不是"不在乎"，而是"稳"——稳定的情绪、清晰的边界、不需要从别人的反应里获取安全感。\n\n有松弛感的人有几个共同特征：\n① 不需要被认可就能做决定\n② 面对批评不崩溃，面对赞美不飘\n③ 让别人在自己身边感到安全，而不是紧张\n\n把今天让你显得松弛的那个具体行为找出来，继续保持。',type:'pos'},
+    {icon:'😩',tag:'消耗',scenario:'某段关系让我感到很消耗，我不知道该怎么处理',feedback:'关系消耗感，来自"给出"和"获得"的长期不对等。\n\n处理消耗性关系，不一定是"断"，而是先调整姿态：\n① 减少主动投入（不是冷漠，是调节频率）\n② 建立边界（有些事可以不回应，有些情绪可以不接）\n③ 观察一段时间，看对方是否有主动平衡的意愿\n\n好的关系不需要你一直透支自己来维持。',type:'neg'},
+    {icon:'🎯',tag:'刻意练习',scenario:'我想刻意练习某个关系力技能，不知道从哪里开始',feedback:'关系力的练习，最有效的是"刻意在真实场景里练一个小动作"，而不是看书或想象。\n\n推荐从这几个小动作开始练：\n① 每天一次：在催进度之前，先问"有什么我可以帮你的"\n② 每周一次：给一个人发一条具体的认可信息\n③ 每次沟通前：想3秒钟"这件事对他的意义是什么"\n\n从最小的行为改变开始，关系力是练出来的，不是想出来的。',type:'pos'},
+    {icon:'🌈',tag:'进步',scenario:'我感觉自己在关系处理上比以前成熟很多',feedback:'能感受到自己的成长，说明你有关系觉察力。\n\n做一个小记录：\n① 以前遇到某个场景会怎么处理，现在会怎么处理\n② 哪个改变带来了最大的关系改善\n\n把这个成长点写下来，变成你的"关系力方法论"的一部分。\n\n真正的成长不只是感觉，是能说出来、能复制、能教给别人的。',type:'pos'},
+    {icon:'💬',tag:'表达',scenario:'我有时候表达不清楚，导致别人误解我的意图',feedback:'表达不清导致误解，通常是"省略了对方最需要的那个部分"——你的出发点和意图。\n\n每次表达重要的事之前，先说一句：\n"我说这个，是因为XXX（你的出发点），不是想YYY（对方可能的误解）。"\n\n先把意图放在台面上，对方接收信息的滤镜就不同了。误解往往发生在"空白"里，把空白填上，误解就少了。',type:'neg'},
+  ]
+};
+
+// ===== SOP自检 =====
+const SOP_CATEGORIES = [
+  { id: 'listen', name: '倾听力', icon: '👂', desc: '真正听见别人说的话', color: '#d97706' },
+  { id: 'express', name: '表达力', icon: '💬', desc: '说话让人舒服、清晰', color: '#0891b2' },
+  { id: 'empathy', name: '共情力', icon: '🤝', desc: '站在对方的处境里想', color: '#16a34a' },
+  { id: 'boundary', name: '边界感', icon: '🌿', desc: '松弛又有原则', color: '#7c3aed' },
+  { id: 'energy', name: '能量感', icon: '✨', desc: '让别人在你身边感到有力量', color: '#db2777' }
+];
+
+const SOP_HABITS = {
+  listen: [
+    { emoji:'👂', pos:true,  text:'对话时我放下手机，眼神专注', sub:'让对方感受到"你在认真听我"' },
+    { emoji:'🔇', pos:false, text:'我经常在别人说完之前就开始想我要说的话', sub:'这会让对方感受到"他没在听我"' },
+    { emoji:'🪞', pos:true,  text:'我会用自己的话复述一下对方说的意思', sub:'"你的意思是……"这句话价值千金' },
+    { emoji:'❓', pos:false, text:'我听完后的第一反应是给建议，而不是先问更多', sub:'大多数人想要的是被理解，不是被建议' }
+  ],
+  express: [
+    { emoji:'🎯', pos:true,  text:'我说重要的事时，先说结论，再说原因', sub:'让对方不用猜你的意思' },
+    { emoji:'🌩️', pos:false, text:'我催人时说"这个什么时候给我"而不是"有什么我能帮的"', sub:'前者是催，后者是帮' },
+    { emoji:'💛', pos:true,  text:'我给反馈时说具体行为，不给人贴标签', sub:'"这次数据准备不足"vs"你不认真"' },
+    { emoji:'😶', pos:false, text:'我不舒服了会沉默，而不是说清楚自己的感受', sub:'沉默让对方猜测，表达让关系流动' }
+  ],
+  empathy: [
+    { emoji:'🤲', pos:true,  text:'在提要求之前，我先了解对方现在的处境和优先级', sub:'你的需求进入对方的时机很重要' },
+    { emoji:'⚡', pos:false, text:'我表达不满时容易带情绪，让对方感受到我在攻击他', sub:'情绪表达的是感受，逻辑才能解决问题' },
+    { emoji:'🌱', pos:true,  text:'对方拒绝我的时候，我先理解原因，再找替代方案', sub:'接住"不"比强行推进更有力' },
+    { emoji:'😤', pos:false, text:'我评估一件事时先从"对我的影响"出发，而不是"对方在担心什么"', sub:'先站他的角度，再谈你的需求' }
+  ],
+  boundary: [
+    { emoji:'🌿', pos:true,  text:'我拒绝请求时，给对方一个替代方案而不是直接说"不"', sub:'关上一扇门，开一扇窗' },
+    { emoji:'🚧', pos:false, text:'我害怕让人失望，所以接下了一些自己做不到的事', sub:'过度承诺是透支信任的最快方式' },
+    { emoji:'🧘', pos:true,  text:'别人情绪激动时，我能保持稳定，不被带入情绪漩涡', sub:'稳定是最强的关系力' },
+    { emoji:'🪤', pos:false, text:'我有时候会因为不好意思拒绝，结果答应了自己无法完成的事', sub:'诚实边界让关系更健康' }
+  ],
+  energy: [
+    { emoji:'✨', pos:true,  text:'我今天主动给了一个人具体的、真诚的认可', sub:'"你在XXX上做得很好，因为YYY"' },
+    { emoji:'🌩️', pos:false, text:'我今天的对话里，负面话题的比例比正面话题多', sub:'能量低的人会让别人感到沉重' },
+    { emoji:'🌸', pos:true,  text:'我今天和人互动时，先关注他的状态，再谈事情', sub:'"你最近还好吗？"是最廉价的人情投资' },
+    { emoji:'😔', pos:false, text:'我和别人聊天时，经常把话题引到自己的事情上', sub:'真正让人感到被重视的是：你让他成为焦点' }
+  ]
+};
+
+// ===== 全局变量 =====
+let selectedPartner = null;
+let currentPartner = null;
+let currentTab = 'checkin';
+let currentSOPCat = null;
+let sopCatQueue = [];
+let sopCatIdx = 0;
+let sopState = {};
+
+// ===== 每日问题 =====
+const DAILY_QUESTIONS = [
+  '今天，你有没有让某个人感受到"被帮助"而不是"被催"？',
+  '今天有没有哪句话，事后觉得可以换一种更轻盈的说法？',
+  '你今天主动关心了哪个人的处境，而不是只谈事情？',
+  '今天有没有一段沟通，让你感受到对方"被看见"了？',
+  '今天的对话里，你听的多还是说的多？',
+  '你今天给了谁真诚的认可？他知道你为什么认可他吗？',
+  '今天有没有一个需求，你用"帮对方"的方式提出来？',
+  '你今天有没有在有情绪的时候，先稳住再说话？',
+  '今天有没有一段关系，你感觉比昨天更近了？',
+  '你今天有没有做到：让对方感受到，和你合作是一种支持而不是压力？'
+];
+
+// ===== 初始化 =====
+function init() {
+  renderPartnerGrid();
+  const savedPartner = localStorage.getItem(STORAGE.PARTNER);
+  if (savedPartner) {
+    currentPartner = PARTNERS.find(p => p.id === savedPartner) || PARTNERS[0];
+    document.getElementById('partnerSelector').style.display = 'none';
+    document.getElementById('tabBar').style.display = 'flex';
+    renderCheckin();
+    renderWeekProgress();
+    switchTabDirect('chat');
+    renderSOP();
+  }
+}
+
+function renderPartnerGrid() {
+  const grid = document.getElementById('partnerGrid');
+  grid.innerHTML = PARTNERS.map(p => `
+    <div class="partner-card" id="pc_${p.id}" onclick="selectPartner('${p.id}')">
+      <div class="partner-emoji">${p.emoji}</div>
+      <div class="partner-name">${p.name}</div>
+      <div class="partner-desc">${p.desc}</div>
+    </div>`).join('');
+  if (!selectedPartner && PARTNERS.length > 0) { selectPartner(PARTNERS[0].id); }
+}
+
+function selectPartner(id) {
+  selectedPartner = id;
+  document.querySelectorAll('.partner-card').forEach(c => c.classList.remove('selected'));
+  const el = document.getElementById('pc_' + id);
+  if (el) el.classList.add('selected');
+}
+
+function confirmPartner() {
+  // 如果没有选中搭子，自动选第一个
+  if (!selectedPartner && PARTNERS.length > 0) {
+    selectedPartner = PARTNERS[0].id;
+  }
+  if (!selectedPartner) {
+    alert('请先选择一个搭子');
+    return;
+  }
+  currentPartner = PARTNERS.find(p => p.id === selectedPartner);
+  if (!currentPartner) currentPartner = PARTNERS[0];
+  localStorage.setItem(STORAGE.PARTNER, selectedPartner);
+  document.getElementById('partnerSelector').style.display = 'none';
+  document.getElementById('tabBar').style.display = 'flex';
+  renderCheckin();
+  renderWeekProgress();
+  switchTabDirect('chat');
+  renderSOP();
+  // 更新搭子页面的搭子信息
+  const avatarB = document.getElementById('partnerAvatarB');
+  const nameB = document.getElementById('partnerNameB');
+  if (avatarB) avatarB.textContent = currentPartner.emoji;
+  if (nameB) nameB.textContent = currentPartner.name;
+}
+
+// ===== 打卡 =====
+function renderCheckin() {
+  if (!currentPartner) return;
+  document.getElementById('partnerBadge').textContent = currentPartner.emoji + ' ' + currentPartner.name;
+  const today = new Date().getDay();
+  const idx = today % DAILY_QUESTIONS.length;
+  document.getElementById('dailyQuestion').textContent = DAILY_QUESTIONS[idx];
+  const history = getHistory();
+  const todayKey = getTodayKey();
+  const done = history.includes(todayKey);
+  document.getElementById('checkinStatus').textContent = done ? '已打卡' : '打卡';
+  document.getElementById('checkinSub').textContent = done ? '今天做到了！' : '点击记录今日';
+  document.getElementById('continuousCount').textContent = calcStreak(history);
+}
+
+function doCheckin() {
+  const history = getHistory();
+  const todayKey = getTodayKey();
+  if (history.includes(todayKey)) return;
+  history.push(todayKey);
+  localStorage.setItem(STORAGE.HISTORY, JSON.stringify(history));
+  renderCheckin();
+  renderWeekProgress();
+}
+
+function renderWeekProgress() {
+  const history = getHistory();
+  const days = ['日','一','二','三','四','五','六'];
+  const today = new Date();
+  let html = '<div class="week-title"><span>本周打卡</span><span style="color:#8f9eae;font-size:13px;font-weight:400;">关系力每天练一点</span></div><div class="week-dots">';
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today); d.setDate(today.getDate() - i);
+    const key = d.toISOString().slice(0,10);
+    const checked = history.includes(key);
+    html += `<div class="day-item"><div class="day-name">${days[d.getDay()]}</div><div class="dot${checked?' checked':''}">🌸</div></div>`;
+  }
+  html += '</div>';
+  document.getElementById('weekProgress').innerHTML = html;
+}
+
+function getTodayKey() { return new Date().toISOString().slice(0,10); }
+function getHistory() { try { return JSON.parse(localStorage.getItem(STORAGE.HISTORY)||'[]'); } catch(e){ return []; } }
+function calcStreak(history) {
+  let streak = 0, d = new Date();
+  while (true) {
+    const key = d.toISOString().slice(0,10);
+    if (history.includes(key)) { streak++; d.setDate(d.getDate()-1); } else break;
+  }
+  return streak;
+}
+
+// ===== 聊天 =====
+function renderChat() {
+  if (!currentPartner) return;
+  const chatArea = document.getElementById('chatArea');
+  if (!chatArea.children.length) {
+    addBubble(chatArea, currentPartner.emoji, currentPartner.intro, false);
+  }
+}
+
+function addBubble(area, avatar, text, isUser) {
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-bubble-wrap' + (isUser ? ' user' : '');
+  wrap.style.flexDirection = isUser ? 'row-reverse' : 'row';
+  const avEl = document.createElement('div'); avEl.className='msg-avatar'; avEl.textContent=avatar;
+  const bEl = document.createElement('div'); bEl.className='msg-bubble'+(isUser?'':' ai'); bEl.textContent=text;
+  if (isUser) { wrap.appendChild(bEl); wrap.appendChild(avEl); }
+  else { wrap.appendChild(avEl); wrap.appendChild(bEl); }
+  area.appendChild(wrap);
+  area.scrollTop = area.scrollHeight;
+}
+
+function askPartner(type) {
+  const scenes = TYPE_SCENES_GUANXI[type];
+  if (!scenes) return;
+  const typeNames = { colleague:'🤝 同事关系', brand:'🏷️ 品牌方', platform:'🏢 平台方', boss:'⬆️ 上级相处', team:'👥 带团队', self:'🪞 关系复盘' };
+  const typeSubs = { colleague:'说说今天遇到了什么，我陪你想想', brand:'和品牌方的哪种场景？', platform:'和平台方的哪种情况？', boss:'和上级的什么场景？', team:'团队里遇到了什么？', self:'今天想复盘哪个时刻？' };
+  document.getElementById('qaTitle').textContent = typeNames[type] || '选择场景';
+  document.getElementById('qaSub').textContent = typeSubs[type] || '选一个最接近你现在情况的';
+  const scroll = document.getElementById('qaScroll');
+  scroll.innerHTML = scenes.map((s,i) => `
+    <div class="qa-card ${s.type}" onclick="showTypeFeedback('${type}',${i})">
+      <div class="qa-card-icon">${s.icon}</div>
+      <div class="qa-card-text">${s.scenario}</div>
+      <div class="qa-card-tag ${s.type}">${s.tag}</div>
+    </div>`).join('');
+  document.getElementById('qaOverlay').classList.add('show');
+}
+
+function showTypeFeedback(type, idx) {
+  const scene = TYPE_SCENES_GUANXI[type][idx];
+  if (!scene) return;
+  document.getElementById('qaOverlay').classList.remove('show');
+  const chatArea = document.getElementById('chatArea');
+  addBubble(chatArea, '🙋', scene.scenario, true);
+  setTimeout(() => {
+    addBubble(chatArea, currentPartner ? currentPartner.emoji : '🌸', scene.feedback, false);
+  }, 600);
+}
+
+// ===== SOP =====
+function renderSOP() {
+  const sopState = getSOPState();
+  const totalHabits = Object.values(SOP_HABITS).reduce((s,a)=>s+a.length,0);
+  const totalDone = Object.keys(sopState).length;
+  const totalScore = Object.values(sopState).reduce((s,v)=>s+(v==='yes'?3:0),0);
+  document.getElementById('sopScore').textContent = totalScore;
+  document.getElementById('sopDone').textContent = totalDone+'/'+totalHabits;
+  const pct = totalHabits > 0 ? Math.round(totalDone/totalHabits*100) : 0;
+  document.getElementById('sopProgressBar').style.width = pct+'%';
+  document.getElementById('sopProgressText').textContent = pct+'%';
+  const grid = document.getElementById('sopCatGrid');
+  grid.innerHTML = SOP_CATEGORIES.map(cat => {
+    const habits = SOP_HABITS[cat.id] || [];
+    const doneCnt = habits.filter((_,i)=>sopState[cat.id+'_'+i]!==undefined).length;
+    const total = habits.length;
+    const allDone = doneCnt >= total;
+    const pctCat = total > 0 ? Math.round(doneCnt/total*100) : 0;
+    let progressHtml = '';
+    if (allDone) {
+      progressHtml = `<div class="sop-cat-done">✅ 已完成</div><div class="sop-cat-progress-wrap"><div class="sop-cat-progress-bg"><div class="sop-cat-progress-fill2" style="width:100%"></div></div><div class="sop-cat-pct">100%</div></div>`;
+    } else if (doneCnt > 0) {
+      progressHtml = `<div class="sop-cat-done">${doneCnt}/${total} 题</div><div class="sop-cat-progress-wrap"><div class="sop-cat-progress-bg"><div class="sop-cat-progress-fill2" style="width:${pctCat}%"></div></div><div class="sop-cat-pct">${pctCat}%</div></div>`;
+    } else {
+      progressHtml = `<div class="sop-cat-progress-wrap"><div class="sop-cat-progress-bg"><div class="sop-cat-progress-fill2" style="width:0%"></div></div></div>`;
+    }
+    return `<div class="sop-cat-btn" onclick="startSOPCat('${cat.id}')">
+      <div class="sop-cat-icon">${cat.icon}</div>
+      <div class="sop-cat-name">${cat.name}</div>
+      <div class="sop-cat-desc">${cat.desc}</div>
+      ${progressHtml}
+    </div>`;
+  }).join('');
+  const allDone2 = totalDone >= totalHabits && totalHabits > 0;
+  document.getElementById('sopGameCard').style.display = 'none';
+  if (allDone2) {
+    document.getElementById('sopDoneState').style.display = 'block';
+    document.getElementById('sopDoneSub').textContent = `今日总分 ${totalScore} 分，关系力在悄悄提升 🌸`;
+  } else {
+    document.getElementById('sopDoneState').style.display = 'none';
+  }
+}
+
+function getSOPState() { try { return JSON.parse(localStorage.getItem(STORAGE.SOP)||'{}'); } catch(e){ return {}; } }
+
+function startSOPCat(catId) {
+  const habits = SOP_HABITS[catId];
+  if (!habits) return;
+  const sopState = getSOPState();
+  sopCatQueue = habits.map((h,i)=>({...h, key:catId+'_'+i})).filter(h=>sopState[h.key]===undefined);
+  if (sopCatQueue.length === 0) {
+    renderSOP();
+    document.getElementById('sopGameCard').style.display = 'none';
+    return;
+  }
+  currentSOPCat = catId;
+  sopCatIdx = 0;
+  document.getElementById('sopCatGrid').style.display = 'none';
+  document.getElementById('sopDoneState').style.display = 'none';
+  document.getElementById('sopGameCard').style.display = 'block';
+  renderSOPCard();
+  showSOPGuideOverlay();
+}
+
+function renderSOPCard() {
+  const habit = sopCatQueue[sopCatIdx];
+  if (!habit) { finishSOPCat(); return; }
+  const progress = document.getElementById('sopCatProgress');
+  const pct = sopCatIdx / sopCatQueue.length * 100;
+  progress.innerHTML = `<span>第 ${sopCatIdx+1} / ${sopCatQueue.length} 题</span><div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:${pct}%"></div></div>`;
+  document.getElementById('sopHabitLabel').textContent = habit.pos ? '✨ 正向习惯' : '⚠️ 需要注意';
+  document.getElementById('sopHabitLabel').className = 'sop-habit-label ' + (habit.pos ? 'pos' : 'neg');
+  document.getElementById('sopHabitEmoji').textContent = habit.emoji;
+  document.getElementById('sopHabitText').textContent = habit.text;
+  document.getElementById('sopHabitSub').textContent = habit.sub;
+}
+
+function answerSOP(ans) {
+  const habit = sopCatQueue[sopCatIdx];
+  if (!habit) return;
+  const state = getSOPState();
+  state[habit.key] = ans;
+  localStorage.setItem(STORAGE.SOP, JSON.stringify(state));
+  sopCatIdx++;
+  if (sopCatIdx >= sopCatQueue.length) { finishSOPCat(); }
+  else { renderSOPCard(); }
+}
+
+function finishSOPCat() {
+  document.getElementById('sopGameCard').style.display = 'none';
+  document.getElementById('sopCatGrid').style.display = 'grid';
+  currentSOPCat = null;
+  sopCatQueue = [];
+  sopCatIdx = 0;
+  renderSOP();
+}
+
+function resetSOP() {
+  localStorage.removeItem(STORAGE.SOP);
+  document.getElementById('sopDoneState').style.display = 'none';
+  document.getElementById('sopCatGrid').style.display = 'grid';
+  renderSOP();
+}
+
+function showSOPGuideOverlay() {
+  const key = 'sop_guide_shown_guanxi';
+  if (!localStorage.getItem(key)) {
+    document.getElementById('sopGuideOverlay').classList.add('show');
+    localStorage.setItem(key, '1');
+    setTimeout(() => { closeSOPGuide(); }, 5000);
+  }
+}
+
+function closeSOPGuide() {
+  document.getElementById('sopGuideOverlay').classList.remove('show');
+}
+
+function closeFBOverlay() {
+  document.getElementById('fbOverlay').classList.remove('show');
+}
+
+// ===== 麦肯锡风格教练诊断 =====
+const COACH_MCKINSEY_CONFIG = {
+  name: '麦肯锡关系力教练',
+  persona: '你是拥有10年组织发展经验的麦肯锡风格教练。你的思维严谨（金字塔原理、MECE），你的提问犀利（直击本质），你的建议 actionable（下一步可立即执行）。你不给鸡汤，只给结构化洞察。',
+  steps: [
+    { id: 'define', label: '界定问题', icon: '🎯' },
+    { id: 'analyze', label: '结构化分析', icon: '🔍' },
+    { id: 'act', label: '优先级行动', icon: '🚀' }
+  ],
+  // 对话树（纯前端模拟，关键词触发）
+  dialogTree: {
+    define: [
+      {
+        coach: '你好！我是麦肯锡风格关系力教练。我们用3步搞定你的关系难题：①界定问题 → ②结构化分析 → ③优先级行动。\n\n先说说：最近哪段关系让你感到困扰或不顺？（请描述：和谁？什么事？你当时怎么做的？）',
+        keywords: {},
+        next: 'define2'
+      },
+      {
+        coach: 'DYNAMIC_QUESTIONS', // 动态生成具体问题
+        keywords: {
+          'default': 'define2'
+        },
+        next: 'define2'
+      },
+      {
+        coach: '好的，我已记录你的回答。让我总结一下核心问题：\n\n📌 核心问题：\n在"{场景}"这件事上，你希望{核心冲突}。\n\n这个总结准确吗？',
+        keywords: { '是|对|ok|OK|准确': 'analyze0', '补充|不对|不是|不准确': 'define1' },
+        next: 'analyze0',
+        // 按钮配置 - 让用户确认核心问题
+        buttons: [
+          { label: '✅ 是的，没问题', value: '是', style: 'yes' },
+          { label: '❌ 不太对，我补充一下', value: '补充', style: 'no' }
+        ]
+      }
+    ],
+    analyze: [
+      {
+        coach: '现在进入结构化分析。我会从3个维度帮你拆解：\n\n① 你的行为模式（你在这段关系中，习惯做什么？）\n② 对方的反应模式（对方通常怎么回应你？）\n③ 关系结构（你们之间的权力/信息/情绪分布如何？）\n\n先回答①：在这件事上，你通常怎么做的？（请选择或描述）',
+        keywords: {},
+        next: 'analyze2'
+      },
+      {
+        coach: '我记录了你的行为模式。现在②：对方通常怎么回应你？',
+        keywords: {},
+        next: 'analyze3'
+      },
+      {
+        coach: '很好！现在我有了双方的行为模式。让我用MECE框架给你分析：\n\n【你的行为模式】\n{基于用户输入的分析}\n\n【对方的反应模式】\n{基于用户输入的分析}\n\n【关系结构】\n• 权力动态：{分析}\n• 信息流动：{分析}\n• 情绪账户：{分析}\n\n你想先从哪个维度突破？',
+        keywords: { 'A|调整|自己': 'act1', 'B|引导|对方': 'act1', 'C|重构|规则': 'act1' },
+        next: 'act1',
+        // 按钮配置
+        buttons: [
+          { label: 'A. 调整我的行为模式', value: 'A', style: '' },
+          { label: 'B. 引导对方的反应', value: 'B', style: '' },
+          { label: 'C. 重构关系结构', value: 'C', style: '' }
+        ]
+      }
+    ],
+    act: [
+      {
+        coach: '好的，你选择了{用户选择}。现在我用Impact/Effort矩阵，给你3个优先行动建议：',
+        keywords: { 'P0': 'act2', 'P1': 'act2', 'P2': 'act2' },
+        next: 'act2',
+        // 按钮配置
+        buttons: [
+          { label: 'P0 · 快赢（今天就能做）', value: 'P0', style: 'yes' },
+          { label: 'P1 · 重要（本周内做）', value: 'P1', style: '' },
+          { label: 'P2 · 长期（系统改变）', value: 'P2', style: 'no' }
+        ]
+      },
+      {
+        coach: '太好了！让我们把"{用户选择}"细化成可执行的下一步：\n\n【下一步行动】\n• 具体做什么：{细化行动}\n• 什么时候做：{时间}\n• 怎么判断有效：{成功标准}\n\n【备份方案】如果第一次没效果，试试：{替代方案}\n\n正在为你生成MECE诊断报告...',
+        keywords: {},
+        next: 'report'
+      }
+    ]
+  },
+  // 分析报告模板（金字塔原理）
+  reportTemplate: {
+    coreConclusion: '【核心结论】你在{场景}场景下，倾向于{行为模式}，导致{结果}。根本原因在于{根因}。',
+    meceAnalysis: [
+      { dimension: '你的行为模式', score: 0, desc: '' },
+      { dimension: '对方的反应模式', score: 0, desc: '' },
+      { dimension: '关系结构（权力/信息/情绪）', score: 0, desc: '' }
+    ],
+    priorityActions: [
+      { priority: 'P0 · 快赢', action: '', impact: '', effort: '' },
+      { priority: 'P1 · 重要', action: '', impact: '', effort: '' },
+      { priority: 'P2 · 长期', action: '', impact: '', effort: '' }
+    ],
+    nextStep: '【本周试验】{具体行动}\n【判断标准】{成功标准}\n【复盘时间】下周一'
+  }
+};
+
+// 对话状态
+let coachStep = '';       // 当前步骤：define / analyze / act / report
+let coachSubStep = 0;    // 当前子步骤索引
+let pendingNextStep = null; // 待应用的下一步（防止步骤推进bug）
+let pendingNextSub = 0;
+let chatHistory = [];     // 对话历史
+let userInputs = {};      // 用户在各步骤的输入
+
+function startCoach() {
+  coachStep = 'define';
+  coachSubStep = 0;
+  chatHistory = [];
+  userInputs = {};
+  document.getElementById('coachIntro').style.display = 'none';
+  document.getElementById('coachChat').style.display = 'block';
+  document.getElementById('coachReport').style.display = 'none';
+  updateProgressBar();
+  // 发送教练第一条消息
+  const firstMsg = COACH_MCKINSEY_CONFIG.dialogTree.define[0].coach;
+  addChatMessage('coach', firstMsg);
+}
+
+function updateProgressBar() {
+  const steps = ['define', 'analyze', 'act'];
+  steps.forEach((s, i) => {
+    const el = document.getElementById(`progressStep${i+1}`);
+    if (!el) return;
+    if (coachStep === s) { el.classList.add('active'); }
+    else { el.classList.remove('active'); }
+  });
+}
+
+function addChatMessage(role, text) {
+  const container = document.getElementById('chatMessages');
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `chat-msg ${role}`;
+  const avatar = role === 'coach' ? '🎓' : '🧑';
+  msgDiv.innerHTML = `
+    <div class="chat-avatar">${avatar}</div>
+    <div class="chat-bubble">${text.replace(/\n/g, '<br>')}</div>
+  `;
+  container.appendChild(msgDiv);
+  container.scrollTop = container.scrollHeight;
+  // 记录历史
+  chatHistory.push({ role, text });
+  // 如果是教练消息
+  if (role === 'coach') {
+    // 检查是否是"生成报告中"的消息
+    if (text.includes('生成报告') || text.includes('正在为你')) {
+      // 隐藏输入框和按钮，显示"生成中"提示
+      document.getElementById('chatInputArea').style.display = 'none';
+      document.getElementById('coachButtons').style.display = 'none';
+      document.getElementById('coachPrompt').style.display = 'none';
+      // 显示生成提示
+      const generatingMsg = document.createElement('div');
+      generatingMsg.id = 'generatingReport';
+      generatingMsg.className = 'generating-report';
+      generatingMsg.innerHTML = '⏳ 正在生成MECE诊断报告，请稍候...';
+      document.getElementById('coachChat').appendChild(generatingMsg);
+    } else {
+      // 获取当前节点，检查是否有按钮配置
+      const tree = COACH_MCKINSEY_CONFIG.dialogTree[coachStep];
+      const currentNode = tree ? tree[coachSubStep] : null;
+      if (currentNode && currentNode.buttons && currentNode.buttons.length > 0) {
+        // 显示按钮，隐藏输入框
+        showCoachButtons(currentNode.buttons);
+      } else {
+        // 显示输入框，隐藏按钮
+        document.getElementById('chatInputArea').style.display = 'flex';
+        document.getElementById('coachButtons').style.display = 'none';
+        document.getElementById('coachPrompt').style.display = 'block';
+        document.getElementById('coachInput').focus();
+      }
+    }
+  }
+}
+
+// 显示教练按钮
+function showCoachButtons(buttons) {
+  const container = document.getElementById('coachButtons');
+  const btnList = document.getElementById('coachBtnList');
+  const btnPrompt = document.getElementById('coachBtnPrompt');
+  btnPrompt.textContent = '请选择：';
+  btnList.innerHTML = '';
+  buttons.forEach(btn => {
+    const btnEl = document.createElement('button');
+    btnEl.className = `coach-choice-btn ${btn.style || ''}`;
+    btnEl.textContent = btn.label;
+    btnEl.onclick = () => handleCoachButtonClick(btn.value, btn.label);
+    btnList.appendChild(btnEl);
+  });
+  container.style.display = 'block';
+  document.getElementById('chatInputArea').style.display = 'none';
+  document.getElementById('coachPrompt').style.display = 'none';
+}
+
+// 处理按钮点击
+function handleCoachButtonClick(value, label) {
+  // 显示用户选择的按钮
+  addChatMessage('user', label);
+  // 保存用户输入
+  if (!userInputs[coachStep]) userInputs[coachStep] = [];
+  userInputs[coachStep].push(value);
+  // 生成教练回复
+  setTimeout(() => generateCoachReply(value), 800);
+}
+
+function sendCoachMsg() {
+  const input = document.getElementById('coachInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  // 隐藏提示和按钮
+  document.getElementById('coachPrompt').style.display = 'none';
+  document.getElementById('coachButtons').style.display = 'none';
+  // 显示用户消息
+  addChatMessage('user', text);
+  // 保存用户输入
+  if (!userInputs[coachStep]) userInputs[coachStep] = [];
+  userInputs[coachStep].push(text);
+  // 生成教练回复（模拟延迟）
+  setTimeout(() => generateCoachReply(text), 800);
+}
+
+function generateCoachReply(userText) {
+  // 获取当前节点（用户刚回答完的节点）
+  const tree = COACH_MCKINSEY_CONFIG.dialogTree[coachStep];
+  if (!tree) { generateMcKinseyReport(); return; }
+  const currentNode = tree[coachSubStep];
+  if (!currentNode) { generateMcKinseyReport(); return; }
+
+  // ① 生成确认语（基于当前节点和用户回复）
+  let ack = buildAck(coachStep, coachSubStep, userText);
+
+  // ② 关键词匹配，决定下一个节点
+  let nextStep = coachStep;
+  let nextSub = coachSubStep + 1;
+  let jumped = false;
+
+  if (currentNode.keywords) {
+    let matched = false;
+    for (const [kw, target] of Object.entries(currentNode.keywords)) {
+      if (kw === 'default') continue;
+      const regex = new RegExp(kw, 'i');
+      if (regex.test(userText)) {
+        matched = true;
+        const m = target.match(/^([a-z]+)(\d+)$/);
+        if (m) {
+          nextStep = m[1];
+          nextSub = parseInt(m[2]);
+        }
+        jumped = true;
+        break;
+      }
+    }
+    if (!matched && currentNode.keywords.default) {
+      const target = currentNode.keywords.default;
+      const m = target.match(/^([a-z]+)(\d+)$/);
+      if (m) {
+        nextStep = m[1];
+        nextSub = parseInt(m[2]);
+      }
+      jumped = true;
+    }
+  }
+
+  // ③ 如果没跳转，顺序推进；如果超出当前步骤长度，进入下一个大步骤
+  if (!jumped) {
+    const curTree = COACH_MCKINSEY_CONFIG.dialogTree[coachStep];
+    if (!curTree || nextSub >= curTree.length) {
+      const stepIdx = COACH_MCKINSEY_CONFIG.steps.findIndex(s => s.id === coachStep);
+      if (stepIdx < COACH_MCKINSEY_CONFIG.steps.length - 1) {
+        nextStep = COACH_MCKINSEY_CONFIG.steps[stepIdx + 1].id;
+        nextSub = 0;
+        updateProgressBar();
+      } else {
+        // 所有步骤已完成，直接生成报告
+        addChatMessage('coach', ack);
+        // 直接生成报告，无需等待（纯前端生成，瞬间完成）
+        generateMcKinseyReport();
+        return;
+      }
+    }
+  }
+
+  // ④ 获取下一个节点，把"提问"附加到确认语末尾
+  const nextNode = COACH_MCKINSEY_CONFIG.dialogTree[nextStep]?.[nextSub];
+  if (!nextNode) {
+    addChatMessage('coach', ack);
+    // 直接生成报告，无需等待
+    generateMcKinseyReport();
+    return;
+  }
+
+  let nextQ = nextNode.coach || '';
+  let reply = ack;
+
+  // 如果是动态问题标记，调用 generateDynamicReply 生成具体问题
+  if (nextQ === 'DYNAMIC_QUESTIONS') {
+    nextQ = generateDynamicQuestions(userText);
+    reply = ack + '\n\n' + nextQ;
+  } else if (nextQ) {
+    reply += '\n\n' + nextQ;
+  }
+  reply = replacePlaceholders(reply, userText);
+
+  // ⑤ 更新全局状态（在显示回复后更新）
+  coachStep = nextStep;
+  coachSubStep = nextSub;
+
+  addChatMessage('coach', reply);
+}
+
+function buildAck(step, subStep, userText) {
+  // 根据当前步骤和子步骤，生成简短确认语
+  if (step === 'define') {
+    if (subStep === 0) {
+      // 用户刚描述完场景，生成具体问题
+      return `收到！"${userText.substring(0, 50)}${userText.length > 50 ? '...' : ''}"。让我确认几个关键点：`;
+    }
+    if (subStep === 1) {
+      // 用户回答了具体问题
+      return `明白，我记录了这些信息。让我总结一下你的核心问题：`;
+    }
+  }
+  if (step === 'analyze') {
+    if (subStep === 0) {
+      return `好的，我记录了你的行为模式："${userText.substring(0, 50)}..."`;
+    }
+    if (subStep === 1) {
+      return `很好！现在我有了双方的行为模式，让我用MECE框架分析：\n【你的行为模式】${userInputs.analyze?.[0] || ''}\n→ 让对方感受到：你可能太急了\n【对方的反应模式】${userText}\n→ 让关系陷入：你说你的，我做我的\n【关系结构】权力动态偏单向 / 信息流动不充分 / 情绪账户透支\n\n现在，你想先从哪个维度突破？\nA. 调整我的行为模式（改变自己）\nB. 引导对方的反应（影响对方）\nC. 重构关系结构（改变互动规则）`;
+    }
+  }
+  if (step === 'act') {
+    return `你选择了：'${userText}'。现在用 Impact/Effort 矩阵给你3个行动建议：`;
+  }
+  return `收到，谢谢分享。`;
+}
+
+function generateDynamicQuestions(userText) {
+  // 基于用户输入，生成3个具体问题让用户回答
+  const text = userText.toLowerCase();
+  let questions = [];
+
+  // 问题1：你当时具体做了什么？
+  if (text.match(/吵|冲突|争执|生气|愤怒/)) {
+    questions.push('1️⃣ 吵架时，你说了什么或做了什么？');
+  } else if (text.match(/不理|冷漠|沉默|不回应/)) {
+    questions.push('1️⃣ 对方不理你的时候，你是怎么做的？');
+  } else if (text.match(/拒绝|反对|不同意/)) {
+    questions.push('1️⃣ 对方拒绝你的时候，你说了什么？');
+  } else if (text.match(/控制|管|唠叨/)) {
+    questions.push('1️⃣ 对方管你/唠叨你的时候，你是怎么回应的？');
+  } else {
+    questions.push('1️⃣ 当时你说了什么或做了什么？');
+  }
+
+  // 问题2：对方怎么反应的？
+  if (text.match(/吵|冲突|争执|生气|愤怒/)) {
+    questions.push('2️⃣ 对方当时的反应是什么？（比如：跟你吵 / 沉默 / 摔门走 / 冷战...）');
+  } else if (text.match(/不理|冷漠|沉默/)) {
+    questions.push('2️⃣ 对方是怎么表现冷漠的？（比如：不回消息 / 敷衍 / 叹气...）');
+  } else if (text.match(/拒绝|反对/)) {
+    questions.push('2️⃣ 对方拒绝的理由是什么？（比如：忙、不需要、说没时间...）');
+  } else {
+    questions.push('2️⃣ 对方当时的反应是什么？');
+  }
+
+  // 问题3：根据关键词动态生成
+  if (text.match(/同事|老板|工作/)) {
+    questions.push('3️⃣ 这次事件之后，你们的工作配合变了吗？');
+  } else if (text.match(/老公|老婆|伴侣|恋爱/)) {
+    questions.push('3️⃣ 这次之后，你们之间的关系有没有变化？');
+  } else if (text.match(/孩子|女儿|儿子/)) {
+    questions.push('3️⃣ 这件事对孩子有什么影响吗？');
+  } else if (text.match(/朋友|闺蜜|兄弟/)) {
+    questions.push('3️⃣ 这次之后，你们的联系变少了吗？');
+  } else {
+    questions.push('3️⃣ 你最希望的结果是什么？');
+  }
+
+  return questions.join('\n');
+}
+
+function replacePlaceholders(text, userText) {
+  if (!text) return '';
+  // 简化版占位符替换
+  text = text.replace(/{用户选择}/g, userText.substring(0, 20));
+  text = text.replace(/{场景}/g, userInputs.define?.[0]?.substring(0, 30) || '你的关系场景');
+  text = text.replace(/{情绪}/g, '不舒服');
+  text = text.replace(/{核心冲突}/g, '需求和现实的差距');
+  return text;
+}
+
+function generateMcKinseyReport() {
+  // 清除生成提示
+  const genEl = document.getElementById('generatingReport');
+  if (genEl) genEl.remove();
+
+  document.getElementById('coachChat').style.display = 'none';
+  const reportEl = document.getElementById('coachReport');
+  reportEl.style.display = 'block';
+
+  const inputs = userInputs;
+  const actions = buildDynamicActions(inputs);
+
+  const report = {
+    coreConclusion: `【核心结论】你在"${inputs.define?.[0]?.substring(0, 50) || '最近的关系场景'}"中，倾向于${(inputs.analyze?.[0] || '某种行为模式').substring(0, 30)}，导致关系陷入僵局。根本原因在于双方的行为模式形成了负向循环。`,
+    mece: [
+      { dim: '你的行为模式', score: 6, desc: inputs.analyze?.[0] || '待补充', color: '#d97706' },
+      { dim: '对方的反应模式', score: 5, desc: inputs.analyze?.[1] || '待补充', color: '#0891b2' },
+      { dim: '关系结构', score: 4, desc: '权力动态偏单向 / 信息流动不充分 / 情绪账户透支', color: '#7c3aed' }
+    ],
+    actions: actions,
+    nextStep: `【本周试验】${inputs.analyze?.[0] ? '调整你的互动方式，先倾听再表达' : '主动问候对方，不只在有问题时才联系'}\n【判断标准】对方回应变得更开放（主动说更多信息）\n【复盘时间】建议下周一找我复盘`
+  };
+
+  let html = `
+    <div class="report-header">
+      <div class="report-icon">📊</div>
+      <div class="report-title">麦肯锡风格关系力诊断报告</div>
+      <div class="report-subtitle">基于结构化分析框架 · MECE原则 · 行动导向</div>
+    </div>
+
+    <div class="report-core-conclusion">
+      <h3>🎯 核心结论（金字塔顶端）</h3>
+      <p>${report.coreConclusion}</p>
+    </div>
+
+    <div class="report-mece-analysis">
+      <h3>📋 MECE结构化分析</h3>
+      ${report.mece.map(m => `
+        <div class="mece-dimension">
+          <div class="mece-dim-title">${m.dim} <span style="color:${m.color}">${m.score}/10</span></div>
+          <div class="mece-dim-desc">${m.desc}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="report-impact-effort">
+      <h3>📊 Impact/Effort 矩阵说明</h3>
+      <div class="ie-item"><span class="ie-tag ie-p0">P0 · 快赢</span>高影响 + 低投入 → 立即可做，快速见效</div>
+      <div class="ie-item"><span class="ie-tag ie-p1">P1 · 重要</span>高影响 + 高投入 → 值得规划，中期突破</div>
+      <div class="ie-item"><span class="ie-tag ie-p2">P2 · 长期</span>中影响 + 高投入 → 系统变革，长期收益</div>
+    </div>
+
+    <div class="report-priority-actions">
+      <h3>🚀 优先级行动（Impact/Effort矩阵）</h3>
+      ${report.actions.map(a => `
+        <div class="action-item">
+          <div class="action-priority">${a.priority}</div>
+          <div class="action-text"><strong>行动：</strong>${a.action}<br><strong>影响：</strong>${a.impact} | <strong>投入：</strong>${a.effort}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="report-next-step">
+      <h3>👣 下一步行动（actionable）</h3>
+      <p>${report.nextStep.replace(/\n/g, '<br>')}</p>
+    </div>
+
+    <button class="coach-restart-btn" onclick="restartCoach()">🔄 重新对话</button>
+  `;
+
+  reportEl.innerHTML = html;
+  reportEl.scrollTop = 0;
+}
+
+function buildDynamicActions(inputs) {
+  const defineText = (inputs.define?.[0] || '').toLowerCase();
+  const analyzeText = (inputs.analyze?.[0] || '').toLowerCase();
+  const allText = defineText + ' ' + analyzeText;
+  const actions = [];
+
+  // ===== P0 快赢（高影响 + 低投入）=====
+  let p0Added = false;
+
+  // 冲突/争吵类
+  if (allText.match(/吵|冲突|争执|对立|矛盾|不爽|生气|愤怒|发火/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '下次感觉要吵起来时，说"我需要冷静一下，10分钟后再聊"',
+      impact: '避免冲动发言伤害关系',
+      effort: '低'
+    });
+    p0Added = true;
+  }
+
+  // 沟通不畅/沉默类
+  if (!p0Added && allText.match(/不说话|沉默|回避|冷暴力|不理我|没回应|敷衍/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '发一条破冰消息："最近在想我们之间的事，想和你聊聊"',
+      impact: '打破沉默僵局',
+      effort: '低'
+    });
+    p0Added = true;
+  }
+
+  // 讨好/委屈自己类
+  if (!p0Added && allText.match(/讨好|妥协|让步|不敢|怕冲突|委屈|忍|迁就/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '今天找一件小事练习说"不"（例如"我更想去A而不是B"）',
+      impact: '建立边界感，停止过度讨好',
+      effort: '低'
+    });
+    p0Added = true;
+  }
+
+  // 缺乏信任/欺骗类
+  if (!p0Added && allText.match(/不信任|骗|隐瞒|秘密|怀疑|猜忌|撒谎/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '主动分享一件你之前没说的事（例如"我最近压力挺大的"）',
+      impact: '用透明化重建信任',
+      effort: '低'
+    });
+    p0Added = true;
+  }
+
+  // 控制/被控制类
+  if (!p0Added && allText.match(/控制|管我|唠叨|催|逼|压力|说教/)) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '下次对方开始说教时，说"我听到了，让我自己试试看"',
+      impact: '建立平等对话模式',
+      effort: '低'
+    });
+    p0Added = true;
+  }
+
+  // 默认P0（通用）
+  if (!p0Added) {
+    actions.push({
+      priority: 'P0 · 快赢',
+      action: '今晚找对方聊10分钟，你只问"你最近怎么样？"然后闭嘴听',
+      impact: '用深度倾听快速改善关系',
+      effort: '低'
+    });
+  }
+
+  // ===== P1 重要（高影响 + 中投入）=====
+  let p1Added = false;
+
+  // 职场关系
+  if (allText.match(/同事|老板|上级|下属|客户|开会|工作|职场|公司|商务/)) {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '每周找1位关键同事聊15分钟（不聊工作），问"你最近在忙什么？"',
+      impact: '建立职场人情账户',
+      effort: '中'
+    });
+    p1Added = true;
+  }
+
+  // 亲密关系
+  if (!p1Added && allText.match(/老公|老婆|伴侣|对象|男朋友|女朋友|恋爱|婚姻|夫妻/)) {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '每周设立30分钟"无手机时间"，只聊感受不聊事务',
+      impact: '重建亲密感',
+      effort: '中'
+    });
+    p1Added = true;
+  }
+
+  // 亲子关系
+  if (!p1Added && allText.match(/孩子|女儿|儿子|育儿|陪读|妈妈|爸爸|家庭/)) {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '每周做一次"只夸不教"对话，孩子说什么都不批评',
+      impact: '建立孩子的表达安全感',
+      effort: '中'
+    });
+    p1Added = true;
+  }
+
+  // 朋友关系
+  if (!p1Added && allText.match(/朋友|闺蜜|兄弟|社交|人脉/)) {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '主动约一次"无目的聚会"（纯吃饭/散步，不聊吐槽）',
+      impact: '加深朋友连接',
+      effort: '中'
+    });
+    p1Added = true;
+  }
+
+  // 默认P1（通用）
+  if (!p1Added) {
+    actions.push({
+      priority: 'P1 · 重要',
+      action: '做一次关系盘点：列出3个重要关系，写下"我最近存入了什么？取走了什么？"',
+      impact: '明确关系现状，指导未来行动',
+      effort: '中'
+    });
+  }
+
+  // ===== P2 长期（系统变革）=====
+
+  // 根据问题类型推荐不同的学习资源
+  if (allText.match(/冲突|争吵|沟通|不说话|沉默/)) {
+    actions.push({
+      priority: 'P2 · 长期',
+      action: '读《非暴力沟通》或《关键对话》，每周1-2章，刻意练习书中的句式',
+      impact: '建立系统性沟通能力',
+      effort: '高'
+    });
+  } else if (allText.match(/讨好|边界|不敢|委屈|控制/)) {
+    actions.push({
+      priority: 'P2 · 长期',
+      action: '读《边界》或《不再讨好》，做笔记记录"我的边界在哪里"',
+      impact: '从讨好/控制模式切换到平等模式',
+      effort: '高'
+    });
+  } else if (allText.match(/信任|骗|隐瞒|怀疑/)) {
+    actions.push({
+      priority: 'P2 · 长期',
+      action: '读《信任的速度》或《亲密关系》，理解信任的建立/破坏机制',
+      impact: '建立健康的信任模式',
+      effort: '高'
+    });
+  } else {
+    actions.push({
+      priority: 'P2 · 长期',
+      action: '参加关系力课程/工作坊（线上或线下），系统提升关系能力',
+      impact: '全面提升关系力',
+      effort: '高'
+    });
+  }
+
+  return actions;
+}
+
+function restartCoach() {
+  document.getElementById('coachReport').style.display = 'none';
+  document.getElementById('coachChat').style.display = 'none';
+  document.getElementById('coachIntro').style.display = 'block';
+  document.getElementById('chatMessages').innerHTML = '';
+}
+
+// ===== 分享 =====
+const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner';
+function getSiteUrl() {
+  if (window.location.hostname && window.location.hostname.includes('netlify')) {
+    return window.location.origin + '/';
+  }
+  return SHARE_URL + '/';
+}
+
+function getToday() { return new Date().toISOString().slice(0,10); }
+
+function renderSharePage() {
+  const history = getHistory();
+  const today = getToday();
+  const conDays = calcStreak(history);
+  if (document.getElementById('shareStreak')) document.getElementById('shareStreak').textContent = conDays + '天';
+  if (document.getElementById('shareToday')) document.getElementById('shareToday').textContent = history.some(h => h.date === today && h.checkin) ? '已打卡' : '未打卡';
+  if (document.getElementById('shareTotal')) document.getElementById('shareTotal').textContent = history.length;
+  const url = getSiteUrl() + '搭子-关系力修复.html';
+  if (document.getElementById('shareUrlDisplay')) document.getElementById('shareUrlDisplay').textContent = url;
+}
+
+function copyShareLink() {
+  const url = getSiteUrl() + '搭子-关系力修复.html';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => showToast('链接已复制！去分享给朋友吧 🌸'));
+  } else {
+    prompt('复制以下链接：', url);
+  }
+}
+
+function openSharePage() {
+  const url = getSiteUrl() + '搭子-关系力修复.html';
+  window.open(url, '_blank');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toastEl');
+  if (!t) {
+    const el = document.createElement('div');
+    el.id = 'toastEl';
+    el.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);color:white;padding:12px 24px;border-radius:12px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;';
+    document.body.appendChild(el);
+  }
+  document.getElementById('toastEl').textContent = msg;
+  document.getElementById('toastEl').style.opacity = '1';
+  setTimeout(() => { document.getElementById('toastEl').style.opacity = '0'; }, 2000);
+}
+
+// ===== Tab切换 =====
+function switchTab(tab, e) {
+  // 关闭所有遮罩
+  const qaO = document.getElementById('qaOverlay');
+  const fbO = document.getElementById('fbOverlay');
+  const sopG = document.getElementById('sopGuideOverlay');
+  if (qaO) qaO.classList.remove('show');
+  if (fbO) fbO.classList.remove('show');
+  if (sopG) sopG.classList.remove('show');
+  switchTabDirect(tab);
+}
+
+function switchTabDirect(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  const pageMap = { checkin:'checkinPage', chat:'chatPage', sop:'sopPage', coach:'coachPage', data:'page-data', progress:'progressPage', share:'sharePage' };
+  const idxMap = { chat:1, coach:6, sop:2, checkin:0, data:3, progress:4, share:5 };
+  const pg = document.getElementById(pageMap[tab]);
+  if (pg) pg.classList.add('active');
+  const tabs = document.querySelectorAll('.tab-item');
+  if (tabs[idxMap[tab]]) tabs[idxMap[tab]].classList.add('active');
+  if (tab === 'chat') renderChat();
+  if (tab === 'sop') renderSOP();
+  if (tab === 'data') renderRelaxPage();
+  if (tab === 'progress') initProgressPage();
+  if (tab === 'share') renderSharePage();
+}
+
+// 点击遮罩关闭
+document.getElementById('qaOverlay').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('show');
+});
+document.getElementById('fbOverlay').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('show');
+});
+
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

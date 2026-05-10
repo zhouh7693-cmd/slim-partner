@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>调试测试页</title>
+<style>
+  body { font-family: sans-serif; padding: 40px; background: #f5f5f5; }
+  .log { background: #000; color: #0f0; padding: 16px; border-radius: 8px; font-size: 13px; white-space: pre-wrap; max-height: 400px; overflow-y: auto; margin-top: 20px; }
+  button { padding: 12px 24px; font-size: 16px; margin: 8px; border-radius: 8px; border: none; background: #3a5fcd; color: #fff; cursor: pointer; }
+  .step { background: #fff; padding: 16px; margin: 8px 0; border-radius: 8px; }
+</style>
+</head>
+<body>
+
+<h2>🔍 P7-P8 搭子选择调试</h2>
+
+<div class="step">
+  <b>第1步：检查 localStorage 是否有残留搭子</b><br>
+  <button onclick="checkStorage()">检查 Storage</button>
+  <button onclick="clearStorage()">清除 Storage</button>
+</div>
+
+<div class="step">
+  <b>第2步：手动调用 showPartnerSelector()</b><br>
+  <button onclick="testShowSelector()">弹出搭子选择器</button>
+</div>
+
+<div class="step">
+  <b>第3步：检查 confirmPartner 是否定义</b><br>
+  <button onclick="testConfirm()">调用 confirmPartner()</button>
+</div>
+
+<div class="step">
+  <b>第4步：模拟完整流程</b><br>
+  <button onclick="fullTest()">完整测试</button>
+</div>
+
+<div id="log" class="log">点击上方按钮开始调试...\n</div>
+
+<script>
+var logEl = document.getElementById('log');
+function log(msg) {
+  logEl.textContent += msg + '\n';
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+function checkStorage() {
+  log('--- 检查 Storage ---');
+  try {
+    var p = localStorage.getItem('p7p8_partner');
+    log('p7p8_partner = ' + p);
+    if (p) log('⚠️ 有残留搭子，选择器不会弹出！');
+    else log('✅ 无残留搭子，选择器应该正常弹出');
+  } catch(e) { log('❌ 错误: ' + e.message); }
+}
+
+function clearStorage() {
+  log('--- 清除 Storage ---');
+  try {
+    localStorage.removeItem('p7p8_partner');
+    localStorage.removeItem('p7p8_history');
+    log('✅ 已清除 p7p8_partner 和 p7p8_history');
+  } catch(e) { log('❌ 错误: ' + e.message); }
+}
+
+function testShowSelector() {
+  log('--- 测试 showPartnerSelector ---');
+  if (typeof showPartnerSelector !== 'undefined') {
+    log('✅ showPartnerSelector 已定义');
+    try { showPartnerSelector(); log('✅ 调用成功，应看到选择器弹出'); } catch(e) { log('❌ 调用出错: ' + e.message); }
+  } else {
+    log('❌ showPartnerSelector 未定义 - 这是核心问题！');
+  }
+}
+
+function testConfirm() {
+  log('--- 测试 confirmPartner ---');
+  if (typeof confirmPartner !== 'undefined') {
+    log('✅ confirmPartner 已定义');
+    try { confirmPartner(); log('✅ 调用成功'); } catch(e) { log('❌ 调用出错: ' + e.message); }
+  } else {
+    log('❌ confirmPartner 未定义！');
+  }
+}
+
+function fullTest() {
+  log('--- 完整流程测试 ---');
+  clearStorage();
+  setTimeout(function() {
+    testShowSelector();
+    setTimeout(function() {
+      var btn = document.getElementById('confirmBtn');
+      log('confirmBtn 元素: ' + (btn ? '✅ 找到' : '❌ 未找到'));
+      if (btn) {
+        log('尝试点击 confirmBtn...');
+        btn.click();
+      }
+    }, 500);
+  }, 100);
+}
+
+// 以下是 P7-P8 核心函数的最小复现
+var STORAGE = { PARTNER: 'p7p8_partner', HISTORY: 'p7p8_history' };
+var currentPartner = null;
+var selectedPartnerId = null;
+
+var PARTNERS = [
+  { id:1, name:'战略搭子', emoji:'🎯', desc:'聚焦长期目标与路径设计' },
+  { id:2, name:'团队搭子', emoji:'👥', desc:'关注人的成长与协作效率' },
+  { id:3, name:'业务搭子', emoji:'📊', desc:'数据驱动业务决策' },
+  { id:4, name:'协同搭子', emoji:'🤝', desc:'跨部门沟通与资源整合' },
+  { id:5, name:'迭代搭子', emoji:'🔄', desc:'复盘反思与持续进化' }
+];
+
+function showPartnerSelector() {
+  log('[showPartnerSelector] 被调用');
+  var sel = document.getElementById('partnerSelector');
+  var mask = document.getElementById('partnerSelectorMask');
+  log('partnerSelector 元素: ' + (sel ? '✅' : '❌'));
+  log('partnerSelectorMask 元素: ' + (mask ? '✅' : '❌'));
+  if (sel) sel.style.display = 'flex';
+  if (mask) mask.style.display = 'block';
+  renderPartnerCards();
+}
+
+function renderPartnerCards() {
+  var container = document.getElementById('partnerCards');
+  if (!container) { log('❌ partnerCards 容器未找到'); return; }
+  container.innerHTML = '';
+  PARTNERS.forEach(function(p) {
+    var card = document.createElement('div');
+    card.className = 'partner-card' + (selectedPartnerId === p.id ? ' selected' : '');
+    card.innerHTML = '<div class="emoji">' + p.emoji + '</div><div class="name">' + p.name + '</div><div class="desc">' + p.desc + '</div>';
+    card.onclick = function() {
+      selectedPartnerId = p.id;
+      log('✅ 选中搭子: ' + p.name + ' (id=' + p.id + ')');
+      renderPartnerCards();
+    };
+    container.appendChild(card);
+  });
+  log('✅ 搭子卡片已渲染 (' + PARTNERS.length + ' 个)');
+}
+
+function confirmPartner() {
+  log('[confirmPartner] 被调用');
+  if (!selectedPartnerId) { log('⚠️ selectedPartnerId 为空，默认选第一个'); selectedPartnerId = PARTNERS[0].id; }
+  var partner = PARTNERS.find(function(p) { return p.id === selectedPartnerId; }) || PARTNERS[0];
+  currentPartner = partner;
+  log('✅ 确认搭子: ' + partner.name);
+
+  var sel = document.getElementById('partnerSelector');
+  var mask = document.getElementById('partnerSelectorMask');
+  var tabBar = document.getElementById('tabBar');
+  if (sel) sel.style.display = 'none';
+  if (mask) mask.style.display = 'none';
+  if (tabBar) tabBar.style.display = 'flex';
+  log('✅ 选择器已隐藏，tabBar 已显示');
+}
+
+// 页面加载后自动初始化
+window.addEventListener('DOMContentLoaded', function() {
+  log('✅ DOMContentLoaded 触发');
+  var saved = null;
+  try { saved = localStorage.getItem(STORAGE.PARTNER); } catch(e) {}
+  if (saved) {
+    log('⚠️ 发现已保存搭子: ' + saved + ' → 选择器不会弹出');
+    try { currentPartner = JSON.parse(saved); } catch(e) {}
+    var tabBar = document.getElementById('tabBar');
+    if (tabBar) tabBar.style.display = 'flex';
+  } else {
+    log('✅ 无保存搭子，准备弹出选择器...');
+    setTimeout(function() { showPartnerSelector(); }, 300);
+  }
+
+  // 绑定确认按钮
+  var btn = document.getElementById('confirmBtn');
+  if (btn) {
+    btn.addEventListener('click', function() {
+      log('[点击] confirmBtn 被点击 (addEventListener)');
+      confirmPartner();
+    });
+    log('✅ confirmBtn addEventListener 已绑定');
+  }
+});
+</script>
+
+<!-- 最小HTML结构 -->
+<div id="partnerSelectorMask" style="display:none; position:fixed; top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3); z-index:999;"></div>
+<div id="partnerSelector" style="display:none; position:fixed; top:0;left:0;width:100%;height:100%; background:#fff; z-index:1000; flex-direction:column; padding:20px;">
+  <h3>选择你的 P7→P8 搭子</h3>
+  <div id="partnerCards" style="display:flex; flex-wrap:wrap; gap:12px; margin:20px 0;"></div>
+  <button id="confirmBtn" class="confirm-btn" style="background:#3a5fcd;color:#fff;padding:12px 24px;border:none;border-radius:8px;font-size:16px;cursor:pointer;">确认搭子 →</button>
+</div>
+<div id="tabBar" style="display:none; background:#3a5fcd; color:#fff; padding:12px; text-align:center; border-radius:8px; margin-top:20px;">
+  ✅ 搭子已确认！Tab栏显示正常
+</div>
+
+</body>
+</html>

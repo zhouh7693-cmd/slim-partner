@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>完整 P7-P8 流程测试</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, sans-serif; background: #1a1a2e; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+  /* 选择器 */
+  #partnerSelectorMask { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 998; }
+  #partnerSelector {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);
+    z-index: 999; flex-direction: column; align-items: center; justify-content: center; padding: 24px; overflow-y: auto;
+  }
+  .selector-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; text-align: center; color: #e0e7ff; }
+  .selector-sub { font-size: 14px; color: #8b9dc3; margin-bottom: 24px; text-align: center; }
+  .partner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; width: 100%; max-width: 500px; }
+  .partner-card {
+    background: rgba(255,255,255,0.06); border: 2px solid rgba(255,255,255,0.08); border-radius: 16px;
+    padding: 16px 12px; text-align: center; cursor: pointer; transition: all 0.2s;
+  }
+  .partner-card:hover { border-color: rgba(58,95,205,0.6); background: rgba(58,95,205,0.15); transform: translateY(-2px); }
+  .partner-card.selected { border-color: #3a5fcd; background: rgba(58,95,205,0.25); box-shadow: 0 0 16px rgba(58,95,205,0.4); }
+  .partner-card .emoji { font-size: 28px; margin-bottom: 8px; }
+  .partner-card .name { font-size: 14px; font-weight: 600; color: #e0e7ff; margin-bottom: 4px; }
+  .partner-card .desc { font-size: 11px; color: #8b9dc3; }
+  #confirmBtn {
+    margin-top: 24px; background: #3a5fcd; color: #fff; border: none; border-radius: 12px;
+    padding: 14px 48px; font-size: 16px; font-weight: 600; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(58,95,205,0.4); transition: all 0.2s;
+  }
+  #confirmBtn:hover { background: #4a6fd4; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(58,95,205,0.5); }
+  #confirmBtn:active { transform: translateY(0); }
+
+  /* TabBar */
+  #tabBar { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #16213e; border-top: 1px solid rgba(255,255,255,0.08); z-index: 900; padding: 8px 0; }
+  .tab-items { display: flex; justify-content: space-around; }
+  .tab-item { display: flex; flex-direction: column; align-items: center; padding: 6px 8px; cursor: pointer; opacity: 0.5; transition: opacity 0.2s; font-size: 11px; }
+  .tab-item.active { opacity: 1; }
+  .tab-item .icon { font-size: 20px; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+
+<div id="partnerSelectorMask"></div>
+<div id="partnerSelector">
+  <div class="selector-title">🎖️ 选择你的 P7→P8 搭子</div>
+  <div class="selector-sub">选择一个主题，作为你本周的核心关注点</div>
+  <div id="partnerGrid" class="partner-grid"></div>
+  <button id="confirmBtn">确认搭子 →</button>
+</div>
+
+<div id="tabBar">
+  <div class="tab-items">
+    <div class="tab-item active" onclick="switchTab('chat')"><span class="icon">💬</span>搭子</div>
+    <div class="tab-item" onclick="switchTab('sop')"><span class="icon">📋</span>SOP</div>
+    <div class="tab-item" onclick="switchTab('checkin')"><span class="icon">✅</span>打卡</div>
+  </div>
+</div>
+
+<div id="mainContent" style="text-align:center; padding: 40px;">
+  <div id="mainMsg" style="font-size:18px; color:#8b9dc3;">加载中...</div>
+</div>
+
+<script>
+var STORAGE = { PARTNER: 'p7p8_partner', HISTORY: 'p7p8_history' };
+var currentPartner = null;
+var selectedPartnerId = null;
+
+var PARTNERS = [
+  { id:1, name:'战略搭子', emoji:'🎯', desc:'聚焦长期目标与路径设计' },
+  { id:2, name:'团队搭子', emoji:'👥', desc:'关注人的成长与协作效率' },
+  { id:3, name:'业务搭子', emoji:'📊', desc:'数据驱动业务决策' },
+  { id:4, name:'协同搭子', emoji:'🤝', desc:'跨部门沟通与资源整合' },
+  { id:5, name:'迭代搭子', emoji:'🔄', desc:'复盘反思与持续进化' }
+];
+
+function renderPartnerGrid() {
+  var grid = document.getElementById('partnerGrid');
+  grid.innerHTML = '';
+  PARTNERS.forEach(function(p) {
+    var card = document.createElement('div');
+    card.className = 'partner-card';
+    card.dataset.id = p.id;
+    card.innerHTML = '<div class="emoji">'+p.emoji+'</div><div class="name">'+p.name+'</div><div class="desc">'+p.desc+'</div>';
+    card.onclick = function() {
+      selectedPartnerId = p.id;
+      document.querySelectorAll('.partner-card').forEach(function(c){ c.classList.remove('selected'); });
+      card.classList.add('selected');
+    };
+    grid.appendChild(card);
+  });
+}
+
+function confirmPartner() {
+  if (!selectedPartnerId) selectedPartnerId = PARTNERS[0].id;
+  var partner = PARTNERS.find(function(p){ return p.id===selectedPartnerId; }) || PARTNERS[0];
+  currentPartner = partner;
+  localStorage.setItem(STORAGE.PARTNER, JSON.stringify(partner));
+  document.getElementById('partnerSelector').style.display = 'none';
+  document.getElementById('partnerSelectorMask').style.display = 'none';
+  document.getElementById('tabBar').style.display = 'block';
+  document.getElementById('mainMsg').innerHTML = '✅ 搭子已确认：' + partner.emoji + ' ' + partner.name;
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-item').forEach(function(t){ t.classList.remove('active'); });
+  event.target.closest('.tab-item').classList.add('active');
+  document.getElementById('mainMsg').innerHTML = '当前Tab：' + tab;
+}
+
+// 清除旧数据
+localStorage.removeItem(STORAGE.PARTNER);
+
+// DOMContentLoaded - 完整模拟原文件逻辑
+document.addEventListener('DOMContentLoaded', function() {
+  renderPartnerGrid();
+
+  var stored = localStorage.getItem(STORAGE.PARTNER);
+  if (stored) {
+    var p = JSON.parse(stored);
+    currentPartner = p;
+    selectedPartnerId = p.id;
+    confirmPartner();
+  } else {
+    document.getElementById('partnerSelector').style.display = 'flex';
+    document.getElementById('tabBar').style.display = 'none';
+  }
+
+  // 确认按钮：JS事件绑定
+  var btn = document.getElementById('confirmBtn');
+  if (btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('按钮点击事件触发!');
+      confirmPartner();
+    });
+    console.log('✅ addEventListener 已绑定到 confirmBtn');
+  } else {
+    console.log('❌ confirmBtn 元素未找到!');
+  }
+});
+</script>
+
+</body>
+</html>
