@@ -1111,13 +1111,8 @@ function getSOPDone(catId) {
 }
 
 function startSOPCat(catId) {
-  console.log('[DEBUG] startSOPCat called with catId:', catId);
   var habits = SOP_HABITS[catId];
-  if (!habits) {
-    console.error('[DEBUG] No habits found for catId:', catId);
-    return;
-  }
-  console.log('[DEBUG] habits count:', habits.length);
+  if (!habits) return;
   var cat = SOP_CATEGORIES.find(function(c) { return c.id === catId; });
   var catData = {};
   try { catData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}')[catId] || {}; } catch(e) {}
@@ -1143,13 +1138,8 @@ function startSOPCat(catId) {
 }
 
 function renderSOPList(catId) {
-  console.log('[DEBUG] renderSOPList called with catId:', catId);
   var habits = SOP_HABITS[catId];
-  if (!habits) {
-    console.error('[DEBUG] No habits found for catId:', catId);
-    return;
-  }
-  console.log('[DEBUG] habits count:', habits.length);
+  if (!habits) return;
   var cat = SOP_CATEGORIES.find(function(c) { return c.id === catId; });
   var catData = {};
   try { catData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}')[catId] || {}; } catch(e) {}
