@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>测试 - 陪读妈妈弹窗</title>
+<style>
+.fb-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
+  display: none; align-items: center; justify-content: center;
+  z-index: 400; padding: 20px;
+}
+.fb-overlay.show { display: flex; }
+.fb-card {
+  background: white; border-radius: 28px; padding: 28px 20px;
+  max-width: 340px; width: 100%;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.22);
+  text-align: center;
+}
+.fb-emoji { font-size: 48px; margin-bottom: 10px; }
+.fb-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; border-radius: 20px; display: inline-block; padding: 2px 12px; }
+.fb-label.pos { background: #e8f5e9; color: #2e7d32; }
+.fb-label.neg { background: #fff3f3; color: #c62828; }
+.fb-title { font-size: 20px; font-weight: 800; color: #2b5a7a; margin-bottom: 10px; }
+.fb-text { font-size: 14px; color: #6c7a89; line-height: 1.7; margin-bottom: 16px; text-align: left; }
+.fb-partner-quote { background: #f7f9fc; border-radius: 12px; padding: 12px 16px; font-size: 14px; color: #3a4a5a; font-style: italic; margin-bottom: 20px; line-height: 1.6; text-align: left; }
+.fb-btn { background: #9c27b0; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
+</style>
+</head>
+<body style="font-family:sans-serif;padding:40px;">
+
+<h2>测试反馈弹窗</h2>
+<button onclick="showTestFeedback()" style="padding:10px 20px;font-size:16px;cursor:pointer;">点击测试弹窗</button>
+
+<div class="fb-overlay" id="fbOverlay" onclick="if(event.target===this)closeTestFeedback()">
+  <div class="fb-card pos" id="fbCard">
+    <div class="fb-emoji" id="fbEmoji">📚</div>
+    <div class="fb-label pos" id="fbLabel">✨ 正向</div>
+    <div class="fb-title" id="fbTitle">学习</div>
+    <div class="fb-text" id="fbText">成绩不稳定往往是学习方法和考试策略的问题，不是能力问题。分析孩子的错题...</div>
+    <div class="fb-partner-quote" id="fbQuote">"🌸 温柔陪伴型说：这种感觉真的很好，为你高兴 🌿"</div>
+    <button class="fb-btn" onclick="closeTestFeedback()">✅ 知道了</button>
+  </div>
+</div>
+
+<script>
+function showTestFeedback() {
+  document.getElementById('fbOverlay').classList.add('show');
+}
+function closeTestFeedback() {
+  document.getElementById('fbOverlay').classList.remove('show');
+}
+</script>
+
+</body>
+</html>

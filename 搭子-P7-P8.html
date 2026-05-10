@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -146,6 +146,19 @@
     }
     .talk-btn:active { background: #f0f4fd; transform: scale(0.97); }
 
+    /* ===== Partner Card（P7-P8主题） ===== */
+    .partnerCard {
+      display: flex; align-items: center;
+      background: white; border-radius: 20px;
+      padding: 16px; margin: 16px 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .partner-avatar { font-size: 48px; margin-right: 16px; }
+    .partner-info { flex: 1; }
+    .partner-name { font-size: 16px; font-weight: 700; color: #2b5a7a; margin-bottom: 4px; }
+    .partner-desc { font-size: 13px; color: #6c7a89; margin-bottom: 4px; }
+    .partner-status { font-size: 12px; color: #8f9eae; }
+
     /* ===== 分享卡片入口 ===== */
     .share-inline-card {
       max-width: 420px; margin: 0 auto 20px;
@@ -177,17 +190,17 @@
     .weight-header { background: white; border-radius: 32px; padding: 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
     .weight-title { font-size: 20px; font-weight: 700; color: #1e3a7a; margin-bottom: 4px; }
     .weight-sub { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
-    .weight-input-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
-    .weight-input { width: 120px; height: 52px; border-radius: 16px; border: 2px solid #e9edf2; text-align: center; font-size: 24px; font-weight: 700; color: #3a5fcd; outline: none; }
-    .weight-input:focus { border-color: #3a5fcd; }
+    .perf-input-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .perf-input { width: 120px; height: 52px; border-radius: 16px; border: 2px solid #e9edf2; text-align: center; font-size: 24px; font-weight: 700; color: #3a5fcd; outline: none; }
+    .perf-input:focus { border-color: #3a5fcd; }
     .weight-unit { font-size: 18px; color: #8f9eae; font-weight: 500; }
     .weight-add-btn { padding: 12px 24px; background: linear-gradient(135deg, #3a5fcd, #1e3a7a); color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(58,95,205,0.28); }
     .weight-add-btn:active { opacity: 0.9; transform: scale(0.97); }
     .weight-chart-card { background: white; border-radius: 32px; padding: 20px 16px 16px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .chart-title { font-size: 15px; font-weight: 700; color: #1e3a7a; margin-bottom: 4px; }
     .chart-sub { font-size: 12px; color: #8f9eae; margin-bottom: 12px; }
-    #chartCanvas { width: 100%; border-radius: 12px; background: #fafcfe; }
-    .weight-records { background: white; border-radius: 32px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    #perfChartCanvas { width: 100%; border-radius: 12px; background: #fafcfe; }
+    .perf-records { background: white; border-radius: 32px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); margin-bottom: 16px; }
     .records-title { font-size: 15px; font-weight: 700; color: #1e3a7a; margin-bottom: 14px; }
     .record-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f4f7; }
     .record-item:last-child { border-bottom: none; }
@@ -429,7 +442,7 @@
     .ie-item { font-size: 12px; color: #666; margin-bottom: 6px; display: flex; gap: 6px; }
     .ie-tag { display: inline-block; border-radius: 8px; padding: 2px 8px; font-weight: 700; font-size: 11px; }
     .ie-tag.ie-p0 { background: #e8f5e9; color: #2e7d32; }
-    .ie-tag.ie-p1 { background: #fff3e0; color: #e65100; }
+    .ie-tag.ie-p1 { background: #e3f2fd; color: #e65100; }
     .ie-tag.ie-p2 { background: #f3e5f5; color: #7b1fa2; }
     .report-priority-actions { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
     .report-priority-actions h3 { font-size: 15px; font-weight: 700; color: #1e3a7a; margin-bottom: 12px; }
@@ -448,11 +461,17 @@
 <div id="partnerSelectorMask"></div>
 
 <!-- 搭子选择器 -->
-<div class="partner-selector" id="partnerSelector">
+<div id="partnerSelector" class="partner-selector">
   <div class="selector-title">选一个管理搭子 🤝</div>
   <div class="selector-sub">陪你度过P7到P8的成长期</div>
-  <div class="partner-grid" id="partnerGrid"></div>
-  <button class="confirm-btn" id="confirmBtn">确认搭子 →</button>
+  <div class="partner-grid" id="partnerGrid">
+    <div class="partner-card selected" id="pc-coach" onclick="selectPartner('coach')">
+      <div class="partner-emoji">🎖️</div>
+      <div class="partner-name">砺行</div>
+      <div class="partner-desc">管理教练 · 严厉有建设性</div>
+    </div>
+  </div>
+  <button id="confirmPartnerBtn" class="confirm-btn" onclick="slimConfirmPartner();void 0">确认搭子 →</button>
 </div>
 
 <!-- Tab Bar -->
@@ -481,7 +500,7 @@
 </div>
 
 <!-- ===== 教练页面 (McKinsey风格) ===== -->
-<div class="page" id="coachPage" style="display:none;">
+<div class="page" id="coachPage">
   <!-- 教练介绍卡 -->
   <div class="coach-intro" id="coachIntro">
     <div class="coach-intro-icon">🧠</div>
@@ -537,6 +556,18 @@
 
 <!-- ===== 搭子聊天页面 ===== -->
 <div class="page" id="chatPage">
+  <!-- Partner Card（P7-P8主题） -->
+  <div class="partnerCard">
+    <div class="partner-avatar">🎓</div>
+    <div class="partner-info">
+      <div class="partner-name">P7升P8成长搭子</div>
+      <div class="partner-desc">陪你从P7到P8 · 管理+专业双通道</div>
+      <div class="partner-status">
+        <span style="color:#3a5fcd;font-weight:700;">匹配度90%</span> · 本月目标：管理能力+20%
+      </div>
+    </div>
+  </div>
+
   <div class="chat-area" id="chatArea"></div>
   <div class="interaction-panel" id="interactionPanel">
     <div class="panel-label">👋 说说今天的情况</div>
@@ -555,6 +586,10 @@
     <div class="talk-btn-row" style="margin-top:8px;">
       <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
       <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
+    </div>
+    <div class="talk-btn-row" style="margin-top:8px;">
+      <button class="talk-btn" onclick="askPartner('talent')">👥 人才培养</button>
+      <button class="talk-btn" onclick="askPartner('strategy')">🎯 战略思考</button>
     </div>
   </div>
 
@@ -684,7 +719,7 @@ const STORAGE = {
   HISTORY: 'slim_history_p7',
   SOP: 'slim_sop_p7',
   SOP_STREAKS: 'slim_sop_streaks_p7',
-  WEIGHT: 'slim_weight_p7',
+  PERF: 'slim_perf_p7',
 };
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function showToast(msg) { var t = document.getElementById('toastEl'); if (!t) { t = document.createElement('div'); t.id = 'toastEl'; t.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);color:white;padding:12px 24px;border-radius:12px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;'; document.body.appendChild(t); } t.textContent = msg; t.style.opacity = '1'; setTimeout(function() { t.style.opacity = '0'; }, 2000); }
@@ -803,6 +838,50 @@ const TYPE_SCENES_P7 = {
     {icon:'⏰',tag:'本周',scenario:'本周加班很多，但感觉效率不高',feedback:'📋 加班多但效率不高，说明时间可能没有花在刀刃上。试试做一周时间日志：每小时记录在做什么。一周后你会发现，时间黑洞往往在：反复修改同一份材料、低效的会议、犹豫不决而反复讨论同一件事。找到黑洞，才能堵住它。',type:'neg'},
     {icon:'🏃',tag:'本周',scenario:'本周没有做新业务研究，觉得还没准备好',feedback:'📋 "没准备好"是研究新事物的最大障碍。新业务研究不需要"准备好"，需要的是"先开始"。不需要系统性地学完所有东西才去行动——边做边学、边学边调整才是P7应该有的节奏。本周找个30分钟的窗口，先把新业务的三个基本问题回答了：市场多大？谁在做？我们有什么机会？',type:'neg'}
   ],
+  talent: [
+    {icon:'👥',tag:'招聘',scenario:'今天亲自面试了一个关键岗位，找到了合适的人',feedback:'👍 亲自面试是关键岗位招聘的必修课。P7不能只靠HR推荐，你必须亲自判断"这个人能不能解决我要的问题"。下次面试前，先写下这个岗位必须有的3个能力，面试时重点验证这3点。',type:'pos'},
+    {icon:'🌱',tag:'培养',scenario:'今天给下属做了一次1对1辅导，帮他梳理了成长路径',feedback:'👍 1对1辅导是P7最重要的管理动作之一。好的辅导不是"告诉答案"，而是"问对问题"：你觉得这个问题的根因是什么？你试过哪几种方案？如果重来你会怎么改进？让下属自己找到答案，他才能真正成长。',type:'pos'},
+    {icon:'📊',tag:'盘点',scenario:'今天做了一次团队人才盘点，看清了谁是关键人才',feedback:'👍 人才盘点是P7必须定期做的事。关键不是"评绩效"，而是"看潜力"：谁能在明年承担更大的责任？谁需要更多挑战？谁可能需要调整岗位？看清了，才能提前布局，而不是等有人离职了才慌。',type:'pos'},
+    {icon:'🚀',tag:'授权',scenario:'今天把一个有挑战的项目交给了下属，让他独立负责',feedback:'👍 授权不是"甩手"，而是"有控制的放手"。关键是：① 项目启动时你们一起对齐目标和判断标准 ② 过程中定期检查（不是micromanagement，而是coach）③ 出错时一起复盘，而不是收回授权。这样下属才能真正成长。',type:'pos'},
+    {icon:'💡',tag:'激励',scenario:'今天用非金钱的方式激励了下属，效果很好',feedback:'👍 金钱激励是短期的，成就感激励是长期的。当下属做成一件事时，公开认可、给他更大的挑战、让他参与决策——这些不花钱的激励，比加薪更能留住人才。P7要学会用"成长机会"来激励人。',type:'pos'},
+    {icon:'🎯',tag:'目标',scenario:'今天和下属对齐了她的个人发展目标，并制定了计划',feedback:'👍 个人发展目标和业务目标要对齐。当下属发现"做这件事能让我成长"，她的投入度会大幅提升。关键是：目标要具体（6个月内做到什么），计划要可执行（每月做什么），进度要定期检查。',type:'pos'},
+    {icon:'🔄',tag:'轮岗',scenario:'今天安排了一个下属去其他团队轮岗，拓宽视野',feedback:'👍 轮岗是培养复合型人才的最快方式。P7要有意识地把下属"推出去"：去其他团队看看他们怎么做、去客户现场听真实反馈、去参加行业会议——这些经历比在办公室里培训更有价值。',type:'pos'},
+    {icon:'📚',tag:'学习',scenario:'今天组织团队做了一次"失败案例分享会"，大家收获很大',feedback:'👍 失败案例分享会是建立"心理安全"最快的方式。当下属发现"承认错误不会被骂"，他们才会主动暴露问题、快速学习。P7要带头分享自己的失败经历——这不会让你显得弱，反而会让团队更信任你。',type:'pos'},
+    {icon:'🤝',tag:'师徒',scenario:'今天给团队设计了一个"师徒制"，让老人带新人',feedback:'👍 师徒制是知识传承的好方法。关键是：① 选对师傅（不只是工龄长，还要愿意教）② 明确师徒双方的责任 ③ 定期检查师徒关系的效果。好的师徒制能让新人融入速度提升2倍。',type:'pos'},
+    {icon:'💪',tag:'挑战',scenario:'今天给了一个高潜力下属一个超出他当前能力的任务',feedback:'👍 这就是"拉伸性任务"——任务难度略高于当前能力，才能让人才快速成长。关键：① 你要在旁边coach，不是完全放手 ② 出错时保护他，让他有安全感去尝试 ③ 做成后公开认可，强化他的信心。',type:'pos'},
+    {icon:'😰',tag:'流失',scenario:'今天有一个关键下属提出离职，我很意外',feedback:'⚠️ 关键人才离职是最大的管理损失。复盘一下：他的离职信号你有没有看到？他最后一次表达不满是什么时候？P7要建立"人才预警机制"：定期1对1、观察情绪变化、主动问"你最近有什么想法"。等他提离职，通常已经晚了。',type:'neg'},
+    {icon:'📉',tag:'绩效',scenario:'今天不得不给一个老下属打了低绩效，很纠结',feedback:'⚠️ 低绩效处理是P7必须面对的难题。纠结是正常的，但不处理伤害的是整个团队。正确做法：① 提前沟通期望和差距（不要在打绩效时才说）② 给改进计划和支持 ③ 如果还是不行，果断处理。拖延只会让问题变大。',type:'neg'},
+    {icon:'🤷',tag:'不管',scenario:'今天发现下属有问题，但觉得"他自己会改"就没管',feedback:'⚠️ "他自己会改"是P7最常见的管理幻觉。下属有问题，你看到了不说，就是你的失职。当下属行为影响业务结果时，你必须介入。介入的方式不是批评，而是问："你有没有注意到这个问题？你觉得可以怎么改进？"',type:'neg'},
+    {icon:'😶',tag:'沉默',scenario:'今天开完会，发现有一个下属全程没说话，我也不清楚他在想什么',feedback:'⚠️ 会议中沉默的人，往往有想法但不敢说，或者觉得"说了也没用"。P7的责任是让每个人都参与讨论：会前先问"大家有什么想法"，会中主动问沉默的人"你怎么看"，会后单独聊确认理解。',type:'neg'},
+    {icon:'🎭',tag:'表面',scenario:'今天发现团队氛围很好，但绩效数据一直在下滑',feedback:'⚠️ "表面和谐"是团队的大敌。大家关系好，但不敢提问题、不敢挑战彼此的想法，绩效就会停滞。P7要营造"建设性冲突"的文化：我们可以激烈争论，但争论完还是战友。没有冲突的团队，通常是没有思考的团队。',type:'neg'},
+    {icon:'📋',tag:'流程',scenario:'今天花了大量时间处理招聘流程，但招不到合适的人',feedback:'⚠️ 招聘不是"走流程"，而是"找对的人"。如果流程走完了还招不到，说明：① 岗位定义不清晰（你也不知道要什么样的人）② 面试标准不统一（每个面试官在凭感觉）③ 薪酬没有竞争力。先解决这三个问题，再走流程。',type:'neg'},
+    {icon:'😤',tag:'推责',scenario:'今天下属犯了错，第一反应是"这不是我的责任"',feedback:'⚠️ 下属推责，说明团队文化有问题。P7要带头建立"对事不对人"的文化：出错时先问"发生了什么、怎么避免"，而不是"谁的责任"。当下属发现"承认错误不会被骂"，他才会主动承担责任。',type:'neg'},
+    {icon:'🏃',tag:'放羊',scenario:'今天发现有一个下属已经"放羊"好几个月了，但我没注意到',feedback:'⚠️ "放羊"是P7的管理盲区。当下属看起来"很忙"但没产出时，你要警觉：他在做什么？有没有定期对齐？P7不能只管"出问题的人"，也要管"没出问题但也没产出的人"。定期检查每个人的工作重心，才能避免放羊。',type:'neg'},
+    {icon:'📦',tag:'打包',scenario:'今天把一堆杂活都交给下属，自己只做"重要的事"',feedback:'⚠️ "打包杂活"是P7常见的授权误区。真正的授权是：给下属有挑战性的工作，让他能成长。如果只把"你不想做的事"扔给下属，他会觉得自己是"打杂的"，而不是"在成长"。授权时要解释"这件事对你的成长有什么价值"。',type:'neg'},
+    {icon:'🎪',tag:'救火',scenario:'今天大部分时间都在"救火"，没时间做人才培养',feedback:'⚠️ "救火"是P7的时间黑洞。如果每天都在救火，说明：① 流程有问题（同样的问题反复发生）② 下属能力不够（你不出手就搞不定）③ 你没有授权（所有决策都要你做）。解决方式：每周固定2小时做人才培养，不被任何事情打断。',type:'neg'}
+  ],
+  strategy: [
+    {icon:'🎯',tag:'规划',scenario:'今天花时间做了一次业务规划，理清了下半年的重点',feedback:'👍 业务规划是P7的核心能力。好的规划不是"列to-do list"，而是"做选择"：资源有限，我们先做什么、不做什么？规划要回答三个问题：目标是什么？关键路径是什么？如果资源砍一半，我们保哪几个？',type:'pos'},
+    {icon:'📊',tag:'数据',scenario:'今天从数据中发现了一个新趋势，并调整了业务策略',feedback:'👍 用数据驱动策略调整，是P7的必修课。很多人是"有了想法再找数据支撑"，你是"看到数据再形成想法"——这个顺序对了，策略才会靠谱。继续：每次策略调整后，要定义"什么数据能验证这个策略有效"。',type:'pos'},
+    {icon:'🔭',tag:'前瞻',scenario:'今天研究了竞品的一个新动作，并预判了对我们的影响',feedback:'👍 竞品研究不是"抄作业"，而是"理解对方的判断逻辑"。对方为什么这么做？背后的假设是什么？如果假设成立，我们会受什么影响？预判后要行动：要么跟进，要么差异化，不能假装没看见。',type:'pos'},
+    {icon:'🧩',tag:'拼图',scenario:'今天把几个分散的项目整合成了一个完整的业务故事',feedback:'👍 这就是"战略思维"：把分散的战术动作整合成统一的战略叙事。当你的项目能串成"我们为什么要这么做"的故事时，上级和团队才会真正理解并支持你。试着把你的业务写成一个3分钟能讲清楚的故事。',type:'pos'},
+    {icon:'⚖️',tag:'取舍',scenario:'今天主动砍掉了一个看起来很好但不核心的项目',feedback:'👍 "做减法"比"做加法"更需要战略定力。很多P7的问题是"什么都要"，结果资源分散、没有一个做透。你今天砍项目的决定，说明你理解了"聚焦"的价值。继续：定期检查项目清单，砍掉那些"看起来重要但不驱动核心指标"的事。',type:'pos'},
+    {icon:'🎲',tag:'假设',scenario:'今天为一个新业务方向建立了"假设-验证"的闭环',feedback:'👍 新业务最大的坑是"还没验证就all-in"。你今天的做法很对：先建立假设（我们认为X会发生），再设计验证方式（用最小成本验证X），最后根据结果决定继续还是Pivot。这个闭环思维，是P7做新业务必须具备的。',type:'pos'},
+    {icon:'📐',tag:'边界',scenario:'今天明确了我们业务的边界：做什么、不做什么',feedback:'👍 战略的一个重要部分是"定义不做什么"。当所有人都说"这个机会很好"时，你要问"这符合我们的核心能力吗？这是我们长期要做的方向吗？"边界清晰，团队才不会在机会面前迷失。',type:'pos'},
+    {icon:'🎪',tag:'演示',scenario:'今天用一张图把业务策略讲清楚了，上级和团队都理解了',feedback:'👍 "一图胜千言"。策略再好，如果讲不清楚，团队执行就会走样。你今天做到用一张图讲清楚，这很棒。关键是：这张图要能回答"我们为什么这么做、怎么做、怎么知道做成了"。',type:'pos'},
+    {icon:'🔗',tag:'协同',scenario:'今天把业务策略和公司大战略对齐了，发现我们方向偏了',feedback:'👍 这就是为什么P7要定期看公司大战略：确保你做的事和公司方向一致。如果不一致，你做得再好也可能被调整。发现偏了就尽快调整——越早调整，成本越低。',type:'pos'},
+    {icon:'🎁',tag:'包装',scenario:'今天把业务策略包装成了一个有吸引力的故事，用来吸引资源',feedback:'👍 策略不只是"做事的计划"，也是"吸引资源的工具"。当你能把业务策略讲成一个"为什么这件事值得投资"的故事时，资源自然会来。关键是：故事里要有"不做的代价是什么"。',type:'pos'},
+    {icon:'😰',tag:'盲从',scenario:'今天发现我们的策略基本是"跟着竞品走"，没有自己的判断',feedback:'⚠️ "跟随策略"短期安全，长期致命。如果竞品做错了，你也跟着错；如果竞品资源比你多，你跟不上。P7要有自己的判断：竞品这么做，背后的假设是什么？这个假设在我们的环境下成立吗？只有效仿+改进，才是真正的策略。',type:'neg'},
+    {icon:'📉',tag:'短视',scenario:'今天为了完成这个季度KPI，做了一个损害长期利益的决策',feedback:'⚠️ 这就是"短期KPI vs 长期价值"的经典困境。P7的考验在于：你敢不敢向上说自己需要更多时间做对的事？如果不敢，你就会变成KPI的奴隶，而不是业务的Owner。记住：KPI是导航仪，不是目的地。',type:'neg'},
+    {icon:'🎲',tag:'赌博',scenario:'今天做了一个高风险决策，但没有备选方案',feedback:'⚠️ 高风险决策不是不能做，而是要"设计好退路"。P7做决策时要问自己：如果失败了，我们有备案吗？最坏情况是什么？我们能承受吗？没有备案的高风险决策，不是战略，是赌博。',type:'neg'},
+    {icon:'📋',tag:'表面',scenario:'今天写了一份很漂亮的战略PPT，但团队执行时完全不是那回事',feedback:'⚠️ "PPT战略"是很多管理者的通病。策略再漂亮，如果团队不理解、不认同、不知道怎么执行，就是零。好的策略要能回答：一线执行的人看懂了吗？他们有能力和资源执行吗？执行过程中谁负责调整？',type:'neg'},
+    {icon:'🏃',tag:'跟风',scenario:'今天看到行业热点就想跟，但没想清楚对我们意味着什么',feedback:'⚠️ 行业热点不等于你的机会。P7要判断：这个热点对我们的业务有影响吗？如果有，是威胁还是机会？如果是机会，我们有能力抓住吗？想清楚这三个问题，再决定跟不跟。盲目跟风，只会浪费资源。',type:'neg'},
+    {icon:'🎭',tag:'自嗨',scenario:'今天发现我们的业务策略是基于"我觉得"，而不是基于数据和客户反馈',feedback:'⚠️ "我觉得"是策略的最大敌人。P7要做的是"客户觉得"、"数据觉得"、"市场觉得"。下次做策略时，先找3个客户聊，再看10份行业报告，再和自己团队吵一遍——这些做完，"我觉得"会变成"我们验证过"。',type:'neg'},
+    {icon:'📦',tag:'封闭',scenario:'今天做策略时只和团队内部聊，没有找外部视角',feedback:'⚠️ 策略如果只在团队内部讨论，很容易变成"回声室"——大家互相认同，但可能都错了。P7做策略时，要主动找外部视角：客户、竞品、行业专家、其他部门的同事。外部视角能帮你发现盲点。',type:'neg'},
+    {icon:'🎪',tag:'表演',scenario:'今天发现团队在执行策略时"表演给我看"，实际根本不是那回事',feedback:'⚠️ 这就是"策略和执行脱节"。团队为什么表演？可能是：① 他们不理解策略 ② 他们认为策略不靠谱但不敢说 ③ 他们有更好的想法但没机会说。P7要创造"真实反馈"的文化：执行中有问题，随时可以提出来讨论调整。',type:'neg'},
+    {icon:'📐',tag:'模糊',scenario:'今天发现我们的策略目标很模糊，每个人理解都不一样',feedback:'⚠️ 模糊的策略 = 混乱的执行。好策略要能回答：① 目标是什么（可量化）② 怎么衡量成功（指标是什么）③ 谁负责（不能 everybody's responsibility = nobody's responsibility）。如果这三件事说不清楚，策略就是一纸空文。',type:'neg'},
+    {icon:'🎯',tag:'完美',scenario:'今天为了等"完美策略"，一直没动手，机会窗口快过去了',feedback:'⚠️ "完美策略"是P7最常见的拖延症。市场不等人，竞品不等人。好策略是在行动中迭代出来的，不是在会议室里想出来的。先出一个"70分的策略"，快速验证、快速调整，比"等完美再动手"有效10倍。',type:'neg'}
+  ],
   question: [
     {icon:'🤔',tag:'定位',scenario:'P7和P6的核心区别到底是什么？',feedback:'🔑 P6：能把交给他的事情做好，是优秀的执行者。P7：能自己发现问题、定义问题、解决没人解决的问题，是业务的Owner。简单说：P6是"把事做对"，P7是"做对的事"。从P6到P7的跨越，是从"别人告诉我做什么"到"我自己判断该做什么"的跨越。',type:'pos'},
     {icon:'🤔',tag:'权威',scenario:'怎么建立基于能力而不是职级的管理权威？',feedback:'🔑 管理权威来自三件事：① 能帮下属解决他们解决不了的问题 ② 能看到下属看不到的风险和机会 ③ 能在关键时刻做出正确的判断。这三件事都靠积累，不靠任命。每次帮团队解决一个真实的问题，你的权威就积累一点。',type:'pos'},
@@ -840,16 +919,12 @@ document.addEventListener('DOMContentLoaded', function() {
   renderPartnerGrid();
   renderSOP();
 
-  var stored = localStorage.getItem(STORAGE.PARTNER);
-  if (stored) {
-    try {
-      var p = JSON.parse(stored);
-      currentPartner = p;
-      selectedPartnerId = p.id;
-      confirmPartner();
-    } catch(e) {
-      showPartnerSelector();
-    }
+  var stored = localStorage.getItem('slim_partner_p7');
+  if (stored && PARTNERS.some(function(p) { return p.id === stored; })) {
+    selectedPartnerId = stored;
+    var p = PARTNERS.find(function(pp) { return pp.id === stored; });
+    currentPartner = p;
+    confirmPartner();
   } else {
     showPartnerSelector();
   }
@@ -857,7 +932,7 @@ document.addEventListener('DOMContentLoaded', function() {
   autoCloseSOPGuide();
 
   // 确认搭子按钮：用JS绑定点击，防止onclick在某些场景下失效
-  var confirmBtn = document.getElementById('confirmBtn');
+  var confirmBtn = document.getElementById('confirmPartnerBtn');
   if (confirmBtn) {
     confirmBtn.addEventListener('click', function(e) {
       e.preventDefault();
@@ -892,12 +967,43 @@ function renderPartnerGrid() {
   });
 }
 
+// ===== 全局函数（onclick 必须全局可见） ====================
+function selectPartner(id) {
+  document.querySelectorAll('.partner-card').forEach(c => c.classList.remove('selected'));
+  const card = document.getElementById('pc-' + id);
+  if (card) card.classList.add('selected');
+  localStorage.setItem(STORAGE.PARTNER, id);
+  if (window.savePartnerToFirebase) savePartnerToFirebase(id);
+}
+
+function slimConfirmPartner() {
+  var saved = localStorage.getItem('slim_partner_p7');
+  var selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
+  if (selectedCard) saved = selectedCard.id.replace('pc-', '');
+  if (!saved) saved = 'coach';
+  localStorage.setItem('slim_partner_p7', saved);
+  var btn = document.getElementById('confirmPartnerBtn');
+  if (btn) { btn.textContent = '✅ 进入中…'; btn.style.background = 'linear-gradient(135deg,#888,#555)'; }
+  var mask = document.getElementById('partnerSelectorMask');
+  if (mask) mask.style.display = 'none';
+  if (typeof startApp === 'function') startApp();
+}
+
+window.selectPartner = selectPartner;
+window.slimConfirmPartner = slimConfirmPartner;
+
 function confirmPartner() {
   try {
-    if (!selectedPartnerId) selectedPartnerId = PARTNERS[0].id;
-    var partner = PARTNERS.find(function(p) { return p.id === selectedPartnerId; }) || PARTNERS[0];
+    // 从localStorage获取选中的搭子ID（与slimConfirmPartner保持一致）
+    var saved = localStorage.getItem('slim_partner_p7');
+    var selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
+    if (selectedCard) saved = selectedCard.id.replace('pc-', '');
+    if (!saved) saved = 'coach';
+    localStorage.setItem('slim_partner_p7', saved);
+
+    var partner = PARTNERS.find(function(p) { return p.id === saved; }) || PARTNERS[0];
     currentPartner = partner;
-    try { localStorage.setItem(STORAGE.PARTNER, JSON.stringify(partner)); } catch(e) {}
+    selectedPartnerId = saved;
 
     var badge = document.getElementById('partnerBadge');
     if (badge) badge.innerHTML = partner.emoji + ' ' + partner.name;
@@ -915,39 +1021,7 @@ function confirmPartner() {
   }
 }
 
-// ===== Tab 导航 =====
-function switchTab(tab) {
-  // 关闭所有弹窗
-  document.querySelectorAll('.qa-overlay,.fb-overlay').forEach(function(el) { el.classList.remove('show'); });
-  // 隐藏所有页面
-  document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
-  document.querySelectorAll('.page').forEach(function(p) {
-    p.classList.remove('active');
-    p.style.display = 'none';
-  });
-  var coachPg = document.getElementById('coachPage');
-  if (coachPg) { coachPg.classList.remove('active'); coachPg.style.display = 'none'; }
-  // 高亮当前 tab
-  var tabs = ['chat','coach','sop','checkin','data','progress','share'];
-  var tabIdx = tabs.indexOf(tab);
-  if (tabIdx >= 0) {
-    var items = document.querySelectorAll('.tab-item');
-    if (items[tabIdx]) items[tabIdx].classList.add('active');
-  }
-  if (tab === 'coach') {
-    if (coachPg) { coachPg.classList.add('active'); coachPg.style.display = ''; }
-    initCoach();
-  } else {
-    var pe = document.getElementById('page-' + tab);
-    if (pe) { pe.classList.add('active'); pe.style.display = ''; }
-  }
-  if (tab === 'chat') renderPartnerPage && renderPartnerPage();
-  if (tab === 'sop') initSOP && initSOP();
-  if (tab === 'checkin') loadHistory && loadHistory();
-  if (tab === 'data') renderWeightPage && renderWeightPage();
-}
-
-// ===== 打卡逻辑 =====
+// ===== Tab切换 =====
 function loadHistory() {
   try {
     var h = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
@@ -1016,13 +1090,16 @@ function doCheckin() {
   }
   updateCheckinUI(1, history);
 
-  var emoji = (currentPartner && currentPartner.emoji) || '🎖️';
-  var msgs = [
-    '好，' + (currentPartner && currentPartner.name || '砺行') + '收到了。打卡是起点，更重要的是：你今天主动推动了哪件事？',
-    '收到。今天的管理反思完成了吗？',
-    '👍 记录完毕。今天哪件事最能体现你的管理者角色？'
+  // P7-P8主题打卡反馈
+  var p7CheckinMsgs = [
+    currentPartner.emoji + ' 打卡成功！今天你在哪个管理能力上实践了？🎓',
+    currentPartner.emoji + ' 打卡成功！今天主动做了哪个管理决策？💼',
+    currentPartner.emoji + ' 打卡成功！连续打卡' + continuousCount + '天，P7→P8的每一步都算数 💪'
   ];
-  appendPartnerMsg(msgs[Math.floor(Math.random() * msgs.length)]);
+  var randomMsg = p7CheckinMsgs[Math.floor(Math.random() * p7CheckinMsgs.length)];
+  setTimeout(function() {
+    appendPartnerMsg(randomMsg, true);
+  }, 600);
 }
 
 // ===== 搭子消息 =====
@@ -1077,7 +1154,9 @@ function askPartner(type) {
     idea: {label:'💡 想法', panel:'idea', dir:'result', intro:{rational:['好。说说你的核心假设是什么。📊','想法很好。说——它解决的是什么问题？📊']}},
     cheer: {label:'🎉 喜事', panel:'cheer', dir:'result', intro:{rational:['👍 好事。说，数据支撑是什么？📊','好的势头继续保持。说，是什么促成的？📊']}},
     report: {label:'📣 汇报', panel:'report', dir:'result', intro:{rational:['📊 周报收到。说结论。📊','好。核心数据是什么？📊']}},
-    question: {label:'🤔 提问', panel:'question', dir:'solution', intro:{rational:['📊 说你的问题。📊','问就问，不保证答案你爱听。📊']}}
+    question: {label:'🤔 提问', panel:'question', dir:'solution', intro:{rational:['📊 说你的问题。📊','问就问，不保证答案你爱听。📊']}},
+    talent: {label:'👥 人才', panel:'talent', dir:'result', intro:{rational:['人才培养是P7的核心能力。说，最近在人才上做了什么？📊','好。说说你团队里的人才现状和你的打算。📊']}},
+    strategy: {label:'🎯 战略', panel:'strategy', dir:'result', intro:{rational:['战略思维。说说你最近的业务思考。📊','好。你对公司/团队的战略有什么判断？📊']}}
   };
   var cfg = typeConfig[type] || typeConfig.progress;
   var introArr = cfg.intro[style] || cfg.intro.rational;
@@ -1099,7 +1178,9 @@ function openTypePanel(panel, dir) {
     idea:'💡 选择一个你有的管理想法',
     cheer:'🎉 选择一件你最近的管理成就',
     report:'📣 汇报一下本周的管理情况',
-    question:'🤔 有问题想问？选一个最接近的'
+    question:'🤔 有问题想问？选一个最接近的',
+    talent:'👥 选择一个人才培养的场景',
+    strategy:'🎯 选择一个战略思考的场景'
   };
   var subMap = {
     result:'选择后我会给出结果导向的分析 💡',
@@ -1124,150 +1205,95 @@ function openTypePanel(panel, dir) {
   document.getElementById('qaOverlay').onclick = function(e) { if (e.target === document.getElementById('qaOverlay')) closeQA(); };
 }
 
+function getTypeEmpathy(style, panel, dir, isPos) {
+  var msgs = {
+    rational: {
+      result: { pos:['数据记录在案。这个进展值得关注。📊','收到。绩效数据显示方向正确。📈'],
+                neg:['这种情况在晋升过程中很常见。📊','数据出现波动，分析后可调整。📋'] },
+      solution:{ pos:['这种情况有方法可以优化。📊','收到，让我帮你分析。🧩'],
+                neg:['这个问题本质可以进一步分析。📊','先拆解，再制定对策。🛠️'] }
+    },
+    gentle: {
+      result: { pos:['这种感觉真的很好，为你高兴 🎖️','你做到了，这很重要 💫','这个进展很真实，继续保持 💚'],
+                neg:['这种感觉我理解，不着急，慢慢来 💙','我听见了，陪你一起 🎖️'] },
+      solution:{ pos:['谢谢你告诉我这些 💙','愿意说出来本身就需要勇气 🎖️'],
+                neg:['能感觉到你的为难，我在这里 🤝','没关系，我们一起拆解 💙'] }
+    },
+    passion: {
+      result: { pos:['太强了！继续保持！🔥','这就是进步！继续燃烧！🚀','干得漂亮！⚡'],
+                neg:['别急，调整一下！💪','小调整，继续冲！🔥'] },
+      solution:{ pos:['好！说得好！我听到了！💪','这种主动分享让我很高兴 🔥'],
+                neg:['来！我帮你拆解！🔥','没有困难是过不去的！冲！💪'] }
+    },
+    tsundere: {
+      result: { pos:['……还行吧，算你有点料。😏','哼，还凑合。😶'],
+                neg:['又来了？……哼，我听听。😒','算了，不说你了。🤷'] },
+      solution:{ pos:['……行吧，我勉强听一下。😒'],
+                neg:['怎么又这样……说吧，我帮你。😒','哼，说吧，我看看能不能救。🤷'] }
+    }
+  };
+  var arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.rational[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function getTypePartnerFeedback(style, panel, dir, isPos) {
+  var msgs = {
+    rational: {
+      result: { pos:['继续执行当前方案，效果会逐步显现。📊','这个趋势值得坚持。📈'],
+                neg:['需要分析原因后调整策略。📊','在可修正范围内，继续监测。📋'] },
+      solution:{ pos:['有清晰的分析路径，可以优化。📊','建议先量化问题，再对症下药。🧩'],
+                neg:['从数据入手，找核心原因。📊','把问题拆成小块，逐个击破。🛠️'] }
+    },
+    gentle: {
+      result: { pos:['继续保持，你走的每一步都在积累 🎖️','这个方向很对，坚持下去 💚','你比自己以为的更接近目标 💫'],
+                neg:['不要因为这样就放弃，我们来看看怎么调整 🎖️','先给自己一点耐心，我们慢慢来 💙'] },
+      solution:{ pos:['找到突破口后继续往前 💪','我们来看看下一步可以怎么做 🎖️'],
+                neg:['说说具体卡在哪里，我帮你理清思路 🎖️','这件事拆开来看，其实没有那么难 💙'] }
+    },
+    passion: {
+      result: { pos:['继续这个节奏，效果会越来越明显的！🔥','这就是复利！保持！💪'],
+                neg:['调整一下，明天继续冲！⚡','战术修正，继续干！💪'] },
+      solution:{ pos:['找对方法，继续冲！🔥'],
+                neg:['来！我帮你拆解！没有过不去的坎！🔥','拆解完立刻行动！🚀'] }
+    },
+    tsundere: {
+      result: { pos:['……行吧，算你有点进步。😏','嗯。还凑合。😶'],
+                neg:['……我又来了。哼。😒','就这样吧，我也习惯了。🤷'] },
+      solution:{ pos:['说，我看看能不能帮。😒'],
+                neg:['……算了，我帮你想想。😒','好吧，我勉强帮一下。🤷'] }
+    }
+  };
+  var arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.rational[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
 function showFeedback(item, index) {
+  var partner = currentPartner || PARTNERS[0];
+  var style = partner.style || 'rational';
+  var emoji = partner.emoji;
+  var isPos = item.type === 'pos';
+  var dir = currentQADir || 'result';
+
+  var empathy = getTypeEmpathy(style, item.panel || 'progress', dir, isPos);
+  var feedback = getTypePartnerFeedback(style, item.panel || 'progress', dir, isPos);
+
   var fbCard = document.getElementById('fbCard');
-  var typeClass = item.type === 'pos' ? 'pos' : 'neg';
+  var typeClass = isPos ? 'pos' : 'neg';
   fbCard.className = 'fb-card ' + typeClass;
   document.getElementById('fbEmoji').innerText = item.icon;
   var labelEl = document.getElementById('fbLabel');
   labelEl.className = 'fb-label ' + typeClass;
-  labelEl.innerText = item.type === 'pos' ? '✨ 正向' : '⚠️ 需要引导';
+  labelEl.innerText = isPos ? '✨ 正向' : '⚠️ 需要引导';
   document.getElementById('fbTitle').innerText = item.tag;
   document.getElementById('fbText').innerHTML = item.feedback.replace(/\n/g, '<br>');
-  var partner = currentPartner || PARTNERS[0];
-  document.getElementById('fbQuote').innerHTML = '<div class="fb-partner-label">' + partner.emoji + ' ' + partner.name + '说：</div>"' + item.feedback.split('\n')[0] + '"';
+  document.getElementById('fbQuote').innerHTML = '<div class="fb-partner-label">' + emoji + ' ' + partner.name + '说：</div>"' + empathy + ' <span style=\"color:#1565c0\">' + feedback + '</span>"';
   document.getElementById('fbOverlay').classList.add('show');
-  setTimeout(function() { appendPartnerMsg(partner.emoji + ' ' + item.feedback.split('\n')[0], true); }, 300);
+  setTimeout(function() { appendPartnerMsg(emoji + ' ' + empathy + ' ' + feedback, true); }, 300);
 }
+
 
 function closeFBOverlay() { document.getElementById('fbOverlay').classList.remove('show'); }
 function closeQA() { document.getElementById('qaOverlay').classList.remove('show'); }
-
-// ===== 绩效记录功能 ====================
-function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
-
-function addWeight() {
-  var val = parseFloat(document.getElementById('weightInput').value);
-  if (!val || val < 0) { showToast('请输入有效的绩效分数'); return; }
-  var data = getWeightData();
-  var today = new Date().toISOString().slice(0, 10);
-  data = data.filter(function(d) { return d.date !== today; });
-  data.push({ date: today, value: val });
-  data.sort(function(a, b) { return a.date.localeCompare(b.date); });
-  localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(data));
-  document.getElementById('weightInput').value = '';
-  showToast('✅ 记录成功：' + val + '分');
-  drawWeightChart();
-  renderWeightRecords();
-}
-
-function drawWeightChart() {
-  var canvas = document.getElementById('chartCanvas');
-  if (!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var data = getWeightData().slice(-30);
-  var W = canvas.width, H = canvas.height;
-  ctx.clearRect(0, 0, W, H);
-  if (data.length < 2) {
-    ctx.fillStyle = '#b0bec5'; ctx.font = '14px system-ui';
-    ctx.textAlign = 'center'; ctx.fillText('记录2次以上即可显示曲线', W / 2, H / 2);
-    var sub = document.getElementById('chartSub');
-    if (sub) sub.textContent = '坚持记录，趋势一目了然';
-    return;
-  }
-  var vals = data.map(function(d) { return d.value; });
-  var minV = Math.min.apply(null, vals) * 0.8;
-  var maxV = Math.max.apply(null, vals) * 1.1;
-  if (maxV === minV) { minV -= 10; maxV += 10; }
-  var toX = function(i) { return 20 + (i / (data.length - 1)) * (W - 40); };
-  var toY = function(v) { return H - 30 - ((v - minV) / (maxV - minV)) * (H - 60); };
-
-  ctx.strokeStyle = '#f0f4f7'; ctx.lineWidth = 1;
-  for (var i = 0; i <= 4; i++) {
-    var y = 20 + i * (H - 50) / 4;
-    ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(W - 20, y); ctx.stroke();
-    ctx.fillStyle = '#b0bec5'; ctx.font = '10px system-ui'; ctx.textAlign = 'right';
-    ctx.fillText(Math.round(maxV - i * (maxV - minV) / 4), 18, y + 3);
-  }
-
-  var grad = ctx.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0, 'rgba(58,95,205,0.3)');
-  grad.addColorStop(1, 'rgba(58,95,205,0)');
-  ctx.beginPath();
-  data.forEach(function(d, i) { var x = toX(i), y = toY(d.value); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
-  ctx.lineTo(toX(data.length - 1), H - 20);
-  ctx.lineTo(toX(0), H - 20);
-  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
-
-  ctx.beginPath();
-  data.forEach(function(d, i) { var x = toX(i), y = toY(d.value); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
-  ctx.strokeStyle = '#3a5fcd'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
-
-  data.forEach(function(d, i) {
-    var x = toX(i), y = toY(d.value);
-    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2);
-    ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#3a5fcd'; ctx.lineWidth = 2; ctx.stroke();
-  });
-
-  var today = new Date().toISOString().slice(0, 10);
-  var todayIdx = data.findIndex(function(d) { return d.date === today; });
-  if (todayIdx >= 0) {
-    var x = toX(todayIdx), y = toY(data[todayIdx].value);
-    ctx.fillStyle = '#e91e63'; ctx.font = 'bold 12px system-ui'; ctx.textAlign = 'center';
-    ctx.fillText('今天', x, y - 12);
-  }
-
-  var sub = document.getElementById('chartSub');
-  if (sub && data.length > 0) sub.textContent = '最新记录：' + data[data.length - 1].value + '分';
-}
-
-function renderWeightRecords() {
-  var container = document.getElementById('weightRecords');
-  if (!container) return;
-  var data = getWeightData().slice().reverse();
-  if (data.length === 0) {
-    container.innerHTML = '<div style="text-align:center;color:#b0bec5;padding:16px;font-size:13px;">还没有记录，快来记第一个绩效吧！</div>';
-    return;
-  }
-  container.innerHTML = data.slice(0, 30).map(function(d) {
-    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;">' +
-      '<span style="color:#888;font-size:13px;">' + d.date + '</span>' +
-      '<span style="font-weight:700;color:#3a5fcd;font-size:15px;">' + d.value + '分</span>' +
-      '</div>';
-  }).join('');
-}
-
-function renderWeightPage() {
-  drawWeightChart();
-  renderWeightRecords();
-  var data = getWeightData();
-  if (data.length > 0) {
-    var inp = document.getElementById('weightInput');
-    if (inp) inp.placeholder = data[data.length - 1].value;
-  }
-}
-
-function renderWeeklyReport() {
-  var container = document.getElementById('weeklyReportContent');
-  if (!container) return;
-  var now = new Date();
-  var weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
-  var thisWeek = getHistory().filter(function(h) { return new Date(h) >= weekAgo; });
-  if (thisWeek.length === 0) {
-    container.innerHTML = '<div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>';
-    return;
-  }
-  container.innerHTML = '<div style="font-size:13px;line-height:2;color:#555;">本周打卡：<strong>' + thisWeek.length + '</strong> 天<br><span style="color:#3a5fcd;font-weight:600;">继续精进管理能力！</span></div>';
-  var shareBtn = document.getElementById('shareWeeklyBtn');
-  if (shareBtn && thisWeek.length >= 3) shareBtn.style.display = 'block';
-}
-
-function shareWeeklyReport() {
-  var cnt = getHistory().filter(function(h) { return new Date(h) >= new Date(Date.now() - 7 * 86400000); }).length;
-  var partner = currentPartner || PARTNERS[0];
-  var text = '【P7管理成长本周战绩】本周打卡 ' + cnt + ' 天，搭子：' + partner.emoji + partner.name + '。继续精进管理能力！';
-  navigator.clipboard.writeText(text).then(function() { showToast('✅ 已复制，快去分享！'); }).catch(function() { showToast('复制失败'); });
-}
 
 // ===== Tab切换 =====
 function switchTab(tab) {
@@ -1290,8 +1316,8 @@ function switchTab(tab) {
   } else if (tab === 'data') {
     var pe = document.getElementById('page-data');
     if (pe) pe.classList.add('active');
-    renderWeightPage();
-    renderWeeklyReport();
+    renderPerfPage();
+    renderPerfWeeklyReport();
   } else if (tab === 'share') {
     var pe = document.getElementById('sharePage');
     if (pe) pe.classList.add('active');
@@ -1307,15 +1333,19 @@ function switchTab(tab) {
   if (tabMap[tab] !== undefined && tabs[tabMap[tab]]) {
     tabs[tabMap[tab]].classList.add('active');
   }
-  // 如果切到教练，初始化教练
+  // 切换到教练，初始化教练
   if (tab === 'coach' && coachPg) { initCoach(); }
+  // 切换到自检，初始化SOP
+  if (tab === 'sop') { renderSOP(); }
+  // 切换到进展，初始化进展页
+  if (tab === 'progress') { initP7ProgressPage(); }
 }
 
 // ===== SOP自检 =====
 var SOP_CATEGORIES = [
   {id:'cat1', name:'业务感知', icon:'📊', desc:'数据、风险、判断力', color:'#3a5fcd'},
   {id:'cat2', name:'管理权威', icon:'💪', desc:'指导、授权、追结果', color:'#e91e63'},
-  {id:'cat3', name:'洞察汇报', icon:'🔍', desc:'提炼、分析、表达力', color:'#ff9800'},
+  {id:'cat3', name:'洞察汇报', icon:'🔍', desc:'提炼、分析、表达力', color:'#3a5fcd'},
   {id:'cat4', name:'主动解决', icon:'⚡', desc:'不等待、不推诿、找方法', color:'#4caf50'},
   {id:'cat5', name:'自我认知', icon:'🧭', desc:'优势、定位、成长方向', color:'#9c27b0'}
 ];
@@ -1500,6 +1530,26 @@ function getSiteUrl() {
     return window.location.origin + '/';
   }
   return SHARE_URL + '/';
+}
+
+function initProgressPage() {
+  var history = getHistory();
+  var today = getToday();
+  var todayRec = history.find(function(h) { return h.date === today; });
+  // 计算连续天数
+  var streak = 0;
+  var d = new Date();
+  for (var i = 0; i < 60; i++) {
+    var dd = new Date(d); dd.setDate(dd.getDate() - i);
+    var ds = dd.toISOString().slice(0,10);
+    if (history.some(function(h) { return h.date === ds && h.checkin; })) streak++;
+    else if (i > 0) break;
+  }
+  // 更新DOM
+  var el;
+  el = document.getElementById('p7Streak2'); if (el) el.textContent = streak;
+  el = document.getElementById('p7Total2'); if (el) el.textContent = history.length;
+  el = document.getElementById('p7Today2'); if (el) el.textContent = todayRec ? (todayRec.score || '-') : '-';
 }
 
 function renderSharePage() {
@@ -2058,29 +2108,29 @@ function restartCoach() {
 }
 
 // ===== Page: 数据记录（绩效）=====
-function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
-function saveWeightData(d) { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(d)); }
+function getPerfData() { return JSON.parse(localStorage.getItem(STORAGE.PERF) || '[]'); }
+function savePerfData(d) { localStorage.setItem(STORAGE.PERF, JSON.stringify(d)); }
 
-function addWeight() {
-  var val = parseFloat(document.getElementById('weightInput').value);
+function addPerf() {
+  var val = parseFloat(document.getElementById('perfInput').value);
   if (!val || val < 0) { showToast('请输入有效的绩效分数'); return; }
-  var data = getWeightData();
+  var data = getPerfData();
   var today = new Date().toISOString().slice(0, 10);
   data = data.filter(function(d) { return d.date !== today; });
   data.push({ date: today, value: val });
   data.sort(function(a, b) { return a.date.localeCompare(b.date); });
-  try { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(data)); } catch(e) { showToast('存储失败'); return; }
-  document.getElementById('weightInput').value = '';
+  try { localStorage.setItem(STORAGE.PERF, JSON.stringify(data)); } catch(e) { showToast('存储失败'); return; }
+  document.getElementById('perfInput').value = '';
   showToast('✅ 记录成功：' + val + '分');
-  drawWeightChart();
-  renderWeightRecords();
+  drawPerfChart();
+  renderPerfRecords();
 }
 
-function drawWeightChart() {
-  var canvas = document.getElementById('chartCanvas');
+function drawPerfChart() {
+  var canvas = document.getElementById('perfChartCanvas');
   if (!canvas) return;
   var ctx = canvas.getContext('2d');
-  var data = getWeightData().slice(-30);
+  var data = getPerfData().slice(-30);
   var W = canvas.width, H = canvas.height;
   ctx.clearRect(0, 0, W, H);
   if (data.length < 2) {
@@ -2129,10 +2179,10 @@ function drawWeightChart() {
   if (sub && data.length > 0) sub.textContent = '最新记录：' + data[data.length - 1].value + '分';
 }
 
-function renderWeightRecords() {
-  var container = document.getElementById('weightRecords');
+function renderPerfRecords() {
+  var container = document.getElementById('perfRecords');
   if (!container) return;
-  var data = getWeightData().slice().reverse();
+  var data = getPerfData().slice().reverse();
   if (data.length === 0) {
     container.innerHTML = '<div style="text-align:center;color:#b0bec5;padding:16px;font-size:13px;">还没有记录，快来记第一次绩效吧！</div>';
     return;
@@ -2145,19 +2195,19 @@ function renderWeightRecords() {
   }).join('');
 }
 
-function renderWeightPage() {
-  drawWeightChart();
-  renderWeightRecords();
-  renderWeeklyReport();
-  var data = getWeightData();
+function renderPerfPage() {
+  drawPerfChart();
+  renderPerfRecords();
+  renderPerfWeeklyReport();
+  var data = getPerfData();
   if (data.length > 0) {
-    var inp = document.getElementById('weightInput');
+    var inp = document.getElementById('perfInput');
     if (inp) inp.placeholder = data[data.length - 1].value;
   }
 }
 
-function renderWeeklyReport() {
-  var container = document.getElementById('weeklyReportContent');
+function renderPerfWeeklyReport() {
+  var container = document.getElementById('perfWeeklyReportContent');
   if (!container) return;
   var history = getHistory();
   var now = new Date();
@@ -2173,11 +2223,11 @@ function renderWeeklyReport() {
   container.innerHTML = '<div style="font-size:13px;line-height:2;color:#555;">' +
     '本周打卡：<strong>' + thisWeek.length + '</strong> 天 &nbsp;|&nbsp; 上周：<strong>' + lastWeek.length + '</strong> 天<br>' +
     '<span style="color:#3a5fcd;font-weight:600;">' + trend + '</span></div>';
-  var shareBtn = document.getElementById('shareWeeklyBtn');
+  var shareBtn = document.getElementById('sharePerfWeeklyBtn');
   if (shareBtn && thisWeek.length >= 3) shareBtn.style.display = 'block';
 }
 
-function shareWeeklyReport() {
+function sharePerfWeeklyReport() {
   var history = getHistory();
   var now = new Date();
   var weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
@@ -2187,7 +2237,7 @@ function shareWeeklyReport() {
 }
 
 function initP7DataPage() {
-  renderWeightPage();
+  renderPerfPage();
   var streak = parseInt(localStorage.getItem('slim_sop_streaks_p7') || '0');
   var total = (JSON.parse(localStorage.getItem('slim_history_p7') || [])).length;
   var today = localStorage.getItem('sop_completed_p7_' + new Date().toDateString()) === 'true' ? '✅' : '-';
@@ -2204,28 +2254,28 @@ function initP7DataPage() {
   <div class="weight-page">
     <div class="weight-header">
       <div class="weight-title">📊 P7绩效记录</div>
-      <div class="weight-sub" id="weightSummary">记录你的每一次管理突破</div>
-      <div class="weight-input-row">
-        <input class="weight-input" id="weightInput" type="number" step="1" min="0" max="100" placeholder="--">
+      <div class="weight-sub" id="perfSummary">记录你的每一次管理突破</div>
+      <div class="perf-input-row">
+        <input class="perf-input" id="perfInput" type="number" step="1" min="0" max="100" placeholder="--">
         <span class="weight-unit">分</span>
-        <button class="weight-add-btn" onclick="addWeight()">记录</button>
+        <button class="weight-add-btn" onclick="addPerf()">记录</button>
       </div>
     </div>
     <div class="weight-chart-card">
       <div class="chart-title">📈 绩效曲线</div>
-      <div class="chart-sub" id="chartSub">坚持记录，趋势一目了然</div>
-      <canvas id="chartCanvas" width="380" height="200"></canvas>
+      <div class="chart-sub" id="perfChartSub">坚持记录，趋势一目了然</div>
+      <canvas id="perfChartCanvas" width="380" height="200"></canvas>
     </div>
     <div class="weight-chart-card" id="weeklyReportCard">
       <div class="chart-title">📊 本周进展</div>
-      <div id="weeklyReportContent">
+      <div id="perfWeeklyReportContent">
         <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>
       </div>
-      <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#3a5fcd,#1e3a7a);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareWeeklyReport()">📤 分享本周进展</button>
+      <button id="sharePerfWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#3a5fcd,#1e3a7a);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="sharePerfWeeklyReport()">📤 分享本周进展</button>
     </div>
-    <div class="weight-records">
+    <div class="perf-records">
       <div class="records-title">📝 历史记录</div>
-      <div id="weightRecords"></div>
+      <div id="perfRecords"></div>
     </div>
   </div>
 </div>
@@ -2233,10 +2283,28 @@ function initP7DataPage() {
 <!-- ===== Page: 进展 ===== -->
 <div id="progressPage" class="page">
   <div style="padding:16px;max-width:520px;margin:0 auto;">
+    <!-- 成长档案卡片 -->
     <div style="background:white;border-radius:24px;padding:24px 20px;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,0.06);text-align:center;">
       <div style="font-size:48px;margin-bottom:8px;">📈</div>
-      <div style="font-size:18px;font-weight:700;margin-bottom:4px;">P7管理成长档案</div>
-      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">你的管理SOP全局视图</div>
+      <div style="font-size:18px;font-weight:700;margin-bottom:4px;">P7升P8成长档案</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">结构化成长 · 管理+专业双通道</div>
+      
+      <!-- 圆环图：平均得分 -->
+      <div style="position:relative;width:120px;height:120px;margin:0 auto 20px;">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="54" stroke="#e5e7eb" stroke-width="8" fill="none"/>
+          <circle cx="60" cy="60" r="54" stroke="#3a5fcd" stroke-width="8" fill="none" 
+                  stroke-dasharray="339.3" 
+                  stroke-dashoffset="calc(339.3 * (1 - (p7AvgScore || 0) / 100))" 
+                  transform="rotate(-90 60 60)" id="p7ProgressRing"/>
+        </svg>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+          <div style="font-size:24px;font-weight:800;color:#3a5fcd;" id="p7AvgScore">0</div>
+          <div style="font-size:11px;color:#8f9eae;">平均得分</div>
+        </div>
+      </div>
+
+      <!-- 核心数据统计 -->
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
         <div style="background:#eef2fd;border-radius:16px;padding:12px 18px;text-align:center;">
           <div style="font-size:20px;font-weight:800;color:#3a5fcd;" id="p7Streak2">0</div>
@@ -2246,11 +2314,58 @@ function initP7DataPage() {
           <div style="font-size:20px;font-weight:800;color:#16a34a;" id="p7Total2">0</div>
           <div style="font-size:11px;color:#8f9eae;">累计天数</div>
         </div>
-        <div style="background:#fff3e0;border-radius:16px;padding:12px 18px;text-align:center;">
+        <div style="background:#e3f2fd;border-radius:16px;padding:12px 18px;text-align:center;">
           <div style="font-size:20px;font-weight:800;color:#ea580c;" id="p7Today2">-</div>
           <div style="font-size:11px;color:#8f9eae;">今日得分</div>
         </div>
       </div>
+    </div>
+
+    <!-- 各维度统计卡片 -->
+    <div style="background:white;border-radius:24px;padding:20px;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,0.06);">
+      <div style="font-size:16px;font-weight:700;color:#3a5fcd;margin-bottom:16px;">📊 各维度得分</div>
+      <div id="p7DimensionStats">
+        <div style="display:flex;align-items:center;margin-bottom:12px;">
+          <div style="width:80px;font-size:13px;color:#555;">管理决策</div>
+          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
+            <div style="width:0%;height:100%;background:#3a5fcd;border-radius:4px;transition:width 0.5s;" id="p7DimScore1"></div>
+          </div>
+          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#3a5fcd;" id="p7DimValue1">0</div>
+        </div>
+        <div style="display:flex;align-items:center;margin-bottom:12px;">
+          <div style="width:80px;font-size:13px;color:#555;">团队赋能</div>
+          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
+            <div style="width:0%;height:100%;background:#3a5fcd;border-radius:4px;transition:width 0.5s;" id="p7DimScore2"></div>
+          </div>
+          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#3a5fcd;" id="p7DimValue2">0</div>
+        </div>
+        <div style="display:flex;align-items:center;margin-bottom:12px;">
+          <div style="width:80px;font-size:13px;color:#555;">专业影响力</div>
+          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
+            <div style="width:0%;height:100%;background:#3a5fcd;border-radius:4px;transition:width 0.5s;" id="p7DimScore3"></div>
+          </div>
+          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#3a5fcd;" id="p7DimValue3">0</div>
+        </div>
+        <div style="display:flex;align-items:center;margin-bottom:12px;">
+          <div style="width:80px;font-size:13px;color:#555;">战略思维</div>
+          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
+            <div style="width:0%;height:100%;background:#3a5fcd;border-radius:4px;transition:width 0.5s;" id="p7DimScore4"></div>
+          </div>
+          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#3a5fcd;" id="p7DimValue4">0</div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <div style="width:80px;font-size:13px;color:#555;">自我管理</div>
+          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
+            <div style="width:0%;height:100%;background:#3a5fcd;border-radius:4px;transition:width 0.5s;" id="p7DimScore5"></div>
+          </div>
+          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#3a5fcd;" id="p7DimValue5">0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 搭子鼓励消息 -->
+    <div style="background:linear-gradient(135deg,#eef2fd,#e8edf8);border-radius:16px;padding:16px;text-align:center;">
+      <div style="font-size:14px;color:#555;line-height:1.6;" id="p7EncourageMsg">💪 坚持打卡，P7→P8的每一步都算数！</div>
     </div>
   </div>
 </div>
@@ -2303,7 +2418,7 @@ function initP7DataPage() {
         </div>
         <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;">
           <div style="font-size:24px;">🔍</div>
-          <div style="font-size:12px;font-weight:600;color:#ff9800;">洞察汇报</div>
+          <div style="font-size:12px;font-weight:600;color:#3a5fcd;">洞察汇报</div>
         </div>
         <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;">
           <div style="font-size:24px;">⚡</div>
@@ -2363,3 +2478,4 @@ function copyP7Share() {
 </script>
 </body>
 </html>
+
