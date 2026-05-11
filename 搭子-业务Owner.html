@@ -15,7 +15,8 @@
     .tab-item.active .tab-label { color: #16a34a; font-weight: 700; }
     .page { display: none; }
     .page.active { display: block; }
-    .partner-selector { max-width: 400px; margin: 0 auto; background: white; border-radius: 48px; padding: 28px 20px 32px; position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; box-sizing: border-box; }
+    .partner-selector { max-width: 400px; margin: 0 auto; background: white; border-radius: 48px; padding: 28px 20px 32px; position: fixed; inset: 0; z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; box-sizing: border-box; }
+    .partner-selector.show { display: flex; }
     #partnerSelectorMask { display: none; position: fixed; inset: 0; z-index: 99; background: rgba(0,0,0,0.4); }
     .selector-title { font-size: 28px; font-weight: 700; text-align: center; background: linear-gradient(135deg, #16a34a, #0d6e30); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
     .selector-sub { text-align: center; color: #6c7a89; margin-bottom: 28px; font-size: 15px; }
@@ -640,7 +641,8 @@ var savedPartner = null;
 try { savedPartner = JSON.parse(localStorage.getItem(STORAGE.PARTNER) || 'null'); } catch(e) {}
 if (savedPartner) {
   currentPartner = savedPartner;
-  document.getElementById('partnerSelector').style.display = 'none';
+  var sel = document.getElementById('partnerSelector');
+  if (sel) { sel.classList.remove('show'); sel.style.display = 'none'; }
   document.getElementById('partnerSelectorMask').style.display = 'none';
   document.getElementById('tabBar').style.display = 'flex';
   document.getElementById('checkinPage').classList.add('active');
@@ -648,6 +650,9 @@ if (savedPartner) {
   renderSOP();
   autoCloseSOPGuide();
 } else {
+  // 第一次使用，显示选择器
+  var sel = document.getElementById('partnerSelector');
+  if (sel) { sel.classList.add('show'); }
   renderPartnerGrid();
 }
 
@@ -674,7 +679,8 @@ function renderPartnerGrid() {
 function confirmPartner() {
   if (!currentPartner) { alert('请先选一个搭子'); return; }
   localStorage.setItem(STORAGE.PARTNER, JSON.stringify(currentPartner));
-  document.getElementById('partnerSelector').style.display = 'none';
+  var sel = document.getElementById('partnerSelector');
+  if (sel) { sel.classList.remove('show'); sel.style.display = 'none'; }
   document.getElementById('partnerSelectorMask').style.display = 'none';
   document.getElementById('tabBar').style.display = 'flex';
   initDashboard();
