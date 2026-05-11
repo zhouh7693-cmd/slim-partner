@@ -992,7 +992,6 @@ function confirmPartner() {
   try {
     // 获取选中的搭子ID
     var saved = null;
-    // 优先从点击选中的卡片获取
     if (selectedPartnerId) {
       saved = selectedPartnerId;
     } else {
@@ -1014,7 +1013,13 @@ function confirmPartner() {
     var mask = document.getElementById('partnerSelectorMask');
     if (mask) mask.style.display = 'none';
     var tabBar = document.getElementById('tabBar');
-    if (tabBar) tabBar.style.display = 'flex';
+    if (tabBar) {
+      tabBar.style.display = 'flex';
+      console.log('[confirmPartner] tabBar 已显示', tabBar);
+    } else {
+      console.error('[confirmPartner] tabBar 元素未找到！');
+      alert('tabBar 元素未找到！请截图console');
+    }
 
     if (typeof loadHistory === 'function') loadHistory();
     startApp();
