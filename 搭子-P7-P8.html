@@ -50,6 +50,9 @@
       box-sizing: border-box;
     }
     .partner-selector.show { display: flex; }
+    /* 强制覆盖：确保 selector 隐藏 / tabBar 显示 */
+    .partner-selector.force-hidden { display: none !important; }
+    .tab-bar.force-show { display: flex !important; }
     #partnerSelectorMask {
       display: none; /* JS 控制显示 */
       position: fixed; inset: 0; z-index: 99;
@@ -467,7 +470,7 @@
   <div class="selector-title">选一个管理搭子 🤝</div>
   <div class="selector-sub">陪你度过P7到P8的成长期</div>
   <div class="partner-grid" id="partnerGrid"></div>
-  <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner()">确认搭子 →</button>
+  <button id="confirmPartnerBtn" class="confirm-btn">确认搭子 →</button>
 </div>
 
 <!-- Tab Bar -->
@@ -932,6 +935,19 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   autoCloseSOPGuide();
+
+  // 绑定确认搭子按钮（不依赖onclick属性）
+  var btn = document.getElementById('confirmPartnerBtn');
+  if (btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (typeof confirmPartner === 'function') {
+        confirmPartner();
+      } else {
+        alert('confirmPartner 函数未定义！');
+      }
+    });
+  }
 });
 
 // ===== 搭子选择器 =====
@@ -990,7 +1006,6 @@ function startApp() {
 
 function confirmPartner() {
   try {
-    // 获取选中的搭子ID
     var saved = null;
     if (selectedPartnerId) {
       saved = selectedPartnerId;
@@ -1008,17 +1023,19 @@ function confirmPartner() {
     var badge = document.getElementById('partnerBadge');
     if (badge) badge.innerHTML = partner.emoji + ' ' + partner.name;
 
+    // 强制隐藏 selector + 强制显示 tabBar
     var sel = document.getElementById('partnerSelector');
-    if (sel) { sel.classList.remove('show'); sel.style.display = 'none'; }
+    if (sel) { sel.classList.remove('show'); sel.style.display = 'none'; sel.classList.add('force-hidden'); }
     var mask = document.getElementById('partnerSelectorMask');
     if (mask) mask.style.display = 'none';
     var tabBar = document.getElementById('tabBar');
     if (tabBar) {
       tabBar.style.display = 'flex';
+      tabBar.classList.add('force-show');
       console.log('[confirmPartner] tabBar 已显示', tabBar);
     } else {
       console.error('[confirmPartner] tabBar 元素未找到！');
-      alert('tabBar 元素未找到！请截图console');
+      alert('tabBar 元素未找到！请截图console并反馈');
     }
 
     if (typeof loadHistory === 'function') loadHistory();

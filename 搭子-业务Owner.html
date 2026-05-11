@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>业务Owner成长自检搭子 · 签到神器</title>
+  <script>
+    // 全局错误捕获——帮助诊断搭子选择无反应的问题
+    window.onerror = function(msg, src, line, col, err) {
+      alert('[JS错误] ' + msg + '\n位置：第' + line + '行\n详情：' + (err && err.stack ? err.stack.slice(0,300) : '无'));
+    };
+  </script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
     body { background: linear-gradient(145deg, #f0f5f0 0%, #e4eee4 100%); min-height: 100vh; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 16px 16px 90px; }
@@ -17,6 +23,9 @@
     .page.active { display: block; }
     .partner-selector { max-width: 400px; margin: 0 auto; background: white; border-radius: 48px; padding: 28px 20px 32px; position: fixed; inset: 0; z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; box-sizing: border-box; }
     .partner-selector.show { display: flex; }
+    /* 强制覆盖：确保 selector 隐藏 / tabBar 显示 */
+    .partner-selector.force-hidden { display: none !important; }
+    .tab-bar.force-show { display: flex !important; }
     #partnerSelectorMask { display: none; position: fixed; inset: 0; z-index: 99; background: rgba(0,0,0,0.4); }
     .selector-title { font-size: 28px; font-weight: 700; text-align: center; background: linear-gradient(135deg, #16a34a, #0d6e30); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
     .selector-sub { text-align: center; color: #6c7a89; margin-bottom: 28px; font-size: 15px; }
@@ -680,9 +689,15 @@ function confirmPartner() {
   if (!currentPartner) { alert('请先选一个搭子'); return; }
   localStorage.setItem(STORAGE.PARTNER, JSON.stringify(currentPartner));
   var sel = document.getElementById('partnerSelector');
-  if (sel) { sel.classList.remove('show'); sel.style.display = 'none'; }
+  if (sel) { sel.classList.remove('show'); sel.style.display = 'none'; sel.classList.add('force-hidden'); }
   document.getElementById('partnerSelectorMask').style.display = 'none';
-  document.getElementById('tabBar').style.display = 'flex';
+  var tabBar = document.getElementById('tabBar');
+  if (tabBar) {
+    tabBar.style.display = 'flex';
+    tabBar.classList.add('force-show');
+  } else {
+    alert('tabBar 元素未找到！');
+  }
   initDashboard();
   renderSOP();
   autoCloseSOPGuide();
