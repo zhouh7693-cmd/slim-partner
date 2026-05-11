@@ -470,7 +470,7 @@
   <div class="selector-title">选一个管理搭子 🤝</div>
   <div class="selector-sub">陪你度过P7到P8的成长期</div>
   <div class="partner-grid" id="partnerGrid"></div>
-  <button id="confirmPartnerBtn" class="confirm-btn">确认搭子 →</button>
+  <button id="confirmPartnerBtn" class="confirm-btn" onclick="if(typeof confirmPartner==='function'){confirmPartner();}else{alert('confirmPartner未定义');}">确认搭子 →</button>
 </div>
 
 <!-- Tab Bar -->
@@ -987,7 +987,6 @@ function selectPartner(id) {
 }
 
 window.selectPartner = selectPartner;
-window.confirmPartner = confirmPartner;
 
 function startApp() {
   // 初始化搭子状态
@@ -1044,6 +1043,7 @@ function confirmPartner() {
     alert('确认搭子出错：' + e.message);
   }
 }
+window.confirmPartner = confirmPartner;
 
 // ===== Tab切换 =====
 function loadHistory() {
