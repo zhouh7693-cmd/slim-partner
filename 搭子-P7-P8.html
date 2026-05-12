@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>P7升P8成长自检搭子 · 签到神器</title>
+  <script>
+    // 全局错误捕获（静默记录，不弹窗）
+    window.onerror = function(msg, src, line, col, err) {
+      console.error('[JS错误]', msg, '位置：第' + line + '行', err);
+    };
+  </script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
     body {
@@ -42,13 +48,18 @@
       max-width: 400px; margin: 0 auto;
       background: white; border-radius: 48px;
       padding: 28px 20px 32px;
-      /* 未选搭子时遮罩全屏，阻止底层按钮被误触 */
+      /* 默认隐藏，由JS控制显示 */
       position: fixed; inset: 0;
       z-index: 100;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
+      display: none; flex-direction: column;
+      align-items: center; justify-content: flex-start;
       box-sizing: border-box;
+      /* 隐藏时不拦截点击 */
+      pointer-events: none;
     }
+    .partner-selector.show { display: flex; pointer-events: auto; }
+    /* 强制覆盖：确保 selector 隐藏 */
+    .partner-selector.force-hidden { display: none !important; pointer-events: none; }
     #partnerSelectorMask {
       display: none; /* JS 控制显示 */
       position: fixed; inset: 0; z-index: 99;
@@ -261,8 +272,9 @@
     #sopGuideOverlay {
       display: none; position: fixed; inset: 0; z-index: 50;
       background: rgba(0,0,0,0.7); border-radius: 0;
-      display: flex; align-items: center; justify-content: center; padding: 24px;
+      align-items: center; justify-content: center; padding: 24px;
     }
+    #sopGuideOverlay.show { display: flex; }
     #sopGuideOverlay.hidden { display: none; }
     .sop-guide-card {
       background: white; border-radius: 32px; padding: 32px 24px;
@@ -464,34 +476,28 @@
 <div id="partnerSelector" class="partner-selector">
   <div class="selector-title">选一个管理搭子 🤝</div>
   <div class="selector-sub">陪你度过P7到P8的成长期</div>
-  <div class="partner-grid" id="partnerGrid">
-    <div class="partner-card selected" id="pc-coach" onclick="selectPartner('coach')">
-      <div class="partner-emoji">🎖️</div>
-      <div class="partner-name">砺行</div>
-      <div class="partner-desc">管理教练 · 严厉有建设性</div>
-    </div>
-  </div>
+  <div class="partner-grid" id="partnerGrid"></div>
   <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner()">确认搭子 →</button>
 </div>
 
 <!-- Tab Bar -->
-<div class="tab-bar" id="tabBar" style="display:none;">
-  <div class="tab-item active" onclick="switchTab('chat', event)">
+<div class="tab-bar" id="tabBar">
+  <div class="tab-item active" onclick="switchTab('chat')">
     <div class="tab-icon">🏠</div><div class="tab-label">搭子</div>
   </div>
-  <div class="tab-item" onclick="switchTab('coach', event)">
+  <div class="tab-item" onclick="switchTab('coach')">
     <div class="tab-icon">🎓</div><div class="tab-label">教练</div>
   </div>
-  <div class="tab-item" onclick="switchTab('sop', event)">
+  <div class="tab-item" onclick="switchTab('sop')">
     <div class="tab-icon">📋</div><div class="tab-label">自检</div>
   </div>
-  <div class="tab-item" onclick="switchTab('checkin', event)">
+  <div class="tab-item" onclick="switchTab('checkin')">
     <div class="tab-icon">✅</div><div class="tab-label">打卡</div>
   </div>
-  <div class="tab-item" onclick="switchTab('data', event)">
+  <div class="tab-item" onclick="switchTab('data')">
     <div class="tab-icon">📊</div><div class="tab-label">绩效</div>
   </div>
-  <div class="tab-item" onclick="switchTab('progress', event)">
+  <div class="tab-item" onclick="switchTab('progress')">
     <div class="tab-icon">📈</div><div class="tab-label">进展</div>
   </div>
   <div class="tab-item" onclick="switchTab('share', event)">
@@ -539,7 +545,7 @@
 </div>
 
 <!-- ===== 打卡页面 ===== -->
-<div class="page active" id="checkinPage">
+<div class="page" id="checkinPage">
   <div class="card">
     <div class="partner-badge" id="partnerBadge">🏋️ 管理教练</div>
     <div class="question" id="dailyQuestion">今日管理反思：你今天主动推动了哪件事？</div>
@@ -879,7 +885,7 @@ const TYPE_SCENES_P7 = {
     {icon:'🎭',tag:'自嗨',scenario:'今天发现我们的业务策略是基于"我觉得"，而不是基于数据和客户反馈',feedback:'⚠️ "我觉得"是策略的最大敌人。P7要做的是"客户觉得"、"数据觉得"、"市场觉得"。下次做策略时，先找3个客户聊，再看10份行业报告，再和自己团队吵一遍——这些做完，"我觉得"会变成"我们验证过"。',type:'neg'},
     {icon:'📦',tag:'封闭',scenario:'今天做策略时只和团队内部聊，没有找外部视角',feedback:'⚠️ 策略如果只在团队内部讨论，很容易变成"回声室"——大家互相认同，但可能都错了。P7做策略时，要主动找外部视角：客户、竞品、行业专家、其他部门的同事。外部视角能帮你发现盲点。',type:'neg'},
     {icon:'🎪',tag:'表演',scenario:'今天发现团队在执行策略时"表演给我看"，实际根本不是那回事',feedback:'⚠️ 这就是"策略和执行脱节"。团队为什么表演？可能是：① 他们不理解策略 ② 他们认为策略不靠谱但不敢说 ③ 他们有更好的想法但没机会说。P7要创造"真实反馈"的文化：执行中有问题，随时可以提出来讨论调整。',type:'neg'},
-    {icon:'📐',tag:'模糊',scenario:'今天发现我们的策略目标很模糊，每个人理解都不一样',feedback:'⚠️ 模糊的策略 = 混乱的执行。好策略要能回答：① 目标是什么（可量化）② 怎么衡量成功（指标是什么）③ 谁负责（不能 everybody's responsibility = nobody's responsibility）。如果这三件事说不清楚，策略就是一纸空文。',type:'neg'},
+    {icon:'📐',tag:'模糊',scenario:'今天发现我们的策略目标很模糊，每个人理解都不一样',feedback:'⚠️ 模糊的策略 = 混乱的执行。好策略要能回答：① 目标是什么（可量化）② 怎么衡量成功（指标是什么）③ 谁负责（不能 everybody\'s responsibility = nobody\'s responsibility）。如果这三件事说不清楚，策略就是一纸空文。',type:'neg'},
     {icon:'🎯',tag:'完美',scenario:'今天为了等"完美策略"，一直没动手，机会窗口快过去了',feedback:'⚠️ "完美策略"是P7最常见的拖延症。市场不等人，竞品不等人。好策略是在行动中迭代出来的，不是在会议室里想出来的。先出一个"70分的策略"，快速验证、快速调整，比"等完美再动手"有效10倍。',type:'neg'}
   ],
   question: [
@@ -906,6 +912,70 @@ const TYPE_SCENES_P7 = {
   ]
 };
 
+// ===== SOP数据（必须在全局状态之前定义，供DOMContentLoaded中的renderSOP调用）=====
+var SOP_CATEGORIES = [
+  {id:'cat1', name:'业务感知', icon:'📊', desc:'数据、风险、判断力', color:'#3a5fcd'},
+  {id:'cat2', name:'管理权威', icon:'💪', desc:'指导、授权、追结果', color:'#e91e63'},
+  {id:'cat3', name:'洞察汇报', icon:'🔍', desc:'提炼、分析、表达力', color:'#3a5fcd'},
+  {id:'cat4', name:'主动解决', icon:'⚡', desc:'不等待、不推诿、找方法', color:'#4caf50'},
+  {id:'cat5', name:'自我认知', icon:'🧭', desc:'优势、定位、成长方向', color:'#9c27b0'}
+];
+
+var SOP_HABITS = {
+  cat1: [
+    {emoji:'📊', pos:true, text:'每天亲自查看至少一个核心业务数据', sub:'不依赖下属汇报，用自己的眼睛看业务'},
+    {emoji:'📉', pos:false, text:'等别人提醒才意识到业务风险', sub:'建立主动的风险预警习惯'},
+    {emoji:'🎯', pos:true, text:'对每个项目能说出"哪里做得好/不好"', sub:'没有判断力的P7等于没有方向感'},
+    {emoji:'😶', pos:false, text:'上级问起业务时答不上来', sub:'业务盲区是P7最大的危险信号'}
+  ],
+  cat2: [
+    {emoji:'🤝', pos:true, text:'布置任务时说明"为什么"这个要求', sub:'赋能不是指派，是让下属理解你的判断逻辑'},
+    {emoji:'🏃', pos:false, text:'觉得下属做太慢就自己干了', sub:'自己做最快，但团队永远成长不了'},
+    {emoji:'✅', pos:true, text:'对不配合的下属敢于追结果', sub:'善良不等于放任，管理需要对结果负责'},
+    {emoji:'😰', pos:false, text:'下属更愿意听其他总监的话', sub:'思考：是权威不足，还是判断力不足？'}
+  ],
+  cat3: [
+    {emoji:'💬', pos:true, text:'每次汇报先说结论，再给数据', sub:'上级的时间比你少，他需要结论先行'},
+    {emoji:'📝', pos:false, text:'汇报只是罗列事实，没有洞察', sub:'事实是原材料，洞察才是成品'},
+    {emoji:'📋', pos:true, text:'强制提炼3个重点+1个风险+1个建议', sub:'结构化输出是P7的基本功'},
+    {emoji:'🤷', pos:false, text:'上级听完我的汇报没有反馈', sub:'没有反馈往往意味着"没有价值"，需要反思'}
+  ],
+  cat4: [
+    {emoji:'🔥', pos:true, text:'遇到问题先想2个解决方案再升级', sub:'升级时带方案，是P7的专业性体现'},
+    {emoji:'🕐', pos:false, text:'等别人来推动，不主动介入', sub:'主动是P7和P6最大的行为区别'},
+    {emoji:'⚡', pos:true, text:'主动用P7权限推动了一件跨部门的事', sub:'权限是用来履行职责的，不是摆设'},
+    {emoji:'🚫', pos:false, text:'觉得"不是我的职责"所以没推动', sub:'影响业务结果的事，都是你的职责'}
+  ],
+  cat5: [
+    {emoji:'🧭', pos:true, text:'今天问了自己：我擅长什么？公司需要什么？', sub:'找准交集点，才能产生最大的职业价值'},
+    {emoji:'😔', pos:false, text:'成就感来自"完成了流程"而不是"业务增长"', sub:'流程是手段，业务结果才是目的'},
+    {emoji:'📈', pos:true, text:'回答出了"哪件事只有我能做"', sub:'不可替代性是P7的核心竞争力'},
+    {emoji:'🤷', pos:false, text:'不清楚自己在P7阶段应该达到什么标准', sub:'标准不清，努力就没有方向'}
+  ]
+};
+
+function getSOPDone(catId) {
+  try {
+    var data = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}');
+    return data[catId] ? Object.keys(data[catId]).length : 0;
+  } catch(e) { return 0; }
+}
+
+function renderSOP() {
+  var grid = document.getElementById('sopCatGrid');
+  grid.innerHTML = '';
+  SOP_CATEGORIES.forEach(function(cat) {
+    var done = getSOPDone(cat.id);
+    var total = SOP_HABITS[cat.id].length;
+    var div = document.createElement('div');
+    div.className = 'sop-cat-btn';
+    div.innerHTML = '<div class="sop-cat-icon">' + cat.icon + '</div><div class="sop-cat-name">' + cat.name + '</div><div class="sop-cat-desc">' + cat.desc + '</div>' + (done > 0 ? '<div class="sop-cat-done">已完成 ' + done + '/' + total + '</div>' : '');
+    div.onclick = function() { startSOPCat(cat.id); };
+    grid.appendChild(div);
+  });
+  updateSOPStats();
+}
+
 // ===== 全局状态 =====
 let currentPartner = null;
 let selectedPartnerId = null;
@@ -914,38 +984,71 @@ let currentTab = 'checkin';
 let currentQAType = null;
 let currentQADir = 'result';
 
+// ===== confirmPartner（必须在DOMContentLoaded之前定义，确保onclick可调用）=====
+function confirmPartner() {
+  try {
+    var saved = null;
+    if (selectedPartnerId) {
+      saved = selectedPartnerId;
+    } else {
+      var selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
+      if (selectedCard) saved = selectedCard.dataset.id;
+    }
+    if (!saved) saved = localStorage.getItem('slim_partner_p7') || 'coach';
+    localStorage.setItem('slim_partner_p7', saved);
+
+    var partner = PARTNERS.find(function(p) { return p.id === saved; }) || PARTNERS[0];
+    currentPartner = partner;
+    selectedPartnerId = saved;
+
+    var badge = document.getElementById('partnerBadge');
+    if (badge) badge.innerHTML = partner.emoji + ' ' + partner.name;
+
+    // 强制隐藏 selector（CSS pointer-events:none穿透）+ 强制显示 tabBar
+    var sel = document.getElementById('partnerSelector');
+    if (sel) { sel.classList.remove('show'); sel.classList.add('force-hidden'); }
+    var mask = document.getElementById('partnerSelectorMask');
+    if (mask) mask.style.display = 'none';
+    var tabBar = document.getElementById('tabBar');
+    if (tabBar) { tabBar.style.display = 'flex'; tabBar.classList.add('force-show'); }
+    if (typeof loadHistory === 'function') loadHistory();
+    startApp();
+  } catch(e) {
+    console.error('[confirmPartner] error:', e);
+    alert('确认搭子出错：' + e.message);
+  }
+}
+window.confirmPartner = confirmPartner;
+
 // ===== DOMContentLoaded =====
 document.addEventListener('DOMContentLoaded', function() {
-  renderPartnerGrid();
-  renderSOP();
+  // 调试：确认JS正常加载
+  setTimeout(function() { console.log('[DEBUG] DOMContentLoaded executed, partner=' + (currentPartner && currentPartner.name)); }, 100);
+  try { renderSOP(); } catch(e) { console.error('renderSOP error:', e); }
 
   var stored = localStorage.getItem('slim_partner_p7');
   if (stored && PARTNERS.some(function(p) { return p.id === stored; })) {
     selectedPartnerId = stored;
     var p = PARTNERS.find(function(pp) { return pp.id === stored; });
     currentPartner = p;
-    confirmPartner();
+    var sel = document.getElementById('partnerSelector');
+    if (sel) { sel.classList.remove('show'); sel.style.display = 'none'; }
+    document.getElementById('partnerSelectorMask').style.display = 'none';
+    document.getElementById('tabBar').style.display = 'flex';
+    if (typeof loadHistory === 'function') loadHistory();
+    startApp();
   } else {
     showPartnerSelector();
   }
-
   autoCloseSOPGuide();
-
-  // 确认搭子按钮：用JS绑定点击，防止onclick在某些场景下失效
-  var confirmBtn = document.getElementById('confirmPartnerBtn');
-  if (confirmBtn) {
-    confirmBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      confirmPartner();
-    });
-  }
+  // 按钮onclick="confirmPartner()"已内联在HTML中，此处无需再绑addEventListener
 });
 
 // ===== 搭子选择器 =====
 function showPartnerSelector() {
-  document.getElementById('partnerSelector').style.display = 'flex';
+  var sel = document.getElementById('partnerSelector');
+  if (sel) { sel.classList.add('show'); sel.style.display = ''; }
   document.getElementById('partnerSelectorMask').style.display = 'block';
-  document.getElementById('tabBar').style.display = 'none';
   renderPartnerGrid();
 }
 
@@ -976,21 +1079,54 @@ function selectPartner(id) {
   if (window.savePartnerToFirebase) savePartnerToFirebase(id);
 }
 
-function slimConfirmPartner() {
-  var saved = localStorage.getItem('slim_partner_p7');
-  var selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
-  if (selectedCard) saved = selectedCard.id.replace('pc-', '');
-  if (!saved) saved = 'coach';
-  localStorage.setItem('slim_partner_p7', saved);
-  var btn = document.getElementById('confirmPartnerBtn');
-  if (btn) { btn.textContent = '✅ 进入中…'; btn.style.background = 'linear-gradient(135deg,#888,#555)'; }
-  var mask = document.getElementById('partnerSelectorMask');
-  if (mask) mask.style.display = 'none';
-  if (typeof startApp === 'function') startApp();
-}
-
 window.selectPartner = selectPartner;
-window.slimConfirmPartner = slimConfirmPartner;
+
+// ===== Tab切换（兼容旧代码调用） =====
+function switchTabDirect(tab) { switchTab(tab); }
+
+// ===== Tab切换 =====
+function switchTab(tab) {
+  // 保险：无论哪种情况，只要调用了switchTab就确保tab-bar显示
+  var tb = document.getElementById('tabBar');
+  if (tb) { tb.style.display = 'flex'; tb.classList.add('force-show'); }
+  // 打卡前必须先完成SOP
+  if (tab === 'checkin' && !sopCompletedToday) {
+    alert('⏰ 请先完成今日SOP，再来打卡！');
+    return;
+  }
+  // 关闭所有可能遮挡的弹窗
+  var qaOv = document.getElementById('qaOverlay'); if (qaOv) qaOv.classList.remove('show');
+  var fbOv = document.getElementById('fbOverlay'); if (fbOv) fbOv.classList.remove('show');
+  var sgOv = document.getElementById('sopGuideOverlay'); if (sgOv) sgOv.classList.add('hidden');
+  // 隐藏教练页（如果不是切到教练）
+  var coachPg = document.getElementById('coachPage');
+  if (coachPg && tab !== 'coach') { coachPg.classList.remove('active'); coachPg.style.display = 'none'; }
+  // 隐藏所有页面
+  document.querySelectorAll('.page').forEach(function(p) {
+    p.classList.remove('active'); p.style.display = 'none';
+  });
+  // 更新tab状态
+  document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
+  var tabNames = ['chat','coach','sop','checkin','data','progress','share'];
+  var tabIdx = tabNames.indexOf(tab);
+  var allTabs = document.querySelectorAll('.tab-item');
+  if (tabIdx !== -1 && allTabs[tabIdx]) allTabs[tabIdx].classList.add('active');
+  // 显示目标页面
+  if (tab === 'coach') {
+    if (coachPg) { coachPg.classList.add('active'); coachPg.style.display = ''; }
+  } else {
+    var pe = document.getElementById(tab + 'Page');
+    if (pe) { pe.classList.add('active'); pe.style.display = ''; }
+  }
+  currentTab = tab;
+  // 各页面初始化
+  if (tab === 'chat') { renderChat(); }
+  if (tab === 'coach') { showCoach(); }
+  if (tab === 'sop') { renderSOP(); }
+  if (tab === 'data') { renderPerf(); }
+  if (tab === 'progress') { initProgressPage(); }
+  if (tab === 'share') { renderShare(); }
+}
 
 function startApp() {
   // 初始化搭子状态
@@ -1007,37 +1143,6 @@ function startApp() {
   switchTab('chat');
 }
 
-function confirmPartner() {
-  try {
-    // 从localStorage获取选中的搭子ID（与slimConfirmPartner保持一致）
-    var saved = localStorage.getItem('slim_partner_p7');
-    var selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
-    if (selectedCard) saved = selectedCard.id.replace('pc-', '');
-    if (!saved) saved = 'coach';
-    localStorage.setItem('slim_partner_p7', saved);
-
-    var partner = PARTNERS.find(function(p) { return p.id === saved; }) || PARTNERS[0];
-    currentPartner = partner;
-    selectedPartnerId = saved;
-
-    var badge = document.getElementById('partnerBadge');
-    if (badge) badge.innerHTML = partner.emoji + ' ' + partner.name;
-
-    var sel = document.getElementById('partnerSelector');
-    if (sel) sel.style.display = 'none';
-    var mask = document.getElementById('partnerSelectorMask');
-    if (mask) mask.style.display = 'none';
-    var tabBar = document.getElementById('tabBar');
-    if (tabBar) tabBar.style.display = 'flex';
-
-    if (typeof loadHistory === 'function') loadHistory();
-    startApp();
-  } catch(e) {
-    alert('确认搭子出错：' + e.message);
-  }
-}
-
-// ===== Tab切换 =====
 function loadHistory() {
   try {
     var h = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
@@ -1098,6 +1203,7 @@ function updateCheckinUI(checked, history) {
 }
 
 function doCheckin() {
+  console.log('[DEBUG] doCheckin called');
   var today = getToday();
   var history = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
   if (!history.find(function(e) { return e.date === today; })) {
@@ -1311,51 +1417,7 @@ function showFeedback(item, index) {
 function closeFBOverlay() { document.getElementById('fbOverlay').classList.remove('show'); }
 function closeQA() { document.getElementById('qaOverlay').classList.remove('show'); }
 
-// ===== Tab切换 =====
-function switchTab(tab) {
-  // 打卡前必须先完成SOP
-  if (tab === 'checkin' && !sopCompletedToday) {
-    alert('⏰ 请先完成今日SOP，再来打卡！');
-    return;
-  }
-  // 关闭所有可能遮挡的弹窗
-  document.getElementById('qaOverlay').classList.remove('show');
-  document.getElementById('fbOverlay').classList.remove('show');
-  document.getElementById('sopGuideOverlay').classList.add('hidden');
-  // 隐藏教练页（如果不是切到教练）
-  var coachPg = document.getElementById('coachPage');
-  if (coachPg) { coachPg.classList.remove('active'); coachPg.style.display = 'none'; }
-  currentTab = tab;
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-  if (tab === 'coach') {
-    if (coachPg) { coachPg.style.display = ''; coachPg.classList.add('active'); }
-  } else if (tab === 'data') {
-    var pe = document.getElementById('page-data');
-    if (pe) pe.classList.add('active');
-    renderPerfPage();
-    renderPerfWeeklyReport();
-  } else if (tab === 'share') {
-    var pe = document.getElementById('sharePage');
-    if (pe) pe.classList.add('active');
-    renderSharePage();
-  } else {
-    var pe = document.getElementById(tab + 'Page');
-    if (pe) pe.classList.add('active');
-  }
-  // 精确高亮当前tab按钮
-  document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
-  var tabMap = {chat:0, coach:1, sop:2, checkin:3, data:4, progress:5, share:6};
-  var tabs = document.querySelectorAll('.tab-item');
-  if (tabMap[tab] !== undefined && tabs[tabMap[tab]]) {
-    tabs[tabMap[tab]].classList.add('active');
-  }
-  // 切换到教练，初始化教练
-  if (tab === 'coach' && coachPg) { initCoach(); }
-  // 切换到自检，初始化SOP
-  if (tab === 'sop') { initSOP(); }
-  // 切换到进展，初始化进展页
-  if (tab === 'progress') { initP7ProgressPage(); }
-}
+// ===== Tab切换（已移到startApp之前） =====
 
 // ===== SOP自检 =====
 // 初始化SOP页面
@@ -1388,69 +1450,6 @@ function initSOP() {
     console.error('initSOP() error:', e);
     renderSOP();
   }
-}
-
-var SOP_CATEGORIES = [
-  {id:'cat1', name:'业务感知', icon:'📊', desc:'数据、风险、判断力', color:'#3a5fcd'},
-  {id:'cat2', name:'管理权威', icon:'💪', desc:'指导、授权、追结果', color:'#e91e63'},
-  {id:'cat3', name:'洞察汇报', icon:'🔍', desc:'提炼、分析、表达力', color:'#3a5fcd'},
-  {id:'cat4', name:'主动解决', icon:'⚡', desc:'不等待、不推诿、找方法', color:'#4caf50'},
-  {id:'cat5', name:'自我认知', icon:'🧭', desc:'优势、定位、成长方向', color:'#9c27b0'}
-];
-
-var SOP_HABITS = {
-  cat1: [
-    {emoji:'📊', pos:true, text:'每天亲自查看至少一个核心业务数据', sub:'不依赖下属汇报，用自己的眼睛看业务'},
-    {emoji:'📉', pos:false, text:'等别人提醒才意识到业务风险', sub:'建立主动的风险预警习惯'},
-    {emoji:'🎯', pos:true, text:'对每个项目能说出"哪里做得好/不好"', sub:'没有判断力的P7等于没有方向感'},
-    {emoji:'😶', pos:false, text:'上级问起业务时答不上来', sub:'业务盲区是P7最大的危险信号'}
-  ],
-  cat2: [
-    {emoji:'🤝', pos:true, text:'布置任务时说明"为什么"这个要求', sub:'赋能不是指派，是让下属理解你的判断逻辑'},
-    {emoji:'🏃', pos:false, text:'觉得下属做太慢就自己干了', sub:'自己做最快，但团队永远成长不了'},
-    {emoji:'✅', pos:true, text:'对不配合的下属敢于追结果', sub:'善良不等于放任，管理需要对结果负责'},
-    {emoji:'😰', pos:false, text:'下属更愿意听其他总监的话', sub:'思考：是权威不足，还是判断力不足？'}
-  ],
-  cat3: [
-    {emoji:'💬', pos:true, text:'每次汇报先说结论，再给数据', sub:'上级的时间比你少，他需要结论先行'},
-    {emoji:'📝', pos:false, text:'汇报只是罗列事实，没有洞察', sub:'事实是原材料，洞察才是成品'},
-    {emoji:'📋', pos:true, text:'强制提炼3个重点+1个风险+1个建议', sub:'结构化输出是P7的基本功'},
-    {emoji:'🤷', pos:false, text:'上级听完我的汇报没有反馈', sub:'没有反馈往往意味着"没有价值"，需要反思'}
-  ],
-  cat4: [
-    {emoji:'🔥', pos:true, text:'遇到问题先想2个解决方案再升级', sub:'升级时带方案，是P7的专业性体现'},
-    {emoji:'🕐', pos:false, text:'等别人来推动，不主动介入', sub:'主动是P7和P6最大的行为区别'},
-    {emoji:'⚡', pos:true, text:'主动用P7权限推动了一件跨部门的事', sub:'权限是用来履行职责的，不是摆设'},
-    {emoji:'🚫', pos:false, text:'觉得"不是我的职责"所以没推动', sub:'影响业务结果的事，都是你的职责'}
-  ],
-  cat5: [
-    {emoji:'🧭', pos:true, text:'今天问了自己：我擅长什么？公司需要什么？', sub:'找准交集点，才能产生最大的职业价值'},
-    {emoji:'😔', pos:false, text:'成就感来自"完成了流程"而不是"业务增长"', sub:'流程是手段，业务结果才是目的'},
-    {emoji:'📈', pos:true, text:'回答出了"哪件事只有我能做"', sub:'不可替代性是P7的核心竞争力'},
-    {emoji:'🤷', pos:false, text:'不清楚自己在P7阶段应该达到什么标准', sub:'标准不清，努力就没有方向'}
-  ]
-};
-
-function renderSOP() {
-  var grid = document.getElementById('sopCatGrid');
-  grid.innerHTML = '';
-  SOP_CATEGORIES.forEach(function(cat) {
-    var done = getSOPDone(cat.id);
-    var total = SOP_HABITS[cat.id].length;
-    var div = document.createElement('div');
-    div.className = 'sop-cat-btn';
-    div.innerHTML = '<div class="sop-cat-icon">' + cat.icon + '</div><div class="sop-cat-name">' + cat.name + '</div><div class="sop-cat-desc">' + cat.desc + '</div>' + (done > 0 ? '<div class="sop-cat-done">已完成 ' + done + '/' + total + '</div>' : '');
-    div.onclick = function() { startSOPCat(cat.id); };
-    grid.appendChild(div);
-  });
-  updateSOPStats();
-}
-
-function getSOPDone(catId) {
-  try {
-    var data = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}');
-    return data[catId] ? Object.keys(data[catId]).length : 0;
-  } catch(e) { return 0; }
 }
 
 function startSOPCat(catId) {
@@ -2284,7 +2283,7 @@ function initP7DataPage() {
 </script>
 
 <!-- ===== Page: 绩效 ===== -->
-<div id="page-data" class="page">
+<div id="dataPage" class="page">
   <div class="weight-page">
     <div class="weight-header">
       <div class="weight-title">📊 P7绩效记录</div>
@@ -2497,16 +2496,8 @@ function copyP7Share() {
   var orig = switchTab;
   window.switchTab = function(tab){
     orig(tab);
-    if(tab==='data') {
-      initP7DataPage();
-      var dp = document.getElementById('page-data');
-      if(dp){ dp.classList.add('active'); dp.style.display = ''; }
-    }
-    if(tab==='progress') {
-      initP7ProgressPage();
-      var pp = document.getElementById('progressPage');
-      if(pp){ pp.classList.add('active'); pp.style.display = ''; }
-    }
+    if(tab==='data') { initP7DataPage(); }
+    if(tab==='progress') { initP7ProgressPage(); }
   };
 })();
 </script>
