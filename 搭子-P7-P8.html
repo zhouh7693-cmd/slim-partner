@@ -1021,6 +1021,8 @@ window.confirmPartner = confirmPartner;
 
 // ===== DOMContentLoaded =====
 document.addEventListener('DOMContentLoaded', function() {
+  // 调试：确认JS正常加载
+  setTimeout(function() { console.log('[DEBUG] DOMContentLoaded executed, partner=' + (currentPartner && currentPartner.name)); }, 100);
   try { renderSOP(); } catch(e) { console.error('renderSOP error:', e); }
 
   var stored = localStorage.getItem('slim_partner_p7');
@@ -1154,6 +1156,7 @@ function updateCheckinUI(checked, history) {
 }
 
 function doCheckin() {
+  console.log('[DEBUG] doCheckin called');
   var today = getToday();
   var history = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
   if (!history.find(function(e) { return e.date === today; })) {
@@ -1369,6 +1372,7 @@ function closeQA() { document.getElementById('qaOverlay').classList.remove('show
 
 // ===== Tab切换 =====
 function switchTab(tab) {
+  console.log('[DEBUG] switchTab called:', tab);
   // 保险：无论哪种情况，只要调用了switchTab就确保tab-bar显示
   var tb = document.getElementById('tabBar');
   if (tb) { tb.style.display = 'flex'; tb.classList.add('force-show'); }
