@@ -49,16 +49,16 @@
       background: white; border-radius: 48px;
       padding: 28px 20px 32px;
       /* 默认隐藏，由JS控制显示 */
-      position: fixed; left: 0; right: 0; bottom: 0;
+      position: fixed; inset: 0;
       z-index: 100;
       display: none; flex-direction: column;
       align-items: center; justify-content: flex-start;
       box-sizing: border-box;
     }
     .partner-selector.show { display: flex; }
-    /* 强制覆盖：确保 selector 隐藏 / tabBar 显示 */
+    /* 强制覆盖：确保 selector 隐藏 */
     .partner-selector.force-hidden { display: none !important; }
-    .tab-bar.force-show { display: flex !important; }
+    .tab-bar { z-index: 200; }
     #partnerSelectorMask {
       display: none; /* JS 控制显示 */
       position: fixed; inset: 0; z-index: 99;
@@ -1046,7 +1046,6 @@ function showPartnerSelector() {
   var sel = document.getElementById('partnerSelector');
   if (sel) { sel.classList.add('show'); sel.style.display = ''; }
   document.getElementById('partnerSelectorMask').style.display = 'block';
-  document.getElementById('tabBar').style.display = 'none';
   renderPartnerGrid();
 }
 
