@@ -1096,6 +1096,44 @@ function startApp() {
 }
 
 // ===== Tab切换 =====
+function switchTab(tab) {
+  console.log('[DEBUG] switchTab called:', tab);
+  // 保险：无论哪种情况，只要调用了switchTab就确保tab-bar显示
+  var tb = document.getElementById('tabBar');
+  if (tb) { tb.style.display = 'flex'; tb.classList.add('force-show'); }
+  // 打卡前必须先完成SOP
+  if (tab === 'checkin' && !sopCompletedToday) {
+    alert('⏰ 请先完成今日SOP，再来打卡！');
+    return;
+  }
+  // 关闭所有可能遮挡的弹窗
+  document.getElementById('qaOverlay').classList.remove('show');
+  document.getElementById('fbOverlay').classList.remove('show');
+  document.getElementById('sopGuideOverlay').classList.add('hidden');
+  // 隐藏教练页（如果不是切到教练）
+  var coachPg = document.getElementById('coachPage');
+  if (coachPg && tab !== 'coach') { coachPg.style.display = 'none'; }
+  // 隐藏所有页面
+  var pages = document.querySelectorAll('.page');
+  for (var i = 0; i < pages.length; i++) { pages[i].classList.remove('active'); }
+  // 显示目标页面
+  var target = document.getElementById(tab + 'Page');
+  if (target) { target.classList.add('active'); }
+  // 更新tab状态
+  var tabs = document.querySelectorAll('.tab-item');
+  for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove('active'); }
+  var activeTab = document.querySelector('.tab-item[onclick*="' + tab + '"]');
+  if (activeTab) { activeTab.classList.add('active'); }
+  currentTab = tab;
+  // 特殊处理
+  if (tab === 'chat') { renderChat(); }
+  if (tab === 'coach') { showCoach(); }
+  if (tab === 'sop') { renderSOP(); }
+  if (tab === 'data') { renderPerf(); }
+  if (tab === 'progress') { initProgressPage(); }
+  if (tab === 'share') { renderShare(); }
+}
+
 function loadHistory() {
   try {
     var h = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
@@ -1370,55 +1408,7 @@ function showFeedback(item, index) {
 function closeFBOverlay() { document.getElementById('fbOverlay').classList.remove('show'); }
 function closeQA() { document.getElementById('qaOverlay').classList.remove('show'); }
 
-// ===== Tab切换 =====
-function switchTab(tab) {
-  console.log('[DEBUG] switchTab called:', tab);
-  // 保险：无论哪种情况，只要调用了switchTab就确保tab-bar显示
-  var tb = document.getElementById('tabBar');
-  if (tb) { tb.style.display = 'flex'; tb.classList.add('force-show'); }
-  // 打卡前必须先完成SOP
-  if (tab === 'checkin' && !sopCompletedToday) {
-    alert('⏰ 请先完成今日SOP，再来打卡！');
-    return;
-  }
-  // 关闭所有可能遮挡的弹窗
-  document.getElementById('qaOverlay').classList.remove('show');
-  document.getElementById('fbOverlay').classList.remove('show');
-  document.getElementById('sopGuideOverlay').classList.add('hidden');
-  // 隐藏教练页（如果不是切到教练）
-  var coachPg = document.getElementById('coachPage');
-  if (coachPg) { coachPg.classList.remove('active'); coachPg.style.display = 'none'; }
-  currentTab = tab;
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-  if (tab === 'coach') {
-    if (coachPg) { coachPg.style.display = ''; coachPg.classList.add('active'); }
-  } else if (tab === 'data') {
-    var pe = document.getElementById('page-data');
-    if (pe) pe.classList.add('active');
-    renderPerfPage();
-    renderPerfWeeklyReport();
-  } else if (tab === 'share') {
-    var pe = document.getElementById('sharePage');
-    if (pe) pe.classList.add('active');
-    renderSharePage();
-  } else {
-    var pe = document.getElementById(tab + 'Page');
-    if (pe) pe.classList.add('active');
-  }
-  // 精确高亮当前tab按钮
-  document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
-  var tabMap = {chat:0, coach:1, sop:2, checkin:3, data:4, progress:5, share:6};
-  var tabs = document.querySelectorAll('.tab-item');
-  if (tabMap[tab] !== undefined && tabs[tabMap[tab]]) {
-    tabs[tabMap[tab]].classList.add('active');
-  }
-  // 切换到教练，初始化教练
-  if (tab === 'coach' && coachPg) { initCoach(); }
-  // 切换到自检，初始化SOP
-  if (tab === 'sop') { initSOP(); }
-  // 切换到进展，初始化进展页
-  if (tab === 'progress') { initP7ProgressPage(); }
-}
+// ===== Tab切换（已移到startApp之前） =====
 
 // ===== SOP自检 =====
 // 初始化SOP页面
