@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>P7升P8成长自检搭子 · 签到神器</title>
+  <script>
+    // 全局错误捕获——帮助诊断页面问题
+    window.onerror = function(msg, src, line, col, err) {
+      alert('[JS错误] ' + msg + '\n位置：第' + line + '行\n详情：' + (err && err.stack ? err.stack.slice(0,300) : '无'));
+    };
+  </script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
     body {
@@ -915,7 +921,7 @@ let currentQADir = 'result';
 
 // ===== DOMContentLoaded =====
 document.addEventListener('DOMContentLoaded', function() {
-  renderSOP();
+  try { renderSOP(); } catch(e) { console.error('renderSOP error:', e); }
 
   var stored = localStorage.getItem('slim_partner_p7');
   if (stored && PARTNERS.some(function(p) { return p.id === stored; })) {
