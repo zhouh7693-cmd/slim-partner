@@ -21,7 +21,7 @@
 
     /* ===== Tab Bar ===== */
     .tab-bar {
-      position: fixed; bottom: 0; left: 0; right: 0;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
       background: white;
       display: flex; justify-content: space-around;
       padding: 8px 0 max(8px, env(safe-area-inset-bottom));
@@ -49,10 +49,10 @@
       background: white; border-radius: 48px;
       padding: 28px 20px 32px;
       /* 默认隐藏，由JS控制显示 */
-      position: fixed; inset: 0;
+      position: fixed; left: 0; right: 0; bottom: 0;
       z-index: 100;
       display: none; flex-direction: column;
-      align-items: center; justify-content: center;
+      align-items: center; justify-content: flex-start;
       box-sizing: border-box;
     }
     .partner-selector.show { display: flex; }
@@ -1003,16 +1003,13 @@ function confirmPartner() {
     var badge = document.getElementById('partnerBadge');
     if (badge) badge.innerHTML = partner.emoji + ' ' + partner.name;
 
-    // 强制隐藏 selector + 强制显示 tabBar
+    // 强制隐藏 selector（CSS pointer-events:none穿透）+ 强制显示 tabBar
     var sel = document.getElementById('partnerSelector');
-    if (sel) { sel.classList.remove('show'); sel.style.display = 'none'; sel.classList.add('force-hidden'); }
+    if (sel) { sel.classList.remove('show'); sel.classList.add('force-hidden'); }
     var mask = document.getElementById('partnerSelectorMask');
     if (mask) mask.style.display = 'none';
     var tabBar = document.getElementById('tabBar');
-    if (tabBar) {
-      tabBar.style.display = 'flex';
-      tabBar.classList.add('force-show');
-    }
+    if (tabBar) { tabBar.style.display = 'flex'; tabBar.classList.add('force-show'); }
     if (typeof loadHistory === 'function') loadHistory();
     startApp();
   } catch(e) {
