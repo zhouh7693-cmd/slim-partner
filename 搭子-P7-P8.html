@@ -54,10 +54,12 @@
       display: none; flex-direction: column;
       align-items: center; justify-content: flex-start;
       box-sizing: border-box;
+      /* 隐藏时不拦截点击 */
+      pointer-events: none;
     }
-    .partner-selector.show { display: flex; }
+    .partner-selector.show { display: flex; pointer-events: auto; }
     /* 强制覆盖：确保 selector 隐藏 */
-    .partner-selector.force-hidden { display: none !important; }
+    .partner-selector.force-hidden { display: none !important; pointer-events: none; }
     #partnerSelectorMask {
       display: none; /* JS 控制显示 */
       position: fixed; inset: 0; z-index: 99;
@@ -543,7 +545,7 @@
 </div>
 
 <!-- ===== 打卡页面 ===== -->
-<div class="page active" id="checkinPage">
+<div class="page" id="checkinPage">
   <div class="card">
     <div class="partner-badge" id="partnerBadge">🏋️ 管理教练</div>
     <div class="question" id="dailyQuestion">今日管理反思：你今天主动推动了哪件事？</div>
