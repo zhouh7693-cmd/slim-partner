@@ -636,6 +636,48 @@ const TYPE_SCENES_OWNER = {
   ]
 };
 
+// ===== SOP自检 =====
+var SOP_CATEGORIES = [
+  {id:'cat1', name:'Owner思维', icon:'🧭', desc:'视角、判断力、主动权', color:'#16a34a'},
+  {id:'cat2', name:'数据财务', icon:'📊', desc:'ROI、毛利、利润逻辑', color:'#0284c7'},
+  {id:'cat3', name:'品牌关系', icon:'🤝', desc:'信任、谈判、长期经营', color:'#d97706'},
+  {id:'cat4', name:'汇报表达', icon:'💬', desc:'结论先行、判断输出', color:'#7c3aed'},
+  {id:'cat5', name:'自我管理', icon:'🌿', desc:'节奏、边界、持续成长', color:'#dc2626'}
+];
+
+var SOP_HABITS = {
+  cat1: [
+    {emoji:'🧭', pos:true, text:'今天主动做了一个业务方向的判断，没有等上级拍板', sub:'Owner不是等答案的人，是给答案的人'},
+    {emoji:'🏃', pos:false, text:'今天大部分时间在处理执行细节，没有做过一个业务判断', sub:'Owner的价值在判断，而不是执行'},
+    {emoji:'⚡', pos:true, text:'今天主动推进了一件"没人要求我做"的业务事项', sub:'主动性是Owner和执行者最大的分水岭'},
+    {emoji:'😶', pos:false, text:'遇到卡点时第一反应是"等上级决定"', sub:'试着把等待变成"我的建议是X，需要您确认的是Y"'}
+  ],
+  cat2: [
+    {emoji:'📊', pos:true, text:'今天主动看了ROI或毛利数据，并知道数字背后的原因', sub:'Owner用数字思考，不只是看数字'},
+    {emoji:'📉', pos:false, text:'今天听了下属的汇报数字，但没有自己验证', sub:'数字要亲自看，不能只靠别人的解读'},
+    {emoji:'💰', pos:true, text:'今天做决策时计算了净利润影响，不只看收入', sub:'"这件事能赚多少"比"这件事有多少GMV"更重要'},
+    {emoji:'🤷', pos:false, text:'被问到利润数据时，答不上来或者说不清楚', sub:'财务数据是Owner的基本功，每天早上花5分钟看一遍'}
+  ],
+  cat3: [
+    {emoji:'🤝', pos:true, text:'今天主动联系了一个品牌方，不是等他们来找我', sub:'品牌关系靠主动经营，靠被动响应只会越来越被动'},
+    {emoji:'😰', pos:false, text:'今天接到品牌方要求，立刻答应了，没有评估利润影响', sub:'任何承诺之前先算ROI，这是Owner的基本商业纪律'},
+    {emoji:'💼', pos:true, text:'今天和品牌方沟通时清晰表达了我们的立场和价值', sub:'有立场的服务商才有话语权，无立场的只能打价格战'},
+    {emoji:'😤', pos:false, text:'今天没有任何外部沟通，全天在处理内部事务', sub:'Owner的核心信息来自外部——品牌方、平台、市场'}
+  ],
+  cat4: [
+    {emoji:'💬', pos:true, text:'今天汇报或表达时，先说结论再给数据', sub:'结论先行是Owner与执行者在沟通上最显著的差异'},
+    {emoji:'📝', pos:false, text:'今天汇报时只是罗列了发生的事情，没有说出判断', sub:'事实是原材料，判断才是有价值的产品'},
+    {emoji:'📋', pos:true, text:'今天有一次表达带上了"我的建议是X，理由是Y"', sub:'有建议的汇报才是完整的汇报'},
+    {emoji:'😬', pos:false, text:'今天被问"你觉得应该怎么做"时，答不上来', sub:'每次汇报前逼自己准备好建议，这是Owner的功课'}
+  ],
+  cat5: [
+    {emoji:'🌿', pos:true, text:'今天设定了今日3件最重要的事，并专注在这3件上', sub:'Owner的稀缺资源是专注力，保护它比管理时间更重要'},
+    {emoji:'😔', pos:false, text:'今天被各种消息和临时需求打断，没有完成一件重要的事', sub:'碎片化工作是Owner效能最大的杀手，要主动建立保护机制'},
+    {emoji:'📈', pos:true, text:'今天花时间思考了"1年后我想成为什么样的Owner"', sub:'没有方向的成长只是在消耗能量，方向清晰才能积累动能'},
+    {emoji:'😤', pos:false, text:'今天工作和休息的边界模糊，状态一直在低水平运行', sub:'持续低效比偶尔休息更消耗生命，Owner要学会真正切换'}
+  ]
+};
+
 // ===== STATE =====
 var PARTNERS_DATA = PARTNERS;
 var currentPartner = null;
@@ -1016,47 +1058,6 @@ function showFeedback(item, index) {
 function closeFBOverlay() { document.getElementById('fbOverlay').classList.remove('show'); }
 function closeQA() { document.getElementById('qaOverlay').classList.remove('show'); }
 
-// ===== SOP自检 =====
-var SOP_CATEGORIES = [
-  {id:'cat1', name:'Owner思维', icon:'🧭', desc:'视角、判断力、主动权', color:'#16a34a'},
-  {id:'cat2', name:'数据财务', icon:'📊', desc:'ROI、毛利、利润逻辑', color:'#0284c7'},
-  {id:'cat3', name:'品牌关系', icon:'🤝', desc:'信任、谈判、长期经营', color:'#d97706'},
-  {id:'cat4', name:'汇报表达', icon:'💬', desc:'结论先行、判断输出', color:'#7c3aed'},
-  {id:'cat5', name:'自我管理', icon:'🌿', desc:'节奏、边界、持续成长', color:'#dc2626'}
-];
-
-var SOP_HABITS = {
-  cat1: [
-    {emoji:'🧭', pos:true, text:'今天主动做了一个业务方向的判断，没有等上级拍板', sub:'Owner不是等答案的人，是给答案的人'},
-    {emoji:'🏃', pos:false, text:'今天大部分时间在处理执行细节，没有做过一个业务判断', sub:'Owner的价值在判断，而不是执行'},
-    {emoji:'⚡', pos:true, text:'今天主动推进了一件"没人要求我做"的业务事项', sub:'主动性是Owner和执行者最大的分水岭'},
-    {emoji:'😶', pos:false, text:'遇到卡点时第一反应是"等上级决定"', sub:'试着把等待变成"我的建议是X，需要您确认的是Y"'}
-  ],
-  cat2: [
-    {emoji:'📊', pos:true, text:'今天主动看了ROI或毛利数据，并知道数字背后的原因', sub:'Owner用数字思考，不只是看数字'},
-    {emoji:'📉', pos:false, text:'今天听了下属的汇报数字，但没有自己验证', sub:'数字要亲自看，不能只靠别人的解读'},
-    {emoji:'💰', pos:true, text:'今天做决策时计算了净利润影响，不只看收入', sub:'"这件事能赚多少"比"这件事有多少GMV"更重要'},
-    {emoji:'🤷', pos:false, text:'被问到利润数据时，答不上来或者说不清楚', sub:'财务数据是Owner的基本功，每天早上花5分钟看一遍'}
-  ],
-  cat3: [
-    {emoji:'🤝', pos:true, text:'今天主动联系了一个品牌方，不是等他们来找我', sub:'品牌关系靠主动经营，靠被动响应只会越来越被动'},
-    {emoji:'😰', pos:false, text:'今天接到品牌方要求，立刻答应了，没有评估利润影响', sub:'任何承诺之前先算ROI，这是Owner的基本商业纪律'},
-    {emoji:'💼', pos:true, text:'今天和品牌方沟通时清晰表达了我们的立场和价值', sub:'有立场的服务商才有话语权，无立场的只能打价格战'},
-    {emoji:'😤', pos:false, text:'今天没有任何外部沟通，全天在处理内部事务', sub:'Owner的核心信息来自外部——品牌方、平台、市场'}
-  ],
-  cat4: [
-    {emoji:'💬', pos:true, text:'今天汇报或表达时，先说结论再给数据', sub:'结论先行是Owner与执行者在沟通上最显著的差异'},
-    {emoji:'📝', pos:false, text:'今天汇报时只是罗列了发生的事情，没有说出判断', sub:'事实是原材料，判断才是有价值的产品'},
-    {emoji:'📋', pos:true, text:'今天有一次表达带上了"我的建议是X，理由是Y"', sub:'有建议的汇报才是完整的汇报'},
-    {emoji:'😬', pos:false, text:'今天被问"你觉得应该怎么做"时，答不上来', sub:'每次汇报前逼自己准备好建议，这是Owner的功课'}
-  ],
-  cat5: [
-    {emoji:'🌿', pos:true, text:'今天设定了今日3件最重要的事，并专注在这3件上', sub:'Owner的稀缺资源是专注力，保护它比管理时间更重要'},
-    {emoji:'😔', pos:false, text:'今天被各种消息和临时需求打断，没有完成一件重要的事', sub:'碎片化工作是Owner效能最大的杀手，要主动建立保护机制'},
-    {emoji:'📈', pos:true, text:'今天花时间思考了"1年后我想成为什么样的Owner"', sub:'没有方向的成长只是在消耗能量，方向清晰才能积累动能'},
-    {emoji:'😤', pos:false, text:'今天工作和休息的边界模糊，状态一直在低水平运行', sub:'持续低效比偶尔休息更消耗生命，Owner要学会真正切换'}
-  ]
-};
 
 // 初始化SOP页面
 function initSOP() {
