@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>P7升P8成长自检搭子 · 签到神器</title>
   <script>
-    // 全局错误捕获——帮助诊断页面问题
+    // 全局错误捕获（静默记录，不弹窗）
     window.onerror = function(msg, src, line, col, err) {
-      alert('[JS错误] ' + msg + '\n位置：第' + line + '行\n详情：' + (err && err.stack ? err.stack.slice(0,300) : '无'));
+      console.error('[JS错误]', msg, '位置：第' + line + '行', err);
     };
   </script>
   <style>
@@ -476,7 +476,7 @@
   <div class="selector-title">选一个管理搭子 🤝</div>
   <div class="selector-sub">陪你度过P7到P8的成长期</div>
   <div class="partner-grid" id="partnerGrid"></div>
-  <button id="confirmPartnerBtn" class="confirm-btn" onclick="if(typeof confirmPartner==='function'){confirmPartner();}else{alert('confirmPartner未定义');}">确认搭子 →</button>
+  <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner()">确认搭子 →</button>
 </div>
 
 <!-- Tab Bar -->
@@ -911,6 +911,70 @@ const TYPE_SCENES_P7 = {
   ]
 };
 
+// ===== SOP数据（必须在全局状态之前定义，供DOMContentLoaded中的renderSOP调用）=====
+var SOP_CATEGORIES = [
+  {id:'cat1', name:'业务感知', icon:'📊', desc:'数据、风险、判断力', color:'#3a5fcd'},
+  {id:'cat2', name:'管理权威', icon:'💪', desc:'指导、授权、追结果', color:'#e91e63'},
+  {id:'cat3', name:'洞察汇报', icon:'🔍', desc:'提炼、分析、表达力', color:'#3a5fcd'},
+  {id:'cat4', name:'主动解决', icon:'⚡', desc:'不等待、不推诿、找方法', color:'#4caf50'},
+  {id:'cat5', name:'自我认知', icon:'🧭', desc:'优势、定位、成长方向', color:'#9c27b0'}
+];
+
+var SOP_HABITS = {
+  cat1: [
+    {emoji:'📊', pos:true, text:'每天亲自查看至少一个核心业务数据', sub:'不依赖下属汇报，用自己的眼睛看业务'},
+    {emoji:'📉', pos:false, text:'等别人提醒才意识到业务风险', sub:'建立主动的风险预警习惯'},
+    {emoji:'🎯', pos:true, text:'对每个项目能说出"哪里做得好/不好"', sub:'没有判断力的P7等于没有方向感'},
+    {emoji:'😶', pos:false, text:'上级问起业务时答不上来', sub:'业务盲区是P7最大的危险信号'}
+  ],
+  cat2: [
+    {emoji:'🤝', pos:true, text:'布置任务时说明"为什么"这个要求', sub:'赋能不是指派，是让下属理解你的判断逻辑'},
+    {emoji:'🏃', pos:false, text:'觉得下属做太慢就自己干了', sub:'自己做最快，但团队永远成长不了'},
+    {emoji:'✅', pos:true, text:'对不配合的下属敢于追结果', sub:'善良不等于放任，管理需要对结果负责'},
+    {emoji:'😰', pos:false, text:'下属更愿意听其他总监的话', sub:'思考：是权威不足，还是判断力不足？'}
+  ],
+  cat3: [
+    {emoji:'💬', pos:true, text:'每次汇报先说结论，再给数据', sub:'上级的时间比你少，他需要结论先行'},
+    {emoji:'📝', pos:false, text:'汇报只是罗列事实，没有洞察', sub:'事实是原材料，洞察才是成品'},
+    {emoji:'📋', pos:true, text:'强制提炼3个重点+1个风险+1个建议', sub:'结构化输出是P7的基本功'},
+    {emoji:'🤷', pos:false, text:'上级听完我的汇报没有反馈', sub:'没有反馈往往意味着"没有价值"，需要反思'}
+  ],
+  cat4: [
+    {emoji:'🔥', pos:true, text:'遇到问题先想2个解决方案再升级', sub:'升级时带方案，是P7的专业性体现'},
+    {emoji:'🕐', pos:false, text:'等别人来推动，不主动介入', sub:'主动是P7和P6最大的行为区别'},
+    {emoji:'⚡', pos:true, text:'主动用P7权限推动了一件跨部门的事', sub:'权限是用来履行职责的，不是摆设'},
+    {emoji:'🚫', pos:false, text:'觉得"不是我的职责"所以没推动', sub:'影响业务结果的事，都是你的职责'}
+  ],
+  cat5: [
+    {emoji:'🧭', pos:true, text:'今天问了自己：我擅长什么？公司需要什么？', sub:'找准交集点，才能产生最大的职业价值'},
+    {emoji:'😔', pos:false, text:'成就感来自"完成了流程"而不是"业务增长"', sub:'流程是手段，业务结果才是目的'},
+    {emoji:'📈', pos:true, text:'回答出了"哪件事只有我能做"', sub:'不可替代性是P7的核心竞争力'},
+    {emoji:'🤷', pos:false, text:'不清楚自己在P7阶段应该达到什么标准', sub:'标准不清，努力就没有方向'}
+  ]
+};
+
+function getSOPDone(catId) {
+  try {
+    var data = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}');
+    return data[catId] ? Object.keys(data[catId]).length : 0;
+  } catch(e) { return 0; }
+}
+
+function renderSOP() {
+  var grid = document.getElementById('sopCatGrid');
+  grid.innerHTML = '';
+  SOP_CATEGORIES.forEach(function(cat) {
+    var done = getSOPDone(cat.id);
+    var total = SOP_HABITS[cat.id].length;
+    var div = document.createElement('div');
+    div.className = 'sop-cat-btn';
+    div.innerHTML = '<div class="sop-cat-icon">' + cat.icon + '</div><div class="sop-cat-name">' + cat.name + '</div><div class="sop-cat-desc">' + cat.desc + '</div>' + (done > 0 ? '<div class="sop-cat-done">已完成 ' + done + '/' + total + '</div>' : '');
+    div.onclick = function() { startSOPCat(cat.id); };
+    grid.appendChild(div);
+  });
+  updateSOPStats();
+}
+
 // ===== 全局状态 =====
 let currentPartner = null;
 let selectedPartnerId = null;
@@ -949,8 +1013,6 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       if (typeof confirmPartner === 'function') {
         confirmPartner();
-      } else {
-        alert('confirmPartner 函数未定义！');
       }
     });
   }
@@ -1040,7 +1102,6 @@ function confirmPartner() {
       console.log('[confirmPartner] tabBar 已显示', tabBar);
     } else {
       console.error('[confirmPartner] tabBar 元素未找到！');
-      alert('tabBar 元素未找到！请截图console并反馈');
     }
 
     if (typeof loadHistory === 'function') loadHistory();
@@ -1402,69 +1463,6 @@ function initSOP() {
     console.error('initSOP() error:', e);
     renderSOP();
   }
-}
-
-var SOP_CATEGORIES = [
-  {id:'cat1', name:'业务感知', icon:'📊', desc:'数据、风险、判断力', color:'#3a5fcd'},
-  {id:'cat2', name:'管理权威', icon:'💪', desc:'指导、授权、追结果', color:'#e91e63'},
-  {id:'cat3', name:'洞察汇报', icon:'🔍', desc:'提炼、分析、表达力', color:'#3a5fcd'},
-  {id:'cat4', name:'主动解决', icon:'⚡', desc:'不等待、不推诿、找方法', color:'#4caf50'},
-  {id:'cat5', name:'自我认知', icon:'🧭', desc:'优势、定位、成长方向', color:'#9c27b0'}
-];
-
-var SOP_HABITS = {
-  cat1: [
-    {emoji:'📊', pos:true, text:'每天亲自查看至少一个核心业务数据', sub:'不依赖下属汇报，用自己的眼睛看业务'},
-    {emoji:'📉', pos:false, text:'等别人提醒才意识到业务风险', sub:'建立主动的风险预警习惯'},
-    {emoji:'🎯', pos:true, text:'对每个项目能说出"哪里做得好/不好"', sub:'没有判断力的P7等于没有方向感'},
-    {emoji:'😶', pos:false, text:'上级问起业务时答不上来', sub:'业务盲区是P7最大的危险信号'}
-  ],
-  cat2: [
-    {emoji:'🤝', pos:true, text:'布置任务时说明"为什么"这个要求', sub:'赋能不是指派，是让下属理解你的判断逻辑'},
-    {emoji:'🏃', pos:false, text:'觉得下属做太慢就自己干了', sub:'自己做最快，但团队永远成长不了'},
-    {emoji:'✅', pos:true, text:'对不配合的下属敢于追结果', sub:'善良不等于放任，管理需要对结果负责'},
-    {emoji:'😰', pos:false, text:'下属更愿意听其他总监的话', sub:'思考：是权威不足，还是判断力不足？'}
-  ],
-  cat3: [
-    {emoji:'💬', pos:true, text:'每次汇报先说结论，再给数据', sub:'上级的时间比你少，他需要结论先行'},
-    {emoji:'📝', pos:false, text:'汇报只是罗列事实，没有洞察', sub:'事实是原材料，洞察才是成品'},
-    {emoji:'📋', pos:true, text:'强制提炼3个重点+1个风险+1个建议', sub:'结构化输出是P7的基本功'},
-    {emoji:'🤷', pos:false, text:'上级听完我的汇报没有反馈', sub:'没有反馈往往意味着"没有价值"，需要反思'}
-  ],
-  cat4: [
-    {emoji:'🔥', pos:true, text:'遇到问题先想2个解决方案再升级', sub:'升级时带方案，是P7的专业性体现'},
-    {emoji:'🕐', pos:false, text:'等别人来推动，不主动介入', sub:'主动是P7和P6最大的行为区别'},
-    {emoji:'⚡', pos:true, text:'主动用P7权限推动了一件跨部门的事', sub:'权限是用来履行职责的，不是摆设'},
-    {emoji:'🚫', pos:false, text:'觉得"不是我的职责"所以没推动', sub:'影响业务结果的事，都是你的职责'}
-  ],
-  cat5: [
-    {emoji:'🧭', pos:true, text:'今天问了自己：我擅长什么？公司需要什么？', sub:'找准交集点，才能产生最大的职业价值'},
-    {emoji:'😔', pos:false, text:'成就感来自"完成了流程"而不是"业务增长"', sub:'流程是手段，业务结果才是目的'},
-    {emoji:'📈', pos:true, text:'回答出了"哪件事只有我能做"', sub:'不可替代性是P7的核心竞争力'},
-    {emoji:'🤷', pos:false, text:'不清楚自己在P7阶段应该达到什么标准', sub:'标准不清，努力就没有方向'}
-  ]
-};
-
-function renderSOP() {
-  var grid = document.getElementById('sopCatGrid');
-  grid.innerHTML = '';
-  SOP_CATEGORIES.forEach(function(cat) {
-    var done = getSOPDone(cat.id);
-    var total = SOP_HABITS[cat.id].length;
-    var div = document.createElement('div');
-    div.className = 'sop-cat-btn';
-    div.innerHTML = '<div class="sop-cat-icon">' + cat.icon + '</div><div class="sop-cat-name">' + cat.name + '</div><div class="sop-cat-desc">' + cat.desc + '</div>' + (done > 0 ? '<div class="sop-cat-done">已完成 ' + done + '/' + total + '</div>' : '');
-    div.onclick = function() { startSOPCat(cat.id); };
-    grid.appendChild(div);
-  });
-  updateSOPStats();
-}
-
-function getSOPDone(catId) {
-  try {
-    var data = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}');
-    return data[catId] ? Object.keys(data[catId]).length : 0;
-  } catch(e) { return 0; }
 }
 
 function startSOPCat(catId) {
