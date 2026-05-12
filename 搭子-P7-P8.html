@@ -983,6 +983,45 @@ let currentTab = 'checkin';
 let currentQAType = null;
 let currentQADir = 'result';
 
+// ===== confirmPartner（必须在DOMContentLoaded之前定义，确保onclick可调用）=====
+function confirmPartner() {
+  try {
+    var saved = null;
+    if (selectedPartnerId) {
+      saved = selectedPartnerId;
+    } else {
+      var selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
+      if (selectedCard) saved = selectedCard.dataset.id;
+    }
+    if (!saved) saved = localStorage.getItem('slim_partner_p7') || 'coach';
+    localStorage.setItem('slim_partner_p7', saved);
+
+    var partner = PARTNERS.find(function(p) { return p.id === saved; }) || PARTNERS[0];
+    currentPartner = partner;
+    selectedPartnerId = saved;
+
+    var badge = document.getElementById('partnerBadge');
+    if (badge) badge.innerHTML = partner.emoji + ' ' + partner.name;
+
+    // 强制隐藏 selector + 强制显示 tabBar
+    var sel = document.getElementById('partnerSelector');
+    if (sel) { sel.classList.remove('show'); sel.style.display = 'none'; sel.classList.add('force-hidden'); }
+    var mask = document.getElementById('partnerSelectorMask');
+    if (mask) mask.style.display = 'none';
+    var tabBar = document.getElementById('tabBar');
+    if (tabBar) {
+      tabBar.style.display = 'flex';
+      tabBar.classList.add('force-show');
+    }
+    if (typeof loadHistory === 'function') loadHistory();
+    startApp();
+  } catch(e) {
+    console.error('[confirmPartner] error:', e);
+    alert('确认搭子出错：' + e.message);
+  }
+}
+window.confirmPartner = confirmPartner;
+
 // ===== DOMContentLoaded =====
 document.addEventListener('DOMContentLoaded', function() {
   try { renderSOP(); } catch(e) { console.error('renderSOP error:', e); }
@@ -992,7 +1031,6 @@ document.addEventListener('DOMContentLoaded', function() {
     selectedPartnerId = stored;
     var p = PARTNERS.find(function(pp) { return pp.id === stored; });
     currentPartner = p;
-    // 已有存储，直接进入应用，不显示选择器
     var sel = document.getElementById('partnerSelector');
     if (sel) { sel.classList.remove('show'); sel.style.display = 'none'; }
     document.getElementById('partnerSelectorMask').style.display = 'none';
@@ -1000,22 +1038,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof loadHistory === 'function') loadHistory();
     startApp();
   } else {
-    // 第一次使用，显示搭子选择器
     showPartnerSelector();
   }
-
   autoCloseSOPGuide();
-
-  // 绑定确认搭子按钮（不依赖onclick属性）
-  var btn = document.getElementById('confirmPartnerBtn');
-  if (btn) {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      if (typeof confirmPartner === 'function') {
-        confirmPartner();
-      }
-    });
-  }
+  // 按钮onclick="confirmPartner()"已内联在HTML中，此处无需再绑addEventListener
 });
 
 // ===== 搭子选择器 =====
@@ -1070,47 +1096,6 @@ function startApp() {
   // 默认切换到搭子页
   switchTab('chat');
 }
-
-function confirmPartner() {
-  try {
-    var saved = null;
-    if (selectedPartnerId) {
-      saved = selectedPartnerId;
-    } else {
-      var selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
-      if (selectedCard) saved = selectedCard.dataset.id;
-    }
-    if (!saved) saved = localStorage.getItem('slim_partner_p7') || 'coach';
-    localStorage.setItem('slim_partner_p7', saved);
-
-    var partner = PARTNERS.find(function(p) { return p.id === saved; }) || PARTNERS[0];
-    currentPartner = partner;
-    selectedPartnerId = saved;
-
-    var badge = document.getElementById('partnerBadge');
-    if (badge) badge.innerHTML = partner.emoji + ' ' + partner.name;
-
-    // 强制隐藏 selector + 强制显示 tabBar
-    var sel = document.getElementById('partnerSelector');
-    if (sel) { sel.classList.remove('show'); sel.style.display = 'none'; sel.classList.add('force-hidden'); }
-    var mask = document.getElementById('partnerSelectorMask');
-    if (mask) mask.style.display = 'none';
-    var tabBar = document.getElementById('tabBar');
-    if (tabBar) {
-      tabBar.style.display = 'flex';
-      tabBar.classList.add('force-show');
-      console.log('[confirmPartner] tabBar 已显示', tabBar);
-    } else {
-      console.error('[confirmPartner] tabBar 元素未找到！');
-    }
-
-    if (typeof loadHistory === 'function') loadHistory();
-    startApp();
-  } catch(e) {
-    alert('确认搭子出错：' + e.message);
-  }
-}
-window.confirmPartner = confirmPartner;
 
 // ===== Tab切换 =====
 function loadHistory() {
