@@ -234,7 +234,45 @@
 
     @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ===== 轻松度数据页新结构 ===== */
+    /* ===== 轻松度记录页面 ===== */
+    .weight-page { max-width: 420px; margin: 0 auto; }
+    .weight-header {
+      background: white; border-radius: 32px; padding: 24px; margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center;
+    }
+    .weight-title { font-size: 20px; font-weight: 700; color: #d97706; margin-bottom: 4px; }
+    .weight-sub { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
+    .weight-input-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .weight-input {
+      width: 120px; height: 52px; border-radius: 16px; border: 2px solid #e9edf2;
+      text-align: center; font-size: 24px; font-weight: 700; color: #d97706; outline: none;
+    }
+    .weight-input:focus { border-color: #d97706; }
+    .weight-unit { font-size: 18px; color: #8f9eae; font-weight: 500; }
+    .weight-add-btn {
+      padding: 12px 24px; background: linear-gradient(135deg, #d97706, #b45309);
+      color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(217,119,6,0.28);
+    }
+    .weight-add-btn:active { opacity: 0.9; transform: scale(0.97); }
+    .weight-chart-card {
+      background: white; border-radius: 32px; padding: 20px 16px 16px; margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .chart-title { font-size: 15px; font-weight: 700; color: #2b2b3a; margin-bottom: 4px; }
+    .chart-sub { font-size: 12px; color: #8f9eae; margin-bottom: 12px; }
+    #relaxChartCanvas { width: 100%; border-radius: 12px; background: #fafcfe; }
+    .weight-records {
+      background: white; border-radius: 32px; padding: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06); margin-bottom: 16px;
+    }
+    .records-title { font-size: 15px; font-weight: 700; color: #92400e; margin-bottom: 14px; }
+    .record-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f4f7; }
+    .record-item:last-child { border-bottom: none; }
+    .record-date { font-size: 13px; color: #8f9eae; }
+    .record-score { font-size: 18px; font-weight: 700; }
+    .record-change { font-size: 12px; margin-left: 6px; }
+    /* 轻松度星星评分（保留） */
     .relax-star { width:30px;height:30px;border-radius:50%;border:2px solid #ffe0d0;background:white;color:#d97706;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s; }
     .relax-star.selected { background:#d97706;color:white;border-color:#d97706; }
     .relax-stars-wrap { margin-bottom: 0; }

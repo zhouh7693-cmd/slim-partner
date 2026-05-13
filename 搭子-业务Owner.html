@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>业务Owner成长自检搭子 · 签到神器</title>
   <script>
-    // 全局错误捕获——静默记录，不弹框干扰用户
+    // 全局错误捕获——帮助诊断搭子选择无反应的问题
     window.onerror = function(msg, src, line, col, err) {
-      console.error('[JS错误]', msg, '第' + line + '行', err);
+      alert('[JS错误] ' + msg + '\n位置：第' + line + '行\n详情：' + (err && err.stack ? err.stack.slice(0,300) : '无'));
     };
   </script>
   <style>
@@ -224,19 +224,37 @@
     .coach-report-label { font-size: 12px; font-weight: 700; color: #16a34a; text-transform: uppercase; margin-bottom: 6px; }
     .coach-report-value { font-size: 14px; color: #333; line-height: 1.5; }
     /* ===== 增长率记录页面 ===== */
-    .biz-page { max-width: 420px; margin: 0 auto; }
-    .biz-header { background: white; border-radius: 32px; padding: 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
-    .biz-title { font-size: 20px; font-weight: 700; color: #1a5c3a; margin-bottom: 4px; }
-    .biz-sub { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
-    .biz-input-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
-    .biz-input { width: 120px; height: 52px; border-radius: 16px; border: 2px solid #e9edf2; text-align: center; font-size: 24px; font-weight: 700; color: #16a34a; outline: none; }
-    .biz-input:focus { border-color: #16a34a; }
-    .biz-unit { font-size: 18px; color: #8f9eae; font-weight: 500; }
-    .biz-add-btn { padding: 12px 24px; background: linear-gradient(135deg, #16a34a, #0d6e30); color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(22,163,74,0.28); }
-    .biz-add-btn:active { opacity: 0.9; transform: scale(0.97); }
-    .biz-chart-card { background: white; border-radius: 32px; padding: 20px 16px 16px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .weight-page { max-width: 420px; margin: 0 auto; }
+    .weight-header {
+      background: white; border-radius: 32px; padding: 24px; margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center;
+    }
+    .weight-title { font-size: 20px; font-weight: 700; color: #16a34a; margin-bottom: 4px; }
+    .weight-sub { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
+    .weight-input-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .weight-input {
+      width: 120px; height: 52px; border-radius: 16px; border: 2px solid #e9edf2;
+      text-align: center; font-size: 24px; font-weight: 700; color: #16a34a; outline: none;
+    }
+    .weight-input:focus { border-color: #16a34a; }
+    .weight-unit { font-size: 18px; color: #8f9eae; font-weight: 500; }
+    .weight-add-btn {
+      padding: 12px 24px; background: linear-gradient(135deg, #16a34a, #0d6e30);
+      color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(22,163,74,0.28);
+    }
+    .weight-add-btn:active { opacity: 0.9; transform: scale(0.97); }
+    .weight-chart-card {
+      background: white; border-radius: 32px; padding: 20px 16px 16px; margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .chart-title { font-size: 15px; font-weight: 700; color: #2b2b3a; margin-bottom: 4px; }
+    .chart-sub { font-size: 12px; color: #8f9eae; margin-bottom: 12px; }
     #bizChartCanvas { width: 100%; border-radius: 12px; background: #fafcfe; }
-    .biz-records { background: white; border-radius: 32px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    .weight-records {
+      background: white; border-radius: 32px; padding: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06); margin-bottom: 16px;
+    }
     .records-title { font-size: 15px; font-weight: 700; color: #1a5c3a; margin-bottom: 14px; }
     .record-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f4f7; }
     .record-item:last-child { border-bottom: none; }
