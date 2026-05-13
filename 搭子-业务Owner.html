@@ -1244,18 +1244,24 @@ function submitSOPCat(catId) {
   var catData = {};
   try { catData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}')[catId] || {}; } catch(e) {}
   
+  // 查找分类名称
+  var catName = catId;
+  var catObj = SOP_CATEGORIES.find(function(c) { return c.id === catId; });
+  if (catObj) catName = catObj.name;
+  
   // 显示完成状态
   var card = document.getElementById('sopGameCard');
   var doneState = document.getElementById('sopDoneState');
-  card.style.display = 'none';
-  doneState.style.display = 'block';
+  if (card) card.style.display = 'none';
+  if (doneState) doneState.style.display = 'block';
   
   var yesCount = 0;
   habits.forEach(function(h, i) {
     if (catData['h' + i] === 'yes') yesCount++;
   });
   
-  document.getElementById('sopDoneSub').innerText = cat.name + ' 完成！做到了 ' + yesCount + '/' + habits.length + ' 项';
+  var doneSub = document.getElementById('sopDoneSub');
+  if (doneSub) doneSub.innerText = catName + ' 完成！做到了 ' + yesCount + '/' + habits.length + ' 项';
   
   // 重新渲染分类网格
   renderSOP();

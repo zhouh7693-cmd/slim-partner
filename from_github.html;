@@ -21,7 +21,7 @@
 
     /* ===== Tab Bar ===== */
     .tab-bar {
-      position: fixed; bottom: 0; left: 0; right: 0;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
       background: white;
       display: flex; justify-content: space-around;
       padding: 8px 0 max(8px, env(safe-area-inset-bottom));
@@ -54,12 +54,11 @@
       display: none; flex-direction: column;
       align-items: center; justify-content: flex-start;
       box-sizing: border-box;
-      /* 隐藏时不拦截点击 */
-      pointer-events: none;
     }
-    .partner-selector.show { display: flex; pointer-events: auto; }
+    .partner-selector.show { display: flex; }
     /* 强制覆盖：确保 selector 隐藏 */
-    .partner-selector.force-hidden { display: none !important; pointer-events: none; }
+    .partner-selector.force-hidden { display: none !important; }
+    .tab-bar { z-index: 200; }
     #partnerSelectorMask {
       display: none; /* JS 控制显示 */
       position: fixed; inset: 0; z-index: 99;
@@ -482,22 +481,22 @@
 
 <!-- Tab Bar -->
 <div class="tab-bar" id="tabBar">
-  <div class="tab-item active" onclick="switchTab('chat')">
+  <div class="tab-item active" onclick="switchTab('chat', event)">
     <div class="tab-icon">🏠</div><div class="tab-label">搭子</div>
   </div>
-  <div class="tab-item" onclick="switchTab('coach')">
+  <div class="tab-item" onclick="switchTab('coach', event)">
     <div class="tab-icon">🎓</div><div class="tab-label">教练</div>
   </div>
-  <div class="tab-item" onclick="switchTab('sop')">
+  <div class="tab-item" onclick="switchTab('sop', event)">
     <div class="tab-icon">📋</div><div class="tab-label">自检</div>
   </div>
-  <div class="tab-item" onclick="switchTab('checkin')">
+  <div class="tab-item" onclick="switchTab('checkin', event)">
     <div class="tab-icon">✅</div><div class="tab-label">打卡</div>
   </div>
-  <div class="tab-item" onclick="switchTab('data')">
+  <div class="tab-item" onclick="switchTab('data', event)">
     <div class="tab-icon">📊</div><div class="tab-label">绩效</div>
   </div>
-  <div class="tab-item" onclick="switchTab('progress')">
+  <div class="tab-item" onclick="switchTab('progress', event)">
     <div class="tab-icon">📈</div><div class="tab-label">进展</div>
   </div>
   <div class="tab-item" onclick="switchTab('share', event)">
@@ -545,7 +544,7 @@
 </div>
 
 <!-- ===== 打卡页面 ===== -->
-<div class="page" id="checkinPage">
+<div class="page active" id="checkinPage">
   <div class="card">
     <div class="partner-badge" id="partnerBadge">🏋️ 管理教练</div>
     <div class="question" id="dailyQuestion">今日管理反思：你今天主动推动了哪件事？</div>
@@ -885,7 +884,7 @@ const TYPE_SCENES_P7 = {
     {icon:'🎭',tag:'自嗨',scenario:'今天发现我们的业务策略是基于"我觉得"，而不是基于数据和客户反馈',feedback:'⚠️ "我觉得"是策略的最大敌人。P7要做的是"客户觉得"、"数据觉得"、"市场觉得"。下次做策略时，先找3个客户聊，再看10份行业报告，再和自己团队吵一遍——这些做完，"我觉得"会变成"我们验证过"。',type:'neg'},
     {icon:'📦',tag:'封闭',scenario:'今天做策略时只和团队内部聊，没有找外部视角',feedback:'⚠️ 策略如果只在团队内部讨论，很容易变成"回声室"——大家互相认同，但可能都错了。P7做策略时，要主动找外部视角：客户、竞品、行业专家、其他部门的同事。外部视角能帮你发现盲点。',type:'neg'},
     {icon:'🎪',tag:'表演',scenario:'今天发现团队在执行策略时"表演给我看"，实际根本不是那回事',feedback:'⚠️ 这就是"策略和执行脱节"。团队为什么表演？可能是：① 他们不理解策略 ② 他们认为策略不靠谱但不敢说 ③ 他们有更好的想法但没机会说。P7要创造"真实反馈"的文化：执行中有问题，随时可以提出来讨论调整。',type:'neg'},
-    {icon:'📐',tag:'模糊',scenario:'今天发现我们的策略目标很模糊，每个人理解都不一样',feedback:'⚠️ 模糊的策略 = 混乱的执行。好策略要能回答：① 目标是什么（可量化）② 怎么衡量成功（指标是什么）③ 谁负责（不能 everybody\'s responsibility = nobody\'s responsibility）。如果这三件事说不清楚，策略就是一纸空文。',type:'neg'},
+    {icon:'📐',tag:'模糊',scenario:'今天发现我们的策略目标很模糊，每个人理解都不一样',feedback:'⚠️ 模糊的策略 = 混乱的执行。好策略要能回答：① 目标是什么（可量化）② 怎么衡量成功（指标是什么）③ 谁负责（不能 everybody's responsibility = nobody's responsibility）。如果这三件事说不清楚，策略就是一纸空文。',type:'neg'},
     {icon:'🎯',tag:'完美',scenario:'今天为了等"完美策略"，一直没动手，机会窗口快过去了',feedback:'⚠️ "完美策略"是P7最常见的拖延症。市场不等人，竞品不等人。好策略是在行动中迭代出来的，不是在会议室里想出来的。先出一个"70分的策略"，快速验证、快速调整，比"等完美再动手"有效10倍。',type:'neg'}
   ],
   question: [
@@ -984,14 +983,91 @@ let currentTab = 'checkin';
 let currentQAType = null;
 let currentQADir = 'result';
 
+// ===== confirmPartner（必须在DOMContentLoaded之前定义，确保onclick可调用）=====
+function confirmPartner() {
+  try {
+    var saved = null;
+    if (selectedPartnerId) {
+      saved = selectedPartnerId;
+    } else {
+      var selectedCard = document.querySelector('#partnerGrid .partner-card.selected');
+      if (selectedCard) saved = selectedCard.dataset.id;
+    }
+    if (!saved) saved = localStorage.getItem('slim_partner_p7') || 'coach';
+    localStorage.setItem('slim_partner_p7', saved);
+
+    var partner = PARTNERS.find(function(p) { return p.id === saved; }) || PARTNERS[0];
+    currentPartner = partner;
+    selectedPartnerId = saved;
+
+    var badge = document.getElementById('partnerBadge');
+    if (badge) badge.innerHTML = partner.emoji + ' ' + partner.name;
+
+    // 强制隐藏 selector（CSS pointer-events:none穿透）+ 强制显示 tabBar
+    var sel = document.getElementById('partnerSelector');
+    if (sel) { sel.classList.remove('show'); sel.classList.add('force-hidden'); }
+    var mask = document.getElementById('partnerSelectorMask');
+    if (mask) mask.style.display = 'none';
+    var tabBar = document.getElementById('tabBar');
+    if (tabBar) { tabBar.style.display = 'flex'; tabBar.classList.add('force-show'); }
+    if (typeof loadHistory === 'function') loadHistory();
+    startApp();
+  } catch(e) {
+    console.error('[confirmPartner] error:', e);
+    alert('确认搭子出错：' + e.message);
+  }
+}
+window.confirmPartner = confirmPartner;
+
 // ===== DOMContentLoaded =====
 document.addEventListener('DOMContentLoaded', function() {
   // 调试：确认JS正常加载
   setTimeout(function() { console.log('[DEBUG] DOMContentLoaded executed, partner=' + (currentPartner && currentPartner.name)); }, 100);
   try { renderSOP(); } catch(e) { console.error('renderSOP error:', e); }
-  startApp();
+
+  var stored = localStorage.getItem('slim_partner_p7');
+  if (stored && PARTNERS.some(function(p) { return p.id === stored; })) {
+    selectedPartnerId = stored;
+    var p = PARTNERS.find(function(pp) { return pp.id === stored; });
+    currentPartner = p;
+    var sel = document.getElementById('partnerSelector');
+    if (sel) { sel.classList.remove('show'); sel.style.display = 'none'; }
+    document.getElementById('partnerSelectorMask').style.display = 'none';
+    document.getElementById('tabBar').style.display = 'flex';
+    if (typeof loadHistory === 'function') loadHistory();
+    startApp();
+  } else {
+    showPartnerSelector();
+  }
   autoCloseSOPGuide();
+  // 按钮onclick="confirmPartner()"已内联在HTML中，此处无需再绑addEventListener
 });
+
+// ===== 搭子选择器 =====
+function showPartnerSelector() {
+  var sel = document.getElementById('partnerSelector');
+  if (sel) { sel.classList.add('show'); sel.style.display = ''; }
+  document.getElementById('partnerSelectorMask').style.display = 'block';
+  renderPartnerGrid();
+}
+
+function renderPartnerGrid() {
+  var grid = document.getElementById('partnerGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  PARTNERS.forEach(function(p) {
+    var card = document.createElement('div');
+    card.className = 'partner-card';
+    card.dataset.id = p.id;
+    card.innerHTML = '<div class="partner-emoji">' + p.emoji + '</div><div class="partner-name">' + p.name + '</div><div class="partner-desc">' + p.desc + '</div>';
+    card.onclick = function() {
+      selectedPartnerId = p.id;
+      document.querySelectorAll('.partner-card').forEach(function(c) { c.classList.remove('selected'); });
+      card.classList.add('selected');
+    };
+    grid.appendChild(card);
+  });
+}
 
 // ===== 全局函数（onclick 必须全局可见） ====================
 function selectPartner(id) {
@@ -1004,11 +1080,9 @@ function selectPartner(id) {
 
 window.selectPartner = selectPartner;
 
-// ===== Tab切换（兼容旧代码调用） =====
-function switchTabDirect(tab) { switchTab(tab); }
-
 // ===== Tab切换 =====
 function switchTab(tab) {
+  console.log('[DEBUG] switchTab called:', tab);
   // 保险：无论哪种情况，只要调用了switchTab就确保tab-bar显示
   var tb = document.getElementById('tabBar');
   if (tb) { tb.style.display = 'flex'; tb.classList.add('force-show'); }
@@ -1018,31 +1092,25 @@ function switchTab(tab) {
     return;
   }
   // 关闭所有可能遮挡的弹窗
-  var qaOv = document.getElementById('qaOverlay'); if (qaOv) qaOv.classList.remove('show');
-  var fbOv = document.getElementById('fbOverlay'); if (fbOv) fbOv.classList.remove('show');
-  var sgOv = document.getElementById('sopGuideOverlay'); if (sgOv) sgOv.classList.add('hidden');
+  document.getElementById('qaOverlay').classList.remove('show');
+  document.getElementById('fbOverlay').classList.remove('show');
+  document.getElementById('sopGuideOverlay').classList.add('hidden');
   // 隐藏教练页（如果不是切到教练）
   var coachPg = document.getElementById('coachPage');
-  if (coachPg && tab !== 'coach') { coachPg.classList.remove('active'); coachPg.style.display = 'none'; }
+  if (coachPg && tab !== 'coach') { coachPg.style.display = 'none'; }
   // 隐藏所有页面
-  document.querySelectorAll('.page').forEach(function(p) {
-    p.classList.remove('active'); p.style.display = 'none';
-  });
-  // 更新tab状态
-  document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
-  var tabNames = ['chat','coach','sop','checkin','data','progress','share'];
-  var tabIdx = tabNames.indexOf(tab);
-  var allTabs = document.querySelectorAll('.tab-item');
-  if (tabIdx !== -1 && allTabs[tabIdx]) allTabs[tabIdx].classList.add('active');
+  var pages = document.querySelectorAll('.page');
+  for (var i = 0; i < pages.length; i++) { pages[i].classList.remove('active'); }
   // 显示目标页面
-  if (tab === 'coach') {
-    if (coachPg) { coachPg.classList.add('active'); coachPg.style.display = ''; }
-  } else {
-    var pe = document.getElementById(tab + 'Page');
-    if (pe) { pe.classList.add('active'); pe.style.display = ''; }
-  }
+  var target = document.getElementById(tab + 'Page');
+  if (target) { target.classList.add('active'); }
+  // 更新tab状态
+  var tabs = document.querySelectorAll('.tab-item');
+  for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove('active'); }
+  var activeTab = document.querySelector('.tab-item[onclick*="' + tab + '"]');
+  if (activeTab) { activeTab.classList.add('active'); }
   currentTab = tab;
-  // 各页面初始化
+  // 特殊处理
   if (tab === 'chat') { renderChat(); }
   if (tab === 'coach') { showCoach(); }
   if (tab === 'sop') { renderSOP(); }
@@ -1051,78 +1119,19 @@ function switchTab(tab) {
   if (tab === 'share') { renderShare(); }
 }
 
-function renderChat() {
-  var chatArea = document.getElementById('chatArea');
-  if (!chatArea) return;
-  // 如果已经有内容，不重复渲染
-  if (chatArea.children.length > 0) return;
-  var partner = currentPartner || PARTNERS[0];
-  var wrap = document.createElement('div');
-  wrap.className = 'msg-bubble-wrap';
-  wrap.innerHTML = '<div class="msg-avatar">' + partner.emoji + '</div><div class="msg-bubble ai">' + partner.intro + '</div>';
-  chatArea.appendChild(wrap);
-  chatArea.scrollTop = chatArea.scrollHeight;
-}
-
-function renderPartnerGrid() {
-  var grid = document.getElementById('partnerGrid');
-  if (!grid) return;
-  grid.innerHTML = '';
-  PARTNERS.forEach(function(p) {
-    var div = document.createElement('div');
-    div.className = 'partner-card';
-    div.innerHTML = '<div class="partner-emoji">' + p.emoji + '</div><div class="partner-name">' + p.name + '</div><div class="partner-desc">' + p.desc + '</div>';
-    div.onclick = function() {
-      document.querySelectorAll('.partner-card').forEach(function(c) { c.classList.remove('selected'); });
-      div.classList.add('selected');
-      currentPartner = p;
-    };
-    grid.appendChild(div);
-  });
-  if (PARTNERS.length === 1) {
-    grid.children[0].classList.add('selected');
-    currentPartner = PARTNERS[0];
-  }
-}
-
-function confirmPartner() {
-  if (!currentPartner) { alert('请先选一个搭子'); return; }
-  localStorage.setItem(STORAGE.PARTNER, currentPartner.id);
-  var sel = document.getElementById('partnerSelector');
-  if (sel) { sel.classList.remove('show'); sel.style.display = 'none'; sel.classList.add('force-hidden'); }
-  document.getElementById('partnerSelectorMask').style.display = 'none';
-  var tabBar = document.getElementById('tabBar');
-  if (tabBar) { tabBar.style.display = 'flex'; tabBar.classList.add('force-show'); }
-  var badge = document.getElementById('partnerBadge');
-  if (badge) badge.innerHTML = currentPartner.emoji + ' ' + currentPartner.name;
-  switchTab('chat');
-  renderChat();
-  showToast(currentPartner.emoji + ' ' + currentPartner.name + ' 已上线！');
-}
-
 function startApp() {
-  // 检查是否已选择搭子
-  var saved = localStorage.getItem(STORAGE.PARTNER);
+  // 初始化搭子状态
+  var saved = localStorage.getItem('slim_partner_p7');
   if (saved) {
     var partner = PARTNERS.find(function(p) { return p.id === saved; });
     if (partner) {
       currentPartner = partner;
-      var sel = document.getElementById('partnerSelector');
-      if (sel) { sel.classList.remove('show'); sel.style.display = 'none'; sel.classList.add('force-hidden'); }
-      document.getElementById('partnerSelectorMask').style.display = 'none';
-      var tabBar = document.getElementById('tabBar');
-      if (tabBar) { tabBar.style.display = 'flex'; tabBar.classList.add('force-show'); }
       var badge = document.getElementById('partnerBadge');
       if (badge) badge.innerHTML = partner.emoji + ' ' + partner.name;
-      switchTab('chat');
-      renderChat();
     }
-  } else {
-    // 第一次使用，显示选择器
-    var sel = document.getElementById('partnerSelector');
-    if (sel) { sel.classList.add('show'); sel.style.display = 'flex'; }
-    renderPartnerGrid();
   }
+  // 默认切换到搭子页
+  switchTab('chat');
 }
 
 function loadHistory() {
@@ -2262,10 +2271,9 @@ function initP7DataPage() {
   if (elT) elT.innerText = total;
   if (elD) elD.innerText = today;
 }
-</script>
 
 <!-- ===== Page: 绩效 ===== -->
-<div id="dataPage" class="page">
+<div id="page-data" class="page">
   <div class="weight-page">
     <div class="weight-header">
       <div class="weight-title">📊 P7绩效记录</div>
@@ -2478,8 +2486,16 @@ function copyP7Share() {
   var orig = switchTab;
   window.switchTab = function(tab){
     orig(tab);
-    if(tab==='data') { initP7DataPage(); }
-    if(tab==='progress') { initP7ProgressPage(); }
+    if(tab==='data') {
+      initP7DataPage();
+      var dp = document.getElementById('page-data');
+      if(dp){ dp.classList.add('active'); dp.style.display = ''; }
+    }
+    if(tab==='progress') {
+      initP7ProgressPage();
+      var pp = document.getElementById('progressPage');
+      if(pp){ pp.classList.add('active'); pp.style.display = ''; }
+    }
   };
 })();
 </script>
