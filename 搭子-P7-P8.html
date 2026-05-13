@@ -1067,7 +1067,8 @@ function switchTab(tab) {
   if (tab === 'coach') {
     if (coachPg) { coachPg.classList.add('active'); coachPg.style.display = ''; }
   } else {
-    var pe = document.getElementById(tab + 'Page');
+    var pageId = tab === 'sop' ? 'page-sop' : (tab + 'Page');
+    var pe = document.getElementById(pageId);
     if (pe) { pe.classList.add('active'); pe.style.display = ''; }
   }
   currentTab = tab;
