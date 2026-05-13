@@ -1044,11 +1044,11 @@ function switchTab(tab) {
   currentTab = tab;
   // 各页面初始化
   if (tab === 'chat') { renderChat(); }
-  if (tab === 'coach') { showCoach(); }
+  if (tab === 'coach') { initCoach(); }
   if (tab === 'sop') { renderSOP(); }
-  if (tab === 'data') { renderPerf(); }
+  if (tab === 'data') { renderPerfPage(); }
   if (tab === 'progress') { initProgressPage(); }
-  if (tab === 'share') { renderShare(); }
+  if (tab === 'share') { renderSharePage(); }
 }
 
 function renderChat() {
