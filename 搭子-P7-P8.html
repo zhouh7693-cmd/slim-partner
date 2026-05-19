@@ -3,7 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>P7升P8成长自检搭子 · 签到神器</title>
+  <script>
+    // 防缓存：每天自动刷新一次，确保拿到最新代码
+    (function() {
+      var lastVisit = localStorage.getItem('p7_last_visit_date');
+      var today = new Date().toDateString();
+      if (lastVisit !== today) {
+        localStorage.setItem('p7_last_visit_date', today);
+        if (lastVisit) location.reload(true);
+      }
+    })();
+  </script>
   <script>
     // 全局错误捕获（静默记录，不弹窗）
     window.onerror = function(msg, src, line, col, err) {
