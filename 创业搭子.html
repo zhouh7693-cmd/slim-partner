@@ -1690,6 +1690,10 @@ function showSOPFinish() {
   const fb = getTotalFeedback(pct, allScores);
   document.getElementById('sopCatFeedback').textContent = fb;
 
+  // ★ 修复：同步内存变量，让打卡页立即可用
+  sopCompletedToday = true;
+  localStorage.setItem('sop_completed_entrepreneur_' + new Date().toDateString(), 'true');
+
   document.getElementById('sopModal').classList.add('active');
 }
 
@@ -1775,8 +1779,18 @@ function renderSOPDoneState() {
           }).join('')}</div>
         </div>` : ''}
         <button class="sop-redo-btn" onclick="redoSOP()">🔄 重新复盘今日</button>
+        <button class="sop-reset-btn" onclick="resetSOPForTomorrow()" style="margin-top:10px;width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#43a047,#66bb6a);color:#fff;font-size:16px;font-weight:700;border:none;cursor:pointer;">明天再来 →</button>
       </div>
     </div>`;
+}
+
+function resetSOPForTomorrow() {
+  // 清除今日SOP记录，下次进入自动从头开始
+  save(STORAGE.SOP_TODAY, null);
+  sopCompletedToday = false;
+  localStorage.removeItem('sop_completed_entrepreneur_' + new Date().toDateString());
+  alert('✅ 已重置！明天再来继续自检打卡。');
+  initSOP();
 }
 
 function redoSOP() {

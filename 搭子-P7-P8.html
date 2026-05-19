@@ -1427,11 +1427,19 @@ function closeQA() { document.getElementById('qaOverlay').classList.remove('show
 // 初始化SOP页面
 function initSOP() {
   try {
-    // 检查今天是否已完成SOP
+    var today = getToday();
     var savedData = localStorage.getItem(STORAGE.SOP);
     if (savedData) {
       try {
         var data = JSON.parse(savedData);
+        // ★ 日期检查：如果存储的日期不是今天，自动清除（每日重置）
+        if (data._date && data._date !== today) {
+          localStorage.removeItem(STORAGE.SOP);
+          localStorage.removeItem('sop_completed_p7_' + new Date(data._date).toDateString());
+          sopCompletedToday = false;
+          renderSOP();
+          return;
+        }
         var total = 0;
         var done = 0;
         SOP_CATEGORIES.forEach(function(cat) {
@@ -1549,6 +1557,8 @@ function toggleSOPItem(catId, idx, val) {
   var data = {};
   try { data = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}'); } catch(e) {}
   if (!data[catId]) data[catId] = {};
+  // ★ 写入今天日期，用于第二天自动重置
+  data._date = getToday();
   // 切换逻辑：如果已经选了相同的，就取消；否则设置新值
   if (data[catId]['h' + idx] === val) {
     delete data[catId]['h' + idx];
@@ -1600,11 +1610,22 @@ function updateSOPStats() {
 }
 
 function resetSOP() {
-  localStorage.removeItem(STORAGE.SOP);
-  localStorage.removeItem(STORAGE.SOP_STREAKS);
-  renderSOP();
-  document.getElementById('sopGameCard').style.display = 'none';
+  // "明天再来"：不删除今天的数据（保留成果），明天第一次进入会自动按日期重置
+  // 只隐藏完成态，给用户一个友好反馈
   document.getElementById('sopDoneState').style.display = 'none';
+  document.getElementById('sopGameCard').style.display = 'none';
+  // 提示明天见
+  var tip = document.createElement('div');
+  tip.style.cssText = 'text-align:center;padding:40px 20px;color:#3a5fcd;font-size:16px;font-weight:600;';
+  tip.innerHTML = '🌙 今日自检已记录！<br><span style="font-size:13px;color:#888;font-weight:400;margin-top:8px;display:block">明天自动重置，继续加油～</span>';
+  var gameCard = document.getElementById('sopGameCard');
+  if (gameCard && gameCard.parentNode) {
+    var container = gameCard.parentNode;
+    var existTip = container.querySelector('.sop-tomorrow-tip');
+    if (existTip) existTip.remove();
+    tip.className = 'sop-tomorrow-tip';
+    container.appendChild(tip);
+  }
 }
 
 function autoCloseSOPGuide() {
