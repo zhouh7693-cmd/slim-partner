@@ -6,6 +6,10 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
+  <!-- v20260612 -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>P7升P8成长自检搭子 · 签到神器</title>
   <script>
     // 防缓存：每天自动刷新一次，确保拿到最新代码
@@ -661,7 +665,7 @@
       <div class="sop-done-icon">🎉</div>
       <div class="sop-done-title">今日自检完成！</div>
       <div class="sop-done-sub" id="sopDoneSub">又完成了一次自我审视</div>
-      <button class="sop-reset-btn" onclick="resetSOP()">明天再来 →</button>
+      <button class="sop-reset-btn" onclick="resetSOPForTomorrow()">明天再来 →</button>
     </div>
   </div>
 </div>
@@ -1625,19 +1629,20 @@ function updateSOPStats() {
 }
 
 function resetSOP() {
-  // "明天再来"：立即清空今日自检数据，让用户可以重新开始
+  // "明天再来"：完全清空今日自检数据，重新开始（对齐Owner逻辑）
   localStorage.removeItem(STORAGE.SOP);
+  localStorage.removeItem(STORAGE.SOP_STREAKS);
   localStorage.removeItem('sop_completed_p7_' + new Date().toDateString());
   sopCompletedToday = false;
-  // 清除各维度得分缓存
-  SOP_CATEGORIES.forEach(function(cat) {
-    localStorage.removeItem('sop_score_p7_' + cat.id);
-  });
-  // 重新渲染
   sopCatIdx = 0;
   renderSOP();
+  document.getElementById('sopGameCard').style.display = 'none';
   document.getElementById('sopDoneState').style.display = 'none';
-  document.getElementById('sopGameCard').style.display = 'block';
+}
+
+function resetSOPForTomorrow() {
+  // 完成态"明天再来"按钮：等同 resetSOP，清空数据让用户重新开始
+  resetSOP();
 }
 
 function autoCloseSOPGuide() {
