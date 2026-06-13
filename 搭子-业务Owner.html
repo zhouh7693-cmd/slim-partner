@@ -8,6 +8,20 @@
   <meta http-equiv="Expires" content="0">
   <title>业务Owner成长自检搭子 · 签到神器</title>
   <script>
+    // ====== 防缓存：版本号检测（每次发版更新版本号即可破所有缓存）======
+    (function() {
+      var VER = '2026061323';  // ← 每次发版改这个数字
+      var stored = localStorage.getItem('owner_page_ver');
+      if (stored && stored !== VER) {
+        localStorage.clear();
+        location.reload(true);
+      }
+      if (!stored) {
+        localStorage.setItem('owner_page_ver', VER);
+      }
+    })();
+  </script>
+  <script>
     // 全局错误捕获——帮助诊断搭子选择无反应的问题
     window.onerror = function(msg, src, line, col, err) {
       alert('[JS错误] ' + msg + '\n位置：第' + line + '行\n详情：' + (err && err.stack ? err.stack.slice(0,300) : '无'));
