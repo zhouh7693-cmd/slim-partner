@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <!-- v20260615-fix-single-cat-buttons -->
+  <!-- v20260615-fix-display-block -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -14,7 +14,7 @@
   <script>
     // ====== 防缓存：版本号检测（每次发版更新版本号即可破所有缓存）======
     (function() {
-      var VER = '20260615';  // ← 每次发版改这个数字
+      var VER = '20260616';  // ← 每次发版改这个数字
       var stored = localStorage.getItem('p7_page_ver');
       if (stored && stored !== VER) {
         // 版本变了，清除旧数据并强制刷新
@@ -1529,10 +1529,13 @@ function renderSOPList() {
         <div style="margin-top:12px;padding:12px;background:linear-gradient(135deg, ${cat.color}11, ${cat.color}22);border-radius:12px;font-size:13px;color:#555;line-height:1.6;">${feedback}</div>
         <div style="margin-top:20px;display:flex;flex-direction:column;align-items:center;gap:10px;">
           ${nextCatBtn}
-          <button onclick="resetSOP()" style="background:transparent;color:#8f9eae;border:1px solid #dce3eb;padding:8px 24px;border-radius:60px;font-size:13px;font-weight:500;cursor:pointer;">🔄 明天再来 · 重置今日</button>
+          <button onclick="resetSOP()" style="background:transparent;color:#8f9eae;border:1px solid #dce3eb;padding:10px 28px;border-radius:60px;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px;">🔄 明天再来 · 重置今日</button>
         </div>
       </div>
     `;
+    // ★ 关键修复：确保卡片可见（summary分支跳过了line 1575的display=block）
+    document.getElementById('sopGameCard').style.display = 'block';
+    document.getElementById('sopDoneState').style.display = 'none';
     return;
   }
 
