@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <!-- v20260613 -->
+  <!-- v20260614-fix-sop-reset -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -14,7 +14,7 @@
   <script>
     // ====== 防缓存：版本号检测（每次发版更新版本号即可破所有缓存）======
     (function() {
-      var VER = '20260613';  // ← 每次发版改这个数字
+      var VER = '20260614';  // ← 每次发版改这个数字
       var stored = localStorage.getItem('p7_page_ver');
       if (stored && stored !== VER) {
         // 版本变了，清除旧数据并强制刷新
@@ -1625,23 +1625,41 @@ function updateSOPStats() {
   var ptext = document.getElementById('sopProgressText');
   if (ptext) ptext.innerText = score + ' / 100';
   
-  // 所有SOP完成，允许打卡
+  // 所有SOP完成，允许打卡 ★ 对齐Owner：立即显示完成态
   if (done >= total && total > 0) {
     sopCompletedToday = true;
     localStorage.setItem('sop_completed_p7_' + new Date().toDateString(), 'true');
+    // 立即显示自检完成态（含"明天再来"按钮）
+    var card = document.getElementById('sopGameCard');
+    var doneState = document.getElementById('sopDoneState');
+    var tabsEl = document.getElementById('sopCatTabs');
+    var tipEl = document.getElementById('sopTipText');
+    if (card) card.style.display = 'none';
+    if (tabsEl) tabsEl.style.display = 'none';
+    if (tipEl) tipEl.parentElement.style.display = 'none';
+    if (doneState) doneState.style.display = 'block';
+    // 更新完成态副标题
+    var scoreEl = document.getElementById('sopDoneSub');
+    if (scoreEl) scoreEl.innerText = '做到了 ' + yesCount + ' 项 · 需注意 ' + (done - yesCount) + ' 项';
   }
 }
 
 function resetSOP() {
-  // "明天再来"：完全清空今日自检数据，重新开始（对齐Owner逻辑）
+  // ★ 对齐Owner：完全清空今日自检数据，重新开始
   localStorage.removeItem(STORAGE.SOP);
   localStorage.removeItem(STORAGE.SOP_STREAKS);
   localStorage.removeItem('sop_completed_p7_' + new Date().toDateString());
   sopCompletedToday = false;
   sopCatIdx = 0;
+  // 重新渲染（renderSOP → renderSOPList 会正确显示第一个分类的题目）
   renderSOP();
-  document.getElementById('sopGameCard').style.display = 'none';
+  // 确保完成态隐藏，问答区和标签页正常显示
   document.getElementById('sopDoneState').style.display = 'none';
+  var tabsEl = document.getElementById('sopCatTabs');
+  if (tabsEl) tabsEl.style.display = '';
+  var tipEl = document.getElementById('sopTipText');
+  if (tipEl) tipEl.parentElement.style.display = '';
+  // ★ 不隐藏 sopGameCard —— renderSOPList() 已正确设置其显示状态
 }
 
 function resetSOPForTomorrow() {
