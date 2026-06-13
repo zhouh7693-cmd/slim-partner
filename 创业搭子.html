@@ -333,6 +333,9 @@
     .sf-note { font-size: 11px; color: #b0bec5; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; gap: 4px; }
     .sf-btn { display: block; width: 100%; background: linear-gradient(135deg,#43a047,#2e7d52); color: white; border: none; border-radius: 50px; padding: 15px; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px rgba(46,125,50,0.35); letter-spacing: 0.5px; }
     .sf-btn:active { transform: scale(0.97); }
+    .sf-btn-cat { background: linear-gradient(135deg,#43a047,#2e7d52); color: white; border: none; border-radius: 50px; padding: 15px; font-size: 16px; font-weight: 800; width: 100%; cursor: pointer; box-shadow: 0 6px 20px rgba(46,125,50,0.35); letter-spacing: 0.5px; }
+    .sf-btn-cat:active { transform: scale(0.97); }
+    .sf-feedback { background: #f8fafc; border-radius: 16px; padding: 16px; font-size: 15px; line-height: 1.7; color: #37474f; font-weight: 500; border: 1.5px solid #eceff1; margin-bottom: 16px; }
     .sf-hist-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
     .sf-history { display: flex; gap: 6px; align-items: flex-end; margin-bottom: 16px; }
     .sf-hist-day { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
@@ -670,7 +673,15 @@
       <div class="sop-tip-item" id="sopTipText"></div>
     </div>
   </div>
-</div><!-- 教练页 · 麦肯锡风格深度对话教练 -->
+</div>
+
+<!-- ===== 分类小结弹窗 ===== -->
+<div class="sop-finish-overlay" id="catSummaryOverlay"></div>
+
+<!-- ===== SOP 全部完成弹窗 ===== -->
+<div class="sop-finish-overlay" id="sopFinishOverlay"></div>
+
+<!-- 教练页 · 麦肯锡风格深度对话教练 -->
 <div class="page" id="coachPage">
   <div class="coach-page" id="coachPageContent">
     <!-- 教练介绍页 -->
@@ -1820,7 +1831,7 @@ function renderSOPList() {
     
     return `
       <div class="sop-item ${yesClass} ${noClass}" data-idx="${idx}">
-        <div class="sop-item-text">${item.text}</div>
+        <div class="sop-item-text">${item.q}</div>
         <div class="sop-item-btns">
           <button class="${yesBtnClass}" onclick="toggleSOPItem(${idx}, 'yes')">
             <span>✅</span><span>做到了</span>
@@ -2593,6 +2604,12 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
   </div>
 </div>
+
+<!-- ===== Page: 进展 ===== -->
+<div id="page-progress" class="page"></div>
+
+<!-- ===== Page: 出发 ===== -->
+<div id="page-share" class="page"></div>
 
 <script>
 // ==================== 数据记录模块 ====================
