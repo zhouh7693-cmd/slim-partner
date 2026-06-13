@@ -6,19 +6,23 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <!-- v20260612 -->
+  <!-- v20260613 -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>P7升P8成长自检搭子 · 签到神器</title>
   <script>
-    // 防缓存：每天自动刷新一次，确保拿到最新代码
+    // ====== 防缓存：版本号检测（每次发版更新版本号即可破所有缓存）======
     (function() {
-      var lastVisit = localStorage.getItem('p7_last_visit_date');
-      var today = new Date().toDateString();
-      if (lastVisit !== today) {
-        localStorage.setItem('p7_last_visit_date', today);
-        if (lastVisit) location.reload(true);
+      var VER = '20260613';  // ← 每次发版改这个数字
+      var stored = localStorage.getItem('p7_page_ver');
+      if (stored && stored !== VER) {
+        // 版本变了，清除旧数据并强制刷新
+        localStorage.clear();
+        location.reload(true);
+      }
+      if (!stored) {
+        localStorage.setItem('p7_page_ver', VER);
       }
     })();
   </script>
