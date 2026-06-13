@@ -14,7 +14,7 @@
   <script>
     // ====== 防缓存：版本号检测（每次发版更新版本号即可破所有缓存）======
     (function() {
-      var VER = '20260616';  // ← 每次发版改这个数字
+      var VER = '20260617';  // ← 每次发版改这个数字
       var stored = localStorage.getItem('p7_page_ver');
       if (stored && stored !== VER) {
         // 版本变了，清除旧数据并强制刷新
@@ -995,7 +995,7 @@ let sopCatIdx = 0;
 let sopSelected = {};
 let sopSubmittedCats = [];
 let sopDone = false;
-let sopCompletedToday = false;
+// sopCompletedToday 已在上方用 var 声明，此处不再重复声明
 
 
 // ===== SOP自检（身体财富框架） =====
