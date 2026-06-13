@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <!-- v20260614-fix-sop-reset -->
+  <!-- v20260615-fix-single-cat-buttons -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -14,7 +14,7 @@
   <script>
     // ====== 防缓存：版本号检测（每次发版更新版本号即可破所有缓存）======
     (function() {
-      var VER = '20260614';  // ← 每次发版改这个数字
+      var VER = '20260615';  // ← 每次发版改这个数字
       var stored = localStorage.getItem('p7_page_ver');
       if (stored && stored !== VER) {
         // 版本变了，清除旧数据并强制刷新
@@ -1515,6 +1515,11 @@ function renderSOPList() {
       feedback = cat.name + '今天有点困难没关系，明天重新开始！不要放弃！🔥';
     }
     
+    // ★ 对齐Owner搭子：当前维度完成总结 + 操作按钮
+    var hasNextCat = sopCatIdx < SOP_CATEGORIES.length - 1;
+    var nextCat = hasNextCat ? SOP_CATEGORIES[sopCatIdx + 1] : null;
+    var nextCatBtn = hasNextCat ? `<button onclick="sopCatIdx++;renderSOPList()" style="background:${cat.color};color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;">下一类：${nextCat.icon} ${nextCat.name} →</button>` : '';
+
     document.getElementById('sopGameCard').innerHTML = `
       <div class="sop-cat-summary">
         <div class="sop-cat-summary-icon">${cat.icon}</div>
@@ -1522,6 +1527,10 @@ function renderSOPList() {
         <div style="font-size:24px;font-weight:800;color:${cat.color};margin-top:8px;">${catScore}分</div>
         <div style="font-size:12px;color:#8f9eae;margin-top:4px;">做到了 ${yesCount} 项 · 需注意 ${noCount} 项</div>
         <div style="margin-top:12px;padding:12px;background:linear-gradient(135deg, ${cat.color}11, ${cat.color}22);border-radius:12px;font-size:13px;color:#555;line-height:1.6;">${feedback}</div>
+        <div style="margin-top:20px;display:flex;flex-direction:column;align-items:center;gap:10px;">
+          ${nextCatBtn}
+          <button onclick="resetSOP()" style="background:transparent;color:#8f9eae;border:1px solid #dce3eb;padding:8px 24px;border-radius:60px;font-size:13px;font-weight:500;cursor:pointer;">🔄 明天再来 · 重置今日</button>
+        </div>
       </div>
     `;
     return;
