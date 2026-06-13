@@ -1974,7 +1974,8 @@ function switchTab(tab) {
   }
   document.getElementById('qaOverlay').classList.remove('show');
   document.getElementById('fbOverlay').classList.remove('show');
-  document.getElementById('sopGuideOverlay').classList.add('hidden');
+  var sopGuideEl = document.getElementById('sopGuideOverlay');
+  if (sopGuideEl) sopGuideEl.remove();
   // 隐藏教练页
   var coachPg = document.getElementById('coachPage');
   if (coachPg) { coachPg.classList.remove('active'); coachPg.style.display = 'none'; }
@@ -2026,7 +2027,8 @@ function switchTab(tab) {
 function switchTabDirect(tab) {
   document.getElementById('qaOverlay').classList.remove('show');
   document.getElementById('fbOverlay').classList.remove('show');
-  document.getElementById('sopGuideOverlay').classList.add('hidden');
+  var sopGuideEl = document.getElementById('sopGuideOverlay');
+  if (sopGuideEl) sopGuideEl.remove();
   currentTab = tab;
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   var pageId = tab === 'sop' ? 'page-sop' : (tab + 'Page');
