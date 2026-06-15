@@ -1825,24 +1825,103 @@ function generateMcKinseyReportOwner() {
   `;
 }
 
-// ===== 进展页面初始化 =====
+// ===== 进展页面初始化（完整版，参照身体财富结构） =====
 function initProgressPage() {
+  // 读取打卡历史
   var history = [];
   try { history = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); } catch(e) {}
   var total = history.length;
-  var today = history.indexOf(new Date().toLocaleDateString()) >= 0 ? '✅' : '-';
-  // 计算连续天数
+  var today = getToday();
+
+  // 今日打卡状态
+  var todayRecord = history.find(function(h) { return h.date === today && h.checkin; });
+  var todayTxt = todayRecord ? '✅' : '-';
+
+  // 连续天数
   var streak = 0;
   var d = new Date();
-  while (true) {
-    if (history.indexOf(d.toLocaleDateString()) >= 0) { streak++; d.setDate(d.getDate() - 1); } else { break; }
+  for (var i = 0; i < 60; i++) {
+    var dd = new Date(d); dd.setDate(d.getDate() - i);
+    var ds = dd.toISOString().slice(0,10);
+    if (history.some(function(h) { return h.date === ds && h.checkin; })) { streak++; }
+    else if (i > 0) { break; }
   }
+
+  // 读取SOP得分历史
+  var sopHistory = [];
+  try { sopHistory = JSON.parse(localStorage.getItem(STORAGE.SOP) || '[]'); } catch(e) {}
+
+  // 平均得分
+  var avgScore = 0;
+  if (sopHistory.length > 0) {
+    avgScore = Math.round(sopHistory.reduce(function(s, h) { return s + (h.score || 0); }, 0) / sopHistory.length);
+  }
+
+  // 更新基础统计数字
   var elStreak = document.getElementById('ownerStreak');
   var elTotal = document.getElementById('ownerTotal');
   var elToday = document.getElementById('ownerToday');
   if (elStreak) elStreak.innerText = streak;
   if (elTotal) elTotal.innerText = total;
-  if (elToday) elToday.innerText = today;
+  if (elToday) elToday.innerText = todayTxt;
+
+  // 更新SVG圆环（JS控制 stroke-dashoffset）
+  var circumference = 2 * Math.PI * 54; // r=54
+  var offset = circumference - (avgScore / 100) * circumference;
+  var ringEl = document.getElementById('ownerRingFill');
+  var pctEl = document.getElementById('ownerRingPct');
+  if (ringEl) ringEl.setAttribute('stroke-dashoffset', offset.toFixed(2));
+  if (pctEl) pctEl.textContent = avgScore + '%';
+
+  // 各维度平均得分动态渲染（参照身体财富 bodyProgressDims）
+  var dimsEl = document.getElementById('ownerProgressDims');
+  if (dimsEl && typeof SOP_CATEGORIES !== 'undefined' && SOP_CATEGORIES) {
+    dimsEl.innerHTML = SOP_CATEGORIES.map(function(cat) {
+      var catHabits = SOP_HABITS[cat.id] || [];
+      var totalItems = catHabits.length;
+      var catAvg = 0;
+      if (sopHistory.length > 0 && totalItems > 0) {
+        catAvg = Math.round(sopHistory.reduce(function(s, h) {
+          var sel = (h.selected && h.selected[cat.id]) || {};
+          var yes = Object.keys(sel).filter(function(k) { return sel[k] === 'yes'; }).length;
+          return s + yes;
+        }, 0) / sopHistory.length);
+      }
+      var fill = totalItems > 0 ? Math.round((catAvg / totalItems) * 100) : 0;
+      return '<div style="display:flex;align-items:center;gap:10px;">'
+        + '<div style="font-size:18px;width:28px;text-align:center;">' + cat.icon + '</div>'
+        + '<div style="flex:1;">'
+        + '<div style="font-size:13px;color:#166534;font-weight:600;margin-bottom:4px;">' + cat.name + '</div>'
+        + '<div style="height:6px;background:#dcfce7;border-radius:6px;overflow:hidden;">'
+        + '<div style="height:100%;width:' + fill + '%;background:' + cat.color + ';border-radius:6px;transition:width 0.8s;"></div>'
+        + '</div>'
+        + '</div>'
+        + '<div style="font-size:12px;font-weight:700;color:#16a34a;width:40px;text-align:right;">' + catAvg + '/' + totalItems + '</div>'
+        + '</div>';
+    }).join('');
+  }
+
+  // 搭子鼓励（动态显示当前搭子名称和emoji）
+  var partner = currentPartner;
+  if (!partner && typeof PARTNERS !== 'undefined' && PARTNERS && PARTNERS.length > 0) {
+    partner = PARTNERS[0];
+  }
+  var emojiEl = document.getElementById('ownerProgressEmoji');
+  var nameEl = document.getElementById('ownerProgressName');
+  var msgEl = document.getElementById('ownerProgressMsg');
+  if (partner) {
+    if (emojiEl) emojiEl.textContent = partner.emoji || '🌿';
+    if (nameEl) nameEl.textContent = partner.name || '稳进';
+  }
+  if (msgEl) {
+    var msgs = [
+      '💪 坚持打卡，Owner思维会越来越强！',
+      '📊 每天自检5分钟，照见业务盲区。',
+      '🎯 结构化成长，每天一点积累，终成Owner！',
+      '🌿 稳进者，方能致远。坚持就是赢！'
+    ];
+    msgEl.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+  }
 }
 </script>
 
@@ -1854,20 +1933,23 @@ function initProgressPage() {
       <div style="font-size:48px;margin-bottom:8px;">📈</div>
       <div style="font-size:18px;font-weight:700;margin-bottom:4px;">业务Owner成长档案</div>
       <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">结构化成长 · 结果导向</div>
-      
-      <!-- 圆环图：平均得分 -->
-      <div style="position:relative;width:120px;height:120px;margin:0 auto 20px;">
-        <svg width="120" height="120" viewBox="0 0 120 120">
-          <circle cx="60" cy="60" r="54" stroke="#e5e7eb" stroke-width="8" fill="none"/>
-          <circle cx="60" cy="60" r="54" stroke="#16a34a" stroke-width="8" fill="none" 
-                  stroke-dasharray="339.3" 
-                  stroke-dashoffset="calc(339.3 * (1 - (avgScore || 0) / 100))" 
-                  transform="rotate(-90 60 60)" id="progressRing"/>
+
+      <!-- 圆环图：平均得分（140x140 渐变版，JS控制） -->
+      <div style="display:flex;justify-content:center;margin-bottom:16px;">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <defs>
+            <linearGradient id="ownerRingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#0d6e30"/>
+              <stop offset="100%" stop-color="#22c55e"/>
+            </linearGradient>
+          </defs>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#eef2f5" stroke-width="14"/>
+          <circle id="ownerRingFill" cx="70" cy="70" r="54" fill="none" stroke="url(#ownerRingGrad)" stroke-width="14"
+            stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"
+            transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.8s;"/>
+          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#16a34a;" id="ownerRingPct">0%</text>
+          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#8f9eae;">平均得分</text>
         </svg>
-        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
-          <div style="font-size:24px;font-weight:800;color:#16a34a;" id="avgScore">0</div>
-          <div style="font-size:11px;color:#8f9eae;">平均得分</div>
-        </div>
       </div>
 
       <!-- 核心数据统计 -->
@@ -1882,56 +1964,22 @@ function initProgressPage() {
         </div>
         <div style="background:#fff7ed;border-radius:16px;padding:12px 18px;text-align:center;">
           <div style="font-size:20px;font-weight:800;color:#ea580c;" id="ownerToday">-</div>
-          <div style="font-size:11px;color:#8f9eae;">今日得分</div>
+          <div style="font-size:11px;color:#8f9eae;">今日打卡</div>
         </div>
       </div>
     </div>
 
-    <!-- 各维度统计卡片 -->
+    <!-- 各维度统计卡片（动态渲染） -->
     <div style="background:white;border-radius:24px;padding:20px;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,0.06);">
-      <div style="font-size:16px;font-weight:700;color:#16a34a;margin-bottom:16px;">📊 各维度得分</div>
-      <div id="dimensionStats">
-        <div style="display:flex;align-items:center;margin-bottom:12px;">
-          <div style="width:80px;font-size:13px;color:#555;">业务感知</div>
-          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
-            <div style="width:0%;height:100%;background:#16a34a;border-radius:4px;transition:width 0.5s;" id="dimScore1"></div>
-          </div>
-          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#16a34a;" id="dimValue1">0</div>
-        </div>
-        <div style="display:flex;align-items:center;margin-bottom:12px;">
-          <div style="width:80px;font-size:13px;color:#555;">管理权威</div>
-          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
-            <div style="width:0%;height:100%;background:#16a34a;border-radius:4px;transition:width 0.5s;" id="dimScore2"></div>
-          </div>
-          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#16a34a;" id="dimValue2">0</div>
-        </div>
-        <div style="display:flex;align-items:center;margin-bottom:12px;">
-          <div style="width:80px;font-size:13px;color:#555;">洞察汇报</div>
-          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
-            <div style="width:0%;height:100%;background:#16a34a;border-radius:4px;transition:width 0.5s;" id="dimScore3"></div>
-          </div>
-          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#16a34a;" id="dimValue3">0</div>
-        </div>
-        <div style="display:flex;align-items:center;margin-bottom:12px;">
-          <div style="width:80px;font-size:13px;color:#555;">主动解决</div>
-          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
-            <div style="width:0%;height:100%;background:#16a34a;border-radius:4px;transition:width 0.5s;" id="dimScore4"></div>
-          </div>
-          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#16a34a;" id="dimValue4">0</div>
-        </div>
-        <div style="display:flex;align-items:center;">
-          <div style="width:80px;font-size:13px;color:#555;">自我认知</div>
-          <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;margin:0 12px;">
-            <div style="width:0%;height:100%;background:#16a34a;border-radius:4px;transition:width 0.5s;" id="dimScore5"></div>
-          </div>
-          <div style="width:40px;text-align:right;font-size:13px;font-weight:700;color:#16a34a;" id="dimValue5">0</div>
-        </div>
-      </div>
+      <div style="font-size:16px;font-weight:700;color:#16a34a;margin-bottom:16px;">📊 各维度平均得分</div>
+      <div id="ownerProgressDims" style="display:flex;flex-direction:column;gap:10px;"></div>
     </div>
 
-    <!-- 搭子鼓励消息 -->
-    <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:16px;padding:16px;text-align:center;">
-      <div style="font-size:14px;color:#555;line-height:1.6;" id="encourageMsg">💪 坚持打卡，Owner思维会越来越强！</div>
+    <!-- 搭子鼓励卡片（动态显示搭子信息，参照身体财富） -->
+    <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:24px;padding:20px 16px;text-align:center;box-shadow:0 4px 12px rgba(22,163,74,0.1);margin-bottom:16px;">
+      <div style="font-size:36px;margin-bottom:8px;" id="ownerProgressEmoji">🌿</div>
+      <div style="font-size:14px;font-weight:700;color:#14532d;margin-bottom:6px;" id="ownerProgressName">稳进</div>
+      <div style="font-size:13px;color:#166534;line-height:1.6;" id="ownerProgressMsg">💪 坚持打卡，Owner思维会越来越强！</div>
     </div>
   </div>
 </div>
@@ -1945,25 +1993,6 @@ function initProgressPage() {
     </div>
 
     <!-- 我的状态 -->
-    <div class="sop-card" style="margin:16px 12px 12px;">
-      <div class="chart-title">🏢 我的状态</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
-        <div style="background:#f0fdf4;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#16a34a;" id="shareStreak">-</div>
-          <div style="font-size:11px;color:#888;margin-top:2px;">连续打卡</div>
-        </div>
-        <div style="background:#f0fdf4;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#22c55e;" id="shareToday">-</div>
-          <div style="font-size:11px;color:#888;margin-top:2px;">今日打卡</div>
-        </div>
-        <div style="background:#f0fdf4;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#4ade80;" id="shareTotal">-</div>
-          <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 我的状态卡片 -->
     <div class="sop-card" style="margin:16px 12px 12px;">
       <div class="chart-title">🏢 我的状态</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
