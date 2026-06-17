@@ -59,7 +59,7 @@
     .talk-btn { flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #f0e6d8; background: white; font-size: 14px; font-weight: 500; color: #d97706; cursor: pointer; transition: all 0.15s; }
     .talk-btn:active { background: #fff8f0; transform: scale(0.97); }
     footer { font-size: 12px; text-align: center; color: #8f9eae; margin-top: 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
-    /* SOP自检 */
+    /* SOP自检 - 黄金标准 */
     .sop-page { max-width: 420px; margin: 0 auto; }
     .sop-header { background: white; border-radius: 32px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
     .sop-title { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #d97706, #f59e0b); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 4px; }
@@ -72,39 +72,49 @@
     .sop-progress-bg { flex: 1; height: 8px; background: #eef2f5; border-radius: 10px; overflow: hidden; }
     .sop-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #d97706, #f59e0b); border-radius: 10px; transition: width 0.4s ease; }
     .sop-progress-text { font-size: 12px; font-weight: 600; color: #8f9eae; min-width: 40px; text-align: right; }
-    .sop-game-card { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); position: relative; overflow: hidden; }
+    /* 分类标签栏 */
+    .sop-category-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 14px; scrollbar-width: none; }
+    .sop-category-tabs::-webkit-scrollbar { display: none; }
+    .sop-cat-tab { padding: 9px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; white-space: nowrap; cursor: pointer; border: 2px solid #e0e7ee; background: white; color: #6c7a89; transition: all 0.22s; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+    .sop-cat-tab:hover { border-color: #d97706; color: #b45309; }
+    .sop-cat-tab.active { background: linear-gradient(135deg, #d97706, #b45309); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(217,119,6,0.35); }
+    /* 清单卡片 */
+    .sop-game-card { background: white; border-radius: 28px; padding: 0; margin-bottom: 14px; box-shadow: 0 8px 28px rgba(0,0,0,0.09); overflow: hidden; }
+    .sop-game-card-inner { padding: 20px 20px 24px; }
     .sop-cat-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 12px; color: #8f9eae; }
     .sop-cat-progress-bar { flex: 1; height: 4px; background: #eef2f5; border-radius: 4px; overflow: hidden; }
     .sop-cat-progress-fill { height: 100%; background: #d97706; border-radius: 4px; transition: width 0.3s; }
-    .sop-habit-card { text-align: center; padding: 8px 0 20px; }
-    .sop-habit-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #8f9eae; margin-bottom: 10px; }
-    .sop-habit-label.pos { color: #d97706; }
-    .sop-habit-label.neg { color: #c62828; }
-    .sop-habit-emoji { font-size: 40px; margin-bottom: 8px; display: block; }
-    .sop-habit-text { font-size: 17px; font-weight: 600; color: #2b3a4a; line-height: 1.5; margin-bottom: 4px; }
-    .sop-habit-sub { font-size: 12px; color: #8f9eae; margin-bottom: 20px; }
-    .sop-btn-row { display: flex; gap: 12px; }
-    .sop-btn { flex: 1; padding: 14px 8px; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
-    .sop-btn:active { transform: scale(0.97); }
-    .sop-btn.yes { background: #fff8f0; color: #b45309; border: 2px solid #fcd34d; }
-    .sop-btn.no { background: #fff3f3; color: #c62828; border: 2px solid #ffcdd2; }
-    .sop-btn .sop-btn-pts { font-size: 12px; opacity: 0.8; }
-    .sop-done-state { background: white; border-radius: 32px; padding: 40px 24px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-    .sop-done-icon { font-size: 64px; margin-bottom: 16px; }
+    /* 清单多选模式 */
+    .sop-list-container { display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto; }
+    .sop-item { background: #f8f9fa; border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; border-left: 3px solid transparent; }
+    .sop-item.sop-item-yes { background: #fff8f0; border-left-color: #d97706; }
+    .sop-item.sop-item-no { background: #fff3f3; border-left-color: #ef5350; }
+    .sop-item-text { flex: 1; font-size: 14px; color: #2b3a4a; line-height: 1.4; margin-right: 12px; }
+    .sop-item-btns { display: flex; gap: 6px; }
+    .sop-check-btn { padding: 7px 12px; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; display: flex; align-items: center; gap: 4px; }
+    .sop-check-btn:active { transform: scale(0.95); }
+    .sop-check-btn.yes-checked { background: #d97706; color: white; }
+    .sop-check-btn.no-checked { background: #ef5350; color: white; }
+    .sop-check-btn:not(.yes-checked):not(.no-checked) { background: white; color: #8f9eae; border: 1.5px solid #dde3ea; }
+    /* 分类完成总结 */
+    .sop-cat-summary { background: linear-gradient(135deg, #fff8f0, #fef3c7); border-radius: 20px; padding: 20px 16px; text-align: center; border: 2px solid #fcd34d; }
+    .sop-cat-summary-icon { font-size: 40px; margin-bottom: 10px; }
+    .sop-cat-summary-title { font-size: 16px; font-weight: 700; color: #b45309; margin-bottom: 6px; }
+    .sop-cat-summary-sub { font-size: 13px; color: #d97706; }
+    /* 第一性原理提示 */
+    .sop-tip { background: linear-gradient(135deg, #fffde7, #fff8f0); border-radius: 20px; padding: 16px 18px; margin-bottom: 16px; border-left: 4px solid #f59e0b; box-shadow: 0 4px 12px rgba(245,158,11,0.12); }
+    .sop-tip-title { font-size: 13px; font-weight: 700; color: #b45309; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .sop-tip-item { font-size: 13px; color: #5d4037; line-height: 1.6; }
+    /* 全部完成状态 */
+    .sop-done-state { background: white; border-radius: 28px; padding: 36px 24px; text-align: center; box-shadow: 0 8px 28px rgba(0,0,0,0.10); }
+    .sop-done-icon { font-size: 72px; margin-bottom: 16px; }
     .sop-done-title { font-size: 22px; font-weight: 800; color: #2b3a4a; margin-bottom: 8px; }
-    .sop-done-sub { font-size: 14px; color: #8f9eae; margin-bottom: 24px; }
+    .sop-done-sub { font-size: 14px; color: #8f9eae; margin-bottom: 20px; }
     .sop-reset-btn { padding: 12px 32px; border-radius: 60px; border: none; background: linear-gradient(135deg, #d97706, #b45309); color: white; font-size: 15px; font-weight: 600; cursor: pointer; }
-    .sop-cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-    .sop-cat-btn { background: white; border-radius: 20px; padding: 16px 12px; text-align: center; cursor: pointer; border: 1.5px solid #e9edf2; transition: all 0.15s; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
-    .sop-cat-btn:active { transform: scale(0.97); background: #fff8f0; }
-    .sop-cat-icon { font-size: 32px; margin-bottom: 6px; }
-    .sop-cat-name { font-size: 14px; font-weight: 700; color: #2b3a4a; margin-bottom: 3px; }
-    .sop-cat-desc { font-size: 11px; color: #8f9eae; }
-    .sop-cat-done { font-size: 12px; color: #d97706; font-weight: 600; margin-top: 4px; }
-    .sop-cat-progress-wrap { margin-top: 6px; }
-    .sop-cat-progress-bg { width: 100%; height: 4px; background: #eef2f5; border-radius: 4px; overflow: hidden; }
-    .sop-cat-progress-fill2 { height: 100%; background: linear-gradient(90deg,#d97706,#f59e0b); border-radius: 4px; transition: width 0.3s; }
-    .sop-cat-pct { font-size: 10px; color: #d97706; font-weight: 700; margin-top: 2px; }
+    .sop-all-done-card { background: linear-gradient(135deg, #fff8f0, #fef3c7); border-radius: 28px; padding: 18px 16px; margin-bottom: 16px; text-align: center; border: 2px solid #fcd34d; box-shadow: 0 6px 20px rgba(217,119,6,0.18); }
+    .sop-all-done-emoji { font-size: 48px; margin-bottom: 8px; }
+    .sop-all-done-text { font-size: 17px; font-weight: 700; color: #b45309; margin-bottom: 4px; }
+    .sop-all-done-sub { font-size: 13px; color: #d97706; }
     /* SOP引导遮罩 */
     #sopGuideOverlay { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; padding: 24px; }
     #sopGuideOverlay.show { display: flex; }
@@ -323,33 +333,27 @@
       <div class="sop-title">关系力自检清单</div>
       <div class="sop-sub">每天照镜子，看看今天是帮手还是压力源</div>
       <div class="sop-score-row">
-        <div class="sop-score"><div class="sop-score-num" id="sopScore">0</div><div class="sop-score-label">获得积分</div></div>
-        <div class="sop-score"><div class="sop-score-num" id="sopDone">0/20</div><div class="sop-score-label">已完成</div></div>
+        <div class="sop-score"><div class="sop-score-num" id="sopScore">0</div><div class="sop-score-label">自检得分</div></div>
+        <div class="sop-score"><div class="sop-score-num" id="sopPosCount">0</div><div class="sop-score-label">做到了</div></div>
+        <div class="sop-score"><div class="sop-score-num" id="sopNegCount">0</div><div class="sop-score-label">需注意</div></div>
       </div>
       <div class="sop-progress-wrap">
-        <div class="sop-progress-bg"><div class="sop-progress-bar" id="sopProgressBar"></div></div>
-        <div class="sop-progress-text" id="sopProgressText">0%</div>
+        <div class="sop-progress-bg"><div class="sop-progress-bar" id="sopScoreBar"></div></div>
+        <div class="sop-progress-text" id="sopProgressText">0 / 100</div>
       </div>
     </div>
-    <div class="sop-cat-grid" id="sopCatGrid"></div>
-    <div class="sop-game-card" id="sopGameCard" style="display:none;">
-      <div class="sop-cat-progress" id="sopCatProgress"></div>
-      <div class="sop-habit-card">
-        <div class="sop-habit-label" id="sopHabitLabel">习惯</div>
-        <span class="sop-habit-emoji" id="sopHabitEmoji">🌸</span>
-        <div class="sop-habit-text" id="sopHabitText"></div>
-        <div class="sop-habit-sub" id="sopHabitSub"></div>
-      </div>
-      <div class="sop-btn-row">
-        <button class="sop-btn yes" id="sopYesBtn" onclick="answerSOP('yes')"><span>✅ 做到了</span><span class="sop-btn-pts">+3分</span></button>
-        <button class="sop-btn no" id="sopNoBtn" onclick="answerSOP('no')"><span>❌ 没做到</span><span class="sop-btn-pts">+0分</span></button>
+
+    <div class="sop-category-tabs" id="sopCatTabs"></div>
+
+    <div class="sop-game-card">
+      <div class="sop-game-card-inner" id="sopGameCard">
+        <!-- 清单内容由 JS 动态渲染 -->
       </div>
     </div>
-    <div class="sop-done-state" id="sopDoneState" style="display:none;">
-      <div class="sop-done-icon">🌸</div>
-      <div class="sop-done-title">今日关系自检完成！</div>
-      <div class="sop-done-sub" id="sopDoneSub">又完成了一次关系力审视</div>
-      <button class="sop-reset-btn" onclick="resetSOP()">明天再来 →</button>
+
+    <div class="sop-tip">
+      <div class="sop-tip-title">💡 第一性原理提示</div>
+      <div class="sop-tip-item" id="sopTipText"></div>
     </div>
   </div>
 </div>
@@ -490,55 +494,93 @@ function renderWeightPage() {
 }
 
 function initProgressPage() {
-  // 更新进展页数据
-  var records = JSON.parse(localStorage.getItem('slim_relax_history') || '[]');
+  // 读取打卡历史
   var checkinHistory = getHistory();
   var totalDays = checkinHistory.length;
   var streak = calcStreak(checkinHistory);
-  var avgScore = records.length > 0
-    ? Math.round(records.reduce(function(s, r) { return s + r.rating; }, 0) / records.length) : 0;
   var today = new Date().toISOString().slice(0,10);
-  var todayRecord = records.find(function(r) { return r.date === today; });
-  var todayScore = todayRecord ? todayRecord.rating : '-';
 
-  // 更新圆环
-  var circumference = 2 * Math.PI * 54;
+  // 读取 SOP 历史（关系力用 slim_sop_guanxi + '_history' 存储）
+  var sopHistoryKey = STORAGE.SOP + '_history';
+  var sopHistory = [];
+  try { sopHistory = JSON.parse(localStorage.getItem(sopHistoryKey) || '[]'); } catch(e) {}
+
+  // 今日打卡状态
+  var todayRecord = sopHistory.find(function(h) { return h.date === today; });
+  var todayTxt = todayRecord ? todayRecord.rating + '/10' : '-';
+
+  // 平均轻松度
+  var avgScore = 0;
+  if (sopHistory.length > 0) {
+    avgScore = Math.round(sopHistory.reduce(function(s, h) { return s + (h.rating || 0); }, 0) / sopHistory.length);
+  }
+
+  // 更新基础统计数字
+  var elStreak = document.getElementById('relStreakNum');
+  var elTotal = document.getElementById('relTotalDays');
+  var elToday = document.getElementById('relTodayScore');
+  if (elStreak) elStreak.innerText = streak;
+  if (elTotal) elTotal.innerText = totalDays;
+  if (elToday) elToday.innerText = todayTxt;
+
+  // 更新 SVG 圆环（JS 控制 stroke-dashoffset）
+  var circumference = 2 * Math.PI * 54; // r=54
   var offset = circumference - (avgScore / 10) * circumference;
   var ringEl = document.getElementById('relRingFill');
-  if (ringEl) ringEl.setAttribute('stroke-dashoffset', offset);
   var pctEl = document.getElementById('relRingPct');
-  if (pctEl) pctEl.textContent = avgScore;
+  if (ringEl) ringEl.setAttribute('stroke-dashoffset', offset.toFixed(2));
+  if (pctEl) pctEl.textContent = avgScore + '/10';
 
-  // 更新统计数据
-  var elements = [
-    { id: 'relStreakNum', value: streak },
-    { id: 'relTotalDays', value: totalDays },
-    { id: 'relTodayScore', value: todayScore }
-  ];
-  elements.forEach(function(item) {
-    var el = document.getElementById(item.id);
-    if (el) el.textContent = item.value;
-  });
-
-  // 更新趋势区域
+  // 各维度平均轻松度动态渲染（参照身体财富 bodyProgressDims）
   var dimsEl = document.getElementById('relProgressDims');
-  if (dimsEl) {
-    if (records.length < 2) {
-      dimsEl.innerHTML = '<div style="text-align:center;padding:20px;color:#b0bec5;font-size:13px;">记录轻松度后查看趋势 📈</div>';
-    } else {
-      var recent = records.slice(-7);
-      dimsEl.innerHTML = recent.map(function(r) {
-        var emojis = ['','😰','😟','😕','😐','🙂','😊','😌','😄','🤩','✨'];
-        var color = r.rating >= 7 ? '#43a047' : r.rating >= 4 ? '#ff9800' : '#ef5350';
-        return '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0;">' +
-          '<div style="font-size:18px;width:28px;text-align:center;">' + emojis[r.rating] + '</div>' +
-          '<div style="flex:1;font-size:13px;color:#666;">' + r.date + '</div>' +
-          '<div style="font-size:14px;font-weight:700;color:' + color + ';">' + r.rating + '/10</div></div>';
-      }).join('');
-    }
+  if (dimsEl && typeof SOP_CATEGORIES !== 'undefined' && SOP_CATEGORIES) {
+    dimsEl.innerHTML = SOP_CATEGORIES.map(function(cat) {
+      var catHabits = cat.items || [];
+      var totalItems = catHabits.length;
+      var catAvg = 0;
+      if (sopHistory.length > 0 && totalItems > 0) {
+        catAvg = Math.round(sopHistory.reduce(function(s, h) {
+          var sel = (h.selected && h.selected[cat.id]) || {};
+          var yes = Object.keys(sel).filter(function(k) { return sel[k] === 'yes'; }).length;
+          return s + yes;
+        }, 0) / sopHistory.length);
+      }
+      var fill = totalItems > 0 ? Math.round((catAvg / totalItems) * 100) : 0;
+      return '<div style="display:flex;align-items:center;gap:10px;">'
+        + '<div style="font-size:18px;width:28px;text-align:center;">' + cat.icon + '</div>'
+        + '<div style="flex:1;">'
+        + '<div style="font-size:13px;color:#92400e;font-weight:600;margin-bottom:4px;">' + cat.name + '</div>'
+        + '<div style="height:6px;background:#fef3c7;border-radius:6px;overflow:hidden;">'
+        + '<div style="height:100%;width:' + fill + '%;background:' + cat.color + ';border-radius:6px;transition:width 0.8s;"></div>'
+        + '</div>'
+        + '</div>'
+        + '<div style="font-size:12px;font-weight:700;color:#d97706;width:40px;text-align:right;">' + catAvg + '/' + totalItems + '</div>'
+        + '</div>';
+    }).join('');
+  }
+
+  // 搭子鼓励（动态显示当前搭子名称和 emoji）
+  var partner = currentPartner;
+  if (!partner && typeof PARTNERS !== 'undefined' && PARTNERS && PARTNERS.length > 0) {
+    partner = PARTNERS[0];
+  }
+  var emojiEl = document.getElementById('relProgressPartnerEmoji');
+  var nameEl = document.getElementById('relProgressPartnerName');
+  var msgEl = document.getElementById('relProgressPartnerMsg');
+  if (partner) {
+    if (emojiEl) emojiEl.textContent = partner.emoji || '🤝';
+    if (nameEl) nameEl.textContent = partner.name || '关系力搭子';
+  }
+  if (msgEl) {
+    var msgs = [
+      '💪 修复关系，让彼此都轻松！',
+      '🌸 关系力是练出来的，每天一点点。',
+      '🤝 让别人感受到你在帮他，不是在催他。',
+      '✨ 先看见，才能改变。坚持打卡，关系越来越好！'
+    ];
+    msgEl.textContent = msgs[Math.floor(Math.random() * msgs.length)];
   }
 }
-
 function renderWeeklyReport() {
   var container = document.getElementById('weeklyReportContent');
   if (!container) return;
@@ -603,15 +645,13 @@ function shareWeeklyReport() {
         </div>
         <div style="background:#fffbeb;border-radius:16px;padding:10px 16px;text-align:center;">
           <div style="font-size:18px;font-weight:800;color:#ff6b35;" id="relTodayScore">-</div>
-          <div style="font-size:11px;color:#8f9eae;">今日得分</div>
+          <div style="font-size:11px;color:#8f9eae;">今日轻松度</div>
         </div>
       </div>
     </div>
     <div class="weight-chart-card" style="margin-bottom:16px;">
-      <div class="chart-title">📊 轻松度趋势</div>
-      <div id="relProgressDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">
-        <div style="text-align:center;padding:20px;color:#b0bec5;font-size:13px;">记录轻松度后查看趋势 📈</div>
-      </div>
+      <div class="chart-title">📊 各维度平均轻松度</div>
+      <div id="relProgressDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;"></div>
     </div>
     <div class="weight-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#fef3c7,#fef9ec);border:1px solid #fcd34d;margin-bottom:16px;">
       <div style="font-size:36px;margin-bottom:8px;" id="relProgressPartnerEmoji">🤝</div>
@@ -905,56 +945,69 @@ const TYPE_SCENES_GUANXI = {
   ]
 };
 
-// ===== SOP自检 =====
+// ===== SOP自检 - 黄金标准 =====
 const SOP_CATEGORIES = [
-  { id: 'listen', name: '倾听力', icon: '👂', desc: '真正听见别人说的话', color: '#d97706' },
-  { id: 'express', name: '表达力', icon: '💬', desc: '说话让人舒服、清晰', color: '#0891b2' },
-  { id: 'empathy', name: '共情力', icon: '🤝', desc: '站在对方的处境里想', color: '#16a34a' },
-  { id: 'boundary', name: '边界感', icon: '🌿', desc: '松弛又有原则', color: '#7c3aed' },
-  { id: 'energy', name: '能量感', icon: '✨', desc: '让别人在你身边感到有力量', color: '#db2777' }
+  {
+    id: 'listen', name: '倾听力', icon: '👂', color: '#d97706',
+    tips: '倾听是关系的基础。真正听见别人说的话，而不是在等自己发言的机会。',
+    items: [
+      { text: '对话时我放下手机，眼神专注', pts: 5 },
+      { text: '我经常在别人说完之前就开始想我要说的话', pts: 5 },
+      { text: '我会用自己的话复述一下对方说的意思', pts: 5 },
+      { text: '我听完后的第一反应是给建议，而不是先问更多', pts: 5 }
+    ]
+  },
+  {
+    id: 'express', name: '表达力', icon: '💬', color: '#0891b2',
+    tips: '清晰的表达让人轻松。说话让人舒服、意思明确，不给对方留误解空间。',
+    items: [
+      { text: '我说重要的事时，先说结论，再说原因', pts: 5 },
+      { text: '我催人时说"这个什么时候给我"而不是"有什么我能帮的"', pts: 5 },
+      { text: '我给反馈时说具体行为，不给人贴标签', pts: 5 },
+      { text: '我不舒服了会沉默，而不是说清楚自己的感受', pts: 5 }
+    ]
+  },
+  {
+    id: 'empathy', name: '共情力', icon: '🤝', color: '#16a34a',
+    tips: '共情是站在对方的处境里想问题。先理解别人的世界，再进入你的需求。',
+    items: [
+      { text: '在提要求之前，我先了解对方现在的处境和优先级', pts: 5 },
+      { text: '我表达不满时容易带情绪，让对方感受到我在攻击他', pts: 5 },
+      { text: '对方拒绝我的时候，我先理解原因，再找替代方案', pts: 5 },
+      { text: '我评估一件事时先从"对我的影响"出发，而不是"对方在担心什么"', pts: 5 }
+    ]
+  },
+  {
+    id: 'boundary', name: '边界感', icon: '🌿', color: '#7c3aed',
+    tips: '边界感是松弛又有原则。该说"不"的时候温柔坚定，该投入的时候不犹豫。',
+    items: [
+      { text: '我拒绝请求时，给对方一个替代方案而不是直接说"不"', pts: 5 },
+      { text: '我害怕让人失望，所以接下了一些自己做不到的事', pts: 5 },
+      { text: '别人情绪激动时，我能保持稳定，不被带入情绪漩涡', pts: 5 },
+      { text: '我有时候会因为不好意思拒绝，结果答应了自己无法完成的事', pts: 5 }
+    ]
+  },
+  {
+    id: 'energy', name: '能量感', icon: '✨', color: '#db2777',
+    tips: '能量感是让别人在你身边感到有力量。你的存在本身就是一种支持。',
+    items: [
+      { text: '我今天主动给了一个人具体的、真诚的认可', pts: 5 },
+      { text: '我今天的对话里，负面话题的比例比正面话题多', pts: 5 },
+      { text: '我今天和人互动时，先关注他的状态，再谈事情', pts: 5 },
+      { text: '我和别人聊天时，经常把话题引到自己的事情上', pts: 5 }
+    ]
+  }
 ];
-
-const SOP_HABITS = {
-  listen: [
-    { emoji:'👂', pos:true,  text:'对话时我放下手机，眼神专注', sub:'让对方感受到"你在认真听我"' },
-    { emoji:'🔇', pos:false, text:'我经常在别人说完之前就开始想我要说的话', sub:'这会让对方感受到"他没在听我"' },
-    { emoji:'🪞', pos:true,  text:'我会用自己的话复述一下对方说的意思', sub:'"你的意思是……"这句话价值千金' },
-    { emoji:'❓', pos:false, text:'我听完后的第一反应是给建议，而不是先问更多', sub:'大多数人想要的是被理解，不是被建议' }
-  ],
-  express: [
-    { emoji:'🎯', pos:true,  text:'我说重要的事时，先说结论，再说原因', sub:'让对方不用猜你的意思' },
-    { emoji:'🌩️', pos:false, text:'我催人时说"这个什么时候给我"而不是"有什么我能帮的"', sub:'前者是催，后者是帮' },
-    { emoji:'💛', pos:true,  text:'我给反馈时说具体行为，不给人贴标签', sub:'"这次数据准备不足"vs"你不认真"' },
-    { emoji:'😶', pos:false, text:'我不舒服了会沉默，而不是说清楚自己的感受', sub:'沉默让对方猜测，表达让关系流动' }
-  ],
-  empathy: [
-    { emoji:'🤲', pos:true,  text:'在提要求之前，我先了解对方现在的处境和优先级', sub:'你的需求进入对方的时机很重要' },
-    { emoji:'⚡', pos:false, text:'我表达不满时容易带情绪，让对方感受到我在攻击他', sub:'情绪表达的是感受，逻辑才能解决问题' },
-    { emoji:'🌱', pos:true,  text:'对方拒绝我的时候，我先理解原因，再找替代方案', sub:'接住"不"比强行推进更有力' },
-    { emoji:'😤', pos:false, text:'我评估一件事时先从"对我的影响"出发，而不是"对方在担心什么"', sub:'先站他的角度，再谈你的需求' }
-  ],
-  boundary: [
-    { emoji:'🌿', pos:true,  text:'我拒绝请求时，给对方一个替代方案而不是直接说"不"', sub:'关上一扇门，开一扇窗' },
-    { emoji:'🚧', pos:false, text:'我害怕让人失望，所以接下了一些自己做不到的事', sub:'过度承诺是透支信任的最快方式' },
-    { emoji:'🧘', pos:true,  text:'别人情绪激动时，我能保持稳定，不被带入情绪漩涡', sub:'稳定是最强的关系力' },
-    { emoji:'🪤', pos:false, text:'我有时候会因为不好意思拒绝，结果答应了自己无法完成的事', sub:'诚实边界让关系更健康' }
-  ],
-  energy: [
-    { emoji:'✨', pos:true,  text:'我今天主动给了一个人具体的、真诚的认可', sub:'"你在XXX上做得很好，因为YYY"' },
-    { emoji:'🌩️', pos:false, text:'我今天的对话里，负面话题的比例比正面话题多', sub:'能量低的人会让别人感到沉重' },
-    { emoji:'🌸', pos:true,  text:'我今天和人互动时，先关注他的状态，再谈事情', sub:'"你最近还好吗？"是最廉价的人情投资' },
-    { emoji:'😔', pos:false, text:'我和别人聊天时，经常把话题引到自己的事情上', sub:'真正让人感到被重视的是：你让他成为焦点' }
-  ]
-};
 
 // ===== 全局变量 =====
 let selectedPartner = null;
 let currentPartner = null;
 let currentTab = 'checkin';
-let currentSOPCat = null;
-let sopCatQueue = [];
-let sopCatIdx = 0;
-let sopState = {};
+let sopScore = 0, sopCatIdx = 0;
+let sopSelected = {}; // catId -> { idx: 'yes'|'no' }
+let sopDone = false;
+let sopSubmittedCats = []; // 已确认的维度 ID 列表
+var sopCompletedToday = localStorage.getItem('sop_completed_guanxi_' + new Date().toDateString()) === 'true';
 
 // ===== 每日问题 =====
 const DAILY_QUESTIONS = [
@@ -1079,6 +1132,36 @@ function calcStreak(history) {
   return streak;
 }
 
+// ===== SOP 辅助函数 =====
+function getToday() { return new Date().toISOString().slice(0,10); }
+function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); }
+function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); }
+function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
+function saveSOPStreaks(d) { localStorage.setItem(STORAGE.SOP_STREAKS, JSON.stringify(d)); }
+function updateSOPCatStreak(catId, score) {
+  let streaks = getSOPStreaks();
+  let today = getToday();
+  if (!streaks[catId]) streaks[catId] = { streak: 0, lastDate: null, best: 0 };
+  let s = streaks[catId];
+  if (score >= 60) {
+    if (s.lastDate === today) { /* 同一天不重复计算 */ }
+    else if (s.lastDate) {
+      let lastDate = new Date(s.lastDate);
+      let nowDate = new Date(today);
+      let diff = Math.round((nowDate - lastDate) / (1000 * 60 * 60 * 24));
+      if (diff === 1) { s.streak += 1; } else { s.streak = 1; }
+    } else { s.streak = 1; }
+    s.lastDate = today;
+    if (s.streak > (s.best || 0)) s.best = s.streak;
+  } else {
+    s.streak = 0;
+  }
+  saveSOPStreaks(streaks);
+}
+
+function getCatSelected(catId) { return sopSelected[catId] || {}; }
+function getCatDoneCount(catId) { return Object.keys(getCatSelected(catId)).length; }
+
 // ===== 聊天 =====
 function renderChat() {
   if (!currentPartner) return;
@@ -1128,116 +1211,340 @@ function showTypeFeedback(type, idx) {
   }, 600);
 }
 
-// ===== SOP =====
-function renderSOP() {
-  const sopState = getSOPState();
-  const totalHabits = Object.values(SOP_HABITS).reduce((s,a)=>s+a.length,0);
-  const totalDone = Object.keys(sopState).length;
-  const totalScore = Object.values(sopState).reduce((s,v)=>s+(v==='yes'?3:0),0);
-  document.getElementById('sopScore').textContent = totalScore;
-  document.getElementById('sopDone').textContent = totalDone+'/'+totalHabits;
-  const pct = totalHabits > 0 ? Math.round(totalDone/totalHabits*100) : 0;
-  document.getElementById('sopProgressBar').style.width = pct+'%';
-  document.getElementById('sopProgressText').textContent = pct+'%';
-  const grid = document.getElementById('sopCatGrid');
-  grid.innerHTML = SOP_CATEGORIES.map(cat => {
-    const habits = SOP_HABITS[cat.id] || [];
-    const doneCnt = habits.filter((_,i)=>sopState[cat.id+'_'+i]!==undefined).length;
-    const total = habits.length;
-    const allDone = doneCnt >= total;
-    const pctCat = total > 0 ? Math.round(doneCnt/total*100) : 0;
-    let progressHtml = '';
-    if (allDone) {
-      progressHtml = `<div class="sop-cat-done">✅ 已完成</div><div class="sop-cat-progress-wrap"><div class="sop-cat-progress-bg"><div class="sop-cat-progress-fill2" style="width:100%"></div></div><div class="sop-cat-pct">100%</div></div>`;
-    } else if (doneCnt > 0) {
-      progressHtml = `<div class="sop-cat-done">${doneCnt}/${total} 题</div><div class="sop-cat-progress-wrap"><div class="sop-cat-progress-bg"><div class="sop-cat-progress-fill2" style="width:${pctCat}%"></div></div><div class="sop-cat-pct">${pctCat}%</div></div>`;
-    } else {
-      progressHtml = `<div class="sop-cat-progress-wrap"><div class="sop-cat-progress-bg"><div class="sop-cat-progress-fill2" style="width:0%"></div></div></div>`;
-    }
-    return `<div class="sop-cat-btn" onclick="startSOPCat('${cat.id}')">
-      <div class="sop-cat-icon">${cat.icon}</div>
-      <div class="sop-cat-name">${cat.name}</div>
-      <div class="sop-cat-desc">${cat.desc}</div>
-      ${progressHtml}
-    </div>`;
-  }).join('');
-  const allDone2 = totalDone >= totalHabits && totalHabits > 0;
-  document.getElementById('sopGameCard').style.display = 'none';
-  if (allDone2) {
-    document.getElementById('sopDoneState').style.display = 'block';
-    document.getElementById('sopDoneSub').textContent = `今日总分 ${totalScore} 分，关系力在悄悄提升 🌸`;
+// ===== SOP - 黄金标准 =====
+function initSOP() {
+  let d = getSOPData();
+  let today = getToday();
+  if (d.date !== today) {
+    sopScore = 0;
+    sopSelected = {};
+    sopDone = false;
+    sopSubmittedCats = [];
   } else {
-    document.getElementById('sopDoneState').style.display = 'none';
+    sopScore = d.score || 0;
+    sopSelected = d.selected || {};
+    sopDone = d.done || false;
+    sopSubmittedCats = d.submittedCats || [];
+  }
+  updateSOPDisplay();
+  renderSOPCats();
+  renderSOPTips();
+  if (sopDone) {
+    renderSOPDoneState();
+  } else {
+    renderSOPList();
+    if (!localStorage.getItem('sop_guide_shown_guanxi')) {
+      showSOPGuideOverlay();
+    }
   }
 }
 
-function getSOPState() { try { return JSON.parse(localStorage.getItem(STORAGE.SOP)||'{}'); } catch(e){ return {}; } }
+function renderSOPCats() {
+  let tabs = document.getElementById('sopCatTabs');
+  tabs.innerHTML = SOP_CATEGORIES.map((c, i) => {
+    let doneCount = getCatDoneCount(c.id);
+    let totalCount = c.items.length;
+    let allDone = doneCount >= totalCount;
+    let dot = allDone
+      ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#4caf50;margin-left:4px;vertical-align:middle;"></span>'
+      : doneCount > 0
+      ? '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff9800;margin-left:4px;vertical-align:middle;"></span>'
+      : '';
+    return '<button class="sop-cat-tab' + (i === sopCatIdx ? ' active' : '') + '" onclick="switchSOPCat(' + i + ')">' + c.icon + ' ' + c.name + dot + '</button>';
+  }).join('');
+}
 
-function startSOPCat(catId) {
-  const habits = SOP_HABITS[catId];
-  if (!habits) return;
-  const sopState = getSOPState();
-  sopCatQueue = habits.map((h,i)=>({...h, key:catId+'_'+i})).filter(h=>sopState[h.key]===undefined);
-  if (sopCatQueue.length === 0) {
-    renderSOP();
-    document.getElementById('sopGameCard').style.display = 'none';
+function switchSOPCat(idx) {
+  if (sopDone) return;
+  sopCatIdx = idx;
+  renderSOPCats();
+  renderSOPTips();
+  renderSOPList();
+}
+
+function renderSOPTips() {
+  document.getElementById('sopTipText').innerText = SOP_CATEGORIES[sopCatIdx].tips;
+}
+
+function renderSOPList() {
+  let card = document.getElementById('sopGameCard');
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  let selected = getCatSelected(cat.id);
+  let doneCount = Object.keys(selected).length;
+  let totalCount = cat.items.length;
+  let allAnswered = doneCount >= totalCount;
+
+  let pct = Math.min(100, (doneCount / totalCount) * 100);
+  let progressFill = '<div class="sop-cat-progress-fill" style="width:' + pct + '%;background:' + cat.color + '"></div>';
+
+  if (allAnswered) {
+    let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+    let yesCount = Object.values(selected).filter(function(v) { return v === 'yes'; }).length;
+    let noCount = totalCount - yesCount;
+    let catScore = Math.round((yesCount / totalCount) * 100);
+    let feedback = '';
+    if (yesCount === totalCount) {
+      feedback = streak > 0 ? '太棒了！' + cat.name + '满分保持中，坚持' + streak + '天！🌟' : '完美！' + cat.name + '全部做到，给自己点赞！💯';
+    } else if (yesCount >= totalCount * 0.7) {
+      feedback = cat.name + '做得不错！' + (noCount > 0 ? '还有' + noCount + '项可以加强，继续保持！' : '继续保持这个状态！') + '💪';
+    } else if (yesCount >= totalCount * 0.5) {
+      feedback = cat.name + '有进步空间哦，' + yesCount + '项做到，继续加油！🌱';
+    } else {
+      feedback = cat.name + '今天有点困难没关系，明天重新开始！不要放弃！🔥';
+    }
+
+    card.innerHTML = '<div class="sop-cat-progress" style="margin-bottom:12px;">' +
+      '<span style="font-size:18px;">' + cat.icon + '</span>' +
+      '<span style="font-weight:700;color:' + cat.color + ';">' + cat.name + '</span>' +
+      '<div class="sop-cat-progress-bar">' + progressFill + '</div>' +
+      '<span style="font-size:11px;color:#8f9eae;">完成 ✅</span>' +
+      '</div>' +
+      '<div class="sop-cat-summary">' +
+      '<div class="sop-cat-summary-icon">' + cat.icon + '</div>' +
+      '<div class="sop-cat-summary-title">' + cat.name + ' · 复盘完成</div>' +
+      '<div style="font-size:24px;font-weight:800;color:' + cat.color + ';margin-top:8px;">' + catScore + '分</div>' +
+      '<div style="font-size:12px;color:#8f9eae;margin-top:4px;">做到了 ' + yesCount + ' 项 · 需注意 ' + noCount + ' 项</div>' +
+      '<div style="margin-top:12px;padding:12px;background:linear-gradient(135deg,' + cat.color + '11,' + cat.color + '22);border-radius:12px;font-size:13px;color:#555;line-height:1.6;">' + feedback + '</div>' +
+      (streak > 0 ? '<div style="margin-top:10px;font-size:13px;color:' + cat.color + ';font-weight:700;">🔥 已坚持 ' + streak + ' 天</div>' : '') +
+      '</div>';
     return;
   }
-  currentSOPCat = catId;
-  sopCatIdx = 0;
-  document.getElementById('sopCatGrid').style.display = 'none';
-  document.getElementById('sopDoneState').style.display = 'none';
-  document.getElementById('sopGameCard').style.display = 'block';
-  renderSOPCard();
-  showSOPGuideOverlay();
+
+  // 渲染清单列表
+  var listItems = cat.items.map(function(item, idx) {
+    var state = selected[idx];
+    var yesClass = state === 'yes' ? 'sop-item-yes' : '';
+    var noClass = state === 'no' ? 'sop-item-no' : '';
+    var yesBtnClass = state === 'yes' ? 'sop-check-btn yes-checked' : 'sop-check-btn';
+    var noBtnClass = state === 'no' ? 'sop-check-btn no-checked' : 'sop-check-btn';
+
+    return '<div class="sop-item ' + yesClass + ' ' + noClass + '" data-idx="' + idx + '">' +
+      '<div class="sop-item-text">' + item.text + '</div>' +
+      '<div class="sop-item-btns">' +
+      '<button class="' + yesBtnClass + '" onclick="toggleSOPItem(' + idx + ', \'yes\')"><span>✅</span><span>做到了</span></button>' +
+      '<button class="' + noBtnClass + '" onclick="toggleSOPItem(' + idx + ', \'no\')"><span>❌</span><span>没做到</span></button>' +
+      '</div>' +
+      '</div>';
+  }).join('');
+
+  card.innerHTML = '<div class="sop-cat-progress" style="margin-bottom:16px;">' +
+    '<span style="font-size:18px;">' + cat.icon + '</span>' +
+    '<span style="font-weight:700;color:' + cat.color + ';">' + cat.name + '</span>' +
+    '<div class="sop-cat-progress-bar">' + progressFill + '</div>' +
+    '<span style="font-size:11px;color:#8f9eae;">' + doneCount + '/' + totalCount + '</span>' +
+    '</div>' +
+    '<div class="sop-list-container">' +
+    listItems +
+    '</div>' +
+    '<div style="text-align:center;margin-top:16px;">' +
+    '<div style="font-size:12px;color:#8f9eae;margin-bottom:8px;">点击上方选项确认，每项可单独打分</div>' +
+    (doneCount > 0 ? '<button onclick="submitSOPCat()" style="background:' + cat.color + ';color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;">确认本维度 ✓</button>' : '') +
+    '</div>';
 }
 
-function renderSOPCard() {
-  const habit = sopCatQueue[sopCatIdx];
-  if (!habit) { finishSOPCat(); return; }
-  const progress = document.getElementById('sopCatProgress');
-  const pct = sopCatIdx / sopCatQueue.length * 100;
-  progress.innerHTML = `<span>第 ${sopCatIdx+1} / ${sopCatQueue.length} 题</span><div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:${pct}%"></div></div>`;
-  document.getElementById('sopHabitLabel').textContent = habit.pos ? '✨ 正向习惯' : '⚠️ 需要注意';
-  document.getElementById('sopHabitLabel').className = 'sop-habit-label ' + (habit.pos ? 'pos' : 'neg');
-  document.getElementById('sopHabitEmoji').textContent = habit.emoji;
-  document.getElementById('sopHabitText').textContent = habit.text;
-  document.getElementById('sopHabitSub').textContent = habit.sub;
+function toggleSOPItem(idx, state) {
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  if (!sopSelected[cat.id]) sopSelected[cat.id] = {};
+
+  if (sopSelected[cat.id][idx] === state) {
+    delete sopSelected[cat.id][idx];
+  } else {
+    sopSelected[cat.id][idx] = state;
+  }
+
+  renderSOPList();
 }
 
-function answerSOP(ans) {
-  const habit = sopCatQueue[sopCatIdx];
-  if (!habit) return;
-  const state = getSOPState();
-  state[habit.key] = ans;
-  localStorage.setItem(STORAGE.SOP, JSON.stringify(state));
-  sopCatIdx++;
-  if (sopCatIdx >= sopCatQueue.length) { finishSOPCat(); }
-  else { renderSOPCard(); }
+function submitSOPCat() {
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  let selected = sopSelected[cat.id] || {};
+  let yesCount = 0, totalItems = cat.items.length;
+
+  cat.items.forEach(function(item, idx) {
+    if (selected[idx] === 'yes') yesCount++;
+  });
+
+  let catScore = Math.round((yesCount / totalItems) * 100);
+
+  // 统计全局 yes 数和总题数，计算归一化总分
+  let totalYes = 0, totalItemsAll = 0;
+  SOP_CATEGORIES.forEach(function(c) {
+    let sel = sopSelected[c.id] || {};
+    c.items.forEach(function(item, idx) {
+      totalItemsAll++;
+      if (sel[idx] === 'yes') totalYes++;
+    });
+  });
+  sopScore = Math.round((totalYes / totalItemsAll) * 100);
+
+  // 标记当前维度已确认
+  if (!sopSubmittedCats.includes(cat.id)) {
+    sopSubmittedCats.push(cat.id);
+  }
+
+  // 检查是否所有维度都确认了
+  let allDone = sopSubmittedCats.length >= SOP_CATEGORIES.length;
+
+  updateSOPDisplay();
+  renderSOPCats();
+
+  if (allDone) {
+    if (!sopDone) {
+      sopDone = true;
+      sopCompletedToday = true;
+      localStorage.setItem('sop_completed_guanxi_' + new Date().toDateString(), 'true');
+      saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: getToday(), submittedCats: sopSubmittedCats });
+      setTimeout(function() { showSOPFinish(); }, 300);
+    }
+  } else {
+    saveSOPData({ score: sopScore, selected: sopSelected, done: sopDone, date: getToday(), submittedCats: sopSubmittedCats });
+    setTimeout(function() { showCatSummary(cat, selected, catScore); }, 200);
+    let nextCat = SOP_CATEGORIES.findIndex(function(c, i) {
+      if (i <= sopCatIdx) return false;
+      let sel = sopSelected[c.id] || {};
+      return Object.keys(sel).length < c.items.length;
+    });
+    if (nextCat >= 0) {
+      setTimeout(function() {
+        sopCatIdx = nextCat;
+        renderSOPCats();
+        renderSOPTips();
+        renderSOPList();
+      }, 3000);
+    } else {
+      renderSOPList();
+    }
+  }
 }
 
-function finishSOPCat() {
-  document.getElementById('sopGameCard').style.display = 'none';
-  document.getElementById('sopCatGrid').style.display = 'grid';
-  currentSOPCat = null;
-  sopCatQueue = [];
-  sopCatIdx = 0;
-  renderSOP();
+function renderSOPDoneState() {
+  let card = document.getElementById('sopGameCard');
+  let score = Math.max(0, Math.min(100, sopScore));
+  let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌱' : '😊';
+  let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
+
+  card.innerHTML = '<div style="text-align:center;padding:32px 16px;">' +
+    '<div style="font-size:80px;margin-bottom:16px;">' + emoji + '</div>' +
+    '<div style="font-size:24px;font-weight:900;color:#2b5a7a;margin-bottom:8px;">' + title + '</div>' +
+    '<div style="font-size:16px;font-weight:700;color:#d97706;margin-bottom:8px;">今日得分：' + score + ' 分</div>' +
+    '<div style="font-size:13px;color:#8f9eae;">今日复盘已完成 · 明天0点自动重置</div>' +
+    '</div>';
+  document.getElementById('sopCatTabs').style.display = 'none';
+  document.getElementById('sopTipText').parentElement.style.display = 'none';
+}
+
+function updateSOPDisplay() {
+  let maxScore = 100;
+  let displayScore = Math.max(0, Math.min(maxScore, sopScore));
+  document.getElementById('sopScore').innerText = displayScore;
+
+  let totalItems = 0, doneItems = 0, yesItems = 0;
+  SOP_CATEGORIES.forEach(function(cat) {
+    totalItems += cat.items.length;
+    let sel = sopSelected[cat.id] || {};
+    Object.keys(sel).forEach(function(idx) {
+      doneItems++;
+      if (sel[idx] === 'yes') yesItems++;
+    });
+  });
+
+  document.getElementById('sopPosCount').innerText = yesItems;
+  document.getElementById('sopNegCount').innerText = doneItems - yesItems;
+  let pct = Math.max(0, Math.min(100, (displayScore / maxScore) * 100));
+  let bar = document.getElementById('sopScoreBar');
+  let ptext = document.getElementById('sopProgressText');
+  if (bar) {
+    bar.style.width = pct + '%';
+    bar.style.background = pct >= 60 ? 'linear-gradient(90deg, #d97706, #f59e0b)' : pct >= 30 ? 'linear-gradient(90deg, #ff9800, #ffc107)' : pct > 0 ? 'linear-gradient(90deg, #ef5350, #ff7043)' : '#e0e0e0';
+  }
+  if (ptext) ptext.innerText = displayScore + ' / ' + maxScore;
+}
+
+function updateSOPStats() {
+  updateSOPDisplay();
+  renderSOPCats();
 }
 
 function resetSOP() {
   localStorage.removeItem(STORAGE.SOP);
-  document.getElementById('sopDoneState').style.display = 'none';
-  document.getElementById('sopCatGrid').style.display = 'grid';
-  renderSOP();
+  localStorage.removeItem('sop_completed_guanxi_' + new Date().toDateString());
+  sopScore = 0;
+  sopSelected = {};
+  sopDone = false;
+  sopSubmittedCats = [];
+  sopCompletedToday = false;
+  sopCatIdx = 0;
+  var ct = document.getElementById('sopCatTabs');
+  if (ct) ct.style.display = 'flex';
+  var tip = document.getElementById('sopTipText');
+  if (tip && tip.parentElement) tip.parentElement.style.display = 'block';
+  updateSOPDisplay();
+  renderSOPCats();
+  renderSOPTips();
+  renderSOPList();
+}
+
+function renderSOP() {
+  initSOP();
+}
+
+// ===== 分类完成小结 =====
+function showCatSummary(cat, selected, catScore) {
+  var yesCount = Object.values(selected).filter(function(v) { return v === 'yes'; }).length;
+  var noCount = cat.items.length - yesCount;
+  var streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+  var feedback = '';
+  if (yesCount === cat.items.length) {
+    feedback = streak > 0 ? '太棒了！' + cat.name + '满分保持中，坚持' + streak + '天！🌟' : '完美！' + cat.name + '全部做到！💯';
+  } else if (yesCount >= cat.items.length * 0.7) {
+    feedback = '做得不错！继续加油！💪';
+  } else if (yesCount >= cat.items.length * 0.5) {
+    feedback = '有进步空间哦，继续加油！🌱';
+  } else {
+    feedback = '今天有点困难没关系，明天重新开始！🔥';
+  }
+  showToast(cat.icon + ' ' + cat.name + '：' + catScore + '分 · ' + feedback);
+}
+
+// ===== 全部完成弹窗 =====
+function showSOPFinish() {
+  var score = Math.max(0, Math.min(100, sopScore));
+  var totalYes = 0, totalNo = 0;
+  SOP_CATEGORIES.forEach(function(cat) {
+    var sel = sopSelected[cat.id] || {};
+    cat.items.forEach(function(item, idx) {
+      var state = sel[idx];
+      if (state === 'yes') totalYes++;
+      else if (state === 'no') totalNo++;
+    });
+    var catYes = Object.values(sel).filter(function(v) { return v === 'yes'; }).length;
+    updateSOPCatStreak(cat.id, Math.round((catYes / cat.items.length) * 100));
+  });
+  var emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌱' : '😊';
+  var title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
+  var catRows = SOP_CATEGORIES.map(function(cat) {
+    var sel = sopSelected[cat.id] || {};
+    var catYes = 0;
+    cat.items.forEach(function(item, idx) { if (sel[idx] === 'yes') catYes++; });
+    var pct = Math.round((catYes / cat.items.length) * 100);
+    return '<div style="display:flex;align-items:center;gap:8px;background:#f8fafc;border-radius:12px;padding:9px 12px;border:1px solid #eceff1;">' +
+      '<span style="font-size:18px;flex-shrink:0;">' + cat.icon + '</span>' +
+      '<span style="flex:1;font-size:13px;color:#37474f;font-weight:500;text-align:left;">' + cat.name + '</span>' +
+      '<span style="font-size:14px;font-weight:700;color:' + cat.color + ';">' + pct + '%</span>' +
+      '</div>';
+  }).join('');
+  renderSOPDoneState();
+  document.getElementById('sopCatTabs').style.display = 'none';
+  document.getElementById('sopTipText').parentElement.style.display = 'none';
+  showToast(emoji + ' ' + title + ' · ' + score + '分');
 }
 
 function showSOPGuideOverlay() {
-  const key = 'sop_guide_shown_guanxi';
+  var key = 'sop_guide_shown_guanxi';
   if (!localStorage.getItem(key)) {
     document.getElementById('sopGuideOverlay').classList.add('show');
     localStorage.setItem(key, '1');
-    setTimeout(() => { closeSOPGuide(); }, 5000);
+    setTimeout(function() { closeSOPGuide(); }, 5000);
   }
 }
 
@@ -1947,6 +2254,11 @@ function switchTab(tab, e) {
 }
 
 function switchTabDirect(tab) {
+  // 自检完成检查：未做自检不能打卡
+  if (tab === 'checkin' && !sopCompletedToday) {
+    showToast('请先完成今日关系力自检，才可以打卡 ✅');
+    return;
+  }
   currentTab = tab;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
