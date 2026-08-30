@@ -1235,7 +1235,7 @@ function generateCoachReply(userText) {
   }
 
   // ④ 获取下一个节点，把"提问"附加到确认语末尾
-  const nextNode = COACH_MCKINSEY_CONFIG.dialogTree[nextStep]?.[nextSub];
+  const nextNode = (COACH_MCKINSEY_CONFIG.dialogTree[nextStep] || {})[nextSub];
   if (!nextNode) {
     addChatMessage('coach', ack);
     // 直接生成报告，无需等待
@@ -1279,7 +1279,7 @@ function buildAck(step, subStep, userText) {
       return `好的，我记录了你的行为模式："${userText.substring(0, 50)}..."`;
     }
     if (subStep === 1) {
-      return `很好！现在我有了双方的行为模式，让我用MECE框架分析：\n【你的行为模式】${userInputs.analyze?.[0] || ''}\n→ 让对方感受到：你可能太急了\n【对方的反应模式】${userText}\n→ 让关系陷入：你说你的，我做我的\n【关系结构】权力动态偏单向 / 信息流动不充分 / 情绪账户透支\n\n现在，你想先从哪个维度突破？\nA. 调整我的行为模式（改变自己）\nB. 引导对方的反应（影响对方）\nC. 重构关系结构（改变互动规则）`;
+      return `很好！现在我有了双方的行为模式，让我用MECE框架分析：\n【你的行为模式】${(userInputs.analyze || {})[0] || ''}\n→ 让对方感受到：你可能太急了\n【对方的反应模式】${userText}\n→ 让关系陷入：你说你的，我做我的\n【关系结构】权力动态偏单向 / 信息流动不充分 / 情绪账户透支\n\n现在，你想先从哪个维度突破？\nA. 调整我的行为模式（改变自己）\nB. 引导对方的反应（影响对方）\nC. 重构关系结构（改变互动规则）`;
     }
   }
   if (step === 'act') {
@@ -1337,7 +1337,7 @@ function replacePlaceholders(text, userText) {
   if (!text) return '';
   // 简化版占位符替换
   text = text.replace(/{用户选择}/g, userText.substring(0, 20));
-  text = text.replace(/{场景}/g, userInputs.define?.[0]?.substring(0, 30) || '你的关系场景');
+  text = text.replace(/{场景}/g, ((userInputs.define || [])[0] || '').substring(0, 30) || '你的关系场景');
   text = text.replace(/{情绪}/g, '不舒服');
   text = text.replace(/{核心冲突}/g, '需求和现实的差距');
   return text;
@@ -1356,14 +1356,14 @@ function generateMcKinseyReport() {
   const actions = buildDynamicActions(inputs);
 
   const report = {
-    coreConclusion: `【核心结论】你在"${inputs.define?.[0]?.substring(0, 50) || '最近的关系场景'}"中，倾向于${(inputs.analyze?.[0] || '某种行为模式').substring(0, 30)}，导致关系陷入僵局。根本原因在于双方的行为模式形成了负向循环。`,
+    coreConclusion: `【核心结论】你在"${((inputs.define || [])[0] || '').substring(0, 50) || '最近的关系场景'}"中，倾向于${((inputs.analyze || [])[0] || '某种行为模式').substring(0, 30)}，导致关系陷入僵局。根本原因在于双方的行为模式形成了负向循环。`,
     mece: [
-      { dim: '你的行为模式', score: 6, desc: inputs.analyze?.[0] || '待补充', color: '#d97706' },
-      { dim: '对方的反应模式', score: 5, desc: inputs.analyze?.[1] || '待补充', color: '#0891b2' },
+      { dim: '你的行为模式', score: 6, desc: (inputs.analyze || [])[0] || '待补充', color: '#d97706' },
+      { dim: '对方的反应模式', score: 5, desc: (inputs.analyze || {})[1] || '待补充', color: '#0891b2' },
       { dim: '关系结构', score: 4, desc: '权力动态偏单向 / 信息流动不充分 / 情绪账户透支', color: '#7c3aed' }
     ],
     actions: actions,
-    nextStep: `【本周试验】${inputs.analyze?.[0] ? '调整你的互动方式，先倾听再表达' : '主动问候对方，不只在有问题时才联系'}\n【判断标准】对方回应变得更开放（主动说更多信息）\n【复盘时间】建议下周一找我复盘`
+    nextStep: `【本周试验】${(inputs.analyze || [])[0] ? '调整你的互动方式，先倾听再表达' : '主动问候对方，不只在有问题时才联系'}\n【判断标准】对方回应变得更开放（主动说更多信息）\n【复盘时间】建议下周一找我复盘`
   };
 
   let html = `
@@ -1418,8 +1418,8 @@ function generateMcKinseyReport() {
 }
 
 function buildDynamicActions(inputs) {
-  const defineText = (inputs.define?.[0] || '').toLowerCase();
-  const analyzeText = (inputs.analyze?.[0] || '').toLowerCase();
+  const defineText = ((inputs.define || {})[0] || '').toLowerCase();
+  const analyzeText = ((inputs.analyze || [])[0] || '').toLowerCase();
   const allText = defineText + ' ' + analyzeText;
   const actions = [];
 
