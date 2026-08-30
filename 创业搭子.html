@@ -880,9 +880,9 @@ let streak = 0;
 
 // ===== 工具函数 =====
 function load(key, fallback = null) {
-  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch { return fallback; }
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e) { return fallback; }
 }
-function save(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch {} }
+function save(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {} }
 
 function getToday() {
   const d = new Date();
@@ -1354,7 +1354,7 @@ function getEmpathy(style, dir, isPos) {
     '战友': { result:{ pos:['好样的！和你一起走过来 🤝','你做到了，我为你骄傲 💪'], neg:['说出来就好，我在听 💙','不是一个人在扛 🤝'] }, solution:{ pos:['问吧，我尽力 💙'], neg:['难的时候说出来，搭子在 🤝'] } }
   };
   const m = msgs[style] || msgs['战友'];
-  const arr = m[dir]?.[isPos?'pos':'neg'] || m.result[isPos?'pos':'neg'];
+  const arr = (m[dir] && m[dir][isPos?'pos':'neg']) || m.result[isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
 function getFeedback(style, dir, isPos) {
@@ -1365,7 +1365,7 @@ function getFeedback(style, dir, isPos) {
     '战友': { result:{ pos:['一起走过来的，我见证了你的进步 🤝','继续，我陪你 💪'], neg:['我们一起想办法，你不是一个人 💙','调整一下，一起继续 🤝'] }, solution:{ pos:['我们一起找方法 💙'], neg:['说说具体情况，我帮你想 🤝'] } }
   };
   const m = msgs[style] || msgs['战友'];
-  const arr = m[dir]?.[isPos?'pos':'neg'] || m.result[isPos?'pos':'neg'];
+  const arr = (m[dir] && m[dir][isPos?'pos':'neg']) || m.result[isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
 function closeFeedback() { document.getElementById('fbOverlay').classList.remove('show'); }
@@ -1409,7 +1409,7 @@ function sendMood(mood) {
   const partner = selectedPartner !== null ? PARTNER_STYLES[selectedPartner] : null;
   const pStyle = partner ? partner.style : '战友';
   const info = moodMap[mood] || { emoji: '😊' };
-  const replies = info[mood]?.[pStyle] || info[mood]?.['战友'] || ['我听到了 💪'];
+  const replies = (info[mood] && info[mood][pStyle]) || (info[mood] && info[mood]['战友']) || ['我听到了 💪'];
   appendMsg(info.emoji, replies[Math.floor(Math.random() * replies.length)]);
 }
 
@@ -2212,16 +2212,28 @@ function showCatSummary(cat, selected, catScore) {
     </div>
   `;
   overlay.classList.add('show');
-} else if (yesCount >= cat.items.length * 0.7) {
-    feedback = '做得不错！继续加油！💪';
-  } else if (yesCount >= cat.items.length * 0.5) {
-    feedback = '有进步空间哦，继续加油！🌱';
+}
+
+function closeCatSummary() {
+  document.getElementById('catSummaryOverlay').classList.remove('show');
+
+  if (sopSubmittedCats.length >= SOP_CATEGORIES.length) {
+    setTimeout(function() { showSOPFinish(); }, 500);
   } else {
-    feedback = '今天有点困难没关系，明天重新开始！🔥';
-  }
-  // 检查 showToast 是否存在，避免报错
-  if (typeof showToast === 'function') {
-    showToast(cat.icon + ' ' + cat.name + '：' + catScore + '分 · ' + feedback);
+    var nextCatIdx = -1;
+    for (var i = 0; i < SOP_CATEGORIES.length; i++) {
+      if (sopSubmittedCats.indexOf(SOP_CATEGORIES[i].id) === -1) {
+        nextCatIdx = i;
+        break;
+      }
+    }
+    if (nextCatIdx >= 0) {
+      sopCatIdx = nextCatIdx;
+      renderSOPCats();
+      renderSOPTips();
+      renderSOPList();
+      showSOPGuideOverlay();
+    }
   }
 }
 
@@ -2337,6 +2349,8 @@ document.addEventListener('DOMContentLoaded', function() {
   selectedPartner = load(STORAGE.PARTNER, null);
   renderCheckinPage();
 });
+}
+}
   </script>
   <script src="coach.js"></script>
 

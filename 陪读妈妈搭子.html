@@ -1795,7 +1795,7 @@ function sendMood(mood) {
       tired: ['😒 累了就休息，谁还没累过 😒', '……行吧，今晚早点睡 😴', '哼，想偷懒就直说 😏']
     }
   };
-  const options = replies[pStyle]?.[simpleMood] || replies.gentle[simpleMood];
+  const options = (replies[pStyle] || {})[simpleMood] || replies.gentle[simpleMood];
   showPartnerMsg(moodText[simpleMood] || mood, false);
   setTimeout(() => {
     showPartnerMsg(options[Math.floor(Math.random() * options.length)], true);
@@ -2055,7 +2055,7 @@ function getTypeEmpathy(style, panel, dir, isPos) {
       solution:  { pos: ['……行吧，我勉强听一下。😒'], neg: ['怎么又这样……说吧，我帮你。😒', '哼，说吧，我看看能不能救。🤷'] }
     }
   };
-  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
+  const arr = ((msgs[style] || {})[dir] || {})[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
@@ -2086,7 +2086,7 @@ function getTypePartnerFeedback(style, panel, dir, isPos) {
                    neg: ['……算了，我帮你想想。😒', '好吧，我勉强帮一下。🤷'] }
     }
   };
-  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
+  const arr = ((msgs[style] || {})[dir] || {})[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
 

@@ -1417,7 +1417,7 @@ const FEEDBACK = {
 };
 
 function getMsg(style, type) {
-  const arr = FEEDBACK[style]?.[type] || FEEDBACK.gentle[type] || ['嗯。'];
+  const arr = (FEEDBACK[style] || {})[type] || FEEDBACK.gentle[type] || ['嗯。'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
@@ -1458,7 +1458,7 @@ function showTyping() {
 }
 
 function removeTyping() {
-  document.getElementById('typingBubble')?.remove();
+  (function(){var _el=document.getElementById('typingBubble');if(_el)_el.remove();})();
 }
 
 function delayedMsg(text) {
@@ -1477,7 +1477,7 @@ function doCheckin() {
   refreshDashboard();
   simpleConfetti();
   let hour = new Date().getHours();
-  delayedMsg(hour >= 23 || hour <= 5 ? getMsg(currentPartner?.style||'gentle','late') : getMsg(currentPartner?.style||'gentle','checkin'));
+  delayedMsg(hour >= 23 || hour <= 5 ? getMsg((currentPartner && currentPartner.style) || 'gentle','late') : getMsg((currentPartner && currentPartner.style) || 'gentle','checkin'));
   let continuous = computeContinuous(history, today);
   setTimeout(() => {
     if (continuous === 7 && !localStorage.getItem('achievement_shown_7')) showAchievement(7);
@@ -1538,7 +1538,7 @@ function sendMood(mood) {
       tired: ['😒 累了就休息，谁还没累过 😒', '……行吧，今晚早点睡 😴', '哼，想偷懒就直说 😏']
     }
   };
-  const options = replies[pStyle]?.[mood] || replies.gentle[mood];
+  const options = (replies[pStyle] || {})[mood] || replies.gentle[mood];
   showPartnerMsg(moodText[mood], false);
   setTimeout(() => {
     showPartnerMsg(options[Math.floor(Math.random() * options.length)], true);
@@ -1689,7 +1689,7 @@ function getTypeEmpathy(style, panel, dir, isPos) {
       solution:  { pos: ['……行吧，我勉强听一下。😒'], neg: ['怎么又这样……说吧，我帮你。😒','哼，说吧，我看看能不能救。🤷'] }
     }
   };
-  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
+  const arr = ((msgs[style] || {})[dir] || {})[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
@@ -1720,7 +1720,7 @@ function getTypePartnerFeedback(style, panel, dir, isPos) {
                    neg: ['……算了，我帮你想想。😒','好吧，我勉强帮一下。🤷'] }
     }
   };
-  const arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
+  const arr = ((msgs[style] || {})[dir] || {})[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
@@ -1849,12 +1849,12 @@ function checkReminder() {
   let reminderKey = 'last_reminder_' + getToday();
   if (diffH >= 24 && !localStorage.getItem(reminderKey)) {
     localStorage.setItem(reminderKey, '1');
-    let msg = getMsg(currentPartner?.style||'gentle', 'reminder');
+    let msg = getMsg((currentPartner && currentPartner.style) || 'gentle', 'reminder');
     delayedMsg(msg);
   }
 }
 
-document.getElementById('confirmPartnerBtn')?.addEventListener('click', confirmPartner);
+(function(){var _el=document.getElementById('confirmPartnerBtn');if(_el)_el.addEventListener('click', confirmPartner);})();
 
 // 更新右上角搭子头像
 function updateAvatarBtn() {
@@ -1876,7 +1876,7 @@ function closePartnerOverlay() {
   let saved = localStorage.getItem(STORAGE.PARTNER);
   if (saved && PARTNERS.some(p => p.id === saved)) {
     let p = PARTNERS.find(pp => pp.id === saved);
-    if (currentPartner?.id !== saved) {
+    if (currentPartner && currentPartner.id !== saved) {
       currentPartner = p;
       partnerIdx = PARTNERS.indexOf(p);
       localStorage.setItem(STORAGE.PARTNER, p.id);
@@ -1894,9 +1894,9 @@ function showAchievement(days) {
   let titles = { 7: '一周纪念', 21: '三周成就', 30: '一个月勋章' };
   let icons = { 7: '🔥', 21: '🏅', 30: '🏆' };
   let msgs = {
-    7: getMsg(currentPartner?.style||'gentle','milestone7'),
-    21: getMsg(currentPartner?.style||'gentle','milestone21'),
-    30: getMsg(currentPartner?.style||'gentle','milestone30')
+    7: getMsg((currentPartner && currentPartner.style) || 'gentle','milestone7'),
+    21: getMsg((currentPartner && currentPartner.style) || 'gentle','milestone21'),
+    30: getMsg((currentPartner && currentPartner.style) || 'gentle','milestone30')
   };
   document.getElementById('achievementIcon').textContent = icons[days] || '🏆';
   document.getElementById('achievementTitle').textContent = titles[days] || '里程碑达成！';

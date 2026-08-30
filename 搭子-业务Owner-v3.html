@@ -942,7 +942,7 @@ function getTypeEmpathy(style, panel, dir, isPos) {
                 neg:['怎么又这样……说吧，我帮你。😒','哼，说吧，我看看能不能救。🤷'] }
     }
   };
-  var arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.rational[dir][isPos?'pos':'neg'];
+  var arr = ((msgs[style] || {})[dir] || {})[isPos?'pos':'neg'] || msgs.rational[dir][isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
@@ -973,7 +973,7 @@ function getTypePartnerFeedback(style, panel, dir, isPos) {
                 neg:['……算了，我帮你想想。😒','好吧，我勉强帮一下。🤷'] }
     }
   };
-  var arr = msgs[style]?.[dir]?.[isPos?'pos':'neg'] || msgs.rational[dir][isPos?'pos':'neg'];
+  var arr = ((msgs[style] || {})[dir] || {})[isPos?'pos':'neg'] || msgs.rational[dir][isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
