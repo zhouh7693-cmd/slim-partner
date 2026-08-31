@@ -2115,6 +2115,8 @@ function refreshSOPState() {
     if (sopDone) {
       renderSOPDoneState();
     }
+  }
+}
 
 function showSOPFinish() {
   let score = Math.max(0, Math.min(100, sopScore));
@@ -2427,8 +2429,6 @@ document.addEventListener('DOMContentLoaded', function() {
   selectedPartner = load(STORAGE.PARTNER, null);
   renderCheckinPage();
 });
-}
-}
   </script>
   <script src="coach.js"></script>
 
