@@ -838,6 +838,84 @@ function shareWeeklyReport() {
 <div class="page" id="coachPage">
   <div class="coach-page" id="coachPageContent">
     <!-- 教练介绍页 -->
+    
+<!-- ===== 成长路线 & 基本功 Checklist（参照AI搭子优化 · 可点击互动）===== -->
+<div id="crpWrap_relation" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
+  <style>
+    #crpWrap_relation .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
+    #crpWrap_relation .crp-title { font-size:15px; font-weight:800; color:#2b3a4a; margin-bottom:12px; }
+    #crpWrap_relation .crp-tip { font-size:11px; font-weight:500; color:#8f9eae; margin-left:6px; }
+    #crpWrap_relation .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+    #crpWrap_relation .crp-stage:active { transform:scale(.98); }
+    #crpWrap_relation .crp-stage-head { font-weight:700; font-size:13px; }
+    #crpWrap_relation .crp-arrow { float:right; color:#8f9eae; }
+    #crpWrap_relation .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#37474f; }
+    #crpWrap_relation .crp-stage.collapsed .crp-stage-body { display:none; }
+    #crpWrap_relation .crp-item { font-size:13px; color:#37474f; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+    #crpWrap_relation .crp-item:hover { background:#f5f5f7; }
+    #crpWrap_relation .crp-item.done { color:#8f9eae; text-decoration:line-through; }
+    #crpWrap_relation .crp-box { margin-right:8px; }
+  </style>
+  <div class="crp-card">
+    <div class="crp-title">🗺️ 关系力修炼三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+    <div class="crp-stage" style="background:#e8f5e9;">
+      <div class="crp-stage-head" style="color:#2e7d32;">📌 第1阶段 · 第1个月 · 向内觉察 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">记录情绪触发点，画出自己的"雷区图"<br>• 练习区分"事实"与"我的解读"<br>• 觉察自己在冲突中的沟通姿态</div>
+    </div>
+    <div class="crp-stage" style="background:#fff3e0;">
+      <div class="crp-stage-head" style="color:#e65100;">📌 第2阶段 · 第2-3个月 · 向外练习 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">每天一次专注倾听，忍住不打断<br>• 用"我感受…我需要…"表达需求<br>• 练习温和而坚定地设立边界</div>
+    </div>
+    <div class="crp-stage" style="background:#e8eaf6;">
+      <div class="crp-stage-head" style="color:#3949ab;">📌 第3阶段 · 第4-6个月 · 关系升级 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">主动修复一段重要的紧张关系<br>• 建立深度连接的日常仪式<br>• 从"求助者"成长为"支持者"</div>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">📋 关系力修炼基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_relation" style="color:#e05c97;">0</b>/7 · 自动保存</span></div>
+    <div>
+      <div class="crp-item"><span class="crp-box">☐</span>能说出自己的情绪触发点</div>
+      <div class="crp-item"><span class="crp-box">☐</span>倾听时能忍住不给建议</div>
+      <div class="crp-item"><span class="crp-box">☐</span>会用"我感受…我需要…"表达</div>
+      <div class="crp-item"><span class="crp-box">☐</span>拒绝过一次不合理请求</div>
+      <div class="crp-item"><span class="crp-box">☐</span>修复过一段紧张关系</div>
+      <div class="crp-item"><span class="crp-box">☐</span>每周有深度对话时刻</div>
+      <div class="crp-item"><span class="crp-box">☐</span>社交后能量大于消耗</div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var KEY='crp_checklist_relation';
+    var wrap=document.getElementById('crpWrap_relation'); if(!wrap) return;
+    wrap.querySelectorAll('.crp-stage').forEach(function(s){
+      s.addEventListener('click',function(){
+        s.classList.toggle('collapsed');
+        var a=s.querySelector('.crp-arrow'); if(a) a.textContent=s.classList.contains('collapsed')?'▸':'▾';
+      });
+    });
+    var items=wrap.querySelectorAll('.crp-item');
+    var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+    function render(){
+      var d=0;
+      items.forEach(function(it,i){
+        var b=it.querySelector('.crp-box');
+        if(state[i]){it.classList.add('done');b.textContent='☑';d++;}
+        else{it.classList.remove('done');b.textContent='☐';}
+      });
+      var c=document.getElementById('crpCnt_relation'); if(c) c.textContent=d;
+    }
+    items.forEach(function(it,i){
+      it.addEventListener('click',function(){
+        state[i]=!state[i];
+        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+        render();
+      });
+    });
+    render();
+  })();
+  </script>
+</div>
+
     <div class="coach-intro" id="coachIntro">
       <div class="coach-intro-icon">🎓</div>
       <div class="coach-intro-title">麦肯锡风格关系力教练</div>

@@ -653,6 +653,84 @@
 <div class="page" id="coachPage">
   <div class="coach-page" id="coachPageContent">
     <!-- 教练介绍页 -->
+    
+<!-- ===== 成长路线 & 基本功 Checklist（参照AI搭子优化 · 可点击互动）===== -->
+<div id="crpWrap_startup" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
+  <style>
+    #crpWrap_startup .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
+    #crpWrap_startup .crp-title { font-size:15px; font-weight:800; color:#2b3a4a; margin-bottom:12px; }
+    #crpWrap_startup .crp-tip { font-size:11px; font-weight:500; color:#8f9eae; margin-left:6px; }
+    #crpWrap_startup .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+    #crpWrap_startup .crp-stage:active { transform:scale(.98); }
+    #crpWrap_startup .crp-stage-head { font-weight:700; font-size:13px; }
+    #crpWrap_startup .crp-arrow { float:right; color:#8f9eae; }
+    #crpWrap_startup .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#37474f; }
+    #crpWrap_startup .crp-stage.collapsed .crp-stage-body { display:none; }
+    #crpWrap_startup .crp-item { font-size:13px; color:#37474f; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+    #crpWrap_startup .crp-item:hover { background:#f5f5f7; }
+    #crpWrap_startup .crp-item.done { color:#8f9eae; text-decoration:line-through; }
+    #crpWrap_startup .crp-box { margin-right:8px; }
+  </style>
+  <div class="crp-card">
+    <div class="crp-title">🗺️ 创业三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+    <div class="crp-stage" style="background:#e8f5e9;">
+      <div class="crp-stage-head" style="color:#2e7d32;">📌 第1阶段 · 第1个月 · 验证方向 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">深度访谈10个目标用户，只问不推<br>• 一句话讲清价值主张（给谁解决什么痛）<br>• 定义最小可行产品MVP范围，砍到不能再砍</div>
+    </div>
+    <div class="crp-stage" style="background:#fff3e0;">
+      <div class="crp-stage-head" style="color:#e65100;">📌 第2阶段 · 第2-3个月 · 跑通闭环 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">MVP上线，快速收集真实反馈<br>• 找到第一批愿意付费的用户<br>• 建立关键指标看板（留存/转化/复购）</div>
+    </div>
+    <div class="crp-stage" style="background:#e8eaf6;">
+      <div class="crp-stage-head" style="color:#3949ab;">📌 第3阶段 · 第4-6个月 · 复制增长 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">验证至少一条可复制的获客渠道<br>• 搭建最小团队，明确分工与节奏<br>• 规划现金流转正路径，留足安全垫</div>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">📋 创业基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_startup" style="color:#f97316;">0</b>/7 · 自动保存</span></div>
+    <div>
+      <div class="crp-item"><span class="crp-box">☐</span>访谈过10个目标用户</div>
+      <div class="crp-item"><span class="crp-box">☐</span>能一句话讲清产品价值</div>
+      <div class="crp-item"><span class="crp-box">☐</span>有用户愿意付费</div>
+      <div class="crp-item"><span class="crp-box">☐</span>每周看一次核心数据</div>
+      <div class="crp-item"><span class="crp-box">☐</span>有明确的北极星指标</div>
+      <div class="crp-item"><span class="crp-box">☐</span>现金流能支撑12个月</div>
+      <div class="crp-item"><span class="crp-box">☐</span>团队分工清晰不重叠</div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var KEY='crp_checklist_startup';
+    var wrap=document.getElementById('crpWrap_startup'); if(!wrap) return;
+    wrap.querySelectorAll('.crp-stage').forEach(function(s){
+      s.addEventListener('click',function(){
+        s.classList.toggle('collapsed');
+        var a=s.querySelector('.crp-arrow'); if(a) a.textContent=s.classList.contains('collapsed')?'▸':'▾';
+      });
+    });
+    var items=wrap.querySelectorAll('.crp-item');
+    var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+    function render(){
+      var d=0;
+      items.forEach(function(it,i){
+        var b=it.querySelector('.crp-box');
+        if(state[i]){it.classList.add('done');b.textContent='☑';d++;}
+        else{it.classList.remove('done');b.textContent='☐';}
+      });
+      var c=document.getElementById('crpCnt_startup'); if(c) c.textContent=d;
+    }
+    items.forEach(function(it,i){
+      it.addEventListener('click',function(){
+        state[i]=!state[i];
+        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+        render();
+      });
+    });
+    render();
+  })();
+  </script>
+</div>
+
     <div class="coach-intro" id="coachIntro">
       <div class="coach-intro-icon">🎓</div>
       <div class="coach-intro-title">麦肯锡风格创业教练</div>

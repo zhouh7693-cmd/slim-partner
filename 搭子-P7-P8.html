@@ -579,7 +579,85 @@
 <!-- ===== 教练页面 (McKinsey风格) ===== -->
 <div class="page" id="coachPage">
   <!-- 教练介绍卡 -->
-  <div class="coach-intro" id="coachIntro">
+  
+<!-- ===== 成长路线 & 基本功 Checklist（参照AI搭子优化 · 可点击互动）===== -->
+<div id="crpWrap_p7p8" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
+  <style>
+    #crpWrap_p7p8 .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
+    #crpWrap_p7p8 .crp-title { font-size:15px; font-weight:800; color:#2b3a4a; margin-bottom:12px; }
+    #crpWrap_p7p8 .crp-tip { font-size:11px; font-weight:500; color:#8f9eae; margin-left:6px; }
+    #crpWrap_p7p8 .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+    #crpWrap_p7p8 .crp-stage:active { transform:scale(.98); }
+    #crpWrap_p7p8 .crp-stage-head { font-weight:700; font-size:13px; }
+    #crpWrap_p7p8 .crp-arrow { float:right; color:#8f9eae; }
+    #crpWrap_p7p8 .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#37474f; }
+    #crpWrap_p7p8 .crp-stage.collapsed .crp-stage-body { display:none; }
+    #crpWrap_p7p8 .crp-item { font-size:13px; color:#37474f; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+    #crpWrap_p7p8 .crp-item:hover { background:#f5f5f7; }
+    #crpWrap_p7p8 .crp-item.done { color:#8f9eae; text-decoration:line-through; }
+    #crpWrap_p7p8 .crp-box { margin-right:8px; }
+  </style>
+  <div class="crp-card">
+    <div class="crp-title">🗺️ P7→P8晋升三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+    <div class="crp-stage" style="background:#e8f5e9;">
+      <div class="crp-stage-head" style="color:#2e7d32;">📌 第1阶段 · 第1个月 · 建立战略视野 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">从执行视角切换到业务视角看问题<br>• 拆解上级战略意图，主动对齐目标<br>• 建立2-3个高质量行业信息输入源</div>
+    </div>
+    <div class="crp-stage" style="background:#fff3e0;">
+      <div class="crp-stage-head" style="color:#e65100;">📌 第2阶段 · 第2-3个月 · 跨团队协同 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">主导一次跨部门项目并拿到结果<br>• 经营横向影响力网络（非职权影响）<br>• 用数据和业务语言讲故事，不堆形容词</div>
+    </div>
+    <div class="crp-stage" style="background:#e8eaf6;">
+      <div class="crp-stage-head" style="color:#3949ab;">📌 第3阶段 · 第4-6个月 · 体系化影响力 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">沉淀可复制的方法论并在内部宣讲<br>• 识别并培养能独当一面的接班人<br>• 在公司层面建立专业口碑与能见度</div>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">📋 P7→P8晋升基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_p7p8" style="color:#8b5cf6;">0</b>/7 · 自动保存</span></div>
+    <div>
+      <div class="crp-item"><span class="crp-box">☐</span>能说清部门战略与自己的关系</div>
+      <div class="crp-item"><span class="crp-box">☐</span>主导过跨部门项目</div>
+      <div class="crp-item"><span class="crp-box">☐</span>每月有高质量行业输入</div>
+      <div class="crp-item"><span class="crp-box">☐</span>有可复用的方法论沉淀</div>
+      <div class="crp-item"><span class="crp-box">☐</span>带出过能独当一面的人</div>
+      <div class="crp-item"><span class="crp-box">☐</span>汇报用数据不用形容词</div>
+      <div class="crp-item"><span class="crp-box">☐</span>被其他团队主动求助过</div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var KEY='crp_checklist_p7p8';
+    var wrap=document.getElementById('crpWrap_p7p8'); if(!wrap) return;
+    wrap.querySelectorAll('.crp-stage').forEach(function(s){
+      s.addEventListener('click',function(){
+        s.classList.toggle('collapsed');
+        var a=s.querySelector('.crp-arrow'); if(a) a.textContent=s.classList.contains('collapsed')?'▸':'▾';
+      });
+    });
+    var items=wrap.querySelectorAll('.crp-item');
+    var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+    function render(){
+      var d=0;
+      items.forEach(function(it,i){
+        var b=it.querySelector('.crp-box');
+        if(state[i]){it.classList.add('done');b.textContent='☑';d++;}
+        else{it.classList.remove('done');b.textContent='☐';}
+      });
+      var c=document.getElementById('crpCnt_p7p8'); if(c) c.textContent=d;
+    }
+    items.forEach(function(it,i){
+      it.addEventListener('click',function(){
+        state[i]=!state[i];
+        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+        render();
+      });
+    });
+    render();
+  })();
+  </script>
+</div>
+
+    <div class="coach-intro" id="coachIntro">
     <div class="coach-intro-icon">🧠</div>
     <div class="coach-intro-title">麦肯锡风格P7管理教练</div>
     <div class="coach-intro-sub">帮你照见管理盲区，制定P7到P8的成长策略</div>

@@ -3113,6 +3113,84 @@ startApp();
 <!-- ===== 教练页 ===== -->
 <div class="page" id="coachPage">
   <div class="coach-page" id="coachPageContent">
+    
+<!-- ===== 成长路线 & 基本功 Checklist（参照AI搭子优化 · 可点击互动）===== -->
+<div id="crpWrap_mission" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
+  <style>
+    #crpWrap_mission .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
+    #crpWrap_mission .crp-title { font-size:15px; font-weight:800; color:#2b3a4a; margin-bottom:12px; }
+    #crpWrap_mission .crp-tip { font-size:11px; font-weight:500; color:#8f9eae; margin-left:6px; }
+    #crpWrap_mission .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+    #crpWrap_mission .crp-stage:active { transform:scale(.98); }
+    #crpWrap_mission .crp-stage-head { font-weight:700; font-size:13px; }
+    #crpWrap_mission .crp-arrow { float:right; color:#8f9eae; }
+    #crpWrap_mission .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#37474f; }
+    #crpWrap_mission .crp-stage.collapsed .crp-stage-body { display:none; }
+    #crpWrap_mission .crp-item { font-size:13px; color:#37474f; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+    #crpWrap_mission .crp-item:hover { background:#f5f5f7; }
+    #crpWrap_mission .crp-item.done { color:#8f9eae; text-decoration:line-through; }
+    #crpWrap_mission .crp-box { margin-right:8px; }
+  </style>
+  <div class="crp-card">
+    <div class="crp-title">🗺️ 使命财富三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+    <div class="crp-stage" style="background:#e8f5e9;">
+      <div class="crp-stage-head" style="color:#2e7d32;">📌 第1阶段 · 第1个月 · 向内探索 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">写下人生高光与低谷时刻，找规律<br>• 识别反复出现的核心价值观<br>• 做一次优势测评（如盖洛普）</div>
+    </div>
+    <div class="crp-stage" style="background:#fff3e0;">
+      <div class="crp-stage-head" style="color:#e65100;">📌 第2阶段 · 第2-3个月 · 定义使命 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">写出一段个人使命宣言并打磨<br>• 设定3年愿景，画面越具体越好<br>• 找到使命与当下工作的连接点</div>
+    </div>
+    <div class="crp-stage" style="background:#e8eaf6;">
+      <div class="crp-stage-head" style="color:#3949ab;">📌 第3阶段 · 第4-6个月 · 付诸贡献 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">每月做一次利他行动并记录感受<br>• 把使命融入日常工作的小选择<br>• 影响至少3个人共同行动</div>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">📋 使命财富基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_mission" style="color:#0ea5e9;">0</b>/7 · 自动保存</span></div>
+    <div>
+      <div class="crp-item"><span class="crp-box">☐</span>写过个人使命宣言</div>
+      <div class="crp-item"><span class="crp-box">☐</span>能说清自己的Top3价值观</div>
+      <div class="crp-item"><span class="crp-box">☐</span>设定了3年愿景</div>
+      <div class="crp-item"><span class="crp-box">☐</span>每月有利他行动</div>
+      <div class="crp-item"><span class="crp-box">☐</span>工作和使命有连接点</div>
+      <div class="crp-item"><span class="crp-box">☐</span>定期复盘人生方向</div>
+      <div class="crp-item"><span class="crp-box">☐</span>影响过他人变得更好</div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var KEY='crp_checklist_mission';
+    var wrap=document.getElementById('crpWrap_mission'); if(!wrap) return;
+    wrap.querySelectorAll('.crp-stage').forEach(function(s){
+      s.addEventListener('click',function(){
+        s.classList.toggle('collapsed');
+        var a=s.querySelector('.crp-arrow'); if(a) a.textContent=s.classList.contains('collapsed')?'▸':'▾';
+      });
+    });
+    var items=wrap.querySelectorAll('.crp-item');
+    var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+    function render(){
+      var d=0;
+      items.forEach(function(it,i){
+        var b=it.querySelector('.crp-box');
+        if(state[i]){it.classList.add('done');b.textContent='☑';d++;}
+        else{it.classList.remove('done');b.textContent='☐';}
+      });
+      var c=document.getElementById('crpCnt_mission'); if(c) c.textContent=d;
+    }
+    items.forEach(function(it,i){
+      it.addEventListener('click',function(){
+        state[i]=!state[i];
+        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+        render();
+      });
+    });
+    render();
+  })();
+  </script>
+</div>
+
     <div class="coach-intro" id="coachIntro">
       <div class="coach-intro-icon">🎓</div>
       <div class="coach-intro-title">麦肯锡风格使命财富教练</div>

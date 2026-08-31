@@ -816,6 +816,84 @@
 <!-- ===== Page: 教练 (McKinsey风格) ===== -->
 <div id="page-coach" class="page" style="display:none;">
   <!-- 教练介绍页 -->
+    
+<!-- ===== 成长路线 & 基本功 Checklist（参照AI搭子优化 · 可点击互动）===== -->
+<div id="crpWrap_weight" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
+  <style>
+    #crpWrap_weight .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
+    #crpWrap_weight .crp-title { font-size:15px; font-weight:800; color:#2b3a4a; margin-bottom:12px; }
+    #crpWrap_weight .crp-tip { font-size:11px; font-weight:500; color:#8f9eae; margin-left:6px; }
+    #crpWrap_weight .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+    #crpWrap_weight .crp-stage:active { transform:scale(.98); }
+    #crpWrap_weight .crp-stage-head { font-weight:700; font-size:13px; }
+    #crpWrap_weight .crp-arrow { float:right; color:#8f9eae; }
+    #crpWrap_weight .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#37474f; }
+    #crpWrap_weight .crp-stage.collapsed .crp-stage-body { display:none; }
+    #crpWrap_weight .crp-item { font-size:13px; color:#37474f; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+    #crpWrap_weight .crp-item:hover { background:#f5f5f7; }
+    #crpWrap_weight .crp-item.done { color:#8f9eae; text-decoration:line-through; }
+    #crpWrap_weight .crp-box { margin-right:8px; }
+  </style>
+  <div class="crp-card">
+    <div class="crp-title">🗺️ 减肥三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+    <div class="crp-stage" style="background:#e8f5e9;">
+      <div class="crp-stage-head" style="color:#2e7d32;">📌 第1阶段 · 第1个月 · 建立基础习惯 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">规律三餐不节食，只在七八分饱时停筷<br>• 每天步行7000步起步，不追求强度<br>• 每周固定2次称重并记录，只记录不评价</div>
+    </div>
+    <div class="crp-stage" style="background:#fff3e0;">
+      <div class="crp-stage-head" style="color:#e65100;">📌 第2阶段 · 第2-3个月 · 饮食运动系统化 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">学会看营养成分表，控制隐形热量<br>• 每周3次30分钟有氧 + 2次力量训练<br>• 睡眠保证7小时，睡前1小时不进食</div>
+    </div>
+    <div class="crp-stage" style="background:#e8eaf6;">
+      <div class="crp-stage-head" style="color:#3949ab;">📌 第3阶段 · 第4-6个月 · 维持与巩固 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">加入力量训练，提升基础代谢<br>• 建立压力性进食的应对清单<br>• 设定体重反弹预警线（+3kg即干预）</div>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">📋 减肥基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_weight" style="color:#66bb6a;">0</b>/7 · 自动保存</span></div>
+    <div>
+      <div class="crp-item"><span class="crp-box">☐</span>连续7天记录饮食</div>
+      <div class="crp-item"><span class="crp-box">☐</span>每周运动≥3次</div>
+      <div class="crp-item"><span class="crp-box">☐</span>会看营养成分表</div>
+      <div class="crp-item"><span class="crp-box">☐</span>戒掉含糖饮料</div>
+      <div class="crp-item"><span class="crp-box">☐</span>平均睡眠7小时以上</div>
+      <div class="crp-item"><span class="crp-box">☐</span>体重稳定下降不反弹</div>
+      <div class="crp-item"><span class="crp-box">☐</span>有一套自己的减脂餐模板</div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var KEY='crp_checklist_weight';
+    var wrap=document.getElementById('crpWrap_weight'); if(!wrap) return;
+    wrap.querySelectorAll('.crp-stage').forEach(function(s){
+      s.addEventListener('click',function(){
+        s.classList.toggle('collapsed');
+        var a=s.querySelector('.crp-arrow'); if(a) a.textContent=s.classList.contains('collapsed')?'▸':'▾';
+      });
+    });
+    var items=wrap.querySelectorAll('.crp-item');
+    var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+    function render(){
+      var d=0;
+      items.forEach(function(it,i){
+        var b=it.querySelector('.crp-box');
+        if(state[i]){it.classList.add('done');b.textContent='☑';d++;}
+        else{it.classList.remove('done');b.textContent='☐';}
+      });
+      var c=document.getElementById('crpCnt_weight'); if(c) c.textContent=d;
+    }
+    items.forEach(function(it,i){
+      it.addEventListener('click',function(){
+        state[i]=!state[i];
+        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+        render();
+      });
+    });
+    render();
+  })();
+  </script>
+</div>
+
     <div class="coach-intro" id="coachIntro">
     <div class="coach-intro-icon">🎓</div>
     <div class="coach-intro-title">麦肯锡风格减肥教练</div>

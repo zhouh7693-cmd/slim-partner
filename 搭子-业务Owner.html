@@ -379,6 +379,84 @@
 
 <!-- ===== 教练页面 ===== -->
 <div class="page" id="coachPage">
+
+<!-- ===== 成长路线 & 基本功 Checklist（参照AI搭子优化 · 可点击互动）===== -->
+<div id="crpWrap_owner" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
+  <style>
+    #crpWrap_owner .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
+    #crpWrap_owner .crp-title { font-size:15px; font-weight:800; color:#2b3a4a; margin-bottom:12px; }
+    #crpWrap_owner .crp-tip { font-size:11px; font-weight:500; color:#8f9eae; margin-left:6px; }
+    #crpWrap_owner .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+    #crpWrap_owner .crp-stage:active { transform:scale(.98); }
+    #crpWrap_owner .crp-stage-head { font-weight:700; font-size:13px; }
+    #crpWrap_owner .crp-arrow { float:right; color:#8f9eae; }
+    #crpWrap_owner .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#37474f; }
+    #crpWrap_owner .crp-stage.collapsed .crp-stage-body { display:none; }
+    #crpWrap_owner .crp-item { font-size:13px; color:#37474f; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+    #crpWrap_owner .crp-item:hover { background:#f5f5f7; }
+    #crpWrap_owner .crp-item.done { color:#8f9eae; text-decoration:line-through; }
+    #crpWrap_owner .crp-box { margin-right:8px; }
+  </style>
+  <div class="crp-card">
+    <div class="crp-title">🗺️ 业务Owner三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+    <div class="crp-stage" style="background:#e8f5e9;">
+      <div class="crp-stage-head" style="color:#2e7d32;">📌 第1阶段 · 第1个月 · 吃透客户价值 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">访谈5个核心客户，听原话不做翻译<br>• 画出客户旅程地图，找到卡点环节<br>• 定义北极星指标，全员对齐</div>
+    </div>
+    <div class="crp-stage" style="background:#fff3e0;">
+      <div class="crp-stage-head" style="color:#e65100;">📌 第2阶段 · 第2-3个月 · 数据驱动迭代 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">建立周数据复盘机制，用数据决策<br>• 用"假设-实验-验证"推进产品迭代<br>• 砍掉不创造客户价值的功能</div>
+    </div>
+    <div class="crp-stage" style="background:#e8eaf6;">
+      <div class="crp-stage-head" style="color:#3949ab;">📌 第3阶段 · 第4-6个月 · 带团队拿结果 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">明确团队分工、目标与激励<br>• 建立跨团队协作SOP与接口人<br>• 做完整复盘，沉淀可迁移的方法</div>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">📋 业务Owner基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_owner" style="color:#16a34a;">0</b>/7 · 自动保存</span></div>
+    <div>
+      <div class="crp-item"><span class="crp-box">☐</span>访谈过5个真实客户</div>
+      <div class="crp-item"><span class="crp-box">☐</span>有清晰的北极星指标</div>
+      <div class="crp-item"><span class="crp-box">☐</span>每周看数据做决策</div>
+      <div class="crp-item"><span class="crp-box">☐</span>砍掉过一个"好看没用"的功能</div>
+      <div class="crp-item"><span class="crp-box">☐</span>团队目标人人清楚</div>
+      <div class="crp-item"><span class="crp-box">☐</span>能协同3个以上团队</div>
+      <div class="crp-item"><span class="crp-box">☐</span>做过完整复盘并沉淀文档</div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var KEY='crp_checklist_owner';
+    var wrap=document.getElementById('crpWrap_owner'); if(!wrap) return;
+    wrap.querySelectorAll('.crp-stage').forEach(function(s){
+      s.addEventListener('click',function(){
+        s.classList.toggle('collapsed');
+        var a=s.querySelector('.crp-arrow'); if(a) a.textContent=s.classList.contains('collapsed')?'▸':'▾';
+      });
+    });
+    var items=wrap.querySelectorAll('.crp-item');
+    var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+    function render(){
+      var d=0;
+      items.forEach(function(it,i){
+        var b=it.querySelector('.crp-box');
+        if(state[i]){it.classList.add('done');b.textContent='☑';d++;}
+        else{it.classList.remove('done');b.textContent='☐';}
+      });
+      var c=document.getElementById('crpCnt_owner'); if(c) c.textContent=d;
+    }
+    items.forEach(function(it,i){
+      it.addEventListener('click',function(){
+        state[i]=!state[i];
+        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+        render();
+      });
+    });
+    render();
+  })();
+  </script>
+</div>
+
   <div class="coach-container" id="coachChat">
     <div class="chat-messages" id="chatMessages"></div>
     <div class="coach-progress-bar" id="coachProgressBar" style="display:none;"><div class="coach-progress-fill" id="coachProgressFill"></div></div>

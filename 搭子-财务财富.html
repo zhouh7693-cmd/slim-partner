@@ -3126,6 +3126,84 @@ window.startApp = startApp;   // startApp 也暴露，防止作用域问题
 
   <!-- 教练页面 -->
   <div id="coachPage" class="page coach-page">
+    
+<!-- ===== 成长路线 & 基本功 Checklist（参照AI搭子优化 · 可点击互动）===== -->
+<div id="crpWrap_finance" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
+  <style>
+    #crpWrap_finance .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
+    #crpWrap_finance .crp-title { font-size:15px; font-weight:800; color:#2b3a4a; margin-bottom:12px; }
+    #crpWrap_finance .crp-tip { font-size:11px; font-weight:500; color:#8f9eae; margin-left:6px; }
+    #crpWrap_finance .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+    #crpWrap_finance .crp-stage:active { transform:scale(.98); }
+    #crpWrap_finance .crp-stage-head { font-weight:700; font-size:13px; }
+    #crpWrap_finance .crp-arrow { float:right; color:#8f9eae; }
+    #crpWrap_finance .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#37474f; }
+    #crpWrap_finance .crp-stage.collapsed .crp-stage-body { display:none; }
+    #crpWrap_finance .crp-item { font-size:13px; color:#37474f; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+    #crpWrap_finance .crp-item:hover { background:#f5f5f7; }
+    #crpWrap_finance .crp-item.done { color:#8f9eae; text-decoration:line-through; }
+    #crpWrap_finance .crp-box { margin-right:8px; }
+  </style>
+  <div class="crp-card">
+    <div class="crp-title">🗺️ 财务财富三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+    <div class="crp-stage" style="background:#e8f5e9;">
+      <div class="crp-stage-head" style="color:#2e7d32;">📌 第1阶段 · 第1个月 · 看清现状 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">记录每一笔支出，坚持30天<br>• 盘点资产与负债，算清净资产<br>• 算出每月真实结余与储蓄率</div>
+    </div>
+    <div class="crp-stage" style="background:#fff3e0;">
+      <div class="crp-stage-head" style="color:#e65100;">📌 第2阶段 · 第2-3个月 · 建立系统 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">发薪日自动转存，先储蓄后消费<br>• 建立3-6个月生活费的应急金<br>• 学会基础记账分类，月度回顾</div>
+    </div>
+    <div class="crp-stage" style="background:#e8eaf6;">
+      <div class="crp-stage-head" style="color:#3949ab;">📌 第3阶段 · 第4-6个月 · 让钱生钱 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">开通指数基金定投，长期不中断<br>• 配置基础保障（医疗/意外/重疾）<br>• 建立个人年度财务复盘机制</div>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">📋 财务财富基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_finance" style="color:#f59e0b;">0</b>/7 · 自动保存</span></div>
+    <div>
+      <div class="crp-item"><span class="crp-box">☐</span>连续30天记账</div>
+      <div class="crp-item"><span class="crp-box">☐</span>储蓄率≥20%</div>
+      <div class="crp-item"><span class="crp-box">☐</span>有3-6个月应急金</div>
+      <div class="crp-item"><span class="crp-box">☐</span>没有高息负债</div>
+      <div class="crp-item"><span class="crp-box">☐</span>有指数基金定投</div>
+      <div class="crp-item"><span class="crp-box">☐</span>配置了基础保障保险</div>
+      <div class="crp-item"><span class="crp-box">☐</span>每月看一次财务报表</div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var KEY='crp_checklist_finance';
+    var wrap=document.getElementById('crpWrap_finance'); if(!wrap) return;
+    wrap.querySelectorAll('.crp-stage').forEach(function(s){
+      s.addEventListener('click',function(){
+        s.classList.toggle('collapsed');
+        var a=s.querySelector('.crp-arrow'); if(a) a.textContent=s.classList.contains('collapsed')?'▸':'▾';
+      });
+    });
+    var items=wrap.querySelectorAll('.crp-item');
+    var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+    function render(){
+      var d=0;
+      items.forEach(function(it,i){
+        var b=it.querySelector('.crp-box');
+        if(state[i]){it.classList.add('done');b.textContent='☑';d++;}
+        else{it.classList.remove('done');b.textContent='☐';}
+      });
+      var c=document.getElementById('crpCnt_finance'); if(c) c.textContent=d;
+    }
+    items.forEach(function(it,i){
+      it.addEventListener('click',function(){
+        state[i]=!state[i];
+        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+        render();
+      });
+    });
+    render();
+  })();
+  </script>
+</div>
+
     <div class="coach-intro" id="coachIntro">
       <div class="coach-intro-icon">🎓</div>
       <div class="coach-intro-title">麦肯锡风格财务财富教练</div>

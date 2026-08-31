@@ -585,6 +585,84 @@
 <div class="page" id="coachPage">
   <div class="coach-page" id="coachPageContent">
     <!-- 教练介绍页 -->
+    
+<!-- ===== 成长路线 & 基本功 Checklist（参照AI搭子优化 · 可点击互动）===== -->
+<div id="crpWrap_peidu" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
+  <style>
+    #crpWrap_peidu .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
+    #crpWrap_peidu .crp-title { font-size:15px; font-weight:800; color:#2b3a4a; margin-bottom:12px; }
+    #crpWrap_peidu .crp-tip { font-size:11px; font-weight:500; color:#8f9eae; margin-left:6px; }
+    #crpWrap_peidu .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+    #crpWrap_peidu .crp-stage:active { transform:scale(.98); }
+    #crpWrap_peidu .crp-stage-head { font-weight:700; font-size:13px; }
+    #crpWrap_peidu .crp-arrow { float:right; color:#8f9eae; }
+    #crpWrap_peidu .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#37474f; }
+    #crpWrap_peidu .crp-stage.collapsed .crp-stage-body { display:none; }
+    #crpWrap_peidu .crp-item { font-size:13px; color:#37474f; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+    #crpWrap_peidu .crp-item:hover { background:#f5f5f7; }
+    #crpWrap_peidu .crp-item.done { color:#8f9eae; text-decoration:line-through; }
+    #crpWrap_peidu .crp-box { margin-right:8px; }
+  </style>
+  <div class="crp-card">
+    <div class="crp-title">🗺️ 陪读妈妈三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+    <div class="crp-stage" style="background:#e8f5e9;">
+      <div class="crp-stage-head" style="color:#2e7d32;">📌 第1阶段 · 第1个月 · 先稳住自己 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">每天写情绪日记，识别爆发触发点<br>• 每天留30分钟完全属于自己的时间<br>• 把"一次辅导只解决一个问题"设为底线</div>
+    </div>
+    <div class="crp-stage" style="background:#fff3e0;">
+      <div class="crp-stage-head" style="color:#e65100;">📌 第2阶段 · 第2-3个月 · 改善亲子沟通 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">练习先倾听再建议，忍住不评判<br>• 用"我感到…我希望…"替代指责表达<br>• 与老师建立同盟，同步而非对立</div>
+    </div>
+    <div class="crp-stage" style="background:#e8eaf6;">
+      <div class="crp-stage-head" style="color:#3949ab;">📌 第3阶段 · 第4-6个月 · 共同成长 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">从"盯作业"转向"教学习方法"<br>• 逐步放手，让孩子承担自然结果<br>• 重启自己的兴趣或事业，做孩子的榜样</div>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">📋 陪读妈妈基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_peidu" style="color:#4f8ef7;">0</b>/7 · 自动保存</span></div>
+    <div>
+      <div class="crp-item"><span class="crp-box">☐</span>能觉察自己情绪爆发的信号</div>
+      <div class="crp-item"><span class="crp-box">☐</span>每天有非学习话题的亲子对话</div>
+      <div class="crp-item"><span class="crp-box">☐</span>冲突后能主动修复关系</div>
+      <div class="crp-item"><span class="crp-box">☐</span>不拿孩子和别人比较</div>
+      <div class="crp-item"><span class="crp-box">☐</span>每天有独处充电时间</div>
+      <div class="crp-item"><span class="crp-box">☐</span>孩子会主动分享学校的事</div>
+      <div class="crp-item"><span class="crp-box">☐</span>家庭有固定的轻松时刻</div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var KEY='crp_checklist_peidu';
+    var wrap=document.getElementById('crpWrap_peidu'); if(!wrap) return;
+    wrap.querySelectorAll('.crp-stage').forEach(function(s){
+      s.addEventListener('click',function(){
+        s.classList.toggle('collapsed');
+        var a=s.querySelector('.crp-arrow'); if(a) a.textContent=s.classList.contains('collapsed')?'▸':'▾';
+      });
+    });
+    var items=wrap.querySelectorAll('.crp-item');
+    var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+    function render(){
+      var d=0;
+      items.forEach(function(it,i){
+        var b=it.querySelector('.crp-box');
+        if(state[i]){it.classList.add('done');b.textContent='☑';d++;}
+        else{it.classList.remove('done');b.textContent='☐';}
+      });
+      var c=document.getElementById('crpCnt_peidu'); if(c) c.textContent=d;
+    }
+    items.forEach(function(it,i){
+      it.addEventListener('click',function(){
+        state[i]=!state[i];
+        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+        render();
+      });
+    });
+    render();
+  })();
+  </script>
+</div>
+
     <div class="coach-intro" id="coachIntro">
       <div class="coach-intro-icon">🎓</div>
       <div class="coach-intro-title">麦肯锡风格陪读教练</div>
