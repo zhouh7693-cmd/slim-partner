@@ -63,6 +63,162 @@
     margin: 0 0 var(--space-3);
   }
 
+  /* 首屏 CTA（先试一次） */
+  .home-trial-btn {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(135deg, #5b9eff, #3a7ca5);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(58,124,165,0.30);
+    transition: transform .15s, box-shadow .2s;
+  }
+  .home-trial-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(58,124,165,0.38); }
+  .home-trial-btn:active { transform: scale(0.97); }
+  .home-trial-sub {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+
+  /* 引导层 / 付费墙 / Toast 通用遮罩 */
+  .fp-overlay {
+    position: fixed; inset: 0;
+    background: rgba(20,22,30,0.55);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 200;
+    padding: 20px;
+    animation: fpFadeIn .25s ease;
+  }
+  @keyframes fpFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .fp-card {
+    background: #fff;
+    border-radius: 28px;
+    padding: 28px 22px 22px;
+    max-width: 380px; width: 100%;
+    box-shadow: 0 22px 50px rgba(0,0,0,0.30);
+    animation: fpPop .35s cubic-bezier(0.2, 1, 0.3, 1.05);
+    max-height: calc(100vh - 80px); overflow-y: auto;
+    position: relative;
+  }
+  @keyframes fpPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .fp-card .fp-title { font-size: 19px; font-weight: 800; color: var(--ink); margin-bottom: 4px; text-align: center; }
+  .fp-card .fp-sub { font-size: 13px; color: var(--ink-2); text-align: center; margin-bottom: 18px; }
+  .fp-close {
+    position: absolute; top: 14px; right: 14px;
+    background: rgba(255,255,255,0.7); border: none; cursor: pointer;
+    width: 32px; height: 32px; border-radius: 50%; font-size: 18px; line-height: 1;
+    color: var(--ink-3);
+  }
+
+  /* 引导层选项网格 */
+  .fp-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .fp-option {
+    border: 1.5px solid #e9edf2;
+    border-radius: 18px;
+    padding: 18px 12px 14px;
+    text-align: center;
+    cursor: pointer;
+    background: #fcfdfe;
+    transition: all .15s;
+  }
+  .fp-option:hover { border-color: #3a7ca5; transform: translateY(-2px); }
+  .fp-option .opt-emoji { font-size: 32px; line-height: 1; margin-bottom: 6px; }
+  .fp-option .opt-text { font-size: 13px; font-weight: 600; color: var(--ink); }
+
+  /* 付费墙 */
+  .pw-summary {
+    display: grid; gap: 8px;
+    background: #f7f9fc;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .pw-summary-row {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 13px; color: var(--ink-2);
+  }
+  .pw-summary-row b { color: var(--ink); }
+
+  .pw-pricing {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .pw-pricing-card {
+    border: 1.5px solid #e9edf2;
+    border-radius: 16px;
+    padding: 14px 10px;
+    text-align: center;
+    background: #fff;
+    cursor: pointer;
+    transition: all .15s;
+    position: relative;
+  }
+  .pw-pricing-card.featured {
+    border-color: #22c55e;
+    background: #f0fdf4;
+    box-shadow: 0 4px 10px rgba(34,197,94,0.12);
+  }
+  .pw-pricing-card .plan-name { font-size: 12px; color: var(--ink-2); }
+  .pw-pricing-card .plan-price {
+    font-size: 22px; font-weight: 800; color: var(--ink); margin: 4px 0;
+  }
+  .pw-pricing-card .plan-price small { font-size: 12px; color: var(--ink-3); font-weight: 500; }
+  .pw-pricing-card .plan-tag {
+    display: inline-block; font-size: 10px; padding: 2px 8px;
+    border-radius: 999px; background: #22c55e; color: #fff; font-weight: 700;
+  }
+
+  .pw-points {
+    background: linear-gradient(135deg, #fff4d6, #ffe8b3);
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #7a5a16;
+  }
+  .pw-points b { color: #5b3e0a; }
+
+  .pw-cta-primary {
+    width: 100%; padding: 14px;
+    border: none; border-radius: 999px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #fff; font-size: 16px; font-weight: 700;
+    cursor: pointer; margin-bottom: 10px;
+    box-shadow: 0 6px 14px rgba(34,197,94,0.32);
+  }
+  .pw-cta-primary:active { transform: scale(0.97); }
+  .pw-cta-secondary {
+    width: 100%; padding: 12px;
+    border: 1.5px solid #e9edf2; border-radius: 999px;
+    background: #fff; color: var(--ink-2);
+    font-size: 13px; cursor: pointer;
+  }
+  .pw-cta-secondary:hover { border-color: var(--ink-3); }
+  .pw-footnote {
+    text-align: center; margin-top: 12px;
+    font-size: 11px; color: var(--ink-3);
+  }
+
+  /* 内层 demo 占位 toast */
+  .fp-mini {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink); color: #fff;
+    padding: 12px 18px; border-radius: 14px;
+    font-size: 13px; max-width: 320px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.30);
+    z-index: 220; line-height: 1.55;
+    animation: fpPop .25s ease;
+  }
+  .fp-mini b { color: #fbbf24; }
+
   .featured {
     display: flex;
     align-items: center;
@@ -421,7 +577,11 @@
        ========================================================= -->
   <header class="header" data-page-node-id="HsXSun0NIhFhB5bJl6ZTsw">
     <h1 data-page-node-id="zdACYAecuvNsMcy8yKW9bL">🌟 每日搭子中心</h1>
-    <p class="lead" data-page-node-id="5mzre6wgYbPc9idf3AbCnr">选一个搭子，开始今天的成长打卡</p>
+    <p class="lead" data-page-node-id="5mzre6wgYbPc9idf3AbCnr">今天先免费试一次 · 5次体验后再决定</p>
+
+    <!-- 首屏 CTA：点击触发首次引导层，并标记为第 N 次免费使用 -->
+    <button class="home-trial-btn" id="homeTrialBtn" type="button">🚀 先试一次（免费）</button>
+    <div class="home-trial-sub" id="homeTrialSub">不绑定手机 · 不收费 · 试完觉得值再订阅</div>
 
     <!-- 顶置「本月精选」卡：内容完全由下方 featured 配置驱动 -->
     <a id="featured" class="featured" href="#" style="display:none" data-page-node-id="Nb95uD0AOZDf2456P2FSR3">
@@ -488,7 +648,7 @@ const PARTNERS_CONFIG = {
    * └─────────────────────────────────────────────────────────┘ */
   brand: {
     title:    '🌟 每日搭子中心',
-    subtitle: '选一个搭子，开始今天的成长打卡',
+    subtitle: '今天先免费试一次 · 5次体验后再决定',
     footer:   'Slim Partner · 打卡成为更好的自己',
   },
 
@@ -775,10 +935,31 @@ function renderStats() {
  *    sp:totalCheckins    累计打卡次数（数字）
  * ================================================================ */
 const STORAGE = {
-  lastVisit: 'sp:lastVisit',
-  today:     () => 'sp:checkin:' + new Date().toISOString().slice(0,10),
-  total:     'sp:totalCheckins',
+  lastVisit:  'sp:lastVisit',
+  today:      () => 'sp:checkin:' + new Date().toISOString().slice(0,10),
+  total:      'sp:totalCheckins',
+  freemium:   'sp:freemium',  // 新增 —— 付费墙元数据
 };
+
+const FREEMIUM = {
+  freeUsesLimit:    5,                       // 前 N 次免费
+  priceMonth:       9.9,                     // 月费 ¥
+  priceYear:        99,                      // 年费 ¥
+  yearSaveRatio:    0.17,                    // 年费省 17%
+  pointsPerCheckin: 10,                      // 每日打卡 +10 积分
+  streak7Bonus:     50,
+  streak30Bonus:    200,
+  pointsPerYuan:    100,                     // 100 积分 = ¥1
+};
+
+/**
+ * freemium 状态（写入 localStorage 持久化）
+ * @typedef {Object} FreemiumState
+ * @property {string} firstSeenDate         - YYYY-MM-DD
+ * @property {number} freeUsesUsed          - 第几次打卡（1-indexed，仅试玩期累积）
+ * @property {boolean} paywallShown         - 是否已展示过付费墙（防止重复弹）
+ * @property {?{since:string,price:number,status:string}} subscription
+ */
 
 function fmtTimeAgo(iso) {
   if (!iso) return '从未';
@@ -798,28 +979,254 @@ function checkinToday() {
   renderStatusBar();
 }
 
-function renderStatusBar() {
-  const lastVisit  = localStorage.getItem(STORAGE.lastVisit);
-  const isCheckin  = !!localStorage.getItem(STORAGE.today());
-  const total      = Number(localStorage.getItem(STORAGE.total) || 0);
+function getFreemiumState() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE.freemium) || '{}');
+  } catch (e) { return {}; }
+}
+function setFreemiumState(s) {
+  localStorage.setItem(STORAGE.freemium, JSON.stringify(s));
+}
+function ensureFreemiumState() {
+  const s = getFreemiumState();
+  if (!s.firstSeenDate) {
+    s.firstSeenDate = new Date().toISOString().slice(0,10);
+    s.freeUsesUsed  = 0;
+    s.paywallShown  = false;
+    s.subscription  = null;
+    setFreemiumState(s);
+  }
+  return s;
+}
 
+/**
+ * 完成一次打卡 —— 增加 freeUsesUsed 计数，并在第 5 次返回 'show_paywall'
+ * @returns {string} 'normal' | 'show_paywall'
+ */
+function recordFreeUse() {
+  const s = ensureFreemiumState();
+  if (s.subscription) return 'normal';                  // 已订阅：不再累积 freeUses
+  if (s.freeUsesUsed >= FREEMIUM.freeUsesLimit) return 'normal'; // 已经过 5 次：不再计数
+  s.freeUsesUsed = (s.freeUsesUsed || 0) + 1;
+  setFreemiumState(s);
+  return (s.freeUsesUsed === FREEMIUM.freeUsesLimit) ? 'show_paywall' : 'normal';
+}
+
+function activateDemoSubscription() {
+  const s = ensureFreemiumState();
+  s.subscription = {
+    since:  new Date().toISOString(),
+    price:  FREEMIUM.priceMonth,
+    status: 'demo_placeholder',   // 标记：这是 demo 占位，后续接入真支付
+  };
+  setFreemiumState(s);
+}
+
+function renderStatusBar() {
+  const lastVisit = localStorage.getItem(STORAGE.lastVisit);
+  const total     = Number(localStorage.getItem(STORAGE.total) || 0);
+  const s         = ensureFreemiumState();
+
+  // 最后访问
   const lastPill = `
     <span class="pill">
       <span class="dot"></span>
       上次访问：${fmtTimeAgo(lastVisit)}
     </span>`;
 
-  const checkinPill = isCheckin
-    ? `<span class="pill"><span class="dot"></span>今日已打卡 · 累计 <strong style="color:var(--ink);margin:0 4px">${total}</strong> 次</span>`
-    : `<span class="pill warn">
-         <span class="dot"></span>今日还没打卡 · <button class="btn" id="checkinBtn">点我打卡 →</button>
-       </span>`;
+  // 状态条：根据 freemium 状态切换文案
+  let statusPill = '';
+  if (s.subscription) {
+    // 已订阅（demo 标记）
+    statusPill = `
+      <span class="pill" style="background:#f0fff4;border-color:#86efac;">
+        <span class="dot" style="background:#22c55e;"></span>
+        ⭐ 已订阅（demo）· 累计打卡 <strong style="color:var(--ink);margin:0 4px">${total}</strong> 次
+      </span>`;
+  } else {
+    const used  = s.freeUsesUsed || 0;
+    const limit = FREEMIUM.freeUsesLimit;
+    const left  = Math.max(0, limit - used);
+    if (left > 0) {
+      statusPill = `
+        <span class="pill">
+          <span class="dot"></span>
+          🔓 免费体验中 · 还剩 <strong style="color:var(--ink);margin:0 4px">${left}</strong> / ${limit} 次
+          · 累计打卡 <strong style="color:var(--ink);margin:0 4px">${total}</strong> 次
+        </span>`;
+    } else {
+      statusPill = `
+        <span class="pill warn">
+          <span class="dot"></span>
+          ⏳ 5 次免费体验已用完
+          · <button class="btn" id="openPaywallBtn" style="color:#22c55e;font-weight:700;">立即订阅 ¥9.9/月</button>
+        </span>`;
+    }
+  }
 
-  $('statusBar').innerHTML = lastPill + checkinPill;
+  $('statusBar').innerHTML = lastPill + statusPill;
 
-  const btn = $('checkinBtn');
-  if (btn) btn.addEventListener('click', checkinToday);
+  // 绑定"立即订阅"按钮 → 打开付费墙
+  const payBtn = $('openPaywallBtn');
+  if (payBtn) payBtn.addEventListener('click', () => openPaywall('entry_pill'));
+
+  // 首页"先试一次"按钮：点完走 freemium 计数
+  const trialBtn = $('homeTrialBtn');
+  if (trialBtn) trialBtn.addEventListener('click', onHomeTrial);
 }
+
+/**
+ * 首页"今天先免费试一次"按钮：点完一次，count + 1，并出现引导层
+ */
+function onHomeTrial() {
+  const status = recordFreeUse();
+  const total = Number(localStorage.getItem(STORAGE.total) || 0) + 1;
+  localStorage.setItem(STORAGE.total, String(total));
+  renderStatusBar();
+  if (status === 'show_paywall') {
+    openPaywall('after_5th_home_trial');
+  } else {
+    // 弹出引导层，让用户选一个方向
+    openInterestPicker();
+  }
+}
+
+/* ============================================================
+ *  引导层（首次引导用户选方向）
+ * ============================================================ */
+const INTEREST_OPTIONS = [
+  { key: 'sleep',    emoji: '😴', text: '睡得更好',     href: '搭子-睡眠.html' },
+  { key: 'health',   emoji: '🏃', text: '身体更健康',   href: 'index.html#slim' },
+  { key: 'focus',    emoji: '🧠', text: '状态更专注',   href: '搭子-状态.html' },
+  { key: 'wealth',   emoji: '💼', text: '工作更高效',   href: '搭子-AI能力.html' },
+  { key: 'explore',  emoji: '🤷', text: '随便看看',     href: '#grid' },
+];
+
+function openInterestPicker() {
+  // 若今天已经选过就不再重复弹
+  const SEEN_KEY = 'sp:interestSeen:' + new Date().toISOString().slice(0,10);
+  if (sessionStorage.getItem(SEEN_KEY)) return;
+  sessionStorage.setItem(SEEN_KEY, '1');
+
+  const overlay = document.createElement('div');
+  overlay.className = 'fp-overlay';
+  overlay.onclick = (e) => { if (e.target === overlay) document.body.removeChild(overlay); };
+  overlay.innerHTML = `
+    <div class="fp-card" onclick="event.stopPropagation()">
+      <button class="fp-close" onclick="document.body.removeChild(this.parentNode.parentNode)">×</button>
+      <div class="fp-title">今天你最想改善什么？</div>
+      <div class="fp-sub">选一个 · 直接进入对应的搭子页面</div>
+      <div class="fp-options">
+        ${INTEREST_OPTIONS.map(o => `
+          <div class="fp-option" data-key="${o.key}" data-href="${o.href}">
+            <div class="opt-emoji">${o.emoji}</div>
+            <div class="opt-text">${o.text}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div style="text-align:center;font-size:11px;color:var(--ink-3);margin-top:8px;">
+        💡 选错了也没关系 · 随时可以从顶部 Tab 切换其他搭子
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  // 绑定选项点击
+  overlay.querySelectorAll('.fp-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const href = opt.getAttribute('data-href');
+      document.body.removeChild(overlay);
+      if (href && href !== '#grid') window.location.href = href;
+      else window.scrollTo({ top: document.getElementById('grid').offsetTop, behavior: 'smooth' });
+    });
+  });
+}
+
+/* ============================================================
+ *  付费墙
+ * ============================================================ */
+function openPaywall(source) {
+  // 已订阅就不弹
+  const s = ensureFreemiumState();
+  if (s.subscription) return;
+
+  const overlay = document.createElement('div');
+  overlay.className = 'fp-overlay';
+  overlay.id = 'paywallOverlay';
+  overlay.innerHTML = `
+    <div class="fp-card">
+      <button class="fp-close" onclick="closePaywall()">×</button>
+      <div style="text-align:center;font-size:40px;margin-bottom:4px;">🎉</div>
+      <div class="fp-title">恭喜完成 5 次免费体验</div>
+      <div class="fp-sub">你已经拿到了第一份《个人周报》草稿 · 想继续往前走吗？</div>
+
+      <div class="pw-summary">
+        <div class="pw-summary-row"><span>✅ 5 次打卡</span><b>已记录</b></div>
+        <div class="pw-summary-row"><span>📊 周报草稿</span><b>已生成</b></div>
+        <div class="pw-summary-row"><span>🧠 教练诊断</span><b>已解锁</b></div>
+      </div>
+
+      <div class="pw-pricing">
+        <div class="pw-pricing-card" id="pwPlanMonth">
+          <div class="plan-name">月度</div>
+          <div class="plan-price">¥${FREEMIUM.priceMonth}<small>/月</small></div>
+          <div style="font-size:11px;color:var(--ink-3);">随时取消</div>
+        </div>
+        <div class="pw-pricing-card featured" id="pwPlanYear">
+          <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);"><span class="plan-tag">省 ${Math.round(FREEMIUM.yearSaveRatio*100)}%</span></div>
+          <div class="plan-name">年度（推荐）</div>
+          <div class="plan-price">¥${FREEMIUM.priceYear}<small>/年</small></div>
+          <div style="font-size:11px;color:var(--ink-3);">≈ ¥${(FREEMIUM.priceYear/12).toFixed(1)}/月</div>
+        </div>
+      </div>
+
+      <div class="pw-points">
+        💎 <b>积分抵扣机制：</b>每天打卡赚 <b>${FREEMIUM.pointsPerCheckin} 积分</b>，
+        连续 7 天额外 <b>+${FREEMIUM.streak7Bonus}</b>，
+        <b>${FREEMIUM.pointsPerYuan} 积分 = ¥1</b> 抵扣订阅费。
+        月费 ¥${FREEMIUM.priceMonth} 约 <b>${Math.round(FREEMIUM.priceMonth * FREEMIUM.pointsPerYuan / FREEMIUM.pointsPerCheckin)} 天</b> 打卡就能挣回来。
+      </div>
+
+      <button class="pw-cta-primary" id="pwSubscribeBtn">
+        立即订阅 · 首月 ¥${FREEMIUM.priceMonth}
+      </button>
+      <button class="pw-cta-secondary" onclick="closePaywall()">
+        先看免费周报再说
+      </button>
+      <div class="pw-footnote">source: ${source || 'direct'}</div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  document.getElementById('pwSubscribeBtn').addEventListener('click', () => {
+    closePaywall();
+    activateDemoSubscription();
+    showMini(`
+      ✅ <b>Demo 订阅成功（占位）</b><br>
+      当前是 demo 环境，真实接入支付时将延续这次订阅记录。
+    `);
+    renderStatusBar();
+  });
+}
+
+function closePaywall() {
+  const el = document.getElementById('paywallOverlay');
+  if (el && el.parentNode) el.parentNode.removeChild(el);
+}
+
+function showMini(html) {
+  const el = document.createElement('div');
+  el.className = 'fp-mini';
+  el.innerHTML = html;
+  document.body.appendChild(el);
+  setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 4200);
+}
+
+/* ============================================================
+ *  首次加载：初始化 freemium 状态、刷新状态条
+ * ============================================================ */
+ensureFreemiumState();
+renderStatusBar();
 
 
 /* ============================================================
