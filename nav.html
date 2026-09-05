@@ -356,29 +356,48 @@
      [右下角"今天休息一下"浮动按钮]
      —— 不是搭子（搭子是"一起做事"，这个是"允许你不做事"），
      —— 所以不进 PARTNERS_CONFIG、不占 Tab、不累计打卡、不记 localStorage。
+     —— 视觉：温暖的便签纸 / 淡奶黄底，温和存在而非催促。
      =========================================================== */
   .rest-btn {
     position: fixed;
-    bottom: 24px; right: 24px;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    color: var(--ink-soft);
-    padding: 10px 16px;
+    bottom: 28px; right: 24px;
+    background: #fff4d6;
+    border: 1px solid #f0dba8;
+    color: #8b6f3e;
+    padding: 11px 18px;
     border-radius: 999px;
     font-size: 13px;
+    font-weight: 500;
     text-decoration: none;
-    box-shadow: var(--shadow-sm);
-    transition: all .2s ease;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.18), 0 1px 2px rgba(20,22,30,.04);
+    transition: all .25s ease;
     z-index: 50;
-    /* —— 不抢眼：跟正文色调一致，仅在 hover 时浮起 —— */
-    opacity: .9;
+    /* —— 呼吸感：3-4% 的轻微明暗浮动，像贴在角落的便签纸轻轻飘 —— */
+    animation: restBreath 4.5s ease-in-out infinite;
+  }
+  .rest-btn .rest-emoji {
+    display: inline-block;
+    margin-right: 4px;
+    font-size: 15px;
+    line-height: 1;
+    transform: translateY(0.5px);
   }
   .rest-btn:hover {
-    opacity: 1;
+    background: #ffe9b5;
+    border-color: #e6c98c;
+    color: #6e552b;
     transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    color: var(--ink);
-    border-color: #d4d7e0;
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.28), 0 2px 4px rgba(20,22,30,.06);
+    animation: none;
+  }
+  .rest-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(212, 175, 55, 0.22);
+  }
+  @keyframes restBreath {
+    0%, 100% { box-shadow: 0 4px 12px rgba(212, 175, 55, 0.18), 0 1px 2px rgba(20,22,30,.04); }
+    50%      { box-shadow: 0 6px 18px rgba(212, 175, 55, 0.26), 0 1px 2px rgba(20,22,30,.04); }
   }
 
   /* ===========================================================
@@ -389,7 +408,7 @@
     .header h1 { font-size: 22px; }
     .featured { flex-wrap: wrap; }
     .featured .cta { width: 100%; text-align: center; margin-top: var(--space-1); }
-    .rest-btn { bottom: 16px; right: 16px; padding: 9px 14px; font-size: 12px; }
+    .rest-btn { bottom: 20px; right: 16px; padding: 10px 15px; font-size: 12px; }
   }
 </style>
 </head>
@@ -860,10 +879,11 @@ console.log('[Slim Partner] 数据条数：', PARTNERS_CONFIG.partners.length);
 
 <!-- =========================================================
      [今天休息一下] —— 浮动独立入口，不进 PARTNERS_CONFIG
-     href 暂指向 "#" 占位；建好 "休息一下.html" 后改成 "休息一下.html"
+     视觉：温暖的便签纸（淡奶黄 / 咖啡棕字）
+     href → 休息一下.html（已就绪）
      这是邀请，不是要求，无追踪、无记录、无统计
      ========================================================= -->
-<a class="rest-btn" href="#" data-page-node-id="restBtn">☕ 今天休息一下</a>
+<a class="rest-btn" href="休息一下.html" data-page-node-id="restBtn"><span class="rest-emoji">☕</span>今天休息一下</a>
 
 </body>
 </html>
