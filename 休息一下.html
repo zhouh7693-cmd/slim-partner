@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="T4OK9u1i2da8boffNgRIv7">
+<head data-page-node-id="kO15vIxJfg8Ub9p525sZhR">
+  <meta charset="UTF-8" data-page-node-id="YKjJUODEj6xDmzx8X7Yqme">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" data-page-node-id="XdEmsKBSdMFRV6a9gtwna7">
+  <title>☕ 今天休息一下</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+    body {
+      background: linear-gradient(165deg, #f3faf6 0%, #e0f0ea 100%);
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', Roboto, Helvetica, Arial, sans-serif;
+      padding: 24px 20px 100px;
+      color: #2b3a4a;
+    }
+
+    .back-home {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border-radius: 999px;
+      background: white; color: #3a7a6e;
+      font-size: 13px; text-decoration: none;
+      box-shadow: 0 4px 12px rgba(58,122,110,0.12);
+      margin-bottom: 24px;
+      transition: all .2s;
+    }
+    .back-home:active { transform: scale(0.96); }
+
+    .hero {
+      max-width: 420px; margin: 0 auto 32px;
+      text-align: center;
+    }
+    .hero-emoji {
+      font-size: 80px;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      animation: drift 4s ease-in-out infinite;
+    }
+    @keyframes drift {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-6px); }
+    }
+    .hero-title {
+      font-size: 28px; font-weight: 700; color: #2b3a4a;
+      margin-bottom: 8px; letter-spacing: 0.5px;
+    }
+    .hero-sub {
+      font-size: 15px; color: #6c7a89; line-height: 1.6;
+      max-width: 320px; margin: 0 auto;
+    }
+
+    /* ===== 选项卡 — 3 档休憩风格 ===== */
+    .style-tabs {
+      display: flex; gap: 8px; justify-content: center;
+      margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .style-tab {
+      padding: 8px 16px; border-radius: 999px;
+      background: white; color: #5b7e75;
+      font-size: 14px; cursor: pointer;
+      border: 1.5px solid #d4e7e0;
+      transition: all .2s;
+    }
+    .style-tab.active {
+      background: linear-gradient(135deg, #5eaf9c, #3a7a6e);
+      color: white; border-color: transparent;
+    }
+
+    /* ===== 建议卡片 ===== */
+    .suggest-card {
+      max-width: 420px; margin: 0 auto 24px;
+      background: white; border-radius: 28px;
+      padding: 28px 24px; text-align: center;
+      box-shadow: 0 12px 30px -10px rgba(58,122,110,0.18);
+      transition: transform .3s ease;
+    }
+    .suggest-card.shake {
+      animation: gentle-shake 0.6s ease;
+    }
+    @keyframes gentle-shake {
+      0%, 100% { transform: translateX(0); }
+      25%      { transform: translateX(-4px); }
+      75%      { transform: translateX(4px); }
+    }
+    .suggest-emoji { font-size: 56px; margin-bottom: 12px; }
+    .suggest-text { font-size: 16px; color: #2b3a4a; line-height: 1.6; margin-bottom: 16px; }
+    .suggest-tip { font-size: 12px; color: #8f9eae; }
+
+    .shuffle-btn {
+      max-width: 420px; margin: 0 auto 32px; display: block;
+      background: white; border: 1.5px solid #d4e7e0;
+      color: #3a7a6e; padding: 14px 20px; border-radius: 999px;
+      font-size: 15px; cursor: pointer; text-align: center;
+      transition: all .2s;
+    }
+    .shuffle-btn:active { transform: scale(0.97); background: #f3faf6; }
+
+    /* ===== 1 分钟小练习 ===== */
+    .practice-section {
+      max-width: 420px; margin: 0 auto;
+      background: rgba(255,255,255,0.5); border-radius: 24px;
+      padding: 24px;
+    }
+    .practice-title {
+      font-size: 14px; color: #3a7a6e; font-weight: 600;
+      margin-bottom: 16px; letter-spacing: 0.5px;
+    }
+    .breath-circle {
+      width: 140px; height: 140px; margin: 0 auto 16px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #d3eee6, #5eaf9c);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700; font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 12px 30px -8px rgba(94,175,156,0.4);
+      transition: transform .4s ease;
+    }
+    .breath-circle.in    { transform: scale(1.3); }
+    .breath-circle.hold  { transform: scale(1.2); }
+    .breath-circle.out   { transform: scale(0.85); }
+
+    .breath-status {
+      text-align: center; color: #5b7e75; font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .breath-toggle {
+      display: block; margin: 0 auto;
+      padding: 8px 20px; border-radius: 999px;
+      background: white; color: #3a7a6e; border: 1.5px solid #d4e7e0;
+      font-size: 13px; cursor: pointer;
+    }
+
+    footer {
+      max-width: 420px; margin: 32px auto 0;
+      text-align: center; color: #8f9eae; font-size: 12px;
+      line-height: 1.6;
+    }
+
+    /* ===== 移动端调整 ===== */
+    @media (max-width: 640px) {
+      .hero-emoji { font-size: 64px; }
+      .hero-title { font-size: 24px; }
+    }
+  </style>
+</head>
+<body data-page-node-id="fYN3cbrbT4DlKP3lDDaKhH">
+
+  <!-- 返回主页 -->
+  <a href="nav.html" class="back-home" data-page-node-id="aCzluu4jpaOuHllo5Odhvr">← 回到搭子中心</a>
+
+  <!-- 顶部 -->
+  <section class="hero" data-page-node-id="iMy3tE0B8sEcNUGXf8pnfL">
+    <div class="hero-emoji" data-page-node-id="E3LmtvR48kO6zJ4SZJnCtg">☕</div>
+    <h1 class="hero-title" data-page-node-id="bn93JE9ntmNB5zV5Cl8mQe">今天休息一下</h1>
+    <p class="hero-sub" data-page-node-id="VHnLdHy8baMKJBzUyKDXtQ">不是"浪费时间"，是你今天可以允许自己不做事<br data-page-node-id="uKigUCW9ZCaGUZDpOZm1eA">5 分钟，够了</p>
+  </section>
+
+  <!-- 3 种休憩风格切换 -->
+  <nav class="style-tabs" aria-label="休憩风格" data-page-node-id="VzCd20VWxW5A6EtqFgF1jf">
+    <div class="style-tab active" data-style="gentle" onclick="switchStyle('gentle', this)" data-page-node-id="s4BzW8bdSadwWe4Tp2wEz2">🫧 安静</div>
+    <div class="style-tab" data-style="nature" onclick="switchStyle('nature', this)" data-page-node-id="RtxRh3wvTTBCGWZol3hJ9e">🌿 自然</div>
+    <div class="style-tab" data-style="playful" onclick="switchStyle('playful', this)" data-page-node-id="87i61k6lYhZNAjAVa4Keon">🎈 玩一下</div>
+  </nav>
+
+  <!-- 建议卡 -->
+  <div class="suggest-card" id="suggestCard" data-page-node-id="QELYHVSlvcM0zD6SSrxOqj">
+    <div class="suggest-emoji" id="suggestEmoji" data-page-node-id="CYWmRCAkbFThJYD2aM8Zm1">🍵</div>
+    <div class="suggest-text" id="suggestText" data-page-node-id="Dp2AfkS7ICLLgceAC00d0E">泡一杯热饮，不看手机，喝到凉</div>
+    <div class="suggest-tip" data-page-node-id="bKQ92pEJBZl1gDhZF2ofkd">抽到啥就做啥 · 不合意？换一条</div>
+  </div>
+
+  <button class="shuffle-btn" onclick="shuffleSuggestion()" data-page-node-id="eDy0mqyC0J7URNf3dVJYgl">🔀 换一条建议</button>
+
+  <!-- 1 分钟呼吸小练习 -->
+  <section class="practice-section" data-page-node-id="Q4ZwdHyiji6eSID0CRSbjk">
+    <div class="practice-title" data-page-node-id="DJ8u5CYC2Us4jDb2fhrb9L">🫁 1 分钟呼吸引导（4-7-8 节奏）</div>
+    <div class="breath-circle" id="breathCircle" onclick="toggleBreath()" data-page-node-id="2atf62qgAdj14F9LLViqYQ">点我开始</div>
+    <div class="breath-status" id="breathStatus" data-page-node-id="hZeaTd1okHfdKb7wrti3EL">点击圆圈 · 跟着节奏吸气 · 屏住 · 呼出</div>
+    <button class="breath-toggle" onclick="stopBreath()" data-page-node-id="zTnXSIDSCFNwS3ArOcbpCD">停止</button>
+  </section>
+
+  <footer data-page-node-id="xfO6uhyyhK9zmuYKEU0Fx4">
+    休息不是奖励，是一种能力<br data-page-node-id="Sr1SewUnf4HRdffbfyxgwi">
+    你今天可以什么都不做 —— 这就是这条建议本身
+  </footer>
+
+  <script>
+    // ===== 休憩建议池（按风格分） =====
+    const SUGGESTIONS = {
+      gentle: [  // 安静
+        ['🍵','泡一杯热饮，不看手机，喝到凉'],
+        ['🕯️','点一支蜡烛，看火苗晃 2 分钟'],
+        ['🛁','热水冲手腕 30 秒，让末梢暖起来'],
+        ['📖','随便翻到哪一页读 5 行，不挑'],
+        ['🛏️','上床躺平，看天花板，让自己发一会儿呆'],
+        ['🧘','闭上眼，听雨声 / 白噪音 60 秒'],
+        ['🪟','看窗外 1 分钟，找一个移动的东西追'],
+        ['🎶','只听一首老歌，不切歌，听到结束']
+      ],
+      nature: [  // 自然
+        ['🌳','出门散步 5 分钟，不带耳机'],
+        ['☀️','站到窗边晒 1 分钟太阳（不用看屏幕）'],
+        ['🌬️','深呼吸 10 次：4 秒吸，7 秒屏，8 秒呼'],
+        ['🌿','看一棵植物，认真看一片叶子的叶脉'],
+        ['🐦','听 1 分钟鸟叫（手机搜"鸟鸣 5 分钟"）'],
+        ['💧','倒一杯水，慢慢喝完，别想事'],
+        ['🌙','夜里抬头看一眼月亮'],
+        ['🌸','闻一朵花 / 一片草 / 一杯茶']
+      ],
+      playful: [  // 玩一下
+        ['🎲','随便选一个 emoji，写下它让你想到的 3 件事'],
+        ['🖍️','在一张白纸上画 1 分钟，闭着眼睛也行'],
+        ['🪄','把手机倒扣 60 秒，让世界安静一分钟'],
+        ['🎈','哼一段旋律，不准停，哼满 30 秒'],
+        ['📦','整理一个抽屉，不超过 3 分钟'],
+        ['🎯','看窗外随便一个方向，数到 5 个不同的颜色'],
+        ['🪞','照照镜子，看自己 30 秒不发呆'],
+        ['🍪','给自己做个"下午茶套餐"，不健康也没关系']
+      ]
+    };
+
+    let currentStyle = 'gentle';
+    let breathTimer = null;
+    let breathPhase = 0;  // 0=in 4s, 1=hold 7s, 2=out 8s
+    const BREATH_TIMES = [4000, 7000, 8000];
+    const BREATH_LABELS = ['吸气 4 秒', '屏住 7 秒', '呼出 8 秒'];
+
+    function switchStyle(style, el) {
+      currentStyle = style;
+      document.querySelectorAll('.style-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      shuffleSuggestion();
+    }
+
+    function shuffleSuggestion() {
+      const pool = SUGGESTIONS[currentStyle];
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      const card = document.getElementById('suggestCard');
+      const emojiEl = document.getElementById('suggestEmoji');
+      const textEl = document.getElementById('suggestText');
+
+      // 出场动画（透明度切换）
+      card.style.opacity = '0';
+      setTimeout(() => {
+        emojiEl.textContent = pick[0];
+        textEl.textContent = pick[1];
+        card.style.opacity = '1';
+        // 轻微晃动
+        card.classList.remove('shake');
+        void card.offsetWidth;  // 强制 reflow 重启动画
+        card.classList.add('shake');
+      }, 150);
+    }
+
+    function runBreathCycle() {
+      const circle = document.getElementById('breathCircle');
+      const status = document.getElementById('breathStatus');
+      circle.classList.remove('in', 'hold', 'out');
+      switch (breathPhase) {
+        case 0: circle.classList.add('in');   circle.innerText = BREATH_LABELS[0]; break;
+        case 1: circle.classList.add('hold'); circle.innerText = BREATH_LABELS[1]; break;
+        case 2: circle.classList.add('out');  circle.innerText = BREATH_LABELS[2]; break;
+      }
+      status.innerText = `第 ${breathPhase + 1}/3 步 · ${BREATH_LABELS[breathPhase]}`;
+      breathTimer = setTimeout(() => {
+        breathPhase = (breathPhase + 1) % 3;
+        runBreathCycle();
+      }, BREATH_TIMES[breathPhase]);
+    }
+
+    function toggleBreath() {
+      if (breathTimer) {
+        stopBreath();
+      } else {
+        breathPhase = 0;
+        runBreathCycle();
+      }
+    }
+
+    function stopBreath() {
+      if (breathTimer) {
+        clearTimeout(breathTimer);
+        breathTimer = null;
+      }
+      const circle = document.getElementById('breathCircle');
+      const status = document.getElementById('breathStatus');
+      circle.classList.remove('in', 'hold', 'out');
+      circle.innerText = '点我开始';
+      status.innerText = '点击圆圈 · 跟着节奏吸气 · 屏住 · 呼出';
+    }
+
+    // 让卡片初始淡入
+    document.getElementById('suggestCard').style.transition = 'opacity 0.3s ease';
+  </script>
+</body>
+</html>
