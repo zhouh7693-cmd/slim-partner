@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="zh-CN" data-page-node-id="pM5GLCSFGurV0GMAJKqWEJ">
+<head data-page-node-id="WWYpuQR6R1iCKFeUnR5gWF">
+<meta charset="UTF-8" data-page-node-id="yjhm85osUpNjRe2Hs63l8U">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="qyEhu0lY91t2OgQsy3eiEO">
 <title>Slim Partner · 每日搭子中心</title>
 <style>
   /* ===========================================================
@@ -40,12 +40,18 @@
     min-height: 100vh;
   }
 
+  /* ===========================================================
+     [顶层容器]
+     =========================================================== */
   .app {
     max-width: 960px;
     margin: 0 auto;
     padding: var(--space-4) var(--space-2);
   }
 
+  /* ===========================================================
+     [头部：标题 + 本月精选卡]
+     =========================================================== */
   .header { text-align: center; margin-bottom: var(--space-3); }
   .header h1 {
     margin: 0 0 var(--space-1);
@@ -86,6 +92,10 @@
     white-space: nowrap;
   }
 
+  /* ===========================================================
+     [状态条] —— 上次访问 / 今日打卡
+     不喜欢整个状态条，直接删掉 .status-bar 这段样式 + HTML
+     =========================================================== */
   .status-bar {
     display: flex;
     flex-wrap: wrap;
@@ -117,6 +127,9 @@
   }
   .status-bar .pill .btn:hover { text-decoration: underline; }
 
+  /* ===========================================================
+     [Tab 切换]
+     =========================================================== */
   .tabs {
     display: flex;
     gap: 6px;
@@ -159,6 +172,9 @@
     color: #fff;
   }
 
+  /* ===========================================================
+     [工具条] —— 搜索 + 状态筛选
+     =========================================================== */
   .toolbar {
     display: flex;
     flex-wrap: wrap;
@@ -216,6 +232,9 @@
     font-weight: 500;
   }
 
+  /* ===========================================================
+     [卡片网格]
+     =========================================================== */
   .grid {
     display: grid;
     gap: var(--space-2);
@@ -291,6 +310,9 @@
     box-shadow: none;
   }
 
+  /* ===========================================================
+     [空状态]
+     =========================================================== */
   .empty {
     grid-column: 1/-1;
     text-align: center;
@@ -299,6 +321,9 @@
   }
   .empty .face { font-size: 40px; opacity: .4; margin-bottom: var(--space-1); }
 
+  /* ===========================================================
+     [元信息与页脚]
+     =========================================================== */
   .meta {
     text-align: center;
     margin-top: var(--space-4);
@@ -310,6 +335,9 @@
   .meta .stats { display: flex; justify-content: center; gap: var(--space-3); margin-bottom: var(--space-1); }
   .meta .stats span strong { color: var(--ink); }
 
+  /* ===========================================================
+     [响应式]
+     =========================================================== */
   @media (max-width: 640px) {
     .app { padding: var(--space-2) var(--space-1); }
     .header h1 { font-size: 22px; }
@@ -318,43 +346,63 @@
   }
 </style>
 </head>
-<body>
+<body data-page-node-id="Dnhd6hUZ0Tf17o7nyBvnTK">
 
-<div class="app">
+<div class="app" data-page-node-id="JYmzQISnftwit9G8iVBVfo">
 
-  <header class="header">
-    <h1>🌟 每日搭子中心</h1>
-    <p class="lead">选一个搭子，开始今天的成长打卡</p>
+  <!-- =========================================================
+       [头部] —— 标题/引导语直接改下面两行
+       ========================================================= -->
+  <header class="header" data-page-node-id="HsXSun0NIhFhB5bJl6ZTsw">
+    <h1 data-page-node-id="zdACYAecuvNsMcy8yKW9bL">🌟 每日搭子中心</h1>
+    <p class="lead" data-page-node-id="5mzre6wgYbPc9idf3AbCnr">选一个搭子，开始今天的成长打卡</p>
 
     <!-- 顶置「本月精选」卡：内容完全由下方 featured 配置驱动 -->
-    <a id="featured" class="featured" href="#" style="display:none">
-      <span class="emoji"></span>
-      <div class="meta">
-        <h3></h3>
-        <p></p>
+    <a id="featured" class="featured" href="#" style="display:none" data-page-node-id="Nb95uD0AOZDf2456P2FSR3">
+      <span class="emoji" data-page-node-id="tPJ3X3WkRALXMMNMJPxMJX"></span>
+      <div class="meta" data-page-node-id="yHTeq0rWSpV4XEnuyNIM3X">
+        <h3 data-page-node-id="Bf3Sr3KlVG4Fla9iUPUPtw"></h3>
+        <p data-page-node-id="gDHgnxfeqFw7P42NDm1FJJ"></p>
       </div>
-      <span class="cta">去看看 →</span>
+      <span class="cta" data-page-node-id="pwdF0VqVZGJYrb3fjT3SMw">去看看 →</span>
     </a>
   </header>
 
-  <div class="status-bar" id="statusBar">
+  <!-- =========================================================
+       [状态条] —— 上次访问 / 今日已打卡
+       存到浏览器 localStorage，刷新不丢；点"打卡"会点亮今日、累加计数
+       ========================================================= -->
+  <div class="status-bar" id="statusBar" data-page-node-id="0JZLkCjTSegncZMgdZU5ym">
     <!-- 内容由 JS 根据 localStorage 自动渲染 -->
   </div>
 
-  <nav class="tabs" id="tabs"></nav>
+  <!-- =========================================================
+       [Tab 切换] —— 由 JS 根据 config.tabs 自动生成
+       ========================================================= -->
+  <nav class="tabs" id="tabs" data-page-node-id="O1lMBGXfJ5cJmyTyTXaWhE"></nav>
 
-  <div class="toolbar">
-    <div class="search">
-      <input id="search" type="text" placeholder="搜索搭子名称、描述、标签…" autocomplete="off">
+  <!-- =========================================================
+       [工具条] —— 搜索 + 状态筛选
+       ========================================================= -->
+  <div class="toolbar" data-page-node-id="ZmDtAvrVgYYBtWI1vzVJIT">
+    <div class="search" data-page-node-id="PqBbe5tfNzYkGADHA7fLme">
+      <input id="search" type="text" placeholder="搜索搭子名称、描述、标签…" autocomplete="off" data-page-node-id="F8kQKZ8F8bMY0KmhA0RsZo">
     </div>
-    <div class="filters" id="filters"></div>
+    <div class="filters" id="filters" data-page-node-id="yflZazWJmIceGXET5QZ9BC"></div>
   </div>
 
-  <section class="grid" id="grid"></section>
+  <!-- =========================================================
+       [卡片网格] —— 由 JS 根据当前 Tab + 搜索词 + 筛选渲染
+       可点击卡片包在 <a> 里，preview 的卡片用 <div> 包住不跳转
+       ========================================================= -->
+  <section class="grid" id="grid" data-page-node-id="dXPJ80oa7exQTjpdb9f5Yc"></section>
 
-  <footer class="meta">
-    <div class="stats" id="stats"></div>
-    <div>Slim Partner · 打卡成为更好的自己</div>
+  <!-- =========================================================
+       [页脚] —— 统计 + 站点签名
+       ========================================================= -->
+  <footer class="meta" data-page-node-id="Dj6j5snADDvNjjugd8gXJO">
+    <div class="stats" id="stats" data-page-node-id="f7lbDu44M80FjMEu5DA0zD"></div>
+    <div data-page-node-id="4AsJff5HunPDJLQB5OTx8i">Slim Partner · 打卡成为更好的自己</div>
   </footer>
 
 </div>
@@ -398,6 +446,8 @@ const PARTNERS_CONFIG = {
    * │      （格式：{ key:'xxx', label:'显示文案', emoji:'🏃' }）
    * │    改顺序：直接调整 tabs 数组里的顺序
    * │    删分类：从数组里删掉那一项
+   * │    ⚠️ 注意：tabs 里每项的 key 必须能在下面 partners 里找到，
+   * │       否则那个分类会显示为空
    * └─────────────────────────────────────────────────────────┘ */
   tabs: [
     { key: 'daily',    label: '日常打卡',  emoji: '🏃' },
@@ -408,7 +458,9 @@ const PARTNERS_CONFIG = {
 
   /* ┌─────────────────────────────────────────────────────────┐
    * │ ④ 状态标签
-   * │    想加新状态：在 status 数组里加 { key, label, className }
+   * │    这些标签会出现在卡片右下角 + 顶部"筛选器"chip
+   * │    想加新状态（比如"限时"、"热门"）：
+   * │      在 status 数组里加 { key:'hot', label:'热门', className:'accent' }
    * │    className 可选：ok / warn / new / accent
    * └─────────────────────────────────────────────────────────┘ */
   status: [
@@ -419,9 +471,23 @@ const PARTNERS_CONFIG = {
 
   /* ┌─────────────────────────────────────────────────────────┐
    * │ ⑤ 搭子数据 —— 增删改全在这里
-   * │    字段：tab / emoji / title / href / desc / tags / status / preview
-   * │    preview:true 表示「敬请期待」，点击不跳转；
-   * │           上线后删掉这一行即可
+   * │    每个搭子是一个对象，字段说明：
+   * │      tab      必填，对应 tabs 里的 key（决定它出现在哪个分类）
+   * │      emoji    必填，分类前的图标
+   * │      title    必填，显示的卡片标题
+   * │      href     必填，可点击卡片跳转的 URL
+   * │      desc     必填，卡片副标题描述
+   * │      tags     可选，额外标签（数组），如 ['健康','财富']
+   * │      status   可选，对应 status 里的 key（可选其一）
+   * │      preview  可选，true 表示「敬请期待」卡片，点击不跳转
+   * │               等页面建好后，把这一行删掉就行
+   * │
+   * │    🆕 加一个新搭子（拷贝下面一行再改字段）：
+   * │      { tab:'daily', emoji:'🎨', title:'XX搭子', href:'xx.html',
+   * │        desc:'一句话介绍', tags:['标签1'] },
+   * │    🗑 删一个搭子：从数组里删掉对应的那一行
+   * │    ✏️ 改卡片跳转：直接改 href
+   * │    🚧 把「敬请期待」改成可点击：删掉 preview:true 这一行
    * └─────────────────────────────────────────────────────────┘ */
   partners: [
     /* —— 日常打卡 —— */
@@ -429,8 +495,7 @@ const PARTNERS_CONFIG = {
       desc:'饮食 · 体重 · 习惯', tags:['健康'] },
 
     { tab:'daily',  emoji:'👩‍👧', title:'陪读妈妈',    href:'陪读妈妈搭子.html',
-      desc:'情绪 · 学业 · 沟通 · 平衡 · 成长', tags:['家庭'],
-      preview:true },
+      desc:'情绪 · 学业 · 沟通 · 平衡 · 成长', tags:['家庭'] },
 
     /* —— 职场成长 —— */
     { tab:'career', emoji:'🚀', title:'创业搭子',    href:'创业搭子.html',
@@ -444,9 +509,10 @@ const PARTNERS_CONFIG = {
       desc:'客户价值 · 产品思维 · 数据驱动 · 团队协作', tags:['团队'],
       status:'optimized' },
 
-    { tab:'career', emoji:'🌸', title:'关系力修炼',   href:'搭子-关系力修复.html',
-      desc:'倾听 · 表达 · 共情 · 边界 · 能量', tags:['软实力'],
-      status:'optimizing' },
+    { tab:'career', emoji:'🌸', title:'关系力修炼搭子',   href:'搭子-关系力修复.html',
+      desc:'倾听 · 表达 · 共情 · 边界 · 能量', tags:['软实力'] },
+    { tab:'career', emoji:'⏳', title:'长期主义搭子', href:'搭子-长期主义.html',
+      desc:'把本人时间从短视任务搬到长线价值，KEEP / DELEGATE / SKILL / AUTOMATE / STOP 五张清单', tags:['时间经营'] },
 
     { tab:'career', emoji:'🤖', title:'AI 能力搭子',  href:'搭子-AI能力.html',
       desc:'工具 · Prompt · 自动化 · 学习 · 实践', tags:['AI'],
@@ -454,16 +520,13 @@ const PARTNERS_CONFIG = {
 
     /* —— 五大财富 SOP —— */
     { tab:'wealth', emoji:'💪', title:'身体财富',    href:'搭子-身体财富.html',
-      desc:'运动 · 睡眠 · 健康', tags:['财富'],
-      preview:true },
+      desc:'运动 · 睡眠 · 健康', tags:['财富'] },
 
     { tab:'wealth', emoji:'💰', title:'财务财富',    href:'搭子-财务财富.html',
-      desc:'收入 · 储蓄 · 投资', tags:['财富'],
-      preview:true },
+      desc:'收入 · 储蓄 · 投资', tags:['财富'] },
 
     { tab:'wealth', emoji:'🕊️', title:'精神财富',    href:'搭子-精神财富.html',
-      desc:'阅读 · 冥想 · 成长', tags:['财富'],
-      preview:true },
+      desc:'阅读 · 冥想 · 成长', tags:['财富'] },
 
     { tab:'wealth', emoji:'❤️', title:'关系财富',    href:'搭子-关系财富.html',
       desc:'家人 · 朋友 · 连接', tags:['财富'] },
@@ -528,7 +591,7 @@ function renderTabs() {
 
 
 /* ============================================================
- *  状态筛选 chip
+ *  状态筛选 chip —— 第一项永远是"全部"
  * ============================================================ */
 function renderFilters() {
   const html = [`<button class="chip ${state.status===null?'active':''}"
@@ -542,7 +605,11 @@ function renderFilters() {
 
 
 /* ============================================================
- *  卡片网格 —— preview 模式：不可点击，显示敬请期待
+ *  卡片网格 —— 整块重画
+ *  过滤规则：
+ *    1) tab 必须等于当前 Tab
+ *    2) 如果选了状态筛选，status 必须相等
+ *    3) 搜索词会在 title + desc + tags 里大小写不敏感地匹配
  * ============================================================ */
 function renderGrid() {
   const q    = state.q.trim().toLowerCase();
@@ -572,10 +639,11 @@ function renderGrid() {
     const statusBadge = sMeta
       ? `<span class="badge ${sMeta.className}">${sMeta.label}</span>`
       : '';
+    /* —— preview 模式：不可点击，显示敬请期待角标 —— */
     const previewBadge = p.preview
       ? `<span class="badge preview">敬请期待</span>`
       : '';
-    /* —— preview 用 <div> 包裹，物理上不可点击 —— */
+    /* —— preview 的卡片用 <div> 而非 <a>，确保点击完全不跳转 —— */
     const tag = p.preview ? 'div' : 'a';
     const hrefAttr = p.preview ? '' : ` href="${p.href}"`;
     return `
@@ -607,7 +675,12 @@ function renderStats() {
 
 
 /* ================================================================
- *  状态条 —— 上次访问 / 今日打卡（localStorage）
+ *  状态条 —— 上次访问 / 今日已打卡（localStorage）
+ *  --------------------------------------------------------------
+ *  存储 key：
+ *    sp:lastVisit        ISO 时间戳字符串
+ *    sp:checkin:{YYYY-MM-DD}  当天是否打卡过
+ *    sp:totalCheckins    累计打卡次数（数字）
  * ================================================================ */
 const STORAGE = {
   lastVisit: 'sp:lastVisit',
@@ -678,7 +751,7 @@ document.addEventListener('click', (e) => {
   const tab = e.target.closest('.tab');
   if (tab) {
     state.tab    = tab.dataset.tab;
-    state.status = null;
+    state.status = null;                  // 切 Tab 时把状态筛选清掉
     renderTabs();
     renderFilters();
     renderGrid();
@@ -698,12 +771,12 @@ $('search').addEventListener('input', (e) => {
   searchTimer = setTimeout(() => {
     state.q = e.target.value;
     renderGrid();
-  }, 120);
+  }, 120);                              // 简单防抖
 });
 
 
 /* ============================================================
- *  启动
+ *  启动 —— 顺手记录"上次访问"
  * ============================================================ */
 const _prevVisit = localStorage.getItem(STORAGE.lastVisit);
 localStorage.setItem(STORAGE.lastVisit, new Date().toISOString());
