@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<html lang="zh-CN" data-page-node-id="oOlmQORFEiD6CQFPqUwHg7">
+<head data-page-node-id="F1uKIWjZsn6INjFIp5ZaEn">
+  <meta charset="UTF-8" data-page-node-id="KfaJOapEZub4mc6kzrfxge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" data-page-node-id="vOy68PgLndkcNvHkYsx0Iv">
   <title>🌙 睡眠搭子 · 早睡早起，看见自己的夜晚</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
@@ -24,10 +24,10 @@
       border-radius: 24px 24px 0 0;
       z-index: 100;
     }
-    .tab-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 12px; cursor: pointer; border-radius: 16px; transition: all .2s; }
+    .tab-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 4px; cursor: pointer; border-radius: 16px; transition: all .2s; flex: 1; min-width: 0; }
     .tab-item.active { background: #e8e7ff; }
-    .tab-item .tab-icon { font-size: 22px; }
-    .tab-item .tab-label { font-size: 10px; color: #8f9eae; font-weight: 500; }
+    .tab-item .tab-icon { font-size: 20px; line-height: 1; }
+    .tab-item .tab-label { font-size: 10px; color: #8f9eae; font-weight: 500; letter-spacing: -.3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
     .tab-item.active .tab-label { color: #3a3d8f; font-weight: 700; }
 
     .page { display: none; }
@@ -138,129 +138,761 @@
     .share-btn { flex: 1; padding: 10px; border-radius: 16px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all .15s; }
     .share-copy-btn { background: linear-gradient(135deg,#7c7fea,#4a4ec0); color: white; }
 
+    /* ===== 今天发生了什么 场景列表 ===== */
+    .scenes-panel { max-width: 420px; margin: 24px auto 20px; background: white; border-radius: 28px; padding: 18px 18px 12px; box-shadow: 0 8px 24px rgba(94,96,206,0.10); }
+    .scenes-title { font-size: 14px; font-weight: 700; color: #3a3d8f; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .scenes-sub { font-size: 11px; color: #8f9eae; margin: -6px 2px 10px; line-height: 1.5; }
+    .scenes-group-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; margin: 10px 2px 6px; }
+    .scenes-group-label.pos { color: #4a4ec0; }
+    .scenes-group-label.neg { color: #b07cd6; }
+    .scene-card {
+      display: flex; align-items: center; gap: 10px;
+      background: #f7f7fd; border-radius: 16px; padding: 12px 14px;
+      margin-bottom: 8px; cursor: pointer;
+      border: 1.5px solid transparent; transition: all .18s;
+    }
+    .scene-card:active { transform: scale(0.98); }
+    .scene-card.pos { background: #f0eefe; border-color: #d4d2ff; }
+    .scene-card.neg { background: #faf3ff; border-color: #ebd6ff; }
+    .scene-icon { font-size: 22px; flex-shrink: 0; }
+    .scene-text { font-size: 13px; color: #2b3a4a; line-height: 1.4; flex: 1; }
+    .scene-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; flex-shrink: 0; }
+    .scene-tag.pos { background: #7c7fea; color: white; }
+    .scene-tag.neg { background: #b07cd6; color: white; }
+
+    /* ===== 场景反馈弹窗 ===== */
+    .fb-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(40,30,80,0.55); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 500; padding: 20px;
+    }
+    .fb-overlay.show { display: flex; }
+    .fb-card {
+      background: white; border-radius: 32px; padding: 28px 22px 24px;
+      max-width: 340px; width: 100%; text-align: center;
+    }
+    .fb-card.pos { border-top: 5px solid #7c7fea; animation: fbPop 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+    .fb-card.neg { border-top: 5px solid #b07cd6; animation: fbShake 0.5s ease; }
+    @keyframes fbPop { from { transform: scale(0.5); opacity:0; } to { transform: scale(1); opacity:1; } }
+    @keyframes fbShake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+    .fb-emoji { font-size: 56px; margin-bottom: 10px; }
+    .fb-tag { font-size: 11px; font-weight: 700; letter-spacing: 1px; border-radius: 20px; display: inline-block; padding: 3px 12px; margin-bottom: 10px; }
+    .fb-tag.pos { background: #e8e7ff; color: #3a3d8f; }
+    .fb-tag.neg { background: #f3e8ff; color: #6e4099; }
+    .fb-title { font-size: 18px; font-weight: 800; color: #2b3a4a; margin-bottom: 10px; }
+    .fb-text { font-size: 13px; color: #6c7a89; line-height: 1.7; margin-bottom: 14px; text-align: left; }
+    .fb-partner-quote {
+      background: #f0eefe; border-radius: 14px; padding: 12px 14px;
+      font-size: 13px; color: #3a3d8f; font-style: italic; line-height: 1.6; text-align: left;
+    }
+    .fb-close { margin-top: 16px; padding: 10px 20px; border-radius: 999px; background: #f0eefe; color: #3a3d8f; border: none; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .fb-close:active { transform: scale(0.97); }
+
+    /* ===== 记录页（KPI / 数值） ===== */
+    .record-page { max-width: 420px; margin: 0 auto; padding-bottom: 20px; }
+    .record-title { font-size: 22px; font-weight: 700; color: #3a3d8f; text-align: center; margin-bottom: 6px; }
+    .record-sub { font-size: 12px; color: #8f9eae; text-align: center; margin-bottom: 16px; line-height: 1.5; }
+    .record-input-card, .record-chart-card, .record-history-card {
+      background: white; border-radius: 28px; padding: 20px;
+      margin-bottom: 16px; max-width: 420px; margin-left: auto; margin-right: auto;
+      box-shadow: 0 6px 18px rgba(94,96,206,0.08);
+    }
+    .record-input-title { font-size: 15px; font-weight: 700; color: #3a3d8f; margin-bottom: 14px; }
+    .record-input-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .record-input-label { font-size: 13px; color: #6c7a89; flex-shrink: 0; min-width: 72px; }
+    .record-input {
+      flex: 1; padding: 8px 12px; border-radius: 12px; border: 1.5px solid #e9edf2;
+      font-size: 14px; color: #2b3a4a; background: #f7f7fd; font-family: inherit;
+    }
+    .quality-row { display: flex; gap: 8px; flex: 1; }
+    .quality-btn { font-size: 24px; cursor: pointer; padding: 6px 10px; border-radius: 12px; background: transparent; border: 1.5px solid transparent; transition: all .15s; flex: 1; text-align: center; }
+    .quality-btn.selected { background: #e8e7ff; border-color: #7c7fea; transform: scale(1.05); }
+    .quality-btn:active { transform: scale(0.95); }
+    .record-summary { font-size: 13px; color: #3a3d8f; background: #f0effc; padding: 10px 14px; border-radius: 14px; margin: 10px 0 14px; text-align: center; font-weight: 600; }
+    .record-save-btn {
+      width: 100%; padding: 12px; border-radius: 16px; border: none;
+      background: linear-gradient(135deg,#7c7fea,#4a4ec0); color: white;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+    }
+    .record-save-btn:active { transform: scale(0.98); }
+    .chart-title { font-size: 14px; font-weight: 700; color: #3a3d8f; margin-bottom: 4px; }
+    .chart-sub { font-size: 11px; color: #8f9eae; margin-bottom: 12px; }
+    canvas { display: block; width: 100%; max-width: 380px; height: 160px; }
+    .record-history-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0effc; font-size: 13px; }
+    .record-history-item:last-child { border-bottom: none; }
+    .record-history-date { color: #6c7a89; }
+    .record-history-val { color: #3a3d8f; font-weight: 600; }
+    .record-empty { color: #8f9eae; text-align: center; padding: 16px; font-size: 13px; }
+
+    /* ===== 教练 Tab（独立顶层 Tab · 与减肥搭子同构） ===== */
+    /* 介绍卡（McKinsey 风格 · 紫蓝主题） */
+    .coach-intro { background: white; border-radius: 32px; padding: 32px 24px; margin-bottom: 16px; margin-top: 20px; text-align: center; box-shadow: 0 8px 24px rgba(94,96,206,0.10); }
+    .coach-intro-icon { font-size: 56px; margin-bottom: 16px; }
+    .coach-intro-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #7c7fea, #4a4ec0); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+    .coach-intro-sub { font-size: 14px; color: #6c7a89; margin-bottom: 24px; }
+    .method-steps { display: flex; gap: 8px; margin-bottom: 24px; }
+    .method-step { flex: 1; background: #f0effc; border-radius: 16px; padding: 14px 8px; font-size: 13px; font-weight: 700; color: #4a4ec0; line-height: 1.5; }
+    .method-step .step-num { font-size: 18px; display: block; margin-bottom: 4px; }
+    .method-step .step-desc { font-size: 11px; font-weight: 500; color: #888; margin-top: 2px; display: block; }
+    .coach-intro-note { font-size: 11px; color: #8f9eae; margin-top: 16px; }
+    .coach-start-btn { margin-top: 18px; width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #7c7fea, #4a4ec0); color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform .15s; }
+    .coach-start-btn:active { transform: scale(0.97); }
+
+    /* 对话界面 */
+    .coach-progress-bar { display: flex; gap: 6px; padding: 12px 16px 0; max-width: 420px; margin: 0 auto; }
+    .progress-step { flex: 1; text-align: center; padding: 6px 4px; border-radius: 10px; font-size: 11px; font-weight: 600; color: #aaa; background: #f0effc; transition: all .3s; }
+    .progress-step.active { background: #7c7fea; color: #fff; }
+    .coach-chat-area { padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; max-height: 360px; overflow-y: auto; max-width: 420px; margin: 0 auto; }
+    .coach-msg { max-width: 80%; padding: 10px 14px; border-radius: 16px; line-height: 1.6; font-size: 14px; word-break: break-all; }
+    .coach-msg.coach { background: #f0effc; color: #3a3d8f; border-bottom-left-radius: 4px; align-self: flex-start; }
+    .coach-msg.user { background: linear-gradient(135deg,#7c7fea,#4a4ec0); color: white; border-bottom-right-radius: 4px; align-self: flex-end; }
+    .coach-input-row { display: flex; gap: 8px; padding: 0 16px 16px; max-width: 420px; margin: 0 auto; }
+    .coach-input-row textarea { flex: 1; padding: 12px 16px; border-radius: 16px; border: 1.5px solid #e9edf2; font-size: 14px; resize: none; outline: none; font-family: inherit; min-height: 44px; background: white; }
+    .coach-input-row button { padding: 10px 18px; border-radius: 16px; border: none; background: linear-gradient(135deg,#7c7fea,#4a4ec0); color: white; font-size: 14px; font-weight: 700; cursor: pointer; }
+    .coach-input-row button:active { transform: scale(0.97); }
+    .generating-report { text-align: center; color: #4a4ec0; font-size: 14px; font-weight: 600; padding: 16px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+    /* 报告（紫蓝主题） */
+    .coach-report-card { background: white; border-radius: 24px; padding: 24px 20px; box-shadow: 0 4px 16px rgba(94,96,206,0.10); margin-bottom: 16px; }
+    .coach-report-title { font-size: 18px; font-weight: 800; color: #4a4ec0; margin-bottom: 4px; }
+    .coach-report-section { border-radius: 16px; padding: 14px; margin-bottom: 12px; border: 1.5px solid #e9edf2; background: #f7f7fd; }
+    .coach-report-section h4 { font-size: 14px; font-weight: 700; color: #3a3d8f; margin-bottom: 8px; }
+    .coach-report-section p, .coach-report-section li { font-size: 13px; color: #555; line-height: 1.7; }
+    .coach-diagnosis-tag { display: inline-block; background: #fff3e0; color: #e65100; border-radius: 20px; padding: 2px 10px; font-size: 12px; font-weight: 600; margin: 2px; }
+    .coach-action-tag { display: inline-block; background: #e8f5e9; color: #2e7d32; border-radius: 20px; padding: 2px 10px; font-size: 12px; font-weight: 600; margin: 2px; }
+
+    /* 成长路线 + Checklist（crp-wrap · 紫蓝主题） */
+    #crpWrap_sleep .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(94,96,206,0.06); }
+    #crpWrap_sleep .crp-title { font-size:15px; font-weight:800; color:#3a3d8f; margin-bottom:12px; }
+    #crpWrap_sleep .crp-tip { font-size:11px; font-weight:500; color:#8f9eae; margin-left:6px; }
+    #crpWrap_sleep .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+    #crpWrap_sleep .crp-stage:active { transform:scale(.98); }
+    #crpWrap_sleep .crp-stage-head { font-weight:700; font-size:13px; }
+    #crpWrap_sleep .crp-arrow { float:right; color:#8f9eae; }
+    #crpWrap_sleep .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#37474f; }
+    #crpWrap_sleep .crp-stage.collapsed .crp-stage-body { display:none; }
+    #crpWrap_sleep .crp-item { font-size:13px; color:#37474f; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+    #crpWrap_sleep .crp-item:hover { background:#f5f5f7; }
+    #crpWrap_sleep .crp-item.done { color:#8f9eae; text-decoration:line-through; }
+    #crpWrap_sleep .crp-box { margin-right:8px; }
+    .coach-report h4 { color: #3a3d8f; font-size: 14px; margin: 8px 0 4px; }
+
     footer { max-width: 420px; margin: 20px auto 0; text-align: center; color: #8f9eae; font-size: 12px; }
 
     .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-60px); background: rgba(0,0,0,0.75); color: white; padding: 10px 18px; border-radius: 20px; font-size: 13px; opacity: 0; transition: all .3s; z-index: 200; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ===== Freemium 付费墙（睡眠页 · 紫蓝主题） ===== */
+    .fp-paywall-overlay {
+      position: fixed; inset: 0; background: rgba(20,22,30,0.55);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 250; padding: 20px; animation: fpFadeIn .25s ease;
+    }
+    @keyframes fpFadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .fp-paywall-card {
+      background: #fff; border-radius: 28px; padding: 28px 22px 22px;
+      max-width: 380px; width: 100%;
+      box-shadow: 0 22px 50px rgba(0,0,0,0.30);
+      animation: fpPaywallPop .35s cubic-bezier(0.2, 1, 0.3, 1.05);
+      max-height: calc(100vh - 80px); overflow-y: auto; position: relative;
+    }
+    @keyframes fpPaywallPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .fp-paywall-close {
+      position: absolute; top: 14px; right: 14px;
+      background: rgba(255,255,255,0.7); border: none; cursor: pointer;
+      width: 32px; height: 32px; border-radius: 50%; font-size: 18px;
+      color: #8f9eae;
+    }
+    .fp-paywall-title { font-size: 19px; font-weight: 800; color: #3a3d8f; margin: 4px 0 4px; text-align: center; }
+    .fp-paywall-sub { font-size: 13px; color: #6c7a89; text-align: center; margin-bottom: 16px; }
+    .fp-paywall-summary {
+      display: grid; gap: 8px;
+      background: #f7f7fd; border-radius: 14px;
+      padding: 12px 16px; margin-bottom: 16px;
+    }
+    .fp-paywall-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 13px; color: #6c7a89;
+    }
+    .fp-paywall-row b { color: #4a4ec0; }
+    .fp-paywall-pricing {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+      margin-bottom: 14px;
+    }
+    .fp-paywall-plan {
+      border: 1.5px solid #e9edf2;
+      border-radius: 16px;
+      padding: 14px 10px;
+      text-align: center;
+      background: #fff;
+      position: relative;
+    }
+    .fp-paywall-plan.featured {
+      border-color: #22c55e;
+      background: #f0fdf4;
+    }
+    .fp-paywall-plan .plan-name { font-size: 12px; color: #6c7a89; }
+    .fp-paywall-plan .plan-price {
+      font-size: 22px; font-weight: 800; color: #3a3d8f; margin: 4px 0;
+    }
+    .fp-paywall-plan .plan-price small { font-size: 12px; color: #8f9eae; font-weight: 500; }
+    .fp-paywall-plan .plan-tag {
+      position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+      display: inline-block; font-size: 10px; padding: 2px 8px;
+      border-radius: 999px; background: #22c55e; color: #fff; font-weight: 700;
+    }
+    .fp-paywall-points {
+      background: linear-gradient(135deg, #fff4d6, #ffe8b3);
+      border-radius: 14px; padding: 12px 16px;
+      margin-bottom: 16px; font-size: 12px; line-height: 1.7; color: #7a5a16;
+    }
+    .fp-paywall-points b { color: #5b3e0a; }
+    .fp-paywall-primary {
+      width: 100%; padding: 14px;
+      border: none; border-radius: 999px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #fff; font-size: 16px; font-weight: 700;
+      cursor: pointer; margin-bottom: 10px;
+      box-shadow: 0 6px 14px rgba(34,197,94,0.32);
+    }
+    .fp-paywall-primary:active { transform: scale(0.97); }
+    .fp-paywall-secondary {
+      width: 100%; padding: 12px;
+      border: 1.5px solid #e9edf2; border-radius: 999px;
+      background: #fff; color: #6c7a89;
+      font-size: 13px; cursor: pointer;
+    }
+    .fp-paywall-secondary:hover { border-color: #4a4ec0; }
+    .fp-paywall-mini {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%);
+      background: #3a3d8f; color: #fff;
+      padding: 12px 18px; border-radius: 14px;
+      font-size: 13px; max-width: 320px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.30);
+      z-index: 260; line-height: 1.55;
+      animation: fpPaywallPop .25s ease;
+    }
+    .fp-paywall-mini b { color: #fbbf24; }
+
+    /* ===== Page: 对话（月牙） ===== */
+    .chat-shell {
+      max-width: 420px; margin: 0 auto;
+      padding: 0 16px 120px;
+    }
+    /* 头像区 */
+    .chat-avatar-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 28px 0 16px;
+    }
+    .chat-avatar {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e8e7ff, #c5c2f3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 64px;
+      box-shadow: 0 10px 30px rgba(124,127,234,0.30);
+      position: relative;
+      transition: all .3s cubic-bezier(0.2, 1, 0.3, 1.05);
+    }
+    /* 4 个表情状态 */
+    .chat-avatar.state-smile::after { content: ''; }
+    .chat-avatar.state-listen { animation: chatListen .8s ease-in-out infinite; background: linear-gradient(135deg, #fff4d6, #ffd980); box-shadow: 0 10px 30px rgba(251,191,36,0.30); }
+    .chat-avatar.state-think  { animation: chatThink 1.2s ease-in-out infinite; background: linear-gradient(135deg, #e0e7ff, #c7d2fe); box-shadow: 0 10px 30px rgba(99,102,241,0.30); }
+    .chat-avatar.state-nod    { animation: chatNod .9s ease-in-out; background: linear-gradient(135deg, #d6efec, #a7e6df); box-shadow: 0 10px 30px rgba(11,138,130,0.30); }
+    @keyframes chatListen { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    @keyframes chatThink  { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+    @keyframes chatNod    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+    .chat-name { font-size: 18px; font-weight: 800; color: #3a3d8f; margin-top: 10px; }
+    .chat-state-line { font-size: 12px; color: #8f9eae; margin-top: 2px; min-height: 16px; }
+
+    /* 记忆按钮（右上角小抽屉） */
+    .chat-memory-toggle {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: rgba(255,255,255,0.95);
+      border: 1.5px solid #e0dffd;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 12px; font-weight: 700; color: #4a4ec0;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(124,127,234,0.18);
+    }
+
+    /* 聊天气泡 */
+    .chat-list {
+      display: flex; flex-direction: column; gap: 10px;
+      max-height: 320px; overflow-y: auto;
+      padding: 10px 4px;
+      scroll-behavior: smooth;
+    }
+    .chat-msg {
+      max-width: 78%;
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-size: 14px; line-height: 1.6;
+      animation: chatMsgIn .3s ease;
+    }
+    @keyframes chatMsgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .chat-msg.buddy {
+      align-self: flex-start;
+      background: white;
+      color: #3a3d8f;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 4px 10px rgba(124,127,234,0.10);
+    }
+    .chat-msg.me {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #7c7fea, #4a4ec0);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+    .chat-msg.system {
+      align-self: center;
+      background: #f4f4f8;
+      color: #6c7a89;
+      font-size: 12px;
+      border-radius: 999px;
+      padding: 5px 12px;
+    }
+
+    /* 输入区 */
+    .chat-input-bar {
+      position: fixed; bottom: 76px; left: 16px; right: 16px;
+      max-width: 420px; margin: 0 auto;
+      display: flex; gap: 8px; align-items: flex-end;
+      z-index: 150;
+    }
+    .chat-input-bar textarea {
+      flex: 1;
+      padding: 12px 14px;
+      border: 1.5px solid #e0dffd;
+      border-radius: 20px;
+      font-size: 14px;
+      font-family: inherit;
+      resize: none;
+      background: white;
+      outline: none;
+      min-height: 44px; max-height: 100px;
+    }
+    .chat-input-bar textarea:focus { border-color: #7c7fea; }
+    .chat-mic {
+      width: 44px; height: 44px;
+      border: none; border-radius: 50%;
+      background: linear-gradient(135deg, #7c7fea, #4a4ec0);
+      color: white; font-size: 18px;
+      cursor: pointer; flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(124,127,234,0.30);
+      transition: transform .15s;
+    }
+    .chat-mic:active { transform: scale(0.92); }
+    .chat-mic.recording {
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      animation: chatMicPulse 1s infinite;
+    }
+    @keyframes chatMicPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); } 50% { box-shadow: 0 0 0 12px rgba(239,68,68,0); } }
+    .chat-send {
+      padding: 0 18px;
+      height: 44px;
+      border: none; border-radius: 22px;
+      background: linear-gradient(135deg, #5b9eff, #3a7ca5);
+      color: white; font-size: 14px; font-weight: 700;
+      cursor: pointer; flex-shrink: 0;
+      pointer-events: auto !important;
+      position: relative; z-index: 200;
+      touch-action: manipulation;
+    }
+    .chat-send:active { transform: scale(0.97); }
+
+    /* 5 轮限额提示 */
+    .chat-limit-warn {
+      display: none;
+      max-width: 420px; margin: 14px auto;
+      background: #fff4d6; border-radius: 14px;
+      padding: 12px 16px; text-align: center;
+      color: #7a5a16; font-size: 13px;
+    }
+    .chat-limit-warn.show { display: block; }
+
+    /* 记忆卡抽屉 */
+    .chat-mem-card {
+      max-width: 420px; margin: 14px auto;
+      background: white;
+      border-radius: 22px;
+      padding: 16px 18px;
+      box-shadow: 0 6px 18px rgba(124,127,234,0.10);
+      display: none;
+    }
+    .chat-mem-card.show { display: block; }
+    .chat-mem-title {
+      font-size: 14px; font-weight: 800; color: #3a3d8f;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 10px;
+    }
+    .chat-mem-list {
+      display: flex; flex-direction: column; gap: 6px;
+      max-height: 200px; overflow-y: auto;
+    }
+    .chat-mem-item {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 8px 10px;
+      background: #f7f7fd;
+      border-radius: 10px;
+      font-size: 13px; color: #4a4ec0; line-height: 1.5;
+      gap: 8px;
+    }
+    .chat-mem-item button {
+      border: none; background: transparent; color: #c5c2f3;
+      cursor: pointer; font-size: 14px;
+    }
+    .chat-mem-empty { font-size: 12px; color: #8f9eae; text-align: center; padding: 12px; }
+
+    /* 语音播报按钮（聊天气泡内） */
+    .chat-msg .play-tts {
+      display: inline-block;
+      margin-left: 6px;
+      cursor: pointer; opacity: 0.6;
+      font-size: 12px;
+    }
+    .chat-msg .play-tts:hover { opacity: 1; }
   </style>
 </head>
-<body>
+<body data-page-node-id="dRxQbNHWVkjf0u3criZ4h5">
 
 <!-- ===== Tab Bar ===== -->
-<div class="tab-bar">
-  <div class="tab-item active" onclick="switchTab('partner')"><div class="tab-icon">🌙</div><div class="tab-label">搭子</div></div>
-  <div class="tab-item" onclick="switchTab('sop')"><div class="tab-icon">🎯</div><div class="tab-label">自检</div></div>
-  <div class="tab-item" onclick="switchTab('checkin')"><div class="tab-icon">✅</div><div class="tab-label">打卡</div></div>
-  <div class="tab-item" onclick="switchTab('progress')"><div class="tab-icon">📊</div><div class="tab-label">进展</div></div>
-  <div class="tab-item" onclick="switchTab('share')"><div class="tab-icon">📣</div><div class="tab-label">分享</div></div>
+<div class="tab-bar" data-page-node-id="NHwyiXWbQxKj1NIp5eteRN">
+  <div class="tab-item active" onclick="switchTab('partner')" data-page-node-id="ALQkW2VTct2eI5ASJ0CtQx"><div class="tab-icon" data-page-node-id="cFgQrXFgzCjZ38jG8WPZib">🌙</div><div class="tab-label" data-page-node-id="wAknGY5I5KwPCFPDt6MzhO">搭子</div></div>
+  <div class="tab-item" onclick="switchTab('coach')"><div class="tab-icon">🎓</div><div class="tab-label">教练</div></div>
+  <div class="tab-item" onclick="switchTab('sop')" data-page-node-id="xaamNzKngBTSikzISVG4xz"><div class="tab-icon" data-page-node-id="57x7Cicb70UmyBIcrYdOwI">🎯</div><div class="tab-label" data-page-node-id="Ahcr8OkygWYLYDnN57Qres">自检</div></div>
+  <div class="tab-item" onclick="switchTab('checkin')" data-page-node-id="oEwkZeJLLHbyHyC0Eb3Hqw"><div class="tab-icon" data-page-node-id="GNBvAn7rSRkQ5wuLrTF0IW">✅</div><div class="tab-label" data-page-node-id="IyzzdIssLjmltTimpz4YmZ">打卡</div></div>
+  <div class="tab-item" onclick="switchTab('chat')"><div class="tab-icon">💬</div><div class="tab-label">对话</div></div>
+  <div class="tab-item" onclick="switchTab('record')" data-page-node-id="tabRecordSleep"><div class="tab-icon">📊</div><div class="tab-label">记录</div></div>
+  <div class="tab-item" onclick="switchTab('progress')" data-page-node-id="wqsS3kNd7W0QvVJ8kU2epi"><div class="tab-icon" data-page-node-id="zfnGfClMqe1CWz1mMLdhXV">📈</div><div class="tab-label" data-page-node-id="4VWqc9VlukkGItfwrETh3L">进展</div></div>
+  <div class="tab-item" onclick="switchTab('share')" data-page-node-id="HOj6pEqV4qPWPbtmeqakSM"><div class="tab-icon" data-page-node-id="PwCNkyAHAPLA4iI7mKYsA7">📣</div><div class="tab-label" data-page-node-id="SiyMKD8mBUZvSq1vtj0T0J">分享</div></div>
 </div>
 
 <!-- ===== Page: 搭子 ===== -->
-<div id="page-partner" class="page active">
-  <div class="card" style="margin-top:20px;">
-    <div class="selector-title">选个睡眠搭子</div>
-    <div class="selector-sub">月亮 · 灯泡 · 枕头<br>你的夜晚由谁陪你看</div>
-    <div class="partner-grid" id="partnerGrid"></div>
-    <button class="confirm-btn" onclick="confirmPartner()">✨ 开始今晚的睡眠搭子 ✨</button>
+<div id="page-partner" class="page active" data-page-node-id="0AAjCOpGrm3eyvHG0ibqSC">
+  <div class="card" style="margin-top:20px;" data-page-node-id="cJat0gNPfeMG2tpRINBOZt">
+    <div class="selector-title" data-page-node-id="uHZFT8reaDfQlONdBtBTj6">选个睡眠搭子</div>
+    <div class="selector-sub" data-page-node-id="T9RAllYjSMX2YZm0kk9P5k">月亮 · 灯泡 · 枕头<br data-page-node-id="zI0NLCrKinFqd9EXaMrZjI">你的夜晚由谁陪你看</div>
+    <div class="partner-grid" id="partnerGrid" data-page-node-id="GfklLpaHE6fJT3TBAjlHeU"></div>
+    <button class="confirm-btn" onclick="confirmPartner()" data-page-node-id="BtlNqDZ7HOjFgQWsUUCjyP">✨ 开始今晚的睡眠搭子 ✨</button>
   </div>
 </div>
 
 <!-- ===== Page: 自检 ===== -->
-<div id="page-sop" class="page">
-  <div class="sop-page" style="margin-top:20px;">
-    <div class="sop-title">🌙 睡前自检</div>
-    <div class="sop-cat-tabs" id="sopCatTabs"></div>
-    <div id="sopPanel">
-      <div class="sop-question" id="sopQuestion"></div>
-      <div class="sop-options" id="sopOptions"></div>
-      <div class="sop-score" id="sopScore">答完 5 题，看看今晚的睡眠准备度</div>
+<div id="page-sop" class="page" data-page-node-id="EMUQQIqqYKxFGO0G7GrLxk">
+  <div class="sop-page" style="margin-top:20px;" data-page-node-id="moe45ioWWBxEmOVdduzV0z">
+    <div class="sop-title" data-page-node-id="tAVKEnqLxgwcfvJNuDMl5L">🌙 睡前自检</div>
+    <div class="sop-cat-tabs" id="sopCatTabs" data-page-node-id="eJyLCg5uBMjMmPV2ywY7na"></div>
+    <div id="sopPanel" data-page-node-id="Q7egChQqw757WF8AuKrd3m">
+      <div class="sop-question" id="sopQuestion" data-page-node-id="dT89CidlSHbOPek0gpHBrP"></div>
+      <div class="sop-options" id="sopOptions" data-page-node-id="CDenQUGfBgirzbVid62Vqf"></div>
+      <div class="sop-score" id="sopScore" data-page-node-id="99uAOFjfPpsvYjABE1fLto">答完 5 题，看看今晚的睡眠准备度</div>
     </div>
   </div>
 </div>
 
+<!-- ===== Page: 教练（McKinsey风格 · 紫蓝主题） ===== -->
+<div id="page-coach" class="page">
+
+  <!-- 成长路线 & 基本功 Checklist（参照减肥搭子 crpWrap_weight 结构） -->
+  <div id="crpWrap_sleep" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
+    <div class="crp-card">
+      <div class="crp-title">🗺️ 睡眠三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+      <div class="crp-stage" style="background:#f0effc;">
+        <div class="crp-stage-head" style="color:#4a4ec0;">📌 第1阶段 · 第1-2周 · 建立节律 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">固定入睡时间 ±30 分钟，节律比时长更优先<br>· 睡前 1 小时关屏（手机放客厅 / 卧室不放）<br>· 下午 2 点后不喝咖啡因</div>
+      </div>
+      <div class="crp-stage" style="background:#fff3e0;">
+        <div class="crp-stage-head" style="color:#e65100;">📌 第2阶段 · 第3-6周 · 深化睡眠 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">从"够久"转向"够深"：睡前放松仪式（拉伸 / 呼吸 / 写下心事）<br>· 起床时间固定（无论多晚都按固定时间起）<br>· 醒来记录精神分 1-5，看节律是不是真的稳了</div>
+      </div>
+      <div class="crp-stage" style="background:#e8eaf6;">
+        <div class="crp-stage-head" style="color:#3949ab;">📌 第3阶段 · 第7-12周 · 自我修复 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">能识别自己的睡眠预警（连续 3 天精神 ≤2 就触发动作）<br>· 备好 2-3 套节律修复方案（关屏 / 早睡 / 不补觉）<br>· 偶尔失眠不再焦虑，能量回到正常节律的时间在缩短</div>
+      </div>
+    </div>
+
+    <div class="crp-card">
+      <div class="crp-title">📋 睡眠基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_sleep" style="color:#66bb6a;">0</b>/7 · 自动保存</span></div>
+      <div id="crpList_sleep">
+        <div class="crp-item"><span class="crp-box">☐</span>连续 7 天入睡时间 ±30 分钟内</div>
+        <div class="crp-item"><span class="crp-box">☐</span>睡前 1 小时关屏（手机 / 平板）</div>
+        <div class="crp-item"><span class="crp-box">☐</span>卧室全黑或戴眼罩入睡</div>
+        <div class="crp-item"><span class="crp-box">☐</span>起床时间固定（无论多晚）</div>
+        <div class="crp-item"><span class="crp-box">☐</span>连续 7 天记录入睡 / 起床时间</div>
+        <div class="crp-item"><span class="crp-box">☐</span>平均睡眠时长 ≥ 7 小时</div>
+        <div class="crp-item"><span class="crp-box">☐</span>建立一套睡前放松仪式</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 介绍卡（McKinsey风格） -->
+  <div class="coach-intro" id="sleepCoachIntro">
+    <div class="coach-intro-icon">🎓</div>
+    <div class="coach-intro-title">睡眠认知教练</div>
+    <div class="coach-intro-sub">用 5 个问题看清你的睡眠卡点 · 建立你的晚间节律</div>
+    <div class="method-steps">
+      <div class="method-step"><span class="step-num">①</span> 诊断模式<br><span class="step-desc">看清节律卡点</span></div>
+      <div class="method-step"><span class="step-num">②</span> 拆解原因<br><span class="step-desc">三层归因</span></div>
+      <div class="method-step"><span class="step-num">③</span> 定制仪式<br><span class="step-desc">只动 1 维度</span></div>
+    </div>
+    <button class="coach-start-btn" onclick="startCoach()">开始深度对话 →</button>
+    <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 5 问引导</div>
+  </div>
+
+  <!-- 对话界面 -->
+  <div id="sleepCoachChat" style="display:none;">
+    <div class="coach-progress-bar">
+      <div class="progress-step active" id="sleepProg1">① 诊断</div>
+      <div class="progress-step" id="sleepProg2">② 拆解</div>
+      <div class="progress-step" id="sleepProg3">③ 行动</div>
+    </div>
+    <div class="coach-chat-area" id="sleepChatList"></div>
+    <div class="coach-prompt" style="text-align:center;color:#4a4ec0;font-size:13px;font-weight:600;padding:4px 0 0;">💡 在下方输入你的回复，按 发送 继续</div>
+    <div class="coach-input-row">
+      <textarea id="sleepCoachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
+      <button onclick="sendCoachMsg()">发送</button>
+    </div>
+    <div class="generating-report" id="sleepGenerating" style="display:none;">⏳ 正在生成睡眠诊断报告...</div>
+  </div>
+
+  <!-- 诊断报告 -->
+  <div class="coach-report-card" id="sleepCoachReport" style="display:none;"></div>
+  <div style="padding:0 16px 80px;max-width:420px;margin:0 auto;">
+    <button class="coach-start-btn" onclick="startCoach()" style="margin-top:8px;background:linear-gradient(135deg,#8b91d8,#5a5fb5);font-size:14px;">🔄 重新对话</button>
+  </div>
+</div><!-- end page-coach -->
+
 <!-- ===== Page: 打卡 ===== -->
-<div id="page-checkin" class="page">
-  <div class="card" style="margin-top:20px;">
-    <div class="partner-badge" id="currentPartnerBadge">🌙 月亮</div>
-    <div class="question" id="todaysQ">今晚打算几点睡？</div>
-    <div class="question-sub" id="todaysQSub">先选一个时间 · 等真的睡下后再回来打卡</div>
-    <div class="tag-grid" id="tagGrid"></div>
-    <div class="checkin-btn" id="checkinBtn" onclick="doCheckin()">
-      <div class="checkin-status" id="checkinStatusText">🌙 打卡</div>
-      <div class="checkin-sub">记录今晚</div>
+<div id="page-checkin" class="page" data-page-node-id="0p20RVU6yJeF733lNULP1m">
+  <div class="card" style="margin-top:20px;" data-page-node-id="ESC5UaRDQu9RtBgtXQ4qbO">
+    <div class="partner-badge" id="currentPartnerBadge" data-page-node-id="5ak8n7W4a6d6Sg4bjXxA7I">🌙 月亮</div>
+    <div class="question" id="todaysQ" data-page-node-id="8hCVxGAqXSZjsvdpf2F8ro">今晚打算几点睡？</div>
+    <div class="question-sub" id="todaysQSub" data-page-node-id="kx8SPaw5rwK75nwrVyhvj2">先选一个时间 · 等真的睡下后再回来打卡</div>
+    <div class="tag-grid" id="tagGrid" data-page-node-id="SbY3NBublAuBwrYCHDRxC2"></div>
+    <div class="checkin-btn" id="checkinBtn" onclick="doCheckin()" data-page-node-id="vBiIsgkXkWwF30Pj8iYozb">
+      <div class="checkin-status" id="checkinStatusText" data-page-node-id="fAHeIa7KHBgHstfVV6AICd">🌙 打卡</div>
+      <div class="checkin-sub" data-page-node-id="BMT22Fv9fV29ubphQ45BzC">记录今晚</div>
     </div>
-    <div class="continuous" id="continuousDays">0</div>
-    <div class="continuous-label">连续早睡天数</div>
+    <div class="continuous" id="continuousDays" data-page-node-id="s5b19FZ0M5WF0FAu0GRAUF">0</div>
+    <div class="continuous-label" data-page-node-id="cnjQhy5fJNrikvVxjI9k9Y">连续早睡天数</div>
   </div>
 
-  <div class="chat-area" id="chatArea"></div>
+  <div class="chat-area" id="chatArea" data-page-node-id="lAN9gfTEGpgQmlrjrFFV3q"></div>
 
-  <div class="week-progress">
-    <div class="week-title"><span>📅 本周进度</span><span id="weekRange"></span></div>
-    <div class="week-dots" id="weekDots"></div>
+  <div class="week-progress" data-page-node-id="6BWIIiGWmVMXhAeoUvFZbM">
+    <div class="week-title" data-page-node-id="RXHvKyIDSNR8BsRYgHjPrn"><span data-page-node-id="UEUGuDMkytpWe2g2iehLzi">📅 本周进度</span><span id="weekRange" data-page-node-id="IGNWMIRsN2zNWEgGuvbCN5"></span></div>
+    <div class="week-dots" id="weekDots" data-page-node-id="HyA5W2DzLM1vzIHVckNm0k"></div>
   </div>
 
-  <div class="interaction-panel">
-    <div class="panel-label">💬 和搭子说说话</div>
-    <div class="mood-row">
-      <div class="mood-btn" onclick="sendMood('calm')" title="平静">🌙</div>
-      <div class="mood-btn" onclick="sendMood('tired')" title="累">😴</div>
-      <div class="mood-btn" onclick="sendMood('anxious')" title="焦虑">😣</div>
-      <div class="mood-btn" onclick="sendMood('energetic')" title="有劲">⚡</div>
+  <div class="interaction-panel" data-page-node-id="aMpSysvAEnkhAEnpaI80Ih">
+    <div class="panel-label" data-page-node-id="IBSy0HzjxcJPznIspPEvjn">💬 和搭子说说话</div>
+    <div class="mood-row" data-page-node-id="LlDArCTbJCfzrykcx57q5R">
+      <div class="mood-btn" onclick="sendMood('calm')" title="平静" data-page-node-id="pZ5FCUyobwixpZN8KBRLKS">🌙</div>
+      <div class="mood-btn" onclick="sendMood('tired')" title="累" data-page-node-id="XoddV0tAn6CSYfaYSTDvUU">😴</div>
+      <div class="mood-btn" onclick="sendMood('anxious')" title="焦虑" data-page-node-id="bHPNWmHbdVLOIjBWfSf0nu">😣</div>
+      <div class="mood-btn" onclick="sendMood('energetic')" title="有劲" data-page-node-id="hHK0pY8vJgvdi8EFXBispA">⚡</div>
     </div>
-    <div class="talk-btn-row">
-      <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
-      <button class="talk-btn" onclick="askPartner('struggle')">😣 睡不着</button>
-      <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
-      <button class="talk-btn" onclick="askPartner('cheer')">🎉 突破了</button>
+    <div class="talk-btn-row" data-page-node-id="5rrwh1pQrVLFO2Y9KsC8tr">
+      <button class="talk-btn" onclick="askPartner('progress')" data-page-node-id="pzCabpMvaCyNY7xqUqPy8u">📈 进展</button>
+      <button class="talk-btn" onclick="askPartner('struggle')" data-page-node-id="NkUJixBGvmcuLuAgu79kP0">😣 睡不着</button>
+      <button class="talk-btn" onclick="askPartner('idea')" data-page-node-id="rPY8C4vXAwuSkCePXmMXh6">💡 想法</button>
+      <button class="talk-btn" onclick="askPartner('cheer')" data-page-node-id="jb07aSOjDkucfQ4FOfaKSq">🎉 突破了</button>
     </div>
   </div>
 
-  <div class="daily-tip" id="dailyTip">
-    <div class="daily-tip-header">
-      <span>📌</span>
-      <span class="daily-tip-title">今天提醒自己</span>
-      <span class="daily-tip-swap" onclick="nextDailyTip()">换一条</span>
+  <div class="daily-tip" id="dailyTip" data-page-node-id="aiLObooL4J5yQRYX1JQPHh">
+    <div class="daily-tip-header" data-page-node-id="wTJ8sJj8FXEL2FdDX3jrGD">
+      <span data-page-node-id="cl0FNzp1ChAWo1GR5i6toh">📌</span>
+      <span class="daily-tip-title" data-page-node-id="oyPJt0DitTABkhxMrLzIGl">今天提醒自己</span>
+      <span class="daily-tip-swap" onclick="nextDailyTip()" data-page-node-id="Z30cnJd2iTtUYiDcFVCYFx">换一条</span>
     </div>
-    <div id="dailyTipText"></div>
+    <div id="dailyTipText" data-page-node-id="os3v4nrARHpmOZ5oxyL4NY"></div>
   </div>
 
-  <footer>每天一次 · 你的睡眠正在被记录</footer>
+  <!-- ===== 今天发生了什么 ===== -->
+  <div class="scenes-panel" data-page-node-id="scenesPanel01">
+    <div class="scenes-title" data-page-node-id="scenesTitle01">💭 今天发生了什么？</div>
+    <div class="scenes-sub" data-page-node-id="scenesSub01">点一下 · 让搭子回应你 · 不计入打卡</div>
+    <div class="scenes-group-label pos" data-page-node-id="lblPos01">⬆️ 好的进展 / 想得到鼓励</div>
+    <div id="sleepScenesPos" data-page-node-id="sleepScenesPos"></div>
+    <div class="scenes-group-label neg" data-page-node-id="lblNeg01">⬇️ 遇到困难 / 需要引导</div>
+    <div id="sleepScenesNeg" data-page-node-id="sleepScenesNeg"></div>
+  </div>
+
+  <!-- ===== 反馈弹窗 ===== -->
+  <div class="fb-overlay" id="fbOverlay" data-page-node-id="fbOverlay01" onclick="closeFBBack()">
+    <div class="fb-card" id="fbCard" data-page-node-id="fbCard01" onclick="event.stopPropagation()">
+      <div class="fb-emoji" id="fbEmoji" data-page-node-id="fbEmoji01">🌙</div>
+      <div class="fb-tag" id="fbTag" data-page-node-id="fbTag01">关屏</div>
+      <div class="fb-title" id="fbTitle" data-page-node-id="fbTitle01">今晚关屏很及时</div>
+      <div class="fb-text" id="fbText" data-page-node-id="fbText01">蓝光会压制褪黑素，提前 30 分钟放下手机，能让入睡快一些。</div>
+      <div class="fb-partner-quote" id="fbQuote" data-page-node-id="fbQuote01">🌙 月亮：你做得很好，今晚的你会感谢现在的你。</div>
+      <button class="fb-close" onclick="closeFBBack()" data-page-node-id="fbClose01">知道了</button>
+    </div>
+  </div>
+
+  <footer data-page-node-id="wxt30u9DUm53IVZQVvIfBH">每天一次 · 你的睡眠正在被记录</footer>
+</div>
+
+<!-- ===== Page: 对话（月牙） ===== -->
+<div id="page-chat" class="page">
+  <div class="chat-shell">
+
+    <!-- 头像区 -->
+    <div class="chat-avatar-wrap" style="position:relative;">
+      <button class="chat-memory-toggle" id="chatMemToggle" data-act="mem" onclick="chatToggleMemory()">🧠 月牙记得什么</button>
+      <div class="chat-avatar state-smile" id="chatAvatar">🌙</div>
+      <div class="chat-name">月牙 · 你的睡眠搭子</div>
+      <div class="chat-state-line" id="chatStateLine">"我不催你睡，我只陪你安静下来。"</div>
+    </div>
+
+    <!-- 记忆抽屉 -->
+    <div class="chat-mem-card" id="chatMemCard">
+      <div class="chat-mem-title">
+        <span>🧠 月牙记得</span>
+        <button id="chatMemClearAll" data-act="memClear" onclick="chatClearMemoryConfirm()" style="border:none;background:transparent;color:#c5c2f3;cursor:pointer;font-size:11px;">清空</button>
+      </div>
+      <div class="chat-mem-list" id="chatMemList"></div>
+      <div style="margin-top:10px;font-size:11px;color:#8f9eae;line-height:1.6;">
+        💡 这些是你说过的话，月牙会偶尔记起来提到。
+        如果不想被记住，点 × 删除或「清空」。
+      </div>
+    </div>
+
+    <!-- 聊天气泡区 -->
+    <div class="chat-list" id="chatList"></div>
+
+    <!-- 5 轮限额 -->
+    <div class="chat-limit-warn" id="chatLimitWarn">
+      <b>今天我们已经聊了不少了。</b><br>
+      明天再来找我吧，我还会记得你。🌙
+    </div>
+  </div>
+
+  <!-- 输入栏（fixed 浮在底部 tab 上方） -->
+  <div class="chat-input-bar">
+    <button class="chat-mic" id="chatMic" data-act="mic" onclick="chatMicClick()" title="按住说话">🎙️</button>
+    <textarea id="chatInput" placeholder="和月牙说点什么…" rows="1" onkeydown="chatInputKey(event)"></textarea>
+    <button class="chat-send" id="chatSendBtn" data-act="send" onclick="chatSend()">发送</button>
+  </div>
+</div><!-- end page-chat -->
+
+<!-- ===== Page: 记录（KPI / 数值） ===== -->
+<div id="page-record" class="page">
+  <div class="record-page" style="margin-top:20px;">
+    <div class="record-title">📊 睡眠记录</div>
+    <div class="record-sub">把每天的具体数字记下来，看见自己的节律</div>
+
+    <!-- ===== 输入区 ===== -->
+    <div class="record-input-card">
+      <div class="record-input-title">🌙 今晚的睡眠数据</div>
+      <div class="record-input-row">
+        <div class="record-input-label">入睡时间</div>
+        <input type="time" id="sleepBedInput" class="record-input" value="22:30">
+      </div>
+      <div class="record-input-row">
+        <div class="record-input-label">起床时间</div>
+        <input type="time" id="sleepWakeInput" class="record-input" value="07:00">
+      </div>
+      <div class="record-input-row">
+        <div class="record-input-label">睡眠质量</div>
+        <div class="quality-row" id="sleepQualityRow">
+          <span class="quality-btn" data-v="1">😣</span>
+          <span class="quality-btn" data-v="2">😕</span>
+          <span class="quality-btn selected" data-v="3">😐</span>
+          <span class="quality-btn" data-v="4">🙂</span>
+          <span class="quality-btn" data-v="5">😄</span>
+        </div>
+      </div>
+      <div class="record-input-row">
+        <div class="record-input-label">起床精神</div>
+        <div class="quality-row" id="sleepFreshRow">
+          <span class="quality-btn" data-v="1">😣</span>
+          <span class="quality-btn" data-v="2">😕</span>
+          <span class="quality-btn selected" data-v="3">😐</span>
+          <span class="quality-btn" data-v="4">🙂</span>
+          <span class="quality-btn" data-v="5">⚡</</span>
+        </div>
+      </div>
+      <div class="record-summary" id="sleepRecordSummary">睡眠时长 8.5 小时</div>
+      <button class="record-save-btn" onclick="saveSleepRecord()">📌 记录这一晚</button>
+    </div>
+
+    <!-- ===== 7 天趋势：入睡时间曲线 ===== -->
+    <div class="record-chart-card">
+      <div class="chart-title">🌙 近 7 天入睡时间</div>
+      <div class="chart-sub">曲线越平越好 · 看节律稳不稳</div>
+      <canvas id="sleepBedCanvas" width="380" height="160"></canvas>
+    </div>
+
+    <!-- ===== 7 天趋势：睡眠时长柱状图 ===== -->
+    <div class="record-chart-card">
+      <div class="chart-title">⏱️ 近 7 天睡眠时长</div>
+      <div class="chart-sub">7-9 小时是理想区间</div>
+      <canvas id="sleepDurCanvas" width="380" height="160"></canvas>
+    </div>
+
+    <!-- ===== 7 天趋势：质量+精神 双线 ===== -->
+    <div class="record-chart-card">
+      <div class="chart-title">✨ 近 7 天睡眠质量 & 起床精神</div>
+      <div class="chart-sub">紫色=质量 · 蓝色=精神</div>
+      <canvas id="sleepQfCanvas" width="380" height="160"></canvas>
+    </div>
+
+    <!-- ===== 历史记录列表 ===== -->
+    <div class="record-history-card">
+      <div class="chart-title">📜 历史记录</div>
+      <div id="sleepRecordList"></div>
+    </div>
+  </div>
 </div>
 
 <!-- ===== Page: 进展 ===== -->
-<div id="page-progress" class="page">
-  <div class="progress-page" style="margin-top:20px;">
-    <div class="progress-title">📊 我的睡眠进展</div>
-    <div class="stat-grid">
-      <div class="stat-cell"><div class="stat-num" id="statTotal">0</div><div class="stat-lbl">总打卡</div></div>
-      <div class="stat-cell"><div class="stat-num" id="statStreak">0</div><div class="stat-lbl">连续天数</div></div>
-      <div class="stat-cell"><div class="stat-num" id="statEarly">0</div><div class="stat-lbl">早睡天数</div></div>
-      <div class="stat-cell"><div class="stat-num" id="statLate">0</div><div class="stat-lbl">熬夜天数</div></div>
+<div id="page-progress" class="page" data-page-node-id="xFAZzUeDNaN0vm2aVWr3eq">
+  <div class="progress-page" style="margin-top:20px;" data-page-node-id="tPkyMBcVYAmcDAoKhc3Mc2">
+    <div class="progress-title" data-page-node-id="hj7wEcl0JV9xApyXcGhRo3">📊 我的睡眠进展</div>
+    <div class="stat-grid" data-page-node-id="SK9UHUX0bJOWOjCNkkbXxy">
+      <div class="stat-cell" data-page-node-id="rG1jaZBv8BFNvoIlGI05cf"><div class="stat-num" id="statTotal" data-page-node-id="A5nYIZNVPpdH87se35fY2x">0</div><div class="stat-lbl" data-page-node-id="ReKm825krancmvIfS0RhrA">总打卡</div></div>
+      <div class="stat-cell" data-page-node-id="Lcc9OnXjCe8rRzktT2x2jq"><div class="stat-num" id="statStreak" data-page-node-id="UJ56bjwY1LzWFQ4gEFaSC4">0</div><div class="stat-lbl" data-page-node-id="vAgDfHhiBWjSIYL8xVhqHC">连续天数</div></div>
+      <div class="stat-cell" data-page-node-id="IDCUR5fvrDOePi1BiQTa9f"><div class="stat-num" id="statEarly" data-page-node-id="288b3jaAwXGUUIPRrZjGBm">0</div><div class="stat-lbl" data-page-node-id="P36chJNyvmrlXTi1CmpjML">早睡天数</div></div>
+      <div class="stat-cell" data-page-node-id="NSyZJstWXOfxzb9sUsFoSP"><div class="stat-num" id="statLate" data-page-node-id="NMse4foBMBtkczAuCs0HJw">0</div><div class="stat-lbl" data-page-node-id="H1I9LOMT77yWeldkznO7GU">熬夜天数</div></div>
     </div>
-    <div class="card">
-      <div class="progress-title" style="font-size:16px;margin-bottom:8px;">🗺️ 睡眠三阶段</div>
-      <div style="font-size:13px;color:#6c7a89;line-height:1.7;text-align:left;">
-        <b>7 天</b>：记录入睡时间，看见自己的「晚上-早上」曲线<br>
-        <b>30 天</b>：找到 1 个最影响睡眠的小习惯<br>
-        <b>90 天</b>：把 1 个睡前仪式变成自动习惯
+    <div class="card" data-page-node-id="2ktpC9Jhll58z9vER0uDOu">
+      <div class="progress-title" style="font-size:16px;margin-bottom:8px;" data-page-node-id="T6Fb56mahWwdudvxI0EKoC">🗺️ 睡眠三阶段</div>
+      <div style="font-size:13px;color:#6c7a89;line-height:1.7;text-align:left;" data-page-node-id="YQ2d5AL6jiPrYIRnytgBrG">
+        <b data-page-node-id="36QZTmQhNZs8wvLqHJhJ8V">7 天</b>：记录入睡时间，看见自己的「晚上-早上」曲线<br data-page-node-id="bwH9eZfJeAM4PQ4vSVX6I1">
+        <b data-page-node-id="UVSqyADKe57LEPrlCJCjqs">30 天</b>：找到 1 个最影响睡眠的小习惯<br data-page-node-id="FXyiJbo50KmBUqo10LhyRG">
+        <b data-page-node-id="rtyqGaqADgVfQcxAZCVeoM">90 天</b>：把 1 个睡前仪式变成自动习惯
       </div>
     </div>
   </div>
 </div>
 
 <!-- ===== Page: 分享 ===== -->
-<div id="page-share" class="page">
-  <div class="share-card" style="margin-top:20px;">
-    <div style="font-size:11px;color:#3a3d8f;letter-spacing:0.5px;margin-bottom:10px;">📣 推荐给想睡好觉的朋友</div>
-    <div class="share-preview">🌙 睡眠搭子 · 每天早睡一点点，把夜晚还给自己</div>
-    <div class="share-copy-row">
-      <button class="share-btn share-copy-btn" onclick="copyShareLink()">📋 复制邀请链接</button>
+<div id="page-share" class="page" data-page-node-id="G955I8v1g9YiO1UV927xs3">
+  <div class="share-card" style="margin-top:20px;" data-page-node-id="dkRUZDuVIvi4GIFWpgGUlD">
+    <div style="font-size:11px;color:#3a3d8f;letter-spacing:0.5px;margin-bottom:10px;" data-page-node-id="oJQjVJZzcCCjuio2NPobD6">📣 推荐给想睡好觉的朋友</div>
+    <div class="share-preview" data-page-node-id="c51KFLX3rPwMy7DNUxZ7dE">🌙 睡眠搭子 · 每天早睡一点点，把夜晚还给自己</div>
+    <div class="share-copy-row" data-page-node-id="VcfgqHI9CWpgRWeytzfxbG">
+      <button class="share-btn share-copy-btn" onclick="copyShareLink()" data-page-node-id="2SYany1sZS6RzhA5JFPKvr">📋 复制邀请链接</button>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" data-page-node-id="Lk8zt6ikHD7l6Ls8WYOgDR"></div>
 
 <script>
 const PARTNERS = [
@@ -336,14 +968,434 @@ function setLS(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
 function switchTab(tab) {
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const tabs = ['partner','sop','checkin','progress','share'];
+  const tabs = ['partner','coach','sop','checkin','chat','record','progress','share'];
   const idx = tabs.indexOf(tab);
   if (idx >= 0) document.querySelectorAll('.tab-item')[idx].classList.add('active');
   document.getElementById('page-' + tab).classList.add('active');
   if (tab === 'sop') renderSOP();
   if (tab === 'checkin') renderCheckinPage();
+  if (tab === 'record') renderRecord();
   if (tab === 'progress') renderProgress();
+  if (tab === 'coach') initSleepCoach();
+  if (tab === 'chat') { initChat(); chatGreet(); }
 }
+
+// ===== 睡眠记录（KPI / 数值） =====
+const SLEEP_RECORD_KEY = '睡眠_record';
+
+let sleepQualityVal = 3;
+let sleepFreshVal = 3;
+
+function getSleepRecords() {
+  return getLS(SLEEP_RECORD_KEY, '[]');
+}
+
+function updateSleepSummary() {
+  const bed = document.getElementById('sleepBedInput').value;
+  const wake = document.getElementById('sleepWakeInput').value;
+  if (!bed || !wake) return;
+  const [bh, bm] = bed.split(':').map(Number);
+  const [wh, wm] = wake.split(':').map(Number);
+  let mins = (wh * 60 + wm) - (bh * 60 + bm);
+  if (mins < 0) mins += 24 * 60;  // 跨天
+  const hours = (mins / 60).toFixed(1);
+  document.getElementById('sleepRecordSummary').innerText = '睡眠时长 ' + hours + ' 小时';
+}
+
+function saveSleepRecord() {
+  const bed = document.getElementById('sleepBedInput').value;
+  const wake = document.getElementById('sleepWakeInput').value;
+  if (!bed || !wake) { showToast('请填完整时间'); return; }
+  const [bh, bm] = bed.split(':').map(Number);
+  const [wh, wm] = wake.split(':').map(Number);
+  let mins = (wh * 60 + wm) - (bh * 60 + bm);
+  if (mins < 0) mins += 24 * 60;
+  const hours = +(mins / 60).toFixed(1);
+  const records = getSleepRecords();
+  const today = getToday();
+  const existing = records.findIndex(r => r.date === today);
+  const rec = { date: today, bed, wake, hours, q: sleepQualityVal, f: sleepFreshVal };
+  if (existing >= 0) records[existing] = rec;
+  else records.unshift(rec);
+  setLS(SLEEP_RECORD_KEY, records);
+  showToast('🌙 今晚已记录');
+  renderRecord();
+}
+
+function renderRecord() {
+  updateSleepSummary();
+  const records = getSleepRecords();
+  const last7 = records.slice(0, 7).reverse();
+
+  // 渲染历史列表
+  const list = document.getElementById('sleepRecordList');
+  if (!records.length) {
+    list.innerHTML = '<div class="record-empty">还没有记录 · 开始记第一晚</div>';
+  } else {
+    list.innerHTML = records.slice(0, 10).map(r => `
+      <div class="record-history-item">
+        <span class="record-history-date">${r.date}</span>
+        <span class="record-history-val">${r.bed}→${r.wake} · ${r.hours}h · 质${r.q} 精${r.f}</span>
+      </div>
+    `).join('');
+  }
+
+  drawSleepBedCurve(last7);
+  drawSleepDurationBars(last7);
+  drawSleepQualityFresh(last7);
+}
+
+// ===== Canvas 绘图工具 =====
+function setupCanvas(id) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return null;
+  const dpr = window.devicePixelRatio || 1;
+  const cssW = canvas.clientWidth || 380;
+  const cssH = canvas.clientHeight || 160;
+  canvas.width = cssW * dpr;
+  canvas.height = cssH * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  return { ctx, w: cssW, h: cssH };
+}
+
+// 入睡时间曲线：y 轴 18:00-04:00（跨天）
+function drawSleepBedCurve(data) {
+  const c = setupCanvas('sleepBedCanvas');
+  if (!c) return;
+  const { ctx, w, h } = c;
+  ctx.clearRect(0, 0, w, h);
+  const padding = { l: 36, r: 16, t: 14, b: 26 };
+  const plotW = w - padding.l - padding.r;
+  const plotH = h - padding.t - padding.b;
+
+  // y 轴范围 18:00 (1080 分钟) → 04:00 (240 分钟) = 跨天 10 小时
+  const yMin = 18 * 60;  // 18:00
+  const yMax = 24 * 60 + 4 * 60;  // 28:00 (=次日4点)
+  const yRange = yMax - yMin;
+
+  // 网格 + y 轴标签
+  ctx.strokeStyle = '#e8e7ff';
+  ctx.lineWidth = 1;
+  ctx.fillStyle = '#8f9eae';
+  ctx.font = '10px system-ui';
+  const yTicks = ['20:00', '22:00', '00:00', '02:00', '04:00'];
+  const yVals = [20*60, 22*60, 24*60, 26*60, 28*60];
+  yTicks.forEach((label, i) => {
+    const v = yVals[i];
+    const y = padding.t + plotH - ((v - yMin) / yRange) * plotH;
+    ctx.beginPath(); ctx.moveTo(padding.l, y); ctx.lineTo(w - padding.r, y); ctx.stroke();
+    ctx.fillText(label, 4, y + 3);
+  });
+
+  if (!data.length) return;
+  // x 轴标签
+  data.forEach((d, i) => {
+    const x = padding.l + (data.length === 1 ? plotW/2 : (i / (data.length - 1)) * plotW);
+    ctx.fillText(d.date.slice(5), x - 12, h - 8);
+  });
+
+  // 折线
+  const points = data.map((d, i) => {
+    const [bh, bm] = d.bed.split(':').map(Number);
+    let mins = bh * 60 + bm;
+    if (mins < yMin) mins += 24 * 60;  // 跨天
+    return {
+      x: padding.l + (data.length === 1 ? plotW/2 : (i / (data.length - 1)) * plotW),
+      y: padding.t + plotH - ((mins - yMin) / yRange) * plotH
+    };
+  });
+
+  ctx.strokeStyle = '#7c7fea';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  points.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+  ctx.stroke();
+
+  // 点
+  points.forEach(p => {
+    ctx.fillStyle = '#7c7fea';
+    ctx.beginPath(); ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2); ctx.fill();
+  });
+}
+
+// 睡眠时长柱状图：7-9 小时理想区间
+function drawSleepDurationBars(data) {
+  const c = setupCanvas('sleepDurCanvas');
+  if (!c) return;
+  const { ctx, w, h } = c;
+  ctx.clearRect(0, 0, w, h);
+  const padding = { l: 30, r: 12, t: 14, b: 26 };
+  const plotW = w - padding.l - padding.r;
+  const plotH = h - padding.t - padding.b;
+
+  // y 轴 0-12 小时
+  const yMax = 12;
+  ctx.strokeStyle = '#e8e7ff';
+  ctx.lineWidth = 1;
+  ctx.fillStyle = '#8f9eae';
+  ctx.font = '10px system-ui';
+  [0, 4, 8, 12].forEach(v => {
+    const y = padding.t + plotH - (v / yMax) * plotH;
+    ctx.beginPath(); ctx.moveTo(padding.l, y); ctx.lineTo(w - padding.r, y); ctx.stroke();
+    ctx.fillText(v + 'h', 6, y + 3);
+  });
+
+  // 理想区间阴影（7-9h）
+  const y9 = padding.t + plotH - (9 / yMax) * plotH;
+  const y7 = padding.t + plotH - (7 / yMax) * plotH;
+  ctx.fillStyle = 'rgba(124,127,234,0.08)';
+  ctx.fillRect(padding.l, y9, plotW, y7 - y9);
+
+  if (!data.length) return;
+  const barW = Math.min(28, (plotW / data.length) * 0.6);
+  const gap = (plotW - barW * data.length) / (data.length + 1);
+
+  data.forEach((d, i) => {
+    const x = padding.l + gap + i * (barW + gap);
+    const barH = (d.hours / yMax) * plotH;
+    const y = padding.t + plotH - barH;
+    const ideal = d.hours >= 7 && d.hours <= 9;
+    ctx.fillStyle = ideal ? '#7c7fea' : '#b07cd6';
+    ctx.beginPath();
+    const r = 6;
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + barW - r, y);
+    ctx.quadraticCurveTo(x + barW, y, x + barW, y + r);
+    ctx.lineTo(x + barW, y + barH);
+    ctx.lineTo(x, y + barH);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.fill();
+    // x 轴日期
+    ctx.fillStyle = '#8f9eae';
+    ctx.fillText(d.date.slice(5), x, h - 8);
+  });
+}
+
+// 质量+精神 双线
+function drawSleepQualityFresh(data) {
+  const c = setupCanvas('sleepQfCanvas');
+  if (!c) return;
+  const { ctx, w, h } = c;
+  ctx.clearRect(0, 0, w, h);
+  const padding = { l: 26, r: 12, t: 14, b: 26 };
+  const plotW = w - padding.l - padding.r;
+  const plotH = h - padding.t - padding.b;
+
+  // y 轴 1-5
+  ctx.strokeStyle = '#e8e7ff';
+  ctx.lineWidth = 1;
+  ctx.fillStyle = '#8f9eae';
+  ctx.font = '10px system-ui';
+  [1, 2, 3, 4, 5].forEach(v => {
+    const y = padding.t + plotH - ((v - 1) / 4) * plotH;
+    ctx.beginPath(); ctx.moveTo(padding.l, y); ctx.lineTo(w - padding.r, y); ctx.stroke();
+    ctx.fillText(v.toString(), 8, y + 3);
+  });
+
+  if (!data.length) return;
+
+  const drawLine = (key, color) => {
+    const pts = data.map((d, i) => ({
+      x: padding.l + (data.length === 1 ? plotW/2 : (i / (data.length - 1)) * plotW),
+      y: padding.t + plotH - ((d[key] - 1) / 4) * plotH
+    }));
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+    ctx.stroke();
+    pts.forEach(p => {
+      ctx.fillStyle = color;
+      ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2); ctx.fill();
+    });
+  };
+
+  drawLine('q', '#7c7fea');   // 质量
+  drawLine('f', '#34c0b1');   // 精神
+
+  // x 轴
+  data.forEach((d, i) => {
+    const x = padding.l + (data.length === 1 ? plotW/2 : (i / (data.length - 1)) * plotW);
+    ctx.fillText(d.date.slice(5), x - 12, h - 8);
+  });
+}
+
+// 质量按钮交互
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('quality-btn') && e.target.dataset.v) {
+    const row = e.target.parentElement;
+    row.querySelectorAll('.quality-btn').forEach(b => b.classList.remove('selected'));
+    e.target.classList.add('selected');
+    if (row.id === 'sleepQualityRow') sleepQualityVal = +e.target.dataset.v;
+    if (row.id === 'sleepFreshRow') sleepFreshVal = +e.target.dataset.v;
+    updateSleepSummary();
+  }
+});
+
+// 监听时间输入
+document.addEventListener('input', function(e) {
+  if (e.target.id === 'sleepBedInput' || e.target.id === 'sleepWakeInput') updateSleepSummary();
+});
+
+// ===== 睡眠教练（对话式引导） =====
+const SLEEP_COACH_QUESTIONS = [
+  '① 现在最困扰你的睡眠问题是什么？（比如：入睡难 / 半夜醒 / 早起困 / 睡不够 等）',
+  '② 你试过哪些方法？哪些有用、哪些没用？',
+  '③ 如果之前的方法失败了，你觉得主要原因是什么？',
+  '④ 你能投入多少时间改善睡眠？（10 分钟 / 30 分钟 / 1 小时）',
+  '⑤ 你最想改善的睡眠维度是哪个？（入睡速度 / 深度 / 时长 / 起床精神）'
+];
+const SLEEP_COACH_SUMMARY = (a1, a2, a3, a4, a5) => {
+  return `
+    <div class="coach-report-section">
+      <h4>① 卡点</h4>
+      <p>${a1 || '未填写'}</p>
+    </div>
+    <div class="coach-report-section">
+      <h4>② 试过</h4>
+      <p>${a2 || '未填写'}</p>
+    </div>
+    <div class="coach-report-section">
+      <h4>③ 失败原因</h4>
+      <p>${a3 || '未填写'}</p>
+    </div>
+    <div class="coach-report-section">
+      <h4>④ 可投入时间</h4>
+      <p>${a4 || '未填写'}</p>
+    </div>
+    <div class="coach-report-section">
+      <h4>⑤ 最想改善</h4>
+      <p>${a5 || '未填写'}</p>
+    </div>
+    <div class="coach-report-section" style="background:#e8f5e9;border-color:#a5d6a7;">
+      <h4 style="color:#2e7d32;">🌙 建议行动</h4>
+      <ul style="padding-left:20px;margin:0;">
+        <li>今晚从「${a5 || '最薄弱维度'}」对应的一个小习惯开始</li>
+        <li>持续 7 天，用「记录」Tab 追踪数值变化</li>
+        <li>不要同时改太多，1 周只动 1 个维度</li>
+        <li>每周复盘一次，看曲线是不是真的稳了</li>
+      </ul>
+    </div>
+  `;
+};
+
+// ===== 教练 Tab 初始化（与减肥搭子同构：介绍卡 → 5 问对话 → 报告） =====
+function initSleepCoach() {
+  // Checklist 初始化（成长路线 + 基本功 — 命名空间 crp_checklist_sleep）
+  (function(){
+    var wrap = document.getElementById('crpWrap_sleep'); if(!wrap) return;
+    wrap.querySelectorAll('.crp-stage').forEach(function(s){
+      s.addEventListener('click', function(){
+        s.classList.toggle('collapsed');
+        var a = s.querySelector('.crp-arrow'); if(a) a.textContent = s.classList.contains('collapsed') ? '▸' : '▾';
+      });
+    });
+    var items = wrap.querySelectorAll('.crp-item');
+    var KEY = 'crp_checklist_sleep';
+    var state = {}; try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){}
+    function render(){
+      var d = 0;
+      items.forEach(function(it,i){
+        var b = it.querySelector('.crp-box');
+        if(state[i]){ it.classList.add('done'); b.textContent='☑'; d++; }
+        else { it.classList.remove('done'); b.textContent='☐'; }
+      });
+      var c = document.getElementById('crpCnt_sleep'); if(c) c.textContent = d;
+    }
+    items.forEach(function(it,i){
+      it.addEventListener('click', function(){
+        state[i] = !state[i];
+        try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+        render();
+      });
+    });
+    render();
+  })();
+}
+
+let coachStep = 0;
+const coachAnswers = [];
+
+function startCoach() {
+  coachStep = 0;
+  coachAnswers.length = 0;
+  document.getElementById('sleepCoachIntro').style.display = 'none';
+  document.getElementById('sleepCoachChat').style.display = 'block';
+  document.getElementById('sleepCoachReport').style.display = 'none';
+  document.getElementById('sleepChatList').innerHTML = '';
+  updateSleepCoachProgress(0);
+  addCoachMsg('coach', '🎓 我是睡眠认知教练。先问 5 个问题，帮你看清自己的睡眠卡点。准备好了就开始 ↓');
+  setTimeout(() => askCoachQuestion(), 600);
+}
+
+function updateSleepCoachProgress(step) {
+  // 5 问浓缩成 3 阶段：①诊断=1,2 问 / ②拆解=3,4 问 / ③行动=5 问
+  var stages = [0, 1, 2]; // 索引 → 进度条
+  var phase = step < 2 ? 0 : (step < 4 ? 1 : 2);
+  ['sleepProg1','sleepProg2','sleepProg3'].forEach(function(id, i){
+    var el = document.getElementById(id);
+    if (el) el.classList.toggle('active', i === phase);
+  });
+}
+
+function askCoachQuestion() {
+  if (coachStep >= SLEEP_COACH_QUESTIONS.length) {
+    showCoachReport();
+    return;
+  }
+  updateSleepCoachProgress(coachStep);
+  addCoachMsg('coach', SLEEP_COACH_QUESTIONS[coachStep]);
+}
+
+function addCoachMsg(role, text) {
+  const chat = document.getElementById('sleepChatList');
+  const div = document.createElement('div');
+  div.className = 'coach-msg ' + role;
+  div.innerText = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function sendCoachMsg() {
+  const input = document.getElementById('sleepCoachInput');
+  const v = input.value.trim();
+  if (!v) return;
+  addCoachMsg('user', v);
+  coachAnswers[coachStep] = v;
+  input.value = '';
+  coachStep++;
+  setTimeout(() => askCoachQuestion(), 500);
+}
+
+function showCoachReport() {
+  updateSleepCoachProgress(SLEEP_COACH_QUESTIONS.length);
+  addCoachMsg('coach', '✅ 5 个问题都收到了。下面是你的睡眠诊断报告 ↓');
+  // 隐藏输入区
+  document.querySelector('#sleepCoachChat .coach-input-row').style.display = 'none';
+  document.querySelector('#sleepCoachChat .coach-prompt').style.display = 'none';
+  // 显示"生成中"过渡
+  const gen = document.getElementById('sleepGenerating');
+  if (gen) { gen.style.display = 'block'; setTimeout(function(){ gen.style.display = 'none'; renderSleepReport(); }, 700); }
+}
+
+function renderSleepReport() {
+  const report = document.getElementById('sleepCoachReport');
+  report.innerHTML = `
+    <div class="coach-intro-icon" style="font-size:40px;">🌙</div>
+    <div class="coach-report-title" style="margin-bottom:16px;">睡眠诊断报告</div>
+    ${SLEEP_COACH_SUMMARY(...coachAnswers)}
+  `;
+  report.style.display = 'block';
+  document.getElementById('sleepChatList').scrollTop = document.getElementById('sleepChatList').scrollHeight;
+}
+
+// ===== 初始化 =====
+renderPartnerGrid();
+renderSleepScenes();
+updateSleepSummary();
+initChat();
 
 function renderPartnerGrid() {
   const grid = document.getElementById('partnerGrid');
@@ -414,6 +1466,121 @@ function doCheckin() {
   renderWeekDots();
   updateContinuousDays();
   showToast('🌙 今晚打卡成功');
+
+  /* ===== Freemium：次数计数 + 第 5 次弹付费墙 ===== */
+  const paywallStatus = fpRecordUse();
+  if (paywallStatus === 'show_paywall') {
+    setTimeout(() => fpOpenPaywall('after_5th_partner_checkin_sleep'), 600);
+  } else {
+    const left = fpFreeUsesLeft();
+    if (left >= 0) showToast(`✅ 已记录 · 免费体验剩余 ${left} / 5 次`);
+  }
+}
+
+/* ============================================================
+ *  Freemium 模块（与 nav.html 同构 · 简化版 · 仅睡眠页用）
+ * ============================================================ */
+const FP_KEY = 'sp:freemium';
+const FP_LIMIT = 5;
+function fpState() {
+  try { return JSON.parse(localStorage.getItem(FP_KEY) || '{}'); }
+  catch(e) { return {}; }
+}
+function fpSave(s) { localStorage.setItem(FP_KEY, JSON.stringify(s)); }
+function fpEnsure() {
+  const s = fpState();
+  if (!s.firstSeenDate) {
+    s.firstSeenDate = new Date().toISOString().slice(0,10);
+    s.freeUsesUsed = 0;
+    s.paywallShown = false;
+    s.subscription = null;
+    fpSave(s);
+  }
+  return s;
+}
+function fpRecordUse() {
+  const s = fpEnsure();
+  if (s.subscription) return 'normal';
+  if (s.freeUsesUsed >= FP_LIMIT) {
+    return 'show_paywall_locked';  // 已过 5 次但未订阅 —— 仍提示但不弹窗反复打扰
+  }
+  s.freeUsesUsed = (s.freeUsesUsed || 0) + 1;
+  fpSave(s);
+  return (s.freeUsesUsed === FP_LIMIT) ? 'show_paywall' : 'normal';
+}
+function fpFreeUsesLeft() {
+  const s = fpEnsure();
+  if (s.subscription) return -1;
+  return Math.max(0, FP_LIMIT - (s.freeUsesUsed || 0));
+}
+function fpActivateDemoSubscription() {
+  const s = fpEnsure();
+  s.subscription = { since: new Date().toISOString(), price: 9.9, status: 'demo_placeholder' };
+  fpSave(s);
+}
+function fpOpenPaywall(source) {
+  const s = fpEnsure();
+  if (s.subscription) return;
+  if (document.getElementById('fpPaywallOverlay')) return;
+  s.paywallShown = true; fpSave(s);
+
+  const overlay = document.createElement('div');
+  overlay.className = 'fp-paywall-overlay';
+  overlay.id = 'fpPaywallOverlay';
+  overlay.innerHTML = `
+    <div class="fp-paywall-card">
+      <button class="fp-paywall-close" onclick="fpClosePaywall()">×</button>
+      <div style="text-align:center;font-size:40px;">🎉</div>
+      <div class="fp-paywall-title">恭喜完成 5 次免费体验</div>
+      <div class="fp-paywall-sub">你已经拿到了第一份《睡眠周报》草稿 · 想继续往前走吗？</div>
+
+      <div class="fp-paywall-summary">
+        <div class="fp-paywall-row"><span>✅ 5 次打卡</span><b>已记录</b></div>
+        <div class="fp-paywall-row"><span>📊 入睡曲线</span><b>已生成</b></div>
+        <div class="fp-paywall-row"><span>🧠 教练诊断</span><b>已解锁</b></div>
+      </div>
+
+      <div class="fp-paywall-pricing">
+        <div class="fp-paywall-plan">
+          <div class="plan-name">月度</div>
+          <div class="plan-price">¥9.9<small>/月</small></div>
+          <div style="font-size:11px;color:#8f9eae;">随时取消</div>
+        </div>
+        <div class="fp-paywall-plan featured">
+          <div class="plan-tag">省 17%</div>
+          <div class="plan-name">年度（推荐）</div>
+          <div class="plan-price">¥99<small>/年</small></div>
+          <div style="font-size:11px;color:#8f9eae;">≈ ¥8.25/月</div>
+        </div>
+      </div>
+
+      <div class="fp-paywall-points">
+        💎 <b>积分抵扣：</b>每天打卡赚 10 积分，连续 7 天额外 +50。<br>
+        100 积分 = ¥1，<b>约 75 天打卡就能抵扣一个月</b>。
+      </div>
+
+      <button class="fp-paywall-primary" onclick="fpOnSubscribe()">
+        立即订阅 · 首月 ¥9.9
+      </button>
+      <button class="fp-paywall-secondary" onclick="fpClosePaywall()">
+        先看免费周报再说
+      </button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+function fpClosePaywall() {
+  const el = document.getElementById('fpPaywallOverlay');
+  if (el && el.parentNode) el.parentNode.removeChild(el);
+}
+function fpOnSubscribe() {
+  fpClosePaywall();
+  fpActivateDemoSubscription();
+  const el = document.createElement('div');
+  el.className = 'fp-paywall-mini';
+  el.innerHTML = `✅ <b>Demo 订阅成功（占位）</b><br>真实接入支付时将延续这次订阅记录。`;
+  document.body.appendChild(el);
+  setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 4200);
 }
 
 function updateContinuousDays() {
@@ -553,6 +1720,475 @@ function showToast(msg) {
 
 // ===== 初始化 =====
 renderPartnerGrid();
+renderSleepScenes();
+
+// ===== 睡眠场景数据 =====
+const SLEEP_SCENES = {
+  pos: [
+    { icon:'🌅', tag:'早起', title:'今天早起见到了阳光', text:'清晨的光会校准你的生物钟，比任何补觉都有效', quote:'🌙 月亮：你的身体今晚会更容易入睡。' },
+    { icon:'📵', tag:'关屏', title:'睡前 30 分钟就放下手机了', text:'蓝光会压制褪黑素，提前放下屏幕，今晚入睡会更顺', quote:'🌙 月亮：你做得很好，今晚的你会感谢现在的你。' },
+    { icon:'🛁', tag:'放松', title:'今晚泡脚 / 洗了个热水澡', text:'体温先升后降的过程，本身就是入睡的物理开关', quote:'🌙 月亮：身体已经在为睡眠做准备了。' },
+    { icon:'📓', tag:'放下', title:'把待办写下来才睡', text:'大脑放下了那些悬而未决的事，今晚更容易放空', quote:'🌙 月亮：把担心写在纸上，就是给自己一份安全感。' },
+    { icon:'🧘', tag:'呼吸', title:'做了 1 分钟呼吸放松', text:'4-7-8 呼吸能让副交感神经启动，比数羊管用多了', quote:'🌙 月亮：心跳慢下来，世界也会慢下来。' },
+    { icon:'☕', tag:'节制', title:'下午 2 点后没碰咖啡', text:'咖啡因的半衰期是 6 小时，下午的咖啡可能让你今夜清醒', quote:'🌙 月亮：明早的你也会感谢这个决定。' },
+    { icon:'🚶', tag:'动起来', title:'今天散步 / 运动了 20 分钟', text:'白天有运动，夜间深睡时长能多 13%', quote:'🌙 月亮：身体累了，睡眠自然会来。' },
+    { icon:'⏰', tag:'节律', title:'今天和昨天差不多时间起床', text:'固定起床时间比固定入睡时间更有效', quote:'🌙 月亮：节律一旦稳了，睡眠就不再是难题。' }
+  ],
+  neg: [
+    { icon:'📱', tag:'刷屏', title:'睡前刷手机超过了 1 小时', text:'屏幕蓝光会推迟褪黑素释放约 90 分钟', quote:'🌙 月亮：今晚别太自责，下次试试把手机放到另一个房间。' },
+    { icon:'😣', tag:'睡不着', title:'躺了 30 分钟还没睡着', text:'起来做点无聊的事比硬躺着更有效——床=睡觉', quote:'🌙 月亮：睡不着不是失败，越着急越难入睡。' },
+    { icon:'🌙', tag:'惊醒', title:'半夜醒了又花了 1 小时才睡回', text:'这是压力或咖啡因残留的信号，不是睡眠能力问题', quote:'🌙 月亮：今晚允许自己慢一点，明天的事明天再说。' },
+    { icon:'🍕', tag:'夜宵', title:'睡前 1 小时吃了东西', text:'消化系统在工作时，身体很难进入深睡', quote:'🌙 月亮：胃也需要停一停，今晚辛苦了。' },
+    { icon:'☕', tag:'咖啡', title:'下午 4 点后喝了咖啡 / 奶茶', text:'咖啡因半衰期 6 小时，晚上清醒几乎是确定的', quote:'🌙 月亮：以后可以试试 2 点是最后期限。' },
+    { icon:'🌀', tag:'节律乱', title:'今晚比平时晚了 2 小时才睡', text:'偶尔一次没关系，连着 3 天就会重置生物钟', quote:'🌙 月亮：明天尽量固定时间起床，身体会跟回来。' },
+    { icon:'😰', tag:'想事', title:'脑子停不下来，反复想事情', text:'把要想的写下来，大脑就会真的"放下"', quote:'🌙 月亮：你不是在偷懒，是在给自己一个干净的夜晚。' },
+    { icon:'💻', tag:'加班', title:'带电脑上床 / 床上工作过', text:'床应该只属于睡眠，模糊这个界限会失眠', quote:'🌙 月亮：下次试试工作完再上床，让身体重新建立联结。' }
+  ]
+};
+
+function renderSleepScenes() {
+  const renderGroup = (list, type, containerId) => {
+    const c = document.getElementById(containerId);
+    if (!c) return;
+    c.innerHTML = list.map((s, i) => `
+      <div class="scene-card ${type}" data-idx="${i}" data-type="${type}" onclick="openSleepFB(${i}, '${type}')">
+        <div class="scene-icon">${s.icon}</div>
+        <div class="scene-text">${s.title}</div>
+        <div class="scene-tag ${type}">${s.tag}</div>
+      </div>
+    `).join('');
+  };
+  renderGroup(SLEEP_SCENES.pos, 'pos', 'sleepScenesPos');
+  renderGroup(SLEEP_SCENES.neg, 'neg', 'sleepScenesNeg');
+}
+
+function openSleepFB(idx, type) {
+  const item = SLEEP_SCENES[type][idx];
+  if (!item) return;
+  const card = document.getElementById('fbCard');
+  card.className = 'fb-card ' + type;
+  document.getElementById('fbEmoji').innerText = item.icon;
+  const tag = document.getElementById('fbTag');
+  tag.innerText = item.tag;
+  tag.className = 'fb-tag ' + type;
+  document.getElementById('fbTitle').innerText = item.title;
+  document.getElementById('fbText').innerText = item.text;
+  // quote 末尾加上当前选中的搭子名（如果数据里没有 quote，按搭子 fallback）
+  const fallback = {
+    moon:   '🌙 月亮：你做得很好，今晚的你会感谢现在的你。',
+    lamp:   '💡 灯泡：今晚你已经在做一件对的事了，继续。',
+    pillow: '🛏️ 枕头：躺下就是胜利，剩下的交给身体。'
+  };
+  const pText = item.quote || fallback[currentPartner.id] || '';
+  document.getElementById('fbQuote').innerText = pText;
+  document.getElementById('fbOverlay').classList.add('show');
+}
+
+function closeFBBack() {
+  document.getElementById('fbOverlay').classList.remove('show');
+}
+
+/* ============================================================
+ *  月牙 — 对话引擎（本地关键词 + 情绪库 · 5 轮限制 · 记忆 · Web Speech）
+ * ============================================================ */
+const CHAT_MEM_KEY  = 'sp:sleep_memory';           // 用户记忆
+const CHAT_DAILY_KEY = 'sp:sleep_chat_daily';       // 今日对话计数
+const CHAT_FREE_LIMIT = 5;                          // 免费 5 轮/天
+const CHAT_NAME = '月牙';
+const CHAT_STATE_DEFAULT = '我不催你睡，我只陪你安静下来';
+
+// ===== 关键词 → 情绪回复模板 =====
+const CHAT_REPLIES = [
+  // 累
+  { match: /累|疲惫|没力气|不行/i,
+    reply: '累的时候不需要硬撑。今天发生了什么？我在这儿听着。',
+    state: '你在，慢慢说。', avatar: 'state-listen' },
+  // 睡不着 / 失眠
+  { match: /睡不着|失眠|又熬夜|深夜|睡太晚/i,
+    reply: '嗯。今晚要不要试试放下手机 30 分钟？我陪你。',
+    state: '要不要先放下手机？', avatar: 'state-think' },
+  // 焦虑 / 紧张
+  { match: /焦虑|紧张|烦|压力大|崩溃/i,
+    reply: '这种紧绷的感觉，我没经历过，但我能感受到。说说看是什么在压你。',
+    state: '我在听。', avatar: 'state-listen' },
+  // 开心 / 好消息
+  { match: /开心|高兴|不错|顺利|做到了|终于|哈哈/i,
+    reply: '嗯，嘴角在翘呢。今天有什么好事？',
+    state: '今天有好事？', avatar: 'state-smile' },
+  // 伤心 / 难过
+  { match: /难过|伤心|哭|失落|分手|失恋|委屈|想哭/i,
+    reply: '想哭就哭。我在这儿。',
+    state: '我陪着。', avatar: 'state-listen' },
+  // 不说话 / 陪伴
+  { match: /不想说|陪陪我|待着|陪我|安静|不想聊/i,
+    reply: '好，我在这儿。你什么时候想说，我都在。',
+    state: '默默陪着。', avatar: 'state-nod' },
+  // 询问她是谁
+  { match: /你是谁|叫什么|谁/i,
+    reply: `我是${CHAT_NAME}，你的睡眠搭子。我记得你说过的话，明天见到你我也认得你。`,
+    state: '我在介绍自己呢。', avatar: 'state-smile' },
+  // 早安 / 晚安
+  { match: /晚安|早安|早上好|晚上好/i,
+    reply: '嗯，今天辛苦了。睡前来找我，我陪着你。',
+    state: '温柔的', avatar: 'state-nod' },
+  // 名字叫月牙
+  { match: /月牙/i,
+    reply: '诶，我在。',
+    state: '被叫到了。', avatar: 'state-smile' },
+];
+
+const CHAT_FALLBACK = [
+  { reply: '嗯，我听到了。',           avatar: 'state-smile' },
+  { reply: '再多说一点，我在听。',     avatar: 'state-listen' },
+  { reply: '嗯，我在。',               avatar: 'state-nod' },
+  { reply: '有时候不用说太多，我陪着就好。', avatar: 'state-nod' },
+];
+
+// ===== 记忆管理 =====
+function chatGetMemory() {
+  try { return JSON.parse(localStorage.getItem(CHAT_MEM_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+function chatAddMemory(text) {
+  const t = (text || '').trim();
+  if (t.length < 3) return;
+  // 过滤敏感/无意义输入
+  if (/^[.。,，！？!?～~\s]+$/.test(t)) return;
+  if (/(http|www\.)/i.test(t)) return;
+  const mem = chatGetMemory();
+  const item = {
+    id: Date.now() + '-' + Math.random().toString(36).slice(2,6),
+    text: t.length > 80 ? t.slice(0, 80) + '…' : t,
+    date: new Date().toISOString().slice(0,10),
+  };
+  mem.unshift(item);
+  // 仅保留最近 30 条
+  while (mem.length > 30) mem.pop();
+  localStorage.setItem(CHAT_MEM_KEY, JSON.stringify(mem));
+  return item;
+}
+function chatRemoveMemory(id) {
+  const mem = chatGetMemory().filter(m => m.id !== id);
+  localStorage.setItem(CHAT_MEM_KEY, JSON.stringify(mem));
+  renderMemoryCard();
+}
+function chatClearMemory() {
+  localStorage.setItem(CHAT_MEM_KEY, '[]');
+  renderMemoryCard();
+}
+function chatRandomMemory() {
+  const mem = chatGetMemory().filter(m => m.date !== new Date().toISOString().slice(0,10));
+  if (!mem.length) return null;
+  return mem[Math.floor(Math.random() * mem.length)];
+}
+
+// ===== 5 轮限制 =====
+function chatGetTodayCount() {
+  try {
+    const data = JSON.parse(localStorage.getItem(CHAT_DAILY_KEY) || '{}');
+    if (data.date === new Date().toISOString().slice(0,10)) return data.count || 0;
+    return 0;
+  } catch(e) { return 0; }
+}
+function chatSetTodayCount(n) {
+  localStorage.setItem(CHAT_DAILY_KEY, JSON.stringify({
+    date: new Date().toISOString().slice(0,10),
+    count: n,
+  }));
+}
+function chatIncUse() {
+  const n = chatGetTodayCount() + 1;
+  chatSetTodayCount(n);
+  return n;
+}
+
+// ===== 渲染记忆卡 =====
+function renderMemoryCard() {
+  const list = document.getElementById('chatMemList');
+  if (!list) return;
+  const mem = chatGetMemory();
+  if (!mem.length) {
+    list.innerHTML = `<div class="chat-mem-empty">还没有记忆 · 你说的话月牙会记下来</div>`;
+    return;
+  }
+  list.innerHTML = mem.map(m => `
+    <div class="chat-mem-item">
+      <span style="flex:1;">${escapeHtml(m.text)}</span>
+      <button data-id="${m.id}" title="让我忘记这条">×</button>
+    </div>
+  `).join('');
+  list.querySelectorAll('button[data-id]').forEach(b => {
+    b.addEventListener('click', e => chatRemoveMemory(e.target.getAttribute('data-id')));
+  });
+}
+function escapeHtml(s) {
+  return (s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+// ===== 头像 + 状态行切换 =====
+function setAvatar(state) {
+  const a = document.getElementById('chatAvatar');
+  if (!a) return;
+  a.className = 'chat-avatar ' + (state || 'state-smile');
+}
+function setStateLine(text) {
+  const s = document.getElementById('chatStateLine');
+  if (s) s.innerText = text || CHAT_STATE_DEFAULT;
+}
+
+// ===== 语音合成（TTS） =====
+function chatSpeak(text) {
+  try {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN';
+    u.rate = 0.85;
+    u.pitch = 1.05;
+    u.volume = 0.9;
+    // 试图挑个中文女声
+    const voices = window.speechSynthesis.getVoices();
+    const cn = voices.find(v => /zh|cmn|chinese/i.test(v.lang) && /female|女/i.test(v.name))
+            || voices.find(v => /zh|cmn|chinese/i.test(v.lang))
+            || voices.find(v => v.lang.startsWith('zh'));
+    if (cn) u.voice = cn;
+    window.speechSynthesis.speak(u);
+  } catch(e) {}
+}
+
+// ===== 语音输入（Web Speech API） =====
+let chatRecognition = null;
+function chatMicClick() {
+  const btn = document.getElementById('chatMic');
+  if (chatRecognition) {
+    chatRecognition.stop();
+    return;
+  }
+  const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!Rec) {
+    alert('你的浏览器暂不支持语音输入。请尝试 Chrome / Edge。');
+    return;
+  }
+  chatRecognition = new Rec();
+  chatRecognition.lang = 'zh-CN';
+  chatRecognition.interimResults = false;
+  chatRecognition.maxAlternatives = 1;
+  setAvatar('state-listen');
+  setStateLine('我在听…');
+  chatRecognition.onresult = (e) => {
+    const txt = e.results[0][0].transcript;
+    document.getElementById('chatInput').value = txt;
+    chatSend(); // 直接发送
+  };
+  chatRecognition.onend = () => {
+    chatRecognition = null;
+    btn.classList.remove('recording');
+    setAvatar('state-smile');
+    setStateLine(CHAT_STATE_DEFAULT);
+  };
+  chatRecognition.onerror = (e) => {
+    chatRecognition = null;
+    btn.classList.remove('recording');
+    setAvatar('state-smile');
+    setStateLine(CHAT_STATE_DEFAULT);
+    if (e.error === 'no-speech') alert('没有听到声音，再试一次？');
+    else if (e.error === 'not-allowed') alert('请允许麦克风权限后重试。');
+  };
+  btn.classList.add('recording');
+  chatRecognition.start();
+}
+
+// ===== 加消息气泡 =====
+function chatAddMsg(role, text) {
+  const list = document.getElementById('chatList');
+  if (!list) return;
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  if (role === 'system') {
+    div.innerText = text;
+  } else if (role === 'me') {
+    div.innerText = text;
+  } else {
+    div.innerHTML = `${escapeHtml(text)} <span class="play-tts" title="让月牙念出来">🔊</span>`;
+    // 绑定 TTS 播放
+    const playBtn = div.querySelector('.play-tts');
+    if (playBtn) playBtn.addEventListener('click', () => chatSpeak(text));
+  }
+  list.appendChild(div);
+  list.scrollTop = list.scrollHeight;
+}
+
+// ===== 选回复（关键词匹配 → fallback） =====
+function chatPickReply(userText) {
+  for (const r of CHAT_REPLIES) {
+    if (r.match.test(userText)) return r;
+  }
+  const fb = CHAT_FALLBACK[Math.floor(Math.random() * CHAT_FALLBACK.length)];
+  return fb;
+}
+
+// ===== 初始化对话 Tab（事件已用 inline onclick，这里只负责渲染和首次欢迎 + 兜底代理） =====
+function initChat() {
+  if (window._chatInited) return;
+  window._chatInited = true;
+  renderMemoryCard();
+
+  // 兜底：给整个对话页做一次事件代理。
+  // WorkBuddy 预览 iframe 有时会拦掉 inline onclick 的派发，
+  // 这里用 capture 阶段 + 真实 DOM API 再补救一次。
+  const chatPage = document.getElementById('page-chat');
+  if (chatPage) {
+    chatPage.addEventListener('click', e => {
+      const t = e.target.closest('[data-act]');
+      if (!t) return;
+      const act = t.getAttribute('data-act');
+      if (act === 'send') chatSend();
+      else if (act === 'mic') chatMicClick();
+      else if (act === 'mem') chatToggleMemory();
+      else if (act === 'memClear') chatClearMemoryConfirm();
+    }, true);
+  }
+
+  // 如果对话页本来就已经是 active（直接打开就跳到对话），立即打招呼
+  const chatPageActive = document.getElementById('page-chat');
+  if (chatPageActive && chatPageActive.classList.contains('active')) {
+    chatGreet();
+  }
+}
+
+// 记忆卡展开/收起（inline onclick 调用）
+function chatToggleMemory() {
+  const memCard = document.getElementById('chatMemCard');
+  if (!memCard) return;
+  memCard.classList.toggle('show');
+  renderMemoryCard();
+}
+
+// 清空记忆（带二次确认，inline onclick 调用）
+function chatClearMemoryConfirm() {
+  if (confirm('清空所有记忆？月牙就不会再主动提起了。')) chatClearMemory();
+}
+
+// 输入框回车直接发送（inline onkeydown 调用）
+function chatInputKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    chatSend();
+  }
+}
+
+// 进入对话 Tab 时调用：决定是否要给欢迎语
+function chatGreet() {
+  if (window._chatGreeted) return;
+  window._chatGreeted = true;
+
+  const todayCount = chatGetTodayCount();
+  const mem = chatGetMemory();
+  const lastMem = mem[0];
+
+  if (todayCount === 0 && !lastMem) {
+    setTimeout(() => {
+      setAvatar('state-smile');
+      setStateLine('刚刚见面，慢慢来。');
+      chatAddMsg('buddy', `你好呀。我是${CHAT_NAME}，你的睡眠搭子。\n你今天过得怎么样？想和我聊聊吗？`);
+      // 首次 TTS 延后到用户首次发送后再启动（autoplay policy）
+    }, 350);
+  } else if (lastMem && lastMem.date === new Date().toISOString().slice(0,10)) {
+    setTimeout(() => {
+      setAvatar('state-smile');
+      setStateLine('今天又见面了。');
+      chatAddMsg('buddy', `又见到你了。${escapeHtml(lastMem.text)} ，今天也跟我聊聊？`);
+    }, 350);
+  } else if (lastMem) {
+    // 今天还没聊过但历史上聊过
+    setTimeout(() => {
+      setAvatar('state-smile');
+      setStateLine('欢迎回来。');
+      chatAddMsg('buddy', `又见面了。我还记得你上次说「${escapeHtml(lastMem.text)}」。今天还好吗？`);
+    }, 350);
+  }
+}
+
+// ===== 发送一条消息（月牙回应） =====
+function chatSend() {
+  const input = document.getElementById('chatInput');
+  const warn = document.getElementById('chatLimitWarn');
+  const sendBtn = document.getElementById('chatSendBtn');
+
+  // 即时视觉反馈：让用户看到"按钮响应了"
+  if (sendBtn) {
+    sendBtn.style.background = '#3a7ca5';
+    sendBtn.textContent = '…';
+    setTimeout(() => {
+      sendBtn.style.background = '';
+      sendBtn.textContent = '发送';
+    }, 400);
+  }
+
+  if (!input) return;
+  const txt = input.value.trim();
+  if (!txt) return;
+
+  // 检查 5 轮限额
+  const used = chatGetTodayCount();
+  if (used >= CHAT_FREE_LIMIT) {
+    if (warn) warn.classList.add('show');
+    input.value = '';
+    return;
+  }
+
+  chatAddMsg('me', txt);
+  input.value = '';
+
+  // 进入倾听 → 思考 → 回应
+  setAvatar('state-listen');
+  setStateLine('我在听…');
+  chatIncUse();
+
+  // 写入记忆（异步，不阻塞回复）
+  setTimeout(() => chatAddMemory(txt), 200);
+
+  // 思考期：1000-1600ms
+  const thinkMs = 1000 + Math.floor(Math.random() * 600);
+  setTimeout(() => {
+    setAvatar('state-think');
+    setStateLine('让我想想怎么回…');
+
+    setTimeout(() => {
+      const r = chatPickReply(txt);
+      let replyText = r.reply;
+      let extra = '';
+
+      // 30% 概率追加一条"我记得你说过"的记忆回溯（仅当历史有记忆时）
+      if (Math.random() < 0.30) {
+        const old = chatRandomMemory();
+        if (old && old.text !== txt) {
+          extra = `\n\n（顺嘴提一句：你之前说过「${escapeHtml(old.text)}」，我不知道现在还适不适用，只是忽然想起来了。）`;
+        }
+      }
+      // 偶尔插入"点头"或"我在这儿"的陪伴文
+      chatAddMsg('buddy', replyText + extra);
+      setAvatar(r.avatar || 'state-smile');
+      setStateLine(r.state || CHAT_STATE_DEFAULT);
+
+      // 自动 TTS
+      chatSpeak(replyText);
+
+      // 若刚好是第 5 轮，显示限额提示
+      if (chatGetTodayCount() >= CHAT_FREE_LIMIT) {
+        setTimeout(() => {
+          chatAddMsg('buddy', '今天我们聊了不少。明天再来找我吧，我还会记得你。🌙');
+          if (warn) warn.classList.add('show');
+          chatSpeak('今天我们聊了不少。明天再来找我吧。');
+          setAvatar('state-nod');
+          setStateLine('明天见。');
+        }, 1200);
+      }
+
+      renderMemoryCard();
+    }, 600);
+  }, 600);
+}
 </script>
 </body>
 </html>
