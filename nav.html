@@ -52,7 +52,7 @@
   /* ===========================================================
      [头部：标题 + 本月精选卡]
      =========================================================== */
-  .header { text-align: center; margin-bottom: var(--space-3); }
+  .header { text-align: center; margin-bottom: var(--space-3); padding-bottom: var(--space-3); border-bottom: 1px solid var(--line); }
   .header h1 {
     margin: 0 0 var(--space-1);
     font-size: 28px;
@@ -82,15 +82,18 @@
   .featured .meta { flex: 1; }
   .featured h3 { margin: 0 0 4px; font-size: 17px; }
   .featured p  { margin: 0; color: var(--ink-soft); font-size: 13px; }
+  /* —— "去看看 →" 改为文字链（弱化视觉，回归第一性：核心卡本身就是链接） —— */
   .featured .cta {
-    background: var(--accent);
-    color: #fff;
-    padding: 8px 16px;
-    border-radius: 999px;
+    background: transparent;
+    color: var(--ink-soft);
+    padding: 6px 0;
+    border-radius: 0;
     font-size: 13px;
     text-decoration: none;
     white-space: nowrap;
+    transition: color .2s;
   }
+  .featured:hover .cta { color: var(--accent); }
 
   /* ===========================================================
      [状态条] —— 上次访问 / 今日打卡
@@ -299,6 +302,20 @@
   .badge.preview { background: #f3f4f6; color: var(--ink-soft);
                     border: 1px dashed #c4c8d2; }
 
+  /* —— "最新"角标：贴在卡片右上角 —— */
+  .corner-new {
+    position: absolute;
+    top: 10px; right: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--brand);
+    color: #fff;
+    letter-spacing: .3px;
+    z-index: 1;
+  }
+
   /* —— preview 卡片：禁用 hover 提升 + 半透明，提示不可点击 —— */
   .card.preview {
     cursor: not-allowed;
@@ -336,6 +353,35 @@
   .meta .stats span strong { color: var(--ink); }
 
   /* ===========================================================
+     [右下角"今天休息一下"浮动按钮]
+     —— 不是搭子（搭子是"一起做事"，这个是"允许你不做事"），
+     —— 所以不进 PARTNERS_CONFIG、不占 Tab、不累计打卡、不记 localStorage。
+     =========================================================== */
+  .rest-btn {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition: all .2s ease;
+    z-index: 50;
+    /* —— 不抢眼：跟正文色调一致，仅在 hover 时浮起 —— */
+    opacity: .9;
+  }
+  .rest-btn:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    color: var(--ink);
+    border-color: #d4d7e0;
+  }
+
+  /* ===========================================================
      [响应式]
      =========================================================== */
   @media (max-width: 640px) {
@@ -343,6 +389,7 @@
     .header h1 { font-size: 22px; }
     .featured { flex-wrap: wrap; }
     .featured .cta { width: 100%; text-align: center; margin-top: var(--space-1); }
+    .rest-btn { bottom: 16px; right: 16px; padding: 9px 14px; font-size: 12px; }
   }
 </style>
 </head>
@@ -459,14 +506,16 @@ const PARTNERS_CONFIG = {
   /* ┌─────────────────────────────────────────────────────────┐
    * │ ④ 状态标签
    * │    这些标签会出现在卡片右下角 + 顶部"筛选器"chip
-   * │    想加新状态（比如"限时"、"热门"）：
+   * │    想加新状态：
    * │      在 status 数组里加 { key:'hot', label:'热门', className:'accent' }
    * │    className 可选：ok / warn / new / accent
+   * │
+   * │  ⚠️ 卡片右下角的状态标签已隐藏（只保留分类标签），
+   * │     这些 status 仅作为「筛选器」chip 用。
    * └─────────────────────────────────────────────────────────┘ */
   status: [
-    { key: 'optimized',  label: '已优化',  className: 'ok'    },
-    { key: 'optimizing', label: '优化中',  className: 'warn'  },
-    { key: 'new',        label: 'NEW',    className: 'new'   },
+    { key: 'optimized',  label: '⭐ 精选',  className: 'ok'    },
+    { key: 'new',        label: '最新',    className: 'new'   },
   ],
 
   /* ┌─────────────────────────────────────────────────────────┐
@@ -478,24 +527,40 @@ const PARTNERS_CONFIG = {
    * │      href     必填，可点击卡片跳转的 URL
    * │      desc     必填，卡片副标题描述
    * │      tags     可选，额外标签（数组），如 ['健康','财富']
-   * │      status   可选，对应 status 里的 key（可选其一）
-   * │      preview  可选，true 表示「敬请期待」卡片，点击不跳转
-   * │               等页面建好后，把这一行删掉就行
+   * │      status   可选，对应 status 里的 key（仅作为「筛选器」过滤用）
+   * │      preview  可选，true 表示"敬请期待"占位卡，点击不跳转
+   * │      hidden   可选，true 表示完全隐藏（不显示，等建好后删掉这一行）
    * │
    * │    🆕 加一个新搭子（拷贝下面一行再改字段）：
    * │      { tab:'daily', emoji:'🎨', title:'XX搭子', href:'xx.html',
    * │        desc:'一句话介绍', tags:['标签1'] },
    * │    🗑 删一个搭子：从数组里删掉对应的那一行
    * │    ✏️ 改卡片跳转：直接改 href
-   * │    🚧 把「敬请期待」改成可点击：删掉 preview:true 这一行
+   * │    🚧 把"敬请期待"改成可点击：删掉 preview:true 这一行
+   * │    🚫 临时隐藏某个搭子（页面还没建好）：加 hidden:true
    * └─────────────────────────────────────────────────────────┘ */
   partners: [
-    /* —— 日常打卡 —— */
+    /* —— 日常打卡 ——
+     *   排序原则：按"使用普遍性"排——睡眠 / 状态是几乎所有人每天都会面对的事；
+     *   减肥、陪读妈妈有较明确的人群画像。所以：
+     *     睡眠（精力基础）→ 减肥（健康习惯）→ 状态（情绪 / 能量）→ 陪读妈妈（家庭场景）
+     */
+    { tab:'daily',  emoji:'😴', title:'睡眠搭子',    href:'搭子-睡眠.html',
+      desc:'早睡 · 早起 · 规律 · 精力', tags:['精力'],
+      /* ⏳ 搭子-睡眠.html 还未创建 —— 当前先占位，等页面建好后删这一行注释即可正常使用 */ },
+
     { tab:'daily',  emoji:'🏃', title:'减肥搭子',    href:'index.html',
       desc:'饮食 · 体重 · 习惯', tags:['健康'] },
 
+    { tab:'daily',  emoji:'🌊', title:'状态搭子',    href:'搭子-状态.html',
+      desc:'觉察 · 平静 · 能量 · 专注', tags:['状态'],
+      /* ⏳ 搭子-状态.html 还未创建 —— 当前先占位（href 可先改为 '#'）；
+       *   页面建好后把 href 改回真实路径、删这条注释即可 */ },
+
     { tab:'daily',  emoji:'👩‍👧', title:'陪读妈妈',    href:'陪读妈妈搭子.html',
-      desc:'情绪 · 学业 · 沟通 · 平衡 · 成长', tags:['家庭'] },
+      /* 在 ['家庭'] 基础上加 '陪伴'：陪读的本质是"陪伴"这件动作；
+       *   '家庭'是场景；两者并列让搜索/筛选更精准（搜"陪伴"也能命中） */
+      desc:'心情 · 学业 · 沟通 · 平衡 · 成长', tags:['家庭', '陪伴'] },
 
     /* —— 职场成长 —— */
     { tab:'career', emoji:'🚀', title:'创业搭子',    href:'创业搭子.html',
@@ -512,7 +577,7 @@ const PARTNERS_CONFIG = {
     { tab:'career', emoji:'🌸', title:'关系力修炼搭子',   href:'搭子-关系力修复.html',
       desc:'倾听 · 表达 · 共情 · 边界 · 能量', tags:['软实力'] },
     { tab:'career', emoji:'⏳', title:'长期主义搭子', href:'搭子-长期主义.html',
-      desc:'把本人时间从短视任务搬到长线价值，KEEP / DELEGATE / SKILL / AUTOMATE / STOP 五张清单', tags:['时间经营'] },
+      desc:'看清时间花在哪 · 不做低价值的事 · 时间开始复利', tags:['时间经营'] },
 
     { tab:'career', emoji:'🤖', title:'AI 能力搭子',  href:'搭子-AI能力.html',
       desc:'工具 · Prompt · 自动化 · 学习 · 实践', tags:['AI'],
@@ -520,13 +585,16 @@ const PARTNERS_CONFIG = {
 
     /* —— 五大财富 SOP —— */
     { tab:'wealth', emoji:'💪', title:'身体财富',    href:'搭子-身体财富.html',
-      desc:'运动 · 睡眠 · 健康', tags:['财富'] },
+      desc:'运动 · 睡眠 · 健康', tags:['财富'],
+      hidden: true },
 
     { tab:'wealth', emoji:'💰', title:'财务财富',    href:'搭子-财务财富.html',
-      desc:'收入 · 储蓄 · 投资', tags:['财富'] },
+      desc:'收入 · 储蓄 · 投资', tags:['财富'],
+      hidden: true },
 
     { tab:'wealth', emoji:'🕊️', title:'精神财富',    href:'搭子-精神财富.html',
-      desc:'阅读 · 冥想 · 成长', tags:['财富'] },
+      desc:'阅读 · 冥想 · 成长', tags:['财富'],
+      hidden: true },
 
     { tab:'wealth', emoji:'❤️', title:'关系财富',    href:'搭子-关系财富.html',
       desc:'家人 · 朋友 · 连接', tags:['财富'] },
@@ -578,7 +646,8 @@ function renderFeatured() {
  * ============================================================ */
 function renderTabs() {
   const counts = PARTNERS_CONFIG.tabs.reduce((acc, t) => {
-    acc[t.key] = PARTNERS_CONFIG.partners.filter(p => p.tab === t.key).length;
+    /* —— 统计排除 hidden 的项，count 与卡片网格一致 —— */
+    acc[t.key] = PARTNERS_CONFIG.partners.filter(p => p.tab === t.key && !p.hidden).length;
     return acc;
   }, {});
 
@@ -614,6 +683,7 @@ function renderFilters() {
 function renderGrid() {
   const q    = state.q.trim().toLowerCase();
   const list = PARTNERS_CONFIG.partners.filter(p => {
+    if (p.hidden) return false;             // hidden:true 整体不渲染
     if (p.tab !== state.tab) return false;
     if (state.status && p.status !== state.status) return false;
     if (q) {
@@ -633,11 +703,12 @@ function renderGrid() {
   }
 
   $('grid').innerHTML = list.map(p => {
-    const sMeta = p.status ? statusMeta(p.status) : null;
+    /* —— 只显示分类标签，状态标签已移出卡片视觉（仅用于筛选） —— */
     const tagBadges = (p.tags || []).map(t =>
       `<span class="badge">${t}</span>`).join('');
-    const statusBadge = sMeta
-      ? `<span class="badge ${sMeta.className}">${sMeta.label}</span>`
+    /* —— "最新"角标：仅 p.status === 'new'，放在卡片右上角 —— */
+    const newCorner = p.status === 'new'
+      ? `<span class="corner-new">最新</span>`
       : '';
     /* —— preview 模式：不可点击，显示敬请期待角标 —— */
     const previewBadge = p.preview
@@ -648,12 +719,13 @@ function renderGrid() {
     const hrefAttr = p.preview ? '' : ` href="${p.href}"`;
     return `
       <${tag} class="card ${p.preview?'preview':''}"${hrefAttr}>
+        ${newCorner}
         <div class="top">
           <span class="emoji">${p.emoji}</span>
           <h3>${p.title}</h3>
         </div>
         <p class="desc">${p.desc}</p>
-        <div class="tags">${tagBadges}${statusBadge}${previewBadge}</div>
+        <div class="tags">${tagBadges}${previewBadge}</div>
       </${tag}>`;
   }).join('');
 }
@@ -663,13 +735,17 @@ function renderGrid() {
  *  底部统计
  * ============================================================ */
 function renderStats() {
-  const all     = PARTNERS_CONFIG.partners.length;
-  const tabs    = PARTNERS_CONFIG.tabs.length;
-  const updated = new Date().toISOString().slice(0,10);
+  /* —— 不展示可见的 5 财富 + 隐藏项，但 sidebar 计数还是显示原始 total（数字反映真实数量） —— */
+  const all = PARTNERS_CONFIG.partners.filter(p => !p.hidden).length;
+  const tabLabels = PARTNERS_CONFIG.tabs
+    .filter(t => t.key !== 'wealth' || PARTNERS_CONFIG.partners.some(p => p.tab === t.key && !p.hidden))
+    .map(t => t.label.replace(/^..\s?/, ''))   // 去掉 emoji
+    .join(' · ');
+  const updated = new Date().toISOString().slice(0,10).replace(/-/g, '.');
   $('stats').innerHTML = `
     <span><strong>${all}</strong> 搭子</span>
-    <span><strong>${tabs}</strong> 维度</span>
-    <span>更新于 ${updated}</span>
+    <span>${tabLabels}</span>
+    <span>内容更新 ${updated}</span>
   `;
 }
 
@@ -720,8 +796,7 @@ function renderStatusBar() {
   const checkinPill = isCheckin
     ? `<span class="pill"><span class="dot"></span>今日已打卡 · 累计 <strong style="color:var(--ink);margin:0 4px">${total}</strong> 次</span>`
     : `<span class="pill warn">
-         <span class="dot"></span>今日还没打卡
-         <button class="btn" id="checkinBtn">点我打卡 →</button>
+         <span class="dot"></span>今日还没打卡 · <button class="btn" id="checkinBtn">点我打卡 →</button>
        </span>`;
 
   $('statusBar').innerHTML = lastPill + checkinPill;
@@ -785,5 +860,13 @@ renderAll();
 console.log('[Slim Partner] 上次访问：', _prevVisit);
 console.log('[Slim Partner] 数据条数：', PARTNERS_CONFIG.partners.length);
 </script>
+
+<!-- =========================================================
+     [今天休息一下] —— 浮动独立入口，不进 PARTNERS_CONFIG
+     href 暂指向 "#" 占位；建好 "休息一下.html" 后改成 "休息一下.html"
+     这是邀请，不是要求，无追踪、无记录、无统计
+     ========================================================= -->
+<a class="rest-btn" href="#" data-page-node-id="restBtn">☕ 今天休息一下</a>
+
 </body>
 </html>
