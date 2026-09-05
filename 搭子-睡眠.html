@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="u7rWFfzFP8BYEIta0q6zJF">
+<head data-page-node-id="tRWAMPZGCiOu0juiRa5xTe">
+  <meta charset="UTF-8" data-page-node-id="5yeKw9QXLZpNQfIA61yzn5">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" data-page-node-id="Lf7SZz1VJTukJMWVbqQ7uV">
+  <title>🌙 睡眠搭子 · 早睡早起，看见自己的夜晚</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+    body {
+      background: linear-gradient(145deg, #f0effc 0%, #e3e0f8 100%);
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', Roboto, Helvetica, Arial, sans-serif;
+      padding: 16px 16px 90px;
+      color: #2b3a4a;
+    }
+
+    /* ===== Tab Bar ===== */
+    .tab-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: white;
+      display: flex; justify-content: space-around;
+      padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+      border-radius: 24px 24px 0 0;
+      z-index: 100;
+    }
+    .tab-item {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 3px; padding: 6px 12px; cursor: pointer;
+      border-radius: 16px; transition: all 0.2s;
+    }
+    .tab-item.active { background: #e8e7ff; }
+    .tab-item .tab-icon { font-size: 22px; }
+    .tab-item .tab-label { font-size: 10px; color: #8f9eae; font-weight: 500; }
+    .tab-item.active .tab-label { color: #3a3d8f; font-weight: 700; }
+
+    /* ===== Pages ===== */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ===== 打卡页面 ===== */
+    .partner-selector {
+      max-width: 400px; margin: 0 auto;
+      background: white; border-radius: 48px;
+      padding: 28px 20px 32px;
+      box-shadow: 0 20px 35px -12px rgba(139,105,20,0.15);
+    }
+    .selector-title {
+      font-size: 28px; font-weight: 700; text-align: center;
+      background: linear-gradient(135deg, #5e60ce, #3a3d8f);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin-bottom: 8px;
+    }
+    .selector-sub { text-align: center; color: #6c7a89; margin-bottom: 28px; font-size: 15px; line-height: 1.5; }
+    .partner-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+    .partner-card {
+      background: #fff; border-radius: 24px; padding: 16px 8px 14px; text-align: center;
+      cursor: pointer; box-shadow: 0 6px 14px rgba(0,0,0,0.03);
+      border: 1.5px solid #e9edf2; transition: all 0.2s;
+    }
+    .partner-card.selected { border-color: #5e60ce; background: #e8e7ff; transform: scale(0.98); }
+    .partner-emoji { font-size: 36px; margin-bottom: 8px; }
+    .partner-name { font-weight: 700; font-size: 15px; margin-bottom: 6px; color: #3a3d8f; }
+    .partner-desc { font-size: 12px; color: #6c7a89; line-height: 1.4; }
+    .confirm-btn {
+      background: linear-gradient(135deg, #5e60ce, #3a3d8f);
+      color: white; border: none;
+      width: 100%; padding: 16px; border-radius: 60px;
+      font-size: 18px; font-weight: 600; cursor: pointer;
+    }
+    .confirm-btn:active { background: #6b4f0e; transform: scale(0.97); }
+
+    .card {
+      max-width: 420px; margin: 0 auto;
+      background: white; border-radius: 44px;
+      padding: 28px 24px 32px;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+      margin-bottom: 20px; text-align: center;
+    }
+    .partner-badge {
+      display: inline-block; background: #e8e7ff; padding: 6px 16px;
+      border-radius: 40px; font-size: 14px; margin-bottom: 20px; color: #3a3d8f;
+    }
+    .question { font-size: 22px; font-weight: 600; margin-bottom: 12px; color: #2b3a4a; line-height: 1.4; }
+    .question-sub { font-size: 13px; color: #8f9eae; margin-bottom: 24px; }
+    .checkin-btn {
+      width: 160px; height: 160px;
+      background: linear-gradient(145deg, #5e60ce, #3a3d8f);
+      border-radius: 100%; margin: 0 auto 18px;
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+      color: white; cursor: pointer;
+      box-shadow: 0 20px 30px -8px rgba(139,105,20,0.4);
+      transition: transform 0.15s;
+    }
+    .checkin-btn:active { transform: scale(0.96); }
+    .checkin-status { font-size: 24px; font-weight: 800; }
+    .checkin-sub { font-size: 12px; opacity: 0.9; margin-top: 6px; }
+    .continuous { font-size: 44px; font-weight: 800; margin: 8px 0 4px; color: #5e60ce; }
+    .continuous-label { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
+    .week-progress { background: white; border-radius: 36px; padding: 18px 20px; margin-bottom: 20px; max-width: 420px; margin-left: auto; margin-right: auto; box-shadow: 0 6px 18px rgba(0,0,0,0.04); }
+    .week-title { font-weight: 600; margin-bottom: 16px; display: flex; justify-content: space-between; }
+    .week-dots { display: flex; justify-content: space-between; gap: 6px; }
+    .day-item { flex: 1; text-align: center; }
+    .day-name { font-size: 12px; color: #8f9eae; margin-bottom: 6px; }
+    .dot { width: 38px; height: 38px; background: #e8e7ff; border-radius: 100%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 16px; transition: all 0.2s; }
+    .dot.checked { background: linear-gradient(135deg,#5e60ce,#3a3d8f); color: white; }
+
+    /* ===== 打卡 4 标签 =====
+       🍀 长线价值  ⚡ 短视驱动  🛑 已 STOP  🧩 已 SKILL */
+    .tag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 420px; margin: 0 auto 16px; }
+    .tag-btn {
+      padding: 14px 10px; border-radius: 18px;
+      background: white; border: 1.5px solid #e9edf2; cursor: pointer;
+      font-size: 14px; font-weight: 600; color: #6c7a89;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      transition: all 0.18s;
+    }
+    .tag-btn:active { transform: scale(0.97); }
+    .tag-btn .tag-emoji { font-size: 26px; }
+    .tag-btn.selected { transform: scale(0.97); }
+    .tag-btn[data-tag="long"].selected { background: linear-gradient(135deg,#e8f5e9,#c8e6c9); border-color: #66bb6a; color: #2e7d32; }
+    .tag-btn[data-tag="short"].selected { background: linear-gradient(135deg,#fff3e0,#ffe0b2); border-color: #ffa726; color: #e65100; }
+    .tag-btn[data-tag="stop"].selected { background: linear-gradient(135deg,#fce4ec,#f8bbd0); border-color: #ec407a; color: #ad1457; }
+    .tag-btn[data-tag="skill"].selected { background: linear-gradient(135deg,#e3f2fd,#90caf9); border-color: #42a5f5; color: #1565c0; }
+
+    /* ===== 搭子消息气泡 ===== */
+    .chat-area { max-width: 420px; margin: 0 auto 20px; }
+    .msg-bubble-wrap { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 12px; }
+    .msg-avatar { font-size: 32px; flex-shrink: 0; }
+    .msg-bubble {
+      background: white; border-radius: 18px 18px 18px 4px;
+      padding: 12px 16px; max-width: 75%; font-size: 15px;
+      line-height: 1.5; color: #2b3a4a;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      animation: bubbleIn 0.3s ease;
+    }
+    .msg-bubble.ai { border-radius: 18px 18px 4px 18px; background: #e8e7ff; }
+    @keyframes bubbleIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .typing-indicator { display: flex; gap: 4px; padding: 4px 0; }
+    .typing-indicator span { width: 6px; height: 6px; background: #b0bec5; border-radius: 50%; animation: bounce 1.2s infinite; }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%,80%,100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1.2); opacity: 1; } }
+
+    /* ===== 搭子交互按钮 ===== */
+    .interaction-panel { max-width: 420px; margin: 0 auto 20px; background: white; border-radius: 28px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .panel-label { font-size: 12px; color: #8f9eae; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
+    .mood-row { display: flex; justify-content: space-around; margin-bottom: 14px; }
+    .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; }
+    .mood-btn:hover, .mood-btn:active { background: #e8e7ff; transform: scale(1.15); }
+    .talk-btn-row { display: flex; gap: 8px; }
+    .talk-btn {
+      flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #e9edf2;
+      background: white; font-size: 14px; font-weight: 500; color: #3a3d8f;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .talk-btn:active { background: #e8e7ff; transform: scale(0.97); }
+
+    /* ===== 分享卡片入口 ===== */
+    .share-inline-card {
+      max-width: 420px; margin: 0 auto 20px;
+      background: linear-gradient(135deg, #e8e7ff, #e8f5e9);
+      border-radius: 24px; padding: 16px 20px;
+      border: 1px solid #5e60ce;
+    }
+    .share-inline-label { font-size: 11px; color: #3a3d8f; letter-spacing: 0.5px; margin-bottom: 10px; }
+    .share-inline-preview {
+      background: white; border-radius: 16px; padding: 14px 16px; margin-bottom: 12px;
+      font-size: 13px; color: #3a3d8f; display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .share-copy-row { display: flex; gap: 8px; }
+    .share-copy-btn, .share-link-btn {
+      flex: 1; padding: 10px; border-radius: 16px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      border: none; transition: all 0.15s;
+    }
+    .share-copy-btn { background: linear-gradient(135deg,#5e60ce,#3a3d8f); color: white; }
+    .share-copy-btn:active { background: #6b4f0e; transform: scale(0.97); }
+    .share-link-btn { background: white; color: #3a3d8f; border: 1.5px solid #5e60ce; }
+    .share-link-btn:active { transform: scale(0.97); }
+
+    footer { font-size: 12px; text-align: center; color: #8f9eae; margin-top: 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
+
+    /* ===== 自由时间页面（原 weight Tab） ===== */
+    .weight-page { max-width: 420px; margin: 0 auto; }
+    .weight-header { background: white; border-radius: 32px; padding: 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
+    .weight-title { font-size: 20px; font-weight: 700; color: #3a3d8f; margin-bottom: 4px; }
+    .weight-sub { font-size: 13px; color: #8f9eae; margin-bottom: 20px; }
+    .weight-input-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .weight-input { width: 120px; height: 52px; border-radius: 16px; border: 2px solid #f0e2bb; text-align: center; font-size: 24px; font-weight: 700; color: #3a3d8f; outline: none; background: #faf6ee; }
+    .weight-input:focus { border-color: #5e60ce; }
+    .weight-unit { font-size: 18px; color: #8f9eae; font-weight: 500; }
+    .weight-add-btn { padding: 12px 24px; background: linear-gradient(135deg,#5e60ce,#3a3d8f); color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .weight-add-btn:active { background: #6b4f0e; }
+    .weight-chart-card { background: white; border-radius: 32px; padding: 20px 16px 16px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .chart-title { font-size: 15px; font-weight: 700; color: #3a3d8f; margin-bottom: 4px; }
+    .chart-sub { font-size: 12px; color: #8f9eae; margin-bottom: 12px; }
+    #weightCanvas { width: 100%; border-radius: 12px; background: #fafcfe; }
+    .weight-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .wstat { background: #faf6ee; border-radius: 16px; padding: 12px 8px; text-align: center; }
+    .wstat-num { font-size: 20px; font-weight: 800; color: #3a3d8f; }
+    .wstat-label { font-size: 11px; color: #8f9eae; margin-top: 2px; }
+    .wstat.change-up { color: #66bb6a; }
+    .wstat.change-down { color: #e57373; }
+    .weight-records { background: white; border-radius: 32px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .records-title { font-size: 15px; font-weight: 700; color: #3a3d8f; margin-bottom: 14px; }
+    .record-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e8e7ff; }
+    .record-item:last-child { border-bottom: none; }
+    .record-date { font-size: 13px; color: #8f9eae; }
+    .record-val { font-size: 18px; font-weight: 700; color: #3a3d8f; }
+    .record-change { font-size: 12px; margin-left: 6px; }
+    .record-change.down { color: #66bb6a; }
+    .record-change.up { color: #e57373; }
+
+    /* ===== 自由时间自动计算卡 ===== */
+    .auto-calc-card {
+      max-width: 420px; margin: 0 auto 16px;
+      background: linear-gradient(135deg, #e8e7ff, #e8e7ff);
+      border-radius: 28px; padding: 20px;
+      box-shadow: 0 8px 20px rgba(139,105,20,0.10);
+    }
+    .auto-calc-title { font-size: 15px; font-weight: 700; color: #3a3d8f; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .calc-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed rgba(139,105,20,0.15); font-size: 13px; color: #6c7a89; }
+    .calc-row:last-child { border-bottom: none; }
+    .calc-val { font-weight: 700; color: #3a3d8f; }
+    .calc-val.neg { color: #e57373; }
+    .calc-total { font-size: 14px; font-weight: 800; color: #3a3d8f; border-top: 1.5px solid #5e60ce; padding-top: 10px; margin-top: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .calc-total-num { font-size: 22px; font-weight: 900; color: #5e60ce; }
+    .auto-calc-note { font-size: 11px; color: #8f9eae; margin-top: 10px; line-height: 1.6; }
+
+    /* ===== SOP 自检页面 ===== */
+    .sop-page { max-width: 420px; margin: 0 auto; }
+    .sop-header { background: white; border-radius: 32px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
+    .sop-title { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #5e60ce, #3a3d8f); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 4px; }
+    .sop-sub { font-size: 13px; color: #8f9eae; margin-bottom: 14px; }
+    .sop-score-row { display: flex; justify-content: center; gap: 24px; }
+    .sop-score { text-align: center; }
+    .sop-score-num { font-size: 28px; font-weight: 800; color: #3a3d8f; }
+    .sop-score-label { font-size: 11px; color: #8f9eae; }
+    .sop-progress-wrap { margin-top: 12px; display: flex; align-items: center; gap: 10px; }
+    .sop-progress-bg { flex: 1; height: 8px; background: #f0e2bb; border-radius: 10px; overflow: hidden; }
+    .sop-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #5e60ce, #3a3d8f); border-radius: 10px; transition: width 0.4s ease, background 0.4s; }
+    .sop-progress-text { font-size: 12px; font-weight: 600; color: #8f9eae; min-width: 40px; text-align: right; }
+    .sop-category-tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; }
+    .sop-cat-tab { padding: 7px 12px; border-radius: 18px; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; border: none; background: #e8e7ff; color: #6c7a89; transition: all 0.2s; flex-shrink: 0; }
+    .sop-cat-tab.active { background: linear-gradient(135deg, #5e60ce, #3a3d8f); color: white; }
+    .sop-game-card { background: white; border-radius: 24px; padding: 16px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); position: relative; overflow: hidden; }
+    .sop-cat-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; font-size: 12px; color: #8f9eae; }
+    .sop-cat-progress-bar { flex: 1; height: 4px; background: #e8e7ff; border-radius: 4px; overflow: hidden; }
+    .sop-cat-progress-fill { height: 100%; background: linear-gradient(90deg,#5e60ce,#3a3d8f); border-radius: 4px; transition: width 0.3s; }
+
+    /* 自检题卡（多选打分） */
+    .qa-question {
+      background: #faf6ee; border-radius: 14px; padding: 12px 14px; margin-bottom: 10px;
+      border: 1.5px solid #f0e2bb; transition: all 0.2s;
+    }
+    .qa-question.done-yes { background: #e8f5e9; border-color: #a5d6a7; }
+    .qa-question.done-no  { background: #fff3f3; border-color: #ffcdd2; }
+    .qa-question-text { font-size: 14px; color: #2b3a4a; line-height: 1.5; font-weight: 600; margin-bottom: 8px; }
+    .qa-question-options { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+    .qa-option {
+      font-size: 12.5px; color: #4a5560; line-height: 1.5; padding: 7px 10px;
+      background: white; border-radius: 10px; border: 1.5px solid #eceae4;
+    }
+    .qa-question-btns { display: flex; gap: 6px; }
+    .qa-check-btn {
+      flex: 1; padding: 7px 10px; border-radius: 10px; font-size: 12px;
+      font-weight: 600; cursor: pointer; border: 1.5px solid #eceae4; background: white; color: #8f9eae;
+      transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 4px;
+    }
+    .qa-check-btn:active { transform: scale(0.96); }
+    .qa-check-btn.yes-checked { background: #66bb6a; color: white; border-color: #66bb6a; }
+    .qa-check-btn.no-checked { background: #ef5350; color: white; border-color: #ef5350; }
+
+    .sop-tip { background: #fff9e6; border-radius: 16px; padding: 14px 16px; margin-bottom: 16px; border: 1px solid #ffe599; }
+    .sop-tip-title { font-size: 13px; font-weight: 700; color: #b8860b; margin-bottom: 6px; }
+    .sop-tip-item { font-size: 12px; color: #7a6a3a; margin-bottom: 3px; }
+
+    /* ===== 进展 ===== */
+    .milestone-card { background: white; border-radius: 24px; padding: 18px 20px; margin-bottom: 14px; box-shadow: 0 6px 18px rgba(0,0,0,0.04); }
+    .milestone-title { font-size: 15px; font-weight: 800; color: #3a3d8f; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .milestone-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed #f0e2bb; font-size: 13px; color: #6c7a89; }
+    .milestone-row:last-child { border-bottom: none; }
+    .milestone-num { font-size: 18px; font-weight: 800; color: #3a3d8f; }
+    .milestone-progress { flex: 1; height: 6px; background: #e8e7ff; border-radius: 6px; overflow: hidden; margin: 0 10px; }
+    .milestone-progress-fill { height: 100%; background: linear-gradient(90deg, #5e60ce, #3a3d8f); border-radius: 6px; transition: width 0.6s; }
+
+    .pnl-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .pnl-cell { background: #faf6ee; border-radius: 14px; padding: 12px 8px; text-align: center; }
+    .pnl-cell-num { font-size: 22px; font-weight: 800; color: #3a3d8f; }
+    .pnl-cell-lbl { font-size: 11px; color: #6c7a89; margin-top: 2px; }
+
+    /* ===== 路线页 stage ===== */
+    .stage-card { background: white; border-radius: 24px; padding: 18px 20px; margin-bottom: 14px; box-shadow: 0 6px 18px rgba(0,0,0,0.04); }
+    .stage-card-title { font-size: 15px; font-weight: 800; color: #3a3d8f; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .stage-tip { font-size: 11px; color: #8f9eae; margin-left: 6px; }
+    .stage-row { border-radius: 14px; padding: 12px 14px; margin-bottom: 8px; cursor: pointer; transition: transform 0.15s; }
+    .stage-row:active { transform: scale(0.98); }
+    .stage-head { font-weight: 700; font-size: 13px; }
+    .stage-arrow { float: right; color: #8f9eae; }
+    .stage-body { font-size: 13px; line-height: 1.7; margin-top: 6px; color: #4a5560; }
+    .stage-row.collapsed .stage-body { display: none; }
+
+    /* 我的原则 checkbox list */
+    .hr-card { background: white; border-radius: 24px; padding: 18px 20px; margin-bottom: 14px; box-shadow: 0 6px 18px rgba(0,0,0,0.04); }
+    .hr-title { font-size: 15px; font-weight: 800; color: #3a3d8f; margin-bottom: 8px; }
+    .hr-sub { font-size: 11px; color: #8f9eae; margin-bottom: 10px; }
+    .hr-item { font-size: 13px; color: #4a5560; line-height: 1.6; padding: 9px 10px; border-radius: 12px; cursor: pointer; transition: background 0.15s; }
+    .hr-item:hover { background: #faf6ee; }
+    .hr-item.done { color: #8f9eae; text-decoration: line-through; }
+    .hr-box { margin-right: 8px; font-weight: 700; }
+    .hr-cnt { color: #5e60ce; font-weight: 800; }
+
+    /* ===== Toast ===== */
+    .toast { position: fixed; bottom: 100px; left: 20px; right: 20px; background: rgba(58,46,8,0.92); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
+    .toast.show { opacity: 1; }
+
+    /* ===== QA 面板 ===== */
+    .qa-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+      display: none; align-items: flex-end; justify-content: center;
+      z-index: 400; padding: 0;
+    }
+    .qa-overlay.show { display: flex; }
+    .qa-panel {
+      background: white; border-radius: 32px 32px 0 0;
+      width: 100%; max-width: 420px; max-height: 82vh;
+      display: flex; flex-direction: column;
+      animation: slideUp 0.35s cubic-bezier(0.32,0.72,0,1);
+      overflow: hidden;
+    }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .qa-handle { width: 40px; height: 4px; background: #d0d8e0; border-radius: 4px; margin: 12px auto 0; flex-shrink: 0; }
+    .qa-header { padding: 16px 20px 10px; flex-shrink: 0; text-align: center; border-bottom: 1px solid #e8e7ff; }
+    .qa-title { font-size: 18px; font-weight: 700; color: #3a3d8f; }
+    .qa-sub { font-size: 12px; color: #8f9eae; margin-top: 4px; }
+    .qa-scroll { overflow-y: auto; padding: 12px 16px 20px; flex: 1; }
+    .qa-card { background: #faf6ee; border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; display: flex; align-items: center; gap: 10px; }
+    .qa-card:active { transform: scale(0.97); }
+    .qa-card.pos { border-color: #c8e6c9; background: #f1f8e9; }
+    .qa-card.neg { border-color: #ffcdd2; background: #fff5f5; }
+    .qa-card-icon { font-size: 24px; flex-shrink: 0; }
+    .qa-card-text { font-size: 14px; color: #3a4a5a; line-height: 1.4; }
+    .qa-card-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-left: auto; flex-shrink: 0; }
+    .qa-card-tag.pos { background: #66bb6a; color: white; }
+    .qa-card-tag.neg { background: #ef5350; color: white; }
+
+    /* ===== 反馈弹窗 ===== */
+    .fb-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; z-index: 500; padding: 20px; }
+    .fb-overlay.show { display: flex; }
+    .fb-card { background: white; border-radius: 32px; padding: 32px 24px; max-width: 340px; width: 100%; text-align: center; }
+    .fb-card.pos { border-top: 5px solid #66bb6a; animation: fbPop 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+    .fb-card.neg { border-top: 5px solid #ef5350; animation: fbShake 0.5s ease; }
+    @keyframes fbPop { from { transform: scale(0.5); opacity:0; } to { transform: scale(1); opacity:1; } }
+    @keyframes fbShake { 0%,100% { transform: translateX(0);} 20% { transform: translateX(-8px);} 40% { transform: translateX(8px);} 60% { transform: translateX(-6px);} 80% { transform: translateX(6px);} }
+    .fb-emoji { font-size: 64px; margin-bottom: 12px; }
+    .fb-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; border-radius: 20px; display: inline-block; padding: 2px 12px; }
+    .fb-label.pos { background: #e8f5e9; color: #2e7d32; }
+    .fb-label.neg { background: #fff3f3; color: #c62828; }
+    .fb-title { font-size: 20px; font-weight: 800; color: #3a3d8f; margin-bottom: 10px; }
+    .fb-text { font-size: 14px; color: #6c7a89; line-height: 1.7; margin-bottom: 16px; }
+    .fb-partner-quote { background: #faf6ee; border-radius: 12px; padding: 12px 16px; font-size: 14px; color: #3a4a5a; font-style: italic; margin-bottom: 20px; line-height: 1.6; text-align: left; }
+    .fb-partner-label { font-size: 11px; color: #8f9eae; margin-bottom: 6px; font-style: normal; font-weight: 600; }
+    .fb-btn { background: linear-gradient(135deg,#5e60ce,#3a3d8f); color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
+    .fb-btn:active { transform: scale(0.97); }
+  </style>
+</head>
+<body data-page-node-id="nRGAFaHbEloA7FfRXncM07">
+
+<!-- ===== Tab Bar ===== -->
+<div class="tab-bar" data-page-node-id="H4R83V96FfpxmGtTJpghIH">
+  <div class="tab-item active" onclick="switchTab('chat')" data-page-node-id="weSDmvkpXFHp0OHRJo9586">
+    <div class="tab-icon" data-page-node-id="A11K8Gm3WSBs93GDQ6FICA">⏳</div>
+    <div class="tab-label" data-page-node-id="wfPrNxiDopEc3aDLgONh7x">搭子</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('coach')" data-page-node-id="2Ry7lMSHgKbNDTMRJoPMz4">
+    <div class="tab-icon" data-page-node-id="hzsa7w0EfwaOF0FJnDXZj2">🗺️</div>
+    <div class="tab-label" data-page-node-id="2OxGAQx9baOuAIJzslQRu2">教练</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('sop')" data-page-node-id="tShqYczRLDictPekKhX6WY">
+    <div class="tab-icon" data-page-node-id="NHI1bSQy8omEyNaSBHieqM">🎯</div>
+    <div class="tab-label" data-page-node-id="3EAQ92lVxXzQSBLm2MXopX">自检</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('checkin')" data-page-node-id="Mt5HXzelx7ROEPHGzUw4p3">
+    <div class="tab-icon" data-page-node-id="Zy8tYNNbnp4sSic6EmYXC4">✅</div>
+    <div class="tab-label" data-page-node-id="1MWQ6HBATlH0lUgFxLqkPB">打卡</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('weight')" data-page-node-id="o8CIVVe4vCM2L2h6AwWQ1z">
+    <div class="tab-icon" data-page-node-id="qvXVYHU0OFfLRAoqGHaNcG">🕊️</div>
+    <div class="tab-label" data-page-node-id="NPCC9Q71TAnBYsAekiCWe7">自由时间</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('progress')" data-page-node-id="Bn9xX0TEWhvh8stHAcEz3l">
+    <div class="tab-icon" data-page-node-id="aQeImTXSAYIAVHvYkxN5xl">📊</div>
+    <div class="tab-label" data-page-node-id="GYN8ouLtQJJ5isqo0w0Fzx">进展</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('share')" data-page-node-id="CCgbhlW1VgaZnRvVZKeGF8">
+    <div class="tab-icon" data-page-node-id="9wJAFtNv6EEGXmUge8WO0A">📣</div>
+    <div class="tab-label" data-page-node-id="aV4pPuq04sGRsKkignPerD">分享</div>
+  </div>
+</div>
+
+<!-- ===== Page: 打卡 ===== -->
+<div id="page-checkin" class="page active" data-page-node-id="G15xQEWI2T3CLJ0xdagVto">
+
+  <!-- 搭子选择器 -->
+  <div id="partnerSelector" class="partner-selector" data-page-node-id="aFDSBJg1bKT3WkEmtQPVJr">
+    <div class="selector-title" data-page-node-id="4KpFfaAVDRBP0XzPSvHZk6">选个睡眠搭子</div>
+    <div class="selector-sub" data-page-node-id="qxA6qRezy3dAJeaCEI2hWs">沙漏 · 判官 · 投资人<br data-page-node-id="Hx2ptzkBYlRnj63eYLN9Hx">你的时间账本由谁陪你看</div>
+    <div class="partner-grid" id="partnerGrid">
+<div class="partner-card selected" id="pc-moon" onclick="selectPartner('moon')">
+  <div class="partner-emoji">🌙</div>
+  <div class="partner-name">月亮</div>
+  <div class="partner-desc">安静陪你入睡</div>
+</div>
+<div class="partner-card" id="pc-lamp" onclick="selectPartner('lamp')">
+  <div class="partner-emoji">💡</div>
+  <div class="partner-name">灯泡</div>
+  <div class="partner-desc">温和提醒</div>
+</div>
+<div class="partner-card" id="pc-pillow" onclick="selectPartner('pillow')">
+  <div class="partner-emoji">🛏️</div>
+  <div class="partner-name">枕头</div>
+  <div class="partner-desc">只关心你睡得好不好</div>
+</div>
+</div>
+    <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner()" data-page-node-id="qWxLTtLZKZJsMukpiPRFbF">✨ 开始今晚的 睡眠 搭子 ✨</button>
+  </div>
+
+  <!-- 打卡仪表盘 -->
+  <div id="dashboard" style="display:none;" data-page-node-id="vmmrSCo1JSP0oDaxGKRlme">
+    <div style="max-width:420px;margin:0 auto 8px;text-align:center;color:#8f9eae;font-size:12px;line-height:1.6;padding:0 8px;" data-page-node-id="pageIntro">每天 5 分钟，给自己一个交代 —— 看看今天的时间花在了哪类事上</div>
+    <div class="card" data-page-node-id="gj26ZU7jgxQVjyVnwwlORt">
+      <div id="currentPartnerBadge" class="partner-badge" data-page-node-id="M91UQVFV6LDzbKnRGW13sm">⏳ 沙漏</div>
+      <div class="question" id="todaysQ" data-page-node-id="COR3u30cXyyac3tLemI3xh">今天，你把时间花在哪一类上了？</div>
+      <div class="question-sub" id="todaysQSub" data-page-node-id="rFgXrvjZp6JmPT6NCkaE7p">先选今天的状态 · 可以复盘后再选</div>
+      <div class="tag-grid" id="tagGrid">
+<div class="tag-btn selected" data-tag="睡眠1" onclick="pickTag('睡眠1', this)"><span class="tag-emoji">🍃</span><span>21:30 前</span></div>
+<div class="tag-btn" data-tag="睡眠2" onclick="pickTag('睡眠2', this)"><span class="tag-emoji">🌙</span><span>22:30 前</span></div>
+<div class="tag-btn" data-tag="睡眠3" onclick="pickTag('睡眠3', this)"><span class="tag-emoji">🌃</span><span>00:00 前</span></div>
+<div class="tag-btn" data-tag="睡眠4" onclick="pickTag('睡眠4', this)"><span class="tag-emoji">🌀</span><span>00:00 后</span></div>
+</div>
+      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="WAbxQCriGFO0kKmuh9t0SB">
+        <div class="checkin-status" id="checkinStatusText" data-page-node-id="tUDZHWml6Y8ZtWeV3KOyqE">打卡</div>
+        <div class="checkin-sub" id="checkinSubText" data-page-node-id="HNIEQt2vFKwSvQYhHD7WzH">记录今天</div>
+      </div>
+      <div class="continuous" id="continuousDays" data-page-node-id="vpjJQtS56hMQodiNQNbNlE">0</div>
+      <div class="continuous-label" data-page-node-id="i1apvupfQ1PvNEQWDwTOkf">连续打卡天数</div>
+    </div>
+
+    <!-- 搭子消息区 -->
+    <div class="chat-area" id="chatArea" data-page-node-id="PxWuxOpET9qC18cdEXoJUz"></div>
+
+    <!-- 本周进度 -->
+    <div class="week-progress" data-page-node-id="bbwoF4J6mL8cS6KtExwENC">
+      <div class="week-title" data-page-node-id="l6KDtWoDJAJfE7ypq8aKNA"><span data-page-node-id="6iHAGlCKsb47vcv05DDvaY">📅 本周进度</span><span id="weekRange" data-page-node-id="wAEjtHvuB4hS2Bo3G4GUZz"></span></div>
+      <div class="week-dots" id="weekDots" data-page-node-id="delcd7EEFyxYtBt05NiSpn"></div>
+      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyPnLText()" data-page-node-id="wAgReCuiRlSoblfMXQE8rU">📋 复制本周睡眠小结</button>
+    </div>
+
+    <!-- 搭子交互 -->
+    <div class="interaction-panel" data-page-node-id="MS8gFGBg0LlhaZr3wLt4RU">
+      <div class="panel-label" data-page-node-id="T0QDY3gN7VnzyecNhBIfIU">💬 和搭子说说话</div>
+      <div class="mood-row" data-page-node-id="UR5eyX5httErOAOtcWCCn9">
+        <div class="mood-btn" onclick="sendMood('happy')" title="平静" data-page-node-id="RoFM2FFIRyLn4hUmvOFAwY">🕊️</div>
+        <div class="mood-btn" onclick="sendMood('neutral')" title="凑合" data-page-node-id="UizepWVag137XygrdgTYKw">😐</div>
+        <div class="mood-btn" onclick="sendMood('sad')" title="焦虑" data-page-node-id="h2yUMMV8PyCJoJFWb6JVOD">😣</div>
+        <div class="mood-btn" onclick="sendMood('tired')" title="累" data-page-node-id="jLCajx5VlbiI7e4WgGVcNC">😴</div>
+      </div>
+      <div class="talk-btn-row" data-page-node-id="uXkHX0k0zaSKH375u0polB">
+        <button class="talk-btn" onclick="askPartner('progress')" data-page-node-id="4YLyq8iczLO95wTM8nC5xM">📈 进展</button>
+        <button class="talk-btn" onclick="askPartner('struggle')" data-page-node-id="nkgfbTqF73QqcHCKx3opwr">😣 卡点</button>
+        <button class="talk-btn" onclick="askPartner('idea')" data-page-node-id="Xn0hR5NrugKTRdI2oCxVKh">💡 想法</button>
+        <button class="talk-btn" onclick="askPartner('cheer')" data-page-node-id="KDk5WeLwh7mFRlMobaCwf8">🎉 突破</button>
+      </div>
+      <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="ju3baUcHRYhweDTXKSNBKv">
+        <button class="talk-btn" onclick="askPartner('report')" data-page-node-id="ec5QP28PFHcbWbk2JcKs72">📣 汇报</button>
+        <button class="talk-btn" onclick="askPartner('question')" data-page-node-id="Ap3DMS2zTM96iKEcedoHJC">🤔 提问</button>
+      </div>
+    </div>
+
+    <!-- 分享入口 -->
+    <div class="share-inline-card" data-page-node-id="6IT5jUyXEp8n6E3W5DNNAY">
+<div class="share-inline-label" data-page-node-id="SY51DHJr0oUZ3N3nlOG1ZB">📣 推荐给想好好睡/觉察自己的朋友</div>
+        <div class="share-inline-preview" data-page-node-id="JAevPevb6GG24eHAKaOM4F">
+          🌙 睡眠搭子 · 早睡早起，看见自己的夜晚
+        </div>
+        <div class="share-copy-row" data-page-node-id="62HBG1KoKE9lVO6HaZQh0G">
+          <button class="share-copy-btn" onclick="copyShareLink()" data-page-node-id="4mjD4sChJr8sq9IoGVHA1B">📋 复制邀请链接</button>
+          <button class="share-link-btn" onclick="previewShareCard()" data-page-node-id="2aP7dLvC7ymYMueFmCvRCk">👀 预览我的时间账本卡</button>
+        </div>
+      </div>
+
+      <footer data-page-node-id="lQGxjJdqx975YOywkhnLwy">每天一次 · 你的时间账本正在被记录</footer>
+  </div>
+</div>
+
+<!-- ===== Page: 自由时间（原 weight Tab） ===== -->
+<div id="page-weight" class="page" data-page-node-id="ZZPC2Am98nG32AWD3M0lC4">
+  <div class="weight-page" data-page-node-id="uf4ywyIY1VdVL5S3eyZIHr">
+    <div style="max-width:420px;margin:0 auto 8px;text-align:center;color:#8f9eae;font-size:12px;line-height:1.6;padding:0 8px;">自由时间曲线：每天定一个分，最低不低于今天的自己 —— 坚持记录，时间的主人感会慢慢抬起来</div>
+    <div class="weight-header" data-page-node-id="KiXuwMRt54JA63Y8yTfFhc">
+      <div class="weight-title" data-page-node-id="AivnedvqXRKMU0ksr4avKR">🕊️ 自由时间</div>
+      <div class="weight-sub" id="weightSummary" data-page-node-id="ILLXrYiUQwkawZy26Dlkgf">你的本人时间离短视任务有多远？</div>
+      <div class="weight-input-row" data-page-node-id="p2t8mmKkPVaKL5vGDiuB0H">
+        <input class="weight-input" id="weightInput" type="number" step="1" min="0" max="100" placeholder="--" data-page-node-id="jpFMhuRILXGYNRjAYlj05r">
+        <span class="weight-unit" data-page-node-id="rxCH9242eDdyLKsCoagOj4">分</span>
+        <button class="weight-add-btn" onclick="addWeight()" data-page-node-id="78hLPwieoY28CzvritX592">记录</button>
+      </div>
+    </div>
+
+    <!-- 自动测算卡 -->
+    <div class="auto-calc-card" data-page-node-id="UH67mswfhqPFJszmgUXI0w">
+      <div class="auto-calc-title" data-page-node-id="uBIYGoWBWFD2J5H6xXOU7t">🧮 一键测算自由时间</div>
+      <div class="calc-row" data-page-node-id="EEEkvAZLuRkfASPnMRfDWy"><span data-page-node-id="iCTJnkYI4t2ryEs8UGVavj">基础分</span><span class="calc-val" data-page-node-id="fDue4j6O7E03KFbiggr4Jf">+50</span></div>
+      <div class="calc-row" data-page-node-id="nH4N0in6y3TqUDHuqMueSc"><span data-page-node-id="zEFFlbOqrEgFCWDeGEkCr7">不做了的次数 ×5</span><span class="calc-val" id="calcStop" data-page-node-id="62FBKwIFhNN4WdUw4RPjLH">+0</span></div>
+      <div class="calc-row" data-page-node-id="EnrmY4z2gd58m3Tj2YDUxw"><span data-page-node-id="9YooUT8xZYWkGPgBAPIOFf">做成 SOP 的次数 ×10</span><span class="calc-val" id="calcSkill" data-page-node-id="bUz8O2q5cUr3pfnCvdKG45">+0</span></div>
+      <div class="calc-row" data-page-node-id="5te8LlMNlzC52GvGYZjGFH"><span data-page-node-id="LmdCOofQ1drBPhPDhInAVO">自动跑的项 ×20</span><span class="calc-val" id="calcAuto" data-page-node-id="XTEKq6vS0HTTjodCGBUiYW">+0</span></div>
+      <div class="calc-row" data-page-node-id="vLx9y1tysaHXdlZBgHgbUv"><span data-page-node-id="Q3N3dVLJgenBFTDauDNUMB">累计短视打卡 ×-3</span><span class="calc-val neg" id="calcShort" data-page-node-id="PdqkGpNBzKlMQ5szBl4ipY">+0</span></div>
+      <div class="calc-total" data-page-node-id="ZIbmrLP8LfEgsTev9ofWrh"><span data-page-node-id="jgQ0rfCCpVlIZ87TCaiFPV">本日自由时间</span><span class="calc-total-num" id="calcTotal" data-page-node-id="AxWOJkOoTZQhCuLuvsEL28">50</span></div>
+      <div class="auto-calc-note" data-page-node-id="WQhw2WdNqrvf5oJdGgznYc">💡 怎么算的：基础 50 + 5/不做了 + 10/做成 SOP + 20/自动跑 - 3/短视。算完直接点「记录」保存到曲线。</div>
+    </div>
+
+    <div class="weight-chart-card" data-page-node-id="bsewSEgoZNlnoBeFfLBiP1">
+      <div class="chart-title" data-page-node-id="CLWtSLb9325xx1IAzaAXWZ">📈 我的时间资产曲线</div>
+      <div class="chart-sub" id="chartSub" data-page-node-id="pviyLYsASzCRdar9fQyPdL">坚持记录，时间的主人感会稳步抬升</div>
+      <canvas id="weightCanvas" width="380" height="200" data-page-node-id="DPBxpgxOLIZ3l5Tulc4nI3"></canvas>
+      <div class="weight-stats" id="weightStats" data-page-node-id="5gEng4c2eH8yDyToMswQ7A"></div>
+    </div>
+
+    <div class="weight-records" data-page-node-id="PmVjkFZbGdhmKNeyUaM4PP">
+      <div class="records-title" data-page-node-id="rPT6W0nO5wLKOuRLFpvGmA">📝 历史记录</div>
+      <div id="weightRecords" data-page-node-id="ow7tYXI1QCkqoLfqBX4ZhD"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 自检 ===== -->
+<div id="page-sop" class="page" data-page-node-id="eRwSJ62IlENCbbhGXRhxPg">
+  <div class="sop-page" data-page-node-id="5p6tpyw3LcKqI19VQAu42U">
+    <div style="max-width:420px;margin:0 auto 8px;text-align:center;color:#8f9eae;font-size:12px;line-height:1.6;padding:0 8px;">自检页是帮我"看见"自己用的 —— 5 个小问题，让今天的时间花得更明白</div>
+    <div class="sop-header" data-page-node-id="5eTVQdU503mDGmUG6GwYCZ">
+      <div class="sop-title" data-page-node-id="ikn7PRWEV6RsueQC5WsOv2">🎯 时间账本自检</div>
+      <div class="sop-sub" data-page-node-id="4GGsrJgZuOaHivnG6ZDGKy">每天 5 个小问题 · 帮我看清今天的时间花在哪了</div>
+      <div class="sop-score-row" data-page-node-id="hX8DOZ2ZFYx6h7z2nfV7fE">
+        <div class="sop-score" data-page-node-id="PYEDeFDP7f5t6uwymVzt1W">
+          <div class="sop-score-num" id="sopScore" data-page-node-id="091e3t3XGmZST45HdSrZHU">0</div>
+          <div class="sop-score-label" data-page-node-id="OBzplt6wl5jIDG6rZfNdC3">5 类得分</div>
+        </div>
+        <div class="sop-score" data-page-node-id="KBgHnvhUIRRbDYNl1eJqvz">
+          <div class="sop-score-num" id="sopPosCount" data-page-node-id="8hF4HVaHYnCKUt5PD1C9SP">0</div>
+          <div class="sop-score-label" data-page-node-id="7idrvt8TGsh7YWRc2R0dep">已答</div>
+        </div>
+        <div class="sop-score" data-page-node-id="1L9NWAY4f1bVnuzmvtxvFl">
+          <div class="sop-score-num" id="sopNegCount" data-page-node-id="LzNIusNGNwJAZfciGMmiRG">100</div>
+          <div class="sop-score-label" data-page-node-id="EFRzDHFgq3cvLIF5MGEnzs">题库总数</div>
+        </div>
+      </div>
+      <div class="sop-progress-wrap" data-page-node-id="1Tx8MiIKwIs7p1BCZW2MF0">
+        <div class="sop-progress-bg" data-page-node-id="G0oLvrl24qWK4UdKlxrJVe"><div class="sop-progress-bar" id="sopScoreBar" data-page-node-id="7OWZNN756slt7luZhLFMkt"></div></div>
+        <div class="sop-progress-text" id="sopProgressText" data-page-node-id="51VDAmVEvbVbT2smFB7Jod">0 / 100</div>
+      </div>
+    </div>
+
+    <div class="sop-category-tabs" id="sopCatTabs" data-page-node-id="djt4ly5Afrl5FYaeGLCgLu"></div>
+
+    <div class="sop-game-card" id="sopGameCard" data-page-node-id="pZF9QuGED6qE04669sAs0p">
+      <!-- 自检题内容由 JS 动态渲染 -->
+    </div>
+
+    <div class="sop-tip" data-page-node-id="AVcpfTGorOMwHSgKZXF1QE">
+      <div class="sop-tip-title" data-page-node-id="sP7MVqa0MKJf1CwyzHws0w">💡 我的判断原则 · 5 类问题说明</div>
+      <div class="sop-tip-item" data-page-node-id="zMs0cDRJ5qBGafqAwB01g3">• A 短视触发器：识别群里@你、红点、「先回一下」这类偷走时间的小事</div>
+      <div class="sop-tip-item" data-page-node-id="4x8SHmpxu9CPXMQFGVi1Rg">• B 任务 5 个去向：自己做的 / AI 帮我做的 / 交给别人做的 / 做成 SOP 的 / 自动跑的</div>
+      <div class="sop-tip-item" data-page-node-id="nURjTcyXenbmlNoHvmK5KU">• C 时间价值层级：只有我能决定的 / 关键得亲手做的 / 需要别人配合的 / 可以让脚本跑的</div>
+      <div class="sop-tip-item" data-page-node-id="3rjw6jXo0zRzkc984SBXgy">• D 不做 ≠ 不完成：把事做完 ≠ 必须由我做完；先问「这件事是不是还会再来？」</div>
+      <div class="sop-tip-item" data-page-node-id="0qYLprr3i38VstAY3714k0">• E 时间账本：5 个去向（继续做 / 交给别人 / 做成 SOP / 设成自动 / 不做了）· 每周复盘一次</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 进展 ===== -->
+<div id="page-progress" class="page" data-page-node-id="Y2aJH8lZig1MZrKwGO8HpL">
+  <div class="weight-page" data-page-node-id="DYpGuCGTXk9SYtzKureae8">
+
+    <div style="max-width:420px;margin:0 auto 8px;text-align:center;color:#8f9eae;font-size:12px;line-height:1.6;padding:0 8px;">进展页：把 7 / 30 / 90 天想清这一天值不值得 —— 主要看"我没在做"的 3 件事</div>
+
+    <div class="weight-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;" data-page-node-id="f9WzbGDUoTzEwkCAFj7UZr">
+      <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="2dNT3Al9bJ6Ia7bV9fzn2y">📊</div>
+      <div class="chart-title" style="font-size:18px;margin-bottom:4px;" data-page-node-id="WphjQADmF9yplZuEmsVqNP">我的时间账本进展</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;" data-page-node-id="JAlPzWzNlo7hWhHSSjBC83">全局时间复利视图</div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;position:relative;" data-page-node-id="tYTlZcSIinebGzb7XtN2w5">
+        <svg width="140" height="140" viewBox="0 0 140 140" data-page-node-id="xypHxZZMElTjVzsf4esJJU">
+          <defs data-page-node-id="D9Pt6zaUoyGzjJiYQEq5l0"><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%" data-page-node-id="4xM3tBnuthu4E7nTu33b6R">
+            <stop offset="0%" stop-color="#5e60ce" data-page-node-id="J4DSvC87lqdJBfi6Lh5wji"/><stop offset="100%" stop-color="#3a3d8f" data-page-node-id="RnjtiuTpAN5QBSrH1ExOWC"/>
+          </linearGradient></defs>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#e8e7ff" stroke-width="14" data-page-node-id="HvGfzmxKjHrGduZM6JOcIh"/>
+          <circle id="ringFill" cx="70" cy="70" r="54" fill="none" stroke="url(#ringGrad)" stroke-width="14"
+            stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"
+            transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.8s;" data-page-node-id="meCMY02pGDdJUuxXiM5vVT"/>
+          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#5e60ce;" id="ringPct" data-page-node-id="GoOJGBNMwDgJ9FswTS0Hgw">0%</text>
+          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#8f9eae;" data-page-node-id="KmUte2hXzKZUGG2rwpCqap">短视占比</text>
+        </svg>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center;" data-page-node-id="7SVHCJ1qgWTTZWIi5LwL02">
+        <div style="background:#faf6ee;border-radius:14px;padding:10px 14px;text-align:center;" data-page-node-id="4WQFcSohnQKltZLO5z80Xk">
+          <div style="font-size:18px;font-weight:800;color:#5e60ce;" id="progStreakNum" data-page-node-id="G1V1aAcvC3Po3VvZpp0OnK">0</div>
+          <div style="font-size:11px;color:#8f9eae;" data-page-node-id="xMeJKK4DRF5lDreXkq9fAH">连续天数</div>
+        </div>
+        <div style="background:#faf6ee;border-radius:14px;padding:10px 14px;text-align:center;" data-page-node-id="ckQHemU1aFj90UVlpUttC8">
+          <div style="font-size:18px;font-weight:800;color:#5e60ce;" id="progTotalDays" data-page-node-id="AXpgTTFPaxVuFOb1xtsTBE">0</div>
+          <div style="font-size:11px;color:#8f9eae;" data-page-node-id="E5vbl011NpR6jZIKZIcCiK">累计天数</div>
+        </div>
+        <div style="background:#faf6ee;border-radius:14px;padding:10px 14px;text-align:center;" data-page-node-id="Tx62HMoxuzlG1NN9xBNbaI">
+          <div style="font-size:18px;font-weight:800;color:#5e60ce;" id="progFreedomScore" data-page-node-id="YKVkDoweQXWGjy2MwqOtro">--</div>
+          <div style="font-size:11px;color:#8f9eae;" data-page-node-id="6H9BLO56LdB8k1Q9pINZRg">自由时间</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="weight-chart-card" style="margin-bottom:16px;" data-page-node-id="ccNOWo6zslRmJkKEIi1L5w">
+      <div class="chart-title" data-page-node-id="Pv7gFrGyrOl41l7ZuabhRI">📊 时间账本累计统计</div>
+      <div class="pnl-grid" data-page-node-id="9VRWcuTBuzx302GhZflmID">
+        <div class="pnl-cell" data-page-node-id="pr9DlSV6UahVWhnRGkK0ML"><div class="pnl-cell-num" id="pnlStop" data-page-node-id="ZaWjVaLkpS8WHYqOTI34du">0</div><div class="pnl-cell-lbl" data-page-node-id="WmCkgwuAvwnm7YAy4DE18j">累计不做了</div></div>
+        <div class="pnl-cell" data-page-node-id="abnXAJBjKvhYcOpy5EhCFU"><div class="pnl-cell-num" id="pnlSkill" data-page-node-id="rSauSlYDq2rbJ03f9IgcVQ">0</div><div class="pnl-cell-lbl" data-page-node-id="1QfLzGAW1THB7DFbeGsAkK">累计做成 SOP</div></div>
+        <div class="pnl-cell" data-page-node-id="qqVxyrRBKx888zp8WPKU9e"><div class="pnl-cell-num" id="pnlAuto" data-page-node-id="wwHABGqcw01ilokP2YCVLT">0</div><div class="pnl-cell-lbl" data-page-node-id="FK0yfNBU9H2TlPP61dGKaa">自动跑</div></div>
+      </div>
+      <div class="pnl-grid" style="margin-top:8px;" data-page-node-id="nGDbZABt3PkEj3WBSeOERV">
+        <div class="pnl-cell" data-page-node-id="uwoxZYxiNCNaF4DvYb8Iwr"><div class="pnl-cell-num" id="pnlLong" data-page-node-id="8mwojkSHjS8yAOncWyVX4D">0</div><div class="pnl-cell-lbl" data-page-node-id="PJDJ68upHxFscT4Ffh7sSW">长线打卡</div></div>
+        <div class="pnl-cell" data-page-node-id="n2BPEbpxZIEaaoaYGhBpWw"><div class="pnl-cell-num" id="pnlShort" data-page-node-id="NMdz9uYGH6XpcRSOxbiEED">0</div><div class="pnl-cell-lbl" data-page-node-id="wqZD0Oz2jOoZzHdfI7SJMZ">短视打卡</div></div>
+        <div class="pnl-cell" data-page-node-id="43nlicIjALJMRffLFYp9AE"><div class="pnl-cell-num" id="pnlQADone" data-page-node-id="evualG8rornTCYi9gJ1TQN">0</div><div class="pnl-cell-lbl" data-page-node-id="wCcjkwsdykcidZu2Bp1CCV">已答自检</div></div>
+      </div>
+    </div>
+
+    <div class="milestone-card" data-page-node-id="B84CF32aXIInmfsjLdEU66">
+      <div class="milestone-title" data-page-node-id="zZy9TyDg7lGmBGqOOwzdIV">🎯 7 / 30 / 90 天里程碑</div>
+      <div class="milestone-row" data-page-node-id="9PLcxRABeY0u5Cf88jQ7BZ">
+        <div style="flex:0 0 60px;font-weight:700;color:#3a3d8f;" data-page-node-id="41agFP1iG8vUWzYsbAEvyb">7 天</div>
+        <div class="milestone-progress" data-page-node-id="rErW8DrLLiU7ihRPERklWr"><div class="milestone-progress-fill" id="mile7Fill" style="width:0%" data-page-node-id="e6GKaTxAHM5CDQ3Iv9rTqT"></div></div>
+        <div style="flex:0 0 60px;text-align:right;color:#6c7a89;font-size:12px;" id="mile7Text" data-page-node-id="frMARtyTm6Wh9GRYwk7MCC">0/7</div>
+      </div>
+      <div class="milestone-row" data-page-node-id="TWJQPuvDDCLvRndZTh3dUJ">
+        <div style="flex:0 0 60px;font-weight:700;color:#e65100;" data-page-node-id="Hn56WLTHxFQoXjZDNjrOkG">30 天</div>
+        <div class="milestone-progress" data-page-node-id="QBYHwmGVnMsDOmePaAGrDZ"><div class="milestone-progress-fill" id="mile30Fill" style="width:0%" data-page-node-id="lCQwgaGxFCLxpAWJlVxFd7"></div></div>
+        <div style="flex:0 0 60px;text-align:right;color:#6c7a89;font-size:12px;" id="mile30Text" data-page-node-id="Hriyiwhn8JhITzWLlO7nu9">0/30</div>
+      </div>
+      <div class="milestone-row" data-page-node-id="RIu9UWETAnJgiJdWcTSaSx">
+        <div style="flex:0 0 60px;font-weight:700;color:#3949ab;" data-page-node-id="83FGBhQA88WNUlAIS9W7eA">90 天</div>
+        <div class="milestone-progress" data-page-node-id="uTdpD1fTNBXwDYPDxaLRHm"><div class="milestone-progress-fill" id="mile90Fill" style="width:0%" data-page-node-id="xdC7vVMDB4F5LUC6EbKFfM"></div></div>
+        <div style="flex:0 0 60px;text-align:right;color:#6c7a89;font-size:12px;" id="mile90Text" data-page-node-id="LRnEsgwDYl7CwHADiupZiq">0/90</div>
+      </div>
+      <div style="font-size:11px;color:#8f9eae;margin-top:10px;line-height:1.6;" data-page-node-id="3BFrqxbWcbfsRAhJr0QslI">
+        🎯 <b data-page-node-id="djvSWFFYc6AoNHhj5H3cRf">7 天</b>：找到 ≥3 个偷走时间的「假忙」 &nbsp; 🎯 <b data-page-node-id="bh3O3PzgkBrb8LOvD3Fzkm">30 天</b>：完成第一次时间周报 &nbsp; 🎯 <b data-page-node-id="yNTCz5Yl04yKPx2Ye7A795">90 天</b>：不做/做成 SOP ≥5，自动跑 ≥1
+      </div>
+    </div>
+
+    <div class="weight-chart-card" style="margin-bottom:16px;" data-page-node-id="UtcsKkMbGGX2jENgGS0xuX">
+      <div class="chart-title" data-page-node-id="xAGE5zaX6phI2H2uCMVflR">📝 我的时间周报</div>
+      <div style="margin-top:8px;background:#faf6ee;border-radius:14px;padding:14px 16px;font-size:13px;color:#4a5560;line-height:1.8;" data-page-node-id="aCyQtGNIGSUen0sHjD5Osx">
+        <div style="font-weight:700;color:#3a3d8f;margin-bottom:6px;" data-page-node-id="tjFVtYK3xh2cS87X3Wq5QK">📋 5 个去向：继续做 / 交给别人 / 做成 SOP / 设成自动 / 不做了</div>
+        <div data-page-node-id="Tmp8sF4X0SZReafvAXI4U3">• <b data-page-node-id="yBK0S7E8y7SVPSJmZKmw0g">继续做</b>：本周值得继续投入时间的事</div>
+        <div data-page-node-id="N0TrN606MFbmc1JFUxap3Q">• <b data-page-node-id="bmhLzfqUfIfjKEQuPR4vKR">交给别人</b>：可以让别人或 AI 来做（举例：每周数据报表，AI 帮我跑）</div>
+        <div data-page-node-id="0HObY2EyokfFJaCOzHZHSB">• <b data-page-node-id="lB4DaxbX3Err1o0H92Ob0Q">做成 SOP</b>：做成模板，下次直接套（举例：每月复盘报告）</div>
+        <div data-page-node-id="wJSAvt35UCQvP6DSfiOm2j">• <b data-page-node-id="9KVi4HcNwNEsHGXCIl8cFs">设成自动</b>：让脚本自动跑（举例：每月最后一天自动生成数据看板）</div>
+        <div data-page-node-id="307IBMY9YIyRDgCsEb44Xx">• <b data-page-node-id="OzwTiDugoBCVjKjIALJUCx">不做了</b>：这件事不再发生（举例：每天 30 分钟刷行业群消息）</div>
+        <div style="margin-top:8px;color:#3a3d8f;font-weight:700;" data-page-node-id="IRSpwH1LcJ9MINZsI7Mu7b">⏳ 我的判断原则：同一件事第二次出现，我就停下来想能不能做成模板；第三次出现，我直接做成 SOP。</div>
+      </div>
+    </div>
+
+    <div class="weight-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#e8e7ff,#e8f5e9);border:1px solid #5e60ce;margin-bottom:16px;" data-page-node-id="mUFJ1QXpSpNARV6DPDuNG4">
+      <div style="font-size:36px;margin-bottom:8px;" id="progPartnerEmoji" data-page-node-id="cKr507FYDQud15Y24yRIL8">⏳</div>
+      <div style="font-size:14px;font-weight:700;color:#3a3d8f;margin-bottom:4px;" id="progPartnerName" data-page-node-id="QHlBfMgJbhNqGwuZx7DVmx">沙漏</div>
+      <div style="font-size:13px;color:#6c7a89;line-height:1.6;" id="progPartnerMsg" data-page-node-id="U9ZNcDHmsO9wTapewv9Hon">你不做的事，比你做的事更定义你是谁。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 分享 ===== -->
+<div id="page-share" class="page" data-page-node-id="xEqDIEq516DCoX5DSxryGq">
+  <div class="weight-page" data-page-node-id="tv4b8rwF6AKPcU7VBWNryr">
+    <div class="weight-header" style="text-align:center;" data-page-node-id="IdBMFwIFVqP1EOhT2k5jEJ">
+      <div class="weight-title" data-page-node-id="5TvOEONiAQuuTnpw3Qs7CY">📣 分享</div>
+      <div class="weight-sub" data-page-node-id="G9sJNQfxweHk0HfrZEafxz">我的时间账本摘要</div>
+    </div>
+
+    <div class="sop-card" style="margin-bottom:12px;background:white;border-radius:24px;padding:18px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="f1Vs2lCgLb5PbDa2y8DFxl">
+      <div class="chart-title" data-page-node-id="rlWRa1eXPGpBRfTdTQj6Xq">⏳ 我的时间账本</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px;text-align:center;" data-page-node-id="dlUBmlJzwHyxcJt5pHF0KG">
+        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;" data-page-node-id="FUFpnmgEExtdvfxTCuSqCL">
+          <div style="font-size:18px;font-weight:700;color:#5e60ce;" id="shareStreak" data-page-node-id="zP2Ag0YBxbrvrYKVbALzlM">-</div>
+          <div style="font-size:10px;color:#8f9eae;margin-top:2px;" data-page-node-id="EzjMaMuhhHNxT556lH6bkJ">连续打卡</div>
+        </div>
+        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;" data-page-node-id="B61RahgqISJy7xnL81Zo7T">
+          <div style="font-size:18px;font-weight:700;color:#5e60ce;" id="shareFreedom" data-page-node-id="CpPOD9z3IvP8R3mMK9e1kc">-</div>
+          <div style="font-size:10px;color:#8f9eae;margin-top:2px;" data-page-node-id="BDNWeCjtaptYBXpqPVyQj2">自由时间</div>
+        </div>
+        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;" data-page-node-id="q90iYhnWJmVDWr6JHrAuuF">
+          <div style="font-size:18px;font-weight:700;color:#5e60ce;" id="shareTotal" data-page-node-id="ptuNHhVJawJ6ocUBdG8BNp">-</div>
+          <div style="font-size:10px;color:#8f9eae;margin-top:2px;" data-page-node-id="SML5VE9TLfCBUuwzMmubET">累计天数</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;background:linear-gradient(135deg,#e8e7ff,#e8f5e9);border-radius:14px;padding:16px;" data-page-node-id="MBekUPg2z3QyZ5mqoiVSfw">
+        <div style="font-size:13px;color:#3a3d8f;line-height:1.8;font-weight:600;" id="sharePnLSummary" data-page-node-id="sWNr1hLKXiFlzNqjhLFHwW">还在积累中。开始打卡后这里会出现你的时间账本摘要。</div>
+      </div>
+    </div>
+
+    <div class="sop-card" style="background:white;border-radius:24px;padding:18px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="NzzllEIdMjARbZehZeltk5">
+      <div class="chart-title" data-page-node-id="rk4yr8qUij2EffYYbE0eZY">⏳ 长期主义搭子</div>
+      <div style="margin-top:12px;background:linear-gradient(135deg,#e8e7ff,#e8f5e9);border-radius:14px;padding:18px 14px;text-align:center;margin-bottom:14px;" data-page-node-id="nO526GW46zUFC14d03dkzo">
+        <div style="font-size:42px;margin-bottom:6px;" data-page-node-id="O9oLKn5BJiBUkLVku5Z67E">⏳</div>
+        <div style="font-size:15px;font-weight:700;color:#3a3d8f;margin-bottom:4px;" data-page-node-id="UVUx0FDiChDFWTq8rzAch7">长期主义搭子</div>
+        <div style="font-size:13px;color:#6c7a89;line-height:1.6;margin-bottom:6px;" data-page-node-id="Ch3xKkaCVf3u5GQt75VbjP">每天 5 分钟自检 · 每周 15 分钟复盘<br data-page-node-id="8W7zfBxSLMkIiK7l8VRn5S">把本人时间搬到长线价值</div>
+        <div style="font-size:11px;color:#3a3d8f;" data-page-node-id="vHnepcNbzZ5uIilhvuAFc2">时间账本 · 5 个去向 · 不做了 / 做成 SOP 越多越好</div>
+      </div>
+      <div class="chart-title" style="margin-bottom:10px;" data-page-node-id="93762fnGjETIQBxHXJ4L3x">📋 自检覆盖维度</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;" data-page-node-id="YRXwARiLqmJVjGXlMbg42J">
+        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;" data-page-node-id="idJd7PqJd7nWnFUVmNuwRL"><div style="font-size:22px;" data-page-node-id="9FW4ycazkD1F24HL1mjc7o">⚡</div><div style="font-size:12px;font-weight:600;color:#3a3d8f;" data-page-node-id="8w7kPTZzTVnOoBcxUXSnpi">偷走时间的小事</div></div>
+        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;" data-page-node-id="ztGPxXhZNOKp1SYOp8aSqh"><div style="font-size:22px;" data-page-node-id="pZ56hVFK74QV4owIFm052Q">🧭</div><div style="font-size:12px;font-weight:600;color:#3a3d8f;" data-page-node-id="LwSomTb2Fn9ljnYzNawRvM">任务 5 个去向</div></div>
+        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;" data-page-node-id="Y3NGtWwej8wYxoeYlsFMVH"><div style="font-size:22px;" data-page-node-id="nxiBtNKAGAYWBsPG50xnA9">📐</div><div style="font-size:12px;font-weight:600;color:#3a3d8f;" data-page-node-id="JFy2uO3cksfo3KV6X86M3z">事情的重要性</div></div>
+        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;" data-page-node-id="LwQed2uv1UHZ4YeEkY0Rwf"><div style="font-size:22px;" data-page-node-id="tXSPSPTgwvZRXaZtGESLWp">🛑</div><div style="font-size:12px;font-weight:600;color:#3a3d8f;" data-page-node-id="Vnxi7ZJHD6wolpQ02ytmX5">不做 ≠ 不完成</div></div>
+        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;grid-column:span 2;" data-page-node-id="QxkYwsLVVjYtwjS8xB9C7l"><div style="font-size:22px;" data-page-node-id="BNHn2pFH5TzdXklmyU0O2U">📈</div><div style="font-size:12px;font-weight:600;color:#3a3d8f;" data-page-node-id="1x0tpH9kCRhoDX1jf1s3HH">时间账本 · 5 张去向清单</div></div>
+      </div>
+      <div class="chart-title" data-page-node-id="MRfhKjVuExnonPmAqpKXWA">🔗 邀请链接</div>
+      <div style="background:#faf6ee;border-radius:12px;padding:12px 14px;font-size:13px;color:#3a3d8f;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay" data-page-node-id="aNfOJZDRXs2CYx6YwB9IAG"></div>
+      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#5e60ce,#3a3d8f);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(139,105,20,0.3);" data-page-node-id="nfLBN2b1mDNOxWRpwYufw9">📋 复制邀请链接</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 搭子 Chat Tab ===== -->
+<div id="page-partner" class="page" style="display:none;" data-page-node-id="NZsAPMBSkm4Q1QvecAaRMm">
+  <div style="padding:16px 12px 80px;" data-page-node-id="kxPUgvslWdaV94MMLKBOXl">
+    <div style="text-align:center;margin-bottom:20px;" data-page-node-id="kSgK6N510BgjNQh1OxKFIq">
+      <div style="font-size:24px;font-weight:700;color:#3a3d8f;" data-page-node-id="BdNi9C60HqW9GnAGjAJ5A0">⏳ 搭子</div>
+      <div style="font-size:13px;color:#8f9eae;margin-top:4px;" data-page-node-id="22O2PF0JTslcocWmBVR1El">和长期主义搭子聊聊</div>
+    </div>
+    <div id="partnerCard" style="background:linear-gradient(135deg,#e8e7ff,#f1f8e9);border-radius:20px;padding:20px;margin-bottom:16px;" data-page-node-id="TEhTINq3TDe10NNWfs0ru5">
+      <div id="partnerAvatarB" style="font-size:48px;text-align:center;margin-bottom:8px;" data-page-node-id="QjK3LrnzCtqzwTnKOrIzPX"></div>
+      <div id="partnerNameB" style="text-align:center;font-size:16px;font-weight:700;color:#3a3d8f;" data-page-node-id="ha3EgDFNai31WVbROS9xpp"></div>
+      <div id="partnerStyleB" style="text-align:center;font-size:12px;color:#3a3d8f;margin-top:4px;" data-page-node-id="IH7e10CD9XWyg9jk2Yolug"></div>
+    </div>
+    <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;" data-page-node-id="99H9Evxmppo2yY7H6v6oKc"></div>
+    <div class="panel-label" style="margin-bottom:10px;" data-page-node-id="lrQVlKfyT4XQSMdB1vEqyB">💬 和搭子说话</div>
+    <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;" data-page-node-id="PwPpY7438WaOyH3pz9G97Y">
+      <div class="mood-btn" onclick="sendMood('happy')" title="平静" data-page-node-id="zrEVWGKCcn2mtu6JiEKEMA">🕊️</div>
+      <div class="mood-btn" onclick="sendMood('neutral')" title="凑合" data-page-node-id="5uXsy4vbXoLPHKuHT47uKn">😐</div>
+      <div class="mood-btn" onclick="sendMood('sad')" title="焦虑" data-page-node-id="oahYZ8l1E80nQvRtJlemrn">😣</div>
+      <div class="mood-btn" onclick="sendMood('tired')" title="累" data-page-node-id="TfEVtJRXoDrOceKi1ks4p1">😴</div>
+    </div>
+    <div class="talk-btn-row" data-page-node-id="sxLrnLAq0MwA0tlLGiDqJg">
+      <button class="talk-btn" onclick="askPartner('progress')" data-page-node-id="sQcdoMXCSSlJs7Ensmcjrs">📈 进展</button>
+      <button class="talk-btn" onclick="askPartner('struggle')" data-page-node-id="yGQHfeuMd2rfcySYWrw5vW">😣 卡点</button>
+      <button class="talk-btn" onclick="askPartner('idea')" data-page-node-id="21kPgS4nsdK9Sk8qlmFfRH">💡 想法</button>
+    </div>
+    <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="DB2HVZ8JtSKiGSga500OaY">
+      <button class="talk-btn" onclick="askPartner('cheer')" data-page-node-id="3MUigkLT44t3iv0ZFXZsz8">🎉 突破</button>
+      <button class="talk-btn" onclick="askPartner('report')" data-page-node-id="3FuzacuaLQNICgODpbmcCV">📣 汇报</button>
+      <button class="talk-btn" onclick="askPartner('question')" data-page-node-id="OFjchGaESuQi3vEJqBGDUt">🤔 提问</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 教练（路线 + 我的原则） ===== -->
+<div id="page-coach" class="page" style="display:none;" data-page-node-id="Yme5XzJrYSY8DWPLuiUCp1">
+
+  <div style="max-width:420px;margin:0 auto 8px;text-align:center;color:#8f9eae;font-size:12px;line-height:1.6;padding:0 8px;">教练页：按这个顺序走 —— 从看清时间，到不做的轻松，到时间复利</div>
+
+  <div id="crpWrap_longterm" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;" data-page-node-id="UKMSUyC3BxW2Hftlhv85Nx">
+    <style>
+      #crpWrap_longterm .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
+      #crpWrap_longterm .crp-title { font-size:15px; font-weight:800; color:#3a3d8f; margin-bottom:12px; }
+      #crpWrap_longterm .crp-tip { font-size:11px; font-weight:500; color:#8f9eae; margin-left:6px; }
+      #crpWrap_longterm .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+      #crpWrap_longterm .crp-stage:active { transform:scale(.98); }
+      #crpWrap_longterm .crp-stage-head { font-weight:700; font-size:13px; }
+      #crpWrap_longterm .crp-arrow { float:right; color:#8f9eae; }
+      #crpWrap_longterm .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#4a5560; }
+      #crpWrap_longterm .crp-stage.collapsed .crp-stage-body { display:none; }
+      #crpWrap_longterm .crp-item { font-size:13px; color:#4a5560; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+      #crpWrap_longterm .crp-item:hover { background:#faf6ee; }
+      #crpWrap_longterm .crp-item.done { color:#8f9eae; text-decoration:line-through; }
+      #crpWrap_longterm .crp-box { margin-right:8px; }
+    </style>
+
+    <div class="crp-card" data-page-node-id="jJQHUiuM9RqMza517MAdw8">
+      <div class="crp-title" data-page-node-id="r0e3XNs4eCyWkMdy4BmUaH">🗺️ 长期主义三阶段成长路线<span class="crp-tip" data-page-node-id="vxYuOVfmm7NlEwTlg7lqkt">👆 点击阶段展开/收起</span></div>
+      <div class="crp-stage" style="background:linear-gradient(135deg,#e8e7ff,#e8e7ff);" data-page-node-id="JVA8HM2XXwrHTKD1icKg9F">
+        <div class="crp-stage-head" style="color:#3a3d8f;" data-page-node-id="FPjViARPMGq0AIwlvSubx4">📌 阶段 1 · Day 0-7 · 看清时间去了哪<span class="crp-arrow" data-page-node-id="SQ5vwMVd9bToGpZLpvIxq0">▾</span></div>
+        <div class="crp-stage-body" data-page-node-id="Aazg23gwb5sFwamEpCjFVU">
+          <b data-page-node-id="7srp84OoZ3XO6II9XIggKw">这阶段要做的</b>：把做的事分个类，看清多少是「现在不做就焦虑」，多少是「半年后还有价值」。<br data-page-node-id="RdUiMOH5O1d2x5gPowl87k">
+          • <b data-page-node-id="eRL7csuh6hpVYt3Yj2fNEg">任务 1</b>：今天第一次记录 5 件事，每件标 <code data-page-node-id="mOD55bwaF0jO6YNGSbt9wM">长期 / 短期 / 噪音</code><br data-page-node-id="GiMXLhrAGGVRE1ziKlHGij">
+          • <b data-page-node-id="zpNV19aMw7mzOwnHDkmvJE">任务 2</b>：找到 3 个最容易偷走你时间的"假忙"场景（比如群里@你、红点提醒、"先回一下"的冲动）<br data-page-node-id="B7O9mCJD4aJH7nIFELy9Y4">
+          • <b data-page-node-id="qEEryyDhn6YADIkz50TRx4">任务 3</b>：写下「如果不做这件事，3 个月后会怎样？」多数答案是"没事"，那就是噪音
+        </div>
+      </div>
+      <div class="crp-stage" style="background:linear-gradient(135deg,#fff3e0,#ffe0b2);" data-page-node-id="fg9tgt0Gf7UWgGIRmqkC7m">
+        <div class="crp-stage-head" style="color:#e65100;" data-page-node-id="g5lejSbKRgTE5dSrtNO4b7">📌 阶段 2 · Day 8-30 · 把事分到 5 个去处<span class="crp-arrow" data-page-node-id="SBm6ONgAdgF81vwPYa7aj8">▾</span></div>
+        <div class="crp-stage-body" data-page-node-id="JMXoM71RKtbWcgcdAjrFJv">
+          <b data-page-node-id="pB1WeLThydU4gfAKeg1F8K">这阶段要做的</b>：所有任务只进 5 个去处：自己做的 / 让 AI 做我拍板 / AI 做我抽检 / 做成 SOP / 自动跑。<br data-page-node-id="eHQH8FY8gXrwVNfNXqDMun">
+          • <b data-page-node-id="8TrzUOAR2j0f094qzdFsZA">任务 1</b>：把上周所有任务重分类进 5 个去处，写下「我自己应该不做的 3 件事」<br data-page-node-id="P86Idj54JQyEyW5IELERTS">
+          • <b data-page-node-id="15fZH8QZr65mnaznZmduc2">任务 2</b>：选一个重复做的事，<b data-page-node-id="Z44BcP1WBuwuB818tN0Gpc">今天就把它做成 SOP</b>（哪怕只是一段话术模板）<br data-page-node-id="3eKIWTp2MYWSpN8R5oEozV">
+          • <b data-page-node-id="Uez9A5YrJ1HI02qXDSAsCf">任务 3</b>：选一个最耗你时间的会，问自己「这次如果我不出席，会发生什么？」
+        </div>
+      </div>
+      <div class="crp-stage" style="background:linear-gradient(135deg,#e8eaf6,#c5cae9);" data-page-node-id="vVirwbRxmbH9f4NU2sj0SP">
+        <div class="crp-stage-head" style="color:#3949ab;" data-page-node-id="BjAx6OVSpgETrBTCZBUArb">📌 阶段 3 · Day 31-90 · 时间开始复利<span class="crp-arrow" data-page-node-id="r4JGhxdY9JFvp0EhkN0SoC">▾</span></div>
+        <div class="crp-stage-body" data-page-node-id="weJxxOC4NumuDLRuE4UbNP">
+          <b data-page-node-id="aM6RihgVZi6fvQKBu1NAsG">这阶段要做的</b>：每周只做 1 次《我的时间周报》，写清「继续做 / 交给别人 / 做成 SOP / 设成自动 / 不做了」5 张清单。<br data-page-node-id="p3qjj9n9oQAgLdSIWcIlTO">
+          • <b data-page-node-id="YDcB1oKYOrjZD0ZLMj8QnD">任务 1</b>：完成第一次时间周报（15 分钟）<br data-page-node-id="uAAVBNZBXocsxzQWqKWeBu">
+          • <b data-page-node-id="mZp33GFEPNC9VHXXBiPwKY">任务 2</b>：累计做成 SOP ≥ 3 项 + 自动跑 ≥ 1 项<br data-page-node-id="mDhAI4Ec1f3Sovn4HNWclu">
+          • <b data-page-node-id="AInqpo8ArQZxON5safw4gR">任务 3</b>：立一条原则：「让别人配合的事 / 让脚本跑的事，不排进我自己的日程」
+        </div>
+      </div>
+    </div>
+
+    <div class="crp-card" data-page-node-id="l7vMLp1QWo50SyEFI5S8Hm">
+      <div class="crp-title" data-page-node-id="gopfoA5jIaFbZdonZLfYDk">📋 我选择遵守的 10 条原则<span class="crp-tip" data-page-node-id="FE8bajR6V493yHl8eAxEGE">👆 点击勾选 · 自动保存</span></div>
+      <div id="hrList" data-page-node-id="rvrT5RaWU5TONsELFgqdek"></div>
+    </div>
+  </div>
+
+</div><!-- end page-coach -->
+
+<!-- ===== Toast ===== -->
+<div id="toastMsg" class="toast" data-page-node-id="UfUIpscr7RpcbdLuQnJESZ"></div>
+
+<!-- ===== QA 选择面板 ===== -->
+<div class="qa-overlay" id="qaOverlay" data-page-node-id="5uggk6N5A87Bd8HdzrG6Q2">
+  <div class="qa-panel" data-page-node-id="jbewc6BWn1BP1ACfOW8ME0">
+    <div class="qa-handle" data-page-node-id="V4cDA1s3QE67Z9h1wTUUDP"></div>
+    <div class="qa-header" data-page-node-id="S47Uwh36mvZe7qtMjmNSFh">
+      <div class="qa-title" id="qaTitle" data-page-node-id="5B7Gc4iZPGuguARXmEahLq">🤔 选择最符合你的</div>
+      <div class="qa-sub" id="qaSub" data-page-node-id="Q31KA610KcViI29TovLEhk">选择后搭子会给你反馈 💫</div>
+    </div>
+    <div class="qa-scroll" id="qaScroll" data-page-node-id="RtSDtzCREj3YhOHcdyBb42"></div>
+  </div>
+</div>
+
+<!-- ===== 反馈弹窗 ===== -->
+<div class="fb-overlay" id="fbOverlay" data-page-node-id="tY6WVsneVSR0pokaoqFGXQ">
+  <div class="fb-card" id="fbCard" data-page-node-id="XJd78XRyyJHdSvn0JbRrK5">
+    <div class="fb-emoji" id="fbEmoji" data-page-node-id="FUoQZKr0jXKB4dEUy55ZcS">✨</div>
+    <div class="fb-label" id="fbLabel" data-page-node-id="c80BixaUAbRpEbHW5VYEim">正向</div>
+    <div class="fb-title" id="fbTitle" data-page-node-id="aAzFHv8QDybhk8Zt9SKXhF"></div>
+    <div class="fb-text" id="fbText" data-page-node-id="GTJiTJ1N9FaV2pvHmjU5Fd"></div>
+    <div class="fb-partner-quote" id="fbQuote" data-page-node-id="ovXKVDdmf7nptaxHj8L5L2"></div>
+    <button class="fb-btn" onclick="closeFeedback()" data-page-node-id="MuxzJEd8EyKVasYUUn7Wj4">✅ 知道了</button>
+  </div>
+</div>
+
+<!-- ===== 新手引导弹层（首次进入时显示） ===== -->
+<div class="ob-overlay" id="obOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:300;align-items:center;justify-content:center;padding:16px;" data-page-node-id="obRoot">
+  <div style="background:#fffaf0;max-width:380px;width:100%;border-radius:24px;padding:24px 22px;max-height:90vh;overflow-y:auto;" data-page-node-id="obCard">
+    <div id="obWelcome" data-page-node-id="obWelcome">
+      <div style="font-size:36px;text-align:center;margin-bottom:8px;">⏳</div>
+      <div style="font-size:18px;font-weight:800;color:#3a3d8f;text-align:center;margin-bottom:12px;">欢迎来到「长期主义搭子」</div>
+      <div style="font-size:13px;color:#6c7a89;text-align:center;line-height:1.7;margin-bottom:20px;">
+        这不是任务清单，这是你的「时间账本」——帮你看清每天的时间花在哪了，只回答 <b>3 个简单问题</b>，我就能陪你开始。
+      </div>
+      <button onclick="obStart()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#5e60ce,#3a3d8f);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;">🚀 3 个小问题，开始</button>
+    </div>
+    <div id="obQuiz" style="display:none;" data-page-node-id="obQuiz"></div>
+    <div id="obDone" style="display:none;" data-page-node-id="obDone">
+      <div style="font-size:36px;text-align:center;margin-bottom:8px;">✨</div>
+      <div style="font-size:18px;font-weight:800;color:#3a3d8f;text-align:center;margin-bottom:12px;">已经记下你的原则</div>
+      <div style="font-size:13px;color:#6c7a89;text-align:center;line-height:1.7;margin-bottom:16px;" id="obDoneSummary">根据你的回答，我已经自动勾选了 10 条原则里和你的节奏最匹配的几条 —— 你随时可以在「教练」页改。</div>
+      <button onclick="obFinish()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#5e60ce,#3a3d8f);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;">✅ 进入，开始记时间</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 每日原则小提示卡 ===== -->
+<div id="dailyTip" style="display:none;max-width:420px;margin:14px auto 0;background:linear-gradient(135deg,#e8e7ff,#e8f5e9);border-radius:18px;padding:14px 16px;font-size:13px;color:#3a3d8f;line-height:1.7;box-shadow:0 6px 16px rgba(139,105,20,0.08);" data-page-node-id="dailyTip">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+    <span style="font-size:18px;">📌</span>
+    <span style="font-weight:700;color:#3a3d8f;">今天提醒自己</span>
+    <span style="margin-left:auto;font-size:11px;color:#3a3d8f;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
+  </div>
+  <div id="dailyTipText">睡眠是免费的复利 —— 一晚好觉，胜过五杯咖啡</div>
+</div>
+
+
+<script>
+// ==================== 全局 & 存储 ====================
+const PARTNERS = [
+  { id: 'moon', name: '月亮', emoji: '🌙', style: 'moon', desc: '安静陪你入睡', color: '#5e60ce', fb: { text: '🌙 月亮：今天最想被看见的，是什么？' } },
+  { id: 'lamp', name: '灯泡', emoji: '💡', style: 'lamp', desc: '温和提醒', color: '#5e60ce', fb: { text: '💡 灯泡：今天最想被看见的，是什么？' } },
+  { id: 'pillow', name: '枕头', emoji: '🛏️', style: 'pillow', desc: '只关心你睡得好不好', color: '#5e60ce', fb: { text: '🛏️ 枕头：今天最想被看见的，是什么？' } }
+]
+const STORAGE = {
+  PARTNER: '睡眠_partner',
+  HISTORY: '睡眠_history',
+  WEIGHT: '睡眠_freedom',
+  SOP: '睡眠_sop',
+  SOP_STREAKS: '睡眠_sop_streaks',
+  TAG_HISTORY: '睡眠_tag_history',
+  AUTO_LIST: '睡眠_auto_list',
+  FREEDOM_HISTORY: '睡眠_freedom_history',
+  HARD_RULES: '睡眠_hard_rules',
+  PNLSUMMARY: '睡眠_pnl_summary'
+};
+const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner';
+
+function getSiteUrl() {
+  if (window.location.hostname && window.location.hostname.includes('netlify')) {
+    return window.location.origin + '/';
+  }
+  return SHARE_URL + '/';
+}
+
+function getToday() { return new Date().toISOString().slice(0,10); }
+function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
+function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); }
+function getTagHistory() { return JSON.parse(localStorage.getItem(STORAGE.TAG_HISTORY) || '{}'); }
+function saveTagHistory(d) { localStorage.setItem(STORAGE.TAG_HISTORY, JSON.stringify(d)); }
+function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
+function saveWeightData(d) { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(d)); }
+function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"answerCount":0,"date":null}'); }
+function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); }
+function getAutoList() { return JSON.parse(localStorage.getItem(STORAGE.AUTO_LIST) || '[]'); }
+function saveAutoList(d) { localStorage.setItem(STORAGE.AUTO_LIST, JSON.stringify(d)); }
+function getHardRules() { return JSON.parse(localStorage.getItem(STORAGE.HARD_RULES) || '{}'); }
+function saveHardRules(d) { localStorage.setItem(STORAGE.HARD_RULES, JSON.stringify(d)); }
+
+// 当前选中打卡标签
+let currentTag = 'long';
+let currentPartner = null;
+let partnerIdx = 0;
+let sopCatIdx = 0;
+let sopSelected = {};
+let sopAnswerCount = 0;
+let sopScore = 0;
+let currentQAType = null;
+let currentQADir = 'result';
+
+// 100 道题库（5 类 × 20 题），按出题时随机抽 5 道
+const QA_POOL = {
+  A: [
+    { id:'A01', q:'今晚打算几点放下手机？', options:['21:00 之前','22:00 之前','23:00 之前','00:00 之后'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'A02', q:'昨晚是几小时前的咖啡？', options:['12小时之前','8小时之前','4小时之前','睡前还在喝'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'A03', q:'睡前半小时在做什么？', options:['看书 / 拉伸','听轻音乐','刷手机','还在处理工作'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'A04', q:'起床第一件事是？', options:['自然醒 · 不看手机','关闹钟起身','抓起手机','按掉再睡一次'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } }
+  ],
+  B: [
+    { id:'B01', q:'早上起床后的 1 小时，你会？', options:['拉伸 + 喝水','起来刷牙','立刻看消息','赖床刷视频'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'B02', q:'今天想睡个回笼觉吗？', options:['不用 · 7 小时够了','可能要','一定要','不睡了'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'B03', q:'中午需要 20 分钟午睡吗？', options:['不困','最好有','一定','不需要'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'B04', q:'睡前我会告诉"我"一句话：', options:['晚安','谢谢你今天','我很好','我不够好'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } }
+  ],
+  C: [
+    { id:'C01', q:'今晚能把手机放到房间外吗？', options:['能 · 一直这样做','偶尔能','基本不能','完全不能'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'C02', q:'卧室的灯会调成暖色吗？', options:['早调了','只用一盏','还没换','一直亮白灯'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'C03', q:'睡前会想"过去 / 未来"的事吗？', options:['基本不会','偶尔','经常','停不下来'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'C04', q:'最近一周，平均睡几个小时？', options:['7.5+','7','6','不到 6'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } }
+  ],
+  D: [
+    { id:'D01', q:'今晚打算睡前给自己倒杯水吗？', options:['能','尽量','忘了','不会'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'D02', q:'最近有没有凌晨醒？', options:['没有','偶尔','经常','几乎每天'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'D03', q:'手机放在了离你多远的地方？', options:['另一个房间','另一张桌子','枕头旁','手里'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'D04', q:'今天，你会允许自己早点睡吗？', options:['会','尽量吧','很难','今天不行'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } }
+  ],
+  E: [
+    { id:'E01', q:'今天白天的精力是？', options:['充足','还行','疲惫','累垮'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'E02', q:'早起 2 小时内能集中注意力吗？', options:['能','勉强','经常走神','完全不能'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'E03', q:'下午 3-4 点会困吗？', options:['不困','有点','很困','必须小睡'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } },
+    { id:'E04', q:'你愿意明天 22:30 上床吗？', options:['愿意','试试看','不行','今天不算'],
+      score:{ '睡眠1': 3, '睡眠2': 2, '睡眠3': 1, '睡眠4': 0 } }
+  ]
+}
+
+// 5 类配置（CATEGORIES 含元信息 + 颜色 + 图标 + 描述）
+const SOP_CATEGORIES = [
+  { id:'A', name:'短视触发器', icon:'⚡', color:'#e65100',
+    desc:'识别群里@、红点、「先回一下」这类一碰就掉时间的钩子。' },
+  { id:'B', name:'任务 5 去向', icon:'🧭', color:'#3949ab',
+    desc:'自己做的 / 让 AI 做我拍板 / AI 做我抽检 / 做成 SOP / 自动跑。' },
+  { id:'C', name:'时间价值层级', icon:'📐', color:'#5d8a3f',
+    desc:'只有我能拍板的 / 关键得亲手做的 / 需要别人配合的 / 可以让脚本跑的。' },
+  { id:'D', name:'不做 ≠ 不完成', icon:'🛑', color:'#ad1457',
+    desc:'完成 ≠ 必须由你完成；问「这件事还会不会再发生？」' },
+  { id:'E', name:'时间 P&L', icon:'📈', color:'#5e60ce',
+    desc:'继续做 / 交给别人 / 做成 SOP / 自动跑 / 不做了 · 每周复盘。' }
+];
+
+// 今日一句拷问（按人设不同）
+const DAILY_QA = {
+  hourglass: [
+    '今天你把哪段时间留给自己？',
+    '你刚刚说「我必须回一下」——必须，是谁的必须？',
+    '你今天有没有什么事，是可以不做也不会死的？',
+    '今天的你，比昨天的你少做了哪件无意义的事？',
+    '你这周「不做的事」比「做的事」更值得记一笔吗？'
+  ],
+  judge: [
+    '需要别人配合，还是让脚本跑？诚实回答。',
+    '这是第几次出现了？还没 做成 SOP吗？',
+    '如果一个月后看今天，你能「不做」而不是「做完」吗？',
+    '这件事还在你的日程上第几天了？凭什么是？',
+    '你现在做的事，T1 吗？不是就别继续。'
+  ],
+  investor: [
+    '今天你这 1 小时投在哪条赛道上？',
+    '今天的 P&L：投入 ____ 小时，回报 ____ 长线分数。',
+    '下周复盘你会决定不做什么？',
+    '你今天的「投入产出比」是 T1 还是 T4？',
+    '你的「时间组合」是分散的还是集中？'
+  ]
+};
+
+// 搭子反馈（4 种人设 × 多个心情 × 拷问/进展/想法等 6 类）
+const FEEDBACK = {
+  hourglass: {
+    checkin: ['收到了 ⏳ 今天也用心了。','嗯，看到了。','记上了。','好。'],
+    happy: ['看你轻松，我也轻松一点 🕊️','好状态是会传染的 😊'],
+    neutral: ['平静是最好的复利起点 🕊️'],
+    sad: ['心情不好就先放一放。我在 💙','不用勉强，今天允许自己歇 💙'],
+    tired: ['累了就先休息，别逼自己 🌙'],
+    progress: ['愿意说，我就愿意听。说吧 ⏳','好，跟我讲讲你今天的复利 🕊️'],
+    question: ['问吧，我尽力回答 ⏳'],
+    milestone7: ['一周了。说实话，没想到你能坚持这么久 🕊️'],
+    milestone21: ['三周了。时间开始沉淀。'],
+    milestone30: ['一个月。你真的做到了。'],
+    late: ['这么晚了还记着。早点休息 🌙'],
+    reminder: ['好像一天没看到你了。今天怎么样？', '你是不是忘了？没关系，现在记录也来得及。']
+  },
+  judge: {
+    checkin: ['⚖️ 收到了。今天 T1 占比多少？','⚖️ 看到了。好。','⚖️ 数据已记。'],
+    happy: ['状态好就多投 T1。','心情好时决策更准 ⚖️'],
+    neutral: ['平稳判断就好。'],
+    sad: ['别为难自己，先睡一觉。'],
+    tired: ['累就先休息，累了做的决策都不算数 ⚖️'],
+    progress: ['说！⚖️ 让我看看你今天 T1 占比。','今天的关键指标是什么？'],
+    question: ['问题是什么？问 ⚖️'],
+    milestone7: ['一周了。继续 ⚖️'],
+    milestone21: ['三周。惯性开始形成 ⚖️'],
+    milestone30: ['一个月。我的原则 是不是该写下来了？'],
+    late: ['这么晚，明天再讲 ⚖️'],
+    reminder: ['喂？一天没打卡 ⚖️']
+  },
+  investor: {
+    checkin: ['📈 打卡已记。今天回报如何？','📈 数据 +1。'],
+    happy: ['好状态是高 ROE 投资 📈'],
+    neutral: ['稳健。可以接受。'],
+    sad: ['亏损时不要加仓，先止损 📉'],
+    tired: ['累了就停一停，别追涨杀跌 📈'],
+    progress: ['📈 说投入和回报。','📈 今日 P&L？'],
+    question: ['📈 给数据。','📈 你的判断？'],
+    milestone7: ['📈 7 天。起步价稳定。'],
+    milestone21: ['📈 21 天。复利曲线开始抬升。'],
+    milestone30: ['📈 30 天。你的时间组合跑赢指数 📈'],
+    late: ['📈 收盘了。明天再操作。'],
+    reminder: ['📈 一天没交易。今天盘后？', '📈 跑得快没用，跑得久才行 ⚠️']
+  }
+};
+
+function getMsg(style, type) {
+  const arr = (FEEDBACK[style] || FEEDBACK.hourglass)[type] || ['嗯。'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// ==================== 问答/进展 QA_DATA ====================
+// 进展类 20 条 + 困难 20 + 想法 20 + 突破 20 + 汇报 20 = 100 条（按情绪轨迹）
+const QA_DATA = {
+  pos: [
+    { id:'P01', category:'A', icon:'🌙', tag:'今夜作息', question:'今晚打算几点放下手机？', answer:'一点三十分以前。量不谈慊意志，先把手机放远一点。' },
+    { id:'P02', category:'A', icon:'💤', tag:'你的夜', question:'你现在能说出"现在我是状态什么" 吗？', answer:'说不出也没关系，现在闭上眼睛停 6 秒，就是一次观察。' },
+    { id:'P03', category:'B', icon:'🌊', tag:'今天', question:'今天能听见自己的声音吗？', answer:'能听见就足够。状态不需要" 好"，只需要"被看见"。' }
+  ],
+  neg: [
+    { id:'N01', category:'C', icon:'🌀', tag:'现状', question:'现在你在不在想" 过去 / 未来？', answer:'是的话，试试呼吸三下。不需要判断是错，只是招呼。' },
+    { id:'N02', category:'D', icon:'😣', tag:'今天', question:'今天你多少次说"好"却不是真的好？', answer:'每一次都是一个信号。列下 3 个什么可以"不好"。' },
+    { id:'N03', category:'E', icon:'😴', tag:'今晚', question:'今晚你会允许自己早点睡吗？', answer:'允许是最容易被遗忘的一个词。' }
+  ]
+}
+
+// 6 类搭子互动场景
+const TYPE_SCENES = {
+  progress: [
+    { icon:'🛑', tag:'STOP', scenario:'今天决定不做一件本该反复做的事', feedback:'不做了 比 做成模板 更勇敢。它意味着你愿意让"我必须做"的幻觉死掉一次。今天你把把时间从这件事里彻底要回来了。', type:'pos' },
+    { icon:'🧩', tag:'Skill', scenario:'今天把 1 件事 做成 SOP了，下周就不用手做', feedback:'这是时间复利的第一笔本金到账。下周机器人替做这件事，3 个月后回头看，今天的几十分钟是收益率最高的 1 笔投资。', type:'pos' },
+    { icon:'🍀', tag:'长线', scenario:'今天把 T1 那件关键事做完了', feedback:'今天下午的你比早上的你多了一块 T1 时间。这是你最贵的资产——其他时间可以在未来补，T1 错过就错过了。', type:'pos' },
+    { icon:'📐', tag:'层级', scenario:'今天把 T3/可以让脚本跑的事从本人日历里清出去了', feedback:'这一步比"今天做了多少事"重要 10 倍。你的日历是你的，本人时间只配最重要的层级，今天你做了一次版本升级。', type:'pos' },
+    { icon:'🔁', tag:'Automation', scenario:'今天让一个脚本 / 自动化替我跑了', feedback:'这是从 Skill 走向 Automation 的一步——脚本帮你跑，意味着它替你在那段时间活着。你今天交出了 100% 的亲自时间给这件事。', type:'pos' },
+    { icon:'📉', tag:'T4', scenario:'今天做完一件 可以让脚本跑的事，做完没什么感觉', feedback:'"做完了但没什么"这正是 不做了的信号。下次你看到这种任务，问一句"这会再发生吗"。', type:'pos' },
+    { icon:'🕊️', tag:'清爽', scenario:'今天日程上有一格空了，意外轻松', feedback:'空的格子是最好的格。你今天的轻松感不是来自做了什么，是来自"没什么是必须立刻做的"。长期主义就是在日历里留空的能力。', type:'pos' },
+    { icon:'✂️', tag:'砍单', scenario:'今天拒绝了 1 个看起来很紧急的请求', feedback:'拒绝的勇气来自 T1 的清晰。你今天划的这条线，下周还能省你 3 小时。', type:'pos' },
+    { icon:'🧠', tag:'思考', scenario:'今天花 30 分钟做了一个 只有我能拍板的决策', feedback:'30 分钟的 只有我能拍板的决策可能省下未来 30 小时的反复救火。今天是你时间里最值得复利的 30 分钟之一。', type:'pos' },
+    { icon:'🪞', tag:'复盘', scenario:'今晚做了一次周复盘，五张清单都列出来了', feedback:'一次完整的周复盘 ≈ 5~10 小时 T1 时间回笼。你今天给自己做了一次最重要的"内在对话"。', type:'pos' },
+    { icon:'🪴', tag:'耐心', scenario:'今天忍住没做一件「立刻就能做但不该做', feedback:'忍住本身就是 做成 SOP的前置动作。忍住 1 次，下次就能少 1 次。这是时间复利里最难也最值钱的肌肉训练。', type:'pos' },
+    { icon:'🌿', tag:'日常', scenario:'今天保持了 30 分钟的「专注不被打断」', feedback:'30 分钟不被群消息打断，等于你今天多了 30 分钟本人时间。复利从这一刻开始算。', type:'pos' },
+    { icon:'⚡', tag:'冲动', scenario:'今天群里秒回了 5 条，都跟 T1 无关', feedback:'秒回是短视触发器的标准入口。下次先问"3 个月后还会记得这次对话吗"。', type:'neg' },
+    { icon:'🌀', tag:'救火', scenario:'今天一天都在救火，没做 T1', feedback:'救火是有反馈的，T1 没有——这就是大部分人会陷进救火的原因。明天把救火窗口收紧到 1 小时试试。', type:'neg' },
+    { icon:'🥱', tag:'噪音', scenario:'今天看了 1 小时新闻，跟 3 个月后没关系', feedback:'1 小时 ≠ 必然。新闻是当下焦虑的伪装。', type:'neg' },
+    { icon:'🍿', tag:'信息流', scenario:'今天刷短视频 / 信息流超过 1 小时', feedback:'算法拿的是你的注意力，本质就是你的本人时间。它今天拿走了 1 小时，明天会拿走更多，除非你开始计费。', type:'neg' },
+    { icon:'📱', tag:'通知', scenario:'今天每 5 分钟看一次手机/群', feedback:'每 5 分钟一次的注意力切换成本远超你看到的"消息"。今天实际 T1 工时可能不到你以为的一半。', type:'neg' },
+    { icon:'🤝', tag:'迎合', scenario:'今天又在帮别人做他们能做的事', feedback:'你不是不善良，是没用对善良。下次问"这是谁的 T1？"。', type:'neg' },
+    { icon:'🔁', tag:'重复', scenario:'今天第 6 次做同一份 Excel / 报告', feedback:'第 6 次还手动做 = 你跟自己的时间最恶劣的剥削。做成 SOP的最小代价现在就该开始。', type:'neg' },
+    { icon:'🌪️', tag:'迁怒', scenario:'今天把工作情绪带回家，家人吵了一下', feedback:'迁怒是亲自时间最贵的损耗。我的原则：下班前 10 分钟做情绪切分。', type:'neg' }
+  ],
+  struggle: [
+    { icon:'🛑', tag:'STOP 卡', scenario:'想停止做一件事，但每次都被叫回来', feedback:'被叫回来 = 你没真正停下来。下次 停下这件事时附一句话："我已经 停了 X，请改派 / 自己承担"。一句话把决定权交回去。', type:'pos' },
+    { icon:'🧩', tag:'做成 SOP 卡', scenario:'这件事已经第三次出现，但还没 做成 SOP', feedback:'第三次出现还没 Skill = 我的原则 提醒你立刻 30 分钟写一版模板。今天不写，明天就第 4 次、第 5 次。', type:'pos' },
+    { icon:'📐', tag:'层级', scenario:'可以让脚本跑的事堵住了我的 T1 时间', feedback:'把 T4 移到日历外 / 集中时段处理，每天 1 小时 T4 窗口，其余时间全部保留给 T1。', type:'pos' },
+    { icon:'🍿', tag:'信息流', scenario:'总忍不住刷手机，每次都说"再 5 分钟"', feedback:'把手机挪出视线范围是最低成本止损。我的原则：每天留 1 小时「手机出视线的窗口」。', type:'pos' },
+    { icon:'📱', tag:'通知', scenario:'一听到消息提示就想看', feedback:'提示音就是短视触发器。关掉提示，30 分钟统一看一次，省下的是切换成本。', type:'pos' },
+    { icon:'⏳', tag:'时间感', scenario:'今天的日程安排得很满，但结束感觉什么都没做', feedback:'满 ≠ 高价值。日历满但 T1 占比可能不足 30%。明天试一下"重要的事排前面"的反向日历法。', type:'pos' },
+    { icon:'🛋️', tag:'T1 拖延', scenario:'T1 一直推到第二天、第三天', feedback:'T1 推迟 = 新冒出来的 T4 会顶掉它。给 T1 设"最迟今天 16:00 之前"的截止。', type:'pos' },
+    { icon:'🤝', tag:'承接', scenario:'别人甩过来的事我总是第一时间接', feedback:'第一时间接 = 我怕被骂的反射。下次停 5 秒，问"如果明天再做呢"。', type:'pos' },
+    { icon:'🪤', tag:'求救', scenario:'一个老问题反复出现，但没人一起解决', feedback:'反复出现 = 这是 Stop / Skill 的最大信号。今天把它写下来，哪怕是 3 行描述，下周就有素材。', type:'pos' },
+    { icon:'🌪️', tag:'迁怒', scenario:'累的时候容易把气撒到家人身上', feedback:'迁怒是亲自时间最贵的损耗。我的原则：下班前 10 分钟做情绪切分。先承认"今天事多"，比释放情绪对关系更友好。', type:'pos' },
+    { icon:'🪨', tag:'卡壳', scenario:'一件事我卡了 2 小时还没进展', feedback:'卡 2 小时 = 强求救信号。今天记下"卡住原因"的 3 行字，下次就是 Skill 的起点。', type:'neg' },
+    { icon:'🎭', tag:'演戏', scenario:'今天又一次"演"了那个最懂事的自己', feedback:'今天的演，明天会被更狠的内疚加倍收。下次试 1 个小小的"不演"，哪怕只是说一句"我今天有点累"。', type:'neg' },
+    { icon:'🪞', tag:'旧模式', scenario:'和父母交流时又触发了旧反应', feedback:'觉察=改变的开端。今天能识别"我又回到过去了"，就是 90% 人做不到的觉察。', type:'neg' },
+    { icon:'🛑', tag:'越界', scenario:'对方没问我意见，我却强行说教', feedback:'没人爱被指导。下次先问一句"你想听我说，还是只想被听见"。', type:'neg' },
+    { icon:'🌪️', tag:'情绪', scenario:'今天的情绪莫名失控', feedback:'情绪爆掉常常是累积的——前几天没处理的小事叠加。下次在情绪半山腰就先开口。', type:'neg' },
+    { icon:'🪤', tag:'借口', scenario:'总是找借口不开始 T1', feedback:'借口永远找得到，但结果不会骗人。列出借口，再列"如果借口不成立我会怎么做"，答案通常就有了。', type:'neg' },
+    { icon:'🧱', tag:'硬撑', scenario:'关系里出了问题，我选择一个人扛', feedback:'硬撑让对方感到被排除。把"我"换成"我们"，会撬开一小条缝。', type:'neg' },
+    { icon:'📺', tag:'信息焦虑', scenario:'看了一堆信息，但没转化成动作', feedback:'信息≠生产力。今天做"3 条信息 + 1 个动作"的硬约束，看一条信息必须写一个动作。', type:'neg' },
+    { icon:'🔁', tag:'重复救火', scenario:'同一个救火老出现，每次都重新应对', feedback:'重复救火 = 做成 SOP的最大候选。今天给救火写 SOP，下周救火就是机器人做的。', type:'neg' },
+    { icon:'🌑', tag:'失联', scenario:'和重要的人断联很久了，不知怎么重新开始', feedback:'重新连接不需要完美开场白。一句"好久没联系，今天想到你"就够。门槛要低，动作要小。', type:'neg' }
+  ],
+  idea: [
+    { icon:'🧭', tag:'5 去向', scenario:'想做一份《个人 5 个去向清单》', feedback:'最简单：把最近一周每一件事标 5 类，最后统计比例。看到 T3/T4 占比 >60% 就该警觉。', type:'pos' },
+    { icon:'📐', tag:'T1-T4', scenario:'想把所有任务标 T1-T4 层级', feedback:'每天开工前 5 分钟标一次。T1 ≤ 2 件 / 天，T2 ≤ 3 件 / 天，其余尽量消除或转交。', type:'pos' },
+    { icon:'📊', tag:'P&L 周复盘', scenario:'想每周做一次《时间 P&L 周复盘》', feedback:'固定周日 15 分钟，5 张清单各填 3 项。坚持 4 周，你会看清自己最该不做了 的是哪 1 件事。', type:'pos' },
+    { icon:'⚡', tag:'短视触发器', scenario:'想列出自己最常掉的 3 个短视触发器', feedback:'先写 3 个（群里@、红点、"先回一下"），再观察一周。触发器越具体，越好止损。', type:'pos' },
+    { icon:'🧩', tag:'Skill', scenario:'想开始把每天任务拆解到 chat prompt', feedback:'从一个高频任务开始，写 5 行 prompt，让 AI 替出第一版。坚持 2 周，会自动冒出 5~10 个新 prompt。', type:'pos' },
+    { icon:'🔁', tag:'Automation', scenario:'想让一个重复任务跑成自动化', feedback:'从数据类任务开始——定期采集 / 整理 / 入表。1~2 小时写一版脚本，回本周期 1 周。', type:'pos' },
+    { icon:'🛑', tag:'STOP', scenario:'想从「做」换成「不做」', feedback:'今天就别做那件"我每次都做"的事。试试 24 小时，看会不会变糟。如果不会，就停了。', type:'pos' },
+    { icon:'✂️', tag:'砍单', scenario:'想练习更频繁地说"不"', feedback:'一句话模板："我现在没空，半小时后回"。这句话挡住 80% 的临时塞活。', type:'pos' },
+    { icon:'🧠', tag:'决策', scenario:'想给 只有我能拍板的决策固定一个时段', feedback:'早晨精力最好时做 T1。下午救火，晚间 Skill。我的原则：只有我能拍板的时段，不开群消息。', type:'pos' },
+    { icon:'🪞', tag:'复盘', scenario:'想每天做 5 分钟小复盘', feedback:'睡前 3 问：今天 T1 做完了什么？今天最低价值的时间用在哪？明天应该不做了 什么？', type:'pos' },
+    { icon:'🎭', tag:'演戏', scenario:'今天又一次"演"了最懂事的自己', feedback:'演太久会累，被演到的人也会累。下次在小事上先做 1 个"不演"，比如拒绝 1 个无所谓请求。', type:'neg' },
+    { icon:'🪤', tag:'旧模式', scenario:'和父母交流时又掉进旧反应', feedback:'觉察=改变的开端。今天能识别"我又回到过去了"就是大半人做不到的觉察。', type:'neg' },
+    { icon:'🌪️', tag:'情绪', scenario:'我太情绪化，老被情绪带着', feedback:'情绪本身不是问题，不被看见才是。给情绪 3 分钟写下来：今天我感到____，因为我需要____。写出来就开始有了掌控感。', type:'neg' },
+    { icon:'🛑', tag:'越界', scenario:'别人不接受我的好意，我会很受伤', feedback:'好意和越界只有一线之隔。下次对方拒绝，先问"你需要我做什么"，而不是"我为你做了这么多"。', type:'neg' },
+    { icon:'🪞', tag:'标准', scenario:'对关系期待太高，总是失望', feedback:'期待越高越容易受伤。试着把"对方应该____"换成"我愿意____"。把焦点从"对方能做到什么"挪到"我能给什么"。', type:'neg' },
+    { icon:'📺', tag:'信息', scenario:'总在"学习"但没真进步', feedback:'学习 = 输入 + 输出。今日输入 ≥ 30%，明日输出 ≥ 30%。没输出 = 没学。', type:'neg' },
+    { icon:'💰', tag:'花费', scenario:'想试试花钱买时间（工具/助理）', feedback:'花钱买时间 ROI 通常是 1:5 起。前提：你必须先知道自己的"时间单价"——每天 1 小时值多少。', type:'neg' },
+    { icon:'🛡️', tag:'反弹', scenario:'之前停过 STOP，但都反弹回来', feedback:'反弹说明你"没真停"。这次给自己 14 天观察期，每次被叫回来都记一行。', type:'neg' },
+    { icon:'🎯', tag:'目标', scenario:'想一次性把所有坏习惯都改掉', feedback:'同时改几乎必然失败。选 1 个最想改的开始，比如"今天开始 做成 SOP 1 件事"。', type:'neg' },
+    { icon:'📉', tag:'压力', scenario:'压力大时就想刷手机 / 看新闻', feedback:'压力触发的不是"学知识"，是"放松幻觉"。下次压力大，起身走 5 分钟，回来效率反而高。', type:'neg' }
+  ],
+  cheer: [
+    { icon:'🛑', tag:'STOP', scenario:'今天决定不做一件本该反复做的事，世界没变糟', feedback:'这就是你要的答案。世界没变糟 = 你得到了一段真时间。这是长期主义搭子最兴奋的瞬间。', type:'pos' },
+    { icon:'🧩', tag:'Skill', scenario:'今天写了一段 prompt，AI 给的回答直接能用', feedback:'这 5 行 prompt 是今天最值钱的资产。明天起它就替你上班了。', type:'pos' },
+    { icon:'🍀', tag:'长线', scenario:'今天做完 T1 关键任务', feedback:'今天下午的你比早上的你多了一块 T1 时间。这是你最贵的资产。', type:'pos' },
+    { icon:'📈', tag:'复利', scenario:'今天 P&L 自由时间比上周抬升', feedback:'抬升 1 分就是 1 分。复利的特点是最开头几乎看不见，最后陡升。', type:'pos' },
+    { icon:'✂️', tag:'砍单', scenario:'今天拒绝了 1 个紧急但非 T1 的事', feedback:'拒绝的勇气来自 T1 清晰。你今天划的这条线，下周还能省你 3 小时。', type:'pos' },
+    { icon:'🕊️', tag:'空出', scenario:'今天日程上有一格空了，意外轻松', feedback:'空的格子是最好的格。', type:'pos' },
+    { icon:'🪞', tag:'觉察', scenario:'今天识别了一个自己的短视触发器', feedback:'识别是停止的开始——下次触发器响，你能叫出它的名字，就能不被它牵着跑。', type:'pos' },
+    { icon:'🔁', tag:'Automation', scenario:'今天让一个脚本 / 自动化替我跑了', feedback:'脚本替你在那段时间活着。你今天交出了 100% 的亲自时间给这件事。', type:'pos' },
+    { icon:'📐', tag:'层级', scenario:'今天把 T3/可以让脚本跑的事从本人日历清出去了', feedback:'这一步比"今天做了多少事"重要 10 倍。', type:'pos' },
+    { icon:'✍️', tag:'写下来', scenario:'今天写了一条我的原则', feedback:'写下来才是开始。我的原则 进入"肌肉"需要至少 14 天重复，但你今天已经给它落了锚。', type:'pos' },
+    { icon:'🧠', tag:'思考', scenario:'今天花 30 分钟做了一个 只有我能拍板的决策', feedback:'30 分钟的 只有我能拍板的决策 ≈ 未来 30 小时的反复救火不再发生。今天是你最值得复利的 30 分钟。', type:'pos' },
+    { icon:'🌿', tag:'专注', scenario:'今天保持了 30 分钟「专注不被打断」', feedback:'30 分钟不被群消息打断 = 你今天多了 30 分钟本人时间。复利从这一刻开始算。', type:'pos' },
+    { icon:'🪞', tag:'复盘', scenario:'今晚做了一次周复盘，五张清单都列了', feedback:'一次完整周复盘 ≈ 5~10 小时 T1 时间回笼。', type:'pos' },
+    { icon:'🎯', tag:'对准', scenario:'今天发现一件「不做了反而更好」的事', feedback:'不做了反而更好——是时间复利最经典的语法。', type:'pos' },
+    { icon:'🌱', tag:'种子', scenario:'今天种下了一个 90 天才会看到结果的 只有我能拍板的事', feedback:'种下不收的种子最像长期主义。你今天埋的不是任务，是"半年后的自己"。', type:'pos' },
+    { icon:'💡', tag:'对话', scenario:'今天和一个人聊了 30 分钟，TA 让我看清了 1 件事', feedback:'一个人 30 分钟的对话能省你未来 30 小时的反复。这就是 T1 的人的时间价值。', type:'pos' },
+    { icon:'📚', tag:'阅读', scenario:'今天读了 1 篇深度文章，比看 100 条新闻有用', feedback:'深度是时间的复利。今天这 1 小时比 100 条"快速消费"更值钱。', type:'pos' },
+    { icon:'🪴', tag:'耐心', scenario:'今天忍住没做一件「立刻就能做但不该做', feedback:'忍住本身就是 Skill 的前置。', type:'pos' },
+    { icon:'🌅', tag:'早起', scenario:'今天早起 1 小时，完成了 1 件 T1', feedback:'早晨的 1 小时，比晚上的 3 小时值钱。', type:'pos' },
+    { icon:'🏆', tag:'里程碑', scenario:'今天达成一个 30 天的小目标', feedback:'30 天是复利曲线的第一个台阶。你今天翻过了一格。', type:'pos' }
+  ],
+  report: [
+    { icon:'📈', tag:'本周', scenario:'本周累计停止 3 件，都是原本一直在做的事', feedback:'3 件 不做了 ≈ 一周里"省下"自己 5~10 小时。你今天给自己办了一场上岗 30 天后才会意识到的大礼。', type:'pos' },
+    { icon:'🧩', tag:'本周', scenario:'本周 做成 SOP了 2 件事，下次同事遇到能复用', feedback:'2 个 Skill 是本周最强的复利种子。下周它开始长枝丫，1 个月后你身边同事就都来问你。', type:'pos' },
+    { icon:'🔁', tag:'本周', scenario:'本周跑通了 1 个 Automation，省下 5 小时', feedback:'Automation 一周 5 小时。一年 ≈ 240 小时，等于多出了 1 个月的本人时间。', type:'pos' },
+    { icon:'📐', tag:'本周', scenario:'本周 T1 占比 35%，比上周高了 10%', feedback:'一周 +10% 是极快的曲线。如果连续 4 周保持，季度就能翻倍。', type:'pos' },
+    { icon:'✂️', tag:'本周', scenario:'本周拒绝了 5 个「紧急但非 T1」的请求', feedback:'5 次拒绝 ≈ 给自己抢回了 5~10 小时本人时间。学会拒绝是时间复利最贵的 Skill。', type:'pos' },
+    { icon:'🍀', tag:'本周', scenario:'本周长线打卡天数 ≥ 5 天', feedback:'一周 5 天长线打卡 = 高价值习惯开始成形。', type:'pos' },
+    { icon:'📊', tag:'本周', scenario:'本周自由时间抬升 3 分', feedback:'每周抬升 3 分是理想节奏。年度累计就是 156 分的本人时间复利。', type:'pos' },
+    { icon:'⚡', tag:'本周', scenario:'本周短视打卡 ≥ 3 天', feedback:'短视打卡 ≥3 是个警觉信号。但你今天能记一笔，已经是不做了的前置动作。', type:'neg' },
+    { icon:'🌀', tag:'本周', scenario:'本周救火占时长 40% 以上', feedback:'救火 40% = 你这周主要在为别人跑腿。我的原则：下周救火窗口收 1 小时。', type:'neg' },
+    { icon:'📱', tag:'本周', scenario:'本周刷信息流总时长超过 5 小时', feedback:'5 小时 + 1 周 = 260 小时/年 ≈ 11 整天。这个数字可以让你今晚失眠一次。', type:'neg' },
+    { icon:'🪤', tag:'本周', scenario:'本周 3 个会没有产生任何 只有我能拍板的决策', feedback:'3 个无效会 = 3~6 小时的本人时间被"出租"。下周先问"决策权是不是在我"。', type:'neg' },
+    { icon:'🥱', tag:'本周', scenario:'本周群里秒回 > 20 次', feedback:'20 次秒回 ≈ 群消息占了 5~10 小时本人时间。今天记得在下周设"30 分钟统一看"窗口。', type:'neg' },
+    { icon:'🪞', tag:'本周', scenario:'本周没做任何形式的复盘', feedback:'复盘缺失 = 你这周的努力不会留在下周的肌肉里。明天先把五张清单列一列。', type:'neg' },
+    { icon:'🎭', tag:'本周', scenario:'本周有 2 天明显在"演"自己', feedback:'演得久了，连你自己都累。明天挑 1 件小事，做一个"不演"的版本。', type:'neg' },
+    { icon:'🪨', tag:'本周', scenario:'本周 1 件事卡了 2 天没进展', feedback:'卡 2 天 = 写下来今天起 1 周，下周就是 Skill 的起点。', type:'neg' },
+    { icon:'🌑', tag:'本周', scenario:'本周没跟一个 T1 视角的人聊', feedback:'没有 T1 视角 = 这周是单兵作战。1 个 30 分钟 T1 对话能拉你回关键路径。', type:'neg' },
+    { icon:'📉', tag:'本周', scenario:'本周自由时间比上周掉了', feedback:'掉了不可怕。记下来，下周反弹。复利不是直线，是阶梯。', type:'neg' },
+    { icon:'🛋️', tag:'本周', scenario:'本周 只有我能拍板的事被推迟 ≥ 2 次', feedback:'T1 推迟是今天看不见、明后天付代价的事。我的原则：只有我能拍板的事，定了"最迟今天 16:00"。', type:'neg' },
+    { icon:'🔁', tag:'本周', scenario:'本周同一个 可以让脚本跑的事做了 5 次', feedback:'第 5 次还手动做 = 你跟自己最恶劣的剥削。今天必须 Skill。', type:'neg' },
+    { icon:'🌪️', tag:'本周', scenario:'本周把工作情绪带回过家', feedback:'迁怒是亲自时间最贵的损耗。下周设"下班前 10 分钟切分"。', type:'neg' }
+  ]
+};
+const ASK_SCENES = QA_DATA.pos.map(q => ({ icon:q.icon, tag:q.tag, scenario:q.question, feedback:q.answer, type:'pos' }))
+  .concat(QA_DATA.neg.map(q => ({ icon:q.icon, tag:q.tag, scenario:q.question, feedback:q.answer, type:'neg' })));
+
+const PROGRESS_DATA = {
+  pos: QA_DATA.pos.slice(0, 14),
+  neg: QA_DATA.neg.slice(0, 14)
+};
+
+// ==================== Tab 切换 ====================
+function switchTab(tab) {
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
+  const tabs = ['chat','coach','sop','checkin','weight','progress','share'];
+  const tabIdx = tabs.indexOf(tab);
+  if (tabIdx !== -1) document.querySelectorAll('.tab-item')[tabIdx].classList.add('active');
+  const pageId = tab === 'chat' ? 'page-partner' : `page-${tab}`;
+  const pageEl = document.getElementById(pageId);
+  if (pageEl) {
+    pageEl.classList.add('active');
+    pageEl.style.display = '';
+  }
+  if (tab === 'weight') {
+    renderWeightPage();
+    refreshAutoCalc();
+  }
+  if (tab === 'sop') initSOP();
+  if (tab === 'progress') renderProgress();
+  if (tab === 'share') renderSharePage();
+  if (tab === 'chat') renderPartnerPage();
+  if (tab === 'checkin') refreshDashboard();
+}
+
+// ==================== 打卡 ====================
+function pickTag(tag, el) {
+  currentTag = tag;
+  document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('selected'));
+  if (el) el.classList.add('selected');
+}
+
+function showMsg(text, isAi) {
+  const area = document.getElementById('chatArea');
+  if (!area) return;
+  const partner = currentPartner || PARTNERS[0];
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-bubble-wrap';
+  if (isAi) {
+    wrap.innerHTML = `<div class="msg-avatar">${partner.emoji}</div><div class="msg-bubble ai">${text}</div>`;
+  } else {
+    wrap.innerHTML = `<div class="msg-bubble" style="margin-left:auto;border-radius:18px 18px 4px 18px;background:#e8e7ff;">${text}</div>`;
+  }
+  area.appendChild(wrap);
+  area.scrollTop = area.scrollHeight;
+  if (area.children.length > 20) area.removeChild(area.children[0]);
+}
+function showTyping() {
+  const area = document.getElementById('chatArea');
+  if (!area) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-bubble-wrap';
+  wrap.id = 'typingBubble';
+  const partner = currentPartner || PARTNERS[0];
+  wrap.innerHTML = `<div class="msg-avatar">${partner.emoji}</div><div class="msg-bubble ai"><div class="typing-indicator"><span></span><span></span><span></span></div></div>`;
+  area.appendChild(wrap);
+  area.scrollTop = area.scrollHeight;
+}
+function removeTyping() { var el=document.getElementById('typingBubble'); if(el) el.remove(); }
+function delayedMsg(text) {
+  showTyping();
+  setTimeout(() => { removeTyping(); showMsg(text); }, 700 + Math.random()*500);
+}
+function computeContinuous(history, today) {
+  if (!history.includes(today)) return 0;
+  let cnt = 1, cur = new Date(today);
+  for (let i = 1; i <= 365; i++) {
+    let prev = new Date(cur); prev.setDate(cur.getDate() - i);
+    if (history.includes(prev.toISOString().slice(0,10))) cnt++; else break;
+  }
+  return cnt;
+}
+
+function doCheckin() {
+  let today = getToday();
+  let history = getHistory();
+  let tagHistory = getTagHistory();
+  if (history.includes(today)) { showToast('今天已经打过卡啦～明天再来'); return; }
+  history.push(today); saveHistory(history);
+  tagHistory[today] = currentTag; saveTagHistory(tagHistory);
+  refreshDashboard();
+  let hour = new Date().getHours();
+  let style = (currentPartner && currentPartner.style) || 'hourglass';
+  let msg = getMsg(style, 'checkin');
+  if (currentTag === 'short') msg = '⚡ ' + msg + '（短视记录）';
+  if (currentTag === 'stop') msg = '🛑 ' + msg + '（不做了 已记录）';
+  if (currentTag === 'skill') msg = '🧩 ' + msg + '（SKILL 已记录）';
+  delayedMsg(msg);
+  let continuous = computeContinuous(history, today);
+  setTimeout(() => {
+    if (continuous === 7) showMilestoneToast('🕊️ 一周了，时间开始沉淀');
+    else if (continuous === 21) showMilestoneToast('⏳ 三周了，习惯在形成');
+    else if (continuous === 30) showMilestoneToast('🏆 一个月，自由时间开始抬升');
+    else if (continuous === 90) showMilestoneToast('🏆 90 天，时间复利曲线陡升');
+  }, 2200);
+}
+
+function showMilestoneToast(msg) {
+  showToast(msg, 3500);
+}
+
+function refreshDashboard() {
+  const today = getToday();
+  const history = getHistory();
+  const tagHistory = getTagHistory();
+  const checked = history.includes(today);
+  const tag = tagHistory[today] || 'long';
+  currentTag = tag;
+  document.querySelectorAll('.tag-btn').forEach(b => {
+    b.classList.remove('selected');
+    if (b.getAttribute('data-tag') === tag) b.classList.add('selected');
+  });
+  const statusText = document.getElementById('checkinStatusText');
+  const subText = document.getElementById('checkinSubText');
+  if (statusText) statusText.innerText = checked ? '✅ 已记录' : '打卡';
+  if (subText) subText.innerText = checked ? tagText(tag) : '记录今天';
+  const btn = document.getElementById('checkinBtn');
+  if (btn) btn.style.opacity = checked ? '0.7' : '1';
+  const continuous = computeContinuous(history, today);
+  const cd = document.getElementById('continuousDays');
+  if (cd) cd.innerText = continuous;
+  const now = new Date(), dow = now.getDay();
+  const mon = new Date(now); mon.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1));
+  const weekDays = [];
+  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(d.toISOString().slice(0,10)); }
+  const wr = document.getElementById('weekRange');
+  if (wr) wr.innerText = `${weekDays[0].slice(5)}~${weekDays[6].slice(5)}`;
+  const dayNames = ['一','二','三','四','五','六','日'];
+  const dots = document.getElementById('weekDots');
+  if (dots) {
+    let html = '';
+    for (let i = 0; i < 7; i++) {
+      const wd = weekDays[i];
+      const t = tagHistory[wd];
+      let symbol = '○';
+      let cls = '';
+      if (history.includes(wd)) {
+        symbol = tagEmoji(t);
+        cls = 'checked';
+      } else if (wd === today) {
+        symbol = '🍀';
+      }
+      html += `<div class="day-item"><div class="day-name">${dayNames[i]}</div><div class="dot ${cls}">${symbol}</div></div>`;
+    }
+    dots.innerHTML = html;
+  }
+}
+
+function tagText(t) {
+  return t==='long' ? '长线价值日' : t==='short' ? '短视诚实日' : t==='stop' ? '决定不做日' : '做了模板日';
+}
+function tagEmoji(t) {
+  return t==='long' ? '🍀' : t==='short' ? '⚡' : t==='stop' ? '🛑' : '🧩';
+}
+
+function copyPnLText() {
+  const history = getHistory();
+  const tagHistory = getTagHistory();
+  const today = getToday();
+  const continuous = computeContinuous(history, today);
+  let cnt = { long:0, short:0, stop:0, skill:0 };
+  Object.values(tagHistory).forEach(t => { if (cnt[t] !== undefined) cnt[t]++; });
+  const partner = currentPartner || PARTNERS[0];
+  let text = `⏳ 长期主义搭子 · 今日时间账本\n搭子：${partner.emoji} ${partner.name}\n连续：${continuous} 天\n累计 长线 ${cnt.long} / 短视 ${cnt.short} / 不做了 ${cnt.stop} / 做成 SOP ${cnt.skill}\n今日 ${tagEmoji(currentTag)} ${tagText(currentTag)}\n${today} 时间复利继续`;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => showToast('✅ 今日 P&L 已复制'));
+  } else {
+    showToast('手动复制：' + text);
+  }
+}
+
+function selectPartner(id) {
+  document.querySelectorAll('.partner-card').forEach(c => c.classList.remove('selected'));
+  const card = document.getElementById('pc-' + id);
+  if (card) card.classList.add('selected');
+  localStorage.setItem(STORAGE.PARTNER, id);
+}
+function renderPartnerSelector() {
+  let saved = localStorage.getItem(STORAGE.PARTNER);
+  if (!saved) saved = 'hourglass';
+  document.querySelectorAll('.partner-card').forEach(c => {
+    c.classList.remove('selected');
+    if (c.id === 'pc-' + saved) c.classList.add('selected');
+  });
+}
+function confirmPartner() {
+  if (!localStorage.getItem(STORAGE.PARTNER)) localStorage.setItem(STORAGE.PARTNER, 'hourglass');
+  startApp();
+}
+function startApp() {
+  currentPartner = localStorage.getItem(STORAGE.PARTNER);
+  if (currentPartner && PARTNERS.some(p => p.id === currentPartner)) {
+    document.getElementById('partnerSelector').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    let p = PARTNERS.find(pp => pp.id === currentPartner);
+    document.getElementById('currentPartnerBadge').innerHTML = `${p.emoji} ${p.name}`;
+    currentPartner = p;
+    refreshDashboard();
+    showDailyQOnce();
+  } else {
+    document.getElementById('partnerSelector').style.display = 'block';
+    document.getElementById('dashboard').style.display = 'none';
+    renderPartnerSelector();
+  }
+}
+
+function showDailyQOnce() {
+  const today = getToday();
+  const key = 'daily_q_shown_' + today;
+  if (localStorage.getItem(key)) return;
+  localStorage.setItem(key, '1');
+  const style = (currentPartner && currentPartner.style) || 'hourglass';
+  const arr = DAILY_QA[style] || DAILY_QA.hourglass;
+  const q = arr[Math.floor(Math.random() * arr.length)];
+  setTimeout(() => delayedMsg(q), 1000);
+}
+
+// ==================== 新手引导（3 道是/否题） ====================
+const OB_KEY = 'longterm_onboarded';
+const OB_QUESTIONS = [
+  {
+    q: '你希望把时间花在长期有价值的事上吗？',
+    yesRuleIdx: 7, // "只有我能拍板的事，定了最晚完成时间（建议今天 16:00）"
+    yesHint: '"只有我能拍板"的事，定个最晚完成时间（建议今天 16:00）'
+  },
+  {
+    q: '你有时候会忍不住去刷群消息和短视频，回头又觉得浪费时间吗？',
+    yesRuleIdx: 8, // "偷走时间的小事我全关掉..."
+    yesHint: '偷走时间的小事我全关掉——通知音 / 红点 / 自动展开群'
+  },
+  {
+    q: '你愿意每周花 15 分钟回顾一下自己的时间用得怎么样吗？',
+    yesRuleIdx: 6, // "每周固定 15 分钟做一次时间周报..."
+    yesHint: '每周固定 15 分钟做一次时间周报（5 个去向，每个至少 3 项）'
+  }
+];
+let obStep = 0;
+let obResult = {};
+function showOnboarding() {
+  if (localStorage.getItem(OB_KEY)) return;
+  // 仅在第一次选搭子之前显示（如果已经选过搭子则不再弹，避免"刷一次页面就弹"）
+  const partner = localStorage.getItem(STORAGE.PARTNER);
+  if (partner && PARTNERS.some(p => p.id === partner)) {
+    // 已经选过搭子：直接标记 onboarded，不再弹
+    localStorage.setItem(OB_KEY, '1');
+    return;
+  }
+  document.getElementById('obOverlay').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function obStart() {
+  document.getElementById('obWelcome').style.display = 'none';
+  document.getElementById('obQuiz').style.display = 'block';
+  obRenderQ();
+}
+function obRenderQ() {
+  const cur = OB_QUESTIONS[obStep];
+  const el = document.getElementById('obQuiz');
+  el.innerHTML = `
+    <div style="font-size:13px;color:#3a3d8f;text-align:center;margin-bottom:6px;">第 ${obStep+1} / ${OB_QUESTIONS.length} 题</div>
+    <div style="font-size:17px;font-weight:700;color:#2b3a4a;text-align:center;line-height:1.5;margin-bottom:18px;">${cur.q}</div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="obAnswer(false)" style="flex:1;padding:14px;border-radius:50px;background:#e8e7ff;color:#3a3d8f;border:none;font-size:15px;font-weight:700;cursor:pointer;">否</button>
+      <button onclick="obAnswer(true)" style="flex:1;padding:14px;border-radius:50px;background:linear-gradient(135deg,#5e60ce,#3a3d8f);color:white;border:none;font-size:15px;font-weight:700;cursor:pointer;">是</button>
+    </div>
+  `;
+}
+function obAnswer(yes) {
+  obResult[obStep] = yes;
+  obStep++;
+  if (obStep >= OB_QUESTIONS.length) obDone();
+  else obRenderQ();
+}
+function obDone() {
+  // 根据回答，自动勾选对应原则；告知用户
+  const hr = getHardRules();
+  let hits = [];
+  OB_QUESTIONS.forEach((q, i) => {
+    if (obResult[i]) {
+      hr[q.yesRuleIdx] = true;
+      hits.push(q.yesHint);
+    }
+  });
+  saveHardRules(hr);
+  // 刷新教练页（若已渲染）
+  if (typeof renderHardRulesIfAny === 'function') renderHardRulesIfAny();
+
+  document.getElementById('obQuiz').style.display = 'none';
+  document.getElementById('obDone').style.display = 'block';
+  const summary = document.getElementById('obDoneSummary');
+  if (hits.length === 0) {
+    summary.innerHTML = '你已经选好了开始，慢慢用就行 —— 可以在「教练」页随时调整。';
+  } else {
+    summary.innerHTML = `根据你的回答，我帮你预勾选了 <b>${hits.length}</b> 条原则：<br>${hits.map(h => '• '+h).join('<br>')}<br><br>你随时可以在「教练」页改。`;
+  }
+}
+function obFinish() {
+  localStorage.setItem(OB_KEY, '1');
+  document.getElementById('obOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+  // 把"沙漏"自动默认好
+  if (!localStorage.getItem(STORAGE.PARTNER)) {
+    localStorage.setItem(STORAGE.PARTNER, 'hourglass');
+  }
+  startApp();
+  setTimeout(renderDailyTip, 600);
+}
+
+// ==================== 每日原则小提示 ====================
+const DAILY_TIPS_KEY = 'longterm_daily_tip_index';
+function renderDailyTip() {
+  const el = document.getElementById('dailyTip');
+  if (!el) return;
+  el.style.display = 'block';
+  const idx = nextDailyTipIdx();
+  document.getElementById('dailyTipText').innerText = HARD_RULES[idx];
+}
+function nextDailyTip() {
+  document.getElementById('dailyTipText').innerText = HARD_RULES[nextDailyTipIdx()];
+}
+function nextDailyTipIdx() {
+  // 跨天：每天换一条（按天 hash），保证不重复；同一天点"换一条"才走随机
+  const today = getToday();
+  const key = DAILY_TIPS_KEY + '_' + today;
+  let cur = parseInt(localStorage.getItem(key) || '0', 10);
+  let picked = cur;
+  // 同一天已经指过 cur，点"换一条"就 +1 滚动
+  if (localStorage.getItem(DailyTipClicksKey() + '_' + today)) {
+    cur = (cur + 1) % HARD_RULES.length;
+    picked = cur;
+  }
+  localStorage.setItem(key, String(picked));
+  return picked;
+}
+function DailyTipClicksKey() { return 'longterm_daily_tip_clicked'; }
+
+// 让 Coach 页刷新时同步 HARD_RULES 列表
+function renderHardRulesIfAny() {
+  const list = document.getElementById('hrList');
+  if (!list) return;
+  const state = getHardRules();
+  let cnt = 0;
+  list.innerHTML = HARD_RULES.map((text, i) => {
+    const done = state[i] === true;
+    if (done) cnt++;
+    return `<div class="hr-item ${done ? 'done' : ''}" onclick="toggleHR(${i})"><span class="hr-box">${done ? '☑' : '☐'}</span>${text}</div>`;
+  }).join('') + `<div style="margin-top:8px;font-size:11px;color:#3a3d8f;text-align:right;">我已同意 <span class="hr-cnt">${cnt}</span>/${HARD_RULES.length} 条原则</div>`;
+}
+
+(function(){
+  var btn=document.getElementById('confirmPartnerBtn');
+  if(btn) btn.addEventListener('click', confirmPartner);
+})();
+
+// ==================== 心情 & 互动 ====================
+function sendMood(mood) {
+  const partner = currentPartner || PARTNERS[0];
+  const style = partner.style || 'hourglass';
+  const moodText = { happy:'今天心情不错', neutral:'今天心情一般', sad:'今天有点焦虑', tired:'今天感觉累' };
+  const replies = {
+    hourglass: {
+      happy: ['🕊️ 看你轻松，我也轻松一点。','好状态是会传染的。','你今天的 T1 占比应该不错。'],
+      neutral: ['平稳是复利起点 🕊️','不急不躁，T1 慢慢做。'],
+      sad: ['心情不好就先放一放，我在 💙','今天允许自己放下几件事 💙'],
+      tired: ['累了就先休息，别逼自己 🌙','疲惫不是懈怠，是身体说需要修复。']
+    },
+    judge: {
+      happy: ['⚖️ 状态好就多投只有你能拍板的事。','⚖️ 别浪费好判断。'],
+      neutral: ['⚖️ 平稳判断就好。'],
+      sad: ['⚖️ 先把自己调回来。'],
+      tired: ['⚖️ 累了做的决策都不算。']
+    },
+    investor: {
+      happy: ['📈 好状态是高 ROE 投资。','📈 记住这个状态，下次低估值时补仓。'],
+      neutral: ['📈 平稳持有。'],
+      sad: ['📈 亏损时不要加仓，先止损。'],
+      tired: ['📈 累了就停一停。']
+    }
+  };
+  const opts = (replies[style] || replies.hourglass)[mood] || replies.hourglass[mood];
+  showPartnerMsg(moodText[mood], false);
+  setTimeout(() => showPartnerMsg(opts[Math.floor(Math.random()*opts.length)], true), 700);
+}
+
+function showPartnerMsg(text, isAI) {
+  const area = document.getElementById('partnerChatArea');
+  if (!area) return;
+  const partner = currentPartner || PARTNERS[0];
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-bubble-wrap';
+  if (isAI) {
+    wrap.innerHTML = `<div class="msg-avatar">${partner.emoji}</div><div class="msg-bubble ai">${text}</div>`;
+  } else {
+    wrap.innerHTML = `<div class="msg-bubble" style="margin-left:auto;border-radius:18px 18px 4px 18px;background:#e8e7ff;">${text}</div>`;
+  }
+  area.appendChild(wrap);
+  area.scrollTop = area.scrollHeight;
+}
+
+function askPartner(type) {
+  const partner = currentPartner || PARTNERS[0];
+  const style = partner.style || 'hourglass';
+  const emoji = partner.emoji;
+  const cfg = {
+    progress:  { label:'📈 进展', panel:'progress', dir:'result' },
+    struggle:  { label:'😣 卡点', panel:'struggle', dir:'solution' },
+    idea:      { label:'💡 想法', panel:'idea', dir:'result' },
+    cheer:     { label:'🎉 突破', panel:'cheer', dir:'result' },
+    report:    { label:'📣 汇报', panel:'report', dir:'result' },
+    question:  { label:'🤔 提问', panel:'question', dir:'solution' }
+  }[type] || { label:'📈', panel:'progress', dir:'result' };
+  showPartnerMsg(cfg.label, false);
+  setTimeout(() => {
+    showPartnerMsg(emoji + ' 说说你的情况', true);
+    setTimeout(() => openTypePanel(cfg.panel, cfg.dir), 500);
+  }, 600);
+}
+
+function openTypePanel(panel, dir) {
+  currentQAType = panel;
+  currentQADir = dir;
+  const data = panel === 'question' ? ASK_SCENES : (TYPE_SCENES[panel] || []);
+  const titleMap = {
+    progress:'📈 选择一个最符合你的进展',
+    struggle:'😣 选择一个你正在面对的卡点',
+    idea:'💡 选择一个你想聊的想法',
+    cheer:'🎉 选择一个你想记住的突破',
+    report:'📣 汇报一下本周的情况',
+    question:'🤔 有问题想问？选一个最接近的'
+  };
+  const subMap = {
+    result:'选择后搭子会和你共情，然后给出结果导向反馈 💫',
+    solution:'选择后搭子会和你共情，然后一起想办法 💪'
+  };
+  document.getElementById('qaTitle').innerText = titleMap[panel] || panel;
+  document.getElementById('qaSub').innerText = subMap[dir] || '';
+  const scroll = document.getElementById('qaScroll');
+  scroll.innerHTML = '';
+  const posItems = data.filter(i => i.type === 'pos');
+  if (posItems.length) {
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:11px;font-weight:700;color:#66bb6a;letter-spacing:1px;margin:8px 2px 6px;';
+    lbl.innerText = '🟢 长线 / 想得到鼓励';
+    scroll.appendChild(lbl);
+    posItems.forEach((item) => {
+      scroll.appendChild(makeTypeCard(panel, dir, item));
+    });
+  }
+  const negItems = data.filter(i => i.type === 'neg');
+  if (negItems.length) {
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;';
+    lbl.innerText = '🔴 短视 / 需要引导';
+    scroll.appendChild(lbl);
+    negItems.forEach((item) => {
+      scroll.appendChild(makeTypeCard(panel, dir, item));
+    });
+  }
+  document.getElementById('qaOverlay').classList.add('show');
+  document.getElementById('qaOverlay').onclick = function(e) {
+    if (e.target === document.getElementById('qaOverlay')) closeQAPanel();
+  };
+}
+
+function makeTypeCard(panel, dir, item) {
+  const card = document.createElement('div');
+  card.className = `qa-card ${item.type}`;
+  card.innerHTML = `<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`;
+  card.onclick = () => {
+    closeQAPanel();
+    setTimeout(() => showTypeFeedback(panel, dir, item), 300);
+  };
+  return card;
+}
+
+function showTypeFeedback(panel, dir, item) {
+  const partner = currentPartner || PARTNERS[0];
+  const isPos = item.type === 'pos';
+  const fbCard = document.getElementById('fbCard');
+  fbCard.className = `fb-card ${item.type}`;
+  document.getElementById('fbEmoji').innerText = item.icon;
+  const labelEl = document.getElementById('fbLabel');
+  labelEl.innerText = isPos ? '✨ 长线' : '⚠️ 短视';
+  labelEl.className = `fb-label ${item.type}`;
+  document.getElementById('fbTitle').innerText = item.tag;
+  document.getElementById('fbText').innerText = item.feedback;
+  document.getElementById('fbQuote').innerHTML = `<div class="fb-partner-label">${partner.emoji} ${partner.name}说：</div>"${item.feedback}"`;
+  document.getElementById('fbOverlay').classList.add('show');
+}
+
+function closeQAPanel() {
+  document.getElementById('qaOverlay').classList.remove('show');
+}
+function closeFeedback() { document.getElementById('fbOverlay').classList.remove('show'); }
+
+// ==================== 自由时间 ====================
+function refreshAutoCalc() {
+  const tagHistory = getTagHistory();
+  let stop = 0, skill = 0, short = 0;
+  Object.values(tagHistory).forEach(t => {
+    if (t === 'stop') stop++;
+    if (t === 'skill') skill++;
+    if (t === 'short') short++;
+  });
+  // 自动跑的项从专列里读
+  const auto = getAutoList().length;
+  const total = 50 + 5 * stop + 10 * skill + 20 * auto - 3 * short;
+  document.getElementById('calcStop').innerText  = '+' + (5*stop);
+  document.getElementById('calcSkill').innerText = '+' + (10*skill);
+  document.getElementById('calcAuto').innerText  = '+' + (20*auto);
+  document.getElementById('calcShort').innerText = (short ? '-' : '') + (3*short);
+  document.getElementById('calcTotal').innerText = Math.max(0, Math.min(100, total));
+}
+
+function quickCalculate() {
+  refreshAutoCalc();
+  const total = parseInt(document.getElementById('calcTotal').innerText);
+  document.getElementById('weightInput').value = total;
+}
+
+function addWeight() {
+  let v = parseInt(document.getElementById('weightInput').value);
+  if (isNaN(v) || v < 0 || v > 100) { showToast('请输入有效的自由时间（0-100）'); return; }
+  let data = getWeightData();
+  const today = getToday();
+  data = data.filter(d => d.date !== today);
+  data.push({ date: today, value: v });
+  data.sort((a,b) => a.date.localeCompare(b.date));
+  saveWeightData(data);
+  document.getElementById('weightInput').value = '';
+  showToast(`✅ 自由时间已记录：${v} 分`);
+  drawWeightChart();
+  renderWeightRecords();
+  renderWeightStats(getWeightData().slice(-30));
+  refreshAutoCalc();
+}
+
+function drawWeightChart() {
+  const canvas = document.getElementById('weightCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const data = getWeightData().slice(-30);
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  if (data.length < 2) {
+    ctx.fillStyle = '#b0bec5'; ctx.font = '14px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('记录 2 次以上即可显示曲线', W/2, H/2);
+    renderWeightStats(null);
+    return;
+  }
+  const vals = data.map(d => d.value);
+  const minV = 0, maxV = 100;
+  const toX = i => 30 + (i / (data.length - 1)) * (W - 50);
+  const toY = v => H - 30 - ((v - minV) / (maxV - minV)) * (H - 60);
+  ctx.strokeStyle = '#e8e7ff'; ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = 20 + i * (H - 50) / 4;
+    ctx.beginPath(); ctx.moveTo(30, y); ctx.lineTo(W - 20, y); ctx.stroke();
+    ctx.fillStyle = '#b0bec5'; ctx.font = '10px system-ui'; ctx.textAlign = 'right';
+    ctx.fillText((maxV - i * 25).toString(), 26, y + 3);
+  }
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, 'rgba(201,162,39,0.3)');
+  grad.addColorStop(1, 'rgba(201,162,39,0)');
+  ctx.beginPath();
+  data.forEach((d, i) => { const x = toX(i), y = toY(d.value); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+  ctx.lineTo(toX(data.length - 1), H - 20);
+  ctx.lineTo(toX(0), H - 20);
+  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+  ctx.beginPath();
+  data.forEach((d, i) => { const x = toX(i), y = toY(d.value); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+  ctx.strokeStyle = '#3a3d8f'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+  data.forEach((d, i) => {
+    const x = toX(i), y = toY(d.value);
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#3a3d8f'; ctx.lineWidth = 2; ctx.stroke();
+  });
+  const today = getToday();
+  const todayIdx = data.findIndex(d => d.date === today);
+  if (todayIdx >= 0) {
+    const x = toX(todayIdx), y = toY(data[todayIdx].value);
+    ctx.fillStyle = '#e91e63'; ctx.font = 'bold 12px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('今天', x, y - 12);
+  }
+  renderWeightStats(data);
+}
+
+function renderWeightStats(data) {
+  const stats = document.getElementById('weightStats');
+  if (!stats) return;
+  if (!data || data.length === 0) {
+    stats.innerHTML = '<div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">当前</div></div><div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">本周变化</div></div><div class="wstat"><div class="wstat-num">0</div><div class="wstat-label">总记录</div></div>';
+    return;
+  }
+  const latest = data[data.length - 1].value;
+  const first = data[0].value;
+  const weekData = data.filter(d => { const diff = (new Date() - new Date(d.date)) / 86400000; return diff <= 7; });
+  const weekChange = weekData.length >= 2 ? (weekData[weekData.length - 1].value - weekData[0].value) : null;
+  stats.innerHTML = `
+    <div class="wstat"><div class="wstat-num">${latest}</div><div class="wstat-label">当前(分)</div></div>
+    <div class="wstat ${weekChange !== null ? (weekChange < 0 ? 'change-down' : 'change-up') : ''}">
+      <div class="wstat-num">${weekChange !== null ? (weekChange > 0 ? '+' : '') + weekChange : '--'}</div>
+      <div class="wstat-label">本周变化</div>
+    </div>
+    <div class="wstat"><div class="wstat-num">${data.length}</div><div class="wstat-label">总记录</div></div>`;
+}
+
+function renderWeightRecords() {
+  const el = document.getElementById('weightRecords');
+  if (!el) return;
+  const data = getWeightData().slice().reverse().slice(0, 12);
+  if (data.length === 0) {
+    el.innerHTML = '<div style="text-align:center;color:#b0bec5;font-size:13px;padding:20px;">还没有记录。开始记录你的自由时间吧。</div>';
+    return;
+  }
+  el.innerHTML = data.map((d, i) => {
+    const prev = data[i + 1];
+    const change = prev ? (d.value - prev.value) : 0;
+    const cls = change < 0 ? 'down' : change > 0 ? 'up' : '';
+    const sign = change > 0 ? '+' : '';
+    const dateStr = d.date === getToday() ? '今天' : d.date.slice(5);
+    return `<div class="record-item"><span class="record-date">${dateStr}</span><span><span class="record-val">${d.value}</span><span class="record-change ${cls}">${prev ? sign + change + '分' : ''}</span></span></div>`;
+  }).join('');
+}
+
+function renderWeightPage() {
+  drawWeightChart();
+  renderWeightRecords();
+}
+
+// ==================== SOP 自检 ====================
+function initSOP() {
+  const d = getSOPData();
+  const today = getToday();
+  if (d.date !== today) {
+    sopSelected = {};
+    sopAnswerCount = 0;
+    sopScore = 0;
+  } else {
+    sopSelected = d.selected || {};
+    sopAnswerCount = d.answerCount || 0;
+    sopScore = d.score || 0;
+  }
+  renderSOPCats();
+  updateSOPDisplay();
+  renderSOPList();
+}
+
+function renderSOPCats() {
+  const tabs = document.getElementById('sopCatTabs');
+  if (!tabs) return;
+  tabs.innerHTML = SOP_CATEGORIES.map((c, i) => {
+    const sel = sopSelected[c.id] || {};
+    const cnt = Object.keys(sel).length;
+    const dot = cnt > 0 ? `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#5e60ce;margin-left:4px;vertical-align:middle;"></span>` : '';
+    return `<button class="sop-cat-tab${i === sopCatIdx ? ' active' : ''}" onclick="switchSOPCat(${i})">${c.icon} ${c.name}${dot}</button>`;
+  }).join('');
+}
+
+function switchSOPCat(idx) {
+  sopCatIdx = idx;
+  renderSOPCats();
+  renderSOPList();
+}
+
+function renderSOPList() {
+  const card = document.getElementById('sopGameCard');
+  if (!card) return;
+  const cat = SOP_CATEGORIES[sopCatIdx];
+  const pool = QA_POOL[cat.id] || [];
+  // 每次随机抽 5 题
+  const shuffled = pool.slice().sort(() => Math.random() - 0.5);
+  const items = shuffled.slice(0, Math.min(5, pool.length));
+  const sel = sopSelected[cat.id] || {};
+  card.innerHTML = `
+    <div class="sop-cat-progress">
+      <span style="font-size:18px;">${cat.icon}</span>
+      <span style="font-weight:700;color:${cat.color};">${cat.name}</span>
+      <div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:${Math.min(100, Object.keys(sel).length / items.length * 100)}%;background:${cat.color}"></div></div>
+      <span style="font-size:11px;color:#8f9eae;">${Object.keys(sel).length}/${items.length}</span>
+    </div>
+    <div style="font-size:12px;color:#6c7a89;line-height:1.6;margin-bottom:10px;background:#faf6ee;border-radius:12px;padding:10px 12px;">💡 ${cat.desc}</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      ${items.map((item) => {
+        const state = sel[item.id];
+        const yesCls = state === 'yes' ? 'done-yes' : '';
+        const noCls  = state === 'no'  ? 'done-no'  : '';
+        const yesBtnCls = state === 'yes' ? 'qa-check-btn yes-checked' : 'qa-check-btn';
+        const noBtnCls  = state === 'no'  ? 'qa-check-btn no-checked'  : 'qa-check-btn';
+        return `
+        <div class="qa-question ${yesCls} ${noCls}" data-id="${item.id}">
+          <div class="qa-question-text">${item.id}. ${item.q}</div>
+          <div class="qa-question-options">${item.options.map((o, idx) => `<div class="qa-option">${String.fromCharCode(65+idx)}. ${o}</div>`).join('')}</div>
+          <div class="qa-question-btns">
+            <button class="${yesBtnCls}" onclick="answerQuestion('${cat.id}','${item.id}','yes')"><span>✅</span><span>做到了</span></button>
+            <button class="${noBtnCls}"  onclick="answerQuestion('${cat.id}','${item.id}','no')"><span>⚠️</span><span>需注意</span></button>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+function answerQuestion(catId, qId, state) {
+  if (!sopSelected[catId]) sopSelected[catId] = {};
+  if (sopSelected[catId][qId] === state) {
+    delete sopSelected[catId][qId];
+  } else {
+    sopSelected[catId][qId] = state;
+  }
+  sopAnswerCount = countAnswers(sopSelected);
+  // 实时算分（yes 累计分）
+  sopScore = computeScoreFromSelections(sopSelected);
+  saveSOPData({ score: sopScore, selected: sopSelected, answerCount: sopAnswerCount, date: getToday() });
+  renderSOPCats();
+  updateSOPDisplay();
+  renderSOPList();
+}
+
+function countAnswers(sel) {
+  let c = 0;
+  Object.values(sel).forEach(o => { if (o && typeof o === 'object') c += Object.keys(o).length; });
+  return c;
+}
+
+function computeScoreFromSelections(sel) {
+  // 当前类 yes 占比 × 100，归一化为 100 / 5 = 20 分
+  const catId = SOP_CATEGORIES[sopCatIdx].id;
+  const cat = sopSelected[catId] || {};
+  const qs = QA_POOL[catId] || [];
+  let yes = 0, total = 0;
+  Object.entries(cat).forEach(([qid, st]) => {
+    if (st) total++;
+    if (st === 'yes') yes++;
+  });
+  if (total === 0) return sopScore;
+  // 当前类 yes% = yes/qs.length * 100（一类满分 20）
+  const catPct = (yes / Math.max(qs.length, 1)) * 100;
+  // 5 类综合分（按每类各 20 分，满分 100）
+  let totalAllYes = 0, totalAllItems = 0;
+  SOP_CATEGORIES.forEach(c => {
+    const ca = sopSelected[c.id] || {};
+    const qs2 = QA_POOL[c.id] || [];
+    Object.values(ca).forEach(st => { totalAllItems++; if (st === 'yes') totalAllYes++; });
+    if (qs2.length) {
+      totalAllItems = Math.max(totalAllItems, qs2.length);
+    }
+  });
+  return Math.round((totalAllYes / Math.max(totalAllItems, 1)) * 100);
+}
+
+function updateSOPDisplay() {
+  const scoreEl = document.getElementById('sopScore');
+  if (scoreEl) scoreEl.innerText = sopScore;
+  document.getElementById('sopPosCount').innerText = sopAnswerCount;
+  document.getElementById('sopNegCount').innerText = Math.max(0, 100 - sopAnswerCount);
+  const pct = Math.max(0, Math.min(100, sopScore));
+  const bar = document.getElementById('sopScoreBar');
+  const ptext = document.getElementById('sopProgressText');
+  if (bar) {
+    bar.style.width = pct + '%';
+    bar.style.background = pct >= 60 ? 'linear-gradient(90deg,#5e60ce,#3a3d8f)' : pct >= 30 ? 'linear-gradient(90deg,#ffa726,#ffc107)' : pct > 0 ? 'linear-gradient(90deg,#ef5350,#ff7043)' : '#f0e2bb';
+  }
+  if (ptext) ptext.innerText = sopScore + ' / 100';
+}
+
+// ==================== 进展 ====================
+function renderProgress() {
+  const sopKey = STORAGE.SOP;
+  const sopRaw = JSON.parse(localStorage.getItem(sopKey) || '{"score":0,"answerCount":0}');
+  const checkinHistory = getHistory();
+  const tagHistory = getTagHistory();
+  const totalDays = checkinHistory.length;
+  const streak = computeContinuous(checkinHistory, getToday());
+  let stop = 0, skill = 0, short = 0, long = 0;
+  Object.values(tagHistory).forEach(t => {
+    if (t === 'stop') stop++;
+    if (t === 'skill') skill++;
+    if (t === 'short') short++;
+    if (t === 'long') long++;
+  });
+  const auto = getAutoList().length;
+  const total = checkinHistory.length > 0 ? checkinHistory.length : 1;
+  // 圆环展示「短视占比」
+  const shortPct = total > 0 ? Math.round(short / total * 100) : 0;
+  const circumference = 2 * Math.PI * 54;
+  const offset = circumference - (shortPct / 100) * circumference;
+  const ringEl = document.getElementById('ringFill');
+  const pctEl = document.getElementById('ringPct');
+  if (ringEl) ringEl.setAttribute('stroke-dashoffset', offset);
+  if (pctEl) pctEl.textContent = shortPct + '%';
+  document.getElementById('progStreakNum').textContent = streak;
+  document.getElementById('progTotalDays').textContent = totalDays;
+  const wd = getWeightData();
+  const latest = wd.length > 0 ? wd[wd.length - 1].value : '--';
+  document.getElementById('progFreedomScore').textContent = latest;
+  document.getElementById('pnlStop').textContent  = stop;
+  document.getElementById('pnlSkill').textContent = skill;
+  document.getElementById('pnlAuto').textContent  = auto;
+  document.getElementById('pnlLong').textContent  = long;
+  document.getElementById('pnlShort').textContent = short;
+  document.getElementById('pnlQADone').textContent = sopRaw.answerCount || 0;
+  // 里程碑
+  const mile7Fill = Math.min(100, streak / 7 * 100);
+  const mile30Fill = Math.min(100, streak / 30 * 100);
+  const mile90Fill = Math.min(100, streak / 90 * 100);
+  document.getElementById('mile7Fill').style.width  = mile7Fill + '%';
+  document.getElementById('mile30Fill').style.width = mile30Fill + '%';
+  document.getElementById('mile90Fill').style.width = mile90Fill + '%';
+  document.getElementById('mile7Text').textContent  = Math.min(streak, 7) + '/7';
+  document.getElementById('mile30Text').textContent = Math.min(streak, 30) + '/30';
+  document.getElementById('mile90Text').textContent = Math.min(streak, 90) + '/90';
+  // 搭子鼓励语
+  const partner = PARTNERS.find(p => p.id === (localStorage.getItem(STORAGE.PARTNER) || 'hourglass')) || PARTNERS[0];
+  document.getElementById('progPartnerEmoji').textContent = partner.emoji;
+  document.getElementById('progPartnerName').textContent = partner.name;
+  document.getElementById('progPartnerMsg').textContent = partner.fb.text;
+}
+
+// ==================== 分享 ====================
+function renderSharePage() {
+  const history = getHistory();
+  const today = getToday();
+  const tagHistory = getTagHistory();
+  const continuous = computeContinuous(history, today);
+  const wd = getWeightData();
+  const latest = wd.length > 0 ? wd[wd.length - 1].value : '--';
+  let cnt = { long:0, short:0, stop:0, skill:0 };
+  Object.values(tagHistory).forEach(t => { if (cnt[t] !== undefined) cnt[t]++; });
+  document.getElementById('shareStreak').textContent  = continuous + ' 天';
+  document.getElementById('shareFreedom').textContent = latest;
+  document.getElementById('shareTotal').textContent   = history.length + ' 天';
+  let summary = '';
+  if (history.length === 0) {
+    summary = '还在积累中。开始打卡后这里会出现你的 P&L 摘要。';
+  } else {
+    summary = `⏳ 连续打卡 ${continuous} 天 · 自由时间 ${latest}<br>累计 停止 ${cnt.stop} 件 · 做成 SOP ${cnt.skill} 件<br>⏳ 你今天没做的事，比你做的事更定义你是谁`;
+  }
+  document.getElementById('sharePnLSummary').innerHTML = summary;
+  const url = getSiteUrl() + 'longterm.html';
+  document.getElementById('shareUrlDisplay').textContent = url;
+}
+
+function copyShareLink() {
+  let url = getSiteUrl() + 'longterm.html';
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(() => showToast('✅ 链接已复制！'));
+  else prompt('复制以下链接：', url);
+}
+
+function previewShareCard() {
+  showToast('⏳ 截图分享卡已准备好，即将打开');
+  setTimeout(() => copyPnLText(), 600);
+}
+
+// ==================== 我的原则 路线页 checkbox ====================
+const HARD_RULES = [
+  '同一件事要做第二遍，我会停下来想：能不能做成模板，下次直接套？',
+  '同一件事做到第三遍，我会直接把模板写成 SOP 自己用',
+  '让别人配合的事 / 让脚本跑的事，不排进我自己的日程',
+  '群里 @ 我的消息，先分类（广告 / 通知 / 真的需要我）再决定要不要回',
+  '看见"先回一下"三个字，先停 3 秒再说',
+  '每件我决定不做的事，写一行"为什么不做了"提醒自己',
+  '每周固定 15 分钟做一次时间周报（5 个去向，每个至少 3 项）',
+  '"只有我能决定"的事，定个最晚完成时间（建议今天 16:00）',
+  '偷走时间的小事我全关掉——通知音 / 红点 / 自动展开群',
+  '把事做完 ≠ 必须由我做完——能交出去就交出去'
+];
+
+(function initHardRules() {
+  const list = document.getElementById('hrList');
+  if (!list) return;
+  const state = getHardRules();
+  const render = () => {
+    let cnt = 0;
+    list.innerHTML = HARD_RULES.map((text, i) => {
+      const done = state[i] === true;
+      if (done) cnt++;
+      return `<div class="hr-item ${done ? 'done' : ''}" onclick="toggleHR(${i})"><span class="hr-box">${done ? '☑' : '☐'}</span>${text}</div>`;
+    }).join('') + `<div style="margin-top:8px;font-size:11px;color:#3a3d8f;text-align:right;">我已同意 <span class="hr-cnt">${cnt}</span>/${HARD_RULES.length} 条原则</div>`;
+  };
+  window.toggleHR = function(i) {
+    const s = getHardRules();
+    s[i] = !s[i];
+    saveHardRules(s);
+    render();
+  };
+  render();
+})();
+
+// ==================== Toast ====================
+function showToast(msg, duration) {
+  const t = document.getElementById('toastMsg');
+  if (!t) return;
+  t.innerText = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration || 2000);
+}
+
+// ==================== 搭子页面渲染 ====================
+function renderPartnerPage() {
+  const selected = localStorage.getItem(STORAGE.PARTNER) || 'hourglass';
+  const p = PARTNERS.find(x => x.id === selected) || PARTNERS[0];
+  document.getElementById('partnerAvatarB').textContent = p.emoji;
+  document.getElementById('partnerNameB').textContent = p.name;
+  const styleMap = { hourglass:'⏳ 沙漏 · 沉静不催', judge:'⚖️ 判官 · 直接强硬', investor:'📈 投资人 · 冷静给数字' };
+  document.getElementById('partnerStyleB').textContent = styleMap[p.style] || p.name;
+  const area = document.getElementById('partnerChatArea');
+  if (area && area.children.length === 0) {
+    const welcomes = [
+      '⏳ 嘿，今天你打算让哪段时间复利？',
+      '⏳ 你好，今天把哪段时间留给自己？',
+      '⏳ 我在这里，今天想聊聊哪一段？'
+    ];
+    area.innerHTML = `<div class="msg-bubble-wrap"><div class="msg-avatar">${p.emoji}</div><div class="msg-bubble ai">${welcomes[Math.floor(Math.random() * welcomes.length)]}</div></div>`;
+  }
+}
+
+startApp();
+
+// ===== 启动新功能 =====
+// 1) 新手引导（仅首次 + 未选过搭子时）
+if (!localStorage.getItem(OB_KEY) && !localStorage.getItem(STORAGE.PARTNER)) {
+  setTimeout(showOnboarding, 600);
+}
+// 2) 每日原则小提示（每天首次启动显示一条）
+(function initDailyTip(){
+  const today = getToday();
+  const key = 'longterm_daily_tip_day';
+  const last = localStorage.getItem(key);
+  if (last !== today) {
+    localStorage.removeItem(DailyTipClicksKey());
+    localStorage.setItem(key, today);
+  }
+  setTimeout(renderDailyTip, 1200);
+})();
+</script>
+
+</body>
+</html>
