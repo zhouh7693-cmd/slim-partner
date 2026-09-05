@@ -3,7 +3,7 @@
 <head data-page-node-id="tRWAMPZGCiOu0juiRa5xTe">
   <meta charset="UTF-8" data-page-node-id="5yeKw9QXLZpNQfIA61yzn5">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" data-page-node-id="Lf7SZz1VJTukJMWVbqQ7uV">
-  <title>长期主义搭子 · 让本人时间复利化</title>
+  <title>长期主义搭子 · 时间账本，长线复利</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
     body {
@@ -303,7 +303,7 @@
     .stage-body { font-size: 13px; line-height: 1.7; margin-top: 6px; color: #4a5560; }
     .stage-row.collapsed .stage-body { display: none; }
 
-    /* Hard Rule checkbox list */
+    /* 我的原则 checkbox list */
     .hr-card { background: white; border-radius: 24px; padding: 18px 20px; margin-bottom: 14px; box-shadow: 0 6px 18px rgba(0,0,0,0.04); }
     .hr-title { font-size: 15px; font-weight: 800; color: #5a4408; margin-bottom: 8px; }
     .hr-sub { font-size: 11px; color: #8f9eae; margin-bottom: 10px; }
@@ -408,7 +408,7 @@
   <!-- 搭子选择器 -->
   <div id="partnerSelector" class="partner-selector" data-page-node-id="aFDSBJg1bKT3WkEmtQPVJr">
     <div class="selector-title" data-page-node-id="4KpFfaAVDRBP0XzPSvHZk6">选个长期主义搭子</div>
-    <div class="selector-sub" data-page-node-id="qxA6qRezy3dAJeaCEI2hWs">沙漏 · 判官 · 投资人<br data-page-node-id="Hx2ptzkBYlRnj63eYLN9Hx">你的时间 P&amp;L 由谁陪你看</div>
+    <div class="selector-sub" data-page-node-id="qxA6qRezy3dAJeaCEI2hWs">沙漏 · 判官 · 投资人<br data-page-node-id="Hx2ptzkBYlRnj63eYLN9Hx">你的时间账本由谁陪你看</div>
     <div class="partner-grid" id="partnerGrid" data-page-node-id="Tl4YRXD0elq0AQoBh5BYJA">
       <div class="partner-card selected" id="pc-hourglass" onclick="selectPartner('hourglass')" data-page-node-id="SBOzGcFdohIakAlcAeQeoC">
         <div class="partner-emoji" data-page-node-id="mEqSLOcKeMIIf21hMnSD1k">⏳</div>
@@ -426,14 +426,15 @@
         <div class="partner-desc" data-page-node-id="m4Gq52k5lHNI96X1fRYBR5">冷静给数字</div>
       </div>
     </div>
-    <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner()" data-page-node-id="qWxLTtLZKZJsMukpiPRFbF">✨ 开始时间 P&amp;L ✨</button>
+    <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner()" data-page-node-id="qWxLTtLZKZJsMukpiPRFbF">✨ 开始记我的时间账本 ✨</button>
   </div>
 
   <!-- 打卡仪表盘 -->
   <div id="dashboard" style="display:none;" data-page-node-id="vmmrSCo1JSP0oDaxGKRlme">
+    <div style="max-width:420px;margin:0 auto 8px;text-align:center;color:#8f9eae;font-size:12px;line-height:1.6;padding:0 8px;" data-page-node-id="pageIntro">每天 5 分钟，给自己一个交代 —— 看看今天的时间花在了哪类事上</div>
     <div class="card" data-page-node-id="gj26ZU7jgxQVjyVnwwlORt">
       <div id="currentPartnerBadge" class="partner-badge" data-page-node-id="M91UQVFV6LDzbKnRGW13sm">⏳ 沙漏</div>
-      <div class="question" id="todaysQ" data-page-node-id="COR3u30cXyyac3tLemI3xh">今天，你做了什么长线的事？</div>
+      <div class="question" id="todaysQ" data-page-node-id="COR3u30cXyyac3tLemI3xh">今天，你把时间花在哪一类上了？</div>
       <div class="question-sub" id="todaysQSub" data-page-node-id="rFgXrvjZp6JmPT6NCkaE7p">先选今天的状态 · 可以复盘后再选</div>
       <div class="tag-grid" id="tagGrid" data-page-node-id="cyCK7Vh4soxyCXoQ3FHntJ">
         <div class="tag-btn selected" data-tag="long"  onclick="pickTag('long', this)" data-page-node-id="TU9EH3N2veHjYVbpcZcAQH">
@@ -443,10 +444,10 @@
           <span class="tag-emoji" data-page-node-id="0K3wRjEfu3EnfhySDdsKx7">⚡</span><span data-page-node-id="zGcqGLTOU3sNchDib2fEvE">短视驱动</span>
         </div>
         <div class="tag-btn" data-tag="stop" onclick="pickTag('stop', this)" data-page-node-id="zllOfHtho7TuRyQ4cxep45">
-          <span class="tag-emoji" data-page-node-id="Ib8uCmVHpvtipJZVPFefGl">🛑</span><span data-page-node-id="RDqgQrQRcHQdOFrZg8br3W">已 STOP</span>
+          <span class="tag-emoji" data-page-node-id="Ib8uCmVHpvtipJZVPFefGl">🛑</span><span data-page-node-id="RDqgQrQRcHQdOFrZg8br3W">不做了</span>
         </div>
         <div class="tag-btn" data-tag="skill" onclick="pickTag('skill', this)" data-page-node-id="fT3xHv1dPtEa4b5FL1VNY8">
-          <span class="tag-emoji" data-page-node-id="99Qitn388yF2S34YmClLG9">🧩</span><span data-page-node-id="GrzZQeug1JySIc53r2h7cE">已 SKILL</span>
+          <span class="tag-emoji" data-page-node-id="99Qitn388yF2S34YmClLG9">🧩</span><span data-page-node-id="GrzZQeug1JySIc53r2h7cE">已做成 SOP</span>
         </div>
       </div>
       <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="WAbxQCriGFO0kKmuh9t0SB">
@@ -464,7 +465,7 @@
     <div class="week-progress" data-page-node-id="bbwoF4J6mL8cS6KtExwENC">
       <div class="week-title" data-page-node-id="l6KDtWoDJAJfE7ypq8aKNA"><span data-page-node-id="6iHAGlCKsb47vcv05DDvaY">📅 本周进度</span><span id="weekRange" data-page-node-id="wAEjtHvuB4hS2Bo3G4GUZz"></span></div>
       <div class="week-dots" id="weekDots" data-page-node-id="delcd7EEFyxYtBt05NiSpn"></div>
-      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyPnLText()" data-page-node-id="wAgReCuiRlSoblfMXQE8rU">📋 复制今日 P&amp;L</button>
+      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyPnLText()" data-page-node-id="wAgReCuiRlSoblfMXQE8rU">📋 复制今日时间账本</button>
     </div>
 
     <!-- 搭子交互 -->
@@ -490,23 +491,24 @@
 
     <!-- 分享入口 -->
     <div class="share-inline-card" data-page-node-id="6IT5jUyXEp8n6E3W5DNNAY">
-      <div class="share-inline-label" data-page-node-id="SY51DHJr0oUZ3N3nlOG1ZB">📣 推荐给想时间复利的朋友</div>
-      <div class="share-inline-preview" data-page-node-id="JAevPevb6GG24eHAKaOM4F">
-        ⏳ 长期主义搭子 · 每天 5 分钟，把时间搬到长线
+<div class="share-inline-label" data-page-node-id="SY51DHJr0oUZ3N3nlOG1ZB">📣 推荐给想把时间花在重要事上的朋友</div>
+        <div class="share-inline-preview" data-page-node-id="JAevPevb6GG24eHAKaOM4F">
+          ⏳ 长期主义搭子 · 每天 5 分钟，把时间搬到长线
+        </div>
+        <div class="share-copy-row" data-page-node-id="62HBG1KoKE9lVO6HaZQh0G">
+          <button class="share-copy-btn" onclick="copyShareLink()" data-page-node-id="4mjD4sChJr8sq9IoGVHA1B">📋 复制邀请链接</button>
+          <button class="share-link-btn" onclick="previewShareCard()" data-page-node-id="2aP7dLvC7ymYMueFmCvRCk">👀 预览我的时间账本卡</button>
+        </div>
       </div>
-      <div class="share-copy-row" data-page-node-id="62HBG1KoKE9lVO6HaZQh0G">
-        <button class="share-copy-btn" onclick="copyShareLink()" data-page-node-id="4mjD4sChJr8sq9IoGVHA1B">📋 复制邀请链接</button>
-        <button class="share-link-btn" onclick="previewShareCard()" data-page-node-id="2aP7dLvC7ymYMueFmCvRCk">👀 预览 P&amp;L 卡</button>
-      </div>
-    </div>
 
-    <footer data-page-node-id="lQGxjJdqx975YOywkhnLwy">每天一次 · 你的时间 P&amp;L 正在被记录</footer>
+      <footer data-page-node-id="lQGxjJdqx975YOywkhnLwy">每天一次 · 你的时间账本正在被记录</footer>
   </div>
 </div>
 
 <!-- ===== Page: 自由时间（原 weight Tab） ===== -->
 <div id="page-weight" class="page" data-page-node-id="ZZPC2Am98nG32AWD3M0lC4">
   <div class="weight-page" data-page-node-id="uf4ywyIY1VdVL5S3eyZIHr">
+    <div style="max-width:420px;margin:0 auto 8px;text-align:center;color:#8f9eae;font-size:12px;line-height:1.6;padding:0 8px;">自由时间曲线：每天定一个分，最低不低于今天的自己 —— 坚持记录，时间的主人感会慢慢抬起来</div>
     <div class="weight-header" data-page-node-id="KiXuwMRt54JA63Y8yTfFhc">
       <div class="weight-title" data-page-node-id="AivnedvqXRKMU0ksr4avKR">🕊️ 自由时间</div>
       <div class="weight-sub" id="weightSummary" data-page-node-id="ILLXrYiUQwkawZy26Dlkgf">你的本人时间离短视任务有多远？</div>
@@ -521,16 +523,16 @@
     <div class="auto-calc-card" data-page-node-id="UH67mswfhqPFJszmgUXI0w">
       <div class="auto-calc-title" data-page-node-id="uBIYGoWBWFD2J5H6xXOU7t">🧮 一键测算自由时间</div>
       <div class="calc-row" data-page-node-id="EEEkvAZLuRkfASPnMRfDWy"><span data-page-node-id="iCTJnkYI4t2ryEs8UGVavj">基础分</span><span class="calc-val" data-page-node-id="fDue4j6O7E03KFbiggr4Jf">+50</span></div>
-      <div class="calc-row" data-page-node-id="nH4N0in6y3TqUDHuqMueSc"><span data-page-node-id="zEFFlbOqrEgFCWDeGEkCr7">累计 STOP 次数 ×5</span><span class="calc-val" id="calcStop" data-page-node-id="62FBKwIFhNN4WdUw4RPjLH">+0</span></div>
-      <div class="calc-row" data-page-node-id="EnrmY4z2gd58m3Tj2YDUxw"><span data-page-node-id="9YooUT8xZYWkGPgBAPIOFf">累计 SKILL 次数 ×10</span><span class="calc-val" id="calcSkill" data-page-node-id="bUz8O2q5cUr3pfnCvdKG45">+0</span></div>
-      <div class="calc-row" data-page-node-id="5te8LlMNlzC52GvGYZjGFH"><span data-page-node-id="LmdCOofQ1drBPhPDhInAVO">Automation 项 ×20</span><span class="calc-val" id="calcAuto" data-page-node-id="XTEKq6vS0HTTjodCGBUiYW">+0</span></div>
+      <div class="calc-row" data-page-node-id="nH4N0in6y3TqUDHuqMueSc"><span data-page-node-id="zEFFlbOqrEgFCWDeGEkCr7">不做了的次数 ×5</span><span class="calc-val" id="calcStop" data-page-node-id="62FBKwIFhNN4WdUw4RPjLH">+0</span></div>
+      <div class="calc-row" data-page-node-id="EnrmY4z2gd58m3Tj2YDUxw"><span data-page-node-id="9YooUT8xZYWkGPgBAPIOFf">做成 SOP 的次数 ×10</span><span class="calc-val" id="calcSkill" data-page-node-id="bUz8O2q5cUr3pfnCvdKG45">+0</span></div>
+      <div class="calc-row" data-page-node-id="5te8LlMNlzC52GvGYZjGFH"><span data-page-node-id="LmdCOofQ1drBPhPDhInAVO">自动跑的项 ×20</span><span class="calc-val" id="calcAuto" data-page-node-id="XTEKq6vS0HTTjodCGBUiYW">+0</span></div>
       <div class="calc-row" data-page-node-id="vLx9y1tysaHXdlZBgHgbUv"><span data-page-node-id="Q3N3dVLJgenBFTDauDNUMB">累计短视打卡 ×-3</span><span class="calc-val neg" id="calcShort" data-page-node-id="PdqkGpNBzKlMQ5szBl4ipY">+0</span></div>
       <div class="calc-total" data-page-node-id="ZIbmrLP8LfEgsTev9ofWrh"><span data-page-node-id="jgQ0rfCCpVlIZ87TCaiFPV">本日自由时间</span><span class="calc-total-num" id="calcTotal" data-page-node-id="AxWOJkOoTZQhCuLuvsEL28">50</span></div>
-      <div class="auto-calc-note" data-page-node-id="WQhw2WdNqrvf5oJdGgznYc">💡 算法：base 50 + 5/STOP + 10/SKILL + 20/Automation - 3/短视。一键测算后可直接点「记录」保存到曲线。</div>
+      <div class="auto-calc-note" data-page-node-id="WQhw2WdNqrvf5oJdGgznYc">💡 怎么算的：基础 50 + 5/不做了 + 10/做成 SOP + 20/自动跑 - 3/短视。算完直接点「记录」保存到曲线。</div>
     </div>
 
     <div class="weight-chart-card" data-page-node-id="bsewSEgoZNlnoBeFfLBiP1">
-      <div class="chart-title" data-page-node-id="CLWtSLb9325xx1IAzaAXWZ">📈 自由时间曲线</div>
+      <div class="chart-title" data-page-node-id="CLWtSLb9325xx1IAzaAXWZ">📈 我的时间资产曲线</div>
       <div class="chart-sub" id="chartSub" data-page-node-id="pviyLYsASzCRdar9fQyPdL">坚持记录，时间的主人感会稳步抬升</div>
       <canvas id="weightCanvas" width="380" height="200" data-page-node-id="DPBxpgxOLIZ3l5Tulc4nI3"></canvas>
       <div class="weight-stats" id="weightStats" data-page-node-id="5gEng4c2eH8yDyToMswQ7A"></div>
@@ -546,9 +548,10 @@
 <!-- ===== Page: 自检 ===== -->
 <div id="page-sop" class="page" data-page-node-id="eRwSJ62IlENCbbhGXRhxPg">
   <div class="sop-page" data-page-node-id="5p6tpyw3LcKqI19VQAu42U">
+    <div style="max-width:420px;margin:0 auto 8px;text-align:center;color:#8f9eae;font-size:12px;line-height:1.6;padding:0 8px;">自检页是帮我"看见"自己用的 —— 5 个小问题，让今天的时间花得更明白</div>
     <div class="sop-header" data-page-node-id="5eTVQdU503mDGmUG6GwYCZ">
-      <div class="sop-title" data-page-node-id="ikn7PRWEV6RsueQC5WsOv2">🎯 时间 P&amp;L 自检</div>
-      <div class="sop-sub" data-page-node-id="4GGsrJgZuOaHivnG6ZDGKy">今天 5 题 · 覆盖 5 节核心概念</div>
+      <div class="sop-title" data-page-node-id="ikn7PRWEV6RsueQC5WsOv2">🎯 时间账本自检</div>
+      <div class="sop-sub" data-page-node-id="4GGsrJgZuOaHivnG6ZDGKy">每天 5 个小问题 · 帮我看清今天的时间花在哪了</div>
       <div class="sop-score-row" data-page-node-id="hX8DOZ2ZFYx6h7z2nfV7fE">
         <div class="sop-score" data-page-node-id="PYEDeFDP7f5t6uwymVzt1W">
           <div class="sop-score-num" id="sopScore" data-page-node-id="091e3t3XGmZST45HdSrZHU">0</div>
@@ -576,12 +579,12 @@
     </div>
 
     <div class="sop-tip" data-page-node-id="AVcpfTGorOMwHSgKZXF1QE">
-      <div class="sop-tip-title" data-page-node-id="sP7MVqa0MKJf1CwyzHws0w">💡 第一性原理 · 出题说明</div>
-      <div class="sop-tip-item" data-page-node-id="zMs0cDRJ5qBGafqAwB01g3">• A 短视触发器：识别群里@、红点、「先回一下」、3 个月内没价值的事</div>
-      <div class="sop-tip-item" data-page-node-id="4x8SHmpxu9CPXMQFGVi1Rg">• B 任务去向：亲自做 / AI 先做我拍板 / AI 独立我抽检 / Skill / Automation</div>
-      <div class="sop-tip-item" data-page-node-id="nURjTcyXenbmlNoHvmK5KU">• C 时间价值层级：T1 最终取舍 / T2 关键执行 / T3 必要协作 / T4 可 Automation</div>
-      <div class="sop-tip-item" data-page-node-id="3rjw6jXo0zRzkc984SBXgy">• D STOP vs 完成：完成 ≠ 必须由你完成；问「这件事还会不会再发生？」</div>
-      <div class="sop-tip-item" data-page-node-id="0qYLprr3i38VstAY3714k0">• E 时间 P&amp;L：KEEP / DELEGATE / SKILL / AUTOMATE / STOP 五张清单 · 周复盘</div>
+      <div class="sop-tip-title" data-page-node-id="sP7MVqa0MKJf1CwyzHws0w">💡 我的判断原则 · 5 类问题说明</div>
+      <div class="sop-tip-item" data-page-node-id="zMs0cDRJ5qBGafqAwB01g3">• A 短视触发器：识别群里@你、红点、「先回一下」这类偷走时间的小事</div>
+      <div class="sop-tip-item" data-page-node-id="4x8SHmpxu9CPXMQFGVi1Rg">• B 任务 5 个去向：自己做的 / AI 帮我做的 / 交给别人做的 / 做成 SOP 的 / 自动跑的</div>
+      <div class="sop-tip-item" data-page-node-id="nURjTcyXenbmlNoHvmK5KU">• C 时间价值层级：只有我能决定的 / 关键得亲手做的 / 需要别人配合的 / 可以让脚本跑的</div>
+      <div class="sop-tip-item" data-page-node-id="3rjw6jXo0zRzkc984SBXgy">• D 不做 ≠ 不完成：把事做完 ≠ 必须由我做完；先问「这件事是不是还会再来？」</div>
+      <div class="sop-tip-item" data-page-node-id="0qYLprr3i38VstAY3714k0">• E 时间账本：5 个去向（继续做 / 交给别人 / 做成 SOP / 设成自动 / 不做了）· 每周复盘一次</div>
     </div>
   </div>
 </div>
@@ -590,10 +593,12 @@
 <div id="page-progress" class="page" data-page-node-id="Y2aJH8lZig1MZrKwGO8HpL">
   <div class="weight-page" data-page-node-id="DYpGuCGTXk9SYtzKureae8">
 
+    <div style="max-width:420px;margin:0 auto 8px;text-align:center;color:#8f9eae;font-size:12px;line-height:1.6;padding:0 8px;">进展页：把 7 / 30 / 90 天想清这一天值不值得 —— 主要看"我没在做"的 3 件事</div>
+
     <div class="weight-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;" data-page-node-id="f9WzbGDUoTzEwkCAFj7UZr">
       <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="2dNT3Al9bJ6Ia7bV9fzn2y">📊</div>
-      <div class="chart-title" style="font-size:18px;margin-bottom:4px;" data-page-node-id="WphjQADmF9yplZuEmsVqNP">时间 P&amp;L 进展</div>
-      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;" data-page-node-id="JAlPzWzNlo7hWhHSSjBC83">你的全局时间复利视图</div>
+      <div class="chart-title" style="font-size:18px;margin-bottom:4px;" data-page-node-id="WphjQADmF9yplZuEmsVqNP">我的时间账本进展</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;" data-page-node-id="JAlPzWzNlo7hWhHSSjBC83">全局时间复利视图</div>
       <div style="display:flex;justify-content:center;margin-bottom:16px;position:relative;" data-page-node-id="tYTlZcSIinebGzb7XtN2w5">
         <svg width="140" height="140" viewBox="0 0 140 140" data-page-node-id="xypHxZZMElTjVzsf4esJJU">
           <defs data-page-node-id="D9Pt6zaUoyGzjJiYQEq5l0"><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%" data-page-node-id="4xM3tBnuthu4E7nTu33b6R">
@@ -624,11 +629,11 @@
     </div>
 
     <div class="weight-chart-card" style="margin-bottom:16px;" data-page-node-id="ccNOWo6zslRmJkKEIi1L5w">
-      <div class="chart-title" data-page-node-id="Pv7gFrGyrOl41l7ZuabhRI">📊 P&amp;L 累计统计</div>
+      <div class="chart-title" data-page-node-id="Pv7gFrGyrOl41l7ZuabhRI">📊 时间账本累计统计</div>
       <div class="pnl-grid" data-page-node-id="9VRWcuTBuzx302GhZflmID">
-        <div class="pnl-cell" data-page-node-id="pr9DlSV6UahVWhnRGkK0ML"><div class="pnl-cell-num" id="pnlStop" data-page-node-id="ZaWjVaLkpS8WHYqOTI34du">0</div><div class="pnl-cell-lbl" data-page-node-id="WmCkgwuAvwnm7YAy4DE18j">累计 STOP</div></div>
-        <div class="pnl-cell" data-page-node-id="abnXAJBjKvhYcOpy5EhCFU"><div class="pnl-cell-num" id="pnlSkill" data-page-node-id="rSauSlYDq2rbJ03f9IgcVQ">0</div><div class="pnl-cell-lbl" data-page-node-id="1QfLzGAW1THB7DFbeGsAkK">累计 SKILL</div></div>
-        <div class="pnl-cell" data-page-node-id="qqVxyrRBKx888zp8WPKU9e"><div class="pnl-cell-num" id="pnlAuto" data-page-node-id="wwHABGqcw01ilokP2YCVLT">0</div><div class="pnl-cell-lbl" data-page-node-id="FK0yfNBU9H2TlPP61dGKaa">Automation</div></div>
+        <div class="pnl-cell" data-page-node-id="pr9DlSV6UahVWhnRGkK0ML"><div class="pnl-cell-num" id="pnlStop" data-page-node-id="ZaWjVaLkpS8WHYqOTI34du">0</div><div class="pnl-cell-lbl" data-page-node-id="WmCkgwuAvwnm7YAy4DE18j">累计不做了</div></div>
+        <div class="pnl-cell" data-page-node-id="abnXAJBjKvhYcOpy5EhCFU"><div class="pnl-cell-num" id="pnlSkill" data-page-node-id="rSauSlYDq2rbJ03f9IgcVQ">0</div><div class="pnl-cell-lbl" data-page-node-id="1QfLzGAW1THB7DFbeGsAkK">累计做成 SOP</div></div>
+        <div class="pnl-cell" data-page-node-id="qqVxyrRBKx888zp8WPKU9e"><div class="pnl-cell-num" id="pnlAuto" data-page-node-id="wwHABGqcw01ilokP2YCVLT">0</div><div class="pnl-cell-lbl" data-page-node-id="FK0yfNBU9H2TlPP61dGKaa">自动跑</div></div>
       </div>
       <div class="pnl-grid" style="margin-top:8px;" data-page-node-id="nGDbZABt3PkEj3WBSeOERV">
         <div class="pnl-cell" data-page-node-id="uwoxZYxiNCNaF4DvYb8Iwr"><div class="pnl-cell-num" id="pnlLong" data-page-node-id="8mwojkSHjS8yAOncWyVX4D">0</div><div class="pnl-cell-lbl" data-page-node-id="PJDJ68upHxFscT4Ffh7sSW">长线打卡</div></div>
@@ -655,20 +660,20 @@
         <div style="flex:0 0 60px;text-align:right;color:#6c7a89;font-size:12px;" id="mile90Text" data-page-node-id="LRnEsgwDYl7CwHADiupZiq">0/90</div>
       </div>
       <div style="font-size:11px;color:#8f9eae;margin-top:10px;line-height:1.6;" data-page-node-id="3BFrqxbWcbfsRAhJr0QslI">
-        🎯 <b data-page-node-id="djvSWFFYc6AoNHhj5H3cRf">7 天</b>：识别 ≥3 个短视触发器 &nbsp; 🎯 <b data-page-node-id="bh3O3PzgkBrb8LOvD3Fzkm">30 天</b>：完成首次周复盘 &nbsp; 🎯 <b data-page-node-id="yNTCz5Yl04yKPx2Ye7A795">90 天</b>：累计 STOP/SKILL ≥5、Automation ≥1
+        🎯 <b data-page-node-id="djvSWFFYc6AoNHhj5H3cRf">7 天</b>：找到 ≥3 个偷走时间的「假忙」 &nbsp; 🎯 <b data-page-node-id="bh3O3PzgkBrb8LOvD3Fzkm">30 天</b>：完成第一次时间周报 &nbsp; 🎯 <b data-page-node-id="yNTCz5Yl04yKPx2Ye7A795">90 天</b>：不做/做成 SOP ≥5，自动跑 ≥1
       </div>
     </div>
 
     <div class="weight-chart-card" style="margin-bottom:16px;" data-page-node-id="UtcsKkMbGGX2jENgGS0xuX">
-      <div class="chart-title" data-page-node-id="xAGE5zaX6phI2H2uCMVflR">📝 时间 P&amp;L 周复盘模板</div>
+      <div class="chart-title" data-page-node-id="xAGE5zaX6phI2H2uCMVflR">📝 我的时间周报</div>
       <div style="margin-top:8px;background:#faf6ee;border-radius:14px;padding:14px 16px;font-size:13px;color:#4a5560;line-height:1.8;" data-page-node-id="aCyQtGNIGSUen0sHjD5Osx">
-        <div style="font-weight:700;color:#5a4408;margin-bottom:6px;" data-page-node-id="tjFVtYK3xh2cS87X3Wq5QK">📋 KEEP / DELEGATE / SKILL / AUTOMATE / STOP</div>
-        <div data-page-node-id="Tmp8sF4X0SZReafvAXI4U3">• <b data-page-node-id="yBK0S7E8y7SVPSJmZKmw0g">KEEP</b>：本周要继续做的高价值时间投入</div>
-        <div data-page-node-id="N0TrN606MFbmc1JFUxap3Q">• <b data-page-node-id="bmhLzfqUfIfjKEQuPR4vKR">DELEGATE</b>：可以交给别人（包括 AI）的事</div>
-        <div data-page-node-id="0HObY2EyokfFJaCOzHZHSB">• <b data-page-node-id="lB4DaxbX3Err1o0H92Ob0Q">SKILL</b>：把它变模板 / SOP 的候选</div>
-        <div data-page-node-id="wJSAvt35UCQvP6DSfiOm2j">• <b data-page-node-id="9KVi4HcNwNEsHGXCIl8cFs">AUTOMATE</b>：能跑脚本就走脚本</div>
-        <div data-page-node-id="307IBMY9YIyRDgCsEb44Xx">• <b data-page-node-id="OzwTiDugoBCVjKjIALJUCx">STOP</b>：这件事不再发生，就别再回去做</div>
-        <div style="margin-top:8px;color:#8b6914;font-weight:700;" data-page-node-id="IRSpwH1LcJ9MINZsI7Mu7b">⏳ Hard Rule：第二次出现的同类任务评估模板化，第三次原则上 Skill 化。</div>
+        <div style="font-weight:700;color:#5a4408;margin-bottom:6px;" data-page-node-id="tjFVtYK3xh2cS87X3Wq5QK">📋 5 个去向：继续做 / 交给别人 / 做成 SOP / 设成自动 / 不做了</div>
+        <div data-page-node-id="Tmp8sF4X0SZReafvAXI4U3">• <b data-page-node-id="yBK0S7E8y7SVPSJmZKmw0g">继续做</b>：本周值得继续投入时间的事</div>
+        <div data-page-node-id="N0TrN606MFbmc1JFUxap3Q">• <b data-page-node-id="bmhLzfqUfIfjKEQuPR4vKR">交给别人</b>：可以让别人或 AI 来做（举例：每周数据报表，AI 帮我跑）</div>
+        <div data-page-node-id="0HObY2EyokfFJaCOzHZHSB">• <b data-page-node-id="lB4DaxbX3Err1o0H92Ob0Q">做成 SOP</b>：做成模板，下次直接套（举例：每月复盘报告）</div>
+        <div data-page-node-id="wJSAvt35UCQvP6DSfiOm2j">• <b data-page-node-id="9KVi4HcNwNEsHGXCIl8cFs">设成自动</b>：让脚本自动跑（举例：每月最后一天自动生成数据看板）</div>
+        <div data-page-node-id="307IBMY9YIyRDgCsEb44Xx">• <b data-page-node-id="OzwTiDugoBCVjKjIALJUCx">不做了</b>：这件事不再发生（举例：每天 30 分钟刷行业群消息）</div>
+        <div style="margin-top:8px;color:#8b6914;font-weight:700;" data-page-node-id="IRSpwH1LcJ9MINZsI7Mu7b">⏳ 我的判断原则：同一件事第二次出现，我就停下来想能不能做成模板；第三次出现，我直接做成 SOP。</div>
       </div>
     </div>
 
@@ -685,11 +690,11 @@
   <div class="weight-page" data-page-node-id="tv4b8rwF6AKPcU7VBWNryr">
     <div class="weight-header" style="text-align:center;" data-page-node-id="IdBMFwIFVqP1EOhT2k5jEJ">
       <div class="weight-title" data-page-node-id="5TvOEONiAQuuTnpw3Qs7CY">📣 分享</div>
-      <div class="weight-sub" data-page-node-id="G9sJNQfxweHk0HfrZEafxz">我的时间 P&amp;L 摘要</div>
+      <div class="weight-sub" data-page-node-id="G9sJNQfxweHk0HfrZEafxz">我的时间账本摘要</div>
     </div>
 
     <div class="sop-card" style="margin-bottom:12px;background:white;border-radius:24px;padding:18px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="f1Vs2lCgLb5PbDa2y8DFxl">
-      <div class="chart-title" data-page-node-id="rlWRa1eXPGpBRfTdTQj6Xq">⏳ 我的时间 P&amp;L</div>
+      <div class="chart-title" data-page-node-id="rlWRa1eXPGpBRfTdTQj6Xq">⏳ 我的时间账本</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px;text-align:center;" data-page-node-id="dlUBmlJzwHyxcJt5pHF0KG">
         <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;" data-page-node-id="FUFpnmgEExtdvfxTCuSqCL">
           <div style="font-size:18px;font-weight:700;color:#b8941f;" id="shareStreak" data-page-node-id="zP2Ag0YBxbrvrYKVbALzlM">-</div>
@@ -705,7 +710,7 @@
         </div>
       </div>
       <div style="margin-top:12px;background:linear-gradient(135deg,#fff8e7,#e8f5e9);border-radius:14px;padding:16px;" data-page-node-id="MBekUPg2z3QyZ5mqoiVSfw">
-        <div style="font-size:13px;color:#5a4408;line-height:1.8;font-weight:600;" id="sharePnLSummary" data-page-node-id="sWNr1hLKXiFlzNqjhLFHwW">还在积累中。开始打卡后这里会出现你的 P&amp;L 摘要。</div>
+        <div style="font-size:13px;color:#5a4408;line-height:1.8;font-weight:600;" id="sharePnLSummary" data-page-node-id="sWNr1hLKXiFlzNqjhLFHwW">还在积累中。开始打卡后这里会出现你的时间账本摘要。</div>
       </div>
     </div>
 
@@ -715,15 +720,15 @@
         <div style="font-size:42px;margin-bottom:6px;" data-page-node-id="O9oLKn5BJiBUkLVku5Z67E">⏳</div>
         <div style="font-size:15px;font-weight:700;color:#5a4408;margin-bottom:4px;" data-page-node-id="UVUx0FDiChDFWTq8rzAch7">长期主义搭子</div>
         <div style="font-size:13px;color:#6c7a89;line-height:1.6;margin-bottom:6px;" data-page-node-id="Ch3xKkaCVf3u5GQt75VbjP">每天 5 分钟自检 · 每周 15 分钟复盘<br data-page-node-id="8W7zfBxSLMkIiK7l8VRn5S">把本人时间搬到长线价值</div>
-        <div style="font-size:11px;color:#8b6914;" data-page-node-id="vHnepcNbzZ5uIilhvuAFc2">时间 P&amp;L · 5 个去向 · STOP / SKILL 复利</div>
+        <div style="font-size:11px;color:#8b6914;" data-page-node-id="vHnepcNbzZ5uIilhvuAFc2">时间账本 · 5 个去向 · 不做了 / 做成 SOP 越多越好</div>
       </div>
       <div class="chart-title" style="margin-bottom:10px;" data-page-node-id="93762fnGjETIQBxHXJ4L3x">📋 自检覆盖维度</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;" data-page-node-id="YRXwARiLqmJVjGXlMbg42J">
-        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;" data-page-node-id="idJd7PqJd7nWnFUVmNuwRL"><div style="font-size:22px;" data-page-node-id="9FW4ycazkD1F24HL1mjc7o">⚡</div><div style="font-size:12px;font-weight:600;color:#8b6914;" data-page-node-id="8w7kPTZzTVnOoBcxUXSnpi">短视触发器</div></div>
-        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;" data-page-node-id="ztGPxXhZNOKp1SYOp8aSqh"><div style="font-size:22px;" data-page-node-id="pZ56hVFK74QV4owIFm052Q">🧭</div><div style="font-size:12px;font-weight:600;color:#8b6914;" data-page-node-id="LwSomTb2Fn9ljnYzNawRvM">任务 5 去向</div></div>
-        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;" data-page-node-id="Y3NGtWwej8wYxoeYlsFMVH"><div style="font-size:22px;" data-page-node-id="nxiBtNKAGAYWBsPG50xnA9">📐</div><div style="font-size:12px;font-weight:600;color:#8b6914;" data-page-node-id="JFy2uO3cksfo3KV6X86M3z">T1-T4 层级</div></div>
-        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;" data-page-node-id="LwQed2uv1UHZ4YeEkY0Rwf"><div style="font-size:22px;" data-page-node-id="tXSPSPTgwvZRXaZtGESLWp">🛑</div><div style="font-size:12px;font-weight:600;color:#8b6914;" data-page-node-id="Vnxi7ZJHD6wolpQ02ytmX5">STOP vs 完成</div></div>
-        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;grid-column:span 2;" data-page-node-id="QxkYwsLVVjYtwjS8xB9C7l"><div style="font-size:22px;" data-page-node-id="BNHn2pFH5TzdXklmyU0O2U">📈</div><div style="font-size:12px;font-weight:600;color:#8b6914;" data-page-node-id="1x0tpH9kCRhoDX1jf1s3HH">时间 P&amp;L · 五张清单</div></div>
+        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;" data-page-node-id="idJd7PqJd7nWnFUVmNuwRL"><div style="font-size:22px;" data-page-node-id="9FW4ycazkD1F24HL1mjc7o">⚡</div><div style="font-size:12px;font-weight:600;color:#8b6914;" data-page-node-id="8w7kPTZzTVnOoBcxUXSnpi">偷走时间的小事</div></div>
+        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;" data-page-node-id="ztGPxXhZNOKp1SYOp8aSqh"><div style="font-size:22px;" data-page-node-id="pZ56hVFK74QV4owIFm052Q">🧭</div><div style="font-size:12px;font-weight:600;color:#8b6914;" data-page-node-id="LwSomTb2Fn9ljnYzNawRvM">任务 5 个去向</div></div>
+        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;" data-page-node-id="Y3NGtWwej8wYxoeYlsFMVH"><div style="font-size:22px;" data-page-node-id="nxiBtNKAGAYWBsPG50xnA9">📐</div><div style="font-size:12px;font-weight:600;color:#8b6914;" data-page-node-id="JFy2uO3cksfo3KV6X86M3z">事情的重要性</div></div>
+        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;" data-page-node-id="LwQed2uv1UHZ4YeEkY0Rwf"><div style="font-size:22px;" data-page-node-id="tXSPSPTgwvZRXaZtGESLWp">🛑</div><div style="font-size:12px;font-weight:600;color:#8b6914;" data-page-node-id="Vnxi7ZJHD6wolpQ02ytmX5">不做 ≠ 不完成</div></div>
+        <div style="background:#faf6ee;border-radius:12px;padding:10px 6px;text-align:center;grid-column:span 2;" data-page-node-id="QxkYwsLVVjYtwjS8xB9C7l"><div style="font-size:22px;" data-page-node-id="BNHn2pFH5TzdXklmyU0O2U">📈</div><div style="font-size:12px;font-weight:600;color:#8b6914;" data-page-node-id="1x0tpH9kCRhoDX1jf1s3HH">时间账本 · 5 张去向清单</div></div>
       </div>
       <div class="chart-title" data-page-node-id="MRfhKjVuExnonPmAqpKXWA">🔗 邀请链接</div>
       <div style="background:#faf6ee;border-radius:12px;padding:12px 14px;font-size:13px;color:#5a4408;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay" data-page-node-id="aNfOJZDRXs2CYx6YwB9IAG"></div>
@@ -765,8 +770,10 @@
   </div>
 </div>
 
-<!-- ===== Page: 教练（路线 + Hard Rule） ===== -->
+<!-- ===== Page: 教练（路线 + 我的原则） ===== -->
 <div id="page-coach" class="page" style="display:none;" data-page-node-id="Yme5XzJrYSY8DWPLuiUCp1">
+
+  <div style="max-width:420px;margin:0 auto 8px;text-align:center;color:#8f9eae;font-size:12px;line-height:1.6;padding:0 8px;">教练页：按这个顺序走 —— 从看清时间，到不做的轻松，到时间复利</div>
 
   <div id="crpWrap_longterm" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;" data-page-node-id="UKMSUyC3BxW2Hftlhv85Nx">
     <style>
@@ -788,36 +795,36 @@
     <div class="crp-card" data-page-node-id="jJQHUiuM9RqMza517MAdw8">
       <div class="crp-title" data-page-node-id="r0e3XNs4eCyWkMdy4BmUaH">🗺️ 长期主义三阶段成长路线<span class="crp-tip" data-page-node-id="vxYuOVfmm7NlEwTlg7lqkt">👆 点击阶段展开/收起</span></div>
       <div class="crp-stage" style="background:linear-gradient(135deg,#fff8e7,#f5ecd9);" data-page-node-id="JVA8HM2XXwrHTKD1icKg9F">
-        <div class="crp-stage-head" style="color:#8b6914;" data-page-node-id="FPjViARPMGq0AIwlvSubx4">📌 阶段 1 · Day 0-7 · 觉察<span class="crp-arrow" data-page-node-id="SQ5vwMVd9bToGpZLpvIxq0">▾</span></div>
+        <div class="crp-stage-head" style="color:#8b6914;" data-page-node-id="FPjViARPMGq0AIwlvSubx4">📌 阶段 1 · Day 0-7 · 看清时间去了哪<span class="crp-arrow" data-page-node-id="SQ5vwMVd9bToGpZLpvIxq0">▾</span></div>
         <div class="crp-stage-body" data-page-node-id="Aazg23gwb5sFwamEpCjFVU">
-          <b data-page-node-id="7srp84OoZ3XO6II9XIggKw">目标</b>：把所有任务分类，看清多少是「现在不做就焦虑」，多少是「半年后还有价值」。<br data-page-node-id="RdUiMOH5O1d2x5gPowl87k">
-          • <b data-page-node-id="eRL7csuh6hpVYt3Yj2fNEg">任务 1</b>：今天第一次记录 5 件事，每件标 <code data-page-node-id="mOD55bwaF0jO6YNGSbt9wM">长线 / 短视 / 噪音</code><br data-page-node-id="GiMXLhrAGGVRE1ziKlHGij">
-          • <b data-page-node-id="zpNV19aMw7mzOwnHDkmvJE">任务 2</b>：识别 3 个你最容易掉进的「短视触发器」（群里@ / 红点 / "先回一下"）<br data-page-node-id="B7O9mCJD4aJH7nIFELy9Y4">
+          <b data-page-node-id="7srp84OoZ3XO6II9XIggKw">这阶段要做的</b>：把做的事分个类，看清多少是「现在不做就焦虑」，多少是「半年后还有价值」。<br data-page-node-id="RdUiMOH5O1d2x5gPowl87k">
+          • <b data-page-node-id="eRL7csuh6hpVYt3Yj2fNEg">任务 1</b>：今天第一次记录 5 件事，每件标 <code data-page-node-id="mOD55bwaF0jO6YNGSbt9wM">长期 / 短期 / 噪音</code><br data-page-node-id="GiMXLhrAGGVRE1ziKlHGij">
+          • <b data-page-node-id="zpNV19aMw7mzOwnHDkmvJE">任务 2</b>：找到 3 个最容易偷走你时间的"假忙"场景（比如群里@你、红点提醒、"先回一下"的冲动）<br data-page-node-id="B7O9mCJD4aJH7nIFELy9Y4">
           • <b data-page-node-id="qEEryyDhn6YADIkz50TRx4">任务 3</b>：写下「如果不做这件事，3 个月后会怎样？」多数答案是"没事"，那就是噪音
         </div>
       </div>
       <div class="crp-stage" style="background:linear-gradient(135deg,#fff3e0,#ffe0b2);" data-page-node-id="fg9tgt0Gf7UWgGIRmqkC7m">
-        <div class="crp-stage-head" style="color:#e65100;" data-page-node-id="g5lejSbKRgTE5dSrtNO4b7">📌 阶段 2 · Day 8-30 · 切分<span class="crp-arrow" data-page-node-id="SBm6ONgAdgF81vwPYa7aj8">▾</span></div>
+        <div class="crp-stage-head" style="color:#e65100;" data-page-node-id="g5lejSbKRgTE5dSrtNO4b7">📌 阶段 2 · Day 8-30 · 把事分到 5 个去处<span class="crp-arrow" data-page-node-id="SBm6ONgAdgF81vwPYa7aj8">▾</span></div>
         <div class="crp-stage-body" data-page-node-id="JMXoM71RKtbWcgcdAjrFJv">
-          <b data-page-node-id="pB1WeLThydU4gfAKeg1F8K">目标</b>：所有任务只进 5 个去向：亲自做 / AI 先做我拍板 / AI 独立我抽检 / Skill / Automation。<br data-page-node-id="eHQH8FY8gXrwVNfNXqDMun">
-          • <b data-page-node-id="8TrzUOAR2j0f094qzdFsZA">任务 1</b>：把上周所有任务重分类进 5 个去向，写下「我自己应该 STOP 的 3 件事」<br data-page-node-id="P86Idj54JQyEyW5IELERTS">
-          • <b data-page-node-id="15fZH8QZr65mnaznZmduc2">任务 2</b>：选一个重复任务，<b data-page-node-id="Z44BcP1WBuwuB818tN0Gpc">今天就把它 Skill 化</b>（哪怕只是一个 chat prompt 模板）<br data-page-node-id="3eKIWTp2MYWSpN8R5oEozV">
-          • <b data-page-node-id="Uez9A5YrJ1HI02qXDSAsCf">任务 3</b>：选一个最耗你时间的会议，问自己「这次如果我不出席，会发生什么？」
+          <b data-page-node-id="pB1WeLThydU4gfAKeg1F8K">这阶段要做的</b>：所有任务只进 5 个去处：自己做的 / 让 AI 做我拍板 / AI 做我抽检 / 做成 SOP / 自动跑。<br data-page-node-id="eHQH8FY8gXrwVNfNXqDMun">
+          • <b data-page-node-id="8TrzUOAR2j0f094qzdFsZA">任务 1</b>：把上周所有任务重分类进 5 个去处，写下「我自己应该不做的 3 件事」<br data-page-node-id="P86Idj54JQyEyW5IELERTS">
+          • <b data-page-node-id="15fZH8QZr65mnaznZmduc2">任务 2</b>：选一个重复做的事，<b data-page-node-id="Z44BcP1WBuwuB818tN0Gpc">今天就把它做成 SOP</b>（哪怕只是一段话术模板）<br data-page-node-id="3eKIWTp2MYWSpN8R5oEozV">
+          • <b data-page-node-id="Uez9A5YrJ1HI02qXDSAsCf">任务 3</b>：选一个最耗你时间的会，问自己「这次如果我不出席，会发生什么？」
         </div>
       </div>
       <div class="crp-stage" style="background:linear-gradient(135deg,#e8eaf6,#c5cae9);" data-page-node-id="vVirwbRxmbH9f4NU2sj0SP">
-        <div class="crp-stage-head" style="color:#3949ab;" data-page-node-id="BjAx6OVSpgETrBTCZBUArb">📌 阶段 3 · Day 31-90 · 复利<span class="crp-arrow" data-page-node-id="r4JGhxdY9JFvp0EhkN0SoC">▾</span></div>
+        <div class="crp-stage-head" style="color:#3949ab;" data-page-node-id="BjAx6OVSpgETrBTCZBUArb">📌 阶段 3 · Day 31-90 · 时间开始复利<span class="crp-arrow" data-page-node-id="r4JGhxdY9JFvp0EhkN0SoC">▾</span></div>
         <div class="crp-stage-body" data-page-node-id="weJxxOC4NumuDLRuE4UbNP">
-          <b data-page-node-id="aM6RihgVZi6fvQKBu1NAsG">目标</b>：每周只做 1 次《个人时间经营周复盘》，完成 KEEP / DELEGATE / SKILL / AUTOMATE / STOP 五张清单。<br data-page-node-id="p3qjj9n9oQAgLdSIWcIlTO">
-          • <b data-page-node-id="YDcB1oKYOrjZD0ZLMj8QnD">任务 1</b>：完成第一次周复盘（15 分钟）<br data-page-node-id="uAAVBNZBXocsxzQWqKWeBu">
-          • <b data-page-node-id="mZp33GFEPNC9VHXXBiPwKY">任务 2</b>：累计 SKILL 化 ≥ 3 项 + Automation ≥ 1 项<br data-page-node-id="mDhAI4Ec1f3Sovn4HNWclu">
-          • <b data-page-node-id="AInqpo8ArQZxON5safw4gR">任务 3</b>：设一条 Hard Rule：「T3/T4 任务不上我本人日程」
+          <b data-page-node-id="aM6RihgVZi6fvQKBu1NAsG">这阶段要做的</b>：每周只做 1 次《我的时间周报》，写清「继续做 / 交给别人 / 做成 SOP / 设成自动 / 不做了」5 张清单。<br data-page-node-id="p3qjj9n9oQAgLdSIWcIlTO">
+          • <b data-page-node-id="YDcB1oKYOrjZD0ZLMj8QnD">任务 1</b>：完成第一次时间周报（15 分钟）<br data-page-node-id="uAAVBNZBXocsxzQWqKWeBu">
+          • <b data-page-node-id="mZp33GFEPNC9VHXXBiPwKY">任务 2</b>：累计做成 SOP ≥ 3 项 + 自动跑 ≥ 1 项<br data-page-node-id="mDhAI4Ec1f3Sovn4HNWclu">
+          • <b data-page-node-id="AInqpo8ArQZxON5safw4gR">任务 3</b>：立一条原则：「让别人配合的事 / 让脚本跑的事，不排进我自己的日程」
         </div>
       </div>
     </div>
 
     <div class="crp-card" data-page-node-id="l7vMLp1QWo50SyEFI5S8Hm">
-      <div class="crp-title" data-page-node-id="gopfoA5jIaFbZdonZLfYDk">📋 本人时间经营 10 条 Hard Rule<span class="crp-tip" data-page-node-id="FE8bajR6V493yHl8eAxEGE">👆 点击勾选 · 自动保存</span></div>
+      <div class="crp-title" data-page-node-id="gopfoA5jIaFbZdonZLfYDk">📋 我选择遵守的 10 条原则<span class="crp-tip" data-page-node-id="FE8bajR6V493yHl8eAxEGE">👆 点击勾选 · 自动保存</span></div>
       <div id="hrList" data-page-node-id="rvrT5RaWU5TONsELFgqdek"></div>
     </div>
   </div>
@@ -851,13 +858,45 @@
   </div>
 </div>
 
+<!-- ===== 新手引导弹层（首次进入时显示） ===== -->
+<div class="ob-overlay" id="obOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:300;align-items:center;justify-content:center;padding:16px;" data-page-node-id="obRoot">
+  <div style="background:#fffaf0;max-width:380px;width:100%;border-radius:24px;padding:24px 22px;max-height:90vh;overflow-y:auto;" data-page-node-id="obCard">
+    <div id="obWelcome" data-page-node-id="obWelcome">
+      <div style="font-size:36px;text-align:center;margin-bottom:8px;">⏳</div>
+      <div style="font-size:18px;font-weight:800;color:#5a4408;text-align:center;margin-bottom:12px;">欢迎来到「长期主义搭子」</div>
+      <div style="font-size:13px;color:#6c7a89;text-align:center;line-height:1.7;margin-bottom:20px;">
+        这不是任务清单，这是你的「时间账本」——帮你看清每天的时间花在哪了，只回答 <b>3 个简单问题</b>，我就能陪你开始。
+      </div>
+      <button onclick="obStart()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#c9a227,#8b6914);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;">🚀 3 个小问题，开始</button>
+    </div>
+    <div id="obQuiz" style="display:none;" data-page-node-id="obQuiz"></div>
+    <div id="obDone" style="display:none;" data-page-node-id="obDone">
+      <div style="font-size:36px;text-align:center;margin-bottom:8px;">✨</div>
+      <div style="font-size:18px;font-weight:800;color:#5a4408;text-align:center;margin-bottom:12px;">已经记下你的原则</div>
+      <div style="font-size:13px;color:#6c7a89;text-align:center;line-height:1.7;margin-bottom:16px;" id="obDoneSummary">根据你的回答，我已经自动勾选了 10 条原则里和你的节奏最匹配的几条 —— 你随时可以在「教练」页改。</div>
+      <button onclick="obFinish()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#c9a227,#8b6914);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;">✅ 进入，开始记时间</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 每日原则小提示卡 ===== -->
+<div id="dailyTip" style="display:none;max-width:420px;margin:14px auto 0;background:linear-gradient(135deg,#fff8e7,#e8f5e9);border-radius:18px;padding:14px 16px;font-size:13px;color:#5a4408;line-height:1.7;box-shadow:0 6px 16px rgba(139,105,20,0.08);" data-page-node-id="dailyTip">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+    <span style="font-size:18px;">📌</span>
+    <span style="font-weight:700;color:#8b6914;">今天提醒自己</span>
+    <span style="margin-left:auto;font-size:11px;color:#8b6914;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
+  </div>
+  <div id="dailyTipText">完成 ≠ 必须由你完成 —— 能交出去就交出去</div>
+</div>
+
+
 <script>
 // ==================== 全局 & 存储 ====================
 const PARTNERS = [
   { id: 'hourglass', name: '沙漏', emoji: '⏳', style: 'hourglass', desc: '沉静不催你', color: '#c9a227',
     fb: { text: '⏳ 沙漏：你今天「没做的事」比你做的事更定义你是谁。' } },
   { id: 'judge', name: '判官', emoji: '⚖️', style: 'judge', desc: '直接强硬', color: '#8b6914',
-    fb: { text: '⚖️ 判官：这件事 T3 还是 T4？你得诚实回答。' } },
+    fb: { text: '⚖️ 判官：这件事必须你亲自做，还是别人/AI 顺手就能搞定？诚实回答。' } },
   { id: 'investor', name: '投资人', emoji: '📈', style: 'investor', desc: '冷静给数字', color: '#5d8a3f',
     fb: { text: '📈 投资人：今天的你比昨天的你多挣了几个长线小时？' } }
 ];
@@ -1035,14 +1074,14 @@ const QA_POOL = {
 
   // B 任务 5 去向
   B: [
-    { id:'B01', q:'亲自做 / AI 先做我拍板 / AI 独立我抽检 / Skill / Automation——你今天做的事属于哪一类？', options:[
+    { id:'B01', q:'自己做的 / 让 AI 做我拍板 / AI 做我抽检 / 做成 SOP / 自动跑——你今天做的事属于哪一类？', options:[
       '亲自做',
       'AI 先做我拍板',
       'AI 独立我抽检',
-      'Skill 化（模板化）',
-      'Automation（脚本 / 自动跑）'
+      '做成 SOP（套模板）',
+      '让脚本自动跑'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B02', q:'这件事如果第 3 次出现，你是否已经 Skill 化了？', options:[
+    { id:'B02', q:'这件事如果第 3 次出现，你是否已经 做成 SOP了？', options:[
       '还没 Skill，还在每次重新做',
       '差一点，明天就能 Skill',
       '已经是 Skill 了',
@@ -1066,13 +1105,13 @@ const QA_POOL = {
       '草拟一封邮件 / 回复',
       '写一份初版 PPT / 报告'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B06', q:'一个重复任务，你多久会 Skill 化一次？', options:[
+    { id:'B06', q:'一个重复任务，你多久会 做成 SOP一次？', options:[
       '从不，第三次出现还是手动做',
       '出现 5~10 次会想 Skill',
       '出现 2~3 次就 Skill',
       '出现第 1 次就想 Skill（提前准备）'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B07', q:'一件 Automation 跑通以后，你多久会再优化一次？', options:[
+    { id:'B07', q:'一件 脚本自动跑通以后，你多久会再优化一次？', options:[
       '基本不优化，跑通就行',
       '半年 / 一年一次',
       '每月看一次运行报告',
@@ -1090,7 +1129,7 @@ const QA_POOL = {
       '每次接都要写，能筛掉一半',
       '不需要，因为已经在做 80% 交出去'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B10', q:'一件重复 5 次以上的事，今天该不该 Skill 化？', options:[
+    { id:'B10', q:'一件重复 5 次以上的事，今天该不该 做成 SOP？', options:[
       '该，越早越赚',
       '看是不是真稳定',
       '看有没有必要',
@@ -1099,7 +1138,7 @@ const QA_POOL = {
     { id:'B11', q:'一件事如果永远无法 Skill / Automation，你会？', options:[
       '继续做，继续投入时间',
       '逐步减少做的频率',
-      '尽量 STOP，一次都不做',
+      '尽量停下，一次都不做',
       '尝试外包给专家'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
     { id:'B12', q:'「我必须亲自做」的判断标准，你有没有？', options:[
@@ -1132,7 +1171,7 @@ const QA_POOL = {
       '不确定',
       '基本没有，因为已经在 Skill'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B17', q:'Automation 跑不通时，你通常？', options:[
+    { id:'B17', q:'让脚本跑跑不通时，你通常？', options:[
       '立刻修，怕它挂了',
       '等影响范围扩大再修',
       '看是不是关键路径，是就先修',
@@ -1150,7 +1189,7 @@ const QA_POOL = {
       '30~50%',
       '<30%'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B20', q:'「这件事我能 Skill 化」和「这件事我应该 Skill 化」哪个先想？', options:[
+    { id:'B20', q:'「这件事我能 做成 SOP」和「这件事我应该 做成 SOP」哪个先想？', options:[
       '能 Skill 先想',
       '应该 Skill 先想',
       '同时想',
@@ -1158,33 +1197,33 @@ const QA_POOL = {
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } }
   ],
 
-  // C 时间价值层级 T1/T2/T3/T4
+  // C 时间价值层级 这 4 类事
   C: [
-    { id:'C01', q:'你今天做的事，哪些属于 T1（最终取舍 / 关键决策）？', options:[
+    { id:'C01', q:'你今天做的事，哪些属于 只有我能拍板的事（关键决策）？', options:[
       '战略决策 / 关键方案拍板',
       '关键谈判 / 关键沟通',
       '关键创新 / 关键关系',
       '基本没有，今天都在 T3/T4'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C02', q:'今天哪个时段排的是 T1（最终取舍）？', options:[
+    { id:'C02', q:'今天哪个时段排的是 只有我能拍板的事？', options:[
       '上午精力最好的 2 小时',
       '下午临走前',
       '夜里 22:00 以后',
       '没安排 / 没注意'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C03', q:'你今天哪件事是 T4（可以随时 Automation）？', options:[
+    { id:'C03', q:'你今天哪件事是 可以让脚本跑的（自动的）？', options:[
       '重复数据整理',
       '通知 / 提醒抄送',
-      '模板化回复',
+      '用模板回复',
       '其实大部分都是 T4'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C04', q:'T2（关键执行）今天大概占你时长多少？', options:[
+    { id:'C04', q:'需要亲手做的（关键执行）今天大概占你时长多少？', options:[
       '<20%',
       '20~40%',
       '40~60%',
       '>60%'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C05', q:'本周的 T3（必要协作）占比是多少？', options:[
+    { id:'C05', q:'本周的 需要别人配合的（协作）占比是多少？', options:[
       '>60%',
       '40~60%',
       '20~40%',
@@ -1196,7 +1235,7 @@ const QA_POOL = {
       '30~50%',
       '<30%'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C07', q:'你的 Hard Rule「T3/T4 任务不上我本人日程」今天有没有违反？', options:[
+    { id:'C07', q:'你那原则「需要别人配合的事 / 让脚本跑的事，不排进我的日程」今天有没有违反？', options:[
       '没有',
       '违反 1~2 次',
       '违反 3 次以上',
@@ -1208,16 +1247,16 @@ const QA_POOL = {
       '10~20%',
       '<10%'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C09', q:'一件 T4 任务，怎么处理最划算？', options:[
+    { id:'C09', q:'一件 可以让脚本跑的事，怎么处理最划算？', options:[
       '找人 / AI 做',
       'Automation 跑',
-      'Skill 化模板',
+      '做成 SOP模板',
       '几件并一起，一次批量处理'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C10', q:'一件「T1 但现在还没时间做」的事，你会？', options:[
+    { id:'C10', q:'一件「只有我能拍板、但现在没时间做的事」的事，你会？', options:[
       '硬抽时间，今天就做',
       '排到明天精力最好的时段',
-      '先放进 STOP 候选',
+      '先放进 不做的候选',
       '再想想是不是 T1'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
     { id:'C11', q:'日程上一堆 T3，怎么判断哪个必到？', options:[
@@ -1226,13 +1265,13 @@ const QA_POOL = {
       '看我心情',
       '看是不是只有我能拍板'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C12', q:'一段时间里 T3 太多，第一反应是？', options:[
+    { id:'C12', q:'一段时间里 需要别人配合的事太多，第一反应是？', options:[
       '推到别人',
       '改成异步',
       '合并会议',
       '直接拒一些'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C13', q:'一件 T3 但关键路径，要不要亲自到？', options:[
+    { id:'C13', q:'一件 需要别人配合、但又关键，要不要亲自到？', options:[
       '要到，关键路径不能漏',
       '可以异步，但事后我要看',
       '可以异步，关键节点给我看',
@@ -1244,19 +1283,19 @@ const QA_POOL = {
       '一半，仍有部分只能自己',
       '几乎砍不动，都是核心责任'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C15', q:'你下周要新增「每周 T1 时长」指标吗？', options:[
+    { id:'C15', q:'你下周要新增「每周 只有我能拍板的事的时长」指标吗？', options:[
       '已经有了',
       '准备加',
       '听说过但没做',
       '我没意识到这是指标'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C16', q:'T4 任务堆积超过多少次会触发「今天就 Automation」？', options:[
+    { id:'C16', q:'可以让脚本跑的事堆积超过多少次会触发「今天就 Automation」？', options:[
       '5 次',
       '10 次',
       '20 次',
       '从不，都是手动慢慢做'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C17', q:'一个 T1 任务被 T3 不断打断，你会？', options:[
+    { id:'C17', q:'一个 只有我能拍板的事被 T3 不断打断，你会？', options:[
       '关掉协作消息，专时做 T1',
       '接受，这是常态',
       '先把 T3 全部转出去',
@@ -1274,7 +1313,7 @@ const QA_POOL = {
       '有 5~10 件',
       '没想清楚过'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C20', q:'30 天后回头看你今天做的事，哪些是 T1？', options:[
+    { id:'C20', q:'30 天后回头看，你今天做的事，哪些是只有你能拍板的？', options:[
       '今天基本没有 T1',
       '不到 2 小时 T1',
       '2~4 小时 T1',
@@ -1282,7 +1321,7 @@ const QA_POOL = {
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } }
   ],
 
-  // D STOP vs 完成（核心：完成 ≠ 必须由你完成）
+  // D 不做 ≠ 不完成（核心：完成 ≠ 必须由你完成）
   D: [
     { id:'D01', q:'你今天做的最后一件事，如果不完成，世界会变糟吗？', options:[
       '不会，明天再做也一样',
@@ -1297,7 +1336,7 @@ const QA_POOL = {
       '完全不能，必须我做'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
     { id:'D03', q:'一件事已经发生 3 次，第四次会怎样？', options:[
-      'Skill 化，下次自动化',
+      '做成 SOP，下次自动化',
       '还是我手动做',
       '看是不是关键',
       '扔给 AI / 助理'
@@ -1309,55 +1348,55 @@ const QA_POOL = {
       '会，长期也是负面'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
     { id:'D05', q:'这件事「还会不会再发生」？', options:[
-      '不会，STOP 即可',
+      '不会，不做了',
       '会发生，需要 Skill',
       '会发生，需要 Automation',
       '说不准'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
     { id:'D06', q:'「我最后一次做这件事」的勇气，你有多少？', options:[
-      '非常有，今天就 STOP',
+      '非常有，今天就停下',
       '有一点，需要契机',
       '很少，习惯惯性太强',
       '完全没有，停不下来'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D07', q:'一件 STOP 掉的事，谁会有反应？', options:[
+    { id:'D07', q:'一件决定不做的 掉的事，谁会有反应？', options:[
       '没人，悄悄发生',
       '1~2 个人，会被问',
       '很多人会立刻问',
       '是核心协作，没人问说明我没尽到责任'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D08', q:'你能列出来 3 件「应该 STOP 但还停不下来」的事吗？', options:[
+    { id:'D08', q:'你能列出来 3 件「应该不做了 但还停不下来」的事吗？', options:[
       '能，立刻能',
       '能，要思考一下',
       '可能要翻任务列表',
       '基本没有，都在掌握中'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D09', q:'一件你 STOP 的事，今天该写下「为什么不做了」吗？', options:[
+    { id:'D09', q:'一件你 我决定不做的事，今天该写下「为什么不做了」吗？', options:[
       '该，必须写',
       '该，但很多没写',
       '不用写，知道就行',
       '没必要，停就停了'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D10', q:'一件事 STOP 之后，又被叫回来做的概率？', options:[
+    { id:'D10', q:'一件事 决定不做之后，又被叫回来做的概率？', options:[
       '很低，除非关键',
       '中等，关键任务会被叫回',
       '很高，几乎都要回来',
-      '我从来 STOP 不彻底'
+      '我从来 没把它真正停下来'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D11', q:'你最后做的第 N 件事，是 Skill 化的最佳候选吗？', options:[
+    { id:'D11', q:'你最后做的第 N 件事，是 做成 SOP的最佳候选吗？', options:[
       '是，要立刻 Skill',
-      '不是，已经 STOP',
+      '不是，已经停下了',
       '不是，已经 Automation',
       '是，但今天来不及'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D12', q:'你能列出来「值得我现在立刻 STOP」的 3 件事吗？', options:[
+    { id:'D12', q:'你能列出来「值得我现在立刻不做的」的 3 件事吗？', options:[
       '能，立刻能',
       '能，要花点时间',
       '要翻任务',
-      '其实没有特别该 STOP 的'
+      '其实没有特别该不做了 的'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D13', q:'一件事 STOP 后的「替代动作」是什么？', options:[
-      'Skill 化，下次不出现',
+    { id:'D13', q:'一件事 不做之后的「下一步动作」是什么？', options:[
+      '做成 SOP，下次不出现',
       'Automation，下次自动跑',
       '转交他人，下次别人做',
       '什么都不做，让它自然消亡'
@@ -1374,13 +1413,13 @@ const QA_POOL = {
       '双方都想',
       '不太清楚'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D16', q:'STOP 一件事的代价是什么？', options:[
+    { id:'D16', q:'决定不做一件事的代价是什么？', options:[
       '几乎没有',
       '要写一段交代',
       '短期会有人失望',
       '长期会影响协作'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D17', q:'你可以列出「即使 STOP 也没事」的 3 件事吗？', options:[
+    { id:'D17', q:'你可以列出「即使不做也没事」的 3 件事吗？', options:[
       '能，立刻能',
       '要想想',
       '要写下来',
@@ -1392,13 +1431,13 @@ const QA_POOL = {
       '没有，靠感觉',
       '没有，做什么都觉得该我做'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D19', q:'「完成」的快感 vs STOP 的清爽，你更喜欢哪个？', options:[
+    { id:'D19', q:'「做完」的满足 vs 不做的轻松，你更喜欢哪个？', options:[
       '完成',
-      'STOP 后的清爽',
+      '不做之后的清爽',
       '看情况',
       '都想要'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D20', q:'完成 vs STOP 的判断标准是？', options:[
+    { id:'D20', q:'做完 vs 不做的判断标准是？', options:[
       '问「这件事还会不会再发生」',
       '问「3 个月后还有价值吗」',
       '问「我能不能 80% 放手」',
@@ -1432,7 +1471,7 @@ const QA_POOL = {
       '3~5 件事',
       '能列出来一周的安排'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E05', q:'本周哪些事「应该 STOP」？', options:[
+    { id:'E05', q:'本周哪些事「应该不做了」？', options:[
       '想不出来',
       '1~2 件事',
       '3~5 件事',
@@ -1470,11 +1509,11 @@ const QA_POOL = {
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
     { id:'E11', q:'本周「KEEP / DELEGATE / SKILL / AUTOMATE / STOP」五张清单上各多少项？', options:[
       '都没列过',
-      '只有 KEEP + STOP',
+      '只有「继续做」+「不做了」',
       '五大类都列了',
       '五大类都有具体项'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E12', q:'你的「累计 STOP」数（最近 30 天）？', options:[
+    { id:'E12', q:'你最近 30 天一共决定不做了几件事？', options:[
       '0',
       '1~3 件',
       '4~10 件',
@@ -1486,19 +1525,19 @@ const QA_POOL = {
       '3~5 件',
       '>5 件'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E14', q:'你的「Automation 已跑通」数？', options:[
+    { id:'E14', q:'你的「脚本自动跑通的」数？', options:[
       '0',
       '1 件',
       '2~3 件',
       '>3 件'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E15', q:'你有过「Hard Rule：第二次出现的同类任务评估模板化」吗？', options:[
+    { id:'E15', q:'你有过「我的原则：第二次出现的同类任务评估模板化」吗？', options:[
       '有，已写下来',
       '有，但没动笔',
       '听说过，但没执行',
       '没有'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E16', q:'你有过「Hard Rule：第三次出现的原则上 Skill 化」吗？', options:[
+    { id:'E16', q:'你有过「我的原则：第三次出现的原则上 做成 SOP」吗？', options:[
       '有，已写下来',
       '有，但没动笔',
       '听说过，但没执行',
@@ -1506,8 +1545,8 @@ const QA_POOL = {
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
     { id:'E17', q:'本周你最骄傲的 1 个「时间复利」动作是什么？', options:[
       '想不出来',
-      '很小的一件，比如 STOP 一件事',
-      '1 件 Skill 化 / Automation',
+      '很小的一件，比如 决定不做一件事',
+      '1 件 做成 SOP / Automation',
       '几个动作叠加'
     ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
     { id:'E18', q:'本周你最心疼的 1 个「时间浪费」是什么？', options:[
@@ -1536,13 +1575,13 @@ const SOP_CATEGORIES = [
   { id:'A', name:'短视触发器', icon:'⚡', color:'#e65100',
     desc:'识别群里@、红点、「先回一下」这类一碰就掉时间的钩子。' },
   { id:'B', name:'任务 5 去向', icon:'🧭', color:'#3949ab',
-    desc:'亲自做 / AI 先做我拍板 / AI 独立我抽检 / Skill / Automation。' },
+    desc:'自己做的 / 让 AI 做我拍板 / AI 做我抽检 / 做成 SOP / 自动跑。' },
   { id:'C', name:'时间价值层级', icon:'📐', color:'#5d8a3f',
-    desc:'T1 最终取舍 / T2 关键执行 / T3 必要协作 / T4 可 Automation。' },
-  { id:'D', name:'STOP vs 完成', icon:'🛑', color:'#ad1457',
+    desc:'只有我能拍板的 / 关键得亲手做的 / 需要别人配合的 / 可以让脚本跑的。' },
+  { id:'D', name:'不做 ≠ 不完成', icon:'🛑', color:'#ad1457',
     desc:'完成 ≠ 必须由你完成；问「这件事还会不会再发生？」' },
   { id:'E', name:'时间 P&L', icon:'📈', color:'#b8941f',
-    desc:'KEEP / DELEGATE / SKILL / AUTOMATE / STOP · 周复盘。' }
+    desc:'继续做 / 交给别人 / 做成 SOP / 自动跑 / 不做了 · 每周复盘。' }
 ];
 
 // 今日一句拷问（按人设不同）
@@ -1555,16 +1594,16 @@ const DAILY_QA = {
     '你这周「不做的事」比「做的事」更值得记一笔吗？'
   ],
   judge: [
-    'T3 还是 T4？诚实回答。',
-    '这是第几次出现了？还没 Skill 化吗？',
-    '如果一个月后看今天，你能 STOP 而不是完成吗？',
+    '需要别人配合，还是让脚本跑？诚实回答。',
+    '这是第几次出现了？还没 做成 SOP吗？',
+    '如果一个月后看今天，你能「不做」而不是「做完」吗？',
     '这件事还在你的日程上第几天了？凭什么是？',
     '你现在做的事，T1 吗？不是就别继续。'
   ],
   investor: [
     '今天你这 1 小时投在哪条赛道上？',
     '今天的 P&L：投入 ____ 小时，回报 ____ 长线分数。',
-    '下周复盘你会 STOP 哪件事？',
+    '下周复盘你会决定不做什么？',
     '你今天的「投入产出比」是 T1 还是 T4？',
     '你的「时间组合」是分散的还是集中？'
   ]
@@ -1596,7 +1635,7 @@ const FEEDBACK = {
     question: ['问题是什么？问 ⚖️'],
     milestone7: ['一周了。继续 ⚖️'],
     milestone21: ['三周。惯性开始形成 ⚖️'],
-    milestone30: ['一个月。Hard Rule 是不是该写下来了？'],
+    milestone30: ['一个月。我的原则 是不是该写下来了？'],
     late: ['这么晚，明天再讲 ⚖️'],
     reminder: ['喂？一天没打卡 ⚖️']
   },
@@ -1625,26 +1664,26 @@ function getMsg(style, type) {
 // 进展类 20 条 + 困难 20 + 想法 20 + 突破 20 + 汇报 20 = 100 条（按情绪轨迹）
 const QA_DATA = {
   pos: [
-    { icon: '⏳', tag: '长线', question: '今天把 1 件事 Skill 化了，明天就不用手动了', answer: '恭喜你，时间复利的第一笔本金到账。明天机器人替你做这件事，3 个月后回头看，你会感谢今天这个动作。', score: 0 },
-    { icon: '🛑', tag: 'STOP', question: '今天 STOP 了一件本该反复做的事', answer: 'STOP 比 Skill 更勇敢——Skill 是替自己做，STOP 是让它彻底消失。你今天给本人时间赢回了一段真实的小时数，这是长期主义搭子最值得庆祝的动作。', score: 0 },
+    { icon: '⏳', tag: '长线', question: '今天把 1 件事 做成 SOP了，明天就不用手动了', answer: '恭喜你，时间复利的第一笔本金到账。明天机器人替你做这件事，3 个月后回头看，你会感谢今天这个动作。', score: 0 },
+    { icon: '🛑', tag: 'STOP', question: '今天决定不做一件本该反复做的事', answer: '不做了 比 做成模板 更勇敢——模板是替你自己做，不做了是让这件事彻底消失。你今天给把时间赢回了一段真实的小时数，这是长期主义搭子最值得庆祝的动作。', score: 0 },
     { icon: '🍀', tag: '长线', question: '今天把 T1 那件关键事做完了', answer: '今天下午的你比早上的你多了一块 T1 时间。这是你最贵的资产——其他时间可以在未来补，T1 错过就错过了。', score: 0 },
     { icon: '📈', tag: '复利', question: '今天看见自己的 P&L 比上周好', answer: '时间复利曲线从来不是直的，是阶梯式的。今天你上一格，明天可能平台一阵，但只要你不再退，3 个月后回头看会是另一个自己。', score: 0 },
     { icon: '⏳', tag: '空出', question: '今天空出 1 小时没刷群消息', answer: '空出来的小时是 T1 复利的原料。你今天不在线的 60 分钟，可能是未来 6 个月里最值钱的 60 分钟。', score: 0 },
-    { icon: '🧩', tag: 'Skill', question: '今天把 1 个 chat prompt 模板存下来了', answer: 'Skill 化的最小单位往往就是一个 prompt。今天这几十个字，明天能替你做 10 件同类的事。这是低投入高产出的时间套利。', score: 0 },
+    { icon: '🧩', tag: 'Skill', question: '今天把 1 个 chat prompt 模板存下来了', answer: '做成 SOP的最小单位往往就是一个 prompt。今天这几十个字，明天能替你做 10 件同类的事。这是低投入高产出的时间套利。', score: 0 },
     { icon: '⚖️', tag: '诚实', question: '今天承认了「这事不该我做」，没再扛着', answer: '承认比完成要诚实。扛着 1 个月，不如今天放下、交接、写交接文档——你今天给本人时间一次最清白的喘息。', score: 0 },
-    { icon: '📐', tag: '层级', question: '今天把 T3/T4 任务从本人日历里清出去了', answer: '这一步比"今天做了多少事"重要 10 倍。你的日历是你的，本人时间只配最重要的层级，今天你做了一次版本升级。', score: 0 },
-    { icon: '🔁', tag: 'Automation', question: '今天终于让一个脚本 / 自动化替我跑了', answer: '这是从 Skill 走向 Automation 的一步——脚本帮你跑，意味着它替你在那段时间活着。你今天交出了 100% 的本人时间给这件事。', score: 0 },
-    { icon: '📉', tag: 'T4', question: '今天做了一件纯 T4 任务，做完没觉得有什么', answer: '这本身就是一次觉察。"做完了但没什么"——这正是 STOP 的信号。下次你看到这种任务，问一句"这会再发生吗"。', score: 0 },
+    { icon: '📐', tag: '层级', question: '今天把 T3/可以让脚本跑的事从本人日历里清出去了', answer: '这一步比"今天做了多少事"重要 10 倍。你的日历是你的，本人时间只配最重要的层级，今天你做了一次版本升级。', score: 0 },
+    { icon: '🔁', tag: 'Automation', question: '今天终于让一个脚本 / 自动化替我跑了', answer: '这是从 Skill 走向 Automation 的一步——脚本帮你跑，意味着它替你在那段时间活着。你今天交出了 100% 的亲自时间给这件事。', score: 0 },
+    { icon: '📉', tag: 'T4', question: '今天做了一件纯 可以让脚本跑的事，做完没觉得有什么', answer: '这本身就是一次觉察。"做完了但没什么"——这正是 不做了的信号。下次你看到这种任务，问一句"这会再发生吗"。', score: 0 },
     { icon: '🕊️', tag: '清爽', question: '今天日程上有一格空了，感到意外轻松', answer: '空的格子是最好的格。你今天的轻松感不是来自做了什么，是来自「没什么是必须立刻做的」。长期主义就是在日历里留空的能力。', score: 0 },
     { icon: '✂️', tag: '砍单', question: '今天拒绝了 1 个看起来很紧急的请求', answer: '拒绝的勇气来自 T1 的清晰。你今天划的这条线，下周还能省你 3 小时。', score: 0 },
-    { icon: '🧠', tag: '思考', question: '今天花 30 分钟做了一个 T1 决策', answer: '30 分钟的 T1 决策可能省下未来 30 小时的反复救火。今天是你时间里最值得复利的 30 分钟之一。', score: 0 },
+    { icon: '🧠', tag: '思考', question: '今天花 30 分钟做了一个 只有我能拍板的决策', answer: '30 分钟的 只有我能拍板的决策可能省下未来 30 小时的反复救火。今天是你时间里最值得复利的 30 分钟之一。', score: 0 },
     { icon: '🪞', tag: '复盘', question: '今晚做了一次周复盘，五张清单都列出来了', answer: '一次完整的周复盘 ≈ 5~10 小时 T1 时间回笼。你今天给自己做了一次最重要的"内在对话"。', score: 0 },
-    { icon: '🪴', tag: '耐心', question: '今天忍住没做一件「立刻就能做」的 T4 任务', answer: '忍住本身就是 Skill 化的前置动作。忍住 1 次，下次就能少 1 次。这是时间复利里最难也最值钱的肌肉训练。', score: 0 },
+    { icon: '🪴', tag: '耐心', question: '今天忍住没做一件「立刻就能做」的 可以让脚本跑的事', answer: '忍住本身就是 做成 SOP的前置动作。忍住 1 次，下次就能少 1 次。这是时间复利里最难也最值钱的肌肉训练。', score: 0 },
     { icon: '🌿', tag: '日常', question: '今天保持了 30 分钟的「专注不被打断」', answer: '30 分钟不被群消息打断，等于你今天多了 30 分钟本人时间。复利从这一刻开始算。', score: 0 },
     { icon: '🧭', tag: '去向', question: '今天把 5 件任务重分类进了 5 个去向', answer: '分类是停下来思考的副产品。你今天做了一次"时间 P&L 的资产负债表"，看清了 5 个去向的比例，是长期主义的"基本看清"。', score: 0 },
     { icon: '🎯', tag: '对准', question: '今天发现一件「不做了反而更好」的事', answer: '不做了反而更好——这句话是时间复利最经典的语法。你今天的 0 比 +1 还值钱。', score: 0 },
     { icon: '📊', tag: '数据', question: '本周的自由时间曲线抬升了一点', answer: '抬升一点就是抬升。你不需要它暴涨，只需要它今天比昨天高 0.1。复利曲线的特点是最开头几乎看不见，最后陡升。', score: 0 },
-    { icon: '🌱', tag: '种子', question: '今天种下了一个 90 天才会看到结果的 T1 任务', answer: '种下不收的种子最像长期主义。你今天埋的不是任务，是"半年后的自己"。', score: 0 }
+    { icon: '🌱', tag: '种子', question: '今天种下了一个 90 天才会看到结果的 只有我能拍板的事', answer: '种下不收的种子最像长期主义。你今天埋的不是任务，是"半年后的自己"。', score: 0 }
   ],
   neg: [
     { icon: '⚡', tag: '冲动', question: '今天在群里秒回了 5 条，每条都跟 T1 无关', answer: '秒回是短视触发器的标准入口。今天 5 条 ≠ 必然发生的事。下次先问「3 个月后还会记得这次对话吗」。', score: 0 },
@@ -1652,18 +1691,18 @@ const QA_DATA = {
     { icon: '🥱', tag: '噪音', question: '今天看了 1 小时新闻，跟我 3 个月后的目标没关系', answer: '1 小时 ≠ 必然。新闻是当下焦虑的伪装。今天你用 1 小时换的不是休息，是下一条新闻的钩子。', score: 0 },
     { icon: '🍿', tag: '时间感', question: '今天刷短视频 / 信息流超过 1 小时', answer: '算法拿的是你的注意力，本质就是你的本人时间。它今天拿走了 1 小时，明天会拿走更多，除非你开始计费。', score: 0 },
     { icon: '📱', tag: '通知', question: '今天每 5 分钟看一次手机/群', answer: '每 5 分钟一次的注意力切换成本，远超你看到的那些"消息"。你今天的实际 T1 工时可能不到你以为的一半。', score: 0 },
-    { icon: '⏳', tag: 'T4', question: '今天做了 3 小时纯 T4 任务', answer: '3 小时 T4 = 3 小时长线时间被消耗。这是"我必须马上回一下"的累计后果。明天的你看着今天的账单会很心痛。', score: 0 },
+    { icon: '⏳', tag: 'T4', question: '今天做了 3 小时纯 可以让脚本跑的事', answer: '3 小时 T4 = 3 小时长线时间被消耗。这是"我必须马上回一下"的累计后果。明天的你看着今天的账单会很心痛。', score: 0 },
     { icon: '🍱', tag: '会议', question: '今天开了 4 小时的会议，其中只有 30 分钟跟我相关', answer: '4 小时会议里 3.5 小时是别人的 P&L 不是你的。你今天最大的问题是：没人问你"你是不是必须到"。', score: 0 },
-    { icon: '🤝', tag: '迎合', question: '今天又在帮别人做他们能做的事', answer: '你不是不善良，是没用对善良。善良应该花在 T1 任务上，而不是替别人做 T3/T4。下次问"这是谁的 T1？"', score: 0 },
+    { icon: '🤝', tag: '迎合', question: '今天又在帮别人做他们能做的事', answer: '你不是不善良，是没用对善良。善良应该花在 只有我能拍板的事上，而不是替别人做 T3/T4。下次问"这是谁的 T1？"', score: 0 },
     { icon: '🎭', tag: '演戏', question: '今天发了 3 小时微信处理琐事', answer: '3 小时看似社交，本质是低密度的噪音。今天最容易的止损：统一时段处理所有微信。', score: 0 },
     { icon: '🚪', tag: '客气', question: '今天因为不好意思拒绝接了 1 个会', answer: '不好意思拒绝 = 把自己当海绵。这次 1 小时，下次 1 小时，3 个月下来有 30 小时被偷走。', score: 0 },
-    { icon: '🔁', tag: '重复', question: '今天第 6 次做同一份 Excel / 同一份报告', answer: '第 6 次还手动做 = 你跟自己的时间最恶劣的剥削。Skill 化的最小代价现在就该开始 —— 哪怕今天只写 5 行的模板。', score: 0 },
-    { icon: '🧭', tag: '混乱', question: '今天不知道自己在做的到底是 T1 还是 T4', answer: '不知道 = 大概率是 T4，因为 T1 你不会忘。写下今天 5 件事的 T1/T2/T3/T4，60% 是 T3/T4 的话，今天就是救火日。', score: 0 },
+    { icon: '🔁', tag: '重复', question: '今天第 6 次做同一份 Excel / 同一份报告', answer: '第 6 次还手动做 = 你跟自己的时间最恶劣的剥削。做成 SOP的最小代价现在就该开始 —— 哪怕今天只写 5 行的模板。', score: 0 },
+    { icon: '🧭', tag: '混乱', question: '今天不知道自己在做的到底是 T1 还是 T4', answer: '不知道 = 大概率是 T4，因为 T1 你不会忘。写下今天 5 件事的 这 4 类事，60% 是 T3/T4 的话，今天就是救火日。', score: 0 },
     { icon: '🪤', tag: '陷阱', question: '今天有人甩给我一件事我就马上接了', answer: '马上接是「我怕被骂」的反射。接之前停 5 秒，问：「如果明天再做呢？3 个月后还有价值吗？」这两个问题筛掉一半。', score: 0 },
     { icon: '🥪', tag: '午餐会议', question: '今天陪一个不太重要的会吃了 1 小时', answer: '1 小时陪会 ≈ 1 小时你正在生产低价值时间。下次问一句：「我能退订吗？如果不能，我能不能只在关键 10 分钟出现？」', score: 0 },
-    { icon: '🌪️', tag: '迁怒', question: '今天把工作情绪带回了家，跟家人吵了一下', answer: '迁怒是本人时间最贵的损耗。今天这场吵，比今天你最长的会消耗还狠。一条 Hard Rule：下班前 10 分钟做情绪切分。', score: 0 },
+    { icon: '🌪️', tag: '迁怒', question: '今天把工作情绪带回了家，跟家人吵了一下', answer: '迁怒是亲自时间最贵的损耗。今天这场吵，比今天你最长的会消耗还狠。一条 我的原则：下班前 10 分钟做情绪切分。', score: 0 },
     { icon: '😶', tag: '沉默', question: '今天没说「不」，一直忍着', answer: '忍着 ≠ 礼貌。今天的忍会在 3 个月后的一次大爆发里被加倍还。下次说"我现在在忙，半小时后回"——这是带边界的礼貌。', score: 0 },
-    { icon: '🪨', tag: '卡壳', question: '今天遇到一件事卡了我 3 小时', answer: '卡壳 3 小时 = 这是 Skill 化的最强信号。今天把"卡住的原因"记下来，下次就是 Skill 的起点。Hard Rule 在帮你听见这条信号。', score: 0 },
+    { icon: '🪨', tag: '卡壳', question: '今天遇到一件事卡了我 3 小时', answer: '卡壳 3 小时 = 这是 做成 SOP的最强信号。今天把"卡住的原因"记下来，下次就是 Skill 的起点。我的原则 在帮你听见这条信号。', score: 0 },
     { icon: '📺', tag: '信息', question: '今天刷了 2 小时「学习类」短视频', answer: '2 小时 ≠ 必然发生。"看了 = 学习了" 是大脑最爱用的拖延借口。今天下单任务：去写一段 50 字的总结，看你真正学到了什么。', score: 0 },
     { icon: '🛋️', tag: '拖延', question: '今天又把 T1 推到了明天', answer: '"明天再说"是 T1 最大的杀手。今天是这次 T1 的最佳时机——每推迟 1 天，T1 的优先级都会被新冒出来的 T4 顶掉。', score: 0 },
     { icon: '🌑', tag: '失联', question: '今天没跟任何能给我「T1 视角」的人说话', answer: '没有 T1 视角的输入 = 你今天的方向感是旧的。一个人走会很快，但一群人中至少有 1 个 T1 的对话，就能拽住你回到关键路径。', score: 0 }
@@ -1673,17 +1712,17 @@ const QA_DATA = {
 // 6 类搭子互动场景
 const TYPE_SCENES = {
   progress: [
-    { icon:'🛑', tag:'STOP', scenario:'今天 STOP 了一件本该反复做的事', feedback:'STOP 比 Skill 更勇敢。它意味着你愿意让"我必须做"的幻觉死掉一次。今天你把本人时间从这件事里彻底赎回了。', type:'pos' },
-    { icon:'🧩', tag:'Skill', scenario:'今天把 1 件事 Skill 化了，下周就不用手做', feedback:'这是时间复利的第一笔本金到账。下周机器人替做这件事，3 个月后回头看，今天的几十分钟是收益率最高的 1 笔投资。', type:'pos' },
+    { icon:'🛑', tag:'STOP', scenario:'今天决定不做一件本该反复做的事', feedback:'不做了 比 做成模板 更勇敢。它意味着你愿意让"我必须做"的幻觉死掉一次。今天你把把时间从这件事里彻底要回来了。', type:'pos' },
+    { icon:'🧩', tag:'Skill', scenario:'今天把 1 件事 做成 SOP了，下周就不用手做', feedback:'这是时间复利的第一笔本金到账。下周机器人替做这件事，3 个月后回头看，今天的几十分钟是收益率最高的 1 笔投资。', type:'pos' },
     { icon:'🍀', tag:'长线', scenario:'今天把 T1 那件关键事做完了', feedback:'今天下午的你比早上的你多了一块 T1 时间。这是你最贵的资产——其他时间可以在未来补，T1 错过就错过了。', type:'pos' },
-    { icon:'📐', tag:'层级', scenario:'今天把 T3/T4 任务从本人日历里清出去了', feedback:'这一步比"今天做了多少事"重要 10 倍。你的日历是你的，本人时间只配最重要的层级，今天你做了一次版本升级。', type:'pos' },
-    { icon:'🔁', tag:'Automation', scenario:'今天让一个脚本 / 自动化替我跑了', feedback:'这是从 Skill 走向 Automation 的一步——脚本帮你跑，意味着它替你在那段时间活着。你今天交出了 100% 的本人时间给这件事。', type:'pos' },
-    { icon:'📉', tag:'T4', scenario:'今天做完一件 T4 任务，做完没什么感觉', feedback:'"做完了但没什么"这正是 STOP 的信号。下次你看到这种任务，问一句"这会再发生吗"。', type:'pos' },
+    { icon:'📐', tag:'层级', scenario:'今天把 T3/可以让脚本跑的事从本人日历里清出去了', feedback:'这一步比"今天做了多少事"重要 10 倍。你的日历是你的，本人时间只配最重要的层级，今天你做了一次版本升级。', type:'pos' },
+    { icon:'🔁', tag:'Automation', scenario:'今天让一个脚本 / 自动化替我跑了', feedback:'这是从 Skill 走向 Automation 的一步——脚本帮你跑，意味着它替你在那段时间活着。你今天交出了 100% 的亲自时间给这件事。', type:'pos' },
+    { icon:'📉', tag:'T4', scenario:'今天做完一件 可以让脚本跑的事，做完没什么感觉', feedback:'"做完了但没什么"这正是 不做了的信号。下次你看到这种任务，问一句"这会再发生吗"。', type:'pos' },
     { icon:'🕊️', tag:'清爽', scenario:'今天日程上有一格空了，意外轻松', feedback:'空的格子是最好的格。你今天的轻松感不是来自做了什么，是来自"没什么是必须立刻做的"。长期主义就是在日历里留空的能力。', type:'pos' },
     { icon:'✂️', tag:'砍单', scenario:'今天拒绝了 1 个看起来很紧急的请求', feedback:'拒绝的勇气来自 T1 的清晰。你今天划的这条线，下周还能省你 3 小时。', type:'pos' },
-    { icon:'🧠', tag:'思考', scenario:'今天花 30 分钟做了一个 T1 决策', feedback:'30 分钟的 T1 决策可能省下未来 30 小时的反复救火。今天是你时间里最值得复利的 30 分钟之一。', type:'pos' },
+    { icon:'🧠', tag:'思考', scenario:'今天花 30 分钟做了一个 只有我能拍板的决策', feedback:'30 分钟的 只有我能拍板的决策可能省下未来 30 小时的反复救火。今天是你时间里最值得复利的 30 分钟之一。', type:'pos' },
     { icon:'🪞', tag:'复盘', scenario:'今晚做了一次周复盘，五张清单都列出来了', feedback:'一次完整的周复盘 ≈ 5~10 小时 T1 时间回笼。你今天给自己做了一次最重要的"内在对话"。', type:'pos' },
-    { icon:'🪴', tag:'耐心', scenario:'今天忍住没做一件「立刻就能做」的 T4', feedback:'忍住本身就是 Skill 化的前置动作。忍住 1 次，下次就能少 1 次。这是时间复利里最难也最值钱的肌肉训练。', type:'pos' },
+    { icon:'🪴', tag:'耐心', scenario:'今天忍住没做一件「立刻就能做但不该做', feedback:'忍住本身就是 做成 SOP的前置动作。忍住 1 次，下次就能少 1 次。这是时间复利里最难也最值钱的肌肉训练。', type:'pos' },
     { icon:'🌿', tag:'日常', scenario:'今天保持了 30 分钟的「专注不被打断」', feedback:'30 分钟不被群消息打断，等于你今天多了 30 分钟本人时间。复利从这一刻开始算。', type:'pos' },
     { icon:'⚡', tag:'冲动', scenario:'今天群里秒回了 5 条，都跟 T1 无关', feedback:'秒回是短视触发器的标准入口。下次先问"3 个月后还会记得这次对话吗"。', type:'neg' },
     { icon:'🌀', tag:'救火', scenario:'今天一天都在救火，没做 T1', feedback:'救火是有反馈的，T1 没有——这就是大部分人会陷进救火的原因。明天把救火窗口收紧到 1 小时试试。', type:'neg' },
@@ -1691,20 +1730,20 @@ const TYPE_SCENES = {
     { icon:'🍿', tag:'信息流', scenario:'今天刷短视频 / 信息流超过 1 小时', feedback:'算法拿的是你的注意力，本质就是你的本人时间。它今天拿走了 1 小时，明天会拿走更多，除非你开始计费。', type:'neg' },
     { icon:'📱', tag:'通知', scenario:'今天每 5 分钟看一次手机/群', feedback:'每 5 分钟一次的注意力切换成本远超你看到的"消息"。今天实际 T1 工时可能不到你以为的一半。', type:'neg' },
     { icon:'🤝', tag:'迎合', scenario:'今天又在帮别人做他们能做的事', feedback:'你不是不善良，是没用对善良。下次问"这是谁的 T1？"。', type:'neg' },
-    { icon:'🔁', tag:'重复', scenario:'今天第 6 次做同一份 Excel / 报告', feedback:'第 6 次还手动做 = 你跟自己的时间最恶劣的剥削。Skill 化的最小代价现在就该开始。', type:'neg' },
-    { icon:'🌪️', tag:'迁怒', scenario:'今天把工作情绪带回家，家人吵了一下', feedback:'迁怒是本人时间最贵的损耗。Hard Rule：下班前 10 分钟做情绪切分。', type:'neg' }
+    { icon:'🔁', tag:'重复', scenario:'今天第 6 次做同一份 Excel / 报告', feedback:'第 6 次还手动做 = 你跟自己的时间最恶劣的剥削。做成 SOP的最小代价现在就该开始。', type:'neg' },
+    { icon:'🌪️', tag:'迁怒', scenario:'今天把工作情绪带回家，家人吵了一下', feedback:'迁怒是亲自时间最贵的损耗。我的原则：下班前 10 分钟做情绪切分。', type:'neg' }
   ],
   struggle: [
-    { icon:'🛑', tag:'STOP 卡', scenario:'想 STOP 一件事，但每次都会被叫回来', feedback:'被叫回来 = 你没真正 STOP。下次 STOP 时附一句话："我已经 STOP 了 X，请改派 / 自己承担"。一句话把决定权交回去。', type:'pos' },
-    { icon:'🧩', tag:'Skill 卡', scenario:'这件事已经第三次出现，但还没 Skill 化', feedback:'第三次出现还没 Skill = Hard Rule 提醒你立刻 30 分钟写一版模板。今天不写，明天就第 4 次、第 5 次。', type:'pos' },
-    { icon:'📐', tag:'层级', scenario:'T4 任务堵住了我的 T1 时间', feedback:'把 T4 移到日历外 / 集中时段处理，每天 1 小时 T4 窗口，其余时间全部保留给 T1。', type:'pos' },
-    { icon:'🍿', tag:'信息流', scenario:'总忍不住刷手机，每次都说"再 5 分钟"', feedback:'把手机挪出视线范围是最低成本止损。Hard Rule: 每天 1 小时「不放手机」窗口。', type:'pos' },
+    { icon:'🛑', tag:'STOP 卡', scenario:'想停止做一件事，但每次都被叫回来', feedback:'被叫回来 = 你没真正停下来。下次 停下这件事时附一句话："我已经 停了 X，请改派 / 自己承担"。一句话把决定权交回去。', type:'pos' },
+    { icon:'🧩', tag:'做成 SOP 卡', scenario:'这件事已经第三次出现，但还没 做成 SOP', feedback:'第三次出现还没 Skill = 我的原则 提醒你立刻 30 分钟写一版模板。今天不写，明天就第 4 次、第 5 次。', type:'pos' },
+    { icon:'📐', tag:'层级', scenario:'可以让脚本跑的事堵住了我的 T1 时间', feedback:'把 T4 移到日历外 / 集中时段处理，每天 1 小时 T4 窗口，其余时间全部保留给 T1。', type:'pos' },
+    { icon:'🍿', tag:'信息流', scenario:'总忍不住刷手机，每次都说"再 5 分钟"', feedback:'把手机挪出视线范围是最低成本止损。我的原则：每天留 1 小时「手机出视线的窗口」。', type:'pos' },
     { icon:'📱', tag:'通知', scenario:'一听到消息提示就想看', feedback:'提示音就是短视触发器。关掉提示，30 分钟统一看一次，省下的是切换成本。', type:'pos' },
     { icon:'⏳', tag:'时间感', scenario:'今天的日程安排得很满，但结束感觉什么都没做', feedback:'满 ≠ 高价值。日历满但 T1 占比可能不足 30%。明天试一下"重要的事排前面"的反向日历法。', type:'pos' },
     { icon:'🛋️', tag:'T1 拖延', scenario:'T1 一直推到第二天、第三天', feedback:'T1 推迟 = 新冒出来的 T4 会顶掉它。给 T1 设"最迟今天 16:00 之前"的截止。', type:'pos' },
     { icon:'🤝', tag:'承接', scenario:'别人甩过来的事我总是第一时间接', feedback:'第一时间接 = 我怕被骂的反射。下次停 5 秒，问"如果明天再做呢"。', type:'pos' },
     { icon:'🪤', tag:'求救', scenario:'一个老问题反复出现，但没人一起解决', feedback:'反复出现 = 这是 Stop / Skill 的最大信号。今天把它写下来，哪怕是 3 行描述，下周就有素材。', type:'pos' },
-    { icon:'🌪️', tag:'迁怒', scenario:'累的时候容易把气撒到家人身上', feedback:'迁怒是本人时间最贵的损耗。Hard Rule: 下班前 10 分钟做切分。先承认"今天事多"，比释放情绪对关系更友好。', type:'pos' },
+    { icon:'🌪️', tag:'迁怒', scenario:'累的时候容易把气撒到家人身上', feedback:'迁怒是亲自时间最贵的损耗。我的原则：下班前 10 分钟做情绪切分。先承认"今天事多"，比释放情绪对关系更友好。', type:'pos' },
     { icon:'🪨', tag:'卡壳', scenario:'一件事我卡了 2 小时还没进展', feedback:'卡 2 小时 = 强求救信号。今天记下"卡住原因"的 3 行字，下次就是 Skill 的起点。', type:'neg' },
     { icon:'🎭', tag:'演戏', scenario:'今天又一次"演"了那个最懂事的自己', feedback:'今天的演，明天会被更狠的内疚加倍收。下次试 1 个小小的"不演"，哪怕只是说一句"我今天有点累"。', type:'neg' },
     { icon:'🪞', tag:'旧模式', scenario:'和父母交流时又触发了旧反应', feedback:'觉察=改变的开端。今天能识别"我又回到过去了"，就是 90% 人做不到的觉察。', type:'neg' },
@@ -1713,20 +1752,20 @@ const TYPE_SCENES = {
     { icon:'🪤', tag:'借口', scenario:'总是找借口不开始 T1', feedback:'借口永远找得到，但结果不会骗人。列出借口，再列"如果借口不成立我会怎么做"，答案通常就有了。', type:'neg' },
     { icon:'🧱', tag:'硬撑', scenario:'关系里出了问题，我选择一个人扛', feedback:'硬撑让对方感到被排除。把"我"换成"我们"，会撬开一小条缝。', type:'neg' },
     { icon:'📺', tag:'信息焦虑', scenario:'看了一堆信息，但没转化成动作', feedback:'信息≠生产力。今天做"3 条信息 + 1 个动作"的硬约束，看一条信息必须写一个动作。', type:'neg' },
-    { icon:'🔁', tag:'重复救火', scenario:'同一个救火老出现，每次都重新应对', feedback:'重复救火 = Skill 化的最大候选。今天给救火写 SOP，下周救火就是机器人做的。', type:'neg' },
+    { icon:'🔁', tag:'重复救火', scenario:'同一个救火老出现，每次都重新应对', feedback:'重复救火 = 做成 SOP的最大候选。今天给救火写 SOP，下周救火就是机器人做的。', type:'neg' },
     { icon:'🌑', tag:'失联', scenario:'和重要的人断联很久了，不知怎么重新开始', feedback:'重新连接不需要完美开场白。一句"好久没联系，今天想到你"就够。门槛要低，动作要小。', type:'neg' }
   ],
   idea: [
     { icon:'🧭', tag:'5 去向', scenario:'想做一份《个人 5 个去向清单》', feedback:'最简单：把最近一周每一件事标 5 类，最后统计比例。看到 T3/T4 占比 >60% 就该警觉。', type:'pos' },
     { icon:'📐', tag:'T1-T4', scenario:'想把所有任务标 T1-T4 层级', feedback:'每天开工前 5 分钟标一次。T1 ≤ 2 件 / 天，T2 ≤ 3 件 / 天，其余尽量消除或转交。', type:'pos' },
-    { icon:'📊', tag:'P&L 周复盘', scenario:'想每周做一次《时间 P&L 周复盘》', feedback:'固定周日 15 分钟，5 张清单各填 3 项。坚持 4 周，你会看清自己最该 STOP 的是哪 1 件事。', type:'pos' },
+    { icon:'📊', tag:'P&L 周复盘', scenario:'想每周做一次《时间 P&L 周复盘》', feedback:'固定周日 15 分钟，5 张清单各填 3 项。坚持 4 周，你会看清自己最该不做了 的是哪 1 件事。', type:'pos' },
     { icon:'⚡', tag:'短视触发器', scenario:'想列出自己最常掉的 3 个短视触发器', feedback:'先写 3 个（群里@、红点、"先回一下"），再观察一周。触发器越具体，越好止损。', type:'pos' },
     { icon:'🧩', tag:'Skill', scenario:'想开始把每天任务拆解到 chat prompt', feedback:'从一个高频任务开始，写 5 行 prompt，让 AI 替出第一版。坚持 2 周，会自动冒出 5~10 个新 prompt。', type:'pos' },
     { icon:'🔁', tag:'Automation', scenario:'想让一个重复任务跑成自动化', feedback:'从数据类任务开始——定期采集 / 整理 / 入表。1~2 小时写一版脚本，回本周期 1 周。', type:'pos' },
-    { icon:'🛑', tag:'STOP', scenario:'想从「做」换成「不做」', feedback:'今天就别做那件"我每次都做"的事。试试 24 小时，看会不会变糟。如果不会，就 STOP 了。', type:'pos' },
+    { icon:'🛑', tag:'STOP', scenario:'想从「做」换成「不做」', feedback:'今天就别做那件"我每次都做"的事。试试 24 小时，看会不会变糟。如果不会，就停了。', type:'pos' },
     { icon:'✂️', tag:'砍单', scenario:'想练习更频繁地说"不"', feedback:'一句话模板："我现在没空，半小时后回"。这句话挡住 80% 的临时塞活。', type:'pos' },
-    { icon:'🧠', tag:'决策', scenario:'想给 T1 决策固定一个时段', feedback:'早晨精力最好时做 T1。下午救火，晚间 Skill。Hard Rule: T1 时段不开群。', type:'pos' },
-    { icon:'🪞', tag:'复盘', scenario:'想每天做 5 分钟小复盘', feedback:'睡前 3 问：今天 T1 做完了什么？今天最低价值的时间用在哪？明天应该 STOP 什么？', type:'pos' },
+    { icon:'🧠', tag:'决策', scenario:'想给 只有我能拍板的决策固定一个时段', feedback:'早晨精力最好时做 T1。下午救火，晚间 Skill。我的原则：只有我能拍板的时段，不开群消息。', type:'pos' },
+    { icon:'🪞', tag:'复盘', scenario:'想每天做 5 分钟小复盘', feedback:'睡前 3 问：今天 T1 做完了什么？今天最低价值的时间用在哪？明天应该不做了 什么？', type:'pos' },
     { icon:'🎭', tag:'演戏', scenario:'今天又一次"演"了最懂事的自己', feedback:'演太久会累，被演到的人也会累。下次在小事上先做 1 个"不演"，比如拒绝 1 个无所谓请求。', type:'neg' },
     { icon:'🪤', tag:'旧模式', scenario:'和父母交流时又掉进旧反应', feedback:'觉察=改变的开端。今天能识别"我又回到过去了"就是大半人做不到的觉察。', type:'neg' },
     { icon:'🌪️', tag:'情绪', scenario:'我太情绪化，老被情绪带着', feedback:'情绪本身不是问题，不被看见才是。给情绪 3 分钟写下来：今天我感到____，因为我需要____。写出来就开始有了掌控感。', type:'neg' },
@@ -1735,52 +1774,52 @@ const TYPE_SCENES = {
     { icon:'📺', tag:'信息', scenario:'总在"学习"但没真进步', feedback:'学习 = 输入 + 输出。今日输入 ≥ 30%，明日输出 ≥ 30%。没输出 = 没学。', type:'neg' },
     { icon:'💰', tag:'花费', scenario:'想试试花钱买时间（工具/助理）', feedback:'花钱买时间 ROI 通常是 1:5 起。前提：你必须先知道自己的"时间单价"——每天 1 小时值多少。', type:'neg' },
     { icon:'🛡️', tag:'反弹', scenario:'之前停过 STOP，但都反弹回来', feedback:'反弹说明你"没真停"。这次给自己 14 天观察期，每次被叫回来都记一行。', type:'neg' },
-    { icon:'🎯', tag:'目标', scenario:'想一次性把所有坏习惯都改掉', feedback:'同时改几乎必然失败。选 1 个最想改的开始，比如"今天开始 Skill 化 1 件事"。', type:'neg' },
+    { icon:'🎯', tag:'目标', scenario:'想一次性把所有坏习惯都改掉', feedback:'同时改几乎必然失败。选 1 个最想改的开始，比如"今天开始 做成 SOP 1 件事"。', type:'neg' },
     { icon:'📉', tag:'压力', scenario:'压力大时就想刷手机 / 看新闻', feedback:'压力触发的不是"学知识"，是"放松幻觉"。下次压力大，起身走 5 分钟，回来效率反而高。', type:'neg' }
   ],
   cheer: [
-    { icon:'🛑', tag:'STOP', scenario:'今天 STOP 了一件本该反复做的事，世界没变糟', feedback:'这就是你要的答案。世界没变糟 = 你得到了一段真时间。这是长期主义搭子最兴奋的瞬间。', type:'pos' },
+    { icon:'🛑', tag:'STOP', scenario:'今天决定不做一件本该反复做的事，世界没变糟', feedback:'这就是你要的答案。世界没变糟 = 你得到了一段真时间。这是长期主义搭子最兴奋的瞬间。', type:'pos' },
     { icon:'🧩', tag:'Skill', scenario:'今天写了一段 prompt，AI 给的回答直接能用', feedback:'这 5 行 prompt 是今天最值钱的资产。明天起它就替你上班了。', type:'pos' },
     { icon:'🍀', tag:'长线', scenario:'今天做完 T1 关键任务', feedback:'今天下午的你比早上的你多了一块 T1 时间。这是你最贵的资产。', type:'pos' },
     { icon:'📈', tag:'复利', scenario:'今天 P&L 自由时间比上周抬升', feedback:'抬升 1 分就是 1 分。复利的特点是最开头几乎看不见，最后陡升。', type:'pos' },
     { icon:'✂️', tag:'砍单', scenario:'今天拒绝了 1 个紧急但非 T1 的事', feedback:'拒绝的勇气来自 T1 清晰。你今天划的这条线，下周还能省你 3 小时。', type:'pos' },
     { icon:'🕊️', tag:'空出', scenario:'今天日程上有一格空了，意外轻松', feedback:'空的格子是最好的格。', type:'pos' },
     { icon:'🪞', tag:'觉察', scenario:'今天识别了一个自己的短视触发器', feedback:'识别是停止的开始——下次触发器响，你能叫出它的名字，就能不被它牵着跑。', type:'pos' },
-    { icon:'🔁', tag:'Automation', scenario:'今天让一个脚本 / 自动化替我跑了', feedback:'脚本替你在那段时间活着。你今天交出了 100% 的本人时间给这件事。', type:'pos' },
-    { icon:'📐', tag:'层级', scenario:'今天把 T3/T4 任务从本人日历清出去了', feedback:'这一步比"今天做了多少事"重要 10 倍。', type:'pos' },
-    { icon:'✍️', tag:'写下来', scenario:'今天写了一段 Hard Rule', feedback:'写下来才是开始。Hard Rule 进入"肌肉"需要至少 14 天重复，但你今天已经给它落了锚。', type:'pos' },
-    { icon:'🧠', tag:'思考', scenario:'今天花 30 分钟做了一个 T1 决策', feedback:'30 分钟的 T1 决策 ≈ 未来 30 小时的反复救火不再发生。今天是你最值得复利的 30 分钟。', type:'pos' },
+    { icon:'🔁', tag:'Automation', scenario:'今天让一个脚本 / 自动化替我跑了', feedback:'脚本替你在那段时间活着。你今天交出了 100% 的亲自时间给这件事。', type:'pos' },
+    { icon:'📐', tag:'层级', scenario:'今天把 T3/可以让脚本跑的事从本人日历清出去了', feedback:'这一步比"今天做了多少事"重要 10 倍。', type:'pos' },
+    { icon:'✍️', tag:'写下来', scenario:'今天写了一条我的原则', feedback:'写下来才是开始。我的原则 进入"肌肉"需要至少 14 天重复，但你今天已经给它落了锚。', type:'pos' },
+    { icon:'🧠', tag:'思考', scenario:'今天花 30 分钟做了一个 只有我能拍板的决策', feedback:'30 分钟的 只有我能拍板的决策 ≈ 未来 30 小时的反复救火不再发生。今天是你最值得复利的 30 分钟。', type:'pos' },
     { icon:'🌿', tag:'专注', scenario:'今天保持了 30 分钟「专注不被打断」', feedback:'30 分钟不被群消息打断 = 你今天多了 30 分钟本人时间。复利从这一刻开始算。', type:'pos' },
     { icon:'🪞', tag:'复盘', scenario:'今晚做了一次周复盘，五张清单都列了', feedback:'一次完整周复盘 ≈ 5~10 小时 T1 时间回笼。', type:'pos' },
     { icon:'🎯', tag:'对准', scenario:'今天发现一件「不做了反而更好」的事', feedback:'不做了反而更好——是时间复利最经典的语法。', type:'pos' },
-    { icon:'🌱', tag:'种子', scenario:'今天种下了一个 90 天才会看到结果的 T1 任务', feedback:'种下不收的种子最像长期主义。你今天埋的不是任务，是"半年后的自己"。', type:'pos' },
+    { icon:'🌱', tag:'种子', scenario:'今天种下了一个 90 天才会看到结果的 只有我能拍板的事', feedback:'种下不收的种子最像长期主义。你今天埋的不是任务，是"半年后的自己"。', type:'pos' },
     { icon:'💡', tag:'对话', scenario:'今天和一个人聊了 30 分钟，TA 让我看清了 1 件事', feedback:'一个人 30 分钟的对话能省你未来 30 小时的反复。这就是 T1 的人的时间价值。', type:'pos' },
     { icon:'📚', tag:'阅读', scenario:'今天读了 1 篇深度文章，比看 100 条新闻有用', feedback:'深度是时间的复利。今天这 1 小时比 100 条"快速消费"更值钱。', type:'pos' },
-    { icon:'🪴', tag:'耐心', scenario:'今天忍住没做一件「立刻就能做」的 T4', feedback:'忍住本身就是 Skill 的前置。', type:'pos' },
+    { icon:'🪴', tag:'耐心', scenario:'今天忍住没做一件「立刻就能做但不该做', feedback:'忍住本身就是 Skill 的前置。', type:'pos' },
     { icon:'🌅', tag:'早起', scenario:'今天早起 1 小时，完成了 1 件 T1', feedback:'早晨的 1 小时，比晚上的 3 小时值钱。', type:'pos' },
     { icon:'🏆', tag:'里程碑', scenario:'今天达成一个 30 天的小目标', feedback:'30 天是复利曲线的第一个台阶。你今天翻过了一格。', type:'pos' }
   ],
   report: [
-    { icon:'📈', tag:'本周', scenario:'本周累计 STOP 3 件，都是原本一直在做的事', feedback:'3 件 STOP ≈ 一周里"省下"自己 5~10 小时。你今天给自己办了一场上岗 30 天后才会意识到的大礼。', type:'pos' },
-    { icon:'🧩', tag:'本周', scenario:'本周 Skill 化了 2 件事，下次同事遇到能复用', feedback:'2 个 Skill 是本周最强的复利种子。下周它开始长枝丫，1 个月后你身边同事就都来问你。', type:'pos' },
+    { icon:'📈', tag:'本周', scenario:'本周累计停止 3 件，都是原本一直在做的事', feedback:'3 件 不做了 ≈ 一周里"省下"自己 5~10 小时。你今天给自己办了一场上岗 30 天后才会意识到的大礼。', type:'pos' },
+    { icon:'🧩', tag:'本周', scenario:'本周 做成 SOP了 2 件事，下次同事遇到能复用', feedback:'2 个 Skill 是本周最强的复利种子。下周它开始长枝丫，1 个月后你身边同事就都来问你。', type:'pos' },
     { icon:'🔁', tag:'本周', scenario:'本周跑通了 1 个 Automation，省下 5 小时', feedback:'Automation 一周 5 小时。一年 ≈ 240 小时，等于多出了 1 个月的本人时间。', type:'pos' },
     { icon:'📐', tag:'本周', scenario:'本周 T1 占比 35%，比上周高了 10%', feedback:'一周 +10% 是极快的曲线。如果连续 4 周保持，季度就能翻倍。', type:'pos' },
     { icon:'✂️', tag:'本周', scenario:'本周拒绝了 5 个「紧急但非 T1」的请求', feedback:'5 次拒绝 ≈ 给自己抢回了 5~10 小时本人时间。学会拒绝是时间复利最贵的 Skill。', type:'pos' },
     { icon:'🍀', tag:'本周', scenario:'本周长线打卡天数 ≥ 5 天', feedback:'一周 5 天长线打卡 = 高价值习惯开始成形。', type:'pos' },
     { icon:'📊', tag:'本周', scenario:'本周自由时间抬升 3 分', feedback:'每周抬升 3 分是理想节奏。年度累计就是 156 分的本人时间复利。', type:'pos' },
-    { icon:'⚡', tag:'本周', scenario:'本周短视打卡 ≥ 3 天', feedback:'短视打卡 ≥3 是个警觉信号。但你今天能记一笔，已经是 STOP 的前置动作。', type:'neg' },
-    { icon:'🌀', tag:'本周', scenario:'本周救火占时长 40% 以上', feedback:'救火 40% = 你这周主要在为别人跑腿。Hard Rule: 下周救火窗口收 1 小时。', type:'neg' },
+    { icon:'⚡', tag:'本周', scenario:'本周短视打卡 ≥ 3 天', feedback:'短视打卡 ≥3 是个警觉信号。但你今天能记一笔，已经是不做了的前置动作。', type:'neg' },
+    { icon:'🌀', tag:'本周', scenario:'本周救火占时长 40% 以上', feedback:'救火 40% = 你这周主要在为别人跑腿。我的原则：下周救火窗口收 1 小时。', type:'neg' },
     { icon:'📱', tag:'本周', scenario:'本周刷信息流总时长超过 5 小时', feedback:'5 小时 + 1 周 = 260 小时/年 ≈ 11 整天。这个数字可以让你今晚失眠一次。', type:'neg' },
-    { icon:'🪤', tag:'本周', scenario:'本周 3 个会没有产生任何 T1 决策', feedback:'3 个无效会 = 3~6 小时的本人时间被"出租"。下周先问"决策权是不是在我"。', type:'neg' },
+    { icon:'🪤', tag:'本周', scenario:'本周 3 个会没有产生任何 只有我能拍板的决策', feedback:'3 个无效会 = 3~6 小时的本人时间被"出租"。下周先问"决策权是不是在我"。', type:'neg' },
     { icon:'🥱', tag:'本周', scenario:'本周群里秒回 > 20 次', feedback:'20 次秒回 ≈ 群消息占了 5~10 小时本人时间。今天记得在下周设"30 分钟统一看"窗口。', type:'neg' },
     { icon:'🪞', tag:'本周', scenario:'本周没做任何形式的复盘', feedback:'复盘缺失 = 你这周的努力不会留在下周的肌肉里。明天先把五张清单列一列。', type:'neg' },
     { icon:'🎭', tag:'本周', scenario:'本周有 2 天明显在"演"自己', feedback:'演得久了，连你自己都累。明天挑 1 件小事，做一个"不演"的版本。', type:'neg' },
     { icon:'🪨', tag:'本周', scenario:'本周 1 件事卡了 2 天没进展', feedback:'卡 2 天 = 写下来今天起 1 周，下周就是 Skill 的起点。', type:'neg' },
     { icon:'🌑', tag:'本周', scenario:'本周没跟一个 T1 视角的人聊', feedback:'没有 T1 视角 = 这周是单兵作战。1 个 30 分钟 T1 对话能拉你回关键路径。', type:'neg' },
     { icon:'📉', tag:'本周', scenario:'本周自由时间比上周掉了', feedback:'掉了不可怕。记下来，下周反弹。复利不是直线，是阶梯。', type:'neg' },
-    { icon:'🛋️', tag:'本周', scenario:'本周 T1 任务被推迟 ≥ 2 次', feedback:'T1 推迟是今天看不见、明后天付代价的事。Hard Rule: T1 设"最迟今天 16:00"。', type:'neg' },
-    { icon:'🔁', tag:'本周', scenario:'本周同一个 T4 任务做了 5 次', feedback:'第 5 次还手动做 = 你跟自己最恶劣的剥削。今天必须 Skill。', type:'neg' },
-    { icon:'🌪️', tag:'本周', scenario:'本周把工作情绪带回过家', feedback:'迁怒是本人时间最贵的损耗。下周设"下班前 10 分钟切分"。', type:'neg' }
+    { icon:'🛋️', tag:'本周', scenario:'本周 只有我能拍板的事被推迟 ≥ 2 次', feedback:'T1 推迟是今天看不见、明后天付代价的事。我的原则：只有我能拍板的事，定了"最迟今天 16:00"。', type:'neg' },
+    { icon:'🔁', tag:'本周', scenario:'本周同一个 可以让脚本跑的事做了 5 次', feedback:'第 5 次还手动做 = 你跟自己最恶劣的剥削。今天必须 Skill。', type:'neg' },
+    { icon:'🌪️', tag:'本周', scenario:'本周把工作情绪带回过家', feedback:'迁怒是亲自时间最贵的损耗。下周设"下班前 10 分钟切分"。', type:'neg' }
   ]
 };
 const ASK_SCENES = QA_DATA.pos.map(q => ({ icon:q.icon, tag:q.tag, scenario:q.question, feedback:q.answer, type:'pos' }))
@@ -1878,7 +1917,7 @@ function doCheckin() {
   let style = (currentPartner && currentPartner.style) || 'hourglass';
   let msg = getMsg(style, 'checkin');
   if (currentTag === 'short') msg = '⚡ ' + msg + '（短视记录）';
-  if (currentTag === 'stop') msg = '🛑 ' + msg + '（STOP 已记录）';
+  if (currentTag === 'stop') msg = '🛑 ' + msg + '（不做了 已记录）';
   if (currentTag === 'skill') msg = '🧩 ' + msg + '（SKILL 已记录）';
   delayedMsg(msg);
   let continuous = computeContinuous(history, today);
@@ -1942,7 +1981,7 @@ function refreshDashboard() {
 }
 
 function tagText(t) {
-  return t==='long' ? '长线价值日' : t==='short' ? '短视诚实日' : t==='stop' ? 'STOP 日' : 'SKILL 日';
+  return t==='long' ? '长线价值日' : t==='short' ? '短视诚实日' : t==='stop' ? '决定不做日' : '做了模板日';
 }
 function tagEmoji(t) {
   return t==='long' ? '🍀' : t==='short' ? '⚡' : t==='stop' ? '🛑' : '🧩';
@@ -1956,7 +1995,7 @@ function copyPnLText() {
   let cnt = { long:0, short:0, stop:0, skill:0 };
   Object.values(tagHistory).forEach(t => { if (cnt[t] !== undefined) cnt[t]++; });
   const partner = currentPartner || PARTNERS[0];
-  let text = `⏳ 长期主义搭子 · 今日 P&L\n搭子：${partner.emoji} ${partner.name}\n连续：${continuous} 天\n累计 ${cnt.long} 长线 / ${cnt.short} 短视 / ${cnt.stop} STOP / ${cnt.skill} SKILL\n今日 ${tagEmoji(currentTag)} ${tagText(currentTag)}\n${today} 时间复利继续`;
+  let text = `⏳ 长期主义搭子 · 今日时间账本\n搭子：${partner.emoji} ${partner.name}\n连续：${continuous} 天\n累计 长线 ${cnt.long} / 短视 ${cnt.short} / 不做了 ${cnt.stop} / 做成 SOP ${cnt.skill}\n今日 ${tagEmoji(currentTag)} ${tagText(currentTag)}\n${today} 时间复利继续`;
   if (navigator.clipboard) {
     navigator.clipboard.writeText(text).then(() => showToast('✅ 今日 P&L 已复制'));
   } else {
@@ -2010,6 +2049,138 @@ function showDailyQOnce() {
   setTimeout(() => delayedMsg(q), 1000);
 }
 
+// ==================== 新手引导（3 道是/否题） ====================
+const OB_KEY = 'longterm_onboarded';
+const OB_QUESTIONS = [
+  {
+    q: '你希望把时间花在长期有价值的事上吗？',
+    yesRuleIdx: 7, // "只有我能拍板的事，定了最晚完成时间（建议今天 16:00）"
+    yesHint: '"只有我能拍板"的事，定个最晚完成时间（建议今天 16:00）'
+  },
+  {
+    q: '你有时候会忍不住去刷群消息和短视频，回头又觉得浪费时间吗？',
+    yesRuleIdx: 8, // "偷走时间的小事我全关掉..."
+    yesHint: '偷走时间的小事我全关掉——通知音 / 红点 / 自动展开群'
+  },
+  {
+    q: '你愿意每周花 15 分钟回顾一下自己的时间用得怎么样吗？',
+    yesRuleIdx: 6, // "每周固定 15 分钟做一次时间周报..."
+    yesHint: '每周固定 15 分钟做一次时间周报（5 个去向，每个至少 3 项）'
+  }
+];
+let obStep = 0;
+let obResult = {};
+function showOnboarding() {
+  if (localStorage.getItem(OB_KEY)) return;
+  // 仅在第一次选搭子之前显示（如果已经选过搭子则不再弹，避免"刷一次页面就弹"）
+  const partner = localStorage.getItem(STORAGE.PARTNER);
+  if (partner && PARTNERS.some(p => p.id === partner)) {
+    // 已经选过搭子：直接标记 onboarded，不再弹
+    localStorage.setItem(OB_KEY, '1');
+    return;
+  }
+  document.getElementById('obOverlay').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function obStart() {
+  document.getElementById('obWelcome').style.display = 'none';
+  document.getElementById('obQuiz').style.display = 'block';
+  obRenderQ();
+}
+function obRenderQ() {
+  const cur = OB_QUESTIONS[obStep];
+  const el = document.getElementById('obQuiz');
+  el.innerHTML = `
+    <div style="font-size:13px;color:#8b6914;text-align:center;margin-bottom:6px;">第 ${obStep+1} / ${OB_QUESTIONS.length} 题</div>
+    <div style="font-size:17px;font-weight:700;color:#2b3a4a;text-align:center;line-height:1.5;margin-bottom:18px;">${cur.q}</div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="obAnswer(false)" style="flex:1;padding:14px;border-radius:50px;background:#f5ecd9;color:#5a4408;border:none;font-size:15px;font-weight:700;cursor:pointer;">否</button>
+      <button onclick="obAnswer(true)" style="flex:1;padding:14px;border-radius:50px;background:linear-gradient(135deg,#c9a227,#8b6914);color:white;border:none;font-size:15px;font-weight:700;cursor:pointer;">是</button>
+    </div>
+  `;
+}
+function obAnswer(yes) {
+  obResult[obStep] = yes;
+  obStep++;
+  if (obStep >= OB_QUESTIONS.length) obDone();
+  else obRenderQ();
+}
+function obDone() {
+  // 根据回答，自动勾选对应原则；告知用户
+  const hr = getHardRules();
+  let hits = [];
+  OB_QUESTIONS.forEach((q, i) => {
+    if (obResult[i]) {
+      hr[q.yesRuleIdx] = true;
+      hits.push(q.yesHint);
+    }
+  });
+  saveHardRules(hr);
+  // 刷新教练页（若已渲染）
+  if (typeof renderHardRulesIfAny === 'function') renderHardRulesIfAny();
+
+  document.getElementById('obQuiz').style.display = 'none';
+  document.getElementById('obDone').style.display = 'block';
+  const summary = document.getElementById('obDoneSummary');
+  if (hits.length === 0) {
+    summary.innerHTML = '你已经选好了开始，慢慢用就行 —— 可以在「教练」页随时调整。';
+  } else {
+    summary.innerHTML = `根据你的回答，我帮你预勾选了 <b>${hits.length}</b> 条原则：<br>${hits.map(h => '• '+h).join('<br>')}<br><br>你随时可以在「教练」页改。`;
+  }
+}
+function obFinish() {
+  localStorage.setItem(OB_KEY, '1');
+  document.getElementById('obOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+  // 把"沙漏"自动默认好
+  if (!localStorage.getItem(STORAGE.PARTNER)) {
+    localStorage.setItem(STORAGE.PARTNER, 'hourglass');
+  }
+  startApp();
+  setTimeout(renderDailyTip, 600);
+}
+
+// ==================== 每日原则小提示 ====================
+const DAILY_TIPS_KEY = 'longterm_daily_tip_index';
+function renderDailyTip() {
+  const el = document.getElementById('dailyTip');
+  if (!el) return;
+  el.style.display = 'block';
+  const idx = nextDailyTipIdx();
+  document.getElementById('dailyTipText').innerText = HARD_RULES[idx];
+}
+function nextDailyTip() {
+  document.getElementById('dailyTipText').innerText = HARD_RULES[nextDailyTipIdx()];
+}
+function nextDailyTipIdx() {
+  // 跨天：每天换一条（按天 hash），保证不重复；同一天点"换一条"才走随机
+  const today = getToday();
+  const key = DAILY_TIPS_KEY + '_' + today;
+  let cur = parseInt(localStorage.getItem(key) || '0', 10);
+  let picked = cur;
+  // 同一天已经指过 cur，点"换一条"就 +1 滚动
+  if (localStorage.getItem(DailyTipClicksKey() + '_' + today)) {
+    cur = (cur + 1) % HARD_RULES.length;
+    picked = cur;
+  }
+  localStorage.setItem(key, String(picked));
+  return picked;
+}
+function DailyTipClicksKey() { return 'longterm_daily_tip_clicked'; }
+
+// 让 Coach 页刷新时同步 HARD_RULES 列表
+function renderHardRulesIfAny() {
+  const list = document.getElementById('hrList');
+  if (!list) return;
+  const state = getHardRules();
+  let cnt = 0;
+  list.innerHTML = HARD_RULES.map((text, i) => {
+    const done = state[i] === true;
+    if (done) cnt++;
+    return `<div class="hr-item ${done ? 'done' : ''}" onclick="toggleHR(${i})"><span class="hr-box">${done ? '☑' : '☐'}</span>${text}</div>`;
+  }).join('') + `<div style="margin-top:8px;font-size:11px;color:#8b6914;text-align:right;">我已同意 <span class="hr-cnt">${cnt}</span>/${HARD_RULES.length} 条原则</div>`;
+}
+
 (function(){
   var btn=document.getElementById('confirmPartnerBtn');
   if(btn) btn.addEventListener('click', confirmPartner);
@@ -2024,11 +2195,11 @@ function sendMood(mood) {
     hourglass: {
       happy: ['🕊️ 看你轻松，我也轻松一点。','好状态是会传染的。','你今天的 T1 占比应该不错。'],
       neutral: ['平稳是复利起点 🕊️','不急不躁，T1 慢慢做。'],
-      sad: ['心情不好就先放一放，我在 💙','今天允许自己 STOP 几件事 💙'],
+      sad: ['心情不好就先放一放，我在 💙','今天允许自己放下几件事 💙'],
       tired: ['累了就先休息，别逼自己 🌙','疲惫不是懈怠，是身体说需要修复。']
     },
     judge: {
-      happy: ['⚖️ 状态好就多投 T1。','⚖️ 别浪费好判断。'],
+      happy: ['⚖️ 状态好就多投只有你能拍板的事。','⚖️ 别浪费好判断。'],
       neutral: ['⚖️ 平稳判断就好。'],
       sad: ['⚖️ 先把自己调回来。'],
       tired: ['⚖️ 累了做的决策都不算。']
@@ -2165,7 +2336,7 @@ function refreshAutoCalc() {
     if (t === 'skill') skill++;
     if (t === 'short') short++;
   });
-  // Automation 项从专列里读
+  // 自动跑的项从专列里读
   const auto = getAutoList().length;
   const total = 50 + 5 * stop + 10 * skill + 20 * auto - 3 * short;
   document.getElementById('calcStop').innerText  = '+' + (5*stop);
@@ -2497,7 +2668,7 @@ function renderSharePage() {
   if (history.length === 0) {
     summary = '还在积累中。开始打卡后这里会出现你的 P&L 摘要。';
   } else {
-    summary = `⏳ 连续打卡 ${continuous} 天 · 自由时间 ${latest}<br>累计 STOP ${cnt.stop} 件 · SKILL ${cnt.skill} 件<br>⏳ 你今天没做的事，比你做的事更定义你是谁`;
+    summary = `⏳ 连续打卡 ${continuous} 天 · 自由时间 ${latest}<br>累计 停止 ${cnt.stop} 件 · 做成 SOP ${cnt.skill} 件<br>⏳ 你今天没做的事，比你做的事更定义你是谁`;
   }
   document.getElementById('sharePnLSummary').innerHTML = summary;
   const url = getSiteUrl() + 'longterm.html';
@@ -2515,18 +2686,18 @@ function previewShareCard() {
   setTimeout(() => copyPnLText(), 600);
 }
 
-// ==================== Hard Rule 路线页 checkbox ====================
+// ==================== 我的原则 路线页 checkbox ====================
 const HARD_RULES = [
-  '同类任务第二次出现 → 评估模板化（不超过 30 分钟写一版）',
-  '同类任务第三次出现 → 原则上 Skill 化（写模板 / chat prompt）',
-  'T3/T4 任务不上本人日程（除非关键路径）',
-  '群里 @ 我的消息，分级回：广告/通知/真需要',
-  '看见「先回一下」三个字，先停 3 秒',
-  '每件 STOP 的事，写一行「为什么不做了」',
-  '每周固定时间做一次 P&L 周复盘（5 张清单各 3 项）',
-  'T1 任务设「最迟今天 16:00」截止',
-  '短视触发器，全部关掉：通知音 / 红点 / 自动展开群',
-  '完成 ≠ 必须由你完成 → 默认先想 80% 放手'
+  '同一件事要做第二遍，我会停下来想：能不能做成模板，下次直接套？',
+  '同一件事做到第三遍，我会直接把模板写成 SOP 自己用',
+  '让别人配合的事 / 让脚本跑的事，不排进我自己的日程',
+  '群里 @ 我的消息，先分类（广告 / 通知 / 真的需要我）再决定要不要回',
+  '看见"先回一下"三个字，先停 3 秒再说',
+  '每件我决定不做的事，写一行"为什么不做了"提醒自己',
+  '每周固定 15 分钟做一次时间周报（5 个去向，每个至少 3 项）',
+  '"只有我能决定"的事，定个最晚完成时间（建议今天 16:00）',
+  '偷走时间的小事我全关掉——通知音 / 红点 / 自动展开群',
+  '把事做完 ≠ 必须由我做完——能交出去就交出去'
 ];
 
 (function initHardRules() {
@@ -2539,7 +2710,7 @@ const HARD_RULES = [
       const done = state[i] === true;
       if (done) cnt++;
       return `<div class="hr-item ${done ? 'done' : ''}" onclick="toggleHR(${i})"><span class="hr-box">${done ? '☑' : '☐'}</span>${text}</div>`;
-    }).join('') + `<div style="margin-top:8px;font-size:11px;color:#8b6914;text-align:right;">已采纳 <span class="hr-cnt">${cnt}</span>/${HARD_RULES.length} 条</div>`;
+    }).join('') + `<div style="margin-top:8px;font-size:11px;color:#8b6914;text-align:right;">我已同意 <span class="hr-cnt">${cnt}</span>/${HARD_RULES.length} 条原则</div>`;
   };
   window.toggleHR = function(i) {
     const s = getHardRules();
@@ -2579,6 +2750,23 @@ function renderPartnerPage() {
 }
 
 startApp();
+
+// ===== 启动新功能 =====
+// 1) 新手引导（仅首次 + 未选过搭子时）
+if (!localStorage.getItem(OB_KEY) && !localStorage.getItem(STORAGE.PARTNER)) {
+  setTimeout(showOnboarding, 600);
+}
+// 2) 每日原则小提示（每天首次启动显示一条）
+(function initDailyTip(){
+  const today = getToday();
+  const key = 'longterm_daily_tip_day';
+  const last = localStorage.getItem(key);
+  if (last !== today) {
+    localStorage.removeItem(DailyTipClicksKey());
+    localStorage.setItem(key, today);
+  }
+  setTimeout(renderDailyTip, 1200);
+})();
 </script>
 
 </body>
