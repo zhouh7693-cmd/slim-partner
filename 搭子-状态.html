@@ -138,6 +138,162 @@
     .share-btn { flex: 1; padding: 10px; border-radius: 16px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all .15s; }
     .share-copy-btn { background: linear-gradient(135deg,#0b8a82,#066b65); color: white; }
 
+    /* ===== 今天发生了什么 场景列表 ===== */
+    .scenes-panel { max-width: 420px; margin: 24px auto 20px; background: white; border-radius: 28px; padding: 18px 18px 12px; box-shadow: 0 8px 24px rgba(11,138,130,0.10); }
+    .scenes-title { font-size: 14px; font-weight: 700; color: #0b8a82; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .scenes-sub { font-size: 11px; color: #8f9eae; margin: -6px 2px 10px; line-height: 1.5; }
+    .scenes-group-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; margin: 10px 2px 6px; }
+    .scenes-group-label.pos { color: #066b65; }
+    .scenes-group-label.neg { color: #d4956b; }
+    .scene-card {
+      display: flex; align-items: center; gap: 10px;
+      background: #f4f9f8; border-radius: 16px; padding: 12px 14px;
+      margin-bottom: 8px; cursor: pointer;
+      border: 1.5px solid transparent; transition: all .18s;
+    }
+    .scene-card:active { transform: scale(0.98); }
+    .scene-card.pos { background: #e3f1ef; border-color: #a8dcd6; }
+    .scene-card.neg { background: #fbf3eb; border-color: #ecd5bc; }
+    .scene-icon { font-size: 22px; flex-shrink: 0; }
+    .scene-text { font-size: 13px; color: #2b3a4a; line-height: 1.4; flex: 1; }
+    .scene-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; flex-shrink: 0; }
+    .scene-tag.pos { background: #0b8a82; color: white; }
+    .scene-tag.neg { background: #d4956b; color: white; }
+
+    /* ===== 场景反馈弹窗 ===== */
+    .fb-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(8,40,40,0.55); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 500; padding: 20px;
+    }
+    .fb-overlay.show { display: flex; }
+    .fb-card {
+      background: white; border-radius: 32px; padding: 28px 22px 24px;
+      max-width: 340px; width: 100%; text-align: center;
+    }
+    .fb-card.pos { border-top: 5px solid #0b8a82; animation: fbPop 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+    .fb-card.neg { border-top: 5px solid #d4956b; animation: fbShake 0.5s ease; }
+    @keyframes fbPop { from { transform: scale(0.5); opacity:0; } to { transform: scale(1); opacity:1; } }
+    @keyframes fbShake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+    .fb-emoji { font-size: 56px; margin-bottom: 10px; }
+    .fb-tag { font-size: 11px; font-weight: 700; letter-spacing: 1px; border-radius: 20px; display: inline-block; padding: 3px 12px; margin-bottom: 10px; }
+    .fb-tag.pos { background: #d6efec; color: #066b65; }
+    .fb-tag.neg { background: #f3e8db; color: #8c5530; }
+    .fb-title { font-size: 18px; font-weight: 800; color: #2b3a4a; margin-bottom: 10px; }
+    .fb-text { font-size: 13px; color: #6c7a89; line-height: 1.7; margin-bottom: 14px; text-align: left; }
+    .fb-partner-quote {
+      background: #e3f1ef; border-radius: 14px; padding: 12px 14px;
+      font-size: 13px; color: #066b65; font-style: italic; line-height: 1.6; text-align: left;
+    }
+    .fb-close { margin-top: 16px; padding: 10px 20px; border-radius: 999px; background: #e3f1ef; color: #066b65; border: none; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .fb-close:active { transform: scale(0.97); }
+
+    /* ===== 记录页（KPI / 数值） ===== */
+    .record-page { max-width: 420px; margin: 0 auto; padding-bottom: 20px; }
+    .record-title { font-size: 22px; font-weight: 700; color: #0b8a82; text-align: center; margin-bottom: 6px; }
+    .record-sub { font-size: 12px; color: #8f9eae; text-align: center; margin-bottom: 16px; line-height: 1.5; }
+    .record-input-card, .record-chart-card, .record-history-card {
+      background: white; border-radius: 28px; padding: 20px;
+      margin-bottom: 16px; max-width: 420px; margin-left: auto; margin-right: auto;
+      box-shadow: 0 6px 18px rgba(11,138,130,0.08);
+    }
+    .record-input-title { font-size: 15px; font-weight: 700; color: #066b65; margin-bottom: 14px; }
+    .record-input-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .record-input-label { font-size: 13px; color: #6c7a89; flex-shrink: 0; min-width: 72px; }
+    .record-input {
+      flex: 1; padding: 8px 12px; border-radius: 12px; border: 1.5px solid #e9edf2;
+      font-size: 14px; color: #2b3a4a; background: #f4f9f8; font-family: inherit;
+    }
+    .state-slider {
+      flex: 1; -webkit-appearance: none; appearance: none;
+      height: 6px; background: #d6efec; border-radius: 3px; outline: none;
+    }
+    .state-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 22px; height: 22px; background: #0b8a82; border-radius: 50%; cursor: pointer;
+      box-shadow: 0 2px 6px rgba(11,138,130,0.3);
+    }
+    .slider-val { font-size: 18px; font-weight: 700; color: #0b8a82; min-width: 28px; text-align: center; }
+    .quality-row { display: flex; gap: 8px; flex: 1; }
+    .quality-btn { font-size: 18px; cursor: pointer; padding: 6px 8px; border-radius: 12px; background: transparent; border: 1.5px solid transparent; transition: all .15s; flex: 1; text-align: center; }
+    .quality-btn.selected { background: #d6efec; border-color: #0b8a82; transform: scale(1.05); }
+    .quality-btn:active { transform: scale(0.95); }
+    .record-summary { font-size: 13px; color: #066b65; background: #d6efec; padding: 10px 14px; border-radius: 14px; margin: 10px 0 14px; text-align: center; font-weight: 600; }
+    .record-save-btn {
+      width: 100%; padding: 12px; border-radius: 16px; border: none;
+      background: linear-gradient(135deg,#0b8a82,#066b65); color: white;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+    }
+    .record-save-btn:active { transform: scale(0.98); }
+    .chart-title { font-size: 14px; font-weight: 700; color: #066b65; margin-bottom: 4px; }
+    .chart-sub { font-size: 11px; color: #8f9eae; margin-bottom: 12px; }
+    canvas { display: block; width: 100%; max-width: 380px; height: 160px; }
+    .record-history-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #d6efec; font-size: 13px; }
+    .record-history-item:last-child { border-bottom: none; }
+    .record-history-date { color: #6c7a89; }
+    .record-history-val { color: #066b65; font-weight: 600; }
+    .record-empty { color: #8f9eae; text-align: center; padding: 16px; font-size: 13px; }
+
+    /* ===== 教练 Tab（独立顶层 Tab · 与减肥搭子同构） ===== */
+    /* 介绍卡（McKinsey 风格 · 青绿主题） */
+    .coach-intro { background: white; border-radius: 32px; padding: 32px 24px; margin-bottom: 16px; margin-top: 20px; text-align: center; box-shadow: 0 8px 24px rgba(11,138,130,0.10); }
+    .coach-intro-icon { font-size: 56px; margin-bottom: 16px; }
+    .coach-intro-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #0b8a82, #066b65); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+    .coach-intro-sub { font-size: 14px; color: #6c7a89; margin-bottom: 24px; }
+    .method-steps { display: flex; gap: 8px; margin-bottom: 24px; }
+    .method-step { flex: 1; background: #d6efec; border-radius: 16px; padding: 14px 8px; font-size: 13px; font-weight: 700; color: #066b65; line-height: 1.5; }
+    .method-step .step-num { font-size: 18px; display: block; margin-bottom: 4px; }
+    .method-step .step-desc { font-size: 11px; font-weight: 500; color: #888; margin-top: 2px; display: block; }
+    .coach-intro-note { font-size: 11px; color: #8f9eae; margin-top: 16px; }
+    .coach-start-btn { margin-top: 18px; width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #0b8a82, #066b65); color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform .15s; }
+    .coach-start-btn:active { transform: scale(0.97); }
+
+    /* 对话界面 */
+    .coach-progress-bar { display: flex; gap: 6px; padding: 12px 16px 0; max-width: 420px; margin: 0 auto; }
+    .progress-step { flex: 1; text-align: center; padding: 6px 4px; border-radius: 10px; font-size: 11px; font-weight: 600; color: #aaa; background: #d6efec; transition: all .3s; }
+    .progress-step.active { background: #0b8a82; color: #fff; }
+    .coach-chat-area { padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; max-height: 360px; overflow-y: auto; max-width: 420px; margin: 0 auto; }
+    .coach-msg { max-width: 80%; padding: 10px 14px; border-radius: 16px; line-height: 1.6; font-size: 14px; word-break: break-all; }
+    .coach-msg.coach { background: #d6efec; color: #066b65; border-bottom-left-radius: 4px; align-self: flex-start; }
+    .coach-msg.user { background: linear-gradient(135deg,#0b8a82,#066b65); color: white; border-bottom-right-radius: 4px; align-self: flex-end; }
+    .coach-input-row { display: flex; gap: 8px; padding: 0 16px 16px; max-width: 420px; margin: 0 auto; }
+    .coach-input-row textarea { flex: 1; padding: 12px 16px; border-radius: 16px; border: 1.5px solid #e9edf2; font-size: 14px; resize: none; outline: none; font-family: inherit; min-height: 44px; background: white; }
+    .coach-input-row button { padding: 10px 18px; border-radius: 16px; border: none; background: linear-gradient(135deg,#0b8a82,#066b65); color: white; font-size: 14px; font-weight: 700; cursor: pointer; }
+    .coach-input-row button:active { transform: scale(0.97); }
+    .generating-report { text-align: center; color: #066b65; font-size: 14px; font-weight: 600; padding: 16px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+    /* 报告（青绿主题） */
+    .coach-report-card { background: white; border-radius: 24px; padding: 24px 20px; box-shadow: 0 4px 16px rgba(11,138,130,0.10); margin-bottom: 16px; }
+    .coach-report-title { font-size: 18px; font-weight: 800; color: #066b65; margin-bottom: 4px; }
+    .coach-report-section { border-radius: 16px; padding: 14px; margin-bottom: 12px; border: 1.5px solid #e9edf2; background: #f4f9f8; }
+    .coach-report-section h4 { font-size: 14px; font-weight: 700; color: #066b65; margin-bottom: 8px; }
+    .coach-report-section p, .coach-report-section li { font-size: 13px; color: #555; line-height: 1.7; }
+    .coach-diagnosis-tag { display: inline-block; background: #fff3e0; color: #e65100; border-radius: 20px; padding: 2px 10px; font-size: 12px; font-weight: 600; margin: 2px; }
+    .coach-action-tag { display: inline-block; background: #e8f5e9; color: #2e7d32; border-radius: 20px; padding: 2px 10px; font-size: 12px; font-weight: 600; margin: 2px; }
+
+    /* 成长路线 + Checklist（crp-wrap · 青绿主题） */
+    #crpWrap_state .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(11,138,130,0.06); }
+    #crpWrap_state .crp-title { font-size:15px; font-weight:800; color:#066b65; margin-bottom:12px; }
+    #crpWrap_state .crp-tip { font-size:11px; font-weight:500; color:#8f9eae; margin-left:6px; }
+    #crpWrap_state .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+    #crpWrap_state .crp-stage:active { transform:scale(.98); }
+    #crpWrap_state .crp-stage-head { font-weight:700; font-size:13px; }
+    #crpWrap_state .crp-arrow { float:right; color:#8f9eae; }
+    #crpWrap_state .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#37474f; }
+    #crpWrap_state .crp-stage.collapsed .crp-stage-body { display:none; }
+    #crpWrap_state .crp-item { font-size:13px; color:#37474f; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+    #crpWrap_state .crp-item:hover { background:#f5f5f7; }
+    #crpWrap_state .crp-item.done { color:#8f9eae; text-decoration:line-through; }
+    #crpWrap_state .crp-box { margin-right:8px; }
+
     footer { max-width: 420px; margin: 20px auto 0; text-align: center; color: #8f9eae; font-size: 12px; }
 
     .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-60px); background: rgba(0,0,0,0.75); color: white; padding: 10px 18px; border-radius: 20px; font-size: 13px; opacity: 0; transition: all .3s; z-index: 200; }
@@ -149,9 +305,11 @@
 <!-- ===== Tab Bar ===== -->
 <div class="tab-bar" data-page-node-id="UW2ONAYYjRg9h6LQrQjttY">
   <div class="tab-item active" onclick="switchTab('partner')" data-page-node-id="PQyaKs7IfMxG4fruJQXmXE"><div class="tab-icon" data-page-node-id="kAden7k9ZL9KLdSEfB1RDy">🪷</div><div class="tab-label" data-page-node-id="LRI7CRy46VA1MGxrVfPncD">搭子</div></div>
+  <div class="tab-item" onclick="switchTab('coach')"><div class="tab-icon">🎓</div><div class="tab-label">教练</div></div>
   <div class="tab-item" onclick="switchTab('sop')" data-page-node-id="Q2NyGKoVcgvgOkBdyVu2w3"><div class="tab-icon" data-page-node-id="YKIYOEYA4jo225uWhmTmBA">🎯</div><div class="tab-label" data-page-node-id="4OL4iTDHKo3W0SFY9uUKYm">自检</div></div>
   <div class="tab-item" onclick="switchTab('checkin')" data-page-node-id="6ZkyBcTg1rSjfqhyVJ4KMm"><div class="tab-icon" data-page-node-id="YVSWWtkpBeUpk8ylVUQGuD">✅</div><div class="tab-label" data-page-node-id="QIguSKO9fFKuC71MunVObB">打卡</div></div>
-  <div class="tab-item" onclick="switchTab('progress')" data-page-node-id="meAFs3hQ5zAcLfHHaQoQtH"><div class="tab-icon" data-page-node-id="RQCoMWf2xyRXqbSmm8Awl2">📊</div><div class="tab-label" data-page-node-id="4GbUulPfp35cp21PjxqC84">进展</div></div>
+  <div class="tab-item" onclick="switchTab('record')" data-page-node-id="tabRecordState"><div class="tab-icon">📊</div><div class="tab-label">记录</div></div>
+  <div class="tab-item" onclick="switchTab('progress')" data-page-node-id="meAFs3hQ5zAcLfHHaQoQtH"><div class="tab-icon" data-page-node-id="RQCoMWf2xyRXqbSmm8Awl2">📈</div><div class="tab-label" data-page-node-id="4GbUulPfp35cp21PjxqC84">进展</div></div>
   <div class="tab-item" onclick="switchTab('share')" data-page-node-id="HGRSwHiznAn4dXRoOZAiJz"><div class="tab-icon" data-page-node-id="xArv4CfZY9gks9szfuQ7dA">📣</div><div class="tab-label" data-page-node-id="OH7x4CanfVBoGfG2IDBo07">分享</div></div>
 </div>
 
@@ -177,6 +335,78 @@
     </div>
   </div>
 </div>
+
+<!-- ===== Page: 教练（McKinsey风格 · 青绿主题） ===== -->
+<div id="page-coach" class="page">
+
+  <!-- 成长路线 & 基本功 Checklist -->
+  <div id="crpWrap_state" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
+    <div class="crp-card">
+      <div class="crp-title">🗺️ 状态觉察三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+      <div class="crp-stage" style="background:#d6efec;">
+        <div class="crp-stage-head" style="color:#066b65;">📌 第1阶段 · 第1-2周 · 识别状态 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">每天 3 次「觉察打卡」（起床 / 午后 / 睡前各 1 次）<br>· 不评价，只命名（"焦虑" "涣散" "平静"...）<br>· 先不试图改变，只看见就好</div>
+      </div>
+      <div class="crp-stage" style="background:#fff3e0;">
+        <div class="crp-stage-head" style="color:#e65100;">📌 第2阶段 · 第3-6周 · 命名状态 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">能用 2-3 个词说出今天的「能量」与「平静」<br>· 区分「触发因素」（外部事件）和「真实状态」（内在感受）<br>· 开始观察身体信号：紧 / 松 / 累 / 醒</div>
+      </div>
+      <div class="crp-stage" style="background:#e8eaf6;">
+        <div class="crp-stage-head" style="color:#3949ab;">📌 第3阶段 · 第7-12周 · 自我调节 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">拥有 2-3 套快速重置动作（呼吸 / 走动 / 冷水洗脸）<br>· 能在状态低谷前预警（连续 3 天评分 ≤4 触发自我对话）<br>· 情绪波动回到节律的时间在缩短</div>
+      </div>
+    </div>
+
+    <div class="crp-card">
+      <div class="crp-title">📋 状态觉察基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_state" style="color:#66bb6a;">0</b>/7 · 自动保存</span></div>
+      <div id="crpList_state">
+        <div class="crp-item"><span class="crp-box">☐</span>连续 7 天觉察打卡 3 次 / 天</div>
+        <div class="crp-item"><span class="crp-box">☐</span>能命名今天的能量水平（1-10）</div>
+        <div class="crp-item"><span class="crp-box">☐</span>能命名今天的平静水平（1-10）</div>
+        <div class="crp-item"><span class="crp-box">☐</span>能识别至少 2 个状态触发因素</div>
+        <div class="crp-item"><span class="crp-box">☐</span>用过 1 套快速重置动作</div>
+        <div class="crp-item"><span class="crp-box">☐</span>连续 7 天记录情绪波动</div>
+        <div class="crp-item"><span class="crp-box">☐</span>没出现连续 3 天「自我批评」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 介绍卡 -->
+  <div class="coach-intro" id="stateCoachIntro">
+    <div class="coach-intro-icon">🎓</div>
+    <div class="coach-intro-title">状态觉察教练</div>
+    <div class="coach-intro-sub">用 5 个问题看清你的内在节律 · 建立日常觉察仪式</div>
+    <div class="method-steps">
+      <div class="method-step"><span class="step-num">①</span> 觉察当下<br><span class="step-desc">看见状态</span></div>
+      <div class="method-step"><span class="step-num">②</span> 拆解节律<br><span class="step-desc">找到触发</span></div>
+      <div class="method-step"><span class="step-num">③</span> 建立仪式<br><span class="step-desc">只动 1 维度</span></div>
+    </div>
+    <button class="coach-start-btn" onclick="startStateCoach()">开始深度对话 →</button>
+    <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 5 问引导</div>
+  </div>
+
+  <!-- 对话界面 -->
+  <div id="stateCoachChat" style="display:none;">
+    <div class="coach-progress-bar">
+      <div class="progress-step active" id="stateProg1">① 觉察</div>
+      <div class="progress-step" id="stateProg2">② 拆解</div>
+      <div class="progress-step" id="stateProg3">③ 行动</div>
+    </div>
+    <div class="coach-chat-area" id="stateChatList"></div>
+    <div class="coach-prompt" style="text-align:center;color:#066b65;font-size:13px;font-weight:600;padding:4px 0 0;">💡 在下方输入你的回复，按 发送 继续</div>
+    <div class="coach-input-row">
+      <textarea id="stateCoachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
+      <button onclick="sendStateCoachMsg()">发送</button>
+    </div>
+    <div class="generating-report" id="stateGenerating" style="display:none;">⏳ 正在生成状态诊断报告...</div>
+  </div>
+
+  <!-- 诊断报告 -->
+  <div class="coach-report-card" id="stateCoachReport" style="display:none;"></div>
+  <div style="padding:0 16px 80px;max-width:420px;margin:0 auto;">
+    <button class="coach-start-btn" onclick="startStateCoach()" style="margin-top:8px;background:linear-gradient(135deg,#3da9a1,#0a7e78);font-size:14px;">🔄 重新对话</button>
+  </div>
+</div><!-- end page-coach -->
 
 <!-- ===== Page: 打卡 ===== -->
 <div id="page-checkin" class="page" data-page-node-id="9MnM9V0UA984sLA4BG2ZMl">
@@ -225,7 +455,94 @@
     <div id="dailyTipText" data-page-node-id="Po81tpFJn7HFEvj2coIRNX"></div>
   </div>
 
+  <!-- ===== 今天发生了什么 ===== -->
+  <div class="scenes-panel" data-page-node-id="scenesPanel02">
+    <div class="scenes-title" data-page-node-id="scenesTitle02">💭 今天发生了什么？</div>
+    <div class="scenes-sub" data-page-node-id="scenesSub02">点一下 · 让搭子回应你 · 不计入打卡</div>
+    <div class="scenes-group-label pos" data-page-node-id="lblPos02">⬆️ 好的进展 / 想得到鼓励</div>
+    <div id="stateScenesPos" data-page-node-id="stateScenesPos"></div>
+    <div class="scenes-group-label neg" data-page-node-id="lblNeg02">⬇️ 遇到困难 / 需要引导</div>
+    <div id="stateScenesNeg" data-page-node-id="stateScenesNeg"></div>
+  </div>
+
+  <!-- ===== 反馈弹窗 ===== -->
+  <div class="fb-overlay" id="fbOverlay" data-page-node-id="fbOverlay02" onclick="closeFBBack()">
+    <div class="fb-card" id="fbCard" data-page-node-id="fbCard02" onclick="event.stopPropagation()">
+      <div class="fb-emoji" id="fbEmoji" data-page-node-id="fbEmoji02">🪷</div>
+      <div class="fb-tag" id="fbTag" data-page-node-id="fbTag02">觉察</div>
+      <div class="fb-title" id="fbTitle" data-page-node-id="fbTitle02">看见自己的情绪</div>
+      <div class="fb-text" id="fbText" data-page-node-id="fbText02">能命名情绪，意味着情绪已经在被你掌控。</div>
+      <div class="fb-partner-quote" id="fbQuote" data-page-node-id="fbQuote02">🌊 海浪：状态像海，看见它就不会被它淹没。</div>
+      <button class="fb-close" onclick="closeFBBack()" data-page-node-id="fbClose02">知道了</button>
+    </div>
+  </div>
+
   <footer data-page-node-id="PcswwXWq4gPtLsPzuALHKa">每天一次 · 看见自己的状态就够了</footer>
+</div>
+
+<!-- ===== Page: 记录（KPI / 数值） ===== -->
+<div id="page-record" class="page">
+  <div class="record-page" style="margin-top:20px;">
+    <div class="record-title">📊 状态记录</div>
+    <div class="record-sub">用数字量化今天的状态，看见自己的内在节律</div>
+
+    <!-- ===== 输入区 ===== -->
+    <div class="record-input-card">
+      <div class="record-input-title">🪷 今天的状态数据</div>
+      <div class="record-input-row">
+        <div class="record-input-label">能量水平</div>
+        <input type="range" id="stateEnergyInput" class="state-slider" min="1" max="10" value="5">
+        <div class="slider-val" id="stateEnergyVal">5</div>
+      </div>
+      <div class="record-input-row">
+        <div class="record-input-label">平静度</div>
+        <input type="range" id="stateCalmInput" class="state-slider" min="1" max="10" value="5">
+        <div class="slider-val" id="stateCalmVal">5</div>
+      </div>
+      <div class="record-input-row">
+        <div class="record-input-label">专注（分）</div>
+        <input type="number" id="stateFocusInput" class="record-input" min="0" max="600" value="60" placeholder="分钟">
+      </div>
+      <div class="record-input-row">
+        <div class="record-input-label">情绪波动</div>
+        <div class="quality-row" id="stateWaveRow">
+          <span class="quality-btn" data-v="0">😐</span>
+          <span class="quality-btn selected" data-v="1">🌊</span>
+          <span class="quality-btn" data-v="2">🌊🌊</span>
+          <span class="quality-btn" data-v="3">🌊🌊🌊</span>
+        </div>
+      </div>
+      <div class="record-summary" id="stateRecordSummary">综合指数 5.0 · 平稳</div>
+      <button class="record-save-btn" onclick="saveStateRecord()">📌 记录今天</button>
+    </div>
+
+    <!-- ===== 7 天趋势：能量曲线 ===== -->
+    <div class="record-chart-card">
+      <div class="chart-title">⚡ 近 7 天能量水平</div>
+      <div class="chart-sub">1-10 分 · 曲线反映你近期的「电量」</div>
+      <canvas id="stateEnergyCanvas" width="380" height="160"></canvas>
+    </div>
+
+    <!-- ===== 7 天趋势：能量+平静+专注 多线图 ===== -->
+    <div class="record-chart-card">
+      <div class="chart-title">🌊 近 7 天状态多维度</div>
+      <div class="chart-sub">绿色=能量 · 蓝色=平静 · 紫色=专注</div>
+      <canvas id="stateMultiCanvas" width="380" height="160"></canvas>
+    </div>
+
+    <!-- ===== 7 天趋势：情绪波动 ===== -->
+    <div class="record-chart-card">
+      <div class="chart-title">🌊 近 7 天情绪波动</div>
+      <div class="chart-sub">波动越少越稳 · 颜色深度=等级</div>
+      <canvas id="stateWaveCanvas" width="380" height="160"></canvas>
+    </div>
+
+    <!-- ===== 历史记录 ===== -->
+    <div class="record-history-card">
+      <div class="chart-title">📜 历史记录</div>
+      <div id="stateRecordList"></div>
+    </div>
+  </div>
 </div>
 
 <!-- ===== Page: 进展 ===== -->
@@ -336,14 +653,405 @@ function setLS(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
 function switchTab(tab) {
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const tabs = ['partner','sop','checkin','progress','share'];
+  const tabs = ['partner','coach','sop','checkin','record','progress','share'];
   const idx = tabs.indexOf(tab);
   if (idx >= 0) document.querySelectorAll('.tab-item')[idx].classList.add('active');
   document.getElementById('page-' + tab).classList.add('active');
   if (tab === 'sop') renderSOP();
   if (tab === 'checkin') renderCheckinPage();
+  if (tab === 'record') renderStateRecord();
   if (tab === 'progress') renderProgress();
+  if (tab === 'coach') initStateCoach();
 }
+
+// ===== 状态记录（KPI / 数值） =====
+const STATE_RECORD_KEY = '状态_record';
+
+let stateWaveVal = 1;
+
+function getStateRecords() {
+  return getLS(STATE_RECORD_KEY, '[]');
+}
+
+function updateStateSummary() {
+  const e = +document.getElementById('stateEnergyInput').value;
+  const c = +document.getElementById('stateCalmInput').value;
+  const idx = ((e + c) / 2).toFixed(1);
+  let label = '平稳';
+  if (idx >= 8) label = '✨ 极佳';
+  else if (idx >= 6.5) label = '良好';
+  else if (idx >= 5) label = '平稳';
+  else if (idx >= 3.5) label = '偏低';
+  else label = '需要休息';
+  document.getElementById('stateRecordSummary').innerText = '综合指数 ' + idx + ' · ' + label;
+}
+
+function saveStateRecord() {
+  const e = +document.getElementById('stateEnergyInput').value;
+  const c = +document.getElementById('stateCalmInput').value;
+  const f = +document.getElementById('stateFocusInput').value || 0;
+  const records = getStateRecords();
+  const today = getToday();
+  const existing = records.findIndex(r => r.date === today);
+  const rec = { date: today, energy: e, calm: c, focus: f, wave: stateWaveVal };
+  if (existing >= 0) records[existing] = rec;
+  else records.unshift(rec);
+  setLS(STATE_RECORD_KEY, records);
+  showToast('🪷 今天的状态已记录');
+  renderStateRecord();
+}
+
+function renderStateRecord() {
+  updateStateSummary();
+  const records = getStateRecords();
+  const last7 = records.slice(0, 7).reverse();
+
+  const list = document.getElementById('stateRecordList');
+  if (!records.length) {
+    list.innerHTML = '<div class="record-empty">还没有记录 · 开始记第一天</div>';
+  } else {
+    list.innerHTML = records.slice(0, 10).map(r => `
+      <div class="record-history-item">
+        <span class="record-history-date">${r.date}</span>
+        <span class="record-history-val">能${r.energy} 平${r.calm} 专${r.focus}分 动${r.wave}</span>
+      </div>
+    `).join('');
+  }
+
+  drawStateEnergyCurve(last7);
+  drawStateMultiLines(last7);
+  drawStateWaveBars(last7);
+}
+
+// ===== Canvas 绘图工具（共用 setupCanvas） =====
+function setupCanvas(id) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return null;
+  const dpr = window.devicePixelRatio || 1;
+  const cssW = canvas.clientWidth || 380;
+  const cssH = canvas.clientHeight || 160;
+  canvas.width = cssW * dpr;
+  canvas.height = cssH * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  return { ctx, w: cssW, h: cssH };
+}
+
+// 能量曲线：y 轴 1-10
+function drawStateEnergyCurve(data) {
+  const c = setupCanvas('stateEnergyCanvas');
+  if (!c) return;
+  const { ctx, w, h } = c;
+  ctx.clearRect(0, 0, w, h);
+  const padding = { l: 26, r: 12, t: 14, b: 26 };
+  const plotW = w - padding.l - padding.r;
+  const plotH = h - padding.t - padding.b;
+
+  ctx.strokeStyle = '#e8e7ff';
+  ctx.lineWidth = 1;
+  ctx.fillStyle = '#8f9eae';
+  ctx.font = '10px system-ui';
+  [2, 4, 6, 8, 10].forEach(v => {
+    const y = padding.t + plotH - ((v - 1) / 9) * plotH;
+    ctx.beginPath(); ctx.moveTo(padding.l, y); ctx.lineTo(w - padding.r, y); ctx.stroke();
+    ctx.fillText(v.toString(), 8, y + 3);
+  });
+
+  // 理想区间 6-8
+  const y8 = padding.t + plotH - ((8 - 1) / 9) * plotH;
+  const y6 = padding.t + plotH - ((6 - 1) / 9) * plotH;
+  ctx.fillStyle = 'rgba(11,138,130,0.08)';
+  ctx.fillRect(padding.l, y8, plotW, y6 - y8);
+
+  if (!data.length) return;
+  data.forEach((d, i) => {
+    const x = padding.l + (data.length === 1 ? plotW/2 : (i / (data.length - 1)) * plotW);
+    ctx.fillText(d.date.slice(5), x - 12, h - 8);
+  });
+
+  const pts = data.map((d, i) => ({
+    x: padding.l + (data.length === 1 ? plotW/2 : (i / (data.length - 1)) * plotW),
+    y: padding.t + plotH - ((d.energy - 1) / 9) * plotH
+  }));
+
+  ctx.strokeStyle = '#0b8a82';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+  ctx.stroke();
+  pts.forEach(p => {
+    ctx.fillStyle = '#0b8a82';
+    ctx.beginPath(); ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2); ctx.fill();
+  });
+}
+
+// 能量+平静+专注 三线
+function drawStateMultiLines(data) {
+  const c = setupCanvas('stateMultiCanvas');
+  if (!c) return;
+  const { ctx, w, h } = c;
+  ctx.clearRect(0, 0, w, h);
+  const padding = { l: 26, r: 12, t: 14, b: 26 };
+  const plotW = w - padding.l - padding.r;
+  const plotH = h - padding.t - padding.b;
+
+  ctx.strokeStyle = '#e8e7ff';
+  ctx.lineWidth = 1;
+  ctx.fillStyle = '#8f9eae';
+  ctx.font = '10px system-ui';
+  [2, 4, 6, 8, 10].forEach(v => {
+    const y = padding.t + plotH - ((v - 1) / 9) * plotH;
+    ctx.beginPath(); ctx.moveTo(padding.l, y); ctx.lineTo(w - padding.r, y); ctx.stroke();
+    ctx.fillText(v.toString(), 8, y + 3);
+  });
+
+  if (!data.length) return;
+
+  // 专注归一化：60 分钟 = 6 分（最高 10 分相当于 100 分钟）
+  const normFocus = v => Math.min(10, v / 10);
+
+  const drawLine = (key, color, transform) => {
+    const pts = data.map((d, i) => {
+      const v = transform ? transform(d[key]) : d[key];
+      return {
+        x: padding.l + (data.length === 1 ? plotW/2 : (i / (data.length - 1)) * plotW),
+        y: padding.t + plotH - ((v - 1) / 9) * plotH
+      };
+    });
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+    ctx.stroke();
+    pts.forEach(p => {
+      ctx.fillStyle = color;
+      ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2); ctx.fill();
+    });
+  };
+
+  drawLine('energy', '#0b8a82');                      // 绿
+  drawLine('calm',   '#34c0b1');                      // 青
+  drawLine('focus',  '#7c7fea', normFocus);           // 紫（归一）
+
+  data.forEach((d, i) => {
+    const x = padding.l + (data.length === 1 ? plotW/2 : (i / (data.length - 1)) * plotW);
+    ctx.fillText(d.date.slice(5), x - 12, h - 8);
+  });
+}
+
+// 情绪波动条柱
+function drawStateWaveBars(data) {
+  const c = setupCanvas('stateWaveCanvas');
+  if (!c) return;
+  const { ctx, w, h } = c;
+  ctx.clearRect(0, 0, w, h);
+  const padding = { l: 26, r: 12, t: 14, b: 26 };
+  const plotW = w - padding.l - padding.r;
+  const plotH = h - padding.t - padding.b;
+
+  ctx.strokeStyle = '#e8e7ff';
+  ctx.lineWidth = 1;
+  ctx.fillStyle = '#8f9eae';
+  ctx.font = '10px system-ui';
+  [0, 1, 2, 3].forEach(v => {
+    const y = padding.t + plotH - (v / 3) * plotH;
+    ctx.beginPath(); ctx.moveTo(padding.l, y); ctx.lineTo(w - padding.r, y); ctx.stroke();
+    ctx.fillText(v.toString(), 8, y + 3);
+  });
+
+  if (!data.length) return;
+  const barW = Math.min(28, (plotW / data.length) * 0.6);
+  const gap = (plotW - barW * data.length) / (data.length + 1);
+
+  data.forEach((d, i) => {
+    const x = padding.l + gap + i * (barW + gap);
+    const barH = (d.wave / 3) * plotH;
+    const y = padding.t + plotH - barH;
+    // 颜色按波动等级深浅
+    const colors = ['#a8dcd6', '#0b8a82', '#066b65', '#064e4a'];
+    ctx.fillStyle = colors[d.wave] || '#0b8a82';
+    ctx.beginPath();
+    const r = 6;
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + barW - r, y);
+    ctx.quadraticCurveTo(x + barW, y, x + barW, y + r);
+    ctx.lineTo(x + barW, y + barH);
+    ctx.lineTo(x, y + barH);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.fill();
+    ctx.fillStyle = '#8f9eae';
+    ctx.fillText(d.date.slice(5), x, h - 8);
+  });
+}
+
+// 情绪波动按钮交互
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('quality-btn') && e.target.dataset.v !== undefined && e.target.parentElement.id === 'stateWaveRow') {
+    e.target.parentElement.querySelectorAll('.quality-btn').forEach(b => b.classList.remove('selected'));
+    e.target.classList.add('selected');
+    stateWaveVal = +e.target.dataset.v;
+  }
+});
+
+// 监听滑块和数字输入
+document.addEventListener('input', function(e) {
+  if (e.target.id === 'stateEnergyInput') document.getElementById('stateEnergyVal').innerText = e.target.value;
+  if (e.target.id === 'stateCalmInput')   document.getElementById('stateCalmVal').innerText = e.target.value;
+  if (e.target.id === 'stateEnergyInput' || e.target.id === 'stateCalmInput') updateStateSummary();
+});
+
+// ===== 状态教练（对话式引导） =====
+const STATE_COACH_QUESTIONS = [
+  '① 最近你最大的状态变化是什么？（比如：能量低了 / 容易烦躁 / 难以专注）',
+  '② 你能想到的触发因素是什么？（工作压力 / 睡眠 / 关系 / 季节 等）',
+  '③ 当状态变差时，你能观察到的身体信号是什么？（比如：肩膀紧 / 胃不舒服 / 胸口闷）',
+  '④ 你最想改善的是哪个维度？（能量 / 平静 / 专注 / 情绪稳定）',
+  '⑤ 你已经试过什么方法？效果怎么样？'
+];
+const STATE_COACH_SUMMARY = (a1, a2, a3, a4, a5) => {
+  return `
+    <div class="coach-report-section">
+      <h4>① 状态变化</h4>
+      <p>${a1 || '未填写'}</p>
+    </div>
+    <div class="coach-report-section">
+      <h4>② 触发因素</h4>
+      <p>${a2 || '未填写'}</p>
+    </div>
+    <div class="coach-report-section">
+      <h4>③ 身体信号</h4>
+      <p>${a3 || '未填写'}</p>
+    </div>
+    <div class="coach-report-section">
+      <h4>④ 最想改善</h4>
+      <p>${a4 || '未填写'}</p>
+    </div>
+    <div class="coach-report-section">
+      <h4>⑤ 已试方法</h4>
+      <p>${a5 || '未填写'}</p>
+    </div>
+    <div class="coach-report-section" style="background:#e8f5e9;border-color:#a5d6a7;">
+      <h4 style="color:#2e7d32;">🌊 建议行动</h4>
+      <ul style="padding-left:20px;margin:0;">
+        <li>每天 1 次觉察，记录「${a4 || '最想改善的维度'}」分数</li>
+        <li>当身体出现「${a3 || '典型信号'}」时，立刻做 3 次深呼吸</li>
+        <li>减少触发因素「${a2 || '压力源'}」1 个具体动作</li>
+        <li>用「记录」Tab 7 天看曲线变化</li>
+      </ul>
+    </div>
+  `;
+};
+
+// ===== 教练 Tab 初始化（与减肥搭子同构） =====
+function initStateCoach() {
+  (function(){
+    var wrap = document.getElementById('crpWrap_state'); if(!wrap) return;
+    wrap.querySelectorAll('.crp-stage').forEach(function(s){
+      s.addEventListener('click', function(){
+        s.classList.toggle('collapsed');
+        var a = s.querySelector('.crp-arrow'); if(a) a.textContent = s.classList.contains('collapsed') ? '▸' : '▾';
+      });
+    });
+    var items = wrap.querySelectorAll('.crp-item');
+    var KEY = 'crp_checklist_state';
+    var state = {}; try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){}
+    function render(){
+      var d = 0;
+      items.forEach(function(it,i){
+        var b = it.querySelector('.crp-box');
+        if(state[i]){ it.classList.add('done'); b.textContent='☑'; d++; }
+        else { it.classList.remove('done'); b.textContent='☐'; }
+      });
+      var c = document.getElementById('crpCnt_state'); if(c) c.textContent = d;
+    }
+    items.forEach(function(it,i){
+      it.addEventListener('click', function(){
+        state[i] = !state[i];
+        try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+        render();
+      });
+    });
+    render();
+  })();
+}
+
+let stateCoachStep = 0;
+const stateCoachAnswers = [];
+
+function startStateCoach() {
+  stateCoachStep = 0;
+  stateCoachAnswers.length = 0;
+  document.getElementById('stateCoachIntro').style.display = 'none';
+  document.getElementById('stateCoachChat').style.display = 'block';
+  document.getElementById('stateCoachReport').style.display = 'none';
+  document.getElementById('stateChatList').innerHTML = '';
+  updateStateCoachProgress(0);
+  addStateCoachMsg('coach', '🎓 我是状态觉察教练。先问 5 个问题，帮你看见自己的状态节律。准备好了就开始 ↓');
+  setTimeout(() => askStateCoachQuestion(), 600);
+}
+
+function updateStateCoachProgress(step) {
+  var phase = step < 2 ? 0 : (step < 4 ? 1 : 2);
+  ['stateProg1','stateProg2','stateProg3'].forEach(function(id, i){
+    var el = document.getElementById(id);
+    if (el) el.classList.toggle('active', i === phase);
+  });
+}
+
+function askStateCoachQuestion() {
+  if (stateCoachStep >= STATE_COACH_QUESTIONS.length) {
+    showStateCoachReport();
+    return;
+  }
+  updateStateCoachProgress(stateCoachStep);
+  addStateCoachMsg('coach', STATE_COACH_QUESTIONS[stateCoachStep]);
+}
+
+function addStateCoachMsg(role, text) {
+  const chat = document.getElementById('stateChatList');
+  const div = document.createElement('div');
+  div.className = 'coach-msg ' + role;
+  div.innerText = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function sendStateCoachMsg() {
+  const input = document.getElementById('stateCoachInput');
+  const v = input.value.trim();
+  if (!v) return;
+  addStateCoachMsg('user', v);
+  stateCoachAnswers[stateCoachStep] = v;
+  input.value = '';
+  stateCoachStep++;
+  setTimeout(() => askStateCoachQuestion(), 500);
+}
+
+function showStateCoachReport() {
+  updateStateCoachProgress(STATE_COACH_QUESTIONS.length);
+  addStateCoachMsg('coach', '✅ 5 个问题都收到了。下面是你的状态诊断报告 ↓');
+  document.querySelector('#stateCoachChat .coach-input-row').style.display = 'none';
+  document.querySelector('#stateCoachChat .coach-prompt').style.display = 'none';
+  const gen = document.getElementById('stateGenerating');
+  if (gen) { gen.style.display = 'block'; setTimeout(function(){ gen.style.display = 'none'; renderStateReport(); }, 700); }
+}
+
+function renderStateReport() {
+  const report = document.getElementById('stateCoachReport');
+  report.innerHTML = `
+    <div class="coach-intro-icon" style="font-size:40px;">🌊</div>
+    <div class="coach-report-title" style="margin-bottom:16px;">状态觉察诊断报告</div>
+    ${STATE_COACH_SUMMARY(...stateCoachAnswers)}
+  `;
+  report.style.display = 'block';
+  document.getElementById('stateChatList').scrollTop = document.getElementById('stateChatList').scrollHeight;
+}
+
+// ===== 初始化 =====
+renderPartnerGrid();
+renderStateScenes();
+updateStateSummary();
 
 function renderPartnerGrid() {
   const grid = document.getElementById('partnerGrid');
@@ -553,6 +1261,72 @@ function showToast(msg) {
 
 // ===== 初始化 =====
 renderPartnerGrid();
+renderStateScenes();
+
+// ===== 状态场景数据 =====
+const STATE_SCENES = {
+  pos: [
+    { icon:'🪷', tag:'命名', title:'今天能说出自己的情绪了', text:'能命名情绪，意味着情绪已经在被你掌控，而不是被它带着走', quote:'🌊 海浪：看见它就不会被它淹没。' },
+    { icon:'💧', tag:'补水', title:'今天喝够了水，身体舒服些', text:'缺水会让大脑 foggy、情绪钝感，喝够 1.5L 是最便宜的清醒药', quote:'🌊 海浪：身体在帮你维持状态。' },
+    { icon:'🚶', tag:'走动', title:'出去走了 10 分钟', text:'身体一动起来，情绪的结就有地方松开', quote:'🌊 海浪：走出去，世界会变大。' },
+    { icon:'✅', tag:'小事', title:'完成了今天最容易的那 1 件小事', text:'小胜利是状态回升的起点，比等大动作有效得多', quote:'🌊 海浪：你已经开始了。' },
+    { icon:'📓', tag:'记录', title:'把脑子里乱的想法写下来了', text:'写下来是给情绪装个容器，不再让它占满大脑', quote:'🌊 海浪：纸上的字不会反弹回来压你。' },
+    { icon:'🤲', tag:'求助', title:'今天开口跟人说了自己的状态', text:'说出来本身就是疗愈，藏着才会发酵', quote:'🌊 海浪：愿意被看见的人最有力量。' },
+    { icon:'🍃', tag:'呼吸', title:'停下来做了 3 个深呼吸', text:'3 次深呼吸比 10 分钟思考更能让你回到当下', quote:'🌊 海浪：身体先安静，状态才会稳。' },
+    { icon:'🌅', tag:'阳光', title:'今天见到了一会儿阳光', text:'自然光能让血清素提升 50%，比咖啡温和得多', quote:'🌊 海浪：光的颜色就是状态的温度。' }
+  ],
+  neg: [
+    { icon:'😣', tag:'焦虑', title:'脑子里反复想还没发生的事', text:'大脑分不清"想象的灾难"和"真实的危险"，焦虑是它在自我保护', quote:'🌊 海浪：把还没发生的，先放回未来。' },
+    { icon:'😤', tag:'烦躁', title:'一点小事就火了', text:'烦躁常常是疲惫 + 压力的组合信号，不是性格问题', quote:'🌊 海浪：你不是真的生气，是太累了。' },
+    { icon:'🌀', tag:'涣散', title:'脑子乱，什么都做不下去', text:'先做最容易的 1 件小事，让大脑找到启动的感觉', quote:'🌊 海浪：先动起来，状态会追上来。' },
+    { icon:'😞', tag:'自我批评', title:'今天对自己说了很多"我不行"', text:'状态差时对自己的评价常常是失真的，不是事实', quote:'🌊 海浪：低能量时的自己说的话，可以晚一点再信。' },
+    { icon:'🍔', tag:'情绪进食', title:'靠吃东西缓解情绪', text:'情绪被压下去会反弹，下次更需要吃——这是恶性循环', quote:'🌊 海浪：先喝水 / 散步 5 分钟，再决定要不要吃。' },
+    { icon:'📱', tag:'分心', title:'靠刷手机逃避 1 小时以上', text:'刷完通常更累，不会真的"休息"', quote:'🌊 海浪：把手机放到视线之外，给自己一段干净的 10 分钟。' },
+    { icon:'😶', tag:'假装', title:'在人前笑，回到家就空了', text:'伪装本身消耗能量，长期会掏空状态', quote:'🌊 海浪：累的时候就允许自己累一会儿。' },
+    { icon:'🕳️', tag:'比较', title:'又在和别人比较了', text:'比较用的是别人的进度表，永远比不完', quote:'🌊 海浪：你只需要跟昨天的自己比。' }
+  ]
+};
+
+function renderStateScenes() {
+  const renderGroup = (list, type, containerId) => {
+    const c = document.getElementById(containerId);
+    if (!c) return;
+    c.innerHTML = list.map((s, i) => `
+      <div class="scene-card ${type}" data-idx="${i}" data-type="${type}" onclick="openStateFB(${i}, '${type}')">
+        <div class="scene-icon">${s.icon}</div>
+        <div class="scene-text">${s.title}</div>
+        <div class="scene-tag ${type}">${s.tag}</div>
+      </div>
+    `).join('');
+  };
+  renderGroup(STATE_SCENES.pos, 'pos', 'stateScenesPos');
+  renderGroup(STATE_SCENES.neg, 'neg', 'stateScenesNeg');
+}
+
+function openStateFB(idx, type) {
+  const item = STATE_SCENES[type][idx];
+  if (!item) return;
+  const card = document.getElementById('fbCard');
+  card.className = 'fb-card ' + type;
+  document.getElementById('fbEmoji').innerText = item.icon;
+  const tag = document.getElementById('fbTag');
+  tag.innerText = item.tag;
+  tag.className = 'fb-tag ' + type;
+  document.getElementById('fbTitle').innerText = item.title;
+  document.getElementById('fbText').innerText = item.text;
+  const fallback = {
+    wave:   '🌊 海浪：状态像海，看见它就不会被它淹没。',
+    mirror: '🪞 镜子：你看见的，就是真实的你。',
+    lamp:   '🏮 灯笼：看见状态后，下一步就清楚了。'
+  };
+  const pText = item.quote || fallback[currentPartner.id] || '';
+  document.getElementById('fbQuote').innerText = pText;
+  document.getElementById('fbOverlay').classList.add('show');
+}
+
+function closeFBBack() {
+  document.getElementById('fbOverlay').classList.remove('show');
+}
 </script>
 </body>
 </html>
