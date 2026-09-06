@@ -7,26 +7,38 @@
 <style>
   /* ===========================================================
      [基础变量] —— 想换主题色 / 圆角 / 间距，只改这里
+     【v2 视觉优化】按"每日搭子中心视觉规范"统一：
+       主色 #1a1a1a / 辅 #6b6b6b / 淡 #999 / 强调 #5b6cff
+       bg #f7f6f4 / 卡片 16px / 阴影柔和
      =========================================================== */
   :root {
-    --bg:           #fafaf7;
+    --bg:           #f7f6f4;           /* 柔和米白 */
     --surface:      #ffffff;
-    --ink:          #1f2330;
-    --ink-soft:     #5b6273;
-    --line:         #ecedf0;
-    --brand:        #5b6cff;
-    --brand-soft:   #eef0ff;
+    --ink:          #1a1a1a;           /* 主色（标题/数字） */
+    --ink-2:        #6b6b6b;           /* 辅助色（描述） */
+    --ink-3:        #999999;           /* 淡色（标签/次要） */
+    --ink-4:        #bbbbbb;           /* 占位 */
+    --line:         #e8e8e8;           /* 边框/分割 */
+    --line-soft:    #f0f0f0;
+    --brand:        #5b6cff;           /* 强调色 */
+    --brand-soft:   rgba(91,108,255,0.06);
     --accent:       #ff7a45;
     --ok:           #16a34a;
     --warn:         #d97706;
-    --radius-lg:    18px;
+    --radius-lg:    16px;              /* 卡片圆角统一 */
     --radius-md:    10px;
-    --shadow-sm:    0 1px 2px rgba(20,22,30,.06), 0 1px 1px rgba(20,22,30,.04);
-    --shadow-md:    0 8px 24px rgba(20,22,30,.08);
+    --shadow-sm:    0 2px 8px rgba(0,0,0,0.05);
+    --shadow-md:    0 8px 24px rgba(0,0,0,0.08);
     --space-1:      8px;
     --space-2:      16px;
-    --space-3:      24px;
-    --space-4:      32px;
+    --space-3:      20px;              /* 卡片间距 */
+    --space-4:      24px;              /* 卡片内边距 + 页面左右桌面 */
+    --space-5:      32px;              /* 更大间距 */
+    /* 分类维度色（底部统计用） */
+    --cat-daily:    #4A90D9;
+    --cat-career:   #5B6CFF;
+    --cat-wealth:   #F5A623;
+    --cat-tools:    #7ED321;
   }
 
   * { box-sizing: border-box; }
@@ -41,25 +53,35 @@
   }
 
   /* ===========================================================
-     [顶层容器]
+     [顶层容器] —— 桌面 24px 内边距，移动 16px（规范 #1）
      =========================================================== */
   .app {
     max-width: 960px;
     margin: 0 auto;
-    padding: var(--space-4) var(--space-2);
+    padding: var(--space-5) var(--space-4);
   }
 
   /* ===========================================================
      [头部：标题 + 本月精选卡]
      =========================================================== */
-  .header { text-align: center; margin-bottom: var(--space-3); padding-bottom: var(--space-3); border-bottom: 1px solid var(--line); }
+  .header { text-align: center; margin-bottom: var(--space-5); padding-bottom: 0; border-bottom: 0; }
   .header h1 {
     margin: 0 0 var(--space-1);
-    font-size: 28px;
-    letter-spacing: .5px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0;
   }
   .header .lead {
-    color: var(--ink-soft);
+    color: var(--ink-2);
+    margin: 0 0 var(--space-2);
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .header .greeting {
+    color: var(--ink-2);
+    font-size: 13px;
+    font-weight: 400;
     margin: 0 0 var(--space-3);
   }
 
@@ -196,37 +218,55 @@
   }
   .fp-mini b { color: #fbbf24; }
 
+  /* —— 本月精选（规范 #2）：纯白卡 + 顶部小标签 + 28px emoji —— */
   .featured {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
-    background: linear-gradient(135deg, #fff4ec 0%, #ffe9d9 100%);
-    border: 1px solid #ffd9bd;
+    gap: var(--space-3);
+    background: var(--surface);
+    border: 1px solid var(--line);
     border-radius: var(--radius-lg);
-    padding: var(--space-3);
+    padding: var(--space-4);
     text-align: left;
     box-shadow: var(--shadow-sm);
-    transition: transform .2s ease;
+    transition: all .25s ease;
     text-decoration: none;
     color: inherit;
+    position: relative;
   }
-  .featured:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-  .featured .emoji { font-size: 36px; }
-  .featured .meta { flex: 1; }
-  .featured h3 { margin: 0 0 4px; font-size: 17px; }
-  .featured p  { margin: 0; color: var(--ink-soft); font-size: 13px; }
-  /* —— "去看看 →" 改为文字链（弱化视觉，回归第一性：核心卡本身就是链接） —— */
+  .featured:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: #d4d7e0;
+  }
+  /* "⭐ 本月精选"小标签 */
+  .featured::before {
+    content: "⭐ 本月精选";
+    position: absolute;
+    top: 12px; left: 16px;
+    font-size: 11px;
+    color: var(--ink-3);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .featured .emoji { font-size: 28px; line-height: 1; flex-shrink: 0; margin-top: 14px; }
+  .featured .meta { flex: 1; margin-top: 14px; }
+  .featured h3 { margin: 0 0 4px; font-size: 16px; font-weight: 600; color: var(--ink); }
+  .featured p  { margin: 0; color: var(--ink-2); font-size: 13px; font-weight: 400; line-height: 1.5; }
+  /* —— "去看看 →" 改为纯文字链（规范 #2 要求） —— */
   .featured .cta {
     background: transparent;
-    color: var(--ink-soft);
+    color: var(--ink-2);
     padding: 6px 0;
     border-radius: 0;
     font-size: 13px;
+    font-weight: 500;
     text-decoration: none;
     white-space: nowrap;
-    transition: color .2s;
+    transition: color .25s;
+    margin-top: 14px;
   }
-  .featured:hover .cta { color: var(--accent); }
+  .featured:hover .cta { color: var(--brand); }
 
   /* ===========================================================
      [状态条] —— 上次访问 / 今日打卡
@@ -237,9 +277,9 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: var(--space-1);
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-5);
     font-size: 12px;
-    color: var(--ink-soft);
+    color: var(--ink-2);
   }
   .status-bar .pill {
     display: inline-flex;
@@ -264,58 +304,79 @@
   .status-bar .pill .btn:hover { text-decoration: underline; }
 
   /* ===========================================================
-     [Tab 切换]
+     [Tab 切换] —— 规范 #5：count 圆点徽章；激活态文字+下划线
      =========================================================== */
   .tabs {
     display: flex;
-    gap: 6px;
-    background: var(--surface);
-    padding: 6px;
-    border-radius: 14px;
-    box-shadow: var(--shadow-sm);
+    gap: var(--space-1);
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
     overflow-x: auto;
     margin-bottom: var(--space-3);
+    border-bottom: 1px solid var(--line);
   }
   .tab {
     flex: 1;
     min-width: 90px;
-    padding: 10px 12px;
+    padding: 10px 8px;
     border: 0;
     background: transparent;
-    border-radius: 10px;
+    border-radius: 0;
     cursor: pointer;
     font-size: 14px;
-    color: var(--ink-soft);
+    font-weight: 500;
+    color: var(--ink-2);
     font-family: inherit;
     transition: all .2s;
     white-space: nowrap;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
   }
+  /* count 圆点徽章（不抢 Tab 名称） */
   .tab .count {
-    display: inline-block;
-    margin-left: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
     font-size: 11px;
-    background: var(--line);
-    color: var(--ink-soft);
-    padding: 1px 6px;
+    background: var(--line-soft);
+    color: var(--ink-3);
+    padding: 2px 8px;
     border-radius: 999px;
+    font-weight: 500;
   }
+  /* 激活态：文字加深 + 底部品牌色下划线（规范 #5） */
   .tab.active {
-    background: var(--ink);
-    color: #fff;
+    background: transparent;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .tab.active::after {
+    content: "";
+    position: absolute;
+    left: 12px; right: 12px; bottom: -1px;
+    height: 2px;
+    background: var(--brand);
+    border-radius: 2px 2px 0 0;
   }
   .tab.active .count {
-    background: rgba(255,255,255,.18);
-    color: #fff;
+    background: var(--brand-soft);
+    color: var(--brand);
   }
 
   /* ===========================================================
-     [工具条] —— 搜索 + 状态筛选
+     [工具条] —— 搜索 + 状态筛选（规范 #1 #6）
      =========================================================== */
   .toolbar {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-bottom: var(--space-3);
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
     align-items: center;
   }
   .search {
@@ -334,6 +395,10 @@
     color: var(--ink);
     transition: border-color .2s, box-shadow .2s;
   }
+  .search input::placeholder {
+    color: var(--ink-4);
+    font-weight: 400;
+  }
   .search input:focus {
     outline: 0;
     border-color: var(--brand);
@@ -348,17 +413,19 @@
     font-size: 14px;
   }
 
-  .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  /* 筛选 chip（规范 #6）：轻量胶囊，激活态用极淡蓝底 */
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; }
   .chip {
-    padding: 6px 12px;
+    padding: 6px 16px;
     border: 1px solid var(--line);
-    background: var(--surface);
+    background: transparent;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 13px;
     cursor: pointer;
-    color: var(--ink-soft);
-    transition: all .15s;
+    color: var(--ink-2);
+    transition: all .2s;
     font-family: inherit;
+    font-weight: 400;
   }
   .chip:hover { border-color: var(--brand); color: var(--brand); }
   .chip.active {
@@ -369,30 +436,31 @@
   }
 
   /* ===========================================================
-     [卡片网格]
+     [卡片网格] —— 规范 #3：所有卡统一白底 16px 圆角 柔和阴影
      =========================================================== */
   .grid {
     display: grid;
-    gap: var(--space-2);
+    gap: var(--space-3);                       /* 卡片之间 20px */
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
   .card {
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    padding: var(--space-3);
+    border-radius: var(--radius-lg);           /* 16px 圆角 */
+    padding: var(--space-4);                   /* 卡片内边距 20px */
+    box-shadow: var(--shadow-sm);              /* 0 2px 8px */
     text-decoration: none;
     color: inherit;
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
-    transition: all .2s ease;
+    transition: all .25s ease;
     position: relative;
   }
   .card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     border-color: #d4d7e0;
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-md);              /* 0 8px 24px */
   }
   .card .top {
     display: flex;
@@ -407,12 +475,16 @@
   .card h3 {
     margin: 0;
     font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
     flex: 1;
   }
   .card .desc {
-    color: var(--ink-soft);
+    color: var(--ink-2);
     font-size: 13px;
+    font-weight: 400;
     margin: 4px 0 0;
+    line-height: 1.5;
   }
   .card .tags {
     display: flex;
@@ -421,24 +493,35 @@
     margin-top: auto;
     padding-top: var(--space-1);
   }
+
+  /* —— 分类标签（规范 #7）：统一灰底灰字，999 圆角 —— */
   .badge {
     font-size: 11px;
-    padding: 2px 8px;
+    padding: 2px 10px;
     border-radius: 999px;
-    background: var(--line);
-    color: var(--ink-soft);
+    background: var(--line-soft);
+    color: var(--ink-3);
+    font-weight: 400;
   }
-  .badge.ok      { background: #dcfce7; color: var(--ok); }
-  .badge.warn    { background: #fef3c7; color: var(--warn); }
-  .badge.new     { background: var(--brand-soft); color: var(--brand); }
-  .badge.accent  { background: #ffe9d9; color: var(--accent); }
-  .badge.preview { background: #f3f4f6; color: var(--ink-soft);
-                    border: 1px dashed #c4c8d2; }
+  /* —— "最新"角标：唯一强调色，右上角 —— */
+  .badge.new {
+    background: var(--brand);
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 8px;
+    font-weight: 700;
+  }
+  /* —— preview 敬请期待 —— */
+  .badge.preview {
+    background: var(--line-soft);
+    color: var(--ink-3);
+    border: 1px dashed #c4c8d2;
+  }
 
   /* —— "最新"角标：贴在卡片右上角 —— */
   .corner-new {
     position: absolute;
-    top: 10px; right: 12px;
+    top: 12px; right: 12px;
     font-size: 10px;
     font-weight: 700;
     padding: 2px 8px;
@@ -461,29 +544,87 @@
   }
 
   /* ===========================================================
-     [空状态]
+     [空状态] —— 规范 #9：温和文案 + 回到全部按钮
      =========================================================== */
   .empty {
     grid-column: 1/-1;
     text-align: center;
-    padding: var(--space-4) 0;
-    color: var(--ink-soft);
+    padding: var(--space-5) 0;
+    color: var(--ink-2);
   }
   .empty .face { font-size: 40px; opacity: .4; margin-bottom: var(--space-1); }
+  .empty .empty-text { font-size: 14px; margin: 0 0 var(--space-2); }
+  .empty .empty-back {
+    display: inline-block;
+    background: transparent;
+    color: var(--brand);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 0;
+    padding: 6px 0;
+    font-family: inherit;
+    text-decoration: none;
+  }
+  .empty .empty-back:hover { text-decoration: underline; }
 
   /* ===========================================================
-     [元信息与页脚]
+     [元信息与页脚] —— 规范 #4：底部可视化
      =========================================================== */
   .meta {
     text-align: center;
-    margin-top: var(--space-4);
-    padding-top: var(--space-3);
+    margin-top: var(--space-5);                /* 与卡片网格 32px */
+    padding-top: var(--space-4);
     border-top: 1px dashed var(--line);
-    color: var(--ink-soft);
+    color: var(--ink-2);
     font-size: 13px;
   }
-  .meta .stats { display: flex; justify-content: center; gap: var(--space-3); margin-bottom: var(--space-1); }
-  .meta .stats span strong { color: var(--ink); }
+  .meta .stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .meta .stat-num {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .meta .stat-label {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--ink-2);
+    margin-left: 4px;
+  }
+  .meta .stat-dots {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+  .meta .stat-dots .dot-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .meta .stat-dots .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .meta .stat-dots .dot.daily  { background: var(--cat-daily);  }
+  .meta .stat-dots .dot.career { background: var(--cat-career); }
+  .meta .stat-dots .dot.wealth { background: var(--cat-wealth); }
+  .meta .stat-dots .dot.tools  { background: var(--cat-tools);  }
+  .meta .update {
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
 
   /* ===========================================================
      [右下角"今天休息一下"浮动按钮]
@@ -534,14 +675,17 @@
   }
 
   /* ===========================================================
-     [响应式]
+     [响应式] —— 规范 #1：桌面 24px / 移动 16px
      =========================================================== */
   @media (max-width: 640px) {
-    .app { padding: var(--space-2) var(--space-1); }
+    .app { padding: var(--space-4) var(--space-2); }
     .header h1 { font-size: 22px; }
-    .featured { flex-wrap: wrap; }
+    .featured { flex-wrap: wrap; padding: var(--space-3); }
     .featured .cta { width: 100%; text-align: center; margin-top: var(--space-1); }
     .rest-btn { bottom: 20px; right: 16px; padding: 10px 15px; font-size: 12px; }
+    .card { padding: var(--space-3); }
+    .meta .stat-num { font-size: 22px; }
+    .meta .stat-dots { gap: 8px; font-size: 11px; }
   }
 </style>
 </head>
@@ -555,6 +699,7 @@
   <header class="header" data-page-node-id="HsXSun0NIhFhB5bJl6ZTsw">
     <h1 data-page-node-id="zdACYAecuvNsMcy8yKW9bL">🌟 每日搭子中心</h1>
     <p class="lead" data-page-node-id="5mzre6wgYbPc9idf3AbCnr">选一个搭子，开始今天的成长打卡</p>
+    <p class="greeting" id="greeting" data-page-node-id="greetingNode"></p>
 
     <!-- 顶置「本月精选」卡：内容完全由下方 featured 配置驱动 -->
     <a id="featured" class="featured" href="#" style="display:none" data-page-node-id="Nb95uD0AOZDf2456P2FSR3">
@@ -666,8 +811,8 @@ const PARTNERS_CONFIG = {
    * │     这些 status 仅作为「筛选器」chip 用。
    * └─────────────────────────────────────────────────────────┘ */
   status: [
-    { key: 'optimized',  label: '⭐ 精选',  className: 'ok'    },
-    { key: 'new',        label: '最新',    className: 'new'   },
+    { key: 'optimized',  label: '精选',  className: 'ok'    },
+    { key: 'new',        label: '最新',  className: 'new'   },
   ],
 
   /* ┌─────────────────────────────────────────────────────────┐
@@ -846,8 +991,18 @@ function renderGrid() {
     $('grid').innerHTML = `
       <div class="empty">
         <div class="face">🍃</div>
-        <p>没有匹配的搭子，换个词试试？</p>
+        <p class="empty-text">没找到你想要的。试试换个词，或者去「全部」看看？</p>
+        <button class="empty-back" id="emptyBackBtn">回到全部搭子 →</button>
       </div>`;
+    const back = document.getElementById('emptyBackBtn');
+    if (back) back.addEventListener('click', () => {
+      state.q = '';
+      state.status = null;
+      const inp = document.getElementById('search');
+      if (inp) inp.value = '';
+      renderFilters();
+      renderGrid();
+    });
     return;
   }
 
@@ -881,20 +1036,23 @@ function renderGrid() {
 
 
 /* ============================================================
- *  底部统计
+ *  底部统计 —— 规范 #4：大数字 + 四色圆点 + 更新日期
  * ============================================================ */
 function renderStats() {
-  /* —— 不展示可见的 5 财富 + 隐藏项，但 sidebar 计数还是显示原始 total（数字反映真实数量） —— */
   const all = PARTNERS_CONFIG.partners.filter(p => !p.hidden).length;
-  const tabLabels = PARTNERS_CONFIG.tabs
-    .filter(t => t.key !== 'wealth' || PARTNERS_CONFIG.partners.some(p => p.tab === t.key && !p.hidden))
-    .map(t => t.label.replace(/^..\s?/, ''))   // 去掉 emoji
-    .join(' · ');
   const updated = new Date().toISOString().slice(0,10).replace(/-/g, '.');
   $('stats').innerHTML = `
-    <span><strong>${all}</strong> 搭子</span>
-    <span>${tabLabels}</span>
-    <span>内容更新 ${updated}</span>
+    <div class="stat-num-row">
+      <span class="stat-num">${all}</span>
+      <span class="stat-label">个搭子</span>
+    </div>
+    <div class="stat-dots">
+      <span class="dot-item"><span class="dot daily"></span>日常</span>
+      <span class="dot-item"><span class="dot career"></span>职场</span>
+      <span class="dot-item"><span class="dot wealth"></span>财富</span>
+      <span class="dot-item"><span class="dot tools"></span>工具</span>
+    </div>
+    <div class="update">内容更新 · ${updated}</div>
   `;
 }
 
@@ -943,6 +1101,20 @@ function fmtTimeAgo(iso) {
   if (min < 1440) return Math.floor(min / 60) + ' 小时前';
   const d = new Date(iso);
   return `${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
+}
+
+/* ============================================================
+ *  顶部时段问候（规范 #10）
+ * ============================================================ */
+function renderGreeting() {
+  const h = new Date().getHours();
+  let text;
+  if (h >= 6  && h < 12) text = '☀️ 早上好，今天想从哪里开始？';
+  else if (h >= 12 && h < 18) text = '🌤️ 下午好，选一个搭子陪你度过今天';
+  else if (h >= 18 && h < 24) text = '🌙 今天辛苦了，选一个搭子放松一下吧';
+  else                         text = '🌃 夜深了，睡眠搭子在等你';
+  const el = $('greeting');
+  if (el) el.textContent = text;
 }
 
 function checkinToday() {
@@ -1023,7 +1195,16 @@ function renderStatusBar() {
     const left  = Math.max(0, limit - used);
     // 前台不显示剩余次数，仅后台在第 6 次触发付费墙
     if (left > 0) {
-      statusPill = `
+      // 今天是否已打卡（规范 #10：打卡后显示温和文案）
+      const checkedToday = !!localStorage.getItem(STORAGE.today());
+      const completedPill = checkedToday
+        ? `
+          <span class="pill" style="background:#f0fff4;border-color:#86efac;">
+            <span class="dot" style="background:#22c55e;"></span>
+            ✅ 今天已经完成一件小事，明天见
+          </span>`
+        : '';
+      statusPill = completedPill + `
         <span class="pill">
           <span class="dot"></span>
           累计打卡 <strong style="color:var(--ink);margin:0 4px">${total}</strong> 次
@@ -1192,6 +1373,7 @@ function renderAll() {
   renderGrid();
   renderStats();
   renderStatusBar();
+  renderGreeting();
 }
 
 
