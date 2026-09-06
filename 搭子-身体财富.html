@@ -848,7 +848,7 @@
     </div>
 
     <!-- 我的状态 -->
-    <div class="weight-chart-card" style="margin-bottom:12px;" data-page-node-id="240naJ1ycvV7C8wgvLucO0">
+    <div class="weight-chart-card" style="margin-bottom:12px;;border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="240naJ1ycvV7C8wgvLucO0">
       <div class="chart-title" data-page-node-id="c7df7Tn5X0LLKxl5Ioohc5">🏠 我的状态</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;" data-page-node-id="FlmkwSsuEP8bRNyBnnVXMc">
         <div style="background:#e8f5e9;border-radius:12px;padding:12px 6px;" data-page-node-id="k4M7AlSSnYSHUHXH4goEwS">
@@ -863,11 +863,11 @@
           <div style="font-size:20px;font-weight:700;color:#1b5e20;" id="shareTotal" data-page-node-id="Ge3EanRjFkwv8LJ2C8TyWF">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="rIo4Gkx3u1biXeGD8QBOLN">累计天数</div>
         </div>
-      </div>
+      </div><div style="margin-top:12px;background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border-radius:14px;padding:16px;"><div style="font-size:13px;color:#2e7d32;line-height:1.8;font-weight:600;" id="sharePnLSummary">还在积累中。开始打卡后这里会出现你的健康账本摘要。</div></div>
     </div>
 
     <!-- 分享邀请卡片 -->
-    <div class="weight-chart-card" data-page-node-id="OreNyp0N2gvmFMx3dxAUob">
+    <div class="weight-chart-card" style="border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="OreNyp0N2gvmFMx3dxAUob">
       <div class="chart-title" data-page-node-id="OIMX5jv0R38ERqjvXjm8Ok">💪 身体财富搭子</div>
       <div style="margin-top:12px;background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;" data-page-node-id="T2NopT6rbgG1Z7eGPENpav">
         <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="Qaw7eLgMy1OZXr2FaRR0az">💪</div>
@@ -1843,7 +1843,15 @@ function showToast(msg, duration = 2000) {
 function copyShareLink() {
   let url = getSiteUrl() + '搭子-身体财富.html';
   navigator.clipboard.writeText(url).then(() => showToast('✅ 邀请链接已复制，快发给朋友吧！'));
+}function updateShareSummary() {
+  var el = document.getElementById('sharePnLSummary');
+  if (!el) return;
+  var st = (document.getElementById('shareStreak') || {}).textContent || '-';
+  var td = (document.getElementById('shareToday') || {}).textContent || '';
+  var tt = (document.getElementById('shareTotal') || {}).textContent || '-';
+  el.innerHTML = '💪 连续打卡 <b>' + st + '</b> · 今日 ' + td + ' · 累计 <b>' + tt + '</b><br>🏃 身体是 1，其余都是 0';
 }
+
 function previewShareCard() {
   let url = getSiteUrl() + 'share.html';
   let history = getHistory();
@@ -3072,6 +3080,7 @@ function renderSharePage() {
   if (totalEl) totalEl.textContent = totalDays;
   let url = getSiteUrl() + '搭子-身体财富.html';
   if (urlEl) urlEl.textContent = url;
+  updateShareSummary();
 }
 
 function getStreak() {

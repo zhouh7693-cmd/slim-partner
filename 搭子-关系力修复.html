@@ -718,7 +718,7 @@
     </div>
 
     <!-- 我的状态 -->
-    <div class="sop-card" style="margin-bottom:12px;" data-page-node-id="Vvw27PWXh2SJwjeR11t9CG">
+    <div class="sop-card" style="margin-bottom:12px;;border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="Vvw27PWXh2SJwjeR11t9CG">
       <div class="chart-title" data-page-node-id="r3grzLvTcwRE4T5D84yacY">💗 我的关系力</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;" data-page-node-id="gBmgJDkg6lGIycm2IO8TwV">
         <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;" data-page-node-id="9I9V4irALKqIhHQmRUc6tI">
@@ -733,11 +733,11 @@
           <div style="font-size:20px;font-weight:700;color:#3de882;" id="shareTotal" data-page-node-id="Rl3WJoPLWh3rC8rpslssXV">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="sAzcdm5CQrcOn2zzxehEuM">累计天数</div>
         </div>
-      </div>
+      </div><div style="margin-top:12px;background:linear-gradient(135deg,#fce4ec,#f3e5f5);border-radius:14px;padding:16px;"><div style="font-size:13px;color:#c2185b;line-height:1.8;font-weight:600;" id="sharePnLSummary">还在积累中。开始打卡后这里会出现你的关系力修炼摘要。</div></div>
     </div>
 
     <!-- 关系力搭子介绍卡片 -->
-    <div class="sop-card" data-page-node-id="UASwbU6hGoQ8dGOJZLHrEM">
+    <div class="sop-card" style="border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="UASwbU6hGoQ8dGOJZLHrEM">
       <div class="chart-title" data-page-node-id="8kUPcyN9yk9KpHeaesT74j">🌸 关系力修炼搭子</div>
       <div style="margin-top:12px;background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;" data-page-node-id="Tm95U7v2DPj6LBBp6TnnMw">
         <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="FwgkFb1lpHLn2WAZfJ0RyO">🌸</div>
@@ -990,7 +990,7 @@ const PARTNERS = [
   { id: 'bridge', name: '桥接', emoji: '🌉', style: 'bridge', desc: '有策略，建立合作', color: '#a5d6a7', fb: { text: '🌉 桥接：每段关系都可以设计，每次沟通都是相互成就的机会。' } }
 ];
 const STORAGE = { PARTNER: 'slim_partner_guanxi', HISTORY: 'slim_history_guanxi', WEIGHT: 'slim_weight_guanxi', SOP: 'slim_sop_guanxi', SOP_STREAKS: 'slim_sop_streaks_guanxi', TARGET_WEIGHT: 'slim_target_guanxi' };
-const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner/guanxi'; // GitHub Pages
+const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner'; // GitHub Pages
 function getSiteUrl() {
   // 生产环境自动用当前域名
   if (window.location.hostname && window.location.hostname.includes('netlify')) {
@@ -3072,21 +3072,30 @@ function renderSharePage() {
   document.getElementById('shareStreak').textContent = conDays + '天';
   document.getElementById('shareToday').textContent = history.some(h => h.date === today && h.checkin) ? '已打卡' : '未打卡';
   document.getElementById('shareTotal').textContent = history.length;
-  let url = getSiteUrl() + 'index.html';
+  let url = getSiteUrl() + '搭子-关系力修复.html';
   document.getElementById('shareUrlDisplay').textContent = url;
+  updateShareSummary();
 }
 
 function copyShareLink() {
-  let url = getSiteUrl() + 'index.html';
+  let url = getSiteUrl() + '搭子-关系力修复.html';
   if (navigator.clipboard) {
     navigator.clipboard.writeText(url).then(() => showToast('链接已复制！去分享给其他想练关系力的朋友吧 🤝'));
   } else {
     prompt('复制以下链接：', url);
   }
+}function updateShareSummary() {
+  var el = document.getElementById('sharePnLSummary');
+  if (!el) return;
+  var st = (document.getElementById('shareStreak') || {}).textContent || '-';
+  var td = (document.getElementById('shareToday') || {}).textContent || '';
+  var tt = (document.getElementById('shareTotal') || {}).textContent || '-';
+  el.innerHTML = '🌸 连续打卡 <b>' + st + '</b> · 今日 ' + td + ' · 累计 <b>' + tt + '</b><br>💞 先接住情绪，再解决问题';
 }
 
+
 function openSharePage() {
-  let url = getSiteUrl() + 'index.html';
+  let url = getSiteUrl() + '搭子-关系力修复.html';
   window.open(url, '_blank');
 }
 
@@ -3096,7 +3105,7 @@ function getStreak() {
 }
 
 function copyMainLink() {
-  navigator.clipboard.writeText(getSiteUrl()+'index.html').then(() => showToast('✅ 链接已复制！'));
+  navigator.clipboard.writeText(getSiteUrl() + '搭子-关系力修复.html').then(() => showToast('✅ 链接已复制！'));
 }
 
 // ==================== Firebase ====================

@@ -2550,12 +2550,12 @@ function renderSharePage() {
     summary = `⏳ 连续打卡 ${continuous} 天 · 自由时间 ${latest}<br>累计 停止 ${cnt.stop} 件 · 做成 SOP ${cnt.skill} 件<br>⏳ 你今天没做的事，比你做的事更定义你是谁`;
   }
   document.getElementById('sharePnLSummary').innerHTML = summary;
-  const url = getSiteUrl() + 'longterm.html';
+  const url = getSiteUrl() + '搭子-长期主义.html';
   document.getElementById('shareUrlDisplay').textContent = url;
 }
 
 function copyShareLink() {
-  let url = getSiteUrl() + 'longterm.html';
+  let url = getSiteUrl() + '搭子-长期主义.html';
   if (navigator.clipboard) navigator.clipboard.writeText(url).then(() => showToast('✅ 链接已复制！'));
   else prompt('复制以下链接：', url);
 }

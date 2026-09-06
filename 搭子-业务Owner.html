@@ -1579,6 +1579,7 @@ function renderSharePage() {
   if (totalEl) totalEl.textContent = history.length;
   var url = getSiteUrl() + '搭子-业务Owner.html';
   if (urlEl) urlEl.textContent = url;
+  updateShareSummary();
 }
 
 function copyShareLink() {
@@ -1588,7 +1589,15 @@ function copyShareLink() {
   } else {
     prompt('复制以下链接：', url);
   }
+}function updateShareSummary() {
+  var el = document.getElementById('sharePnLSummary');
+  if (!el) return;
+  var st = (document.getElementById('shareStreak') || {}).textContent || '-';
+  var td = (document.getElementById('shareToday') || {}).textContent || '';
+  var tt = (document.getElementById('shareTotal') || {}).textContent || '-';
+  el.innerHTML = '💼 连续打卡 <b>' + st + '</b> · 今日 ' + td + ' · 累计 <b>' + tt + '</b><br>🎯 带着方案来，带着结果走';
 }
+
 
 function openSharePage() {
   var url = getSiteUrl() + '搭子-业务Owner.html';
@@ -1848,7 +1857,7 @@ function initProgressPage() {
           <div style="font-size:20px;font-weight:700;color:#4ade80;" id="shareTotal" data-page-node-id="0FxaFk4JEMw7UyAhlinAaz">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="kadV8dhSXYb8fr2TEt4r1G">累计天数</div>
         </div>
-      </div>
+      </div><div style="margin-top:12px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:14px;padding:16px;"><div style="font-size:13px;color:#166534;line-height:1.8;font-weight:600;" id="sharePnLSummary">还在积累中。开始打卡后这里会出现你的业务Owner摘要。</div></div>
     </div>
 
     <!-- 业务Owner介绍卡片 -->

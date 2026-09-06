@@ -2103,6 +2103,7 @@ function renderSharePage() {
   if (totalEl) totalEl.textContent = history.length;
   var url = getSiteUrl() + '搭子-P7-P8.html';
   if (urlEl) urlEl.textContent = url;
+  updateShareSummary();
 }
 
 function copyShareLink() {
@@ -2112,7 +2113,15 @@ function copyShareLink() {
   } else {
     prompt('复制以下链接：', url);
   }
+}function updateShareSummary() {
+  var el = document.getElementById('sharePnLSummary');
+  if (!el) return;
+  var st = (document.getElementById('shareStreak') || {}).textContent || '-';
+  var td = (document.getElementById('shareToday') || {}).textContent || '';
+  var tt = (document.getElementById('shareTotal') || {}).textContent || '-';
+  el.innerHTML = '🎓 连续打卡 <b>' + st + '</b> · 今日 ' + td + ' · 累计 <b>' + tt + '</b><br>📈 向上汇报是本事，向下扛事是担当';
 }
+
 
 function openSharePage() {
   var url = getSiteUrl() + '搭子-P7-P8.html';
@@ -2912,7 +2921,7 @@ function initP7DataPage() {
     </div>
 
     <!-- 我的状态 -->
-    <div class="sop-card" style="margin:16px 12px 12px;">
+    <div class="sop-card" style="margin:16px 12px 12px;;border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);">
       <div class="chart-title">🎓 我的状态</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
         <div style="background:#f0f4fd;border-radius:12px;padding:12px 6px;">
@@ -2927,11 +2936,11 @@ function initP7DataPage() {
           <div style="font-size:20px;font-weight:700;color:#7986cb;" id="shareTotal">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
         </div>
-      </div>
+      </div><div style="margin-top:12px;background:linear-gradient(135deg,#e8edf8,#f0f4fd);border-radius:14px;padding:16px;"><div style="font-size:13px;color:#3a5fcd;line-height:1.8;font-weight:600;" id="sharePnLSummary">还在积累中。开始打卡后这里会出现你的管理成长摘要。</div></div>
     </div>
 
     <!-- P7-P8介绍卡片 -->
-    <div class="sop-card" style="margin:0 12px 12px;">
+    <div class="sop-card" style="margin:0 12px 12px;;border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);">
       <div class="chart-title">🎓 P7升P8成长搭子</div>
       <div style="margin-top:12px;background:linear-gradient(135deg,#e8edf8,#f0f4fd);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;">
         <div style="font-size:48px;margin-bottom:8px;">🎓</div>

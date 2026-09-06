@@ -778,7 +778,7 @@
     </div>
 
     <!-- 我的状态 -->
-    <div class="sop-card" style="margin-bottom:12px;">
+    <div class="sop-card" style="margin-bottom:12px;;border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);">
       <div class="chart-title">🏠 我的状态</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
         <div style="background:#fce4ec;border-radius:12px;padding:12px 6px;">
@@ -793,11 +793,11 @@
           <div style="font-size:20px;font-weight:700;color:#c62828;" id="shareTotal">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
         </div>
-      </div>
+      </div><div style="margin-top:12px;background:linear-gradient(135deg,#fce4ec,#f8bbd0);border-radius:14px;padding:16px;"><div style="font-size:13px;color:#c2185b;line-height:1.8;font-weight:600;" id="sharePnLSummary">还在积累中。开始打卡后这里会出现你的关系账本摘要。</div></div>
     </div>
 
     <!-- 分享邀请卡片 -->
-    <div class="sop-card">
+    <div class="sop-card" style="border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);">
       <div class="chart-title">❤️ 关系财富搭子</div>
       <div style="margin-top:12px;background:linear-gradient(135deg,#fce4ec,#fff3e0);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;">
         <div style="font-size:48px;margin-bottom:8px;">❤️</div>
@@ -1887,7 +1887,15 @@ function showToast(msg, duration = 2000) {
 function copyShareLink() {
   let url = getSiteUrl() + '搭子-关系财富.html';
   navigator.clipboard.writeText(url).then(() => showToast('✅ 邀请链接已复制，快发给朋友吧！'));
+}function updateShareSummary() {
+  var el = document.getElementById('sharePnLSummary');
+  if (!el) return;
+  var st = (document.getElementById('shareStreak') || {}).textContent || '-';
+  var td = (document.getElementById('shareToday') || {}).textContent || '';
+  var tt = (document.getElementById('shareTotal') || {}).textContent || '-';
+  el.innerHTML = '💗 连续打卡 <b>' + st + '</b> · 今日 ' + td + ' · 累计 <b>' + tt + '</b><br>🌸 好的关系，是能量而不是消耗';
 }
+
 function previewShareCard() {
   let url = getSiteUrl() + 'share.html';
   let history = getHistory();
@@ -2791,6 +2799,7 @@ function renderSharePage() {
   if (totalEl) totalEl.textContent = totalDays;
   let url = getSiteUrl() + '搭子-关系财富.html';
   if (urlEl) urlEl.textContent = url;
+  updateShareSummary();
 }
 
 function getStreak() {

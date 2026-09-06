@@ -1022,7 +1022,7 @@
     </div>
 
     <!-- 我的状态 -->
-    <div class="sop-card" style="margin-bottom:12px;">
+    <div class="sop-card" style="margin-bottom:12px;;border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);">
       <div class="chart-title">🏠 我的状态</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
         <div style="background:#f3e8f7;border-radius:12px;padding:12px 6px;">
@@ -1037,11 +1037,11 @@
           <div style="font-size:20px;font-weight:700;color:#e91e63;" id="shareTotal">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
         </div>
-      </div>
+      </div><div style="margin-top:12px;background:linear-gradient(135deg,#fdeff2,#fce4ec);border-radius:14px;padding:16px;"><div style="font-size:13px;color:#c2185b;line-height:1.8;font-weight:600;" id="sharePnLSummary">还在积累中。开始打卡后这里会出现你的陪读时光摘要。</div></div>
     </div>
 
     <!-- 分享邀请卡片 -->
-    <div class="sop-card">
+    <div class="sop-card" style="border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);">
       <div class="chart-title">🌸 陪读妈妈搭子</div>
       <div style="margin-top:12px;background:linear-gradient(135deg,#f3e8f7,#fce4ec);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;">
         <div style="font-size:48px;margin-bottom:8px;">👩‍👧</div>
@@ -2299,6 +2299,7 @@ function renderSharePage() {
   document.getElementById('shareStreak').textContent = conDays + '天';
   document.getElementById('shareToday').textContent = history.some(h => h.date === today && h.checkin) ? '已打卡' : '未打卡';
   document.getElementById('shareTotal').textContent = history.length;
+  updateShareSummary();
 }
 
 function copyShareLink() {
@@ -2308,7 +2309,15 @@ function copyShareLink() {
   } else {
     prompt('复制以下链接：', url);
   }
+}function updateShareSummary() {
+  var el = document.getElementById('sharePnLSummary');
+  if (!el) return;
+  var st = (document.getElementById('shareStreak') || {}).textContent || '-';
+  var td = (document.getElementById('shareToday') || {}).textContent || '';
+  var tt = (document.getElementById('shareTotal') || {}).textContent || '-';
+  el.innerHTML = '📖 连续打卡 <b>' + st + '</b> · 今日 ' + td + ' · 累计 <b>' + tt + '</b><br>🌷 先照顾好自己，再陪伴孩子';
 }
+
 
 function openSharePage() {
   let url = getSiteUrl() + '陪读妈妈搭子.html';

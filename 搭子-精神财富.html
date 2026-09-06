@@ -778,7 +778,7 @@
     </div>
 
     <!-- 我的状态 -->
-    <div class="sop-card" style="margin-bottom:12px;" data-page-node-id="6xGstym3QVnPFmIAfXMik8">
+    <div class="sop-card" style="margin-bottom:12px;;border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="6xGstym3QVnPFmIAfXMik8">
       <div class="chart-title" data-page-node-id="HTniMd7ppfQoFRZFt6T6oM">🏠 我的状态</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;" data-page-node-id="DCqEVT3CqRG5g6Aoi2CQrP">
         <div style="background:#ede7f6;border-radius:12px;padding:12px 6px;" data-page-node-id="XzqQP5tW5fcZpxRCh2NEAl">
@@ -793,11 +793,11 @@
           <div style="font-size:20px;font-weight:700;color:#3949ab;" id="shareTotal" data-page-node-id="d6HzGHLFdzxAOgrxF8Btd5">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="iVD7XLX11eiRsUV1MuEoR4">累计天数</div>
         </div>
-      </div>
+      </div><div style="margin-top:12px;background:linear-gradient(135deg,#f3e5f5,#ede7f6);border-radius:14px;padding:16px;"><div style="font-size:13px;color:#6a1b9a;line-height:1.8;font-weight:600;" id="sharePnLSummary">还在积累中。开始打卡后这里会出现你的精神账本摘要。</div></div>
     </div>
 
     <!-- 分享邀请卡片 -->
-    <div class="sop-card" data-page-node-id="1QXPBuCRJn4KPGIQNzYZDm">
+    <div class="sop-card" style="border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="1QXPBuCRJn4KPGIQNzYZDm">
       <div class="chart-title" data-page-node-id="WLbvyhlb5IPZE9tbbVwF09">🧘 精神财富搭子</div>
       <div style="margin-top:12px;background:linear-gradient(135deg,#ede7f6,#e8eaf6);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;" data-page-node-id="MbOs5yQJblYZASuzzSIQGN">
         <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="qi1xugzpAxrsieIxuViNTc">🧘</div>
@@ -2480,7 +2480,15 @@ function showToast(msg, duration = 2000) {
 function copyShareLink() {
   let url = getSiteUrl() + '搭子-精神财富.html';
   navigator.clipboard.writeText(url).then(() => showToast('✅ 邀请链接已复制，快发给朋友吧！'));
+}function updateShareSummary() {
+  var el = document.getElementById('sharePnLSummary');
+  if (!el) return;
+  var st = (document.getElementById('shareStreak') || {}).textContent || '-';
+  var td = (document.getElementById('shareToday') || {}).textContent || '';
+  var tt = (document.getElementById('shareTotal') || {}).textContent || '-';
+  el.innerHTML = '📚 连续打卡 <b>' + st + '</b> · 今日 ' + td + ' · 累计 <b>' + tt + '</b><br>🌿 读书是成本最低的贵气';
 }
+
 function previewShareCard() {
   let url = getSiteUrl() + 'share.html';
   let history = getHistory();
@@ -2563,6 +2571,7 @@ function renderSharePage() {
   if (totalEl) totalEl.textContent = totalDays;
   let url = getSiteUrl() + '搭子-精神财富.html';
   if (urlEl) urlEl.textContent = url;
+  updateShareSummary();
 }
 
 function getStreak() {
