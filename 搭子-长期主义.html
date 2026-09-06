@@ -147,13 +147,13 @@
     .interaction-panel { max-width: 420px; margin: 0 auto 20px; background: white; border-radius: 28px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .panel-label { font-size: 12px; color: #8f9eae; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
     .mood-row { display: flex; justify-content: space-around; margin-bottom: 14px; }
-    .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; }
+    .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; pointer-events: auto !important; touch-action: manipulation; }
     .mood-btn:hover, .mood-btn:active { background: #fff3df; transform: scale(1.15); }
     .talk-btn-row { display: flex; gap: 8px; }
     .talk-btn {
       flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #e9edf2;
       background: white; font-size: 14px; font-weight: 500; color: #8b6914;
-      cursor: pointer; transition: all 0.15s;
+      cursor: pointer; transition: all 0.15s; pointer-events: auto !important; touch-action: manipulation;
     }
     .talk-btn:active { background: #fff8e7; transform: scale(0.97); }
 
@@ -478,14 +478,14 @@
         <div class="mood-btn" onclick="sendMood('tired')" title="累" data-page-node-id="jLCajx5VlbiI7e4WgGVcNC">😴</div>
       </div>
       <div class="talk-btn-row" data-page-node-id="uXkHX0k0zaSKH375u0polB">
-        <button class="talk-btn" onclick="askPartner('progress')" data-page-node-id="4YLyq8iczLO95wTM8nC5xM">📈 进展</button>
+        <button class="talk-btn" data-type="progress" onclick="askPartner('progress')" data-page-node-id="4YLyq8iczLO95wTM8nC5xM">📈 进展</button>
         <button class="talk-btn" onclick="askPartner('struggle')" data-page-node-id="nkgfbTqF73QqcHCKx3opwr">😣 卡点</button>
         <button class="talk-btn" onclick="askPartner('idea')" data-page-node-id="Xn0hR5NrugKTRdI2oCxVKh">💡 想法</button>
         <button class="talk-btn" onclick="askPartner('cheer')" data-page-node-id="KDk5WeLwh7mFRlMobaCwf8">🎉 突破</button>
       </div>
       <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="ju3baUcHRYhweDTXKSNBKv">
         <button class="talk-btn" onclick="askPartner('report')" data-page-node-id="ec5QP28PFHcbWbk2JcKs72">📣 汇报</button>
-        <button class="talk-btn" onclick="askPartner('question')" data-page-node-id="Ap3DMS2zTM96iKEcedoHJC">🤔 提问</button>
+        <button class="talk-btn" data-type="question" onclick="askPartner('question')" data-page-node-id="Ap3DMS2zTM96iKEcedoHJC">🤔 提问</button>
       </div>
     </div>
 
@@ -758,14 +758,14 @@
       <div class="mood-btn" onclick="sendMood('tired')" title="累" data-page-node-id="TfEVtJRXoDrOceKi1ks4p1">😴</div>
     </div>
     <div class="talk-btn-row" data-page-node-id="sxLrnLAq0MwA0tlLGiDqJg">
-      <button class="talk-btn" onclick="askPartner('progress')" data-page-node-id="sQcdoMXCSSlJs7Ensmcjrs">📈 进展</button>
+      <button class="talk-btn" data-type="progress" onclick="askPartner('progress')" data-page-node-id="sQcdoMXCSSlJs7Ensmcjrs">📈 进展</button>
       <button class="talk-btn" onclick="askPartner('struggle')" data-page-node-id="yGQHfeuMd2rfcySYWrw5vW">😣 卡点</button>
       <button class="talk-btn" onclick="askPartner('idea')" data-page-node-id="21kPgS4nsdK9Sk8qlmFfRH">💡 想法</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="DB2HVZ8JtSKiGSga500OaY">
       <button class="talk-btn" onclick="askPartner('cheer')" data-page-node-id="3MUigkLT44t3iv0ZFXZsz8">🎉 突破</button>
       <button class="talk-btn" onclick="askPartner('report')" data-page-node-id="3FuzacuaLQNICgODpbmcCV">📣 汇报</button>
-      <button class="talk-btn" onclick="askPartner('question')" data-page-node-id="OFjchGaESuQi3vEJqBGDUt">🤔 提问</button>
+      <button class="talk-btn" data-type="question" onclick="askPartner('question')" data-page-node-id="OFjchGaESuQi3vEJqBGDUt">🤔 提问</button>
     </div>
   </div>
 </div>
@@ -1855,6 +1855,21 @@ function switchTab(tab) {
   if (tab === 'share') renderSharePage();
   if (tab === 'chat') renderPartnerPage();
   if (tab === 'checkin') refreshDashboard();
+  if (tab === 'chat') bindLongInteractionFallback();
+}
+
+// 事件委托兜底：mood-btn / talk-btn 即使 inline onclick 被覆盖也能响应
+function bindLongInteractionFallback() {
+  if (window.__longFBound) return;
+  window.__longFBound = true;
+  document.querySelectorAll('.interaction-panel').forEach((panel) => {
+    panel.addEventListener('click', (e) => {
+      const m = e.target.closest('.mood-btn');
+      const t = e.target.closest('.talk-btn');
+      if (m) { const k = m.getAttribute('data-mood'); if (k) sendMood(k); }
+      if (t) { const k = t.getAttribute('data-type'); if (k) askPartner(k); }
+    }, true);
+  });
 }
 
 // ==================== 打卡 ====================
