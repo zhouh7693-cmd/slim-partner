@@ -338,6 +338,9 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
   </div>
 </div>
 
+<!-- 分类确认卡弹窗（参照睡眠搭子） -->
+<div class="sop-finish-overlay" id="catSummaryOverlay" style="z-index:320;"></div>
+
 <!-- SOP 完成弹窗 -->
 <div class="sop-finish-overlay" id="sopFinishOverlay" data-page-node-id="CaoFYXdvpXEOLVCZgAeiuH">
   <div class="sop-finish-card" data-page-node-id="RcjYMMc9YSwtItTKkst93x">
@@ -1062,11 +1065,11 @@ function initSOP() {
     sopDone = false;
     sopSubmittedCats = [];
   } else {
-    sopScore = d.score || 0;
     sopSelected = d.selected || {};
     sopDone = d.done || false;
     sopSubmittedCats = d.submittedCats || [];
   }
+  recalcSOPScore();
   updateSOPDisplay();
   renderSOPCats();
   renderSOPTips();
@@ -1078,7 +1081,7 @@ function updateSOPDisplay() {
   var pos = 0, neg = 0;
   for (var k in sopSelected) {
     var sel = sopSelected[k] || [];
-    sel.forEach(function(s){ if (s>0) pos++; else if (s<0) neg++; });
+    sel.forEach(function(s){ if (s>=0) pos++; else if (s<0) neg++; });
   }
   document.getElementById('sopPosCount').textContent = pos;
   document.getElementById('sopNegCount').textContent = neg;
@@ -1137,10 +1140,8 @@ function sopCheck(idx, type) {
     if (posIdx === -1) {
       if (negIdx !== -1) sel.splice(negIdx, 1);
       sel.push(idx);
-      sopScore += cat.items[idx].pts;
     } else {
       sel.splice(posIdx, 1);
-      sopScore -= cat.items[idx].pts;
     }
   } else {
     if (negIdx === -1) {
@@ -1151,25 +1152,87 @@ function sopCheck(idx, type) {
     }
   }
   sopSelected[cat.id] = sel;
-  sopScore = Math.max(0, Math.min(100, sopScore));
+  recalcSOPScore();
   updateSOPDisplay();
   renderSOPList();
   saveCurrentSOPState();
 }
 
 function submitSOPCat() {
-  if (sopSubmittedCats.indexOf(SOP_CATEGORIES[sopCatIdx].id) === -1) {
-    sopSubmittedCats.push(SOP_CATEGORIES[sopCatIdx].id);
-    saveCurrentSOPState();
-    updateSOPCatStreak(SOP_CATEGORIES[sopCatIdx].id, sopScore);
+  var cat = SOP_CATEGORIES[sopCatIdx];
+  var sel = sopSelected[cat.id] || [];
+  var yesCount = sel.filter(function(x){ return x >= 0; }).length;
+  var catPct = Math.round(yesCount / cat.items.length * 100);
+  if (sopSubmittedCats.indexOf(cat.id) === -1) {
+    sopSubmittedCats.push(cat.id);
+    updateSOPCatStreak(cat.id, catPct);
   }
+  recalcSOPScore();
+  saveCurrentSOPState();
   renderSOPCats();
-  renderSOPList();
+  updateSOPDisplay();
+  var allDone = sopSubmittedCats.length >= SOP_CATEGORIES.length;
+  if (allDone) {
+    if (!sopDone) {
+      sopDone = true;
+      saveCurrentSOPState();
+      saveCurrentSOPToHistory();
+      setTimeout(function(){ showSOPFinish(); }, 200);
+    }
+  } else {
+    setTimeout(function(){ showCatSummary(cat, yesCount, catPct); }, 200);
+  }
+}
+
+/* 自动计算统计总数：按所有维度 完成项/总项数×100 */
+function recalcSOPScore() {
+  var totalYes = 0, totalItems = 0;
+  SOP_CATEGORIES.forEach(function(c){
+    var sel = sopSelected[c.id] || [];
+    totalItems += c.items.length;
+    sel.forEach(function(x){ if (x >= 0) totalYes++; });
+  });
+  sopScore = totalItems ? Math.round(totalYes / totalItems * 100) : 0;
+}
+
+/* 分类确认卡（参照睡眠搭子） */
+function showCatSummary(cat, yesCount, catPct) {
+  var overlay = document.getElementById('catSummaryOverlay');
+  if (!overlay) return;
+  var total = cat.items.length;
+  var streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+  var emoji = catPct >= 80 ? '🌟' : catPct >= 50 ? '💪' : '🌱';
+  var msg = catPct >= 80 ? '这个维度完成得很扎实，保持！'
+          : catPct >= 50 ? '不错的基础，明天再补齐几项！'
+          : '先有个开始就赢了一半，明天继续！';
+  var isLast = sopSubmittedCats.length >= SOP_CATEGORIES.length;
+  overlay.innerHTML = '<div class="sop-finish-card">' +
+    '<div style="font-size:54px;margin-bottom:4px;">' + emoji + '</div>' +
+    '<div style="font-size:16px;font-weight:900;color:#1a2535;margin-bottom:2px;">' + cat.icon + ' ' + cat.name + '</div>' +
+    '<div style="font-size:34px;font-weight:900;color:' + cat.color + ';margin:6px 0;">' + catPct + '%</div>' +
+    '<div style="font-size:13px;color:#78909c;margin-bottom:10px;">' + yesCount + ' / ' + total + ' 项完成' + (streak > 0 ? ' · 🔥 已连续' + streak + '天' : '') + '</div>' +
+    '<div style="font-size:13px;color:#37474f;background:#f8fafc;border-radius:12px;padding:10px 12px;margin-bottom:14px;">' + msg + '</div>' +
+    '<button onclick="closeCatSummary()" class="sf-btn">✅ ' + (isLast ? '查看今日总结' : '继续下一个维度') + '</button>' +
+    '</div>';
+  overlay.classList.add('show');
+}
+
+function closeCatSummary() {
+  var overlay = document.getElementById('catSummaryOverlay');
+  if (overlay) overlay.classList.remove('show');
   if (sopSubmittedCats.length >= SOP_CATEGORIES.length) {
-    sopDone = true;
-    saveCurrentSOPState();
-    saveCurrentSOPToHistory();
-    showSOPFinish();
+    setTimeout(function(){ showSOPFinish(); }, 400);
+  } else {
+    var nextCat = -1;
+    for (var i = 0; i < SOP_CATEGORIES.length; i++) {
+      if (sopSubmittedCats.indexOf(SOP_CATEGORIES[i].id) === -1) { nextCat = i; break; }
+    }
+    if (nextCat >= 0) {
+      sopCatIdx = nextCat;
+      renderSOPCats();
+      renderSOPTips();
+      renderSOPList();
+    }
   }
 }
 
@@ -1217,11 +1280,14 @@ function showSOPFinish() {
   var title = sopScore >= 80 ? 'AI技能拉满！' : sopScore >= 60 ? '稳步成长中！' : '继续加油！';
   document.getElementById('sfEmoji').textContent = emoji;
   document.getElementById('sfTitle').textContent = title;
+  var streaksAll = getSOPStreaks();
   var catsHtml = '';
   SOP_CATEGORIES.forEach(function(cat){
     var sel = sopSelected[cat.id] || [];
     var yes = sel.filter(function(s){ return s>=0; }).length;
-    catsHtml += '<div class="sf-cat-row"><span class="sf-cat-icon">'+cat.icon+'</span><span class="sf-cat-name">'+cat.name+'</span><span class="sf-cat-yes">'+yes+'/'+cat.items.length+'</span></div>';
+    var pct = Math.round(yes / cat.items.length * 100);
+    var st = (streaksAll[cat.id] || {}).streak || 0;
+    catsHtml += '<div class="sf-cat-row"><span class="sf-cat-icon">'+cat.icon+'</span><span class="sf-cat-name">'+cat.name+' <b style="color:'+cat.color+';">'+pct+'%</b></span><span class="sf-cat-yes">'+yes+'/'+cat.items.length+'</span>'+(st>0?'<span style="font-size:11px;font-weight:800;color:#e65100;flex-shrink:0;">🔥'+st+'天</span>':'')+'</div>';
   });
   document.getElementById('sfCats').innerHTML = catsHtml;
   document.getElementById('sopFinishOverlay').classList.add('show');
