@@ -99,10 +99,10 @@
     .interaction-panel { max-width: 420px; margin: 0 auto 20px; background: white; border-radius: 28px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .panel-label { font-size: 12px; color: #8f9eae; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
     .mood-row { display: flex; justify-content: space-around; margin-bottom: 14px; }
-    .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all .15s; background: transparent; border: none; }
+    .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all .15s; background: transparent; border: none; pointer-events: auto !important; touch-action: manipulation; }
     .mood-btn:active { background: #e8e7ff; transform: scale(1.15); }
     .talk-btn-row { display: flex; gap: 8px; }
-    .talk-btn { flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #e9edf2; background: white; font-size: 14px; font-weight: 500; color: #3a3d8f; cursor: pointer; transition: all .15s; }
+    .talk-btn { flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #e9edf2; background: white; font-size: 14px; font-weight: 500; color: #3a3d8f; cursor: pointer; transition: all .15s; pointer-events: auto !important; touch-action: manipulation; }
     .talk-btn:active { background: #e8e7ff; transform: scale(0.97); }
 
     /* ===== 每日提示 ===== */
@@ -700,16 +700,16 @@
   <div class="interaction-panel" data-page-node-id="aMpSysvAEnkhAEnpaI80Ih">
     <div class="panel-label" data-page-node-id="IBSy0HzjxcJPznIspPEvjn">💬 和搭子说说话</div>
     <div class="mood-row" data-page-node-id="LlDArCTbJCfzrykcx57q5R">
-      <div class="mood-btn" onclick="sendMood('calm')" title="平静" data-page-node-id="pZ5FCUyobwixpZN8KBRLKS">🌙</div>
-      <div class="mood-btn" onclick="sendMood('tired')" title="累" data-page-node-id="XoddV0tAn6CSYfaYSTDvUU">😴</div>
-      <div class="mood-btn" onclick="sendMood('anxious')" title="焦虑" data-page-node-id="bHPNWmHbdVLOIjBWfSf0nu">😣</div>
-      <div class="mood-btn" onclick="sendMood('energetic')" title="有劲" data-page-node-id="hHK0pY8vJgvdi8EFXBispA">⚡</div>
+      <div class="mood-btn" data-mood="calm" onclick="sendMood('calm')" title="平静" data-page-node-id="pZ5FCUyobwixpZN8KBRLKS">🌙</div>
+      <div class="mood-btn" data-mood="tired" onclick="sendMood('tired')" title="累" data-page-node-id="XoddV0tAn6CSYfaYSTDvUU">😴</div>
+      <div class="mood-btn" data-mood="anxious" onclick="sendMood('anxious')" title="焦虑" data-page-node-id="bHPNWmHbdVLOIjBWfSf0nu">😣</div>
+      <div class="mood-btn" data-mood="energetic" onclick="sendMood('energetic')" title="有劲" data-page-node-id="hHK0pY8vJgvdi8EFXBispA">⚡</div>
     </div>
     <div class="talk-btn-row" data-page-node-id="5rrwh1pQrVLFO2Y9KsC8tr">
-      <button class="talk-btn" onclick="askPartner('progress')" data-page-node-id="pzCabpMvaCyNY7xqUqPy8u">📈 进展</button>
-      <button class="talk-btn" onclick="askPartner('struggle')" data-page-node-id="NkUJixBGvmcuLuAgu79kP0">😣 睡不着</button>
-      <button class="talk-btn" onclick="askPartner('idea')" data-page-node-id="rPY8C4vXAwuSkCePXmMXh6">💡 想法</button>
-      <button class="talk-btn" onclick="askPartner('cheer')" data-page-node-id="jb07aSOjDkucfQ4FOfaKSq">🎉 突破了</button>
+      <button class="talk-btn" data-type="progress" onclick="askPartner('progress')" data-page-node-id="pzCabpMvaCyNY7xqUqPy8u">📈 进展</button>
+      <button class="talk-btn" data-type="struggle" onclick="askPartner('struggle')" data-page-node-id="NkUJixBGvmcuLuAgu79kP0">😣 睡不着</button>
+      <button class="talk-btn" data-type="idea" onclick="askPartner('idea')" data-page-node-id="rPY8C4vXAwuSkCePXmMXh6">💡 想法</button>
+      <button class="talk-btn" data-type="cheer" onclick="askPartner('cheer')" data-page-node-id="jb07aSOjDkucfQ4FOfaKSq">🎉 突破了</button>
     </div>
   </div>
 
@@ -978,6 +978,30 @@ function switchTab(tab) {
   if (tab === 'progress') renderProgress();
   if (tab === 'coach') initSleepCoach();
   if (tab === 'chat') { initChat(); chatGreet(); }
+  // 兜底：捕获阶段再绑一次 mood/talk
+  bindSleepInteractionFallback();
+}
+
+function bindSleepInteractionFallback() {
+  if (window._sleepFBBound) return;
+  window._sleepFBBound = true;
+  const panel = document.querySelector('.interaction-panel');
+  if (panel) {
+    panel.addEventListener('click', e => {
+      const mood = e.target.closest('.mood-btn');
+      const talk = e.target.closest('.talk-btn');
+      if (mood) {
+        const m = mood.getAttribute('data-mood');
+        if (m) sendMood(m);
+        return;
+      }
+      if (talk) {
+        const t = talk.getAttribute('data-type');
+        if (t) askPartner(t);
+        return;
+      }
+    }, true);
+  }
 }
 
 // ===== 睡眠记录（KPI / 数值） =====
@@ -1450,6 +1474,17 @@ function pickTag(id, el) {
   el.classList.add('selected');
 }
 
+// 「和搭子说说话」面板的简易聊天追加（不进对话 Tab 的 chat-list，复用 chatArea）
+function appendChat(role, text) {
+  const area = document.getElementById('chatArea');
+  if (!area) return;
+  const meHtml = `<div class="msg-bubble-wrap" style="flex-direction:row-reverse;justify-content:flex-start;"><div class="msg-bubble">${text}</div><div class="msg-avatar">🙂</div></div>`;
+  const partner = currentPartner || PARTNERS[0];
+  const aiHtml = `<div class="msg-bubble-wrap"><div class="msg-avatar">${partner.emoji}</div><div class="msg-bubble ai">${text}</div></div>`;
+  area.innerHTML += (role === 'me') ? meHtml : aiHtml;
+  area.scrollTop = area.scrollHeight;
+}
+
 function doCheckin() {
   const history = getLS(STORAGE.history, '[]');
   const today = getToday();
@@ -1618,31 +1653,129 @@ function nextDailyTip() {
 }
 
 function sendMood(mood) {
+  const p = currentPartner || PARTNERS[0];
   const replies = {
-    calm: '平静是最好的睡前状态，保持它。',
-    tired: '累的话就允许自己早点躺下，今晚不硬撑。',
-    anxious: '焦虑时，先做 3 个深呼吸，然后再决定几点睡。',
-    energetic: '有劲是好事，但晚上还是要设个上限。'
+    moon: {
+      calm:      '🌙 月亮：平静就是最好的睡前状态，今晚的我陪你守一会儿。',
+      tired:     '🌙 月亮：累就别硬撑，今晚允许自己早一点躺下。',
+      anxious:   '🌙 月亮：焦虑会偷走睡眠。试试先做 3 个深呼吸，再决定几点睡。',
+      energetic: '🌙 月亮：有劲是好事，但晚上还是设个上限，别把能量熬干。'
+    },
+    lamp: {
+      calm:      '💡 灯泡：今晚的节奏很稳。把手机放到另一个房间试试，更稳。',
+      tired:     '💡 灯泡：累的时候最容易躺下刷屏——把睡前那 30 分钟留给自己。',
+      anxious:   '💡 灯泡：焦虑时做一件事就好——把今天最重要的一件事写下来，然后放手。',
+      energetic: '💡 灯泡：能量多时可以提前做明天的起床准备（衣服、闹钟、咖啡）。'
+    },
+    pillow: {
+      calm:      '🛏️ 枕头：今晚的你会感谢现在的你。躺下就是胜利。',
+      tired:     '🛏️ 枕头：身体在告诉你它累了，听它的，今晚早点躺。',
+      anxious:   '🛏️ 枕头：脑子停不下来，就把担心的事写下来，再交给枕头。',
+      energetic: '🛏️ 枕头：有劲也允许躺下。清醒地放松，也是练习。'
+    }
   };
-  const area = document.getElementById('chatArea');
-  area.innerHTML += `<div class="msg-bubble-wrap" style="flex-direction:row-reverse;"><div class="msg-bubble">${mood}</div><div class="msg-avatar">🙂</div></div>`;
-  setTimeout(() => {
-    area.innerHTML += `<div class="msg-bubble-wrap"><div class="msg-avatar">${currentPartner.emoji}</div><div class="msg-bubble ai">${replies[mood]}</div></div>`;
-  }, 300);
+  const text = (replies[p.id] || replies.moon)[mood] || '🌙 我在。';
+  appendChat('me', moodEmoji(mood));
+  setTimeout(() => appendChat('partner', text), 350);
+}
+
+function moodEmoji(m) {
+  return { calm:'🌙 平静', tired:'😴 累', anxious:'😣 焦虑', energetic:'⚡ 有劲' }[m] || m;
 }
 
 function askPartner(topic) {
-  const replies = {
-    progress: '看看本周打卡，你已经把几个晚上还给自己了？',
-    struggle: '睡不着的时候，不要和手机对抗，把它放到另一个房间。',
-    idea: '有什么想法随时说，睡眠搭子不评判。',
-    cheer: '太棒了！一个好夜晚会带动下一个好夜晚。'
+  const p = currentPartner || PARTNERS[0];
+  const openers = {
+    moon:   { progress:'🌙 月亮：看看本周打卡，你已经把几个晚上还给自己了？', struggle:'🌙 月亮：睡不着的时候不要和手机对抗，把它放到另一个房间。', idea:'🌙 月亮：有什么想法随时说，睡眠搭子不评判。', cheer:'🌙 月亮：一个好夜晚会带动下一个好夜晚。' },
+    lamp:   { progress:'💡 灯泡：本周你做了哪些睡前的小动作？哪怕一个也算数。', struggle:'💡 灯泡：睡不着通常有 1-2 个小诱因，把这两天的对照一下看看。', idea:'💡 灯泡：和睡眠有关的想法大胆说，我帮你看看可不可行。', cheer:'💡 灯泡：做到了就记下来，下周你回看会笑。' },
+    pillow: { progress:'🛏️ 枕头：今晚你想拿哪一件小事说？', struggle:'🛏️ 枕头：先别说怎么解决，躺着把难受说出来就好。', idea:'🛏️ 枕头：想到什么说什么，我听着。', cheer:'🛏️ 枕头：好事不管大小，都可以说。' }
   };
-  const area = document.getElementById('chatArea');
-  area.innerHTML += `<div class="msg-bubble-wrap" style="flex-direction:row-reverse;"><div class="msg-bubble">${topic}</div><div class="msg-avatar">🙂</div></div>`;
+  const opener = (openers[p.id] || openers.moon)[topic] || '🌙 我在。';
+  const label = { progress:'📈 进展', struggle:'😣 睡不着', idea:'💡 想法', cheer:'🎉 突破了' }[topic] || topic;
+
+  // 第 5/6 类提问主题没数据时也展示「自检引导」
+  if (['progress','struggle','idea','cheer'].indexOf(topic) === -1) {
+    appendChat('me', label);
+    setTimeout(() => appendChat('partner', opener), 350);
+    return;
+  }
+
+  appendChat('me', label);
   setTimeout(() => {
-    area.innerHTML += `<div class="msg-bubble-wrap"><div class="msg-avatar">${currentPartner.emoji}</div><div class="msg-bubble ai">${replies[topic]}</div></div>`;
-  }, 300);
+    appendChat('partner', opener);
+    setTimeout(() => openSleepTypePanel(topic), 500);
+  }, 400);
+}
+
+// ===== 睡眠主题的 6 类场景（用于弹反馈面板）=====
+const SLEEP_TYPE_SCENES = {
+  progress: [
+    { icon:'🌙', tag:'早睡', title:'今晚 22:30 前躺下', text:'节律稳定是睡眠改善的最大杠杆。连续 3 天 22:30 前躺下，身体会开始期待这个时间。', quote:'🌙 月亮：你已经在用行动帮自己，了不起。' },
+    { icon:'📵', tag:'关屏', title:'睡前 30 分钟放下手机', text:'蓝光会压制褪黑素的释放。提前 30 分钟放下手机，入睡速度会快 20-30%。', quote:'💡 灯泡：今晚给自己这 30 分钟，比刷剧值。' },
+    { icon:'🛁', tag:'放松', title:'今晚做了 15 分钟放松', text:'热水澡 / 拉伸 / 听白噪音，都能向身体发出「该休息了」的信号。', quote:'🛏️ 枕头：身体会记住这种节奏，今晚会睡得更深。' },
+    { icon:'📓', tag:'记录', title:'记了今天睡前的状态', text:'记录让节律可见。哪怕只是一句话，明天回看都能看见自己的变化。', quote:'🌙 月亮：你开始把自己当回事了。' }
+  ],
+  struggle: [
+    { icon:'📱', tag:'刷屏', title:'睡前 1 小时还在刷手机', text:'手机的蓝光 + 信息刺激，会让大脑以为「还不到睡的时候」。试试把手机放到另一个房间。', quote:'💡 灯泡：不需要戒掉，先做「分开」就行。' },
+    { icon:'😣', tag:'睡不着', title:'躺下 30 分钟还没睡着', text:'别躺着焦虑。起来做点无聊的事（看书、整理），等困意回来再躺。', quote:'🌙 月亮：失眠最怕的是和床较劲，今晚放过自己。' },
+    { icon:'🌙', tag:'惊醒', title:'凌晨 2-4 点醒来', text:'这种醒来通常和压力有关。试着醒来时做 5 次深呼吸，不看时间。', quote:'🛏️ 枕头：醒了就躺着，不看钟，你已经在修复了。' },
+    { icon:'🍕', tag:'夜宵', title:'睡前 2 小时吃了东西', text:'胃在消化，身体就没法进入深度修复。试着把吃东西放到睡前 3 小时前。', quote:'💡 灯泡：这不是节食，是给身体一个清晰的入睡信号。' }
+  ],
+  idea: [
+    { icon:'🧘', tag:'呼吸', title:'想试试 4-7-8 呼吸法', text:'吸气 4 秒、屏 7 秒、呼 8 秒。一组 4 次，做 1-2 组就能感觉到平静。', quote:'🌙 月亮：呼吸是唯一能主动控制节律的开关。' },
+    { icon:'☕', tag:'咖啡', title:'打算把咖啡时间提前到中午', text:'咖啡因的半衰期是 6 小时。下午 2 点之后喝咖啡，等于把自己扔进「失眠」的温床。', quote:'💡 灯泡：很多「焦虑」其实是咖啡因的延迟账单。' },
+    { icon:'🚶', tag:'动起来', title:'想在白天加 20 分钟散步', text:'白天的运动是晚上睡眠的预约。20 分钟散步，比任何褪黑素都管用。', quote:'🌙 月亮：把运动当成给身体的"睡前红包"。' },
+    { icon:'⏰', tag:'节律', title:'想把起床时间固定下来', text:'比起几点睡，几点起床更影响睡眠节律。先把起床时间锁住，身体会自动倒推睡眠。', quote:'🛏️ 枕头：节律比时长更重要，先锁住起床时间。' }
+  ],
+  cheer: [
+    { icon:'✨', tag:'早睡', title:'今晚 22 点前就躺下了', text:'能提前躺下是 P7 升 P8 级别的事——你拿回了晚上的主动权。', quote:'🌙 月亮：今晚的你会感谢现在的你。' },
+    { icon:'🛌', tag:'整夜', title:'睡了 7.5 小时，质量不错', text:'7-9 小时是黄金区间。质量+时长同时在线，明天会感谢今晚的你。', quote:'🛏️ 枕头：你今晚和身体和解了，做得好。' },
+    { icon:'⚡', tag:'醒得爽', title:'早上起来不困，精力充沛', text:'这是「修复到位」的最佳证明。继续保持节奏，下周会更稳。', quote:'💡 灯泡：身体在用精力回报你。' },
+    { icon:'📵', tag:'放手机', title:'今晚成功把手机放到了另一个房间', text:'这是最难做的小事。做到了，今晚的褪黑素会感谢你。', quote:'🌙 月亮：你已经开始为睡眠投资了。' }
+  ]
+};
+
+function openSleepTypePanel(topic) {
+  const data = SLEEP_TYPE_SCENES[topic] || [];
+  if (!data.length) return;
+  const titleMap = {
+    progress: '📈 选一个最近的进展',
+    struggle: '😣 选一个正在面对的入睡困难',
+    idea:     '💡 选一个想尝试的睡眠想法',
+    cheer:    '🎉 选一件今晚值得庆祝的小事'
+  };
+  const p = currentPartner || PARTNERS[0];
+
+  let html = `<div class="qa-overlay show" style="display:flex;position:fixed;inset:0;z-index:60;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;padding:20px;" onclick="closeFBBack()">
+    <div class="fb-card" onclick="event.stopPropagation()" style="max-width:380px;width:100%;max-height:80vh;overflow-y:auto;text-align:left;">
+      <div class="fb-emoji" style="text-align:center;">${p.emoji}</div>
+      <div style="font-size:15px;font-weight:700;color:#2b3a4a;margin-bottom:14px;text-align:center;">${titleMap[topic] || topic}</div>`;
+  data.forEach((item, i) => {
+    html += `<div class="scenes-card pos" onclick="closeFBBack();setTimeout(()=>showSleepTypeFeedback(${i},'${topic}'),250)" style="background:#f7f9fc;border-radius:14px;padding:12px 14px;margin-bottom:8px;cursor:pointer;border:1.5px solid #e8e7ff;display:flex;align-items:center;gap:10px;">
+      <div style="font-size:22px;flex-shrink:0;">${item.icon}</div>
+      <div style="flex:1;font-size:13px;color:#2b3a4a;line-height:1.4;">${item.title}</div>
+      <div style="font-size:11px;font-weight:700;color:#7c7fea;background:#e8e7ff;padding:2px 8px;border-radius:20px;flex-shrink:0;">${item.tag}</div>
+    </div>`;
+  });
+  html += `</div></div>`;
+  const layer = document.createElement('div');
+  layer.id = 'sleepTypeLayer';
+  layer.innerHTML = html;
+  document.body.appendChild(layer);
+}
+
+function showSleepTypeFeedback(idx, topic) {
+  const item = (SLEEP_TYPE_SCENES[topic] || [])[idx];
+  if (!item) return;
+  const card = document.getElementById('fbCard');
+  card.className = 'fb-card pos';
+  document.getElementById('fbEmoji').innerText = item.icon;
+  document.getElementById('fbTag').innerText = item.tag;
+  document.getElementById('fbTag').className = 'fb-tag pos';
+  document.getElementById('fbTitle').innerText = item.title;
+  document.getElementById('fbText').innerText = item.text;
+  document.getElementById('fbQuote').innerText = item.quote || '';
+  document.getElementById('fbOverlay').classList.add('show');
 }
 
 // ===== SOP 自检 =====
