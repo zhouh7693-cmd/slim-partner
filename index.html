@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<html lang="zh-CN" data-page-node-id="HZMWy2NkIA7MzMJrGGQYTB">
+<head data-page-node-id="JSKlnQy0C0ugvWwRhWZz9C">
+  <meta charset="UTF-8" data-page-node-id="Pxb98muHUu1UdJcg0e74uP">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" data-page-node-id="u5feFAPihstjBwmfDtq1XI">
   <title>减肥搭子 · 签到神器</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
@@ -125,15 +125,17 @@
     .interaction-panel { max-width: 420px; margin: 0 auto 20px; background: white; border-radius: 28px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .panel-label { font-size: 12px; color: #8f9eae; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
     .mood-row { display: flex; justify-content: space-around; margin-bottom: 14px; }
-    .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; }
+    .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; pointer-events: auto !important; touch-action: manipulation; }
     .mood-btn:hover, .mood-btn:active { background: #f0f7fd; transform: scale(1.15); }
     .talk-btn-row { display: flex; gap: 8px; }
     .talk-btn {
       flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #e9edf2;
       background: white; font-size: 14px; font-weight: 500; color: #3a7ca5;
       cursor: pointer; transition: all 0.15s;
+      pointer-events: auto !important; touch-action: manipulation;
     }
     .talk-btn:active { background: #eef6fb; transform: scale(0.97); }
+    .talk-btn.pressed { background: #eef6fb; transform: scale(0.95); }
 
     /* ===== 分享卡片入口 ===== */
     .share-inline-card {
@@ -460,365 +462,365 @@
     .fb-btn:active { transform: scale(0.97); }
   </style>
 </head>
-<body>
+<body data-page-node-id="3eJ08NGTBYeqqZSC7p6VMQ">
 
 <!-- ===== 底部右侧搭子切换 ===== -->
-<div style="position:fixed;bottom:88px;right:16px;z-index:200;">
-  <div id="avatarBtn" onclick="showPartnerSelector()" style="width:48px;height:48px;background:white;border:2.5px solid #3de882;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:26px;transition:transform 0.2s;position:relative;" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">😊</div>
+<div style="position:fixed;bottom:88px;right:16px;z-index:200;" data-page-node-id="S50W6ZXDBjaJY7bZNdg7nB">
+  <div id="avatarBtn" onclick="showPartnerSelector()" style="width:48px;height:48px;background:white;border:2.5px solid #3de882;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:26px;transition:transform 0.2s;position:relative;" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'" data-page-node-id="VScecncSTf4ZMkigsAupX7">😊</div>
 </div>
 
 <!-- ===== Tab Bar ===== -->
-<div class="tab-bar">
-  <div class="tab-item active" onclick="switchTab('chat')">
-    <div class="tab-icon">💬</div>
-    <div class="tab-label">搭子</div>
+<div class="tab-bar" data-page-node-id="UHfP3t2bEAXHIkvnwG8QUe">
+  <div class="tab-item active" onclick="switchTab('chat')" data-page-node-id="MLTmEt6HZEgfTGYQB9Rk7x">
+    <div class="tab-icon" data-page-node-id="5J1bEqJAChjwE3W6wDBAA1">💬</div>
+    <div class="tab-label" data-page-node-id="hlxQ9mhSHKGhIVD2tnHUxX">搭子</div>
   </div>
-  <div class="tab-item" onclick="switchTab('coach')">
-    <div class="tab-icon">🎓</div>
-    <div class="tab-label">教练</div>
+  <div class="tab-item" onclick="switchTab('coach')" data-page-node-id="2ra69PPrXxmoYrZM71UYbk">
+    <div class="tab-icon" data-page-node-id="Peae87WGTjiGcOTjVrcWQr">🎓</div>
+    <div class="tab-label" data-page-node-id="r3R2zLRalEdBdwyNSmwZkr">教练</div>
   </div>
-  <div class="tab-item" onclick="switchTab('sop')">
-    <div class="tab-icon">🎯</div>
-    <div class="tab-label">自检</div>
+  <div class="tab-item" onclick="switchTab('sop')" data-page-node-id="QZgBEAVuLpHjTEjEVagBQu">
+    <div class="tab-icon" data-page-node-id="PyxUeUwHpWwFpEMDMpwrX0">🎯</div>
+    <div class="tab-label" data-page-node-id="6M3gpI46zUVowaODE8GKEv">自检</div>
   </div>
-  <div class="tab-item" onclick="switchTab('checkin')">
-    <div class="tab-icon">✅</div>
-    <div class="tab-label">打卡</div>
+  <div class="tab-item" onclick="switchTab('checkin')" data-page-node-id="16Wp9b6pOIbCkMhEgPlQuk">
+    <div class="tab-icon" data-page-node-id="wEiuq7RvSyOEBkFI1Sl3zh">✅</div>
+    <div class="tab-label" data-page-node-id="Kb9gaFYkYNMeyNSxhKutNa">打卡</div>
   </div>
-  <div class="tab-item" onclick="switchTab('weight')">
-    <div class="tab-icon">⚖️</div>
-    <div class="tab-label">体重</div>
+  <div class="tab-item" onclick="switchTab('weight')" data-page-node-id="VozJ98DJZ6wkM0FaFB7RCa">
+    <div class="tab-icon" data-page-node-id="7euA9ARzt5FqpQmtMlwetv">⚖️</div>
+    <div class="tab-label" data-page-node-id="MPL5ByDXumF5UFxsWb8Da0">体重</div>
   </div>
-  <div class="tab-item" onclick="switchTab('progress')">
-    <div class="tab-icon">📊</div>
-    <div class="tab-label">进展</div>
+  <div class="tab-item" onclick="switchTab('progress')" data-page-node-id="P8idCBc5N4OFobF5fckBfO">
+    <div class="tab-icon" data-page-node-id="Ae7Swqmv0QeeochAL99ljM">📊</div>
+    <div class="tab-label" data-page-node-id="DPwUfKDfuRwE9EnhLM2KdO">进展</div>
   </div>
-  <div class="tab-item" onclick="switchTab('share')">
-    <div class="tab-icon">📣</div>
-    <div class="tab-label">分享</div>
+  <div class="tab-item" onclick="switchTab('share')" data-page-node-id="qS5JlNI3FRRcztew0itFCf">
+    <div class="tab-icon" data-page-node-id="JiA4iwH470ivibnMa54QBE">📣</div>
+    <div class="tab-label" data-page-node-id="PAX7dsxb8Rqr9TIaYq8fMg">分享</div>
   </div>
 </div>
 
 <!-- ===== Page: 打卡 ===== -->
-<div id="page-checkin" class="page active">
+<div id="page-checkin" class="page active" data-page-node-id="wWd2f7hRWDe7pQcjv97Npm">
 
   <!-- 搭子选择器 -->
-  <div id="partnerSelector" class="partner-selector">
-    <div class="selector-title">选个减肥搭子</div>
-    <div class="selector-sub">陪你一起瘦，不再孤单</div>
-    <div class="partner-grid" id="partnerGrid">
-      <div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')">
-        <div class="partner-emoji">🌸</div>
-        <div class="partner-name">温柔鼓励型</div>
-        <div class="partner-desc">轻声细语，温暖陪伴</div>
+  <div id="partnerSelector" class="partner-selector" data-page-node-id="CEwgdQ2DbQvFPB29LYvtmV">
+    <div class="selector-title" data-page-node-id="3fYy9W8GMf4CyHBoIAF1I3">选个减肥搭子</div>
+    <div class="selector-sub" data-page-node-id="4TJvOqwqk9l7W07XMsGSo6">陪你一起瘦，不再孤单</div>
+    <div class="partner-grid" id="partnerGrid" data-page-node-id="IAvfR1VH7TIKDVcBLzqK8U">
+      <div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')" data-page-node-id="dRzrAQ21OtZX21pKMXDmIx">
+        <div class="partner-emoji" data-page-node-id="u45BvopHJZyFPrp7tDdyvH">🌸</div>
+        <div class="partner-name" data-page-node-id="YWw4mO0BUQoG5Sr5RDFlCA">温柔鼓励型</div>
+        <div class="partner-desc" data-page-node-id="A32wBDIYbZkxL1fIyjB3hT">轻声细语，温暖陪伴</div>
       </div>
-      <div class="partner-card" id="pc-passion" onclick="selectPartner('passion')">
-        <div class="partner-emoji">💪</div>
-        <div class="partner-name">热血激励型</div>
-        <div class="partner-desc">燃起来！干就完了</div>
+      <div class="partner-card" id="pc-passion" onclick="selectPartner('passion')" data-page-node-id="6elyozUw9Ocr3uvs0scwfM">
+        <div class="partner-emoji" data-page-node-id="82waN5dKSrd690bzhV5fWa">💪</div>
+        <div class="partner-name" data-page-node-id="HtSoAT8TqcDwYX2ZROruiQ">热血激励型</div>
+        <div class="partner-desc" data-page-node-id="6n4VIRPETa8kBsy0yH1SzJ">燃起来！干就完了</div>
       </div>
-      <div class="partner-card" id="pc-rational" onclick="selectPartner('rational')">
-        <div class="partner-emoji">📊</div>
-        <div class="partner-name">冷静理性型</div>
-        <div class="partner-desc">数据说话，科学瘦身</div>
+      <div class="partner-card" id="pc-rational" onclick="selectPartner('rational')" data-page-node-id="r2li4tIKP6zgctltrpjcZw">
+        <div class="partner-emoji" data-page-node-id="C3OYn5qPhndfu1fNy33HCi">📊</div>
+        <div class="partner-name" data-page-node-id="b7tgeuswczZSy3SCOXcA4L">冷静理性型</div>
+        <div class="partner-desc" data-page-node-id="QxRZtXdWWSgq2FM2L0pHh4">数据说话，科学瘦身</div>
       </div>
-      <div class="partner-card" id="pc-tsundere" onclick="selectPartner('tsundere')">
-        <div class="partner-emoji">😏</div>
-        <div class="partner-name">毒舌但中肯型</div>
-        <div class="partner-desc">骂醒你，但句句在理</div>
+      <div class="partner-card" id="pc-tsundere" onclick="selectPartner('tsundere')" data-page-node-id="dnTtbzBuE6ajQWfoadvgAh">
+        <div class="partner-emoji" data-page-node-id="ZZ73YvDXaHskLLdy7rpfib">😏</div>
+        <div class="partner-name" data-page-node-id="uVsnUZ149Pa8jWAyHTLzI9">毒舌但中肯型</div>
+        <div class="partner-desc" data-page-node-id="lTO5oB50oxDP65d8dXQFKj">骂醒你，但句句在理</div>
       </div>
     </div>
-    <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner()">✨ 开始陪伴 ✨</button>
+    <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner()" data-page-node-id="aTj6HBtoGrE2b2VB5mqQxZ">✨ 开始陪伴 ✨</button>
   </div>
 
   <!-- 打卡仪表盘 -->
-  <div id="dashboard" style="display:none;">
-    <div class="card">
-      <div id="currentPartnerBadge" class="partner-badge">🌸 温柔鼓励型</div>
-      <div class="question">今天，你坚持了吗？</div>
-      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()">
-        <div class="checkin-status" id="checkinStatusText">签到</div>
-        <div class="checkin-sub">点击打卡</div>
+  <div id="dashboard" style="display:none;" data-page-node-id="vfVuMQwF3UeaHGW2orLVwx">
+    <div class="card" data-page-node-id="gI3hNZcUZw72CR8YWSS3jB">
+      <div id="currentPartnerBadge" class="partner-badge" data-page-node-id="SNIyjCea6spPzEne4n0Ft5">🌸 温柔鼓励型</div>
+      <div class="question" data-page-node-id="wEsKAfr6GSIgeRSGYgBfj2">今天，你坚持了吗？</div>
+      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="wTTlRGFIFkGdUY9EwMKngh">
+        <div class="checkin-status" id="checkinStatusText" data-page-node-id="21ouhoXvil26CEMF6bq4XH">签到</div>
+        <div class="checkin-sub" data-page-node-id="X1CbQcxbv3N652HjR5onOd">点击打卡</div>
       </div>
-      <div class="continuous" id="continuousDays">0</div>
-      <div class="continuous-label">连续打卡天数</div>
+      <div class="continuous" id="continuousDays" data-page-node-id="jpFCHusbFg0AaBowUsiMsw">0</div>
+      <div class="continuous-label" data-page-node-id="mLCDsaAvtYoLih8wGrvcck">连续打卡天数</div>
     </div>
 
     <!-- 搭子消息区 -->
-    <div class="chat-area" id="chatArea"></div>
+    <div class="chat-area" id="chatArea" data-page-node-id="EtrERTHm90cCoHu4zzaToP"></div>
 
     <!-- 本周进度 -->
-    <div class="week-progress">
-      <div class="week-title"><span>📅 本周进度</span><span id="weekRange"></span></div>
-      <div class="week-dots" id="weekDots"></div>
-      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyStats()">📋 复制战绩</button>
+    <div class="week-progress" data-page-node-id="3ZaueiZIuNLzv7IHjHCXsQ">
+      <div class="week-title" data-page-node-id="CeXcrsXcBdsG2qJ8ei0i1v"><span data-page-node-id="TpGojX3oUV8HcqI1QqMMfJ">📅 本周进度</span><span id="weekRange" data-page-node-id="zZTEnHhGTBm0yWpwB802la"></span></div>
+      <div class="week-dots" id="weekDots" data-page-node-id="Veunh6ZNmgA1jaGVR8f0Zw"></div>
+      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyStats()" data-page-node-id="e9J7Vbjse5NHxWHXwjC9sD">📋 复制战绩</button>
     </div>
 
     <!-- 搭子交互（仪表盘底部） -->
-    <div class="interaction-panel">
-      <div class="panel-label">💬 和搭子说说话</div>
-      <div class="mood-row">
-        <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
-        <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
-        <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
-        <div class="mood-btn" onclick="sendMood('tired')" title="累了">😫</div>
+    <div class="interaction-panel" data-page-node-id="C1MrpGyLfG7k0LTekRhlRd">
+      <div class="panel-label" data-page-node-id="Dq2Iu6gex8II6hTNvQ6H8Z">💬 和搭子说说话</div>
+      <div class="mood-row" data-page-node-id="YHvo0sfWHcPl3l3GypPlhm">
+        <div class="mood-btn" data-mood="happy" onclick="sendMood('happy')" title="开心" data-page-node-id="PNavE7qCJWLJgMrpDeICFT">😄</div>
+        <div class="mood-btn" data-mood="neutral" onclick="sendMood('neutral')" title="平静" data-page-node-id="aJIl28dtOfQCggRPDCyjSF">😌</div>
+        <div class="mood-btn" data-mood="sad" onclick="sendMood('sad')" title="低落" data-page-node-id="ON6ZIuCUuhZoviEF7wyrHm">😔</div>
+        <div class="mood-btn" data-mood="tired" onclick="sendMood('tired')" title="累了" data-page-node-id="kjI6JC3BdxuxQ5iYEGvl16">😫</div>
       </div>
-      <div class="talk-btn-row">
-        <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
-        <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
-        <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
-        <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
+      <div class="talk-btn-row" data-page-node-id="ZVzbShUh46BBErg7hbMsAO">
+        <button class="talk-btn" data-type="progress" onclick="askPartner('progress')" data-page-node-id="HvT81sJFQCfkJW97Dz5Umu">📈 进展</button>
+        <button class="talk-btn" data-type="struggle" onclick="askPartner('struggle')" data-page-node-id="FXHDMDXwTEqAnOXDGN3Htl">😣 困难</button>
+        <button class="talk-btn" data-type="idea" onclick="askPartner('idea')" data-page-node-id="gUGNq5TURLeknyba27iXo2">💡 想法</button>
+        <button class="talk-btn" data-type="cheer" onclick="askPartner('cheer')" data-page-node-id="vNxloubEW5jZ1mp7dnPuXH">🎉 喜事</button>
       </div>
-      <div class="talk-btn-row" style="margin-top:8px;">
-        <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
-        <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
+      <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="WEpG8Ub3GhdLFJfMd7wPHM">
+        <button class="talk-btn" data-type="report" onclick="askPartner('report')" data-page-node-id="rqvxCAxL64P54LdREmJCUk">📣 汇报进展</button>
+        <button class="talk-btn" data-type="question" onclick="askPartner('question')" data-page-node-id="5MHlCrCf6dtkLfMIu7vRim">🤔 有问题想问</button>
       </div>
     </div>
 
     <!-- 分享入口 -->
-    <div class="share-inline-card">
-      <div class="share-inline-label">📣 推荐给想一起减肥的朋友</div>
-      <div class="share-inline-preview">
+    <div class="share-inline-card" data-page-node-id="KvMFgvArf8sv9vZzSUP2H5">
+      <div class="share-inline-label" data-page-node-id="lSuqz6843UJV4x6CquOUCY">📣 推荐给想一起减肥的朋友</div>
+      <div class="share-inline-preview" data-page-node-id="fF6D9YcuSQAcvV5AAyDAKA">
         🏃‍♀️ 减肥搭子 · 4种性格陪你瘦
       </div>
-      <div class="share-copy-row">
-        <button class="share-copy-btn" onclick="copyShareLink()">📋 复制邀请链接</button>
-        <button class="share-link-btn" onclick="previewShareCard()">👀 预览卡片</button>
+      <div class="share-copy-row" data-page-node-id="ucAIaxHH1SRMYpV06ZVQwR">
+        <button class="share-copy-btn" onclick="copyShareLink()" data-page-node-id="9soLeZQvBgRbkCOw58cCDH">📋 复制邀请链接</button>
+        <button class="share-link-btn" onclick="previewShareCard()" data-page-node-id="gRYXRmVUm3QqvvHfDtXCKs">👀 预览卡片</button>
       </div>
     </div>
 
-    <footer>每天一次签到 · 你的搭子会给你力量</footer>
+    <footer data-page-node-id="f8BK3JzUPvY9OncVl93jwC">每天一次签到 · 你的搭子会给你力量</footer>
   </div>
 </div>
 
 <!-- ===== Page: 体重 ===== -->
-<div id="page-weight" class="page">
-  <div class="weight-page">
-    <div class="weight-header">
-      <div class="weight-title">⚖️ 体重记录</div>
-      <div class="weight-sub" id="weightSummary">记录你的每一次变化</div>
-      <div class="weight-input-row">
-        <input class="weight-input" id="weightInput" type="number" step="0.1" min="20" max="300" placeholder="--">
-        <span class="weight-unit">kg</span>
-        <button class="weight-add-btn" onclick="addWeight()">记录</button>
+<div id="page-weight" class="page" data-page-node-id="EYO6rcKZjpKHwUSps0SgOr">
+  <div class="weight-page" data-page-node-id="lOHHQOnAzn1m3UkE1vK9eb">
+    <div class="weight-header" data-page-node-id="wWAcfdJ9jNAwlAGplrEMgH">
+      <div class="weight-title" data-page-node-id="4g1XEWKSf8gdeIyFxBJTQc">⚖️ 体重记录</div>
+      <div class="weight-sub" id="weightSummary" data-page-node-id="SAnoTzwDAcJ2M4GF1Y64GJ">记录你的每一次变化</div>
+      <div class="weight-input-row" data-page-node-id="n3qfzRPex71UpWXfLOknqU">
+        <input class="weight-input" id="weightInput" type="number" step="0.1" min="20" max="300" placeholder="--" data-page-node-id="ALmvl3szcoHSTliiVxom2v">
+        <span class="weight-unit" data-page-node-id="bCX4BtOzg6Ubmqq5xr1jDk">kg</span>
+        <button class="weight-add-btn" onclick="addWeight()" data-page-node-id="EMFIwWL17EbcHSiZkapClq">记录</button>
       </div>
     </div>
 
-    <div class="weight-chart-card">
-      <div class="chart-title">📈 体重曲线</div>
-      <div class="chart-sub" id="chartSub">坚持记录，趋势一目了然</div>
-      <canvas id="weightCanvas" width="380" height="200"></canvas>
-      <div class="weight-stats" id="weightStats"></div>
+    <div class="weight-chart-card" data-page-node-id="ASptTjH5Waeq5UtSuKMUFo">
+      <div class="chart-title" data-page-node-id="0s3Wq4jwWbtY6KxWIAq40R">📈 体重曲线</div>
+      <div class="chart-sub" id="chartSub" data-page-node-id="WVLPa5ueT3HobKDCA3A7Lp">坚持记录，趋势一目了然</div>
+      <canvas id="weightCanvas" width="380" height="200" data-page-node-id="hetmipTQppRntgTDWi5wq0"></canvas>
+      <div class="weight-stats" id="weightStats" data-page-node-id="mpSZrAPb7eH3EQzIIDaZfP"></div>
     </div>
 
     <!-- 每周进步报告 -->
-    <div class="weight-chart-card" id="weeklyReportCard">
-      <div class="chart-title">📊 本周进展</div>
-      <div id="weeklyReportContent">
-        <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>
+    <div class="weight-chart-card" id="weeklyReportCard" data-page-node-id="FA7JeordoXvqa5nRwv66Oc">
+      <div class="chart-title" data-page-node-id="bvcy6mHT6xp6AYpdjqozfJ">📊 本周进展</div>
+      <div id="weeklyReportContent" data-page-node-id="UDNbomKwEE6mtKZM94IUkc">
+        <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;" data-page-node-id="WHKdZ4xgFgK2N7rAKuZKc8">本周打卡后再来看进展报告 📝</div>
       </div>
-      <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b35,#ff9500);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareWeeklyReport()">📤 分享本周进展</button>
+      <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b35,#ff9500);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareWeeklyReport()" data-page-node-id="3tezSvgepdWe2hZnutisZk">📤 分享本周进展</button>
     </div>
 
-    <div class="weight-records">
-      <div class="records-title">📝 历史记录</div>
-      <div id="weightRecords"></div>
+    <div class="weight-records" data-page-node-id="NG4iYjpbt9a08UX7BNHYEI">
+      <div class="records-title" data-page-node-id="pDKan3acDLNMtTu9fxIkfN">📝 历史记录</div>
+      <div id="weightRecords" data-page-node-id="4AOob8UUZYlYI1G5zRobUF"></div>
     </div>
   </div>
 </div>
 
 <!-- ===== Page: SOP ===== -->
-<div id="page-sop" class="page">
-  <div class="sop-page">
-    <div class="sop-header">
-      <div class="sop-title">🎯 今日习惯复盘</div>
-      <div class="sop-sub">切掉坏习惯，养成好习惯 · 满分100分</div>
-      <div class="sop-score-row">
-        <div class="sop-score">
-          <div class="sop-score-num" id="sopScore">0</div>
-          <div class="sop-score-label">今日得分</div>
+<div id="page-sop" class="page" data-page-node-id="Lcb4EgcACsFmnOolsxGQ7D">
+  <div class="sop-page" data-page-node-id="935xXD9BWs1nC3eDcVqaQ5">
+    <div class="sop-header" data-page-node-id="cUlRfJodn2fUnwGsNnzX26">
+      <div class="sop-title" data-page-node-id="kboDp0tLHMQwzwvcVLdAT9">🎯 今日习惯复盘</div>
+      <div class="sop-sub" data-page-node-id="vVGcQCc93kWQkTjgx52NQV">切掉坏习惯，养成好习惯 · 满分100分</div>
+      <div class="sop-score-row" data-page-node-id="YKWQLNbICG9dGUkFYTEPzd">
+        <div class="sop-score" data-page-node-id="FpDLXMaBGU9BrSSyh2VZNT">
+          <div class="sop-score-num" id="sopScore" data-page-node-id="4wi41SJ5DG5BG8ROYxUdTd">0</div>
+          <div class="sop-score-label" data-page-node-id="X199xACbtekkbYNpF1BSti">今日得分</div>
         </div>
-        <div class="sop-score">
-          <div class="sop-score-num" id="sopPosCount">0</div>
-          <div class="sop-score-label">做到了</div>
+        <div class="sop-score" data-page-node-id="LxWkNsOc4q283r4k5UMBmA">
+          <div class="sop-score-num" id="sopPosCount" data-page-node-id="FqclSEeOus3e2IssG6y03o">0</div>
+          <div class="sop-score-label" data-page-node-id="ahKLrEPqRL5siYvwB5FMz9">做到了</div>
         </div>
-        <div class="sop-score">
-          <div class="sop-score-num" id="sopNegCount">0</div>
-          <div class="sop-score-label">需注意</div>
+        <div class="sop-score" data-page-node-id="GtthX0qe4zcu1nRB1Ir7u6">
+          <div class="sop-score-num" id="sopNegCount" data-page-node-id="y07pSXE2gC6xmtbDfFzIWN">0</div>
+          <div class="sop-score-label" data-page-node-id="P0ZBh2XFJrK5YfLjdmyAl2">需注意</div>
         </div>
       </div>
-      <div class="sop-progress-wrap">
-        <div class="sop-progress-bg"><div class="sop-progress-bar" id="sopScoreBar"></div></div>
-        <div class="sop-progress-text" id="sopProgressText">0 / 100</div>
+      <div class="sop-progress-wrap" data-page-node-id="6Xe3UZwffNXWjZtxUeLvxT">
+        <div class="sop-progress-bg" data-page-node-id="2MsnJWcGHdrY6CvsfLrZvd"><div class="sop-progress-bar" id="sopScoreBar" data-page-node-id="qMcUIxXHSaMo51QRSlhKgD"></div></div>
+        <div class="sop-progress-text" id="sopProgressText" data-page-node-id="bEWDWVbPLHQXo4gzPE0pdG">0 / 100</div>
       </div>
     </div>
 
-    <div class="sop-category-tabs" id="sopCatTabs"></div>
+    <div class="sop-category-tabs" id="sopCatTabs" data-page-node-id="vGMPevfNdUZrFrmJR41g6w"></div>
 
-    <div class="sop-game-card" id="sopGameCard">
+    <div class="sop-game-card" id="sopGameCard" data-page-node-id="asivpeDwdbeiztAT2RDBVD">
       <!-- 清单内容由 JS 动态渲染 -->
     </div>
 
-    <div class="sop-tip">
-      <div class="sop-tip-title">💡 第一性原理提示</div>
-      <div class="sop-tip-item" id="sopTipText"></div>
+    <div class="sop-tip" data-page-node-id="Gb4cDEMFf68BNaaf3mlXtS">
+      <div class="sop-tip-title" data-page-node-id="GhoCF6PjIGCCk6jxUFSy2o">💡 第一性原理提示</div>
+      <div class="sop-tip-item" id="sopTipText" data-page-node-id="vCT06NfVLohG3DTEzA4tBt"></div>
     </div>
   </div>
 </div>
 
 <!-- ===== Page: 进展 ===== -->
-<div id="page-progress" class="page">
-  <div class="weight-page">
-    <div class="weight-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;">
-      <div style="font-size:48px;margin-bottom:8px;">🏆</div>
-      <div class="chart-title" style="font-size:18px;margin-bottom:4px;">减肥进展</div>
-      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">你的 SOP 全局视图</div>
-      <div style="display:flex;justify-content:center;margin-bottom:16px;position:relative;">
-        <svg width="140" height="140" viewBox="0 0 140 140">
-          <defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#3de882"/><stop offset="100%" stop-color="#4caf50"/>
+<div id="page-progress" class="page" data-page-node-id="DQB9I125o9HY34I7c2CVL5">
+  <div class="weight-page" data-page-node-id="KGfqxBhOGP4IAWMOFKiE2d">
+    <div class="weight-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;" data-page-node-id="G4h4IAHyr9pHiFKNsRf647">
+      <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="E01F1c5DcNG4T1WvWCYiq0">🏆</div>
+      <div class="chart-title" style="font-size:18px;margin-bottom:4px;" data-page-node-id="VQJUBNpG0FFybHeCck4bD1">减肥进展</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;" data-page-node-id="953VtES35IuKZFGVpgs4vw">你的 SOP 全局视图</div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;position:relative;" data-page-node-id="oCipMvPmk6gDfe8DQ9OGig">
+        <svg width="140" height="140" viewBox="0 0 140 140" data-page-node-id="aSHfORf9uH5eTFEjP8tTnr">
+          <defs data-page-node-id="8GfXZ3GHRnimYP7iF4iHet"><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%" data-page-node-id="APzs9nRDdWSvpkZ6IEyylA">
+            <stop offset="0%" stop-color="#3de882" data-page-node-id="QBjsMyQh7cTOgW7XunTe37"/><stop offset="100%" stop-color="#4caf50" data-page-node-id="ibA2OOVGXOXCYd79GtwClZ"/>
           </linearGradient></defs>
-          <circle cx="70" cy="70" r="54" fill="none" stroke="#eef2f5" stroke-width="14"/>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#eef2f5" stroke-width="14" data-page-node-id="8701ABPzSkVDWqMphcEhlX"/>
           <circle id="ringFill" cx="70" cy="70" r="54" fill="none" stroke="url(#ringGrad)" stroke-width="14"
             stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"
-            transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.8s;"/>
-          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#3de882;" id="ringPct">0%</text>
-          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#8f9eae;">平均得分</text>
+            transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.8s;" data-page-node-id="hDnWfFA56m2EjxBTnhoZpF"/>
+          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#3de882;" id="ringPct" data-page-node-id="LKFiBtgLSCCAmECK7amJ3C">0%</text>
+          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#8f9eae;" data-page-node-id="mnGPuL7K0voSLoWHmDIjqq">平均得分</text>
         </svg>
       </div>
-      <div style="display:flex;gap:12px;justify-content:center;">
-        <div style="background:#e8f5e9;border-radius:16px;padding:10px 16px;text-align:center;">
-          <div style="font-size:18px;font-weight:800;color:#2e7d32;" id="progStreakNum">0</div>
-          <div style="font-size:11px;color:#8f9eae;">连续天数</div>
+      <div style="display:flex;gap:12px;justify-content:center;" data-page-node-id="rv2TUvznC5fVn3faUsTJrk">
+        <div style="background:#e8f5e9;border-radius:16px;padding:10px 16px;text-align:center;" data-page-node-id="rroRRPsAAC7S3il9UuVmYG">
+          <div style="font-size:18px;font-weight:800;color:#2e7d32;" id="progStreakNum" data-page-node-id="jtgUmXgMcb0XmUIjTLCRgj">0</div>
+          <div style="font-size:11px;color:#8f9eae;" data-page-node-id="WNeEfwxFsWB5UDB59AxmVu">连续天数</div>
         </div>
-        <div style="background:#eef6fb;border-radius:16px;padding:10px 16px;text-align:center;">
-          <div style="font-size:18px;font-weight:800;color:#3a7ca5;" id="progTotalDays">0</div>
-          <div style="font-size:11px;color:#8f9eae;">累计天数</div>
+        <div style="background:#eef6fb;border-radius:16px;padding:10px 16px;text-align:center;" data-page-node-id="kOBQKI1tNZuSdfowEL8X5f">
+          <div style="font-size:18px;font-weight:800;color:#3a7ca5;" id="progTotalDays" data-page-node-id="OrjJmNE1xS66FYBoeQi1qU">0</div>
+          <div style="font-size:11px;color:#8f9eae;" data-page-node-id="iMn0CQy065eVAwQSILuTx2">累计天数</div>
         </div>
-        <div style="background:#fff8e1;border-radius:16px;padding:10px 16px;text-align:center;">
-          <div style="font-size:18px;font-weight:800;color:#ff8f00;" id="progTodayScore">-</div>
-          <div style="font-size:11px;color:#8f9eae;">今日得分</div>
+        <div style="background:#fff8e1;border-radius:16px;padding:10px 16px;text-align:center;" data-page-node-id="UC7ceq93qQks3SciC4ND2u">
+          <div style="font-size:18px;font-weight:800;color:#ff8f00;" id="progTodayScore" data-page-node-id="i5qHbYcMvLrr2jZWSkOYyn">-</div>
+          <div style="font-size:11px;color:#8f9eae;" data-page-node-id="2Hy6MrxHKro2dDt8lu29Yn">今日得分</div>
         </div>
       </div>
     </div>
-    <div class="weight-chart-card" style="margin-bottom:16px;">
-      <div class="chart-title">📊 各维度平均得分</div>
-      <div id="progDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;"></div>
+    <div class="weight-chart-card" style="margin-bottom:16px;" data-page-node-id="82Vweq98FHFWBEF4p7xMRp">
+      <div class="chart-title" data-page-node-id="i9KhL1yJ8xqAy4Ay5wfREc">📊 各维度平均得分</div>
+      <div id="progDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;" data-page-node-id="OIKSYjX12yQD6gXKleRKs0"></div>
     </div>
-    <div class="weight-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#f0f7fd,#e8f5e9);border:1px solid #d0e8f5;margin-bottom:16px;">
-      <div style="font-size:36px;margin-bottom:8px;" id="progPartnerEmoji">🌸</div>
-      <div style="font-size:14px;font-weight:700;color:#2b5a7a;margin-bottom:4px;" id="progPartnerName">温柔鼓励型</div>
-      <div style="font-size:13px;color:#3a7ca5;line-height:1.6;" id="progPartnerMsg">每天坚持一点点，减肥一定成功！</div>
+    <div class="weight-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#f0f7fd,#e8f5e9);border:1px solid #d0e8f5;margin-bottom:16px;" data-page-node-id="ooxmX4HUI7wlo1vdKjBFVi">
+      <div style="font-size:36px;margin-bottom:8px;" id="progPartnerEmoji" data-page-node-id="h0DsV2gTAWAMSxKty8xJ6i">🌸</div>
+      <div style="font-size:14px;font-weight:700;color:#2b5a7a;margin-bottom:4px;" id="progPartnerName" data-page-node-id="9ZzMPXs2Bl337zzCG9pFzX">温柔鼓励型</div>
+      <div style="font-size:13px;color:#3a7ca5;line-height:1.6;" id="progPartnerMsg" data-page-node-id="o9vcMhpAktysp0AidsuQ0s">每天坚持一点点，减肥一定成功！</div>
     </div>
   </div>
 </div>
 
 <!-- ===== Page: 分享 ===== -->
-<div id="page-share" class="page">
-  <div class="weight-page">
-    <div class="weight-header" style="text-align:center;">
-      <div class="weight-title">📣 分享</div>
-      <div class="weight-sub">邀请朋友一起变瘦</div>
+<div id="page-share" class="page" data-page-node-id="U3CGAY3QHhfKcaFqUsINbC">
+  <div class="weight-page" data-page-node-id="e52vPwHMC9Lkt4J1I5F5JF">
+    <div class="weight-header" style="text-align:center;" data-page-node-id="Vky0bu0XnbowHEwOLAKHRW">
+      <div class="weight-title" data-page-node-id="NPKgicGgWVRXFuCcNgB0CM">📣 分享</div>
+      <div class="weight-sub" data-page-node-id="PRtOGOwhghFxySmgiadAPx">邀请朋友一起变瘦</div>
     </div>
 
     <!-- 我的状态 -->
-    <div class="sop-card" style="margin-bottom:12px;">
-      <div class="chart-title">🏃 我的状态</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
-        <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#2ed573;" id="shareStreak">-</div>
-          <div style="font-size:11px;color:#888;margin-top:2px;">连续打卡</div>
+    <div class="sop-card" style="margin-bottom:12px;" data-page-node-id="8YGfvMubtD4tRAA02qkDbo">
+      <div class="chart-title" data-page-node-id="z3SBBx0U4NvPOgtaQk2dL2">🏃 我的状态</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;" data-page-node-id="ahRahxmuMNHn405xOhGZt8">
+        <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;" data-page-node-id="L2twJxSCQ2EufQCEDbNwgG">
+          <div style="font-size:20px;font-weight:700;color:#2ed573;" id="shareStreak" data-page-node-id="ED1d4478jmdNKP8SN9LQAS">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="iskxCD9YUKYCMwMLG9tlgp">连续打卡</div>
         </div>
-        <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#3de882;" id="shareToday">-</div>
-          <div style="font-size:11px;color:#888;margin-top:2px;">今日打卡</div>
+        <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;" data-page-node-id="KcMNAxN7Xuxj64fWJGXX18">
+          <div style="font-size:20px;font-weight:700;color:#3de882;" id="shareToday" data-page-node-id="Z4GrAqDz4zYCbr02DeamIV">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="XQ3V8gpLB6xC1CMlGH9fNU">今日打卡</div>
         </div>
-        <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;">
-          <div style="font-size:20px;font-weight:700;color:#3de882;" id="shareTotal">-</div>
-          <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
+        <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;" data-page-node-id="qQaHerHi3pXpcCcJeFYt6F">
+          <div style="font-size:20px;font-weight:700;color:#3de882;" id="shareTotal" data-page-node-id="zWgKweVuFIxAzCbwBJPqyK">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="TDjZBX6hwoiGiiV4XTyQwB">累计天数</div>
         </div>
       </div>
     </div>
 
     <!-- 减肥搭子介绍卡片 -->
-    <div class="sop-card">
-      <div class="chart-title">🏃‍♀️ 减肥搭子</div>
-      <div style="margin-top:12px;background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;">
-        <div style="font-size:48px;margin-bottom:8px;">🏃‍♀️</div>
-        <div style="font-size:16px;font-weight:700;color:#2e7d32;margin-bottom:4px;">减肥搭子</div>
-        <div style="font-size:13px;color:#388e3c;line-height:1.6;margin-bottom:8px;">4种性格陪你科学瘦身<br>每天5分钟复盘，减肥不孤单</div>
-        <div style="font-size:11px;color:#4caf50;">运动 · 饮食 · 习惯 · 心态</div>
+    <div class="sop-card" data-page-node-id="YFkooFtoUSGehtV0DyCsGG">
+      <div class="chart-title" data-page-node-id="h1GmY7bQGXqSnvmPjVEm03">🏃‍♀️ 减肥搭子</div>
+      <div style="margin-top:12px;background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;" data-page-node-id="5jlGT9C35Nt8CCH9tgHbSX">
+        <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="fGYZhaPybrwfDH1GDGZG0k">🏃‍♀️</div>
+        <div style="font-size:16px;font-weight:700;color:#2e7d32;margin-bottom:4px;" data-page-node-id="9MCIW6IAKKVbICTl228nIn">减肥搭子</div>
+        <div style="font-size:13px;color:#388e3c;line-height:1.6;margin-bottom:8px;" data-page-node-id="FywuCLUnhYGb3yZ52GUGsP">4种性格陪你科学瘦身<br data-page-node-id="puNHE1jCHobfGOnMjip5h5">每天5分钟复盘，减肥不孤单</div>
+        <div style="font-size:11px;color:#4caf50;" data-page-node-id="E3lnY6DDPpiQERig3Fs8ti">运动 · 饮食 · 习惯 · 心态</div>
       </div>
-      <div class="chart-title" style="margin-bottom:12px;">📋 SOP 复盘维度</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
-        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;">
-          <div style="font-size:24px;">🏋️</div>
-          <div style="font-size:12px;font-weight:600;color:#5c6bc0;">运动习惯</div>
+      <div class="chart-title" style="margin-bottom:12px;" data-page-node-id="yoFYzVcRzBkLUF7V3uzMGC">📋 SOP 复盘维度</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;" data-page-node-id="UF3yMxz6gIjepiCXfaU65p">
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;" data-page-node-id="KPfyz4TMEGQSbetial51Cn">
+          <div style="font-size:24px;" data-page-node-id="sFq5uBnqwhvZ4cDn1DyDMd">🏋️</div>
+          <div style="font-size:12px;font-weight:600;color:#5c6bc0;" data-page-node-id="NfLPY1HOAkGGVFdVc1zFDV">运动习惯</div>
         </div>
-        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;">
-          <div style="font-size:24px;">🥗</div>
-          <div style="font-size:12px;font-weight:600;color:#26a69a;">饮食记录</div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;" data-page-node-id="rVpDKglebCOUEjf3ot6DsL">
+          <div style="font-size:24px;" data-page-node-id="JFwAuRorjq1hcxj3SvcBW5">🥗</div>
+          <div style="font-size:12px;font-weight:600;color:#26a69a;" data-page-node-id="6VUtaAyK7c6GbCnWbphJd7">饮食记录</div>
         </div>
-        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;">
-          <div style="font-size:24px;">⚖️</div>
-          <div style="font-size:12px;font-weight:600;color:#66bb6a;">体重追踪</div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;" data-page-node-id="RAwf5yVR2pIiMVqC13RcCG">
+          <div style="font-size:24px;" data-page-node-id="cWmCE42FIfGfX7QLRB9h2q">⚖️</div>
+          <div style="font-size:12px;font-weight:600;color:#66bb6a;" data-page-node-id="cbcYhxPKTNz4RMaBusfPxu">体重追踪</div>
         </div>
-        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;">
-          <div style="font-size:24px;">💪</div>
-          <div style="font-size:12px;font-weight:600;color:#ffa726;">动力状态</div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;" data-page-node-id="FgJxYbqr3udKmyfdD7BRZC">
+          <div style="font-size:24px;" data-page-node-id="K3kANOZpWi8zl3UorVfrs3">💪</div>
+          <div style="font-size:12px;font-weight:600;color:#ffa726;" data-page-node-id="8ObO6iIDptuXyfkRSqtmIm">动力状态</div>
         </div>
-        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;grid-column:span 2;">
-          <div style="font-size:24px;">🌱</div>
-          <div style="font-size:12px;font-weight:600;color:#8d6e63;">整体进展</div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;grid-column:span 2;" data-page-node-id="8Bx5stSCzJETHt47Pgdi3A">
+          <div style="font-size:24px;" data-page-node-id="1rnDld7RBJhloidsuqhZJg">🌱</div>
+          <div style="font-size:12px;font-weight:600;color:#8d6e63;" data-page-node-id="cpe57pusWmMbLKDnfLGJlN">整体进展</div>
         </div>
       </div>
-      <div class="chart-title">🔗 邀请链接</div>
-      <div style="background:#f0f9f4;border-radius:12px;padding:12px 14px;font-size:13px;color:#2e7d32;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay"></div>
-      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#3a7ca5,#2b5a7a);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(58,124,165,0.4);">📋 复制邀请链接</button>
+      <div class="chart-title" data-page-node-id="fRrWxivCpQ7wIyDXRSSzbu">🔗 邀请链接</div>
+      <div style="background:#f0f9f4;border-radius:12px;padding:12px 14px;font-size:13px;color:#2e7d32;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay" data-page-node-id="692ACgRIE5QNukQat4JiN2"></div>
+      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#3a7ca5,#2b5a7a);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(58,124,165,0.4);" data-page-node-id="MuZrRVlAhMf9wVufeKMwjK">📋 复制邀请链接</button>
     </div>
   </div>
 </div>
 
 <!-- ===== Page: 搭子 ===== -->
-<div id="page-partner" class="page" style="display:none;">
-  <div style="padding:16px 12px 80px;">
-    <div style="text-align:center;margin-bottom:20px;">
-      <div style="font-size:24px;font-weight:700;color:#333;">💬 搭子</div>
-      <div style="font-size:13px;color:#999;margin-top:4px;">和你的减肥搭子聊聊</div>
+<div id="page-partner" class="page" style="display:none;" data-page-node-id="7oLn0Nj2SW93fVqb2MAKjT">
+  <div style="padding:16px 12px 80px;" data-page-node-id="GLXhKX91vvwClpDdh6iTr8">
+    <div style="text-align:center;margin-bottom:20px;" data-page-node-id="SBXDDKcf4G5AilAzpDjt5l">
+      <div style="font-size:24px;font-weight:700;color:#333;" data-page-node-id="HKmod4hjT7UvLyOlyaTpvG">💬 搭子</div>
+      <div style="font-size:13px;color:#999;margin-top:4px;" data-page-node-id="XsFxAKXsnvBazIe67e4HTK">和你的减肥搭子聊聊</div>
     </div>
-    <div id="partnerCard" style="background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border-radius:20px;padding:20px;margin-bottom:16px;">
-      <div id="partnerAvatarB" style="font-size:48px;text-align:center;margin-bottom:8px;"></div>
-      <div id="partnerNameB" style="text-align:center;font-size:16px;font-weight:700;color:#333;"></div>
-      <div id="partnerStyleB" style="text-align:center;font-size:12px;color:#2e7d32;margin-top:4px;"></div>
+    <div id="partnerCard" style="background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border-radius:20px;padding:20px;margin-bottom:16px;" data-page-node-id="xJkJAcL5RVGMLFRbPcL6Mc">
+      <div id="partnerAvatarB" style="font-size:48px;text-align:center;margin-bottom:8px;" data-page-node-id="92QDrDjjFA79qN2nUMSglw"></div>
+      <div id="partnerNameB" style="text-align:center;font-size:16px;font-weight:700;color:#333;" data-page-node-id="5F3gbus0Qn7GpITGBNE0cr"></div>
+      <div id="partnerStyleB" style="text-align:center;font-size:12px;color:#2e7d32;margin-top:4px;" data-page-node-id="9LxhfFxncn91wuS3a7U1y4"></div>
     </div>
     <!-- 搭子消息区 -->
-    <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
-    <div class="panel-label" style="margin-bottom:10px;">💬 和搭子说说话</div>
-    <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;">
-      <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
-      <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
-      <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
-      <div class="mood-btn" onclick="sendMood('tired')" title="疲惫">😫</div>
+    <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;" data-page-node-id="acRGMSmEDH91KyKOXLopDX"></div>
+    <div class="panel-label" style="margin-bottom:10px;" data-page-node-id="Kl5C6kJNz08PtDhrhcm6ZJ">💬 和搭子说说话</div>
+    <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;" data-page-node-id="6MVCOa5cdOtpylcVJr1kNe">
+      <div class="mood-btn" data-mood="happy" onclick="sendMood('happy')" title="开心" data-page-node-id="2LYBxRi0eKAEwG8RQWdHfu">😄</div>
+      <div class="mood-btn" data-mood="neutral" onclick="sendMood('neutral')" title="平静" data-page-node-id="BW5NnD6beVXIJHlRqWp2PW">😌</div>
+      <div class="mood-btn" data-mood="sad" onclick="sendMood('sad')" title="低落" data-page-node-id="IBfq5CBo4cYLJB2GadVVL9">😔</div>
+      <div class="mood-btn" data-mood="tired" onclick="sendMood('tired')" title="疲惫" data-page-node-id="vxW04gzAcTUvIJjGiVVD6U">😫</div>
     </div>
-    <div class="talk-btn-row">
-      <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
-      <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
-      <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
+    <div class="talk-btn-row" data-page-node-id="1Lh56nfowrV5aZergEHL6y">
+      <button class="talk-btn" data-type="progress" onclick="askPartner('progress')" data-page-node-id="5VDDiPRyu0sQs05kCToe36">📈 进展</button>
+      <button class="talk-btn" data-type="struggle" onclick="askPartner('struggle')" data-page-node-id="vBSuoIxK4q0AQMt2JjeECf">😣 困难</button>
+      <button class="talk-btn" data-type="idea" onclick="askPartner('idea')" data-page-node-id="ustfTGHKERyf17qnxns6ZE">💡 想法</button>
     </div>
-    <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
-      <button class="talk-btn" onclick="askPartner('report')">📣 汇报</button>
-      <button class="talk-btn" onclick="askPartner('question')">🤔 提问</button>
+    <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="QWn1pAyzSdJxwYR8AmxW9B">
+      <button class="talk-btn" data-type="cheer" onclick="askPartner('cheer')" data-page-node-id="bvayeUm3fkrOYxGTVPAmxc">🎉 喜事</button>
+      <button class="talk-btn" data-type="report" onclick="askPartner('report')" data-page-node-id="jNUdXXFQ9aeaICQorMHVSF">📣 汇报</button>
+      <button class="talk-btn" data-type="question" onclick="askPartner('question')" data-page-node-id="nuAuWEvtXkrgleOXfjONPe">🤔 提问</button>
     </div>
   </div>
 </div>
 
 <!-- ===== Page: 教练 (McKinsey风格) ===== -->
-<div id="page-coach" class="page" style="display:none;">
+<div id="page-coach" class="page" style="display:none;" data-page-node-id="KIhseEQIsCZRP2AhZtBYEt">
   <!-- 教练介绍页 -->
     
 <!-- ===== 成长路线 & 基本功 Checklist（参照AI搭子优化 · 可点击互动）===== -->
-<div id="crpWrap_weight" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
+<div id="crpWrap_weight" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;" data-page-node-id="HDq0vHUrLKFZmVf9CHcHJb">
   <style>
     #crpWrap_weight .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
     #crpWrap_weight .crp-title { font-size:15px; font-weight:800; color:#2b3a4a; margin-bottom:12px; }
@@ -834,31 +836,31 @@
     #crpWrap_weight .crp-item.done { color:#8f9eae; text-decoration:line-through; }
     #crpWrap_weight .crp-box { margin-right:8px; }
   </style>
-  <div class="crp-card">
-    <div class="crp-title">🗺️ 减肥三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
-    <div class="crp-stage" style="background:#e8f5e9;">
-      <div class="crp-stage-head" style="color:#2e7d32;">📌 第1阶段 · 第1个月 · 建立基础习惯 <span class="crp-arrow">▾</span></div>
-      <div class="crp-stage-body">规律三餐不节食，只在七八分饱时停筷<br>• 每天步行7000步起步，不追求强度<br>• 每周固定2次称重并记录，只记录不评价</div>
+  <div class="crp-card" data-page-node-id="C0W5ocBSnANaLzPBkdFeWG">
+    <div class="crp-title" data-page-node-id="O0Eb23H7e8aEYDWSfHoRpf">🗺️ 减肥三阶段成长路线<span class="crp-tip" data-page-node-id="6r5MWzvddxWRafpBeGXHjJ">👆 点击阶段展开/收起</span></div>
+    <div class="crp-stage" style="background:#e8f5e9;" data-page-node-id="RAPD8hFIRvx8eSqS7YL30N">
+      <div class="crp-stage-head" style="color:#2e7d32;" data-page-node-id="MWlOJUYVuSChwtIK4wBHpe">📌 第1阶段 · 第1个月 · 建立基础习惯 <span class="crp-arrow" data-page-node-id="eG1M3u1bnCqSG8JtCY4zsA">▾</span></div>
+      <div class="crp-stage-body" data-page-node-id="7BCr0lV6pyX3xGOd9mcFHk">规律三餐不节食，只在七八分饱时停筷<br data-page-node-id="YoyrDiwj2CD4O3CRl7RTvw">• 每天步行7000步起步，不追求强度<br data-page-node-id="etwzgMA10eoaKL83NqZJ29">• 每周固定2次称重并记录，只记录不评价</div>
     </div>
-    <div class="crp-stage" style="background:#fff3e0;">
-      <div class="crp-stage-head" style="color:#e65100;">📌 第2阶段 · 第2-3个月 · 饮食运动系统化 <span class="crp-arrow">▾</span></div>
-      <div class="crp-stage-body">学会看营养成分表，控制隐形热量<br>• 每周3次30分钟有氧 + 2次力量训练<br>• 睡眠保证7小时，睡前1小时不进食</div>
+    <div class="crp-stage" style="background:#fff3e0;" data-page-node-id="xwa1XxndU9LYCVimD0snKH">
+      <div class="crp-stage-head" style="color:#e65100;" data-page-node-id="gjzetthknXgdf3BDXXwaRC">📌 第2阶段 · 第2-3个月 · 饮食运动系统化 <span class="crp-arrow" data-page-node-id="Qi2lGfXg6qrGdIzgY0Dava">▾</span></div>
+      <div class="crp-stage-body" data-page-node-id="mMkRMSvAiHTzXGjhRtPYhk">学会看营养成分表，控制隐形热量<br data-page-node-id="xQniH7IvTxBZkGLIvBlQYF">• 每周3次30分钟有氧 + 2次力量训练<br data-page-node-id="4Qwvafa9wEpq5dCevAYlsz">• 睡眠保证7小时，睡前1小时不进食</div>
     </div>
-    <div class="crp-stage" style="background:#e8eaf6;">
-      <div class="crp-stage-head" style="color:#3949ab;">📌 第3阶段 · 第4-6个月 · 维持与巩固 <span class="crp-arrow">▾</span></div>
-      <div class="crp-stage-body">加入力量训练，提升基础代谢<br>• 建立压力性进食的应对清单<br>• 设定体重反弹预警线（+3kg即干预）</div>
+    <div class="crp-stage" style="background:#e8eaf6;" data-page-node-id="ngBcOuFpFm6myFQuZDmLU7">
+      <div class="crp-stage-head" style="color:#3949ab;" data-page-node-id="PRGNcpkiZoDG6pM8ZsG9e7">📌 第3阶段 · 第4-6个月 · 维持与巩固 <span class="crp-arrow" data-page-node-id="h7rLaAKdxK8LVzeqv40aPA">▾</span></div>
+      <div class="crp-stage-body" data-page-node-id="2CZ1zV6EeNofrDXLmRVEmQ">加入力量训练，提升基础代谢<br data-page-node-id="bhWDm2HmnJL0tKG1WOgF6P">• 建立压力性进食的应对清单<br data-page-node-id="Hl5CES9vGxveC7zVNg8K1a">• 设定体重反弹预警线（+3kg即干预）</div>
     </div>
   </div>
-  <div class="crp-card">
-    <div class="crp-title">📋 减肥基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_weight" style="color:#66bb6a;">0</b>/7 · 自动保存</span></div>
-    <div>
-      <div class="crp-item"><span class="crp-box">☐</span>连续7天记录饮食</div>
-      <div class="crp-item"><span class="crp-box">☐</span>每周运动≥3次</div>
-      <div class="crp-item"><span class="crp-box">☐</span>会看营养成分表</div>
-      <div class="crp-item"><span class="crp-box">☐</span>戒掉含糖饮料</div>
-      <div class="crp-item"><span class="crp-box">☐</span>平均睡眠7小时以上</div>
-      <div class="crp-item"><span class="crp-box">☐</span>体重稳定下降不反弹</div>
-      <div class="crp-item"><span class="crp-box">☐</span>有一套自己的减脂餐模板</div>
+  <div class="crp-card" data-page-node-id="OP9qg2g8msKcz2ltlPKYnI">
+    <div class="crp-title" data-page-node-id="AX724T4pvJE54m2tGO8kh5">📋 减肥基本功 Checklist<span class="crp-tip" data-page-node-id="h3SakmVE5UlqNUa6T8onvf">👆 点击勾选 · 已达成 <b id="crpCnt_weight" style="color:#66bb6a;" data-page-node-id="HCBK7dV1RpDUiCuXgixOzb">0</b>/7 · 自动保存</span></div>
+    <div data-page-node-id="Had16CEOqKf6WEsXIoNVps">
+      <div class="crp-item" data-page-node-id="kDSFCf3V2sVKCmDOu9RM98"><span class="crp-box" data-page-node-id="61FqoALVsrWn7oWZXOWBUG">☐</span>连续7天记录饮食</div>
+      <div class="crp-item" data-page-node-id="b8lMZXWXAWKKvAPCvPayV2"><span class="crp-box" data-page-node-id="SijQR9A4kp8Os9tdcjsNDV">☐</span>每周运动≥3次</div>
+      <div class="crp-item" data-page-node-id="k9Ev89ijWQdR6z7GGhsR7g"><span class="crp-box" data-page-node-id="jY0z0SIWNdUIaiL2NXCHFK">☐</span>会看营养成分表</div>
+      <div class="crp-item" data-page-node-id="kcBXfDZcn5mqV60xxUqWOl"><span class="crp-box" data-page-node-id="K3tOSXFkmhzWpSQXSMXOm6">☐</span>戒掉含糖饮料</div>
+      <div class="crp-item" data-page-node-id="tph88oDQGzTkjHixsjNUq3"><span class="crp-box" data-page-node-id="Tu5o3kAJRhfquowFd7rEkv">☐</span>平均睡眠7小时以上</div>
+      <div class="crp-item" data-page-node-id="DYS5eJjFtt2ABAGiRVI4RB"><span class="crp-box" data-page-node-id="owApQsmFemmFPlclnejWEn">☐</span>体重稳定下降不反弹</div>
+      <div class="crp-item" data-page-node-id="REZbcmG31o31MrC1D32PBi"><span class="crp-box" data-page-node-id="e2df36VIfctlBWKroRkxKD">☐</span>有一套自己的减脂餐模板</div>
     </div>
   </div>
   <script>
@@ -894,95 +896,95 @@
   </script>
 </div>
 
-    <div class="coach-intro" id="coachIntro">
-    <div class="coach-intro-icon">🎓</div>
-    <div class="coach-intro-title">麦肯锡风格减肥教练</div>
-    <div class="coach-intro-sub">帮你拆解减肥卡点，制定可落地的行动方案</div>
-    <div class="method-steps">
-      <div class="method-step"><span class="step-num">①</span> 诊断卡点<br><span class="step-desc">找准根本原因</span></div>
-      <div class="method-step"><span class="step-num">②</span> 策略分析<br><span class="step-desc">三层拆解问题</span></div>
-      <div class="method-step"><span class="step-num">③</span> 行动优先<br><span class="step-desc">可执行的下一步</span></div>
+    <div class="coach-intro" id="coachIntro" data-page-node-id="23HxbGX7q3TkKn3BLw5cZc">
+    <div class="coach-intro-icon" data-page-node-id="XjfJafZja7JbFkxGasEoze">🎓</div>
+    <div class="coach-intro-title" data-page-node-id="ni1Rer6ggUZfu39XxlwTVZ">麦肯锡风格减肥教练</div>
+    <div class="coach-intro-sub" data-page-node-id="HiaSXcEqK4dZVPgBlkSHPj">帮你拆解减肥卡点，制定可落地的行动方案</div>
+    <div class="method-steps" data-page-node-id="olfP9Fq51V03tM2xk0bvRH">
+      <div class="method-step" data-page-node-id="BJz2HXMQ5JWK0I0EAHxgJy"><span class="step-num" data-page-node-id="t7jZnE4hpwuGciBgneSfuS">①</span> 诊断卡点<br data-page-node-id="0VRcwtjXqJTOfRaB2I114F"><span class="step-desc" data-page-node-id="T8AkMCcHsGWo26xwZVYrs2">找准根本原因</span></div>
+      <div class="method-step" data-page-node-id="Z8IyQadBFqXBUTBtTaQGRy"><span class="step-num" data-page-node-id="BqObRUijhsYckjHqigbLkY">②</span> 策略分析<br data-page-node-id="faZTrvlIdlrKfMlJ5JJWgT"><span class="step-desc" data-page-node-id="YUCktyAR9aZyB4phRqNaB9">三层拆解问题</span></div>
+      <div class="method-step" data-page-node-id="SlOwTAbHpKSbsMkFd0pWUT"><span class="step-num" data-page-node-id="FoEKPs2PMGr8gmTU8tSj8q">③</span> 行动优先<br data-page-node-id="qoiy31S5fIdTpPLXoHpqc2"><span class="step-desc" data-page-node-id="b6uKthSnUOHT8BMeGPUtui">可执行的下一步</span></div>
     </div>
-    <button class="coach-start-btn" onclick="startCoach()">开始深度对话 →</button>
-    <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
+    <button class="coach-start-btn" onclick="startCoach()" data-page-node-id="jwRfFHrm2485LNyXCDaP8d">开始深度对话 →</button>
+    <div class="coach-intro-note" data-page-node-id="cIiPYkrp4AYaiXr1KkTDKp">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
   </div>
   <!-- 对话界面 (McKinsey风格) -->
-  <div id="coachChat" style="display:none;">
-    <div class="coach-progress-bar">
-      <div class="progress-step active" id="progressStep1">① 界定问题</div>
-      <div class="progress-step" id="progressStep2">② 结构化分析</div>
-      <div class="progress-step" id="progressStep3">③ 优先级行动</div>
+  <div id="coachChat" style="display:none;" data-page-node-id="MhBSiuVsdyPUns8riLjoSr">
+    <div class="coach-progress-bar" data-page-node-id="D61ktbVuOnCExVj6dixWC0">
+      <div class="progress-step active" id="progressStep1" data-page-node-id="0K58nakox5nwkHxPfBej3P">① 界定问题</div>
+      <div class="progress-step" id="progressStep2" data-page-node-id="tO8DHiKTQApIiPo9gu9o0m">② 结构化分析</div>
+      <div class="progress-step" id="progressStep3" data-page-node-id="FwbiUAQMVUFfIcZPFcGbaw">③ 优先级行动</div>
     </div>
-    <div class="chat-messages" id="chatMessages"></div>
-    <div class="coach-prompt" id="coachPrompt" style="display:none;">
+    <div class="chat-messages" id="chatMessages" data-page-node-id="hmU5Tiy883LxAfyXdGaZC9"></div>
+    <div class="coach-prompt" id="coachPrompt" style="display:none;" data-page-node-id="UsUxiDMfFOEmLFLkJbiPGp">
       💡 请在下方输入框中回复，按 Enter 发送
     </div>
-    <div class="generating-report" id="generatingReport" style="display:none;">⏳ 正在生成MECE诊断报告，请稍候...</div>
-    <div class="chat-input-area" id="chatInputArea" style="display:none;">
+    <div class="generating-report" id="generatingReport" style="display:none;" data-page-node-id="NnHIsRmF6Og3QNBZt9Al8V">⏳ 正在生成MECE诊断报告，请稍候...</div>
+    <div class="chat-input-area" id="chatInputArea" style="display:none;" data-page-node-id="Iv0C9dSLcWutR5dgBtUmmq">
       <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
-      <button class="chat-send-btn" onclick="sendCoachMsg()">发送</button>
+      <button class="chat-send-btn" onclick="sendCoachMsg()" data-page-node-id="PMxcycuRzbdVidHF0GGGiz">发送</button>
     </div>
-    <div class="coach-buttons" id="coachButtons" style="display:none;">
-      <div class="coach-btn-prompt" id="coachBtnPrompt"></div>
-      <div class="coach-btn-list" id="coachBtnList"></div>
+    <div class="coach-buttons" id="coachButtons" style="display:none;" data-page-node-id="YpAwW63T2ZSwlGS6RLAEWp">
+      <div class="coach-btn-prompt" id="coachBtnPrompt" data-page-node-id="9rT2eKsRqf4jaE8qufzmBk"></div>
+      <div class="coach-btn-list" id="coachBtnList" data-page-node-id="5LTFu9mi85Pv9xcVxpgNBj"></div>
     </div>
   </div>
   <!-- 诊断报告页 -->
-  <div class="coach-report-mckinsey" id="coachReport" style="display:none;"></div>
+  <div class="coach-report-mckinsey" id="coachReport" style="display:none;" data-page-node-id="428oVSGoXvd1BDAqAlCVEB"></div>
 </div><!-- end page-coach -->
 
 <!-- ===== Toast ===== -->
-<div id="toastMsg" class="toast"></div>
+<div id="toastMsg" class="toast" data-page-node-id="WneQP2kbdD1AbqeKN3AtEJ"></div>
 
 <!-- ===== SOP 单维度小结弹窗 ===== -->
-<div class="sop-finish-overlay" id="catSummaryOverlay"></div>
+<div class="sop-finish-overlay" id="catSummaryOverlay" data-page-node-id="JrYdP8zzbKG0EEWAXfH4ZY"></div>
 
 <!-- ===== SOP 全部完成弹窗 ===== -->
-<div class="sop-finish-overlay" id="sopFinishOverlay"></div>
+<div class="sop-finish-overlay" id="sopFinishOverlay" data-page-node-id="UmZ64TguYmfgS2kgpUTlzu"></div>
 
 <!-- ===== 负向行为批评弹窗 ===== -->
-<div class="neg-critic-overlay" id="negCriticOverlay">
-  <div class="neg-critic-card">
-    <div class="neg-critic-emoji" id="negEmoji">⚠️</div>
-    <div class="neg-critic-title" id="negTitle">这个习惯需要注意</div>
-    <div class="neg-critic-desc" id="negDesc"></div>
-    <div class="neg-critic-reply" id="negReply"></div>
-    <div class="neg-critic-row">
-      <button class="neg-btn yes" onclick="negYes()">✅ 知道了</button>
+<div class="neg-critic-overlay" id="negCriticOverlay" data-page-node-id="E7Sfqp2Ul4AvKWhHUY6r2m">
+  <div class="neg-critic-card" data-page-node-id="NEfb2MHmJfzIGba05xUDqB">
+    <div class="neg-critic-emoji" id="negEmoji" data-page-node-id="6iN9DibMTJSsB2QIduAYuj">⚠️</div>
+    <div class="neg-critic-title" id="negTitle" data-page-node-id="1hnE12SDbHRzNyn0OpHLGH">这个习惯需要注意</div>
+    <div class="neg-critic-desc" id="negDesc" data-page-node-id="yHFMUHbOaTUlvzdbSGzVLA"></div>
+    <div class="neg-critic-reply" id="negReply" data-page-node-id="HhEB5rg48cGg7oQuCm5UFX"></div>
+    <div class="neg-critic-row" data-page-node-id="q9Oq8odewfHNeeXD4Izshz">
+      <button class="neg-btn yes" onclick="negYes()" data-page-node-id="RtVbaWPU1zvEDGjqCbyHxv">✅ 知道了</button>
     </div>
   </div>
 </div>
 
 <!-- ===== 正向奖励弹窗 ===== -->
-<div class="pos-reward-overlay" id="posRewardOverlay">
-  <div class="pos-reward-card" id="posRewardCard">
-    <div class="pos-reward-emoji" id="posRewardEmoji">✨</div>
-    <div class="pos-reward-msg" id="posRewardMsg"></div>
-    <div class="pos-reward-pts" id="posRewardPts">+0</div>
+<div class="pos-reward-overlay" id="posRewardOverlay" data-page-node-id="Bi5St6ZUjRIC83dGsoBpfT">
+  <div class="pos-reward-card" id="posRewardCard" data-page-node-id="IrultBktD6Q5Bsc4crA6Q7">
+    <div class="pos-reward-emoji" id="posRewardEmoji" data-page-node-id="pqdmgsm8hqSdLqtcJgIOzC">✨</div>
+    <div class="pos-reward-msg" id="posRewardMsg" data-page-node-id="rwAEZUdz9rGA7jcUa8WnRx"></div>
+    <div class="pos-reward-pts" id="posRewardPts" data-page-node-id="sSryaQCLrqk2nqdUI6B70P">+0</div>
   </div>
 </div>
 
 <!-- ===== 问答/进展选择面板 ===== -->
-<div class="qa-overlay" id="qaOverlay">
-  <div class="qa-panel">
-    <div class="qa-handle"></div>
-    <div class="qa-header">
-      <div class="qa-title" id="qaTitle">🤔 有问题想问</div>
-      <div class="qa-sub" id="qaSub">选择一个最符合你情况的问题</div>
+<div class="qa-overlay" id="qaOverlay" data-page-node-id="FuzWz6VpAzP2PSCFwbrOov">
+  <div class="qa-panel" data-page-node-id="Y3MPCOlrmy7F5DjUmuPyO0">
+    <div class="qa-handle" data-page-node-id="sG5osJ87iDVRXpMkgCHOnS"></div>
+    <div class="qa-header" data-page-node-id="rS2sBaaz31mgWAoTgQTzF2">
+      <div class="qa-title" id="qaTitle" data-page-node-id="OXAwqTKttLywNaBSOl8xbK">🤔 有问题想问</div>
+      <div class="qa-sub" id="qaSub" data-page-node-id="nW9CHO19A9ZATn3xF7Nnpt">选择一个最符合你情况的问题</div>
     </div>
-    <div class="qa-scroll" id="qaScroll"></div>
+    <div class="qa-scroll" id="qaScroll" data-page-node-id="SnTvWNGGEzhRRaNthTP9OY"></div>
   </div>
 </div>
 
 <!-- ===== 反馈弹窗 ===== -->
-<div class="fb-overlay" id="fbOverlay">
-  <div class="fb-card" id="fbCard">
-    <div class="fb-emoji" id="fbEmoji">✨</div>
-    <div class="fb-label" id="fbLabel">正向</div>
-    <div class="fb-title" id="fbTitle"></div>
-    <div class="fb-text" id="fbText"></div>
-    <div class="fb-partner-quote" id="fbQuote"></div>
-    <button class="fb-btn" onclick="closeFeedback()">✅ 知道了</button>
+<div class="fb-overlay" id="fbOverlay" data-page-node-id="igCYD5aYUJ8ZG5g9wJYvEd">
+  <div class="fb-card" id="fbCard" data-page-node-id="PNPGO5PcmyXULOeu6v6y08">
+    <div class="fb-emoji" id="fbEmoji" data-page-node-id="e28ZhizGEHPSr57FYF0wDC">✨</div>
+    <div class="fb-label" id="fbLabel" data-page-node-id="QLJrAiF53E2FekgKp0qTmS">正向</div>
+    <div class="fb-title" id="fbTitle" data-page-node-id="rkb3VMQGgwiHNErVo47vkO"></div>
+    <div class="fb-text" id="fbText" data-page-node-id="gCpkAsDvm14FmBh5GUaQXh"></div>
+    <div class="fb-partner-quote" id="fbQuote" data-page-node-id="Vdh8ew7D47ubb1lTdCIB6W"></div>
+    <button class="fb-btn" onclick="closeFeedback()" data-page-node-id="9DeHTcaujbmjIfKVUNTMfl">✅ 知道了</button>
   </div>
 </div>
 
@@ -1712,10 +1714,11 @@ function makeTypeCard(panel, dir, item, index) {
     <div class="qa-card-text">${item.scenario}</div>
     <div class="qa-card-tag ${item.type}">${item.tag}</div>
   `;
-  card.onclick = () => {
+  card._qaClick = () => {
     closeQAPanel();
     setTimeout(() => showTypeFeedback(panel, dir, item, index), 300);
   };
+  card.onclick = card._qaClick;
   return card;
 }
 
@@ -1914,6 +1917,37 @@ function startApp() {
   checkReminder();
   // 每小时检查一次
   setInterval(checkReminder, 60 * 60 * 1000);
+
+  // 兜底：部分浏览器/预览环境对 inline onclick 派发不稳定，
+  // 用事件代理再补一层，确保 mood-btn / talk-btn / qa-card 都能响应
+  bindInteractionFallback();
+}
+
+function bindInteractionFallback() {
+  const chatWrap = document.querySelector('.interaction-panel');
+  if (chatWrap) {
+    chatWrap.addEventListener('click', e => {
+      const mood = e.target.closest('.mood-btn');
+      const talk = e.target.closest('.talk-btn');
+      if (mood) {
+        const m = mood.getAttribute('data-mood') || mood.title;
+        if (m) sendMood(m);
+        return;
+      }
+      if (talk) {
+        const t = talk.getAttribute('data-type');
+        if (t) askPartner(t);
+        return;
+      }
+    }, true);
+  }
+  const qaScroll = document.getElementById('qaScroll');
+  if (qaScroll) {
+    qaScroll.addEventListener('click', e => {
+      const card = e.target.closest('.qa-card');
+      if (card && card._qaClick) card._qaClick();
+    }, true);
+  }
 }
 
 function checkReminder() {
@@ -3340,26 +3374,26 @@ function renderPartnerPage() {
 startApp();
 </script>
 <!-- ===== 搭子切换弹窗 ===== -->
-<div id="partnerOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center;">
-  <div style="background:white;border-radius:24px;padding:28px 20px;max-width:360px;width:90%;text-align:center;position:relative;">
-    <div style="position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;" onclick="closePartnerOverlay()">✕</div>
-    <div style="font-size:20px;font-weight:700;margin-bottom:4px;">💬 换个搭子</div>
-    <div style="font-size:13px;color:#888;margin-bottom:20px;">随时切换，搭子风格由你定</div>
-    <div class="partner-grid" id="partnerGrid2" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;"></div>
-    <button onclick="closePartnerOverlay()" style="width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#3de882,#2ed573);color:white;font-size:15px;font-weight:600;cursor:pointer;">✨ 确认搭子 ✨</button>
+<div id="partnerOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center;" data-page-node-id="03biCJEs9B7p9azpjgyqco">
+  <div style="background:white;border-radius:24px;padding:28px 20px;max-width:360px;width:90%;text-align:center;position:relative;" data-page-node-id="xi4HSCQCbuDeSLkGBZQeLM">
+    <div style="position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;" onclick="closePartnerOverlay()" data-page-node-id="IAYM8z5sCeF7vCtkECIIoz">✕</div>
+    <div style="font-size:20px;font-weight:700;margin-bottom:4px;" data-page-node-id="NN2KcZYTfKo0NidHfVnL7F">💬 换个搭子</div>
+    <div style="font-size:13px;color:#888;margin-bottom:20px;" data-page-node-id="Ii3oUh8THbaIuycsdjyTUJ">随时切换，搭子风格由你定</div>
+    <div class="partner-grid" id="partnerGrid2" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;" data-page-node-id="cOKssdWUh0eBomgWRecYGS"></div>
+    <button onclick="closePartnerOverlay()" style="width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#3de882,#2ed573);color:white;font-size:15px;font-weight:600;cursor:pointer;" data-page-node-id="ZtXpp0jdoP8DItTgJ3dkqG">✨ 确认搭子 ✨</button>
   </div>
 </div>
 
 <!-- ===== 成就弹窗 ===== -->
-<div id="achievementOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:600;align-items:center;justify-content:center;flex-direction:column;">
-  <canvas id="achievementConfetti" style="position:fixed;inset:0;pointer-events:none;z-index:601;"></canvas>
-  <div style="background:white;border-radius:32px;padding:40px 32px;max-width:340px;width:90%;text-align:center;position:relative;z-index:602;animation:achievementPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-    <div style="position:absolute;top:-32px;left:50%;transform:translateX(-50%);font-size:56px;animation:achievementBounce 1s infinite;" id="achievementIcon">🏆</div>
-    <div style="margin-top:24px;font-size:28px;font-weight:800;color:#ff6b35;margin-bottom:4px;" id="achievementTitle">里程碑达成！</div>
-    <div style="font-size:14px;color:#888;margin-bottom:20px;" id="achievementSub">你已经坚持了</div>
-    <div style="font-size:48px;font-weight:800;color:#333;margin-bottom:8px;" id="achievementDays">7天</div>
-    <div style="font-size:15px;color:#666;line-height:1.6;margin-bottom:24px;padding:16px;background:#f8f9fa;border-radius:16px;" id="achievementMsg">继续保持，胜利就在前方！</div>
-    <button onclick="closeAchievement()" style="width:100%;padding:14px;border:none;border-radius:60px;background:linear-gradient(135deg,#ff6b35,#ff9500);color:white;font-size:16px;font-weight:700;cursor:pointer;">🎉 太棒了！</button>
+<div id="achievementOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:600;align-items:center;justify-content:center;flex-direction:column;" data-page-node-id="cR8GTLs4Kg6BNmoHo1AWA3">
+  <canvas id="achievementConfetti" style="position:fixed;inset:0;pointer-events:none;z-index:601;" data-page-node-id="HCnCd7ANdfryFJZ0MmjJ0A"></canvas>
+  <div style="background:white;border-radius:32px;padding:40px 32px;max-width:340px;width:90%;text-align:center;position:relative;z-index:602;animation:achievementPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);" data-page-node-id="FL2D93HjijZG9HOWSQhHgB">
+    <div style="position:absolute;top:-32px;left:50%;transform:translateX(-50%);font-size:56px;animation:achievementBounce 1s infinite;" id="achievementIcon" data-page-node-id="gsSU3UqUFNpW6ZaprJEWXx">🏆</div>
+    <div style="margin-top:24px;font-size:28px;font-weight:800;color:#ff6b35;margin-bottom:4px;" id="achievementTitle" data-page-node-id="TjYHA7bIvo8HQBO06GmvW0">里程碑达成！</div>
+    <div style="font-size:14px;color:#888;margin-bottom:20px;" id="achievementSub" data-page-node-id="OR7rWg1EeBzP0V3ZjxBh6N">你已经坚持了</div>
+    <div style="font-size:48px;font-weight:800;color:#333;margin-bottom:8px;" id="achievementDays" data-page-node-id="Y85eVTwRDe70ae2BGBcNXH">7天</div>
+    <div style="font-size:15px;color:#666;line-height:1.6;margin-bottom:24px;padding:16px;background:#f8f9fa;border-radius:16px;" id="achievementMsg" data-page-node-id="tFFvRycUzgDv0kqR55N9pN">继续保持，胜利就在前方！</div>
+    <button onclick="closeAchievement()" style="width:100%;padding:14px;border:none;border-radius:60px;background:linear-gradient(135deg,#ff6b35,#ff9500);color:white;font-size:16px;font-weight:700;cursor:pointer;" data-page-node-id="T4FfOjQENcII9EKboAs8wD">🎉 太棒了！</button>
   </div>
 </div>
 <style>
