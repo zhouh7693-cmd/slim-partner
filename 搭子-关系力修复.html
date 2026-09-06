@@ -2191,8 +2191,9 @@ function renderWeeklyReport() {
       ${SOP_CATEGORIES.map(cat => {
         let st = streaks[cat.id] || { streak: 0 };
         let catScore = sopScore > 0 ? Math.round(sopScore / SOP_CATEGORIES.length) : 0;
-        let catDone = sopPositives ? sopPositives.filter(p => p.cat === cat.id).length : 0;
-        let negCount = sopNegatives ? sopNegatives.filter(n => n.cat === cat.id).length : 0;
+        let sel = (sop.selected && sop.selected[cat.id]) || {};
+        let catDone = Object.values(sel).filter(v => v === 'yes').length;
+        let negCount = Object.values(sel).filter(v => v === 'no').length;
         let doneTotal = (catDone || 0) - (negCount || 0);
         let statusColor = doneTotal >= 3 ? '#4caf50' : doneTotal >= 1 ? '#ff9800' : '#ef5350';
         return `<div style="background:${cat.color}18;border-radius:10px;padding:8px 6px;text-align:center;">
@@ -2616,6 +2617,18 @@ function toggleSOPItem(idx, state) {
   }
   
   renderSOPList();
+  updateSOPDisplay();
+  renderSOPCats();
+  autoSaveSOPDay();
+}
+
+// 当天有作答即自动留存当天记录（无需全部维度提交）
+function autoSaveSOPDay() {
+  let hasAnswer = false;
+  SOP_CATEGORIES.forEach(c => { if (Object.keys(sopSelected[c.id] || {}).length > 0) hasAnswer = true; });
+  if (!hasAnswer) return;
+  saveSOPData({ score: sopScore, selected: sopSelected, done: sopDone, date: getToday(), submittedCats: sopSubmittedCats });
+  saveSOPToHistory({ date: getToday(), score: sopScore, selected: sopSelected });
 }
 
 function submitSOPCat() {
@@ -2749,6 +2762,15 @@ function renderSOPDoneState() {
 }
 
 function updateSOPDisplay() {
+  // 实时重算总分：每次勾选/取消都自动求和（总做到/总项数×100）
+  (function() {
+    let tY = 0, tA = 0;
+    SOP_CATEGORIES.forEach(c => {
+      let sel = sopSelected[c.id] || {};
+      c.items.forEach((it, i) => { tA++; if (sel[i] === 'yes') tY++; });
+    });
+    sopScore = tA > 0 ? Math.round(tY / tA * 100) : 0;
+  })();
   let maxScore = 100;
   let displayScore = Math.max(0, Math.min(maxScore, sopScore));
   document.getElementById('sopScore').innerText = displayScore;
