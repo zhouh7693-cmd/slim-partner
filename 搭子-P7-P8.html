@@ -147,13 +147,14 @@
     .interaction-panel { max-width: 420px; margin: 0 auto 20px; background: white; border-radius: 28px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .panel-label { font-size: 12px; color: #8f9eae; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
     .mood-row { display: flex; justify-content: space-around; margin-bottom: 14px; }
-    .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; }
+    .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; pointer-events: auto !important; touch-action: manipulation; }
     .mood-btn:hover, .mood-btn:active { background: #f0f4fd; transform: scale(1.15); }
     .talk-btn-row { display: flex; gap: 8px; }
     .talk-btn {
       flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #e9edf2;
       background: white; font-size: 14px; font-weight: 500; color: #3a5fcd;
       cursor: pointer; transition: all 0.15s;
+      pointer-events: auto !important; touch-action: manipulation;
     }
     .talk-btn:active { background: #f0f4fd; transform: scale(0.97); }
 
@@ -727,24 +728,24 @@
   <div class="interaction-panel" id="interactionPanel">
     <div class="panel-label">👋 说说今天的情况</div>
     <div class="mood-row" id="moodRow">
-      <button class="mood-btn" onclick="sendMood('happy')" title="开心">😊</button>
-      <button class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</button>
-      <button class="mood-btn" onclick="sendMood('sad')" title="低落">😔</button>
-      <button class="mood-btn" onclick="sendMood('tired')" title="疲惫">😤</button>
+      <button class="mood-btn" data-mood="happy" onclick="sendMood('happy')" title="开心">😊</button>
+      <button class="mood-btn" data-mood="neutral" onclick="sendMood('neutral')" title="平静">😌</button>
+      <button class="mood-btn" data-mood="sad" onclick="sendMood('sad')" title="低落">😔</button>
+      <button class="mood-btn" data-mood="tired" onclick="sendMood('tired')" title="疲惫">😤</button>
     </div>
     <div class="talk-btn-row">
-      <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
-      <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
-      <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
-      <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
+      <button class="talk-btn" data-type="progress" onclick="askPartner('progress')">📈 进展</button>
+      <button class="talk-btn" data-type="struggle" onclick="askPartner('struggle')">😣 困难</button>
+      <button class="talk-btn" data-type="idea" onclick="askPartner('idea')">💡 想法</button>
+      <button class="talk-btn" data-type="cheer" onclick="askPartner('cheer')">🎉 喜事</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
-      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
+      <button class="talk-btn" data-type="report" onclick="askPartner('report')">📣 汇报进展</button>
+      <button class="talk-btn" data-type="question" onclick="askPartner('question')">🤔 有问题想问</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="askPartner('talent')">👥 人才培养</button>
-      <button class="talk-btn" onclick="askPartner('strategy')">🎯 战略思考</button>
+      <button class="talk-btn" data-type="talent" onclick="askPartner('talent')">👥 人才培养</button>
+      <button class="talk-btn" data-type="strategy" onclick="askPartner('strategy')">🎯 战略思考</button>
     </div>
   </div>
 
@@ -1333,6 +1334,35 @@ function startApp() {
   }
   // 默认切换到搭子页
   switchTab('chat');
+  // 兜底：部分浏览器/预览环境对 inline onclick 派发不稳定，用事件代理再补一层
+  bindInteractionFallback();
+}
+
+function bindInteractionFallback() {
+  var panel = document.getElementById('interactionPanel');
+  if (panel) {
+    panel.addEventListener('click', function(e) {
+      var mood = e.target.closest('.mood-btn');
+      var talk = e.target.closest('.talk-btn');
+      if (mood) {
+        var m = mood.getAttribute('data-mood');
+        if (m) sendMood(m);
+        return;
+      }
+      if (talk) {
+        var t = talk.getAttribute('data-type');
+        if (t) askPartner(t);
+        return;
+      }
+    }, true);
+  }
+  var qaScroll = document.getElementById('qaScroll');
+  if (qaScroll) {
+    qaScroll.addEventListener('click', function(e) {
+      var card = e.target.closest('.qa-card');
+      if (card && card._qaClick) card._qaClick();
+    }, true);
+  }
 }
 
 function renderChat() {
@@ -1452,14 +1482,15 @@ function sendMood(mood) {
   var moodText = { happy: '今天状态不错！', neutral: '今天状态平稳。', sad: '今天心情有点低落……', tired: '今天感觉有点疲惫。' };
   var replies = {
     rational: {
-      happy: ['好状态。保持这个节奏 🎖️', '状态好的时候，适合做关键决策 💼', '好势头继续 🎖️'],
-      neutral: ['平稳是升P8的常态 🎖️', '不急不躁，节奏刚刚好 💼', '平静也是一种力量 🎖️'],
-      sad: ['低落也正常，说说看 🎖️', '没有迈不过去的坎 💼', '卡住了？我们一起想想 🎖️'],
-      tired: ['累了先休息，别硬撑 🎖️', '身体是本钱，今晚好好休息 💼', '疲惫是信号，需要调整节奏 🎖️']
+      happy: ['好状态。保持这个节奏，适合做关键决策。', '状态好的时候，把最难的判断留到现在做。', '势头不错。记录一下，好状态下的判断力最值钱。'],
+      neutral: ['平稳是升P8的常态。不急不躁，节奏刚刚好。', '没有大起大落，说明你在掌控节奏。', '平静也是一种力量，适合复盘和布局。'],
+      sad: ['低落也正常，P7升P8的路上没有一帆风顺。说说看。', '没有迈不过去的坎，只有还没找到的方法。', '卡住了？我们一起把问题拆细。'],
+      tired: ['累了先休息，别硬撑。疲惫时决策质量最低。', '身体是本钱，今晚好好休息，明天再战。', '疲惫是信号，说明需要调整节奏或授权出去。']
     }
   };
   var arr = replies[pStyle] || replies.rational;
-  var reply = moodText[mood] + ' ' + arr[mood][Math.floor(Math.random() * arr[mood].length)];
+  var suffix = arr[mood][Math.floor(Math.random() * arr[mood].length)];
+  var reply = moodText[mood] + ' ' + suffix;
   switchTabDirect('chat');
   showPartnerMsg(moodText[mood], false);
   setTimeout(function() { appendPartnerMsg(emoji + ' ' + reply, true); }, 700);
@@ -1516,10 +1547,11 @@ function openTypePanel(panel, dir) {
     var typeClass = item.type === 'pos' ? 'pos' : 'neg';
     div.className = 'qa-card ' + typeClass;
     div.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div><div class="qa-card-text">' + item.scenario + '</div><div class="qa-card-tag ' + typeClass + '">' + (item.type === 'pos' ? '积极' : '困难') + '</div>';
-    div.onclick = function() {
+    div._qaClick = function() {
       closeQA();
       showFeedback(item, i);
     };
+    div.onclick = div._qaClick;
     scroll.appendChild(div);
   });
   document.getElementById('qaOverlay').classList.add('show');
