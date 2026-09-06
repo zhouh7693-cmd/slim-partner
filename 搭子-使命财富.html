@@ -599,15 +599,14 @@
     </div>
 
     <!-- 分享入口 -->
-    <div class="share-inline-card" data-page-node-id="wCMbnkXI2cu9HIfLYMmPqv">
-      <div class="share-inline-label" data-page-node-id="QJT5j253yX9BhpMFBefASf">📣 推荐给想一起追寻使命的朋友</div>
-      <div class="share-inline-preview" data-page-node-id="YX6uEFH3qdYCmTMHskz8xJ">
-        🎯 使命财富搭子 · 4种性格陪你成长
+    <!-- 📌 今天提醒自己 -->
+    <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#efe8fd,#e8defa);border-radius:18px;padding:14px 16px;font-size:13px;color:#5e35b1;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <span style="font-size:18px;">📌</span>
+        <span style="font-weight:700;">今天提醒自己</span>
+        <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
       </div>
-      <div class="share-copy-row" data-page-node-id="UMnVB7obvI1qM6rrDUkskM">
-        <button class="share-copy-btn" onclick="copyShareLink()" data-page-node-id="hDY351jQoeXldJj3gm7Z5L">📋 复制邀请链接</button>
-        <button class="share-link-btn" onclick="previewShareCard()" data-page-node-id="w2GWbgcybihwzAwJhKExuq">👀 预览卡片</button>
-      </div>
+      <div id="dailyTipText">使命不是口号，是你愿意重复十年的小事</div>
     </div>
 
     <footer data-page-node-id="j0Xn9G4AHwcBuoGFapZKJ9">每天一次签到 · 你的搭子会给你力量</footer>
@@ -3262,6 +3261,17 @@ startApp();
 })();
 </script>
 
+
+<script>
+(function(){
+  var TIPS = ['使命不是口号，是你愿意重复十年的小事', '每天留30分钟给“重要不紧急”的事', '帮助别人时，自己的意义感最强', '十年视角：这件事还重要吗？', '你的天赋在哪里，责任就在哪里', '定期问自己：我在为什么而积累？', '慢就是快，长期主义者不怕今天没结果', '写下你希望10年后的自己在做什么'];
+  window.nextDailyTip = function() {
+    var el = document.getElementById("dailyTipText");
+    if (!el) return;
+    el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
+  };
+})();
+</script>
 
 </body>
 </html>

@@ -2593,8 +2593,10 @@ const HARD_RULES = [
     const s = getHardRules();
     s[i] = !s[i];
     saveHardRules(s);
+    state[i] = s[i]; /* 同步闭包状态，否则 render 仍用旧数据 */
     render();
   };
+  window.renderHardRulesIfAny = render;
   render();
 })();
 

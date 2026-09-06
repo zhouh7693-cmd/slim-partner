@@ -601,15 +601,14 @@
     </div>
 
     <!-- 分享入口 -->
-    <div class="share-inline-card" data-page-node-id="JgMwNzNGkf6RQip1SE5Dcr">
-      <div class="share-inline-label" data-page-node-id="NbKyLKH7tuUpcq5HyfxVr9">📣 推荐给想一起成长的朋友</div>
-      <div class="share-inline-preview" data-page-node-id="4ccQBLZsPsrngJC0dsEwqb">
-        🕊️ 精神财富搭子 · 4种性格陪你成长
+    <!-- 📌 今天提醒自己 -->
+    <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#eee8f8,#e5dcf3);border-radius:18px;padding:14px 16px;font-size:13px;color:#5e35b1;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <span style="font-size:18px;">📌</span>
+        <span style="font-weight:700;">今天提醒自己</span>
+        <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
       </div>
-      <div class="share-copy-row" data-page-node-id="7IYioyCC6ld5Jvz2xCOinU">
-        <button class="share-copy-btn" onclick="copyShareLink()" data-page-node-id="64OWCUlYI4ImjAyarD3RHz">📋 复制邀请链接</button>
-        <button class="share-link-btn" onclick="previewShareCard()" data-page-node-id="s4REOYTIJybSCHFtnAsNxI">👀 预览卡片</button>
-      </div>
+      <div id="dailyTipText">每天留10分钟安静：发呆也是充电</div>
     </div>
 
     <footer data-page-node-id="B4M03R3aG5QqmrnJr8777g">每天一次签到 · 你的搭子会给你力量</footer>
@@ -2952,6 +2951,17 @@ startApp();
 })();
 </script>
 
+
+<script>
+(function(){
+  var TIPS = ['每天留10分钟安静：发呆也是充电', '读一页书也算赢：复利在精神层面同样生效', '情绪是信号，不是敌人：先命名再处理', '少刷10分钟手机，多看一眼自己的内心', '写下今天让你平静的一件小事', '内心丰盈的人，不需要向外界证明什么', '焦虑来自想同时要太多：写下真正想要的3件', '睡前原谅自己一遍，明天再来'];
+  window.nextDailyTip = function() {
+    var el = document.getElementById("dailyTipText");
+    if (!el) return;
+    el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
+  };
+})();
+</script>
 
 </body>
 </html>

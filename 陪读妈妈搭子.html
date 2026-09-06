@@ -832,13 +832,14 @@
     </div>
 
     <!-- 分享卡片入口 -->
-    <div class="share-inline-card">
-      <div class="share-inline-label">📣 邀请其他陪读妈妈</div>
-      <div class="share-inline-preview">🌸 陪读妈妈搭子 — 陪你一起做更好的陪读家长</div>
-      <div class="share-copy-row">
-        <button class="share-copy-btn" onclick="copyShareLink()">复制邀请链接</button>
-        <button class="share-link-btn" onclick="openSharePage()">打开分享页</button>
+    <!-- 📌 今天提醒自己 -->
+    <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#fce4ec,#f8d8e4);border-radius:18px;padding:14px 16px;font-size:13px;color:#ad1457;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <span style="font-size:18px;">📌</span>
+        <span style="font-weight:700;">今天提醒自己</span>
+        <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
       </div>
+      <div id="dailyTipText">先照顾好自己，才能照亮孩子</div>
     </div>
   </div>
 </div>
@@ -2622,6 +2623,17 @@ function renderWeeklyReport() {
 })();
 </script>
 
+
+<script>
+(function(){
+  var TIPS = ['先照顾好自己，才能照亮孩子', '孩子的情绪没有对错，先接住再引导', '陪伴的质量比时长重要', '今天夸孩子一个具体的细节了吗？', '成绩是结果，习惯才是因', '你的平静，就是家里的定海神针', '允许孩子试错，也允许自己不完美', '睡前和孩子说一句温暖的话，一天就圆满了'];
+  window.nextDailyTip = function() {
+    var el = document.getElementById("dailyTipText");
+    if (!el) return;
+    el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
+  };
+})();
+</script>
 
 </body>
 </html>

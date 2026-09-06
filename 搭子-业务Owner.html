@@ -344,6 +344,84 @@
 
 <!-- ===== 教练页面 ===== -->
 <div class="page" id="coachPage">
+
+  <!-- ===== 成长路线 & 基本功 Checklist（参照减肥搭子 · 可点击互动）===== -->
+  <div id="crpWrap_owner" style="max-width:420px;margin:0 auto 4px;">
+    <style>
+      #crpWrap_owner .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
+      #crpWrap_owner .crp-title { font-size:15px; font-weight:800; color:#2b3a4a; margin-bottom:12px; }
+      #crpWrap_owner .crp-tip { font-size:11px; font-weight:500; color:#8f9eae; margin-left:6px; }
+      #crpWrap_owner .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+      #crpWrap_owner .crp-stage:active { transform:scale(.98); }
+      #crpWrap_owner .crp-stage-head { font-weight:700; font-size:13px; }
+      #crpWrap_owner .crp-arrow { float:right; color:#8f9eae; }
+      #crpWrap_owner .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#37474f; }
+      #crpWrap_owner .crp-stage.collapsed .crp-stage-body { display:none; }
+      #crpWrap_owner .crp-item { font-size:13px; color:#37474f; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+      #crpWrap_owner .crp-item:hover { background:#f5f5f7; }
+      #crpWrap_owner .crp-item.done { color:#8f9eae; text-decoration:line-through; }
+      #crpWrap_owner .crp-box { margin-right:8px; }
+    </style>
+    <div class="crp-card">
+      <div class="crp-title">🗺️ Owner三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+      <div class="crp-stage" style="background:#e8f5e9;">
+        <div class="crp-stage-head" style="color:#2e7d32;">📌 阶段1 · 第1个月 · 从执行者到Owner <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">每天用一句话说清"我今天推进了什么结果"<br>• 把手头的事分成：我必须做 / 可以交出去 / 可以自动化<br>• 每周记录一次业务增长率，先看清再优化</div>
+      </div>
+      <div class="crp-stage" style="background:#fff3e0;">
+        <div class="crp-stage-head" style="color:#e65100;">📌 阶段2 · 第2-3个月 · 建立系统 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">核心流程写成SOP，让团队照着跑<br>• 建立每周复盘：指标 - 差距 - 下一步动作<br>• 只盯一个北极星指标，砍掉虚荣指标</div>
+      </div>
+      <div class="crp-stage" style="background:#e8eaf6;">
+        <div class="crp-stage-head" style="color:#3949ab;">📌 阶段3 · 第4-6个月 · 放大杠杆 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">你的时间应该越来越值钱<br>• 培养2个能替你坐进会议室的人<br>• 把30%时间投在3个月后才生效的事上</div>
+      </div>
+    </div>
+    <div class="crp-card">
+      <div class="crp-title">📋 Owner基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_owner" style="color:#16a34a;">0</b>/7 · 自动保存</span></div>
+      <div>
+        <div class="crp-item"><span class="crp-box">☐</span>连续7天记录业务进展</div>
+        <div class="crp-item"><span class="crp-box">☐</span>说得清自己的北极星指标</div>
+        <div class="crp-item"><span class="crp-box">☐</span>有至少1份可复用的业务SOP</div>
+        <div class="crp-item"><span class="crp-box">☐</span>每周做一次复盘（指标-差距-动作）</div>
+        <div class="crp-item"><span class="crp-box">☐</span>把一件每周重复的事交出去</div>
+        <div class="crp-item"><span class="crp-box">☐</span>敢对低优先级需求说"不"</div>
+        <div class="crp-item"><span class="crp-box">☐</span>培养1个能独立带项目的人</div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var KEY = 'crp_checklist_owner';
+      var wrap = document.getElementById('crpWrap_owner'); if (!wrap) return;
+      wrap.querySelectorAll('.crp-stage').forEach(function(st){
+        st.addEventListener('click', function(){
+          st.classList.toggle('collapsed');
+          var a = st.querySelector('.crp-arrow'); if (a) a.textContent = st.classList.contains('collapsed') ? '▸' : '▾';
+        });
+      });
+      var items = wrap.querySelectorAll('.crp-item');
+      var state = {}; try { state = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) {}
+      function render() {
+        var d = 0;
+        items.forEach(function(it, i) {
+          var b = it.querySelector('.crp-box');
+          if (state[i]) { it.classList.add('done'); if (b) b.textContent = '☑'; d++; }
+          else { it.classList.remove('done'); if (b) b.textContent = '☐'; }
+        });
+        var c = document.getElementById('crpCnt_owner'); if (c) c.textContent = d;
+      }
+      items.forEach(function(it, i) {
+        it.addEventListener('click', function() {
+          state[i] = !state[i];
+          try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {}
+          render();
+        });
+      });
+      render();
+    })();
+    </script>
+  </div>
+
   <div class="coach-page">
     <div class="coach-chat" id="coachChat">
       <div class="chat-messages" id="chatMessages"></div>
@@ -354,8 +432,6 @@
       </div>
     </div>
   </div>
-  <div class="coach-report" id="coachReport" style="display:none;"></div>
-</div>
   <div class="coach-report" id="coachReport" style="display:none;"></div>
 </div>
 
@@ -395,13 +471,14 @@
     </div>
   </div>
 
-  <div class="share-inline-card">
-    <div class="share-inline-label">📣 邀请其他业务伙伴</div>
-    <div class="share-inline-preview">💼 业务Owner成长搭子 — 陪你一起做真正的Owner</div>
-    <div class="share-copy-row">
-      <button class="share-copy-btn" onclick="copyShareLink()">复制邀请链接</button>
-      <button class="share-link-btn" onclick="openSharePage()">打开分享页</button>
+  <!-- 📌 今天提醒自己 -->
+  <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#e6f7ec,#dcf3e3);border-radius:18px;padding:14px 16px;font-size:13px;color:#15803d;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+      <span style="font-size:18px;">📌</span>
+      <span style="font-weight:700;">今天提醒自己</span>
+      <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
     </div>
+    <div id="dailyTipText">你是Owner不是执行者：结果导向，想三步</div>
   </div>
 </div>
 
@@ -1832,6 +1909,17 @@ function initProgressPage() {
 </script>
 
 
+
+<script>
+(function(){
+  var TIPS = ['你是Owner不是执行者：结果导向，想三步', '60天只盯一个北极星指标', '能交出去的事，别攥在自己手里', '每周复盘：指标 - 差距 - 下一步动作', '数据不好看时，先找原因再找借口', '培养能替你开会的人，才算真杠杆', '客户视角：他为什么现在买单？', '今天主动推进的一件事是什么？'];
+  window.nextDailyTip = function() {
+    var el = document.getElementById("dailyTipText");
+    if (!el) return;
+    el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
+  };
+})();
+</script>
 
 </body>
 </html>

@@ -750,13 +750,14 @@
     </div>
   </div>
 
-  <div class="share-inline-card">
-    <div class="share-inline-label">📣 邀请其他同学</div>
-    <div class="share-inline-preview">🎓 P7升P8成长搭子 — 陪你一起迈向P8</div>
-    <div class="share-copy-row">
-      <button class="share-copy-btn" onclick="copyShareLink()">复制邀请链接</button>
-      <button class="share-link-btn" onclick="openSharePage()">打开分享页</button>
+  <!-- 📌 今天提醒自己 -->
+  <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#e9eefb,#dfe7f9);border-radius:18px;padding:14px 16px;font-size:13px;color:#2a4a9e;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+      <span style="font-size:18px;">📌</span>
+      <span style="font-weight:700;">今天提醒自己</span>
+      <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
     </div>
+    <div id="dailyTipText">影响力不是职位给的，是你帮过的人给的</div>
   </div>
 </div>
 
@@ -3030,6 +3031,17 @@ function copyP7Share() {
 })();
 </script>
 
+
+<script>
+(function(){
+  var TIPS = ['影响力不是职位给的，是你帮过的人给的', '把一件事做到“别人提起来就想到你”', '向上管理：让老板看见你的思路，不止结果', 'P7拼执行，P8拼方向：每周留2小时想“该做什么”', '技术方案要回答“为什么是现在做”', '带人不是分活，是让TA在你的位置上练判断', '跨团队的事，先对齐利益再谈方案', '每次汇报先说结论，再给论据'];
+  window.nextDailyTip = function() {
+    var el = document.getElementById("dailyTipText");
+    if (!el) return;
+    el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
+  };
+})();
+</script>
 
 </body>
 </html>

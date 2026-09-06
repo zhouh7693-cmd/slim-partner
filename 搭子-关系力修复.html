@@ -572,15 +572,14 @@
     </div>
 
     <!-- 分享入口 -->
-    <div class="share-inline-card" data-page-node-id="z88CNlteHAg9jOb7iSsJu5">
-      <div class="share-inline-label" data-page-node-id="mDF9JGs78pjkzPMZlyg4Yg">📣 推荐给想一起修炼关系力的朋友</div>
-        <div class="share-inline-preview" data-page-node-id="myaWUEyIgPFCCeUG4D7ogc">
-          🌸 关系力修炼搭子 · 4种陪伴陪你修
-        </div>
-      <div class="share-copy-row" data-page-node-id="cAMiUpH0spmYK4WJwmg7fP">
-        <button class="share-copy-btn" onclick="copyShareLink()" data-page-node-id="YypiuWgMhEk9kwgpMh28wl">📋 复制邀请链接</button>
-        <button class="share-link-btn" onclick="previewShareCard()" data-page-node-id="zBsGuHYJd531otsN3MFzVu">👀 预览卡片</button>
+    <!-- 📌 今天提醒自己 -->
+    <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#fde8ef,#fcdce7);border-radius:18px;padding:14px 16px;font-size:13px;color:#ad1457;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <span style="font-size:18px;">📌</span>
+        <span style="font-weight:700;">今天提醒自己</span>
+        <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
       </div>
+      <div id="dailyTipText">先回应情绪，再处理事情</div>
     </div>
 
     <footer data-page-node-id="X9CrH7cII7GawmobQsA3Ud">每天一次签到 · 你的搭子会给你力量</footer>
@@ -3402,6 +3401,17 @@ startApp();
 </script>
 
 
+
+<script>
+(function(){
+  var TIPS = ['先回应情绪，再处理事情', '“我先说下我的感受”比“你总是”更安全', '修复关系不怕晚，怕的是装作没发生', '听完再回应：确认对方说完了吗？', '每天一次真诚的看见：说出对方做得好的细节', '主动破冰的人不是输家，是更有力量的人', '界限清晰的人，关系反而更亲密', '换位3分钟：TA今天承受了什么？'];
+  window.nextDailyTip = function() {
+    var el = document.getElementById("dailyTipText");
+    if (!el) return;
+    el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
+  };
+})();
+</script>
 
 </body>
 </html>
