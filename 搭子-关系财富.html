@@ -145,6 +145,7 @@
       cursor: pointer; transition: all 0.15s;
     }
     .talk-btn:active { background: #eef6fb; transform: scale(0.97); }
+    .mood-btn,.talk-btn{pointer-events:auto!important;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;}
 
     /* ===== 分享卡片入口 ===== */
     .share-inline-card {
@@ -582,20 +583,20 @@
     <div class="interaction-panel">
       <div class="panel-label">💬 和搭子说说话</div>
       <div class="mood-row">
-        <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
-        <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
-        <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
-        <div class="mood-btn" onclick="sendMood('tired')" title="累了">😫</div>
+        <div class="mood-btn" data-mood="happy" onclick="sendMood('happy')" title="开心">😄</div>
+        <div class="mood-btn" data-mood="neutral" onclick="sendMood('neutral')" title="平静">😌</div>
+        <div class="mood-btn" data-mood="sad" onclick="sendMood('sad')" title="低落">😔</div>
+        <div class="mood-btn" data-mood="tired" onclick="sendMood('tired')" title="累了">😫</div>
       </div>
       <div class="talk-btn-row">
-        <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
-        <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
-        <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
-        <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
+        <button class="talk-btn" data-type="progress" onclick="askPartner('progress')">📈 进展</button>
+        <button class="talk-btn" data-type="struggle" onclick="askPartner('struggle')">😣 困难</button>
+        <button class="talk-btn" data-type="idea" onclick="askPartner('idea')">💡 想法</button>
+        <button class="talk-btn" data-type="cheer" onclick="askPartner('cheer')">🎉 喜事</button>
       </div>
       <div class="talk-btn-row" style="margin-top:8px;">
-        <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
-        <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
+        <button class="talk-btn" data-type="report" onclick="askPartner('report')">📣 汇报进展</button>
+        <button class="talk-btn" data-type="question" onclick="askPartner('question')">🤔 有问题想问</button>
       </div>
     </div>
 
@@ -630,20 +631,20 @@
     <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
     <div class="panel-label" style="margin-bottom:10px;">💬 和搭子说说话</div>
     <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;">
-      <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
-      <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
-      <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
-      <div class="mood-btn" onclick="sendMood('tired')" title="疲惫">😫</div>
+      <div class="mood-btn" data-mood="happy" onclick="sendMood('happy')" title="开心">😄</div>
+      <div class="mood-btn" data-mood="neutral" onclick="sendMood('neutral')" title="平静">😌</div>
+      <div class="mood-btn" data-mood="sad" onclick="sendMood('sad')" title="低落">😔</div>
+      <div class="mood-btn" data-mood="tired" onclick="sendMood('tired')" title="疲惫">😫</div>
     </div>
     <div class="talk-btn-row">
-      <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
-      <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
-      <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
-      <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
+      <button class="talk-btn" data-type="progress" onclick="askPartner('progress')">📈 进展</button>
+      <button class="talk-btn" data-type="struggle" onclick="askPartner('struggle')">😣 困难</button>
+      <button class="talk-btn" data-type="idea" onclick="askPartner('idea')">💡 想法</button>
+      <button class="talk-btn" data-type="cheer" onclick="askPartner('cheer')">🎉 喜事</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
-      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
+      <button class="talk-btn" data-type="report" onclick="askPartner('report')">📣 汇报进展</button>
+      <button class="talk-btn" data-type="question" onclick="askPartner('question')">🤔 有问题想问</button>
     </div>
   </div>
 </div>
@@ -3182,6 +3183,29 @@ startApp();
   </div>
 </div>
 
-<script src="coach-关系财富.js"></script>
+<script src="coach-关系财富.js">
+// === 事件委托兜底（capture 阶段抢在 inline onclick 前）===
+(function(){
+  if (window.__关系财富FBound) return;
+  window.__关系财富FBound = true;
+  window.__BIND_FALLBACK_INJECTED__ = true;
+  document.addEventListener('click', function(e){
+    try {
+      var m = e.target.closest && e.target.closest('.mood-btn');
+      var t = e.target.closest && e.target.closest('.talk-btn');
+      if (m) {
+        var k = m.getAttribute('data-mood');
+        if (!k) { var oc = m.getAttribute('onclick') || ''; var mt = oc.match(/sendMood\('(\w+)'\)/); if (mt) k = mt[1]; }
+        if (k && typeof sendMood === 'function') { e.preventDefault(); e.stopPropagation(); sendMood(k); return; }
+      }
+      if (t) {
+        var k2 = t.getAttribute('data-type');
+        if (!k2) { var oc2 = t.getAttribute('onclick') || ''; var mt2 = oc2.match(/askPartner\('(\w+)'\)/); if (mt2) k2 = mt2[1]; }
+        if (k2 && typeof askPartner === 'function') { e.preventDefault(); e.stopPropagation(); askPartner(k2); return; }
+      }
+    } catch(err){ console.warn('interaction fb:', err); }
+  }, true); // capture phase
+})();
+</script>
 </body>
 </html>

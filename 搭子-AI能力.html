@@ -993,8 +993,16 @@ function sendPartnerMsg(msg) {
 }
 
 function sendMood(mood) {
-  var fb = FEEDBACK[currentPartner.style].moods[mood][currentPartner.style];
-  if (!fb) fb = FEEDBACK[currentPartner.style].moods[mood].mentor || '我听到了 💪';
+  var moods = FEEDBACK[currentPartner.style].moods[mood] || {};
+  // 1) 优先用当前搭子风格的精确回复
+  var fb = moods[currentPartner.style];
+  // 2) 退化到 moods 对象里的任意一个回复（避免 "我听到了 💪" 死板掉）
+  if (!fb) {
+    var keys = Object.keys(moods);
+    if (keys.length) fb = moods[keys[0]];
+  }
+  // 3) 终极兜底
+  if (!fb) fb = '我听到了，继续说 💪';
   sendPartnerMsg(fb);
 }
 

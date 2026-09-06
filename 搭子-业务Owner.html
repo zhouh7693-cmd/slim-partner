@@ -71,6 +71,7 @@
     .talk-btn-row { display: flex; gap: 8px; }
     .talk-btn { flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #e9edf2; background: white; font-size: 14px; font-weight: 500; color: #16a34a; cursor: pointer; transition: all 0.15s; }
     .talk-btn:active { background: #f0fdf4; transform: scale(0.97); }
+    .mood-btn,.talk-btn{pointer-events:auto!important;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;}
     .share-inline-card { max-width: 420px; margin: 0 auto 20px; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 24px; padding: 16px 20px; border: 1px solid #bbf7d0; }
     .share-inline-label { font-size: 11px; color: #8f9eae; letter-spacing: 0.5px; margin-bottom: 10px; }
     .share-inline-preview { background: white; border-radius: 16px; padding: 14px 16px; margin-bottom: 12px; font-size: 13px; color: #14532d; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
@@ -377,20 +378,20 @@
   <div class="interaction-panel" id="interactionPanel">
     <div class="panel-label">👋 说说今天的情况</div>
     <div class="mood-row" id="moodRow">
-      <button class="mood-btn" onclick="sendMood('happy')" title="开心">😊</button>
-      <button class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</button>
-      <button class="mood-btn" onclick="sendMood('sad')" title="低落">😔</button>
-      <button class="mood-btn" onclick="sendMood('tired')" title="疲惫">😤</button>
+      <button class="mood-btn" data-mood="happy" onclick="sendMood('happy')" title="开心">😊</button>
+      <button class="mood-btn" data-mood="neutral" onclick="sendMood('neutral')" title="平静">😌</button>
+      <button class="mood-btn" data-mood="sad" onclick="sendMood('sad')" title="低落">😔</button>
+      <button class="mood-btn" data-mood="tired" onclick="sendMood('tired')" title="疲惫">😤</button>
     </div>
     <div class="talk-btn-row">
-      <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
-      <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
-      <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
-      <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
+      <button class="talk-btn" data-type="progress" onclick="askPartner('progress')">📈 进展</button>
+      <button class="talk-btn" data-type="struggle" onclick="askPartner('struggle')">😣 困难</button>
+      <button class="talk-btn" data-type="idea" onclick="askPartner('idea')">💡 想法</button>
+      <button class="talk-btn" data-type="cheer" onclick="askPartner('cheer')">🎉 喜事</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
-      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
+      <button class="talk-btn" data-type="report" onclick="askPartner('report')">📣 汇报进展</button>
+      <button class="talk-btn" data-type="question" onclick="askPartner('question')">🤔 有问题想问</button>
     </div>
   </div>
 
@@ -1661,6 +1662,29 @@ function initProgressPage() {
   if (elTotal) elTotal.innerText = total;
   if (elToday) elToday.innerText = today;
 }
+
+// === 事件委托兜底（capture 阶段抢在 inline onclick 前）===
+(function(){
+  if (window.__业务OwnerFBound) return;
+  window.__业务OwnerFBound = true;
+  window.__BIND_FALLBACK_INJECTED__ = true;
+  document.addEventListener('click', function(e){
+    try {
+      var m = e.target.closest && e.target.closest('.mood-btn');
+      var t = e.target.closest && e.target.closest('.talk-btn');
+      if (m) {
+        var k = m.getAttribute('data-mood');
+        if (!k) { var oc = m.getAttribute('onclick') || ''; var mt = oc.match(/sendMood\('(\w+)'\)/); if (mt) k = mt[1]; }
+        if (k && typeof sendMood === 'function') { e.preventDefault(); e.stopPropagation(); sendMood(k); return; }
+      }
+      if (t) {
+        var k2 = t.getAttribute('data-type');
+        if (!k2) { var oc2 = t.getAttribute('onclick') || ''; var mt2 = oc2.match(/askPartner\('(\w+)'\)/); if (mt2) k2 = mt2[1]; }
+        if (k2 && typeof askPartner === 'function') { e.preventDefault(); e.stopPropagation(); askPartner(k2); return; }
+      }
+    } catch(err){ console.warn('interaction fb:', err); }
+  }, true); // capture phase
+})();
 </script>
 
 <!-- ===== Page: 进展 ===== -->

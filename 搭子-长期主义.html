@@ -1855,7 +1855,7 @@ function switchTab(tab) {
   if (tab === 'share') renderSharePage();
   if (tab === 'chat') renderPartnerPage();
   if (tab === 'checkin') refreshDashboard();
-  if (tab === 'chat') bindLongInteractionFallback();
+  bindLongInteractionFallback();
 }
 
 // 事件委托兜底：mood-btn / talk-btn 即使 inline onclick 被覆盖也能响应
@@ -1866,8 +1866,8 @@ function bindLongInteractionFallback() {
     panel.addEventListener('click', (e) => {
       const m = e.target.closest('.mood-btn');
       const t = e.target.closest('.talk-btn');
-      if (m) { const k = m.getAttribute('data-mood'); if (k) sendMood(k); }
-      if (t) { const k = t.getAttribute('data-type'); if (k) askPartner(k); }
+      if (m) { const k = m.getAttribute('data-mood') || m.getAttribute('onclick')?.match(/sendMood\('([^']+)'\)/)?.[1]; if (k) sendMood(k); }
+      if (t) { const k = t.getAttribute('data-type') || t.getAttribute('onclick')?.match(/askPartner\('([^']+)'\)/)?.[1]; if (k) askPartner(k); }
     }, true);
   });
 }
