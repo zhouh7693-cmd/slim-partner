@@ -666,6 +666,7 @@
         <button class="talk-btn" data-type="report" data-page-node-id="rYCwuVRWae4ICqmChd8cuo">📣 汇报进展</button>
         <button class="talk-btn" data-type="question" data-page-node-id="hnrPInrUmClDvgguHMJBmx">🤔 有问题想问</button>
       </div>
+    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene">💭 今天发生了什么</button></div>
     </div>
 
     <!-- 分享入口 -->
@@ -1445,6 +1446,7 @@ let currentQAType = null;
 let currentQADir = 'result';
 
 function askPartner(type) {
+  if (type === 'scene') { openSceneSheet(); return; }
   const partner = currentPartner || PARTNERS[0];
   const style = partner.style || 'gentle';
   const emoji = partner.emoji;
@@ -3443,6 +3445,59 @@ startApp();
     el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
   };
 })();
+
+// ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
+const SCENE_DATA = {"pos": [{"icon": "🏃", "tag": "运动", "title": "今天运动了 30 分钟", "text": "每次运动都是给身体存钱", "quote": "🏃 搭子：动过的身体，晚上都用好状态还你"}, {"icon": "👟", "tag": "万步", "title": "今天走够一万步了", "text": "步行是关节最友好的运动", "quote": "🏃 搭子：一步一步，都在通往健康"}, {"icon": "😴", "tag": "睡够", "title": "睡满了 7 个半小时", "text": "深睡是身体的夜间维修时段", "quote": "🏃 搭子：睡够的人，第二天自带光芒"}, {"icon": "🥗", "tag": "吃得干净", "title": "三餐吃得干净清淡", "text": "身体的原料决定了它的状态", "quote": "🏃 搭子：你吃的每一口，都在塑造你"}, {"icon": "🧘", "tag": "拉伸", "title": "拉伸了 10 分钟", "text": "筋长一寸，寿延十年", "quote": "🏃 搭子：松下来的身体，不容易累"}, {"icon": "☀️", "tag": "晒太阳", "title": "晒了 20 分钟太阳", "text": "阳光是维生素D的免费来源", "quote": "🏃 搭子：晒过太阳的心情会发光"}, {"icon": "💧", "tag": "喝够水", "title": "今天水喝够了", "text": "身体70%是水，代谢离不开它", "quote": "🏃 搭子：水喝够，皮肤和大脑都精神"}, {"icon": "🍽️", "tag": "规律", "title": "三餐按时吃了", "text": "规律的饮食是肠胃最好的礼物", "quote": "🏃 搭子：按时吃饭，是最基本的自律"}], "neg": [{"icon": "🪑", "tag": "久坐", "title": "连续坐了 2 小时以上", "text": "久坐是新型的慢性自伤", "quote": "🏃 搭子：起来倒杯水，就是一次拯救"}, {"icon": "🌙", "tag": "熬夜", "title": "又熬夜了", "text": "熬夜欠的觉，身体都记着账", "quote": "🏃 搭子：今晚早点睡，把账还一点"}, {"icon": "🍟", "tag": "重油外卖", "title": "吃了重油重盐的外卖", "text": "偶尔一次没事，别成习惯", "quote": "🏃 搭子：下一顿清淡点，找补回来"}, {"icon": "🛋️", "tag": "零运动", "title": "今天一点没动", "text": "身体是越用越灵的机器", "quote": "🏃 搭子：明天从散步10分钟开始就好"}, {"icon": "🥤", "tag": "含糖饮料", "title": "用饮料代替了水", "text": "液态糖是最容易超标的摄入", "quote": "🏃 搭子：下一杯，换成温水"}, {"icon": "🤷", "tag": "驼背", "title": "低头含胸了一整天", "text": "体态不对，颈椎腰椎都受罪", "quote": "🏃 搭子：现在就挺直，做10次扩胸"}, {"icon": "🍰", "tag": "暴饮暴食", "title": "没控制住暴了一顿", "text": "暴食常是情绪的出口", "quote": "🏃 搭子：别自责，下一餐好好吃"}, {"icon": "🤒", "tag": "硬扛", "title": "身体不舒服还硬扛着", "text": "小信号是大问题的预警", "quote": "🏃 搭子：该休息休息，该看医生看医生"}]};
+function openSceneSheet() {
+  document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
+  document.getElementById('qaSub').innerText = '点一下 · 让搭子回应你 · 不计入打卡';
+  const scroll = document.getElementById('qaScroll');
+  scroll.innerHTML = '';
+  const mk = (type, label, color) => {
+    const list = SCENE_DATA[type] || [];
+    if (!list.length) return;
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;';
+    lbl.innerText = label;
+    scroll.appendChild(lbl);
+    list.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'qa-card ' + type;
+      const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
+        (type === 'pos' ? 'background:#7c7fea;color:white;' : 'background:#b07cd6;color:white;');
+      card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>' +
+        '<div class="qa-card-text">' + item.title + '</div>' +
+        '<span style="' + tagStyle + '">' + item.tag + '</span>';
+      card.onclick = () => {
+        closeQAPanelSafe();
+        setTimeout(() => openSceneFB(i, type), 300);
+      };
+      scroll.appendChild(card);
+    });
+  };
+  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#43a047');
+  mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
+  document.getElementById('qaOverlay').classList.add('show');
+  document.getElementById('qaOverlay').onclick = function(e) {
+    if (e.target === document.getElementById('qaOverlay')) closeQAPanelSafe();
+  };
+}
+function closeQAPanelSafe() {
+  if (typeof closeQAPanel === 'function') { closeQAPanel(); return; }
+  document.getElementById('qaOverlay').classList.remove('show');
+}
+function openSceneFB(idx, type) {
+  const item = SCENE_DATA[type] && SCENE_DATA[type][idx];
+  if (!item) return;
+  const card = document.getElementById('fbCard');
+  if (card) card.className = 'fb-card ' + type;
+  const em = document.getElementById('fbEmoji'); if (em) em.innerText = item.icon;
+  const lb = document.getElementById('fbLabel'); if (lb) lb.innerText = (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag;
+  const tt = document.getElementById('fbTitle'); if (tt) tt.innerText = item.title;
+  const tx = document.getElementById('fbText'); if (tx) tx.innerText = item.text;
+  const qt = document.getElementById('fbQuote'); if (qt) qt.innerText = item.quote;
+  document.getElementById('fbOverlay').classList.add('show');
+}
 </script>
 
 </body>

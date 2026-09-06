@@ -598,6 +598,7 @@
         <button class="talk-btn" data-type="report">📣 汇报进展</button>
         <button class="talk-btn" data-type="question">🤔 有问题想问</button>
       </div>
+    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene">💭 今天发生了什么</button></div>
     </div>
 
     <!-- 分享入口 -->
@@ -1546,6 +1547,7 @@ const TYPE_SCENES_REL = {
 let currentQAType = null;
 let currentQADir = 'result';
 function askPartner(type) {
+  if (type === 'scene') { openSceneSheet(); return; }
   const partner = currentPartner || PARTNERS[0];
   const style = partner.style || 'gentle';
   const emoji = partner.emoji;
@@ -3223,6 +3225,59 @@ startApp();
     el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
   };
 })();
+
+// ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
+const SCENE_DATA = {"pos": [{"icon": "📞", "tag": "主动问候", "title": "主动问候了家人/朋友", "text": "关系是聊出来的，不是攒出来的", "quote": "💞 搭子：你的一句问候，抵过千金"}, {"icon": "👂", "tag": "专注倾听", "title": "认真听一个人说了 10 分钟", "text": "倾听是最被低估的爱的语言", "quote": "💞 搭子：被听见，就是被爱"}, {"icon": "🙏", "tag": "说谢谢", "title": "真诚地表达了一次感谢", "text": "说出口的感谢才算数", "quote": "💞 搭子：你的感谢，对方收到了"}, {"icon": "✅", "tag": "守承诺", "title": "兑现了一个小承诺", "text": "信任是小承诺一点点攒的", "quote": "💞 搭子：说到做到，是最迷人的品质"}, {"icon": "⏰", "tag": "陪伴", "title": "给了一段高质量的陪伴", "text": "陪伴的质量比时长重要", "quote": "💞 搭子：心在的那段时间，最珍贵"}, {"icon": "🌷", "tag": "道歉", "title": "真诚地道歉了", "text": "道歉不是输，是修复的勇气", "quote": "💞 搭子：先伸手的人最勇敢"}, {"icon": "🌟", "tag": "赞美", "title": "真心赞美了一个人", "text": "具体的赞美是关系的礼物", "quote": "💞 搭子：你看见别人的好，自己也亮了"}, {"icon": "🔧", "tag": "修误会", "title": "主动化解了一个误会", "text": "误会过期会变成心结", "quote": "💞 搭子：说开了，就都轻了"}], "neg": [{"icon": "📱", "tag": "敷衍", "title": "边刷手机边敷衍对方", "text": "人在心不在，比不在更伤", "quote": "💞 搭子：下次放下手机5分钟，全然在"}, {"icon": "🌵", "tag": "带刺", "title": "说话带了刺", "text": "伤人的话出口就收不回", "quote": "💞 搭子：气头上先喝口水再开口"}, {"icon": "📅", "tag": "忘了日子", "title": "忘了对你在意的日子", "text": "重要的日子是关系的锚点", "quote": "💞 搭子：补一句迟到的在乎，也来得及"}, {"icon": "🌧️", "tag": "只有抱怨", "title": "见面只顾着抱怨", "text": "抱怨会慢慢赶走想靠近你的人", "quote": "💞 搭子：下次也聊聊好事，平衡一下"}, {"icon": "🚪", "tag": "回避", "title": "该谈的事又回避了", "text": "回避的问题会在暗处发酵", "quote": "💞 搭子：挑个平静的时刻，轻轻谈起"}, {"icon": "🤲", "tag": "只索取", "title": "只顾自己的需求", "text": "单向的关系走不远", "quote": "💞 搭子：明天主动为TA做一件小事"}, {"icon": "📉", "tag": "贬低比较", "title": "用了贬低式的比较", "text": "比较激励不了人，只会伤人", "quote": "💞 搭子：把\"你看人家\"换成\"我看到你\""}, {"icon": "🧊", "tag": "冷处理", "title": "用冷淡表达不满", "text": "冷战冻住的不只是气氛", "quote": "💞 搭子：哪怕一句\"我需要缓缓\"也好"}]};
+function openSceneSheet() {
+  document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
+  document.getElementById('qaSub').innerText = '点一下 · 让搭子回应你 · 不计入打卡';
+  const scroll = document.getElementById('qaScroll');
+  scroll.innerHTML = '';
+  const mk = (type, label, color) => {
+    const list = SCENE_DATA[type] || [];
+    if (!list.length) return;
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;';
+    lbl.innerText = label;
+    scroll.appendChild(lbl);
+    list.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'qa-card ' + type;
+      const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
+        (type === 'pos' ? 'background:#7c7fea;color:white;' : 'background:#b07cd6;color:white;');
+      card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>' +
+        '<div class="qa-card-text">' + item.title + '</div>' +
+        '<span style="' + tagStyle + '">' + item.tag + '</span>';
+      card.onclick = () => {
+        closeQAPanelSafe();
+        setTimeout(() => openSceneFB(i, type), 300);
+      };
+      scroll.appendChild(card);
+    });
+  };
+  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#43a047');
+  mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
+  document.getElementById('qaOverlay').classList.add('show');
+  document.getElementById('qaOverlay').onclick = function(e) {
+    if (e.target === document.getElementById('qaOverlay')) closeQAPanelSafe();
+  };
+}
+function closeQAPanelSafe() {
+  if (typeof closeQAPanel === 'function') { closeQAPanel(); return; }
+  document.getElementById('qaOverlay').classList.remove('show');
+}
+function openSceneFB(idx, type) {
+  const item = SCENE_DATA[type] && SCENE_DATA[type][idx];
+  if (!item) return;
+  const card = document.getElementById('fbCard');
+  if (card) card.className = 'fb-card ' + type;
+  const em = document.getElementById('fbEmoji'); if (em) em.innerText = item.icon;
+  const lb = document.getElementById('fbLabel'); if (lb) lb.innerText = (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag;
+  const tt = document.getElementById('fbTitle'); if (tt) tt.innerText = item.title;
+  const tx = document.getElementById('fbText'); if (tx) tx.innerText = item.text;
+  const qt = document.getElementById('fbQuote'); if (qt) qt.innerText = item.quote;
+  document.getElementById('fbOverlay').classList.add('show');
+}
 </script>
 
 </body>

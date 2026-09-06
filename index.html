@@ -576,6 +576,7 @@
         <button class="talk-btn" data-type="report" data-page-node-id="rqvxCAxL64P54LdREmJCUk">📣 汇报进展</button>
         <button class="talk-btn" data-type="question" data-page-node-id="5MHlCrCf6dtkLfMIu7vRim">🤔 有问题想问</button>
       </div>
+    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene">💭 今天发生了什么</button></div>
     </div>
 
     <!-- 分享入口 -->
@@ -1627,6 +1628,7 @@ function sendMood(mood) {
 
 // ===== 搭子tag交互（6类入口） =====
 function askPartner(type) {
+  if (type === 'scene') { openSceneSheet(); return; }
   const partner = currentPartner || PARTNERS[0];
   const style = partner.style || 'gentle';
   const emoji = partner.emoji;
@@ -3527,6 +3529,59 @@ startApp();
     el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
   };
 })();
+
+// ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
+const SCENE_DATA = {"pos": [{"icon": "🥗", "tag": "七分饱", "title": "每餐吃到七分饱就停筷", "text": "少吃的那两口，就是热量缺口的开始", "quote": "🏃 搭子：每一餐的自控，都在给秤上的数字投票"}, {"icon": "🚶", "tag": "步数", "title": "今天走够 8000 步了", "text": "走路是最被低估的燃脂方式", "quote": "🏃 搭子：迈出去的每一步都算数"}, {"icon": "🥤", "tag": "拒奶茶", "title": "今天没喝奶茶 / 含糖饮料", "text": "一杯奶茶等于1小时慢跑白费", "quote": "🏃 搭子：省下的糖，身体都会感谢你"}, {"icon": "🏋️", "tag": "力量", "title": "做了 20 分钟力量训练", "text": "肌肉多一分，静息代谢高一分", "quote": "🏃 搭子：练过的身体不会骗你"}, {"icon": "🥬", "tag": "蔬菜", "title": "每餐蔬菜占了半盘", "text": "膳食纤维稳血糖、抗饿", "quote": "🏃 搭子：盘子一半是绿色，减脂就成功一半"}, {"icon": "💧", "tag": "喝水", "title": "今天喝够 1500ml 水", "text": "有时候\"饿\"其实是渴", "quote": "🏃 搭子：水喝够，代谢才转得动"}, {"icon": "😴", "tag": "早睡", "title": "23 点前就上床了", "text": "睡够7.5小时，瘦素才正常分泌", "quote": "🏃 搭子：早睡是最便宜的减肥药"}, {"icon": "🍎", "tag": "替换", "title": "馋的时候用水果替代了零食", "text": "换食材比硬忍更可持续", "quote": "🏃 搭子：聪明的替换，胜过痛苦的忍耐"}], "neg": [{"icon": "🧋", "tag": "奶茶", "title": "没忍住喝了一杯奶茶", "text": "500大卡要跑1小时才消耗得掉", "quote": "🏃 搭子：一杯而已，明天从头再来就好"}, {"icon": "🍻", "tag": "聚餐", "title": "聚餐没控制吃多了", "text": "一顿吃多不会胖，连着七天才会", "quote": "🏃 搭子：别自责，下一餐回归正轨就行"}, {"icon": "🛋️", "tag": "久坐", "title": "坐了一整天没怎么动", "text": "久坐时脂肪酶几乎停工", "quote": "🏃 搭子：每小时站起来2分钟也是胜利"}, {"icon": "🌙", "tag": "熬夜", "title": "又熬到凌晨才睡", "text": "睡不够会让食欲激素失控", "quote": "🏃 搭子：今晚早点躺下，就是最好的重启"}, {"icon": "🍰", "tag": "情绪进食", "title": "心情不好吃了一堆零食", "text": "吃解决不了情绪，只会加上愧疚", "quote": "🏃 搭子：下次难受先找我聊，别找零食"}, {"icon": "🍜", "tag": "夜宵", "title": "睡前又吃了夜宵", "text": "晚上代谢慢，热量更容易存下来", "quote": "🏃 搭子：饿一点入睡，轻一点醒来"}, {"icon": "📉", "tag": "怕上秤", "title": "一周没敢上秤了", "text": "逃避数字不会让它变小", "quote": "🏃 搭子：数字只是反馈，不是审判"}, {"icon": "⚡", "tag": "没执行", "title": "计划定了但没执行", "text": "完美计划不如粗糙的开始", "quote": "🏃 搭子：今天做个5分钟版，就算赢"}]};
+function openSceneSheet() {
+  document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
+  document.getElementById('qaSub').innerText = '点一下 · 让搭子回应你 · 不计入打卡';
+  const scroll = document.getElementById('qaScroll');
+  scroll.innerHTML = '';
+  const mk = (type, label, color) => {
+    const list = SCENE_DATA[type] || [];
+    if (!list.length) return;
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;';
+    lbl.innerText = label;
+    scroll.appendChild(lbl);
+    list.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'qa-card ' + type;
+      const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
+        (type === 'pos' ? 'background:#7c7fea;color:white;' : 'background:#b07cd6;color:white;');
+      card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>' +
+        '<div class="qa-card-text">' + item.title + '</div>' +
+        '<span style="' + tagStyle + '">' + item.tag + '</span>';
+      card.onclick = () => {
+        closeQAPanelSafe();
+        setTimeout(() => openSceneFB(i, type), 300);
+      };
+      scroll.appendChild(card);
+    });
+  };
+  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#43a047');
+  mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
+  document.getElementById('qaOverlay').classList.add('show');
+  document.getElementById('qaOverlay').onclick = function(e) {
+    if (e.target === document.getElementById('qaOverlay')) closeQAPanelSafe();
+  };
+}
+function closeQAPanelSafe() {
+  if (typeof closeQAPanel === 'function') { closeQAPanel(); return; }
+  document.getElementById('qaOverlay').classList.remove('show');
+}
+function openSceneFB(idx, type) {
+  const item = SCENE_DATA[type] && SCENE_DATA[type][idx];
+  if (!item) return;
+  const card = document.getElementById('fbCard');
+  if (card) card.className = 'fb-card ' + type;
+  const em = document.getElementById('fbEmoji'); if (em) em.innerText = item.icon;
+  const lb = document.getElementById('fbLabel'); if (lb) lb.innerText = (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag;
+  const tt = document.getElementById('fbTitle'); if (tt) tt.innerText = item.title;
+  const tx = document.getElementById('fbText'); if (tx) tx.innerText = item.text;
+  const qt = document.getElementById('fbQuote'); if (qt) qt.innerText = item.quote;
+  document.getElementById('fbOverlay').classList.add('show');
+}
 </script>
 
 </body>

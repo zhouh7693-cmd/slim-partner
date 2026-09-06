@@ -1093,6 +1093,7 @@ function renderCheckinPage() {
       <button class="talk-btn" data-type="report">📣 汇报进展</button>
       <button class="talk-btn" data-type="question">🤔 有问题想问</button>
     </div>
+    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene">💭 今天发生了什么</button></div>
   </div>`;
 
   // 分享入口
@@ -1375,6 +1376,7 @@ let currentQAType = '';
 let currentQADir = '';
 
 function askPartner(type) {
+  if (type === 'scene') { openSceneSheet(); return; }
   const p = PARTNER_STYLES[selectedPartner];
   const style = p ? p.style : '战友';
   const emoji = p ? p.emoji : '🚀';
@@ -2669,6 +2671,59 @@ function renderWeeklyReport() {
     el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
   };
 })();
+
+// ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
+const SCENE_DATA = {"pos": [{"icon": "💰", "tag": "算毛利", "title": "今天算清了渠道毛利", "text": "毛利是尊严，不算账就是盲飞", "quote": "🚀 搭子：算得清账的老板，才配谈增长"}, {"icon": "🤝", "tag": "见客户", "title": "主动拜访/联系了一个客户", "text": "关系是跑出来的，不是等出来的", "quote": "🚀 搭子：客户记得的是主动出现的人"}, {"icon": "💵", "tag": "回款", "title": "推进了一笔应收回款", "text": "现金流断了，利润再高也是纸", "quote": "🚀 搭子：回款到账，睡得踏实"}, {"icon": "✂️", "tag": "砍成本", "title": "砍掉了一个亏损SKU/投放", "text": "止损是最高级的盈利", "quote": "🚀 搭子：敢砍，才是真经营"}, {"icon": "📊", "tag": "复盘投放", "title": "复盘了一次投放ROI", "text": "数据不复盘，预算打水漂", "quote": "🚀 搭子：每次复盘都在给下次省预算"}, {"icon": "🧭", "tag": "授权", "title": "把一件执行小事授权出去了", "text": "老板的时间该花在杠杆上", "quote": "🚀 搭子：你从执行里抽身1小时，就多1小时思考"}, {"icon": "🔍", "tag": "看对手", "title": "研究了一个竞品的动作", "text": "知己知彼，定价才有底气", "quote": "🚀 搭子：对手是最好的免费教材"}, {"icon": "🧯", "tag": "防风险", "title": "提前核对了一次平台规则/合同", "text": "一次合规，省掉十次救火", "quote": "🚀 搭子：稳住，才能活得久"}], "neg": [{"icon": "📉", "tag": "只看收入", "title": "只盯GMV没算利润", "text": "流水的幻觉会掏空账户", "quote": "🚀 搭子：收入是面子，利润是里子"}, {"icon": "🕳️", "tag": "亏本单", "title": "接了个不赚钱还累的活", "text": "廉价的忙碌填不满现金流", "quote": "🚀 搭子：学会说不，是经营的成人礼"}, {"icon": "📦", "tag": "压库存", "title": "库存又压多了", "text": "库存是冻结的现金", "quote": "🚀 搭子：备货按最小可行来，卖动再加"}, {"icon": "🧾", "tag": "账混乱", "title": "今天的账又没对上", "text": "账乱一个月，年底两行泪", "quote": "🚀 搭子：每天十分钟对账，省年底十天"}, {"icon": "🔥", "tag": "烧钱", "title": "投放烧了钱没转化", "text": "没有归因的投放是赌博", "quote": "🚀 搭子：先小预算试，跑通再加"}, {"icon": "😮‍💨", "tag": "瞎忙", "title": "全天救火没干正事", "text": "天天救火说明系统有洞", "quote": "🚀 搭子：灭火之外，留30分钟修漏洞"}, {"icon": "🤐", "tag": "不敢谈", "title": "该涨价/该谈判的没敢谈", "text": "你不涨价，成本替你涨价", "quote": "🚀 搭子：谈钱不伤感情，不谈才伤生意"}, {"icon": "🛌", "tag": "拖延", "title": "重要的事又拖了一天", "text": "拖延的利息比贷款还高", "quote": "🚀 搭子：拆成15分钟的第一步，现在就做"}]};
+function openSceneSheet() {
+  document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
+  document.getElementById('qaSub').innerText = '点一下 · 让搭子回应你 · 不计入打卡';
+  const scroll = document.getElementById('qaScroll');
+  scroll.innerHTML = '';
+  const mk = (type, label, color) => {
+    const list = SCENE_DATA[type] || [];
+    if (!list.length) return;
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;';
+    lbl.innerText = label;
+    scroll.appendChild(lbl);
+    list.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'qa-card ' + type;
+      const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
+        (type === 'pos' ? 'background:#7c7fea;color:white;' : 'background:#b07cd6;color:white;');
+      card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>' +
+        '<div class="qa-card-text">' + item.title + '</div>' +
+        '<span style="' + tagStyle + '">' + item.tag + '</span>';
+      card.onclick = () => {
+        closeQAPanelSafe();
+        setTimeout(() => openSceneFB(i, type), 300);
+      };
+      scroll.appendChild(card);
+    });
+  };
+  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#43a047');
+  mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
+  document.getElementById('qaOverlay').classList.add('show');
+  document.getElementById('qaOverlay').onclick = function(e) {
+    if (e.target === document.getElementById('qaOverlay')) closeQAPanelSafe();
+  };
+}
+function closeQAPanelSafe() {
+  if (typeof closeQAPanel === 'function') { closeQAPanel(); return; }
+  document.getElementById('qaOverlay').classList.remove('show');
+}
+function openSceneFB(idx, type) {
+  const item = SCENE_DATA[type] && SCENE_DATA[type][idx];
+  if (!item) return;
+  const card = document.getElementById('fbCard');
+  if (card) card.className = 'fb-card ' + type;
+  const em = document.getElementById('fbEmoji'); if (em) em.innerText = item.icon;
+  const lb = document.getElementById('fbLabel'); if (lb) lb.innerText = (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag;
+  const tt = document.getElementById('fbTitle'); if (tt) tt.innerText = item.title;
+  const tx = document.getElementById('fbText'); if (tx) tx.innerText = item.text;
+  const qt = document.getElementById('fbQuote'); if (qt) qt.innerText = item.quote;
+  document.getElementById('fbOverlay').classList.add('show');
+}
 </script>
 
 </body>

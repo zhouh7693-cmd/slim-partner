@@ -302,6 +302,7 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
         <button class="talk-btn" data-type="report" data-page-node-id="K2NVsjD6paX31gD2PEESpL">📣 汇报进展</button>
         <button class="talk-btn" data-type="question" data-page-node-id="KQIwjMaUwMFGSBvKfTCS5L">🤔 有问题想问</button>
       </div>
+    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene">💭 今天发生了什么</button></div>
     </div>
     <!-- 📌 今天提醒自己 -->
     <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#ecedfe,#e6e9fd);border-radius:18px;padding:14px 16px;font-size:13px;color:#3f3fbf;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
@@ -1012,6 +1013,7 @@ function sendMood(mood) {
 }
 
 function askPartner(type) {
+  if (type === 'scene') { openSceneSheet(); return; }
   if (type === 'question') {
     var qa = QA_DATA.pos.concat(QA_DATA.neg);
     showQAPanel('🤔 有问题想问', qa);
@@ -1472,6 +1474,65 @@ function bindAIInteractionFallback() {
   });
   render();
 })();
+
+// ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
+const SCENE_DATA = {"pos": [{"icon": "✍️", "tag": "好提示词", "title": "写了一个结构清晰的 prompt", "text": "角色+任务+约束，输出质量翻倍", "quote": "🤖 搭子：你多写一句要求，AI少跑十次偏"}, {"icon": "🛠️", "tag": "真干活", "title": "用AI正经完成了一件工作", "text": "用起来才有手感，看一百篇不如跑一次", "quote": "🤖 搭子：今天AI又替你省了多少分钟？"}, {"icon": "🧠", "tag": "防幻觉", "title": "核实了AI给的答案再使用", "text": "AI会一本正经地胡说，你是最后一道关", "quote": "🤖 搭子：核实一次，信任就扎实一分"}, {"icon": "📚", "tag": "沉淀", "title": "把好用的 prompt 存进了模板库", "text": "沉淀下来的是资产，留在对话里的流水", "quote": "🤖 搭子：复用开始那天，效率才真起飞"}, {"icon": "🔗", "tag": "自动化", "title": "用AI搭了一个小流程/脚本", "text": "重复的事交给流程，脑子留给判断", "quote": "🤖 搭子：你自动化的每一步都在给未来放假"}, {"icon": "🎓", "tag": "教别人", "title": "教了一个同事用AI", "text": "教是最好的学，还攒下影响力", "quote": "🤖 搭子：你教会的人，都是你的杠杆"}, {"icon": "🔍", "tag": "拆任务", "title": "把大任务拆成了AI能接的小步骤", "text": "AI接不住模糊，拆解是人的价值", "quote": "🤖 搭子：拆得越清楚，AI干得越漂亮"}, {"icon": "⚖️", "tag": "知边界", "title": "知道AI不擅长什么并绕开了", "text": "知道边界比知道功能更专业", "quote": "🤖 搭子：该人干的干，该AI干的放心交"}], "neg": [{"icon": "📋", "tag": "复读机", "title": "只是复制粘贴没过脑子", "text": "不过脑的AI只是昂贵的复读机", "quote": "🤖 搭子：下次先想清楚再问它"}, {"icon": "🌫️", "tag": "模糊提问", "title": "提示词含糊导致来回返工", "text": "模糊的问题只能换来模糊的答案", "quote": "🤖 搭子：背景+目标+格式，三件套齐了再问"}, {"icon": "👻", "tag": "全信AI", "title": "把AI输出没验证就交了差", "text": "它答错的语气和答对时一样自信", "quote": "🤖 搭子：交出去的每一页，责任都是你的"}, {"icon": "🗂️", "tag": "收藏吃灰", "title": "又收藏了教程没打开", "text": "收藏不等于学会，收藏夹不是能力", "quote": "🤖 搭子：与其收藏10篇，不如练会1个"}, {"icon": "🔁", "tag": "重复问", "title": "重复问了AI已经答过的问题", "text": "没有记录，效率就归零重启", "quote": "🤖 搭子：把答案存下来，下次直接用"}, {"icon": "🕸️", "tag": "被带跑", "title": "被AI的花活带跑了注意力", "text": "工具是为你服务的，别反过来", "quote": "🤖 搭子：先定任务，再开工具"}, {"icon": "🔒", "tag": "大意泄密", "title": "把敏感信息直接贴给了AI", "text": "数据出去就收不回来", "quote": "🤖 搭子：脱敏是AI时代的基本素养"}, {"icon": "👀", "tag": "只看不练", "title": "看了一堆AI资讯没动手", "text": "焦虑来自围观，能力来自练习", "quote": "🤖 搭子：关掉资讯，打开对话框练10分钟"}]};
+function openSceneSheet() {
+  document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
+  document.getElementById('qaSub').innerText = '点一下 · 让搭子回应你 · 不计入打卡';
+  const scroll = document.getElementById('qaScroll');
+  scroll.innerHTML = '';
+  const mk = (type, label, color) => {
+    const list = SCENE_DATA[type] || [];
+    if (!list.length) return;
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;';
+    lbl.innerText = label;
+    scroll.appendChild(lbl);
+    list.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'qa-card ' + type;
+      const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
+        (type === 'pos' ? 'background:#7c7fea;color:white;' : 'background:#b07cd6;color:white;');
+      card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>' +
+        '<div class="qa-card-text">' + item.title + '</div>' +
+        '<span style="' + tagStyle + '">' + item.tag + '</span>';
+      card.onclick = () => {
+        closeQAPanelSafe();
+        setTimeout(() => openSceneFB(i, type), 300);
+      };
+      scroll.appendChild(card);
+    });
+  };
+  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#43a047');
+  mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
+  document.getElementById('qaOverlay').classList.add('show');
+  document.getElementById('qaOverlay').onclick = function(e) {
+    if (e.target === document.getElementById('qaOverlay')) closeQAPanelSafe();
+  };
+}
+function closeQAPanelSafe() {
+  if (typeof closeQAPanel === 'function') { closeQAPanel(); return; }
+  document.getElementById('qaOverlay').classList.remove('show');
+}
+function openSceneFB(idx, type) {
+  const item = SCENE_DATA[type] && SCENE_DATA[type][idx];
+  if (!item) return;
+  const card = document.getElementById('fbCard');
+  const em = document.getElementById('fbEmoji'); if (em) em.innerText = item.icon;
+  const lb = document.getElementById('fbLabel'); if (lb) lb.innerText = (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag;
+  const tt = document.getElementById('fbTitle'); if (tt) tt.innerText = item.title;
+  const tx = document.getElementById('fbText'); if (tx) tx.innerText = item.text;
+  const qt = document.getElementById('fbQuote'); if (qt) qt.innerText = item.quote;
+  if (card && !tx) {
+    card.className = 'fb-card';
+    card.innerHTML = '<div class="fb-emoji">' + item.icon + '</div>' +
+      '<div class="fb-title">' + (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag + '</div>' +
+      '<div class="fb-text"><b>' + item.title + '</b><br>' + item.text + '<br><br>' + item.quote + '</div>' +
+      '<button class="fb-btn" onclick="closeFB()">好的 ✨</button>';
+  }
+  document.getElementById('fbOverlay').classList.add('show');
+}
 </script>
 </body>
 </html>

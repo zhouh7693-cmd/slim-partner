@@ -744,6 +744,7 @@
       <button class="talk-btn" data-type="report">📣 汇报进展</button>
       <button class="talk-btn" data-type="question">🤔 有问题想问</button>
     </div>
+    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene">💭 今天发生了什么</button></div>
     <div class="talk-btn-row" style="margin-top:8px;">
       <button class="talk-btn" data-type="talent">👥 人才培养</button>
       <button class="talk-btn" data-type="strategy">🎯 战略思考</button>
@@ -1499,6 +1500,7 @@ function sendMood(mood) {
 }
 
 function askPartner(type) {
+  if (type === 'scene') { openSceneSheet(); return; }
   var partner = currentPartner || PARTNERS[0];
   var style = partner.style || 'rational';
   var emoji = partner.emoji;
@@ -3041,6 +3043,59 @@ function copyP7Share() {
     el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
   };
 })();
+
+// ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
+const SCENE_DATA = {"pos": [{"icon": "🧭", "tag": "技术决策", "title": "今天做了一个关键技术选型", "text": "P7以上的价值在判断不在码量", "quote": "📈 搭子：一次对的决策，胜过一周的蛮干"}, {"icon": "🌉", "tag": "跨团队", "title": "推动了一次跨团队协作", "text": "影响力从搞定别人开始", "quote": "📈 搭子：你连接的人越多，杠杆越大"}, {"icon": "📄", "tag": "沉淀文档", "title": "把方案写成了文档沉淀下来", "text": "写得清楚的系统才配叫资产", "quote": "📈 搭子：文档是你不在场时的代言人"}, {"icon": "🧑‍🏫", "tag": "带人", "title": "认真 review / 辅导了一次同学", "text": "带出一个人，等于复制一个你", "quote": "📈 搭子：团队强了，你才能往上走"}, {"icon": "🎯", "tag": "对齐目标", "title": "向上主动对齐了一次优先级", "text": "方向错了，执行越快死得越快", "quote": "📈 搭子：对齐一次，少返工一周"}, {"icon": "🙅", "tag": "砍需求", "title": "拒绝了一个低价值需求", "text": "说不的能力决定做的高度", "quote": "📈 搭子：每个不，都在保护你的 YES"}, {"icon": "🗺️", "tag": "看全局", "title": "花时间梳理了系统全貌/行业动向", "text": "只见树木的人到不了P8", "quote": "📈 搭子：抬头看路的时间不能省"}, {"icon": "🌱", "tag": "复盘", "title": "复盘了一个项目的技术得失", "text": "经验不复盘就只是经历", "quote": "📈 搭子：沉淀一次，下次快一倍"}], "neg": [{"icon": "🕳️", "tag": "埋头细节", "title": "全天陷在细节里没抬头", "text": "用P5的方式忙，拿不到P7的果", "quote": "📈 搭子：每天留1小时做只有你能做的事"}, {"icon": "🤐", "tag": "会上沉默", "title": "有想法但没说出来", "text": "会议上不发声，影响力就归零", "quote": "📈 搭子：下次第一个发言，哪怕不完美"}, {"icon": "🎁", "tag": "来者不拒", "title": "又接了个低价值需求", "text": "老好人的尽头是工具人", "quote": "📈 搭子：先问价值，再谈排期"}, {"icon": "⏳", "tag": "文档拖延", "title": "该写的方案又拖了", "text": "拖的不是文档，是影响力", "quote": "📈 搭子：今天先写个大纲，10分钟就好"}, {"icon": "🧨", "tag": "技术债", "title": "又欠了一笔技术债", "text": "债不会消失，只会连本带息", "quote": "📈 搭子：每周还一点，别等崩盘"}, {"icon": "🐺", "tag": "单打独斗", "title": "有困难没求助也没同步", "text": "一个人的上限就是团队的下限", "quote": "📈 搭子：让信息流动起来，别当孤岛"}, {"icon": "🌫️", "tag": "会而不决", "title": "开了一个没有结论的会", "text": "没有owner和结论的会是集体摸鱼", "quote": "📈 搭子：散会前逼出\"谁在何时做啥\""}, {"icon": "🙈", "tag": "回避冲突", "title": "有分歧但选择了沉默", "text": "回避冲突等于把问题留给未来", "quote": "📈 搭子：温和而坚定，才是专业"}]};
+function openSceneSheet() {
+  document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
+  document.getElementById('qaSub').innerText = '点一下 · 让搭子回应你 · 不计入打卡';
+  const scroll = document.getElementById('qaScroll');
+  scroll.innerHTML = '';
+  const mk = (type, label, color) => {
+    const list = SCENE_DATA[type] || [];
+    if (!list.length) return;
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;';
+    lbl.innerText = label;
+    scroll.appendChild(lbl);
+    list.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'qa-card ' + type;
+      const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
+        (type === 'pos' ? 'background:#7c7fea;color:white;' : 'background:#b07cd6;color:white;');
+      card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>' +
+        '<div class="qa-card-text">' + item.title + '</div>' +
+        '<span style="' + tagStyle + '">' + item.tag + '</span>';
+      card.onclick = () => {
+        closeQAPanelSafe();
+        setTimeout(() => openSceneFB(i, type), 300);
+      };
+      scroll.appendChild(card);
+    });
+  };
+  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#43a047');
+  mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
+  document.getElementById('qaOverlay').classList.add('show');
+  document.getElementById('qaOverlay').onclick = function(e) {
+    if (e.target === document.getElementById('qaOverlay')) closeQAPanelSafe();
+  };
+}
+function closeQAPanelSafe() {
+  if (typeof closeQAPanel === 'function') { closeQAPanel(); return; }
+  document.getElementById('qaOverlay').classList.remove('show');
+}
+function openSceneFB(idx, type) {
+  const item = SCENE_DATA[type] && SCENE_DATA[type][idx];
+  if (!item) return;
+  const card = document.getElementById('fbCard');
+  if (card) card.className = 'fb-card ' + type;
+  const em = document.getElementById('fbEmoji'); if (em) em.innerText = item.icon;
+  const lb = document.getElementById('fbLabel'); if (lb) lb.innerText = (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag;
+  const tt = document.getElementById('fbTitle'); if (tt) tt.innerText = item.title;
+  const tx = document.getElementById('fbText'); if (tx) tx.innerText = item.text;
+  const qt = document.getElementById('fbQuote'); if (qt) qt.innerText = item.quote;
+  document.getElementById('fbOverlay').classList.add('show');
+}
 </script>
 
 </body>

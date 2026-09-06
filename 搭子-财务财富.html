@@ -711,6 +711,7 @@
         <button class="talk-btn" data-type="report">📣 汇报进展</button>
         <button class="talk-btn" data-type="question">🤔 有问题想问</button>
       </div>
+    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene">💭 今天发生了什么</button></div>
     </div>
 
     <!-- 分享入口 -->
@@ -1498,6 +1499,7 @@ const TYPE_SCENES_FIN = {
 let currentQAType = null;
 let currentQADir = 'result';
 function askPartner(type) {
+  if (type === 'scene') { openSceneSheet(); return; }
   const partner = currentPartner || PARTNERS[0];
   const style = partner.style || 'gentle';
   const emoji = partner.emoji;
@@ -3283,6 +3285,59 @@ window.startApp = startApp;   // startApp 也暴露，防止作用域问题
     el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
   };
 })();
+
+// ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
+const SCENE_DATA = {"pos": [{"icon": "📓", "tag": "记账", "title": "今天把支出记了账", "text": "记账是财务自由的起点", "quote": "💰 搭子：看得见的钱，才管得住"}, {"icon": "🏦", "tag": "自动储蓄", "title": "储蓄自动转出了一笔", "text": "先储蓄后消费，是富人的顺序", "quote": "💰 搭子：存下的才是真正赚到的"}, {"icon": "🛑", "tag": "止冲动", "title": "刹住了一次冲动消费", "text": "想买的东西，等24小时再决定", "quote": "💰 搭子：你战胜的不是商品，是冲动"}, {"icon": "🔍", "tag": "比价", "title": "下单前比了价/等了促销", "text": "同样的东西，花更少的钱", "quote": "💰 搭子：省下的就是纯赚的"}, {"icon": "📖", "tag": "学理财", "title": "学了 10 分钟理财知识", "text": "认知边界决定财富边界", "quote": "💰 搭子：你赚不到认知外的钱，但可以学"}, {"icon": "📊", "tag": "复盘支出", "title": "复盘了这个月的支出", "text": "钱去哪了，比赚了多少更值得看", "quote": "💰 搭子：看清流向，才能改变流向"}, {"icon": "📈", "tag": "被动收入", "title": "被动收入进账了", "text": "睡后收入是自由的基石", "quote": "💰 搭子：钱在替你工作，恭喜"}, {"icon": "⏳", "tag": "延迟满足", "title": "推迟了一次即时享受", "text": "能等的人，配得上更大的果子", "quote": "💰 搭子：忍住的那一刻，未来在增值"}], "neg": [{"icon": "🛒", "tag": "冲动下单", "title": "又冲动下单了", "text": "购物的快感只有3分钟", "quote": "💰 搭子：下次先加购物车，睡一觉再说"}, {"icon": "💳", "tag": "分期消费", "title": "又用了分期买消耗品", "text": "分期的是消费，透支的是未来", "quote": "💰 搭子：付不起全额的东西，先别买"}, {"icon": "🤷", "tag": "没记账", "title": "今天又没记账", "text": "不记账的钱像断了线的风筝", "quote": "💰 搭子：30秒记一笔，明天补上"}, {"icon": "😎", "tag": "面子消费", "title": "为面子多花了钱", "text": "里子比面子值钱", "quote": "💰 搭子：真正的体面，是账户有底气"}, {"icon": "🎲", "tag": "跟风投资", "title": "没研究就跟着投了", "text": "听消息亏的钱，最冤", "quote": "💰 搭子：不懂的不要投，这是铁律"}, {"icon": "🕳️", "tag": "月光", "title": "这个月又没存下钱", "text": "收入高不高，看结余才知道", "quote": "💰 搭子：从存下10%开始，一点点来"}, {"icon": "🧟", "tag": "僵尸订阅", "title": "还在为没用的订阅付费", "text": "忘掉的订阅是最安静的漏财", "quote": "💰 搭子：今晚翻一下账单，砍掉它们"}, {"icon": "🏦", "tag": "借贷消费", "title": "用借贷买了想买的", "text": "借来的消费，利息都是双倍焦虑", "quote": "💰 搭子：先攒后买，睡得安稳"}]};
+function openSceneSheet() {
+  document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
+  document.getElementById('qaSub').innerText = '点一下 · 让搭子回应你 · 不计入打卡';
+  const scroll = document.getElementById('qaScroll');
+  scroll.innerHTML = '';
+  const mk = (type, label, color) => {
+    const list = SCENE_DATA[type] || [];
+    if (!list.length) return;
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;';
+    lbl.innerText = label;
+    scroll.appendChild(lbl);
+    list.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'qa-card ' + type;
+      const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
+        (type === 'pos' ? 'background:#7c7fea;color:white;' : 'background:#b07cd6;color:white;');
+      card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>' +
+        '<div class="qa-card-text">' + item.title + '</div>' +
+        '<span style="' + tagStyle + '">' + item.tag + '</span>';
+      card.onclick = () => {
+        closeQAPanelSafe();
+        setTimeout(() => openSceneFB(i, type), 300);
+      };
+      scroll.appendChild(card);
+    });
+  };
+  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#43a047');
+  mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
+  document.getElementById('qaOverlay').classList.add('show');
+  document.getElementById('qaOverlay').onclick = function(e) {
+    if (e.target === document.getElementById('qaOverlay')) closeQAPanelSafe();
+  };
+}
+function closeQAPanelSafe() {
+  if (typeof closeQAPanel === 'function') { closeQAPanel(); return; }
+  document.getElementById('qaOverlay').classList.remove('show');
+}
+function openSceneFB(idx, type) {
+  const item = SCENE_DATA[type] && SCENE_DATA[type][idx];
+  if (!item) return;
+  const card = document.getElementById('fbCard');
+  if (card) card.className = 'fb-card ' + type;
+  const em = document.getElementById('fbEmoji'); if (em) em.innerText = item.icon;
+  const lb = document.getElementById('fbLabel'); if (lb) lb.innerText = (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag;
+  const tt = document.getElementById('fbTitle'); if (tt) tt.innerText = item.title;
+  const tx = document.getElementById('fbText'); if (tx) tx.innerText = item.text;
+  const qt = document.getElementById('fbQuote'); if (qt) qt.innerText = item.quote;
+  document.getElementById('fbOverlay').classList.add('show');
+}
 </script>
 
 </body>
