@@ -433,16 +433,16 @@
   <div class="interaction-panel" data-page-node-id="4CrKmcJEvxo2MklBkwUjh2">
     <div class="panel-label" data-page-node-id="lz8UPx7GVMEWTaI7FUPuwi">💬 和搭子说说话</div>
     <div class="mood-row" data-page-node-id="0K8T64TLckQEoxIk3KtEYj">
-      <div class="mood-btn" onclick="sendMood('calm')" title="平静" data-page-node-id="J4N4WC6EvaYzz9AWE48dNs">🌊</div>
-      <div class="mood-btn" onclick="sendMood('tired')" title="疲惫" data-page-node-id="WalJBDrNX4CPiXPorgz4Hg">🫠</div>
-      <div class="mood-btn" onclick="sendMood('anxious')" title="焦虑" data-page-node-id="F5daNvbFsSaBqgL9AxaRgr">😣</div>
-      <div class="mood-btn" onclick="sendMood('energetic')" title="有劲" data-page-node-id="kNM9zsUQiA0RAxuDhAsavn">⚡</div>
+      <div class="mood-btn" data-mood="calm" onclick="sendMood('calm')" title="平静" data-page-node-id="J4N4WC6EvaYzz9AWE48dNs">🌊</div>
+      <div class="mood-btn" data-mood="tired" onclick="sendMood('tired')" title="疲惫" data-page-node-id="WalJBDrNX4CPiXPorgz4Hg">🫠</div>
+      <div class="mood-btn" data-mood="anxious" onclick="sendMood('anxious')" title="焦虑" data-page-node-id="F5daNvbFsSaBqgL9AxaRgr">😣</div>
+      <div class="mood-btn" data-mood="energetic" onclick="sendMood('energetic')" title="有劲" data-page-node-id="kNM9zsUQiA0RAxuDhAsavn">⚡</div>
     </div>
     <div class="talk-btn-row" data-page-node-id="tPR7XOC280WZzRCqI5rjqt">
-      <button class="talk-btn" onclick="askPartner('progress')" data-page-node-id="S14WQdpqwI3NNxsyOgAhV5">📈 进展</button>
-      <button class="talk-btn" onclick="askPartner('struggle')" data-page-node-id="QnfsVDugL8duVrt8sZDY3F">😣 状态差</button>
-      <button class="talk-btn" onclick="askPartner('idea')" data-page-node-id="LphH8rLTRUXimhcgtvIXKt">💭 想聊聊</button>
-      <button class="talk-btn" onclick="askPartner('cheer')" data-page-node-id="5PAiHvFlaCG76ceQgmg5jW">🎉 好状态</button>
+      <button class="talk-btn" data-type="progress" onclick="askPartner('progress')" data-page-node-id="S14WQdpqwI3NNxsyOgAhV5">📈 进展</button>
+      <button class="talk-btn" data-type="struggle" onclick="askPartner('struggle')" data-page-node-id="QnfsVDugL8duVrt8sZDY3F">😣 状态差</button>
+      <button class="talk-btn" data-type="idea" onclick="askPartner('idea')" data-page-node-id="LphH8rLTRUXimhcgtvIXKt">💭 想聊聊</button>
+      <button class="talk-btn" data-type="cheer" onclick="askPartner('cheer')" data-page-node-id="5PAiHvFlaCG76ceQgmg5jW">🎉 好状态</button>
     </div>
   </div>
 
@@ -662,6 +662,7 @@ function switchTab(tab) {
   if (tab === 'record') renderStateRecord();
   if (tab === 'progress') renderProgress();
   if (tab === 'coach') initStateCoach();
+  if (tab === 'checkin') bindStateInteractionFallback();
 }
 
 // ===== 状态记录（KPI / 数值） =====
@@ -1158,32 +1159,159 @@ function nextDailyTip() {
   document.getElementById('dailyTipText').innerText = DAILY_TIPS[idx];
 }
 
-function sendMood(mood) {
-  const replies = {
-    calm: '平静本身就是最好的状态，保持它。',
-    tired: '疲惫不是失败，先允许自己慢一点。',
-    anxious: '焦虑来时，先做 3 个深呼吸，然后再决定下一步。',
-    energetic: '有劲的时候，把最重要的事先做。'
-  };
+function moodEmoji(mood) {
+  return ({ calm:'🌊', tired:'🫠', anxious:'😣', energetic:'⚡' })[mood] || '🌿';
+}
+
+function appendChat(role, text) {
   const area = document.getElementById('chatArea');
-  area.innerHTML += `<div class="msg-bubble-wrap" style="flex-direction:row-reverse;"><div class="msg-bubble">${mood}</div><div class="msg-avatar">🙂</div></div>`;
-  setTimeout(() => {
-    area.innerHTML += `<div class="msg-bubble-wrap"><div class="msg-avatar">${currentPartner.emoji}</div><div class="msg-bubble ai">${replies[mood]}</div></div>`;
-  }, 300);
+  if (role === 'me') {
+    area.innerHTML += `<div class="msg-bubble-wrap" style="flex-direction:row-reverse;"><div class="msg-bubble">${text}</div><div class="msg-avatar">🙂</div></div>`;
+  } else {
+    const p = currentPartner || PARTNERS[0];
+    area.innerHTML += `<div class="msg-bubble-wrap"><div class="msg-avatar">${p.emoji}</div><div class="msg-bubble ai">${text}</div></div>`;
+  }
+  area.scrollTop = area.scrollHeight;
+}
+
+function sendMood(mood) {
+  const p = currentPartner || PARTNERS[0];
+  const replies = {
+    wave: {
+      calm: '🌊 海浪：平静本身就是状态最稳的样子。今天就这样待一会儿。',
+      tired: '🌊 海浪：疲惫的时候海也会退潮。允许自己慢一点。',
+      anxious: '🌊 海浪：焦虑是海面上的浪花。先回到呼吸上 3 次。',
+      energetic: '🌊 海浪：有劲的时候就顺势推一件事，不要囤着。'
+    },
+    mirror: {
+      calm: '🪞 镜子：你映出来的是"稳"。看见它，就在放大它。',
+      tired: '🪞 镜子：你现在映出来的是"累"。先照顾身体。',
+      anxious: '🪞 镜子：你映出来的是"紧"。问自己：到底在怕什么？',
+      energetic: '🪞 镜子：你映出来的是"亮"。把最重要的 1 件事做掉。'
+    },
+    lamp: {
+      calm: '🏮 灯笼：平静时，灯最亮。最适合定下一个微小目标。',
+      tired: '🏮 灯笼：累的时候灯会暗。先做最容易的 1 件小事。',
+      anxious: '🏮 灯笼：焦虑时先停 60 秒，再决定下一步。',
+      energetic: '🏮 灯笼：有力气的时候，灯也最省油。趁现在做完它。'
+    }
+  };
+  const text = (replies[p.id] || replies.wave)[mood] || '🪞 看见你了。';
+  appendChat('me', moodEmoji(mood));
+  setTimeout(() => appendChat('partner', text), 350);
 }
 
 function askPartner(topic) {
-  const replies = {
-    progress: '本周你觉察了几次？看见本身就在改变。',
-    struggle: '状态差的时候，先做最容易的 1 件小事就够了。',
-    idea: '想聊什么随时说，状态搭子不评判。',
-    cheer: '好状态不是常态，看见它就已经很好。'
+  const p = currentPartner || PARTNERS[0];
+  const labels = { progress:'📈 进展', struggle:'😣 状态差', idea:'💭 想聊聊', cheer:'🎉 好状态' };
+  const openers = {
+    wave: {
+      progress: '🌊 海浪：本周觉察到几次？看见它就是在改变它。',
+      struggle: '🌊 海浪：状态差就像退潮，先做最容易的 1 件小事。',
+      idea: '🌊 海浪：你想聊什么？状态搭子不评判。',
+      cheer: '🌊 海浪：好状态不是常态。看见它，已经很好。'
+    },
+    mirror: {
+      progress: '🪞 镜子：本周你照见了自己几次变化？',
+      struggle: '🪞 镜子：映出来的是"难"。先放下评判，只观察。',
+      idea: '🪞 镜子：把你脑子里的画面说出来，我帮你照见它。',
+      cheer: '🪞 镜子：你映出来的是"亮"。记住这一刻的样子。'
+    },
+    lamp: {
+      progress: '🏮 灯笼：看见进展了。下一步最想做什么？',
+      struggle: '🏮 灯笼：状态差时，灯会暗。先走 1 步最亮的路。',
+      idea: '🏮 灯笼：说说你脑子里的想法，我帮你点一下方向。',
+      cheer: '🏮 灯笼：好状态是礼物。今天要不要给它一个仪式？'
+    }
   };
-  const area = document.getElementById('chatArea');
-  area.innerHTML += `<div class="msg-bubble-wrap" style="flex-direction:row-reverse;"><div class="msg-bubble">${topic}</div><div class="msg-avatar">🙂</div></div>`;
+  const label = labels[topic] || topic;
+  const opener = (openers[p.id] || openers.wave)[topic] || '🪞 看见你了。';
+  appendChat('me', label);
   setTimeout(() => {
-    area.innerHTML += `<div class="msg-bubble-wrap"><div class="msg-avatar">${currentPartner.emoji}</div><div class="msg-bubble ai">${replies[topic]}</div></div>`;
-  }, 300);
+    appendChat('partner', opener);
+    setTimeout(() => openStateTypePanel(topic), 450);
+  }, 350);
+}
+
+const STATE_TYPE_SCENES = {
+  progress: [
+    { icon:'🌅', text:'今天终于坐定 30 分钟，没刷手机',     tone:'pos', tag:'专注',  title:'专注 30 分钟'  , text_body:'能撑住 30 分钟专注，状态曲线今天就抬起来了。', quote:'🌊 海浪：你看见的就是今天的「亮」。' },
+    { icon:'💧', text:'能量从早上 4 回到 7，一点点回血',     tone:'pos', tag:'能量',  title:'能量回升'      , text_body:'不要贪多，保持现在的节奏就行。',           quote:'🏮 灯笼：回血靠稳，不靠猛。' },
+    { icon:'🧘', text:'刚做完 5 分钟呼吸，肩膀松了一点',     tone:'pos', tag:'放松',  title:'身体松动'      , text_body:'一次 5 分钟的呼吸觉察，已经是一次「看见自己」。', quote:'🪞 镜子：你看见了自己的身体。' },
+    { icon:'🎯', text:'今天把最重要的事先做了',              tone:'pos', tag:'掌控',  title:'拿下今天'      , text_body:'最重要的事先做，剩下的事都变轻了。',       quote:'🌊 海浪：今天的海浪很顺。' }
+  ],
+  struggle: [
+    { icon:'🫠', text:'今天整个人都瘫了，什么都不想动',     tone:'neg', tag:'疲惫',  title:'允许瘫一下'    , text_body:'瘫不是失败，是身体在向你喊停。先睡 20 分钟。', quote:'🏮 灯笼：先点亮最近的灯。' },
+    { icon:'😣', text:'脑子里全是事儿，根本停不下来',       tone:'neg', tag:'焦虑',  title:'脑子停不下来'  , text_body:'把脑子里的事写下来，每件事 1 行，3 件就够。', quote:'🪞 镜子：写下来，就是把它放到外面。' },
+    { icon:'🌫️', text:'不知道自己想要什么 / 在干嘛',        tone:'neg', tag:'迷茫',  title:'迷失方向'      , text_body:'不知道想要什么是正常的。先回到身体：呼吸 3 次。', quote:'🌊 海浪：不知道也属于海的形状。' },
+    { icon:'😤', text:'刚才对同事 / 家人发火了',            tone:'neg', tag:'情绪',  title:'情绪冒出来'    , text_body:'先道歉、再解释、最后说原因。三步就好。',     quote:'🏮 灯笼：道歉是给关系重新点灯。' }
+  ],
+  idea: [
+    { icon:'💭', text:'想聊聊"我到底在追求什么"',          tone:'pos', tag:'方向',  title:'聊聊追求'      , text_body:'先问自己：今天最想拥有的 1 件事是什么？',   quote:'🪞 镜子：追什么，比怎么追更重要。' },
+    { icon:'🧭', text:'想看看自己"是不是太用力了"',        tone:'pos', tag:'节奏',  title:'节奏是否过猛'  , text_body:'用力过猛的信号：睡不好 / 易怒 / 拖延。',     quote:'🌊 海浪：海不急，它一直在。' },
+    { icon:'📓', text:'想找个地方把今天写下来',              tone:'pos', tag:'记录',  title:'写下来'        , text_body:'3 句话就行：今天 1 件好事 + 1 件难事 + 1 个感谢。', quote:'🏮 灯笼：写下来，灯就亮一点。' },
+    { icon:'🤝', text:'想听听"和别人比"的焦虑',             tone:'neg', tag:'比较',  title:'停止比较'      , text_body:'比较是横向的，成长是纵向的。你的节奏只有你能走。', quote:'🪞 镜子：和别人比，镜子就变形。' }
+  ],
+  cheer: [
+    { icon:'✨', text:'今天状态很好，头脑清晰',              tone:'pos', tag:'好状态', title:'头脑清晰'     , text_body:'今天适合做 1 件需要深度思考的事。',          quote:'🌊 海浪：好状态像涨潮，别浪费。' },
+    { icon:'🥰', text:'刚收到一个好消息 / 别人的认可',       tone:'pos', tag:'被看见',  title:'被看见的感觉' , text_body:'被看见是能量，记下来，下一次你需要时回看。', quote:'🏮 灯笼：被看见，灯会更亮。' },
+    { icon:'💪', text:'今天扛住了一个挑战',                  tone:'pos', tag:'扛住了',  title:'扛住了'       , text_body:'扛住了就是成长。明天再扛一点点就够了。',    quote:'🪞 镜子：今天你比昨天强一点。' },
+    { icon:'🌱', text:'今天做了 1 件很小但很对的事',         tone:'pos', tag:'小步',    title:'小步前进'     , text_body:'小步前进是大步前进的开始。',                quote:'🌊 海浪：每一小步都是浪的形状。' }
+  ]
+};
+
+function openStateTypePanel(topic) {
+  const data = STATE_TYPE_SCENES[topic] || [];
+  if (!data.length) return;
+  const titles = { progress:'📈 进展 · 选一个回应你', struggle:'😣 状态差 · 选一个回应你', idea:'💭 想聊聊 · 选一个回应你', cheer:'🎉 好状态 · 选一个回应你' };
+  const html = data.map((s, i) => `
+    <div class="scene-card ${s.tone}" data-idx="${i}" data-type="${topic}" onclick="openStateFB(${i}, '${topic}')">
+      <div class="scene-icon">${s.icon}</div>
+      <div class="scene-text">${s.text}</div>
+      <div class="scene-tag ${s.tone}">${s.tag}</div>
+    </div>
+  `).join('');
+  // 复用现有 fbOverlay 的卡片
+  const overlay = document.getElementById('fbOverlay');
+  const card = document.getElementById('fbCard');
+  card.classList.remove('pos','neg');
+  card.innerHTML = `
+    <div style="font-size:13px;font-weight:700;color:#0b8a82;margin-bottom:12px;">${titles[topic] || topic}</div>
+    ${html}
+    <button class="fb-close" onclick="closeFBBack()" style="margin-top:8px;">收起</button>
+  `;
+  card.onclick = (e) => e.stopPropagation();
+  overlay.classList.add('show');
+}
+
+function openStateFB(idx, topic) {
+  const item = (STATE_TYPE_SCENES[topic] || [])[idx];
+  if (!item) return;
+  const overlay = document.getElementById('fbOverlay');
+  const card = document.getElementById('fbCard');
+  card.classList.remove('pos','neg');
+  card.classList.add(item.tone);
+  card.innerHTML = `
+    <div class="fb-emoji">${item.icon}</div>
+    <div class="fb-tag ${item.tone}">${item.tag}</div>
+    <div class="fb-title">${item.title}</div>
+    <div class="fb-text">${item.text_body}</div>
+    <div class="fb-partner-quote">${item.quote}</div>
+    <button class="fb-close" onclick="closeFBBack()">知道了</button>
+  `;
+  card.onclick = (e) => e.stopPropagation();
+  overlay.classList.add('show');
+}
+
+function bindStateInteractionFallback() {
+  const panel = document.querySelector('.interaction-panel');
+  if (!panel) return;
+  panel.addEventListener('click', (e) => {
+    const m = e.target.closest('.mood-btn');
+    const t = e.target.closest('.talk-btn');
+    if (m) { const k = m.getAttribute('data-mood'); if (k) sendMood(k); }
+    if (t) { const k = t.getAttribute('data-type'); if (k) askPartner(k); }
+  }, true);
 }
 
 // ===== SOP 自检 =====
