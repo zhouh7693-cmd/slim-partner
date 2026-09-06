@@ -286,10 +286,10 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
     <div class="interaction-panel">
       <div class="panel-label">💬 和AI搭子聊聊</div>
       <div class="mood-row">
-        <div class="mood-btn" onclick="sendMood('happy')">😄</div>
-        <div class="mood-btn" onclick="sendMood('neutral')">😌</div>
-        <div class="mood-btn" onclick="sendMood('sad')">😔</div>
-        <div class="mood-btn" onclick="sendMood('tired')">😫</div>
+        <div class="mood-btn" data-mood="happy" onclick="sendMood('happy')">😄</div>
+        <div class="mood-btn" data-mood="neutral" onclick="sendMood('neutral')">😌</div>
+        <div class="mood-btn" data-mood="sad" onclick="sendMood('sad')">😔</div>
+        <div class="mood-btn" data-mood="tired" onclick="sendMood('tired')">😫</div>
       </div>
       <div class="talk-btn-row">
         <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
@@ -298,8 +298,8 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
         <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
       </div>
       <div class="talk-btn-row" style="margin-top:8px;">
-        <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
-        <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
+        <button class="talk-btn" data-type="report" onclick="askPartner('report')">📣 汇报进展</button>
+        <button class="talk-btn" data-type="question" onclick="askPartner('question')">🤔 有问题想问</button>
       </div>
     </div>
     <div class="share-inline-card">
@@ -1310,6 +1310,7 @@ document.getElementById('qaOverlay').addEventListener('click', function(e){
   if (currentPartner) {
     selectPartner(currentPartner.id);
   }
+  bindAIInteractionFallback();
 })();
 </script>
 <script src="coach-AI能力.js"></script>
