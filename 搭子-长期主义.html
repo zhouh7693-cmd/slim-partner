@@ -251,6 +251,59 @@
     .sop-cat-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; font-size: 12px; color: #8f9eae; }
     .sop-cat-progress-bar { flex: 1; height: 4px; background: #f5ecd9; border-radius: 4px; overflow: hidden; }
     .sop-cat-progress-fill { height: 100%; background: linear-gradient(90deg,#c9a227,#8b6914); border-radius: 4px; transition: width 0.3s; }
+    .sop-list-container { display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto; }
+    .sop-item { background: #f8f9fa; border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; }
+    .sop-item.sop-item-yes { background: #faf3dd; border: 1px solid #e6d9a8; }
+    .sop-item.sop-item-no { background: #fff3f3; border: 1px solid #ffcdd2; }
+    .sop-item-text { flex: 1; font-size: 14px; color: #2b3a4a; line-height: 1.4; margin-right: 12px; }
+    .sop-item-btns { display: flex; gap: 6px; }
+    .sop-check-btn { padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #d0d8e0; background: white; color: #8f9eae; transition: all 0.15s; display: flex; align-items: center; gap: 3px; }
+    .sop-check-btn:active { transform: scale(0.95); }
+    .sop-check-btn.yes-checked { background: #c9a227; color: white; border-color: #c9a227; }
+    .sop-check-btn.no-checked { background: #ef5350; color: white; border-color: #ef5350; }
+    .sop-cat-summary { background: #faf6ee; border-radius: 16px; padding: 16px; text-align: center; }
+    .sop-finish-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(60,45,10,0.45); backdrop-filter: blur(4px); display:none; align-items:center; justify-content:center; z-index:300; padding:20px; }
+    .sop-finish-overlay.show { display:flex; }
+    .sop-finish-card { background:#fff; border-radius:28px; padding:28px 20px; max-width:340px; width:100%; text-align:center; animation: sopPop .45s cubic-bezier(.175,.885,.32,1.275); box-shadow:0 24px 60px rgba(0,0,0,.22); max-height:86vh; overflow-y:auto; }
+    @keyframes sopPop { from { transform: scale(.5) rotate(-5deg); opacity:0; } to { transform: scale(1) rotate(0); opacity:1; } }
+    .sf-header { margin-bottom:20px; }
+    .sf-emoji { font-size:60px; display:block; margin-bottom:8px; }
+    .sf-title { font-size:20px; font-weight:900; color:#2b3a4a; margin-bottom:4px; line-height:1.3; }
+    .sf-subtitle { font-size:12px; color:#8f9eae; }
+    .sf-stats { display:flex; gap:8px; margin-bottom:18px; }
+    .sf-stat { flex:1; background:#f8fafc; border-radius:16px; padding:12px 8px; text-align:center; border:1.5px solid #eceff1; }
+    .sf-stat-center { background:linear-gradient(135deg,#faf3dd,#f3e9c8); border-color:#d8c37a; }
+    .sf-stat-yes { background:linear-gradient(135deg,#e8f5e9,#c8e6c9); border-color:#81c784; }
+    .sf-stat-no { background:linear-gradient(135deg,#fff3e0,#ffe0b2); border-color:#ffb74d; }
+    .sf-stat-num { font-size:26px; font-weight:900; line-height:1.1; color:#37474f; }
+    .sf-stat-center .sf-stat-num { color:#8b6914; }
+    .sf-stat-yes .sf-stat-num { color:#43a047; }
+    .sf-stat-no .sf-stat-num { color:#e65100; }
+    .sf-stat-label { font-size:10px; color:#78909c; margin-top:3px; font-weight:600; }
+    .sf-divider { height:1px; background:linear-gradient(90deg,transparent,#eceff1,transparent); margin:0 0 14px; }
+    .sf-cat-title { font-size:11px; color:#90a4ae; font-weight:700; text-align:left; padding:0 2px; margin-bottom:8px; }
+    .sf-cats { display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
+    .sf-cat-row { display:flex; align-items:center; gap:8px; background:#f8fafc; border-radius:12px; padding:9px 12px; border:1px solid #eceff1; }
+    .sf-cat-icon { font-size:18px; flex-shrink:0; }
+    .sf-cat-name { flex:1; font-size:13px; color:#37474f; font-weight:500; text-align:left; }
+    .sf-cat-yes { font-size:11px; font-weight:800; color:#fff; background:#43a047; border-radius:8px; padding:2px 8px; flex-shrink:0; }
+    .sf-cat-no { font-size:11px; font-weight:800; color:#fff; background:#ef5350; border-radius:8px; padding:2px 8px; margin-left:2px; flex-shrink:0; }
+    .sf-cat-streak { font-size:11px; font-weight:900; color:#ff6d00; flex-shrink:0; }
+    .sf-hist-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+    .sf-history { display:flex; gap:6px; align-items:flex-end; margin-bottom:16px; }
+    .sf-hist-day { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; }
+    .sf-hist-bar-wrap { height:50px; display:flex; align-items:flex-end; width:100%; justify-content:center; }
+    .sf-hist-bar { width:70%; border-radius:6px 6px 0 0; min-height:8px; }
+    .sf-hist-label { font-size:9px; color:#90a4ae; text-align:center; }
+    .sf-hist-score { font-size:9px; font-weight:600; text-align:center; }
+    .sf-feedback { background:#f8fafc; border-radius:16px; padding:16px; font-size:14px; line-height:1.7; color:#37474f; font-weight:500; border:1.5px solid #eceff1; margin-bottom:16px; }
+    .sf-cat-emoji { font-size:56px; display:block; margin-bottom:6px; }
+    .sf-cat-subtitle { font-size:18px; font-weight:900; margin-bottom:2px; }
+    .sf-score-pct { font-size:40px; font-weight:900; margin:10px 0 12px; }
+    .sf-note { font-size:11px; color:#b0bec5; margin-bottom:14px; }
+    .sf-btn { display:block; width:100%; background:linear-gradient(135deg,#c9a227,#8b6914); color:white; border:none; border-radius:50px; padding:15px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 6px 20px rgba(139,105,20,0.35); }
+    .sf-btn:active { transform:scale(0.97); }
+    .sf-btn-cat { background:linear-gradient(135deg,#c9a227,#8b6914); color:white; border:none; border-radius:50px; padding:15px; font-size:16px; font-weight:800; width:100%; cursor:pointer; box-shadow:0 6px 20px rgba(139,105,20,0.35); }
 
     /* 自检题卡（多选打分） */
     .qa-question {
@@ -549,22 +602,22 @@
 <!-- ===== Page: 自检 ===== -->
 <div id="page-sop" class="page" data-page-node-id="eRwSJ62IlENCbbhGXRhxPg">
   <div class="sop-page" data-page-node-id="5p6tpyw3LcKqI19VQAu42U">
-    <div style="max-width:420px;margin:0 auto 8px;text-align:center;color:#8f9eae;font-size:12px;line-height:1.6;padding:0 8px;">自检页是帮我"看见"自己用的 —— 5 个小问题，让今天的时间花得更明白</div>
+    <div style="max-width:420px;margin:0 auto 8px;text-align:center;color:#8f9eae;font-size:12px;line-height:1.6;padding:0 8px;">自检页是帮我"看见"自己用的 —— 4 组行为清单，做到了就打 ✅</div>
     <div class="sop-header" data-page-node-id="5eTVQdU503mDGmUG6GwYCZ">
       <div class="sop-title" data-page-node-id="ikn7PRWEV6RsueQC5WsOv2">🎯 时间账本自检</div>
-      <div class="sop-sub" data-page-node-id="4GGsrJgZuOaHivnG6ZDGKy">每天 5 个小问题 · 帮我看清今天的时间花在哪了</div>
+      <div class="sop-sub" data-page-node-id="4GGsrJgZuOaHivnG6ZDGKy">每天 4 组小清单 · 做到了打 ✅，没做到打 ❌</div>
       <div class="sop-score-row" data-page-node-id="hX8DOZ2ZFYx6h7z2nfV7fE">
         <div class="sop-score" data-page-node-id="PYEDeFDP7f5t6uwymVzt1W">
           <div class="sop-score-num" id="sopScore" data-page-node-id="091e3t3XGmZST45HdSrZHU">0</div>
-          <div class="sop-score-label" data-page-node-id="OBzplt6wl5jIDG6rZfNdC3">5 类得分</div>
+          <div class="sop-score-label" data-page-node-id="OBzplt6wl5jIDG6rZfNdC3">今日得分</div>
         </div>
         <div class="sop-score" data-page-node-id="KBgHnvhUIRRbDYNl1eJqvz">
           <div class="sop-score-num" id="sopPosCount" data-page-node-id="8hF4HVaHYnCKUt5PD1C9SP">0</div>
-          <div class="sop-score-label" data-page-node-id="7idrvt8TGsh7YWRc2R0dep">已答</div>
+          <div class="sop-score-label" data-page-node-id="7idrvt8TGsh7YWRc2R0dep">做到</div>
         </div>
         <div class="sop-score" data-page-node-id="1L9NWAY4f1bVnuzmvtxvFl">
-          <div class="sop-score-num" id="sopNegCount" data-page-node-id="LzNIusNGNwJAZfciGMmiRG">100</div>
-          <div class="sop-score-label" data-page-node-id="EFRzDHFgq3cvLIF5MGEnzs">题库总数</div>
+          <div class="sop-score-num" id="sopNegCount" data-page-node-id="LzNIusNGNwJAZfciGMmiRG">0</div>
+          <div class="sop-score-label" data-page-node-id="EFRzDHFgq3cvLIF5MGEnzs">需注意</div>
         </div>
       </div>
       <div class="sop-progress-wrap" data-page-node-id="1Tx8MiIKwIs7p1BCZW2MF0">
@@ -580,12 +633,8 @@
     </div>
 
     <div class="sop-tip" data-page-node-id="AVcpfTGorOMwHSgKZXF1QE">
-      <div class="sop-tip-title" data-page-node-id="sP7MVqa0MKJf1CwyzHws0w">💡 我的判断原则 · 5 类问题说明</div>
-      <div class="sop-tip-item" data-page-node-id="zMs0cDRJ5qBGafqAwB01g3">• A 短视触发器：识别群里@你、红点、「先回一下」这类偷走时间的小事</div>
-      <div class="sop-tip-item" data-page-node-id="4x8SHmpxu9CPXMQFGVi1Rg">• B 任务 5 个去向：自己做的 / AI 帮我做的 / 交给别人做的 / 做成 SOP 的 / 自动跑的</div>
-      <div class="sop-tip-item" data-page-node-id="nURjTcyXenbmlNoHvmK5KU">• C 时间价值层级：只有我能决定的 / 关键得亲手做的 / 需要别人配合的 / 可以让脚本跑的</div>
-      <div class="sop-tip-item" data-page-node-id="3rjw6jXo0zRzkc984SBXgy">• D 不做 ≠ 不完成：把事做完 ≠ 必须由我做完；先问「这件事是不是还会再来？」</div>
-      <div class="sop-tip-item" data-page-node-id="0qYLprr3i38VstAY3714k0">• E 时间账本：5 个去向（继续做 / 交给别人 / 做成 SOP / 设成自动 / 不做了）· 每周复盘一次</div>
+      <div class="sop-tip-title" data-page-node-id="sP7MVqa0MKJf1CwyzHws0w">💡 本组说明</div>
+      <div class="sop-tip-item" id="sopTipText" data-page-node-id="zMs0cDRJ5qBGafqAwB01g3"></div>
     </div>
   </div>
 </div>
@@ -642,6 +691,8 @@
         <div class="pnl-cell" data-page-node-id="43nlicIjALJMRffLFYp9AE"><div class="pnl-cell-num" id="pnlQADone" data-page-node-id="evualG8rornTCYi9gJ1TQN">0</div><div class="pnl-cell-lbl" data-page-node-id="wCcjkwsdykcidZu2Bp1CCV">已答自检</div></div>
       </div>
     </div>
+
+    <div class="weight-chart-card" id="sopTrendCard" style="margin-bottom:16px;"></div>
 
     <div class="milestone-card" data-page-node-id="B84CF32aXIInmfsjLdEU66">
       <div class="milestone-title" data-page-node-id="zZy9TyDg7lGmBGqOOwzdIV">🎯 7 / 30 / 90 天里程碑</div>
@@ -832,6 +883,10 @@
 
 </div><!-- end page-coach -->
 
+<!-- ===== 自检完成弹窗 & 维度小结 ===== -->
+<div class="sop-finish-overlay" id="sopFinishOverlay"></div>
+<div class="sop-finish-overlay" id="catSummaryOverlay"></div>
+
 <!-- ===== Toast ===== -->
 <div id="toastMsg" class="toast" data-page-node-id="UfUIpscr7RpcbdLuQnJESZ"></div>
 
@@ -905,7 +960,7 @@ const STORAGE = {
   PARTNER: 'longterm_partner',
   HISTORY: 'longterm_history',
   WEIGHT: 'longterm_freedom',
-  SOP: 'longterm_sop',
+  SOP: 'longterm_sop_v2',
   SOP_STREAKS: 'longterm_sop_streaks',
   TAG_HISTORY: 'longterm_tag_history',
   AUTO_LIST: 'longterm_auto_list',
@@ -929,8 +984,14 @@ function getTagHistory() { return JSON.parse(localStorage.getItem(STORAGE.TAG_HI
 function saveTagHistory(d) { localStorage.setItem(STORAGE.TAG_HISTORY, JSON.stringify(d)); }
 function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
 function saveWeightData(d) { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(d)); }
-function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"answerCount":0,"date":null}'); }
-function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); }
+function getSOPData() {
+  try { return JSON.parse(localStorage.getItem(STORAGE.SOP)) || { score:0, selected:{}, done:false, submittedCats:[], answerCount:0, date:null }; }
+  catch(e) { return { score:0, selected:{}, done:false, submittedCats:[], answerCount:0, date:null }; }
+}
+function saveSOPData(d) {
+  d.answerCount = Object.values(d.selected || {}).reduce((s, a) => s + (Array.isArray(a) ? a.length : 0), 0);
+  localStorage.setItem(STORAGE.SOP, JSON.stringify(d));
+}
 function getAutoList() { return JSON.parse(localStorage.getItem(STORAGE.AUTO_LIST) || '[]'); }
 function saveAutoList(d) { localStorage.setItem(STORAGE.AUTO_LIST, JSON.stringify(d)); }
 function getHardRules() { return JSON.parse(localStorage.getItem(STORAGE.HARD_RULES) || '{}'); }
@@ -944,645 +1005,51 @@ let sopCatIdx = 0;
 let sopSelected = {};
 let sopAnswerCount = 0;
 let sopScore = 0;
+let sopDone = false;
+let sopSubmittedCats = [];
 let currentQAType = null;
 let currentQADir = 'result';
 
 // 100 道题库（5 类 × 20 题），按出题时随机抽 5 道
-const QA_POOL = {
-  // A 短视触发器
-  A: [
-    { id:'A01', q:'群里 @ 你的消息，你一般几分钟内回？', options:[
-      '马上，看到就回，必须秒回',
-      '集中半小时一起回',
-      '分类处理：广告/通知/真的需要我 → 才能回',
-      '只在固定时段看群消息'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A02', q:'你刚刚接的这个活，3 个月后还有价值吗？', options:[
-      '有，3 个月后还在用',
-      '大部分时候有，但一些细节 3 个月后会变',
-      '说不准，可能有也可能没有',
-      '明确没有，做完就消失'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A03', q:'一个会议邀请发过来，你的第一反应是？', options:[
-      '看一下议程再决定',
-      '默认要参加，万一有重要的事',
-      '问一句「这次如果我不出席，会发生什么？」',
-      '看看是谁发的再决定'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A04', q:'如果今天不做这件事，3 天后会有人提起来吗？', options:[
-      '没人提，大家都已经忘了',
-      '会提，但提完很快过去',
-      '会提，而且会变成我的「欠账」',
-      '会成为别人对我的负面评价'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A05', q:'一个红点 / 一个未读数字，你通常多久点掉？', options:[
-      '立刻点，不点焦虑',
-      '等到固定时间集中清',
-      '先看是不是「需要我处理」，不是就不点',
-      '打开微信就顺手清'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A06', q:'你最近一次「先回一下」是哪类事？', options:[
-      '真正紧急，能影响别人工作的事',
-      '对方顺路问了一句，我可以晚回',
-      '群里冒泡，不是真需要我',
-      '我自己也想刷一下手机'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A07', q:'别人临时 @ 你去帮个忙，你会先问什么？', options:[
-      '"好，马上"',
-      '"是今天必须吗？还是可以晚？"',
-      '"能不能简单说一下背景？"',
-      '"我这会儿有事，半小时后回"'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A08', q:'一个老同事 / 旧同学冒出来找你聊，你会？', options:[
-      '陪聊一通，不管有没有用',
-      '看心情 / 看当下忙不忙',
-      '问一句「你这次是问个事还是叙旧？」',
-      '快速判断这个关系对我 3 个月后有没有价值'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A09', q:'一个工作群里有人发了一条「不痛不痒」的通知，你通常？', options:[
-      '看到就回个收到',
-      '看是不是发给我，没 @ 就不回',
-      '只看跟自己有关的',
-      '只在当天结束前统一回一次'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A10', q:'你今天打开某个新闻 / 微博的频率是？', options:[
-      '每小时一次，怕错过',
-      '无聊了就刷一下',
-      '只在我明确要查东西时打开',
-      '只在固定 5 分钟看一次'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A11', q:'你现在的「焦虑」，主要来自？', options:[
-      '今天到底有几件事没回',
-      '我是不是在被落下',
-      '我在做的事到底有没有长期价值',
-      '明天 / 下周任务太多堆着'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A12', q:'如果今天你什么都没做，只是思考 / 学习，你会觉得？', options:[
-      '这一天废了，要补回来',
-      '有点愧疚但能接受',
-      '这是长线时间，复利的一部分',
-      '看做的什么 / 想的什么，再判断'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A13', q:'一个朋友找你聊家常，30 分钟过去，你会？', options:[
-      '陪到底，怕伤感情',
-      '看时间段，忙就 10 分钟，不忙就 30',
-      '聊到核心话题结束就礼貌结束',
-      '先想一下「今天 30 分钟投在这值吗」'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A14', q:'你收到一个大家都说「很急」但没具体截止时间的请求，你会？', options:[
-      '赶紧做，先做了再说',
-      '追问一下「截止什么时候」',
-      '排到明天的今日长线任务之后',
-      '评估是不是真的「急」再接'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A15', q:'下面哪个最像你最容易掉进的「短视触发器」？', options:[
-      '群里 @ 我 → 我必须立刻回',
-      '红点未读 → 焦虑，必须点掉',
-      '"赶紧做" → 不做会被骂',
-      '"先回一下" → 然后被卷走半小时'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A16', q:'你最近的「短视任务」主要来自哪里？', options:[
-      '群消息 / 别人 @ 我',
-      '同事口头请求',
-      '老板 / 客户直接交办',
-      '我自己在刷手机 / 看新闻'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A17', q:'一个任务如果今天不做，明天会怎样？', options:[
-      '基本没事，明天再做',
-      '明天会被人提一下',
-      '明天真的会出大问题',
-      '可能被人忘，也可能被人提'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A18', q:'这件事是「我必须做」还是「我想证明我做得到」？', options:[
-      '我想证明我做得到',
-      '都有，但后者更多',
-      '都有，但前者更多',
-      '真的是必须做'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A19', q:'一个会议 / 一个会面，能不能用异步 + 5 分钟说清楚？', options:[
-      '能，给对方发消息就行',
-      '大概能，但有些情绪交流要面谈',
-      '不能，必须当面',
-      '「能」但我没尝试过去异步'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'A20', q:'「现在不做就焦虑」的一件事，做完之后通常发现？', options:[
-      '做完了，确实没那么重要',
-      '还是有一点点用',
-      '真的帮了大忙',
-      '做与不做没差'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } }
-  ],
 
-  // B 任务 5 去向
-  B: [
-    { id:'B01', q:'自己做的 / 让 AI 做我拍板 / AI 做我抽检 / 做成 SOP / 自动跑——你今天做的事属于哪一类？', options:[
-      '亲自做',
-      'AI 先做我拍板',
-      'AI 独立我抽检',
-      '做成 SOP（套模板）',
-      '让脚本自动跑'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B02', q:'这件事如果第 3 次出现，你是否已经 做成 SOP了？', options:[
-      '还没 Skill，还在每次重新做',
-      '差一点，明天就能 Skill',
-      '已经是 Skill 了',
-      '基本不会再出现，所以我没 Skill'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B03', q:'如果别人也能做，你为什么还在亲自做？', options:[
-      '因为没人能比得上我',
-      '是核心责任，必须我做',
-      '懒得交接，懒得培训',
-      '因为还在反复救火'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B04', q:'你能把今天 1 个任务「完全交出去」吗？', options:[
-      '能，今天开始就让别人 / AI 接手',
-      '需要先做一次模板',
-      '不能，关键决策还是我',
-      '不敢，没人能替'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B05', q:'你今天做的事，哪一项最适合用 AI 「先做一版我拍板」？', options:[
-      '会议纪要 / 周报',
-      '调研 / 整理资料',
-      '草拟一封邮件 / 回复',
-      '写一份初版 PPT / 报告'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B06', q:'一个重复任务，你多久会 做成 SOP一次？', options:[
-      '从不，第三次出现还是手动做',
-      '出现 5~10 次会想 Skill',
-      '出现 2~3 次就 Skill',
-      '出现第 1 次就想 Skill（提前准备）'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B07', q:'一件 脚本自动跑通以后，你多久会再优化一次？', options:[
-      '基本不优化，跑通就行',
-      '半年 / 一年一次',
-      '每月看一次运行报告',
-      '每周复盘有没有必要优化 / 拆掉'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B08', q:'你今天做的事，能不能 80% 交出去？', options:[
-      '能，今天开始',
-      '能，但要先写 1 小时 SOP',
-      '能一部分，20% 还是我做',
-      '不能，是我的核心责任'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B09', q:'你需要为「亲自做」这件事列一个理由吗？', options:[
-      '不需要，默认就要我做',
-      '偶尔需要，写下来发现大多不必',
-      '每次接都要写，能筛掉一半',
-      '不需要，因为已经在做 80% 交出去'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B10', q:'一件重复 5 次以上的事，今天该不该 做成 SOP？', options:[
-      '该，越早越赚',
-      '看是不是真稳定',
-      '看有没有必要',
-      '看是不是「关键决策」'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B11', q:'一件事如果永远无法 Skill / Automation，你会？', options:[
-      '继续做，继续投入时间',
-      '逐步减少做的频率',
-      '尽量停下，一次都不做',
-      '尝试外包给专家'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B12', q:'「我必须亲自做」的判断标准，你有没有？', options:[
-      '有，写下来过',
-      '模糊，知道但说不清',
-      '没有，靠感觉',
-      '不需要，默认就要我做'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B13', q:'今天哪一件事可以「今天就开始 Skill」？', options:[
-      '重复的会议回复',
-      '重复的周报 / 月报',
-      '重复的简单答疑',
-      '重复的数据整理'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B14', q:'每次同事问「这个怎么处理」，你一般都？', options:[
-      '马上回答',
-      '把答案发给所有人',
-      '更新到常见问题文档',
-      '让 AI 先给一版答案我再调'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B15', q:'今天接的活里，有多少是「今天就能交出去」的？', options:[
-      '0，没有',
-      '1~2 个，能交但要写交接',
-      '3~5 个，明显可以交',
-      '大部分都可以交，我在亲自做的没几个'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B16', q:'你能列出来 3 个「应该但还没 Skill」的事吗？', options:[
-      '能，立刻能',
-      '能，但要翻一翻历史',
-      '不确定',
-      '基本没有，因为已经在 Skill'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B17', q:'让脚本跑跑不通时，你通常？', options:[
-      '立刻修，怕它挂了',
-      '等影响范围扩大再修',
-      '看是不是关键路径，是就先修',
-      '能手动跑就先手动，记下来下次一起修'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B18', q:'今天接的活，如果明天又来一遍，你是什么反应？', options:[
-      '正常，每天都这样',
-      '有点烦，但能接受',
-      '想 Skill，但还没动',
-      '已经 Skill 了，第二次是机器人做的'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B19', q:'你今天的「亲自做」时长占总时长比例是多少？', options:[
-      '>70%',
-      '50~70%',
-      '30~50%',
-      '<30%'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'B20', q:'「这件事我能 做成 SOP」和「这件事我应该 做成 SOP」哪个先想？', options:[
-      '能 Skill 先想',
-      '应该 Skill 先想',
-      '同时想',
-      '让 AI 帮我评估'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } }
-  ],
-
-  // C 时间价值层级 这 4 类事
-  C: [
-    { id:'C01', q:'你今天做的事，哪些属于 只有我能拍板的事（关键决策）？', options:[
-      '战略决策 / 关键方案拍板',
-      '关键谈判 / 关键沟通',
-      '关键创新 / 关键关系',
-      '基本没有，今天都在 T3/T4'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C02', q:'今天哪个时段排的是 只有我能拍板的事？', options:[
-      '上午精力最好的 2 小时',
-      '下午临走前',
-      '夜里 22:00 以后',
-      '没安排 / 没注意'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C03', q:'你今天哪件事是 可以让脚本跑的（自动的）？', options:[
-      '重复数据整理',
-      '通知 / 提醒抄送',
-      '用模板回复',
-      '其实大部分都是 T4'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C04', q:'需要亲手做的（关键执行）今天大概占你时长多少？', options:[
-      '<20%',
-      '20~40%',
-      '40~60%',
-      '>60%'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C05', q:'本周的 需要别人配合的（协作）占比是多少？', options:[
-      '>60%',
-      '40~60%',
-      '20~40%',
-      '<20%'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C06', q:'你今天的日程，T3/T4 占多少？', options:[
-      '>70%',
-      '50~70%',
-      '30~50%',
-      '<30%'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C07', q:'你那原则「需要别人配合的事 / 让脚本跑的事，不排进我的日程」今天有没有违反？', options:[
-      '没有',
-      '违反 1~2 次',
-      '违反 3 次以上',
-      '还没设这条 Rule'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C08', q:'你今天「陪会 / 陪聊 / 陪审」的时间占比是？', options:[
-      '>40%',
-      '20~40%',
-      '10~20%',
-      '<10%'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C09', q:'一件 可以让脚本跑的事，怎么处理最划算？', options:[
-      '找人 / AI 做',
-      'Automation 跑',
-      '做成 SOP模板',
-      '几件并一起，一次批量处理'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C10', q:'一件「只有我能拍板、但现在没时间做的事」的事，你会？', options:[
-      '硬抽时间，今天就做',
-      '排到明天精力最好的时段',
-      '先放进 不做的候选',
-      '再想想是不是 T1'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C11', q:'日程上一堆 T3，怎么判断哪个必到？', options:[
-      '看跟哪个 T1 关联最强',
-      '看是谁发起的',
-      '看我心情',
-      '看是不是只有我能拍板'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C12', q:'一段时间里 需要别人配合的事太多，第一反应是？', options:[
-      '推到别人',
-      '改成异步',
-      '合并会议',
-      '直接拒一些'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C13', q:'一件 需要别人配合、但又关键，要不要亲自到？', options:[
-      '要到，关键路径不能漏',
-      '可以异步，但事后我要看',
-      '可以异步，关键节点给我看',
-      '看是不是 T1 关联，是就到'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C14', q:'你今天的 T4，能砍掉多少？', options:[
-      '全部，能自动化就自动化',
-      '大部分，能找人就找人',
-      '一半，仍有部分只能自己',
-      '几乎砍不动，都是核心责任'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C15', q:'你下周要新增「每周 只有我能拍板的事的时长」指标吗？', options:[
-      '已经有了',
-      '准备加',
-      '听说过但没做',
-      '我没意识到这是指标'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C16', q:'可以让脚本跑的事堆积超过多少次会触发「今天就 Automation」？', options:[
-      '5 次',
-      '10 次',
-      '20 次',
-      '从不，都是手动慢慢做'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C17', q:'一个 只有我能拍板的事被 T3 不断打断，你会？', options:[
-      '关掉协作消息，专时做 T1',
-      '接受，这是常态',
-      '先把 T3 全部转出去',
-      '把 T1 推到精力最好的时段'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C18', q:'今天我能立刻把一件 T4 改成 Automation 吗？', options:[
-      '能，10 分钟搞定',
-      '能，但要先写一版 SOP',
-      '不能，要等技术配合',
-      '没意识到可以'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C19', q:'你的「关键路径」是什么？', options:[
-      '只有 1 件 / 类事',
-      '有 2~3 件',
-      '有 5~10 件',
-      '没想清楚过'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'C20', q:'30 天后回头看，你今天做的事，哪些是只有你能拍板的？', options:[
-      '今天基本没有 T1',
-      '不到 2 小时 T1',
-      '2~4 小时 T1',
-      '>4 小时 T1'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } }
-  ],
-
-  // D 不做 ≠ 不完成（核心：完成 ≠ 必须由你完成）
-  D: [
-    { id:'D01', q:'你今天做的最后一件事，如果不完成，世界会变糟吗？', options:[
-      '不会，明天再做也一样',
-      '小影响，明天还能补',
-      '会有点影响，但可控',
-      '真的会变糟'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D02', q:'「完成」不等于「必须由你完成」——你能放手吗？', options:[
-      '能，痛快交出去',
-      '能，但要旁观一阵子',
-      '很难，不放心',
-      '完全不能，必须我做'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D03', q:'一件事已经发生 3 次，第四次会怎样？', options:[
-      '做成 SOP，下次自动化',
-      '还是我手动做',
-      '看是不是关键',
-      '扔给 AI / 助理'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D04', q:'一件事如果不发生，世界会变糟吗？', options:[
-      '不会，世界照样转',
-      '不会，但有人会失望',
-      '会，对自己短期不利',
-      '会，长期也是负面'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D05', q:'这件事「还会不会再发生」？', options:[
-      '不会，不做了',
-      '会发生，需要 Skill',
-      '会发生，需要 Automation',
-      '说不准'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D06', q:'「我最后一次做这件事」的勇气，你有多少？', options:[
-      '非常有，今天就停下',
-      '有一点，需要契机',
-      '很少，习惯惯性太强',
-      '完全没有，停不下来'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D07', q:'一件决定不做的 掉的事，谁会有反应？', options:[
-      '没人，悄悄发生',
-      '1~2 个人，会被问',
-      '很多人会立刻问',
-      '是核心协作，没人问说明我没尽到责任'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D08', q:'你能列出来 3 件「应该不做了 但还停不下来」的事吗？', options:[
-      '能，立刻能',
-      '能，要思考一下',
-      '可能要翻任务列表',
-      '基本没有，都在掌握中'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D09', q:'一件你 我决定不做的事，今天该写下「为什么不做了」吗？', options:[
-      '该，必须写',
-      '该，但很多没写',
-      '不用写，知道就行',
-      '没必要，停就停了'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D10', q:'一件事 决定不做之后，又被叫回来做的概率？', options:[
-      '很低，除非关键',
-      '中等，关键任务会被叫回',
-      '很高，几乎都要回来',
-      '我从来 没把它真正停下来'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D11', q:'你最后做的第 N 件事，是 做成 SOP的最佳候选吗？', options:[
-      '是，要立刻 Skill',
-      '不是，已经停下了',
-      '不是，已经 Automation',
-      '是，但今天来不及'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D12', q:'你能列出来「值得我现在立刻不做的」的 3 件事吗？', options:[
-      '能，立刻能',
-      '能，要花点时间',
-      '要翻任务',
-      '其实没有特别该不做了 的'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D13', q:'一件事 不做之后的「下一步动作」是什么？', options:[
-      '做成 SOP，下次不出现',
-      'Automation，下次自动跑',
-      '转交他人，下次别人做',
-      '什么都不做，让它自然消亡'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D14', q:'你能在心里默默说一句「这是我最后一次做这件事」吗？', options:[
-      '能，能说很多件',
-      '能，但要挑',
-      '很难，开口就会焦虑',
-      '不能，觉得停不下来'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D15', q:'这件事是你想结束的吗？还是别人要你结束的？', options:[
-      '是我自己想结束的',
-      '是别人想结束的',
-      '双方都想',
-      '不太清楚'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D16', q:'决定不做一件事的代价是什么？', options:[
-      '几乎没有',
-      '要写一段交代',
-      '短期会有人失望',
-      '长期会影响协作'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D17', q:'你可以列出「即使不做也没事」的 3 件事吗？', options:[
-      '能，立刻能',
-      '要想想',
-      '要写下来',
-      '可能不太敢'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D18', q:'「我做」这个身份的边界，你有没有？', options:[
-      '有，写下来过',
-      '有，模糊但稳定',
-      '没有，靠感觉',
-      '没有，做什么都觉得该我做'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D19', q:'「做完」的满足 vs 不做的轻松，你更喜欢哪个？', options:[
-      '完成',
-      '不做之后的清爽',
-      '看情况',
-      '都想要'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'D20', q:'做完 vs 不做的判断标准是？', options:[
-      '问「这件事还会不会再发生」',
-      '问「3 个月后还有价值吗」',
-      '问「我能不能 80% 放手」',
-      '问「不做会变糟吗」'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } }
-  ],
-
-  // E 时间 P&L（5 张清单 + 周复盘）
-  E: [
-    { id:'E01', q:'本周高价值时间占比是 ____%？', options:[
-      '<30%',
-      '30~60%',
-      '60~80%',
-      '>80%'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E02', q:'本周 T1 + T2 占总时长多少？', options:[
-      '<30%',
-      '30~60%',
-      '60~80%',
-      '>80%'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E03', q:'本周低价值时间（短视任务）时长大概多少？', options:[
-      '1~2 小时',
-      '3~5 小时',
-      '5~10 小时',
-      '>10 小时'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E04', q:'本周哪些事「应该 KEEP」？', options:[
-      '想不出来',
-      '1~3 件事',
-      '3~5 件事',
-      '能列出来一周的安排'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E05', q:'本周哪些事「应该不做了」？', options:[
-      '想不出来',
-      '1~2 件事',
-      '3~5 件事',
-      '很多，我已经列了一长串'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E06', q:'本周哪些事「应该 DELEGATE」？', options:[
-      '想不出来',
-      '1~3 件事',
-      '3~5 件事',
-      '很多，都该交出去'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E07', q:'本周哪些事「应该 SKILL 化」？', options:[
-      '想不出来',
-      '1~2 件事',
-      '3~5 件事',
-      '很多，已经在排队'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E08', q:'本周哪些事「应该 AUTOMATE」？', options:[
-      '想不出来',
-      '1~2 件事',
-      '3~5 件事',
-      '已经跑通几件'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E09', q:'你最近一次「时间 P&L 周复盘」是什么时候？', options:[
-      '从没做过',
-      '3 个月前',
-      '上周',
-      '每周固定时间做'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E10', q:'你做周复盘时花多长时间？', options:[
-      '不固定，有时 5 分钟',
-      '大约 30~60 分钟',
-      '大约 15 分钟',
-      '大概 5 分钟，我已经有结构了'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E11', q:'本周「KEEP / DELEGATE / SKILL / AUTOMATE / STOP」五张清单上各多少项？', options:[
-      '都没列过',
-      '只有「继续做」+「不做了」',
-      '五大类都列了',
-      '五大类都有具体项'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E12', q:'你最近 30 天一共决定不做了几件事？', options:[
-      '0',
-      '1~3 件',
-      '4~10 件',
-      '>10 件'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E13', q:'你的「累计 SKILL」数（最近 30 天）？', options:[
-      '0',
-      '1~2 件',
-      '3~5 件',
-      '>5 件'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E14', q:'你的「脚本自动跑通的」数？', options:[
-      '0',
-      '1 件',
-      '2~3 件',
-      '>3 件'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E15', q:'你有过「我的原则：第二次出现的同类任务评估模板化」吗？', options:[
-      '有，已写下来',
-      '有，但没动笔',
-      '听说过，但没执行',
-      '没有'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E16', q:'你有过「我的原则：第三次出现的原则上 做成 SOP」吗？', options:[
-      '有，已写下来',
-      '有，但没动笔',
-      '听说过，但没执行',
-      '没有'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E17', q:'本周你最骄傲的 1 个「时间复利」动作是什么？', options:[
-      '想不出来',
-      '很小的一件，比如 决定不做一件事',
-      '1 件 做成 SOP / Automation',
-      '几个动作叠加'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E18', q:'本周你最心疼的 1 个「时间浪费」是什么？', options:[
-      '想不出来',
-      '1 件，我可以明天改',
-      '1 件，但是大坑',
-      '很多件，我自己也知道'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E19', q:'你本周「时间 ROI」（产出 / 时长）自评多少分？', options:[
-      '<40',
-      '40~60',
-      '60~80',
-      '>80'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } },
-    { id:'E20', q:'你愿意把这份 P&L 分享给一个朋友吗？', options:[
-      '不愿意，太私人',
-      '愿意，但不知怎么说',
-      '愿意，要先脱敏',
-      '愿意，已经有分享话术'
-    ], score:{ 'long':3,'short':1,'stop':0,'skill':2 } }
-  ]
-};
-
-// 5 类配置（CATEGORIES 含元信息 + 颜色 + 图标 + 描述）
+// 4 类配置（CATEGORIES 含元信息 + 颜色 + 图标 + 描述）
 const SOP_CATEGORIES = [
-  { id:'A', name:'短视触发器', icon:'⚡', color:'#e65100',
-    desc:'识别群里@、红点、「先回一下」这类一碰就掉时间的钩子。' },
-  { id:'B', name:'任务 5 去向', icon:'🧭', color:'#3949ab',
-    desc:'自己做的 / 让 AI 做我拍板 / AI 做我抽检 / 做成 SOP / 自动跑。' },
-  { id:'C', name:'时间价值层级', icon:'📐', color:'#5d8a3f',
-    desc:'只有我能拍板的 / 关键得亲手做的 / 需要别人配合的 / 可以让脚本跑的。' },
-  { id:'D', name:'不做 ≠ 不完成', icon:'🛑', color:'#ad1457',
-    desc:'完成 ≠ 必须由你完成；问「这件事还会不会再发生？」' },
-  { id:'E', name:'时间 P&L', icon:'📈', color:'#b8941f',
-    desc:'继续做 / 交给别人 / 做成 SOP / 自动跑 / 不做了 · 每周复盘。' }
+  { id: 'firewall', name: '短视防火墙', icon: '⚡', color: '#e65100',
+    tips: '偷走时间的从来不是大事，是红点、「先回一下」、顺手一刷。先把今天的洞堵住一个。',
+    items: [
+      { text: '群消息 / 红点只在固定时段集中处理，没有秒回' },
+      { text: '接新任务前，问了自己「3 个月后还有价值吗」' },
+      { text: '手头要事没有被「先回一下」打断' },
+      { text: '刷新闻 / 短视频没有失控（定时或干脆没开）' },
+      { text: '今天至少对 1 件事说了「不做」' }
+    ]},
+  { id: 'prior', name: '要事优先', icon: '🧭', color: '#3949ab',
+    tips: '时间价值分层：只有你能拍板的 > 关键要亲手做的 > 可以交给别人 / AI 的 > 能自动跑的。',
+    items: [
+      { text: '今天第一段完整时间给了最重要的事（T1）' },
+      { text: '至少 1 件事交给了别人 / AI 去做' },
+      { text: '重复出现的事，往「做成 SOP / 自动化」推进了一步' },
+      { text: '今天有一段不被打扰的深度工作时间' },
+      { text: '睡前知道明天最重要的一件事是什么' }
+    ]},
+  { id: 'stop', name: '不做的勇气', icon: '🛑', color: '#ad1457',
+    tips: '完成 ≠ 必须由你完成。每次接活前先问：这件事还会不会再发生？我不做会发生什么？',
+    items: [
+      { text: '会议 / 邀约先问了「我不去会发生什么」' },
+      { text: '没有为了面子或不好意思而接的活' },
+      { text: '把一件悬着的旧事判断为「不用做」并放下' },
+      { text: '没有因为别人的焦虑而给自己加任务' },
+      { text: '今天在收尾而非开新头（没同时开太多头）' }
+    ]},
+  { id: 'review', name: '复盘沉淀', icon: '📈', color: '#5d8a3f',
+    tips: '时间是唯一的本金。每天记账一次，每周复盘一次：继续做 / 交给别人 / 做成 SOP / 自动跑 / 不做。',
+    items: [
+      { text: '记录了今天时间的真实流向（打卡 / 账本）' },
+      { text: '本周的「不做清单」有更新或回顾' },
+      { text: '把一件重复做的事写下了可复用的步骤' },
+      { text: '对今天的投入产出心里有数（值 / 不值）' },
+      { text: '给明天留了 10 分钟想清楚再开工' }
+    ]}
 ];
 
 // 今日一句拷问（按人设不同）
@@ -2479,140 +1946,482 @@ function renderWeightPage() {
 }
 
 // ==================== SOP 自检 ====================
-function initSOP() {
-  const d = getSOPData();
-  const today = getToday();
-  if (d.date !== today) {
-    sopSelected = {};
-    sopAnswerCount = 0;
-    sopScore = 0;
-  } else {
-    sopSelected = d.selected || {};
-    sopAnswerCount = d.answerCount || 0;
-    sopScore = d.score || 0;
+// ===== SOP 自检（参照减肥搭子 · 清单打分版） =====
+const SOP_HIST_KEY = 'longterm_sop_history';
+function getSOPStreaks() { try { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS)) || {}; } catch(e) { return {}; } }
+function saveSOPStreaks(d) { localStorage.setItem(STORAGE.SOP_STREAKS, JSON.stringify(d)); }
+function getSOPHistory() { try { return JSON.parse(localStorage.getItem(SOP_HIST_KEY)) || []; } catch(e) { return []; } }
+function saveSOPToHistory(record) {
+  let history = getSOPHistory();
+  history = history.filter(h => h.date !== record.date);
+  history.push(record);
+  if (history.length > 30) history = history.slice(-30);
+  localStorage.setItem(SOP_HIST_KEY, JSON.stringify(history));
+}
+function updateSOPCatStreak(catId, yesCount) {
+  let streaks = getSOPStreaks();
+  let today = getToday();
+  if (!streaks[catId]) streaks[catId] = { streak: 0, lastDate: null };
+  let total = (SOP_CATEGORIES.find(c => c.id === catId) || { items: [] }).items.length;
+  if (total > 0 && (yesCount / total) * 100 >= 40) {
+    if (streaks[catId].lastDate) {
+      let diff = (new Date(today) - new Date(streaks[catId].lastDate)) / 86400000;
+      if (diff === 1) streaks[catId].streak++;
+      else if (diff > 1) streaks[catId].streak = 1;
+    } else {
+      streaks[catId].streak = 1;
+    }
+    streaks[catId].lastDate = today;
   }
-  renderSOPCats();
-  updateSOPDisplay();
-  renderSOPList();
+  saveSOPStreaks(streaks);
+  return streaks;
 }
 
+// ===== SOP 自检（参照减肥搭子 · 清单打分版） =====
+function initSOP() {
+  let d = getSOPData();
+  let today = getToday();
+  if (d.date !== today) {
+    sopScore = 0;
+    sopSelected = {};
+    sopDone = false;
+    sopSubmittedCats = [];
+  } else {
+    sopScore = d.score || 0;
+    sopSelected = d.selected || {};
+    sopDone = d.done || false;
+    sopSubmittedCats = d.submittedCats || [];
+  }
+  updateSOPDisplay();
+  renderSOPCats();
+  renderSOPTips();
+  if (sopDone) {
+    renderSOPDoneState();
+  } else {
+    renderSOPList();
+  }
+}
+
+function getCatSelected(catId) { return sopSelected[catId] || {}; }
+
 function renderSOPCats() {
-  const tabs = document.getElementById('sopCatTabs');
-  if (!tabs) return;
+  let tabs = document.getElementById('sopCatTabs');
+  tabs.style.display = sopDone ? 'none' : 'flex';
   tabs.innerHTML = SOP_CATEGORIES.map((c, i) => {
-    const sel = sopSelected[c.id] || {};
-    const cnt = Object.keys(sel).length;
-    const dot = cnt > 0 ? `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#b8941f;margin-left:4px;vertical-align:middle;"></span>` : '';
-    return `<button class="sop-cat-tab${i === sopCatIdx ? ' active' : ''}" onclick="switchSOPCat(${i})">${c.icon} ${c.name}${dot}</button>`;
+    let doneCount = Object.keys(getCatSelected(c.id)).length;
+    let totalCount = c.items.length;
+    let dot = doneCount >= totalCount
+      ? `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#4caf50;margin-left:4px;vertical-align:middle;"></span>`
+      : doneCount > 0
+      ? `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff9800;margin-left:4px;vertical-align:middle;"></span>`
+      : '';
+    return `<button class="sop-cat-tab${i===sopCatIdx?' active':''}" onclick="switchSOPCat(${i})">${c.icon} ${c.name}${dot}</button>`;
   }).join('');
 }
 
 function switchSOPCat(idx) {
+  if (sopDone) return;
   sopCatIdx = idx;
   renderSOPCats();
+  renderSOPTips();
   renderSOPList();
 }
 
+function renderSOPTips() {
+  document.getElementById('sopTipText').innerText = SOP_CATEGORIES[sopCatIdx].tips;
+}
+
 function renderSOPList() {
-  const card = document.getElementById('sopGameCard');
-  if (!card) return;
-  const cat = SOP_CATEGORIES[sopCatIdx];
-  const pool = QA_POOL[cat.id] || [];
-  // 每次随机抽 5 题
-  const shuffled = pool.slice().sort(() => Math.random() - 0.5);
-  const items = shuffled.slice(0, Math.min(5, pool.length));
-  const sel = sopSelected[cat.id] || {};
+  let card = document.getElementById('sopGameCard');
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  let selected = getCatSelected(cat.id);
+  let doneCount = Object.keys(selected).length;
+  let totalCount = cat.items.length;
+
+  let pct = Math.min(100, (doneCount / totalCount) * 100);
+  let progressFill = `<div class="sop-cat-progress-fill" style="width:${pct}%;background:${cat.color}"></div>`;
+
+  if (doneCount >= totalCount) {
+    let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+    let yesCount = Object.values(selected).filter(v => v === 'yes').length;
+    let noCount = totalCount - yesCount;
+    let catScore = Math.round((yesCount / totalCount) * 100);
+    let feedback = '';
+    if (yesCount === totalCount) {
+      feedback = streak > 0 ? `太棒了！${cat.name}满分保持中，坚持${streak}天！🌟` : `完美！${cat.name}全部做到，今天的时间花得漂亮！💯`;
+    } else if (yesCount >= totalCount * 0.7) {
+      feedback = `${cat.name}做得不错！${noCount > 0 ? `还有${noCount}项可以加强，继续保持！` : `继续保持这个状态！`}💪`;
+    } else if (yesCount >= totalCount * 0.5) {
+      feedback = `${cat.name}有进步空间哦，${yesCount}项做到，继续加油！🌱`;
+    } else {
+      feedback = `${cat.name}今天有点困难没关系，明天重新开始！不要放弃！🔥`;
+    }
+
+    card.innerHTML = `
+      <div class="sop-cat-progress" style="margin-bottom:12px;">
+        <span style="font-size:18px;">${cat.icon}</span>
+        <span style="font-weight:700;color:${cat.color};">${cat.name}</span>
+        <div class="sop-cat-progress-bar">${progressFill}</div>
+        <span style="font-size:11px;color:#8f9eae;">完成 ✅</span>
+      </div>
+      <div class="sop-cat-summary">
+        <div style="font-size:36px;margin-bottom:8px;">${cat.icon}</div>
+        <div style="font-size:15px;font-weight:700;color:#3a3d8f;margin-bottom:4px;">${cat.name} · 复盘完成</div>
+        <div style="font-size:24px;font-weight:800;color:${cat.color};margin-top:8px;">${catScore}分</div>
+        <div style="font-size:12px;color:#8f9eae;margin-top:4px;">做到了 ${yesCount} 项 · 需注意 ${noCount} 项</div>
+        <div style="margin-top:12px;padding:12px;background:linear-gradient(135deg, ${cat.color}11, ${cat.color}22);border-radius:12px;font-size:13px;color:#555;line-height:1.6;">${feedback}</div>
+        ${streak > 0 ? `<div style="margin-top:10px;font-size:13px;color:${cat.color};font-weight:700;">🔥 已坚持 ${streak} 天</div>` : ''}
+      </div>
+      <div style="text-align:center;margin-top:16px;">
+        <button onclick="submitSOPCat()" style="background:${cat.color};color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;">确认本维度 ✓</button>
+      </div>
+    `;
+    return;
+  }
+
+  let listItems = cat.items.map((item, idx) => {
+    let state = selected[idx];
+    let yesClass = state === 'yes' ? 'sop-item-yes' : '';
+    let noClass = state === 'no' ? 'sop-item-no' : '';
+    let yesBtnClass = state === 'yes' ? 'sop-check-btn yes-checked' : 'sop-check-btn';
+    let noBtnClass = state === 'no' ? 'sop-check-btn no-checked' : 'sop-check-btn';
+    return `
+      <div class="sop-item ${yesClass} ${noClass}" data-idx="${idx}">
+        <div class="sop-item-text">${item.text}</div>
+        <div class="sop-item-btns">
+          <button class="${yesBtnClass}" onclick="toggleSOPItem(${idx}, 'yes')">
+            <span>✅</span><span>做到了</span>
+          </button>
+          <button class="${noBtnClass}" onclick="toggleSOPItem(${idx}, 'no')">
+            <span>❌</span><span>没做到</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
   card.innerHTML = `
-    <div class="sop-cat-progress">
+    <div class="sop-cat-progress" style="margin-bottom:16px;">
       <span style="font-size:18px;">${cat.icon}</span>
       <span style="font-weight:700;color:${cat.color};">${cat.name}</span>
-      <div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:${Math.min(100, Object.keys(sel).length / items.length * 100)}%;background:${cat.color}"></div></div>
-      <span style="font-size:11px;color:#8f9eae;">${Object.keys(sel).length}/${items.length}</span>
+      <div class="sop-cat-progress-bar">${progressFill}</div>
+      <span style="font-size:11px;color:#8f9eae;">${doneCount}/${totalCount}</span>
     </div>
-    <div style="font-size:12px;color:#6c7a89;line-height:1.6;margin-bottom:10px;background:#faf6ee;border-radius:12px;padding:10px 12px;">💡 ${cat.desc}</div>
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      ${items.map((item) => {
-        const state = sel[item.id];
-        const yesCls = state === 'yes' ? 'done-yes' : '';
-        const noCls  = state === 'no'  ? 'done-no'  : '';
-        const yesBtnCls = state === 'yes' ? 'qa-check-btn yes-checked' : 'qa-check-btn';
-        const noBtnCls  = state === 'no'  ? 'qa-check-btn no-checked'  : 'qa-check-btn';
-        return `
-        <div class="qa-question ${yesCls} ${noCls}" data-id="${item.id}">
-          <div class="qa-question-text">${item.id}. ${item.q}</div>
-          <div class="qa-question-options">${item.options.map((o, idx) => `<div class="qa-option">${String.fromCharCode(65+idx)}. ${o}</div>`).join('')}</div>
-          <div class="qa-question-btns">
-            <button class="${yesBtnCls}" onclick="answerQuestion('${cat.id}','${item.id}','yes')"><span>✅</span><span>做到了</span></button>
-            <button class="${noBtnCls}"  onclick="answerQuestion('${cat.id}','${item.id}','no')"><span>⚠️</span><span>需注意</span></button>
-          </div>
-        </div>`;
-      }).join('')}
+    <div class="sop-list-container">
+      ${listItems}
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <div style="font-size:12px;color:#8f9eae;margin-bottom:8px;">✅ = 做到了 · ❌ = 没做到 · 点错可再点取消</div>
+      ${doneCount > 0 ? `<button onclick="submitSOPCat()" style="background:${cat.color};color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;">确认本维度 ✓</button>` : ''}
     </div>
   `;
 }
 
-function answerQuestion(catId, qId, state) {
-  if (!sopSelected[catId]) sopSelected[catId] = {};
-  if (sopSelected[catId][qId] === state) {
-    delete sopSelected[catId][qId];
+function toggleSOPItem(idx, state) {
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  if (!sopSelected[cat.id]) sopSelected[cat.id] = {};
+  if (sopSelected[cat.id][idx] === state) {
+    delete sopSelected[cat.id][idx];
   } else {
-    sopSelected[catId][qId] = state;
+    sopSelected[cat.id][idx] = state;
   }
-  sopAnswerCount = countAnswers(sopSelected);
-  // 实时算分（yes 累计分）
-  sopScore = computeScoreFromSelections(sopSelected);
-  saveSOPData({ score: sopScore, selected: sopSelected, answerCount: sopAnswerCount, date: getToday() });
-  renderSOPCats();
   updateSOPDisplay();
   renderSOPList();
 }
 
-function countAnswers(sel) {
-  let c = 0;
-  Object.values(sel).forEach(o => { if (o && typeof o === 'object') c += Object.keys(o).length; });
-  return c;
-}
+function submitSOPCat() {
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  let selected = sopSelected[cat.id] || {};
+  let yesCount = 0;
+  cat.items.forEach((item, idx) => {
+    if (selected[idx] === 'yes') yesCount++;
+  });
+  let catScore = Math.round((yesCount / cat.items.length) * 100);
 
-function computeScoreFromSelections(sel) {
-  // 当前类 yes 占比 × 100，归一化为 100 / 5 = 20 分
-  const catId = SOP_CATEGORIES[sopCatIdx].id;
-  const cat = sopSelected[catId] || {};
-  const qs = QA_POOL[catId] || [];
-  let yes = 0, total = 0;
-  Object.entries(cat).forEach(([qid, st]) => {
-    if (st) total++;
-    if (st === 'yes') yes++;
-  });
-  if (total === 0) return sopScore;
-  // 当前类 yes% = yes/qs.length * 100（一类满分 20）
-  const catPct = (yes / Math.max(qs.length, 1)) * 100;
-  // 5 类综合分（按每类各 20 分，满分 100）
-  let totalAllYes = 0, totalAllItems = 0;
+  let totalYes = 0, totalItemsAll = 0;
   SOP_CATEGORIES.forEach(c => {
-    const ca = sopSelected[c.id] || {};
-    const qs2 = QA_POOL[c.id] || [];
-    Object.values(ca).forEach(st => { totalAllItems++; if (st === 'yes') totalAllYes++; });
-    if (qs2.length) {
-      totalAllItems = Math.max(totalAllItems, qs2.length);
-    }
+    let sel = sopSelected[c.id] || {};
+    c.items.forEach((item, idx) => {
+      totalItemsAll++;
+      if (sel[idx] === 'yes') totalYes++;
+    });
   });
-  return Math.round((totalAllYes / Math.max(totalAllItems, 1)) * 100);
+  sopScore = Math.round((totalYes / totalItemsAll) * 100);
+
+  if (!sopSubmittedCats.includes(cat.id)) {
+    sopSubmittedCats.push(cat.id);
+  }
+
+  let allDone = sopSubmittedCats.length >= SOP_CATEGORIES.length;
+  updateSOPDisplay();
+  renderSOPCats();
+
+  if (allDone) {
+    if (!sopDone) {
+      sopDone = true;
+      saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: getToday(), submittedCats: sopSubmittedCats });
+      saveSOPToHistory({ date: getToday(), score: sopScore });
+      setTimeout(() => showSOPFinish(), 300);
+    }
+  } else {
+    saveSOPData({ score: sopScore, selected: sopSelected, done: sopDone, date: getToday(), submittedCats: sopSubmittedCats });
+    setTimeout(() => { showCatSummary(cat, selected, catScore); }, 200);
+  }
 }
 
 function updateSOPDisplay() {
-  const scoreEl = document.getElementById('sopScore');
-  if (scoreEl) scoreEl.innerText = sopScore;
-  document.getElementById('sopPosCount').innerText = sopAnswerCount;
-  document.getElementById('sopNegCount').innerText = Math.max(0, 100 - sopAnswerCount);
-  const pct = Math.max(0, Math.min(100, sopScore));
-  const bar = document.getElementById('sopScoreBar');
-  const ptext = document.getElementById('sopProgressText');
+  let displayScore = Math.max(0, Math.min(100, sopScore));
+  let el = document.getElementById('sopScore');
+  if (el) el.innerText = displayScore;
+
+  let totalItems = 0, doneItems = 0, yesItems = 0;
+  SOP_CATEGORIES.forEach(cat => {
+    totalItems += cat.items.length;
+    let sel = sopSelected[cat.id] || {};
+    Object.keys(sel).forEach(idx => {
+      doneItems++;
+      if (sel[idx] === 'yes') yesItems++;
+    });
+  });
+  let posEl = document.getElementById('sopPosCount');
+  let negEl = document.getElementById('sopNegCount');
+  if (posEl) posEl.innerText = yesItems;
+  if (negEl) negEl.innerText = doneItems - yesItems;
+  let pct = Math.max(0, Math.min(100, displayScore));
+  let bar = document.getElementById('sopScoreBar');
+  let ptext = document.getElementById('sopProgressText');
   if (bar) {
     bar.style.width = pct + '%';
-    bar.style.background = pct >= 60 ? 'linear-gradient(90deg,#c9a227,#8b6914)' : pct >= 30 ? 'linear-gradient(90deg,#ffa726,#ffc107)' : pct > 0 ? 'linear-gradient(90deg,#ef5350,#ff7043)' : '#f0e2bb';
+    bar.style.background = pct >= 60 ? 'linear-gradient(90deg, #c9a227, #8b6914)' : pct >= 30 ? 'linear-gradient(90deg, #ff9800, #ffc107)' : pct > 0 ? 'linear-gradient(90deg, #ef5350, #ff7043)' : '#e0e0e0';
   }
-  if (ptext) ptext.innerText = sopScore + ' / 100';
+  if (ptext) ptext.innerText = displayScore + ' / 100';
 }
+
+function getCatFeedbackMsg(cat, yesCount, noCount, total, streak) {
+  let pct = Math.round((yesCount / total) * 100);
+  let emoji, summary;
+  if (pct === 100) {
+    emoji = '🌟';
+    summary = streak > 0 ? `太棒了！满分保持中，坚持${streak}天！✨` : `满分！${cat.name}全部做到，继续保持！💯`;
+  } else if (pct >= 70) {
+    emoji = '💪';
+    summary = streak > 0 ? `做得不错！坚持${streak}天，继续保持！` : `做得不错！还有${noCount}项可以加强，继续保持！💪`;
+  } else if (pct >= 50) {
+    emoji = '🌱';
+    summary = `有进步空间，${yesCount}项做到，继续加油！`;
+  } else {
+    emoji = '🔥';
+    summary = `今天有点困难没关系，不要放弃！明天重新开始！`;
+  }
+  return { emoji, summary };
+}
+
+function showCatSummary(cat, selected, catScore) {
+  let yesCount = Object.values(selected).filter(v => v === 'yes').length;
+  let noCount = cat.items.length - yesCount;
+  let total = cat.items.length;
+  let pct = Math.round((yesCount / total) * 100);
+  let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+  let { emoji, summary } = getCatFeedbackMsg(cat, yesCount, noCount, total, streak);
+  let overlay = document.getElementById('catSummaryOverlay');
+  let isLast = sopSubmittedCats.length >= SOP_CATEGORIES.length;
+  overlay.innerHTML = `
+    <div class="sop-finish-card">
+      <div style="margin-bottom:12px;">
+        <span class="sf-cat-emoji">${emoji}</span>
+        <div class="sf-cat-subtitle" style="color:${cat.color};">${cat.icon} ${cat.name}</div>
+        <div class="sf-score-pct" style="color:${cat.color};">${pct}%</div>
+        <div class="sf-subtitle">${yesCount} / ${total} 项完成</div>
+      </div>
+      <div class="sf-feedback">${summary}</div>
+      <button onclick="closeCatSummary()" class="sf-btn-cat">✅ ${isLast ? '查看今日总结' : '继续下一个维度'}</button>
+    </div>
+  `;
+  overlay.classList.add('show');
+}
+
+function closeCatSummary() {
+  document.getElementById('catSummaryOverlay').classList.remove('show');
+  if (sopSubmittedCats.length >= SOP_CATEGORIES.length) {
+    setTimeout(() => showSOPFinish(), 500);
+  } else {
+    let nextCat = SOP_CATEGORIES.findIndex(c => !sopSubmittedCats.includes(c.id));
+    if (nextCat >= 0) {
+      sopCatIdx = nextCat;
+      renderSOPCats();
+      renderSOPTips();
+      renderSOPList();
+    }
+  }
+}
+
+function showSOPFinish() {
+  let score = Math.max(0, Math.min(100, sopScore));
+  let totalYes = 0, totalNo = 0;
+  SOP_CATEGORIES.forEach(cat => {
+    let sel = sopSelected[cat.id] || {};
+    cat.items.forEach((item, idx) => {
+      let state = sel[idx];
+      if (state === 'yes') totalYes++;
+      else if (state === 'no') totalNo++;
+    });
+    let catYes = Object.values(sel).filter(v => v === 'yes').length;
+    updateSOPCatStreak(cat.id, catYes);
+  });
+  let streaks = getSOPStreaks();
+  let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌱' : '😊';
+  let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
+
+  let catRows = SOP_CATEGORIES.map(cat => {
+    let st = streaks[cat.id] || { streak: 0 };
+    let sel = sopSelected[cat.id] || {};
+    let catYes = 0, catNo = 0;
+    cat.items.forEach((item, idx) => {
+      let state = sel[idx];
+      if (state === 'yes') catYes++;
+      else if (state === 'no') catNo++;
+    });
+    let pct = Math.round((catYes / cat.items.length) * 100);
+    let fb = getCatFeedbackMsg(cat, catYes, catNo, cat.items.length, st.streak);
+    return `<div class="sf-cat-row">
+      <span class="sf-cat-icon">${cat.icon}</span>
+      <span class="sf-cat-name">${cat.name} <span style="font-size:11px;color:${cat.color};font-weight:bold;">${pct}%</span></span>
+      <span class="sf-cat-yes">+${catYes}</span>
+      <span class="sf-cat-no">-${catNo}</span>
+      ${st.streak > 0 ? `<span class="sf-cat-streak">🔥${st.streak}天</span>` : ''}
+    </div>
+    <div style="font-size:11px;color:#555;padding:4px 12px 10px;line-height:1.6;">${fb.summary}</div>`;
+  }).join('');
+
+  let history = getSOPHistory();
+  let today = getToday();
+  let recent7 = [];
+  for (let i = 6; i >= 0; i--) {
+    let d = new Date();
+    d.setDate(d.getDate() - i);
+    let dateStr = d.toISOString().slice(0, 10);
+    let dayLabel = (i === 0) ? '今天' : (d.getMonth() + 1) + '/' + d.getDate();
+    let hRecord = history.find(h => h.date === dateStr);
+    recent7.push({ date: dateStr, label: dayLabel, score: hRecord ? hRecord.score : null, isToday: i === 0 });
+  }
+
+  let trendIcon = '', trendText = '', trendColor = '#90a4ae';
+  if (recent7[6].score !== null && recent7[5].score !== null) {
+    let diff = recent7[6].score - recent7[5].score;
+    if (diff > 0) { trendIcon = '📈'; trendText = '较昨日+' + diff; trendColor = '#43a047'; }
+    else if (diff < 0) { trendIcon = '📉'; trendText = '较昨日' + diff; trendColor = '#ef5350'; }
+    else { trendIcon = '➡️'; trendText = '与昨日持平'; trendColor = '#90a4ae'; }
+  }
+
+  let validScores = recent7.filter(d => d.score !== null).map(d => d.score);
+  let maxS = validScores.length ? Math.max(...validScores) : 100;
+  let minS = validScores.length ? Math.min(...validScores) : 0;
+  let range = Math.max(maxS - minS, 20);
+
+  let histBars = recent7.map(d => {
+    let h = d.score !== null ? Math.max(20, Math.round(((d.score - minS) / range) * 40) + 20) : 8;
+    let bg = d.score !== null ? (d.score >= 80 ? '#8b6914' : d.score >= 50 ? '#ff9800' : '#ef5350') : '#e0e0e0';
+    let op = d.isToday ? 1 : (d.score !== null ? 0.85 : 0.3);
+    let scoreLabel = d.score !== null ? d.score + '%' : '-';
+    return `<div class="sf-hist-day">
+      <div class="sf-hist-bar-wrap"><div class="sf-hist-bar" style="height:${h}px;background:${bg};opacity:${op};"></div></div>
+      <div class="sf-hist-label" style="font-weight:${d.isToday?'700':'400'};color:${d.isToday?'#8b6914':'#90a4ae'};">${d.label}</div>
+      <div class="sf-hist-score" style="color:${d.score!==null?(d.score>=80?'#8b6914':d.score>=50?'#ff9800':'#ef5350'):'#ccc'};">${scoreLabel}</div>
+    </div>`;
+  }).join('');
+
+  let overlay = document.getElementById('sopFinishOverlay');
+  overlay.innerHTML = `
+    <div class="sop-finish-card">
+      <div class="sf-header">
+        <span class="sf-emoji">${emoji}</span>
+        <div class="sf-title">${title}</div>
+        <div class="sf-subtitle">今日时间自检已完成 · 明天0点重置</div>
+      </div>
+      <div class="sf-stats">
+        <div class="sf-stat sf-stat-yes">
+          <div class="sf-stat-num">${totalYes}</div>
+          <div class="sf-stat-label">做到了</div>
+        </div>
+        <div class="sf-stat sf-stat-center">
+          <div class="sf-stat-num">${score}%</div>
+          <div class="sf-stat-label">今日得分</div>
+        </div>
+        <div class="sf-stat sf-stat-no">
+          <div class="sf-stat-num">${totalNo}</div>
+          <div class="sf-stat-label">需注意</div>
+        </div>
+      </div>
+      <div class="sf-divider"></div>
+      <div class="sf-cat-title">📊 各维度总结</div>
+      <div class="sf-cats">${catRows}</div>
+      <div class="sf-divider"></div>
+      <div class="sf-hist-header">
+        <span class="sf-cat-title">📈 历史对比</span>
+        ${trendIcon ? `<span style="font-size:11px;color:${trendColor};font-weight:600;">${trendIcon} ${trendText}</span>` : ''}
+      </div>
+      <div class="sf-history">${histBars}</div>
+      <div class="sf-note">⏳ 明天0点自动重置</div>
+      <button onclick="closeSOPFinish()" class="sf-btn">知道了</button>
+    </div>
+  `;
+  overlay.classList.add('show');
+}
+
+function closeSOPFinish() {
+  document.getElementById('sopFinishOverlay').classList.remove('show');
+  renderSOPDoneState();
+}
+
+function renderSOPDoneState() {
+  let card = document.getElementById('sopGameCard');
+  let score = Math.max(0, Math.min(100, sopScore));
+  let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌱' : '😊';
+  let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
+
+  let streaks = getSOPStreaks();
+  let catDetails = SOP_CATEGORIES.map(cat => {
+    let sel = sopSelected[cat.id] || {};
+    let catYes = 0, catNo = 0;
+    cat.items.forEach((item, idx) => {
+      let state = sel[idx];
+      if (state === 'yes') catYes++;
+      else if (state === 'no') catNo++;
+    });
+    let pct = Math.round((catYes / cat.items.length) * 100);
+    let st = streaks[cat.id] || { streak: 0 };
+    let fb = getCatFeedbackMsg(cat, catYes, catNo, cat.items.length, st.streak);
+    return `<div class="sf-cat-row">
+      <span class="sf-cat-icon">${cat.icon}</span>
+      <span class="sf-cat-name">${cat.name} <span style="font-size:11px;color:${cat.color};font-weight:bold;">${pct}%</span></span>
+      <span class="sf-cat-yes">+${catYes}</span>
+      <span class="sf-cat-no">-${catNo}</span>
+      ${st.streak > 0 ? `<span class="sf-cat-streak">🔥${st.streak}天</span>` : ''}
+    </div>
+    <div style="font-size:11px;color:#555;padding:4px 12px 10px;line-height:1.6;">${fb.summary}</div>`;
+  }).join('');
+
+  card.innerHTML = `
+    <div style="padding:20px 0 12px;">
+      <div style="text-align:center;margin-bottom:16px;">
+        <div style="font-size:52px;margin-bottom:8px;">${emoji}</div>
+        <div style="font-size:20px;font-weight:800;color:#3a3d8f;margin-bottom:4px;">${title}</div>
+        <div style="font-size:12px;color:#8f9eae;">今日今日时间自检已完成 · 明天0点重置</div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:20px;margin-bottom:16px;">
+        <div style="text-align:center;">
+          <div style="font-size:26px;font-weight:800;color:#8b6914;">${score}%</div>
+          <div style="font-size:11px;color:#8f9eae;">今日得分</div>
+        </div>
+      </div>
+      <div style="font-size:12px;font-weight:600;color:#8b6914;padding:0 12px 6px;">📊 各维度总结</div>
+      <div style="padding:0 4px;">${catDetails}</div>
+      <div style="text-align:center;font-size:11px;color:#b0bec5;margin-top:12px;">⏳ 明天0点自动重置</div>
+    </div>
+  `;
+}
+
+
 
 // ==================== 进展 ====================
 function renderProgress() {
@@ -2665,6 +2474,58 @@ function renderProgress() {
   document.getElementById('progPartnerEmoji').textContent = partner.emoji;
   document.getElementById('progPartnerName').textContent = partner.name;
   document.getElementById('progPartnerMsg').textContent = partner.fb.text;
+  renderSOPHistoryCard();
+}
+
+
+function renderSOPHistoryCard() {
+  const wrap = document.getElementById('sopTrendCard');
+  if (!wrap) return;
+  const history = getSOPHistory();
+  const today = getToday();
+  const todayRecord = history.find(h => h.date === today);
+  const avgScore = history.length > 0
+    ? Math.round(history.reduce((s, h) => s + (h.score || 0), 0) / history.length)
+    : 0;
+  let recent7 = [];
+  for (let i = 6; i >= 0; i--) {
+    let dd = new Date();
+    dd.setDate(dd.getDate() - i);
+    let dateStr = dd.toISOString().slice(0, 10);
+    let dayLabel = (i === 0) ? '今天' : (dd.getMonth() + 1) + '/' + dd.getDate();
+    let hRecord = history.find(h => h.date === dateStr);
+    recent7.push({ label: dayLabel, score: hRecord ? hRecord.score : null, isToday: i === 0 });
+  }
+  let validScores = recent7.filter(d => d.score !== null).map(d => d.score);
+  let maxS = validScores.length ? Math.max(...validScores) : 100;
+  let minS = validScores.length ? Math.min(...validScores) : 0;
+  let range = Math.max(maxS - minS, 20);
+  let histBars = recent7.map(d => {
+    let h = d.score !== null ? Math.max(20, Math.round(((d.score - minS) / range) * 40) + 20) : 8;
+    let bg = d.score !== null ? (d.score >= 80 ? '#8b6914' : d.score >= 50 ? '#ff9800' : '#ef5350') : '#e0e0e0';
+    let op = d.isToday ? 1 : (d.score !== null ? 0.85 : 0.3);
+    let scoreLabel = d.score !== null ? d.score + '%' : '-';
+    return `<div class="sf-hist-day">
+      <div class="sf-hist-bar-wrap"><div class="sf-hist-bar" style="height:${h}px;background:${bg};opacity:${op};"></div></div>
+      <div class="sf-hist-label" style="font-weight:${d.isToday?'700':'400'};color:${d.isToday?'#8b6914':'#90a4ae'};">${d.label}</div>
+      <div class="sf-hist-score" style="color:${d.score!==null?(d.score>=80?'#8b6914':d.score>=50?'#ff9800':'#ef5350'):'#ccc'};">${scoreLabel}</div>
+    </div>`;
+  }).join('');
+  wrap.innerHTML = `
+    <div class="progress-title" style="font-size:16px;margin-bottom:10px;">🎯 自检趋势</div>
+    <div style="display:flex;justify-content:center;gap:28px;margin-bottom:14px;">
+      <div style="text-align:center;">
+        <div style="font-size:26px;font-weight:800;color:#8b6914;">${todayRecord ? todayRecord.score + '%' : '-'}</div>
+        <div style="font-size:11px;color:#8f9eae;">今日自检</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:26px;font-weight:800;color:#8b6914;">${avgScore}%</div>
+        <div style="font-size:11px;color:#8f9eae;">平均得分 · ${history.length} 天</div>
+      </div>
+    </div>
+    ${history.length ? `<div class="sf-history" style="margin-bottom:0;">${histBars}</div>`
+      : `<div style="font-size:12px;color:#b0bec5;text-align:center;padding:8px 0;">还没有自检记录 · 去「自检」页完成今天的时间复盘 ⏳</div>`}
+  `;
 }
 
 // ==================== 分享 ====================
