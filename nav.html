@@ -63,29 +63,6 @@
     margin: 0 0 var(--space-3);
   }
 
-  /* 首屏 CTA（先试一次） */
-  .home-trial-btn {
-    display: inline-block;
-    padding: 12px 22px;
-    border-radius: 999px;
-    border: none;
-    background: linear-gradient(135deg, #5b9eff, #3a7ca5);
-    color: #fff;
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: .5px;
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(58,124,165,0.30);
-    transition: transform .15s, box-shadow .2s;
-  }
-  .home-trial-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(58,124,165,0.38); }
-  .home-trial-btn:active { transform: scale(0.97); }
-  .home-trial-sub {
-    margin-top: 8px;
-    font-size: 12px;
-    color: var(--ink-3);
-  }
-
   /* 引导层 / 付费墙 / Toast 通用遮罩 */
   .fp-overlay {
     position: fixed; inset: 0;
@@ -577,11 +554,7 @@
        ========================================================= -->
   <header class="header" data-page-node-id="HsXSun0NIhFhB5bJl6ZTsw">
     <h1 data-page-node-id="zdACYAecuvNsMcy8yKW9bL">🌟 每日搭子中心</h1>
-    <p class="lead" data-page-node-id="5mzre6wgYbPc9idf3AbCnr">今天先免费试一次 · 5次体验后再决定</p>
-
-    <!-- 首屏 CTA：点击触发首次引导层，并标记为第 N 次免费使用 -->
-    <button class="home-trial-btn" id="homeTrialBtn" type="button">🚀 先试一次（免费）</button>
-    <div class="home-trial-sub" id="homeTrialSub">不绑定手机 · 不收费 · 试完觉得值再订阅</div>
+    <p class="lead" data-page-node-id="5mzre6wgYbPc9idf3AbCnr">选一个搭子，开始今天的成长打卡</p>
 
     <!-- 顶置「本月精选」卡：内容完全由下方 featured 配置驱动 -->
     <a id="featured" class="featured" href="#" style="display:none" data-page-node-id="Nb95uD0AOZDf2456P2FSR3">
@@ -648,7 +621,7 @@ const PARTNERS_CONFIG = {
    * └─────────────────────────────────────────────────────────┘ */
   brand: {
     title:    '🌟 每日搭子中心',
-    subtitle: '今天先免费试一次 · 5次体验后再决定',
+    subtitle: '选一个搭子，开始今天的成长打卡',
     footer:   'Slim Partner · 打卡成为更好的自己',
   },
 
@@ -1009,7 +982,8 @@ function recordFreeUse() {
   if (s.freeUsesUsed >= FREEMIUM.freeUsesLimit) return 'normal'; // 已经过 5 次：不再计数
   s.freeUsesUsed = (s.freeUsesUsed || 0) + 1;
   setFreemiumState(s);
-  return (s.freeUsesUsed === FREEMIUM.freeUsesLimit) ? 'show_paywall' : 'normal';
+  // 前 5 次正常使用，第 6 次才提醒
+  return (s.freeUsesUsed > FREEMIUM.freeUsesLimit) ? 'show_paywall' : 'normal';
 }
 
 function activateDemoSubscription() {
@@ -1047,19 +1021,18 @@ function renderStatusBar() {
     const used  = s.freeUsesUsed || 0;
     const limit = FREEMIUM.freeUsesLimit;
     const left  = Math.max(0, limit - used);
+    // 前台不显示剩余次数，仅后台在第 6 次触发付费墙
     if (left > 0) {
       statusPill = `
         <span class="pill">
           <span class="dot"></span>
-          🔓 免费体验中 · 还剩 <strong style="color:var(--ink);margin:0 4px">${left}</strong> / ${limit} 次
-          · 累计打卡 <strong style="color:var(--ink);margin:0 4px">${total}</strong> 次
+          累计打卡 <strong style="color:var(--ink);margin:0 4px">${total}</strong> 次
         </span>`;
     } else {
       statusPill = `
         <span class="pill warn">
           <span class="dot"></span>
-          ⏳ 5 次免费体验已用完
-          · <button class="btn" id="openPaywallBtn" style="color:#22c55e;font-weight:700;">立即订阅 ¥9.9/月</button>
+          体验次数已用完 · <button class="btn" id="openPaywallBtn" style="color:#22c55e;font-weight:700;">立即订阅 ¥9.9/月</button>
         </span>`;
     }
   }
@@ -1069,26 +1042,6 @@ function renderStatusBar() {
   // 绑定"立即订阅"按钮 → 打开付费墙
   const payBtn = $('openPaywallBtn');
   if (payBtn) payBtn.addEventListener('click', () => openPaywall('entry_pill'));
-
-  // 首页"先试一次"按钮：点完走 freemium 计数
-  const trialBtn = $('homeTrialBtn');
-  if (trialBtn) trialBtn.addEventListener('click', onHomeTrial);
-}
-
-/**
- * 首页"今天先免费试一次"按钮：点完一次，count + 1，并出现引导层
- */
-function onHomeTrial() {
-  const status = recordFreeUse();
-  const total = Number(localStorage.getItem(STORAGE.total) || 0) + 1;
-  localStorage.setItem(STORAGE.total, String(total));
-  renderStatusBar();
-  if (status === 'show_paywall') {
-    openPaywall('after_5th_home_trial');
-  } else {
-    // 弹出引导层，让用户选一个方向
-    openInterestPicker();
-  }
 }
 
 /* ============================================================
