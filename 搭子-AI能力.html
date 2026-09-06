@@ -51,6 +51,7 @@ body{background:linear-gradient(145deg,#f0f4ff 0%,#e8eeff 100%);min-height:100vh
 .panel-label{font-size:12px;color:#8f9eae;margin-bottom:12px;font-weight:500;letter-spacing:0.5px;}
 .mood-row{display:flex;justify-content:space-around;margin-bottom:14px;}
 .mood-btn{font-size:28px;cursor:pointer;padding:6px 10px;border-radius:16px;transition:all 0.15s;background:transparent;border:none;pointer-events:auto !important;touch-action:manipulation;}
+    .mood-btn,.talk-btn{pointer-events:auto !important;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;}
 .mood-btn:active{background:#f0f0ff;transform:scale(1.15);}
 .talk-btn-row{display:flex;gap:8px;}
 .talk-btn{flex:1;padding:10px;border-radius:16px;border:1.5px solid #e9edf2;background:white;font-size:14px;font-weight:500;color:#5b6abf;cursor:pointer;transition:all 0.15s;pointer-events:auto !important;touch-action:manipulation;}
@@ -286,20 +287,20 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
     <div class="interaction-panel">
       <div class="panel-label">💬 和AI搭子聊聊</div>
       <div class="mood-row">
-        <div class="mood-btn" data-mood="happy" onclick="sendMood('happy')">😄</div>
-        <div class="mood-btn" data-mood="neutral" onclick="sendMood('neutral')">😌</div>
-        <div class="mood-btn" data-mood="sad" onclick="sendMood('sad')">😔</div>
-        <div class="mood-btn" data-mood="tired" onclick="sendMood('tired')">😫</div>
+        <div class="mood-btn" data-mood="happy">😄</div>
+        <div class="mood-btn" data-mood="neutral">😌</div>
+        <div class="mood-btn" data-mood="sad">😔</div>
+        <div class="mood-btn" data-mood="tired">😫</div>
       </div>
       <div class="talk-btn-row">
-        <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
-        <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
-        <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
-        <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
+        <button class="talk-btn" data-type="progress">📈 进展</button>
+        <button class="talk-btn" data-type="struggle">😣 困难</button>
+        <button class="talk-btn" data-type="idea">💡 想法</button>
+        <button class="talk-btn" data-type="cheer">🎉 喜事</button>
       </div>
       <div class="talk-btn-row" style="margin-top:8px;">
-        <button class="talk-btn" data-type="report" onclick="askPartner('report')">📣 汇报进展</button>
-        <button class="talk-btn" data-type="question" onclick="askPartner('question')">🤔 有问题想问</button>
+        <button class="talk-btn" data-type="report">📣 汇报进展</button>
+        <button class="talk-btn" data-type="question">🤔 有问题想问</button>
       </div>
     </div>
     <div class="share-inline-card">
@@ -1321,6 +1322,38 @@ document.getElementById('qaOverlay').addEventListener('click', function(e){
   bindAIInteractionFallback();
 })();
 </script>
-<script src="coach-AI能力.js"></script>
+<script>
+/* === emoji/tag 统一事件委托兜底 v3 === */
+(function(){
+  if (window.__EMOJI_FB_UNIFIED__) return;
+  window.__EMOJI_FB_UNIFIED__ = true;
+  function stopEvt(e){
+    if (e.preventDefault) e.preventDefault(); else e.returnValue = false;
+    if (e.stopPropagation) e.stopPropagation(); else e.cancelBubble = true;
+    try { e.stopImmediatePropagation && e.stopImmediatePropagation(); } catch(x){}
+  }
+  function onDocClick(e){
+    try {
+      var target = e.target || e.srcElement;
+      if (!target) return;
+      if (target.nodeType === 3) target = target.parentElement;
+      if (!target || !target.closest) return;
+      var m = target.closest('.mood-btn');
+      if (m) {
+        var k = m.getAttribute('data-mood');
+        if (k && typeof sendMood === 'function') { stopEvt(e); sendMood(k); return false; }
+      }
+      var t = target.closest('.talk-btn');
+      if (t) {
+        var k2 = t.getAttribute('data-type');
+        if (k2 && typeof askPartner === 'function') { stopEvt(e); askPartner(k2); return false; }
+      }
+    } catch(err) { if (window.console && console.warn) console.warn('emoji fb err', err); }
+  }
+  if (document.addEventListener) document.addEventListener('click', onDocClick, true);
+})();
+</script>
+
+
 </body>
 </html>

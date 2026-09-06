@@ -126,6 +126,7 @@
     .panel-label { font-size: 12px; color: #8f9eae; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
     .mood-row { display: flex; justify-content: space-around; margin-bottom: 14px; }
     .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; }
+    .mood-btn,.talk-btn{pointer-events:auto !important;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;}
     .mood-btn:hover, .mood-btn:active { background: #f0f7fd; transform: scale(1.15); }
     .talk-btn-row { display: flex; gap: 8px; }
     .talk-btn {
@@ -553,20 +554,20 @@
     <div class="interaction-panel" data-page-node-id="lZx6ocdBu8UnZ5WU8MQqEj">
       <div class="panel-label" data-page-node-id="XFvyZ0ffYwWIl1wFcCI2vC">💬 和搭子说说话</div>
       <div class="mood-row" data-page-node-id="voO9UEN9x2RAczWai2qBCo">
-        <div class="mood-btn" onclick="sendMood('happy')" title="开心" data-page-node-id="NuMLVZjXZDKrebZ8HlpUlz">😄</div>
-        <div class="mood-btn" onclick="sendMood('neutral')" title="平静" data-page-node-id="zLt3PbSybhKTlBjVqiskav">😌</div>
-        <div class="mood-btn" onclick="sendMood('sad')" title="低落" data-page-node-id="tdROXGAb3bsMJWnxxgkt5t">😔</div>
-        <div class="mood-btn" onclick="sendMood('tired')" title="累了" data-page-node-id="CyJmUKQ5bwy6Sqi9ZHwVrf">😫</div>
+        <div class="mood-btn" data-mood="happy" title="开心" data-page-node-id="NuMLVZjXZDKrebZ8HlpUlz">😄</div>
+        <div class="mood-btn" data-mood="neutral" title="平静" data-page-node-id="zLt3PbSybhKTlBjVqiskav">😌</div>
+        <div class="mood-btn" data-mood="sad" title="低落" data-page-node-id="tdROXGAb3bsMJWnxxgkt5t">😔</div>
+        <div class="mood-btn" data-mood="tired" title="累了" data-page-node-id="CyJmUKQ5bwy6Sqi9ZHwVrf">😫</div>
       </div>
       <div class="talk-btn-row" data-page-node-id="xM1ozxlfMXGVIODXuMEIWB">
-        <button class="talk-btn" onclick="askPartner('progress')" data-page-node-id="CV9nkjyFbJuaMd4GGmlcch">📈 进展</button>
-        <button class="talk-btn" onclick="askPartner('struggle')" data-page-node-id="NgvE4IwfdbjGlOeTZDfqcd">😣 卡点</button>
-        <button class="talk-btn" onclick="askPartner('idea')" data-page-node-id="WPbutwXNGVHrcLX6GwgbnF">💡 想法</button>
-        <button class="talk-btn" onclick="askPartner('cheer')" data-page-node-id="0ZkHQnswJ6VA59O03H9DQj">🎉 喜事</button>
+        <button class="talk-btn" data-type="progress" data-page-node-id="CV9nkjyFbJuaMd4GGmlcch">📈 进展</button>
+        <button class="talk-btn" data-type="struggle" data-page-node-id="NgvE4IwfdbjGlOeTZDfqcd">😣 卡点</button>
+        <button class="talk-btn" data-type="idea" data-page-node-id="WPbutwXNGVHrcLX6GwgbnF">💡 想法</button>
+        <button class="talk-btn" data-type="cheer" data-page-node-id="0ZkHQnswJ6VA59O03H9DQj">🎉 喜事</button>
       </div>
       <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="R4KFPoNXsc7T5KvUCFcEjd">
-        <button class="talk-btn" onclick="askPartner('report')" data-page-node-id="ClkmSuOdhgPqzd5TBVXBSW">📣 汇报进展</button>
-        <button class="talk-btn" onclick="askPartner('question')" data-page-node-id="HQG9q6BEHXAr34j0GfifRm">🤔 有问题想问</button>
+        <button class="talk-btn" data-type="report" data-page-node-id="ClkmSuOdhgPqzd5TBVXBSW">📣 汇报进展</button>
+        <button class="talk-btn" data-type="question" data-page-node-id="HQG9q6BEHXAr34j0GfifRm">🤔 有问题想问</button>
       </div>
     </div>
 
@@ -790,20 +791,20 @@
     <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;" data-page-node-id="vdXpjZxwdMkVpPTFuN6HVD"></div>
     <div class="panel-label" style="margin-bottom:10px;" data-page-node-id="z4D1dfNweqAaNwqy6l4UR0">💬 和搭子说说话</div>
     <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;" data-page-node-id="GUEA0A9a85l1PX84NTucIw">
-      <div class="mood-btn" onclick="sendMood('happy')" title="开心" data-page-node-id="FxmhnTUr25QcNffGGE9pBe">😄</div>
-      <div class="mood-btn" onclick="sendMood('neutral')" title="平静" data-page-node-id="0MS6IZTnKchXgQ2bTM7ggy">😌</div>
-      <div class="mood-btn" onclick="sendMood('sad')" title="低落" data-page-node-id="6IjydC4HmqWkTjaCtomafC">😔</div>
-      <div class="mood-btn" onclick="sendMood('tired')" title="疲惫" data-page-node-id="SdeZJSOBMV8icNV76FKcFU">😫</div>
+      <div class="mood-btn" data-mood="happy" title="开心" data-page-node-id="FxmhnTUr25QcNffGGE9pBe">😄</div>
+      <div class="mood-btn" data-mood="neutral" title="平静" data-page-node-id="0MS6IZTnKchXgQ2bTM7ggy">😌</div>
+      <div class="mood-btn" data-mood="sad" title="低落" data-page-node-id="6IjydC4HmqWkTjaCtomafC">😔</div>
+      <div class="mood-btn" data-mood="tired" title="疲惫" data-page-node-id="SdeZJSOBMV8icNV76FKcFU">😫</div>
     </div>
     <div class="talk-btn-row" data-page-node-id="k16uNmIhC37qL6lOK3haYc">
-      <button class="talk-btn" onclick="askPartner('progress')" data-page-node-id="lYWrNwQYtHRNNTasHs3Zjw">📈 进展</button>
-      <button class="talk-btn" onclick="askPartner('struggle')" data-page-node-id="Airi96mOu6IFzOvXIY9tqK">😣 卡点</button>
-      <button class="talk-btn" onclick="askPartner('idea')" data-page-node-id="HBW3R2AxVPHEbhyzeujxUO">💡 想法</button>
+      <button class="talk-btn" data-type="progress" data-page-node-id="lYWrNwQYtHRNNTasHs3Zjw">📈 进展</button>
+      <button class="talk-btn" data-type="struggle" data-page-node-id="Airi96mOu6IFzOvXIY9tqK">😣 卡点</button>
+      <button class="talk-btn" data-type="idea" data-page-node-id="HBW3R2AxVPHEbhyzeujxUO">💡 想法</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="AwYy3NexBg2OnpDxNxgDKY">
-      <button class="talk-btn" onclick="askPartner('cheer')" data-page-node-id="owUCwb3U7QSmoQEfW7HjPs">🎉 喜事</button>
-      <button class="talk-btn" onclick="askPartner('report')" data-page-node-id="iyx13Wz73IcWAZJDoS5AZX">📣 汇报</button>
-      <button class="talk-btn" onclick="askPartner('question')" data-page-node-id="DcjqnQAFRJeBdlAFGtTdXG">🤔 提问</button>
+      <button class="talk-btn" data-type="cheer" data-page-node-id="owUCwb3U7QSmoQEfW7HjPs">🎉 喜事</button>
+      <button class="talk-btn" data-type="report" data-page-node-id="iyx13Wz73IcWAZJDoS5AZX">📣 汇报</button>
+      <button class="talk-btn" data-type="question" data-page-node-id="DcjqnQAFRJeBdlAFGtTdXG">🤔 提问</button>
     </div>
   </div>
 </div>
@@ -3368,7 +3369,39 @@ startApp();
 </style>
 
 <!-- McKinsey教练外部脚本 -->
-<script src="coach-weight.js"></script>
+<script>
+/* === emoji/tag 统一事件委托兜底 v3 === */
+(function(){
+  if (window.__EMOJI_FB_UNIFIED__) return;
+  window.__EMOJI_FB_UNIFIED__ = true;
+  function stopEvt(e){
+    if (e.preventDefault) e.preventDefault(); else e.returnValue = false;
+    if (e.stopPropagation) e.stopPropagation(); else e.cancelBubble = true;
+    try { e.stopImmediatePropagation && e.stopImmediatePropagation(); } catch(x){}
+  }
+  function onDocClick(e){
+    try {
+      var target = e.target || e.srcElement;
+      if (!target) return;
+      if (target.nodeType === 3) target = target.parentElement;
+      if (!target || !target.closest) return;
+      var m = target.closest('.mood-btn');
+      if (m) {
+        var k = m.getAttribute('data-mood');
+        if (k && typeof sendMood === 'function') { stopEvt(e); sendMood(k); return false; }
+      }
+      var t = target.closest('.talk-btn');
+      if (t) {
+        var k2 = t.getAttribute('data-type');
+        if (k2 && typeof askPartner === 'function') { stopEvt(e); askPartner(k2); return false; }
+      }
+    } catch(err) { if (window.console && console.warn) console.warn('emoji fb err', err); }
+  }
+  if (document.addEventListener) document.addEventListener('click', onDocClick, true);
+})();
+</script>
+
+
 
 </body>
 </html>
