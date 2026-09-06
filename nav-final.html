@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="pM5GLCSFGurV0GMAJKqWEJ">
+<head data-page-node-id="WWYpuQR6R1iCKFeUnR5gWF">
+<meta charset="UTF-8" data-page-node-id="yjhm85osUpNjRe2Hs63l8U">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="qyEhu0lY91t2OgQsy3eiEO">
+<title>Slim Partner · 每日搭子中心</title>
+<style>
+  /* ===========================================================
+     [基础变量] —— 想换主题色 / 圆角 / 间距，只改这里
+     =========================================================== */
+  :root {
+    --bg:           #fafaf7;
+    --surface:      #ffffff;
+    --ink:          #1f2330;
+    --ink-soft:     #5b6273;
+    --line:         #ecedf0;
+    --brand:        #5b6cff;
+    --brand-soft:   #eef0ff;
+    --accent:       #ff7a45;
+    --ok:           #16a34a;
+    --warn:         #d97706;
+    --radius-lg:    18px;
+    --radius-md:    10px;
+    --shadow-sm:    0 1px 2px rgba(20,22,30,.06), 0 1px 1px rgba(20,22,30,.04);
+    --shadow-md:    0 8px 24px rgba(20,22,30,.08);
+    --space-1:      8px;
+    --space-2:      16px;
+    --space-3:      24px;
+    --space-4:      32px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  /* ===========================================================
+     [顶层容器]
+     =========================================================== */
+  .app {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: var(--space-4) var(--space-2);
+  }
+
+  /* ===========================================================
+     [头部：标题 + 本月精选卡]
+     =========================================================== */
+  .header { text-align: center; margin-bottom: var(--space-3); }
+  .header h1 {
+    margin: 0 0 var(--space-1);
+    font-size: 28px;
+    letter-spacing: .5px;
+  }
+  .header .lead {
+    color: var(--ink-soft);
+    margin: 0 0 var(--space-3);
+  }
+
+  .featured {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: linear-gradient(135deg, #fff4ec 0%, #ffe9d9 100%);
+    border: 1px solid #ffd9bd;
+    border-radius: var(--radius-lg);
+    padding: var(--space-3);
+    text-align: left;
+    box-shadow: var(--shadow-sm);
+    transition: transform .2s ease;
+    text-decoration: none;
+    color: inherit;
+  }
+  .featured:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .featured .emoji { font-size: 36px; }
+  .featured .meta { flex: 1; }
+  .featured h3 { margin: 0 0 4px; font-size: 17px; }
+  .featured p  { margin: 0; color: var(--ink-soft); font-size: 13px; }
+  .featured .cta {
+    background: var(--accent);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* ===========================================================
+     [状态条] —— 上次访问 / 今日打卡
+     不喜欢整个状态条，直接删掉 .status-bar 这段样式 + HTML
+     =========================================================== */
+  .status-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-1);
+    margin-bottom: var(--space-3);
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .status-bar .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+  }
+  .status-bar .pill .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--ok);
+  }
+  .status-bar .pill.warn .dot { background: var(--warn); }
+  .status-bar .pill .btn {
+    border: 0; background: transparent;
+    color: var(--brand); cursor: pointer;
+    font-size: 12px; padding: 0;
+    font-family: inherit;
+  }
+  .status-bar .pill .btn:hover { text-decoration: underline; }
+
+  /* ===========================================================
+     [Tab 切换]
+     =========================================================== */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--surface);
+    padding: 6px;
+    border-radius: 14px;
+    box-shadow: var(--shadow-sm);
+    overflow-x: auto;
+    margin-bottom: var(--space-3);
+  }
+  .tab {
+    flex: 1;
+    min-width: 90px;
+    padding: 10px 12px;
+    border: 0;
+    background: transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-family: inherit;
+    transition: all .2s;
+    white-space: nowrap;
+  }
+  .tab .count {
+    display: inline-block;
+    margin-left: 4px;
+    font-size: 11px;
+    background: var(--line);
+    color: var(--ink-soft);
+    padding: 1px 6px;
+    border-radius: 999px;
+  }
+  .tab.active {
+    background: var(--ink);
+    color: #fff;
+  }
+  .tab.active .count {
+    background: rgba(255,255,255,.18);
+    color: #fff;
+  }
+
+  /* ===========================================================
+     [工具条] —— 搜索 + 状态筛选
+     =========================================================== */
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    align-items: center;
+  }
+  .search {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+  }
+  .search input {
+    width: 100%;
+    padding: 10px 14px 10px 38px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--ink);
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .search input:focus {
+    outline: 0;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px var(--brand-soft);
+  }
+  .search::before {
+    content: "🔎";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+  }
+
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: 999px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--ink-soft);
+    transition: all .15s;
+    font-family: inherit;
+  }
+  .chip:hover { border-color: var(--brand); color: var(--brand); }
+  .chip.active {
+    background: var(--brand-soft);
+    border-color: var(--brand);
+    color: var(--brand);
+    font-weight: 500;
+  }
+
+  /* ===========================================================
+     [卡片网格]
+     =========================================================== */
+  .grid {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: var(--space-3);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    transition: all .2s ease;
+    position: relative;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: #d4d7e0;
+    box-shadow: var(--shadow-md);
+  }
+  .card .top {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-1);
+  }
+  .card .emoji {
+    font-size: 26px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .card h3 {
+    margin: 0;
+    font-size: 16px;
+    flex: 1;
+  }
+  .card .desc {
+    color: var(--ink-soft);
+    font-size: 13px;
+    margin: 4px 0 0;
+  }
+  .card .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: auto;
+    padding-top: var(--space-1);
+  }
+  .badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--line);
+    color: var(--ink-soft);
+  }
+  .badge.ok      { background: #dcfce7; color: var(--ok); }
+  .badge.warn    { background: #fef3c7; color: var(--warn); }
+  .badge.new     { background: var(--brand-soft); color: var(--brand); }
+  .badge.accent  { background: #ffe9d9; color: var(--accent); }
+  .badge.preview { background: #f3f4f6; color: var(--ink-soft);
+                    border: 1px dashed #c4c8d2; }
+
+  /* —— preview 卡片：禁用 hover 提升 + 半透明，提示不可点击 —— */
+  .card.preview {
+    cursor: not-allowed;
+    opacity: .85;
+  }
+  .card.preview:hover {
+    transform: none;
+    border-color: var(--line);
+    box-shadow: none;
+  }
+
+  /* ===========================================================
+     [空状态]
+     =========================================================== */
+  .empty {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: var(--space-4) 0;
+    color: var(--ink-soft);
+  }
+  .empty .face { font-size: 40px; opacity: .4; margin-bottom: var(--space-1); }
+
+  /* ===========================================================
+     [元信息与页脚]
+     =========================================================== */
+  .meta {
+    text-align: center;
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px dashed var(--line);
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+  .meta .stats { display: flex; justify-content: center; gap: var(--space-3); margin-bottom: var(--space-1); }
+  .meta .stats span strong { color: var(--ink); }
+
+  /* ===========================================================
+     [响应式]
+     =========================================================== */
+  @media (max-width: 640px) {
+    .app { padding: var(--space-2) var(--space-1); }
+    .header h1 { font-size: 22px; }
+    .featured { flex-wrap: wrap; }
+    .featured .cta { width: 100%; text-align: center; margin-top: var(--space-1); }
+  }
+</style>
+</head>
+<body data-page-node-id="Dnhd6hUZ0Tf17o7nyBvnTK">
+
+<div class="app" data-page-node-id="JYmzQISnftwit9G8iVBVfo">
+
+  <!-- =========================================================
+       [头部] —— 标题/引导语直接改下面两行
+       ========================================================= -->
+  <header class="header" data-page-node-id="HsXSun0NIhFhB5bJl6ZTsw">
+    <h1 data-page-node-id="zdACYAecuvNsMcy8yKW9bL">🌟 每日搭子中心</h1>
+    <p class="lead" data-page-node-id="5mzre6wgYbPc9idf3AbCnr">选一个搭子，开始今天的成长打卡</p>
+
+    <!-- 顶置「本月精选」卡：内容完全由下方 featured 配置驱动 -->
+    <a id="featured" class="featured" href="#" style="display:none" data-page-node-id="Nb95uD0AOZDf2456P2FSR3">
+      <span class="emoji" data-page-node-id="tPJ3X3WkRALXMMNMJPxMJX"></span>
+      <div class="meta" data-page-node-id="yHTeq0rWSpV4XEnuyNIM3X">
+        <h3 data-page-node-id="Bf3Sr3KlVG4Fla9iUPUPtw"></h3>
+        <p data-page-node-id="gDHgnxfeqFw7P42NDm1FJJ"></p>
+      </div>
+      <span class="cta" data-page-node-id="pwdF0VqVZGJYrb3fjT3SMw">去看看 →</span>
+    </a>
+  </header>
+
+  <!-- =========================================================
+       [状态条] —— 上次访问 / 今日已打卡
+       存到浏览器 localStorage，刷新不丢；点"打卡"会点亮今日、累加计数
+       ========================================================= -->
+  <div class="status-bar" id="statusBar" data-page-node-id="0JZLkCjTSegncZMgdZU5ym">
+    <!-- 内容由 JS 根据 localStorage 自动渲染 -->
+  </div>
+
+  <!-- =========================================================
+       [Tab 切换] —— 由 JS 根据 config.tabs 自动生成
+       ========================================================= -->
+  <nav class="tabs" id="tabs" data-page-node-id="O1lMBGXfJ5cJmyTyTXaWhE"></nav>
+
+  <!-- =========================================================
+       [工具条] —— 搜索 + 状态筛选
+       ========================================================= -->
+  <div class="toolbar" data-page-node-id="ZmDtAvrVgYYBtWI1vzVJIT">
+    <div class="search" data-page-node-id="PqBbe5tfNzYkGADHA7fLme">
+      <input id="search" type="text" placeholder="搜索搭子名称、描述、标签…" autocomplete="off" data-page-node-id="F8kQKZ8F8bMY0KmhA0RsZo">
+    </div>
+    <div class="filters" id="filters" data-page-node-id="yflZazWJmIceGXET5QZ9BC"></div>
+  </div>
+
+  <!-- =========================================================
+       [卡片网格] —— 由 JS 根据当前 Tab + 搜索词 + 筛选渲染
+       可点击卡片包在 <a> 里，preview 的卡片用 <div> 包住不跳转
+       ========================================================= -->
+  <section class="grid" id="grid" data-page-node-id="dXPJ80oa7exQTjpdb9f5Yc"></section>
+
+  <!-- =========================================================
+       [页脚] —— 统计 + 站点签名
+       ========================================================= -->
+  <footer class="meta" data-page-node-id="Dj6j5snADDvNjjugd8gXJO">
+    <div class="stats" id="stats" data-page-node-id="f7lbDu44M80FjMEu5DA0zD"></div>
+    <div data-page-node-id="4AsJff5HunPDJLQB5OTx8i">Slim Partner · 打卡成为更好的自己</div>
+  </footer>
+
+</div>
+
+<script>
+/* ================================================================
+ *  📦 PARTNERS_CONFIG —— 全站唯一需要改的地方
+ *  --------------------------------------------------------------
+ *  👋 新手教程：你想加搭子/改分类/换标题，改这个对象就够了，
+ *     下方的渲染逻辑（renderFeatured / renderTabs / renderGrid 等）
+ *     都不用动。
+ *  ================================================================ */
+const PARTNERS_CONFIG = {
+
+  /* ┌─────────────────────────────────────────────────────────┐
+   * │ ① 站点头部文案 —— 直接改字符串即可
+   * └─────────────────────────────────────────────────────────┘ */
+  brand: {
+    title:    '🌟 每日搭子中心',
+    subtitle: '选一个搭子，开始今天的成长打卡',
+    footer:   'Slim Partner · 打卡成为更好的自己',
+  },
+
+  /* ┌─────────────────────────────────────────────────────────┐
+   * │ ② 顶置「本月精选」卡
+   * │    不想要这张卡：把整个对象改成 featured: null
+   * │    换新主题：改 emoji / title / desc / href 即可
+   * │    newTab: true 会让链接在新标签页打开
+   * └─────────────────────────────────────────────────────────┘ */
+  featured: {
+    emoji:   '🚀',
+    title:   '本月精选：AI 能力搭子',
+    desc:    '工具 · Prompt · 自动化 · 学习 · 实践',
+    href:    '搭子-AI能力.html',
+    newTab:  false,
+  },
+
+  /* ┌─────────────────────────────────────────────────────────┐
+   * │ ③ Tab 分类入口
+   * │    想加新分类：在 tabs 数组里加一项
+   * │      （格式：{ key:'xxx', label:'显示文案', emoji:'🏃' }）
+   * │    改顺序：直接调整 tabs 数组里的顺序
+   * │    删分类：从数组里删掉那一项
+   * │    ⚠️ 注意：tabs 里每项的 key 必须能在下面 partners 里找到，
+   * │       否则那个分类会显示为空
+   * └─────────────────────────────────────────────────────────┘ */
+  tabs: [
+    { key: 'daily',    label: '日常打卡',  emoji: '🏃' },
+    { key: 'career',   label: '职场成长',  emoji: '💼' },
+    { key: 'wealth',   label: '五大财富',  emoji: '💰' },
+    { key: 'tools',    label: '工具资源',  emoji: '🔧' },
+  ],
+
+  /* ┌─────────────────────────────────────────────────────────┐
+   * │ ④ 状态标签
+   * │    这些标签会出现在卡片右下角 + 顶部"筛选器"chip
+   * │    想加新状态（比如"限时"、"热门"）：
+   * │      在 status 数组里加 { key:'hot', label:'热门', className:'accent' }
+   * │    className 可选：ok / warn / new / accent
+   * └─────────────────────────────────────────────────────────┘ */
+  status: [
+    { key: 'optimized',  label: '已优化',  className: 'ok'    },
+    { key: 'optimizing', label: '优化中',  className: 'warn'  },
+    { key: 'new',        label: 'NEW',    className: 'new'   },
+  ],
+
+  /* ┌─────────────────────────────────────────────────────────┐
+   * │ ⑤ 搭子数据 —— 增删改全在这里
+   * │    每个搭子是一个对象，字段说明：
+   * │      tab      必填，对应 tabs 里的 key（决定它出现在哪个分类）
+   * │      emoji    必填，分类前的图标
+   * │      title    必填，显示的卡片标题
+   * │      href     必填，可点击卡片跳转的 URL
+   * │      desc     必填，卡片副标题描述
+   * │      tags     可选，额外标签（数组），如 ['健康','财富']
+   * │      status   可选，对应 status 里的 key（可选其一）
+   * │      preview  可选，true 表示「敬请期待」卡片，点击不跳转
+   * │               等页面建好后，把这一行删掉就行
+   * │
+   * │    🆕 加一个新搭子（拷贝下面一行再改字段）：
+   * │      { tab:'daily', emoji:'🎨', title:'XX搭子', href:'xx.html',
+   * │        desc:'一句话介绍', tags:['标签1'] },
+   * │    🗑 删一个搭子：从数组里删掉对应的那一行
+   * │    ✏️ 改卡片跳转：直接改 href
+   * │    🚧 把「敬请期待」改成可点击：删掉 preview:true 这一行
+   * └─────────────────────────────────────────────────────────┘ */
+  partners: [
+    /* —— 日常打卡 —— */
+    { tab:'daily',  emoji:'🏃', title:'减肥搭子',    href:'index.html',
+      desc:'饮食 · 体重 · 习惯', tags:['健康'] },
+
+    { tab:'daily',  emoji:'👩‍👧', title:'陪读妈妈',    href:'陪读妈妈搭子.html',
+      desc:'情绪 · 学业 · 沟通 · 平衡 · 成长', tags:['家庭'] },
+
+    /* —— 职场成长 —— */
+    { tab:'career', emoji:'🚀', title:'创业搭子',    href:'创业搭子.html',
+      desc:'方向 · 团队 · 产品 · 增长 · 心力', tags:['创业'] },
+
+    { tab:'career', emoji:'💼', title:'P7→P8',        href:'搭子-P7-P8.html',
+      desc:'战略 · 团队 · 业务 · 协同 · 迭代', tags:['晋升'],
+      status:'optimized' },
+
+    { tab:'career', emoji:'🌿', title:'业务 Owner',   href:'搭子-业务Owner.html',
+      desc:'客户价值 · 产品思维 · 数据驱动 · 团队协作', tags:['团队'],
+      status:'optimized' },
+
+    { tab:'career', emoji:'🌸', title:'关系力修炼搭子',   href:'搭子-关系力修复.html',
+      desc:'倾听 · 表达 · 共情 · 边界 · 能量', tags:['软实力'] },
+    { tab:'career', emoji:'⏳', title:'长期主义搭子', href:'搭子-长期主义.html',
+      desc:'把本人时间从短视任务搬到长线价值，KEEP / DELEGATE / SKILL / AUTOMATE / STOP 五张清单', tags:['时间经营'] },
+
+    { tab:'career', emoji:'🤖', title:'AI 能力搭子',  href:'搭子-AI能力.html',
+      desc:'工具 · Prompt · 自动化 · 学习 · 实践', tags:['AI'],
+      status:'new' },
+
+    /* —— 五大财富 SOP —— */
+    { tab:'wealth', emoji:'💪', title:'身体财富',    href:'搭子-身体财富.html',
+      desc:'运动 · 睡眠 · 健康', tags:['财富'] },
+
+    { tab:'wealth', emoji:'💰', title:'财务财富',    href:'搭子-财务财富.html',
+      desc:'收入 · 储蓄 · 投资', tags:['财富'] },
+
+    { tab:'wealth', emoji:'🕊️', title:'精神财富',    href:'搭子-精神财富.html',
+      desc:'阅读 · 冥想 · 成长', tags:['财富'] },
+
+    { tab:'wealth', emoji:'❤️', title:'关系财富',    href:'搭子-关系财富.html',
+      desc:'家人 · 朋友 · 连接', tags:['财富'] },
+
+    { tab:'wealth', emoji:'🎯', title:'使命财富',    href:'搭子-使命财富.html',
+      desc:'目标 · 价值 · 人生贡献', tags:['财富'] },
+
+    /* —— 工具 & 分享 —— */
+    { tab:'tools',  emoji:'📖', title:'使用指南',    href:'guide.html',
+      desc:'快速上手所有搭子', tags:['教程'] },
+
+    { tab:'tools',  emoji:'📣', title:'分享卡片',    href:'share.html',
+      desc:'一键生成专属海报', tags:['分享'] },
+  ],
+};
+
+
+/* ================================================================
+ *  下面是渲染逻辑 —— 一般不需要动这里
+ *  ================================================================ */
+const state = {
+  tab:    PARTNERS_CONFIG.tabs[0].key,
+  q:      '',
+  status: null,
+};
+
+const $ = (id) => document.getElementById(id);
+const statusMeta = (key) => PARTNERS_CONFIG.status.find(s => s.key === key) || null;
+
+
+/* ============================================================
+ *  本月精选卡
+ * ============================================================ */
+function renderFeatured() {
+  const cfg = PARTNERS_CONFIG.featured;
+  const el  = $('featured');
+  if (!cfg) { el.style.display = 'none'; return; }
+  el.style.display       = 'flex';
+  el.querySelector('.emoji').textContent = cfg.emoji;
+  el.querySelector('h3').textContent     = cfg.title;
+  el.querySelector('p').textContent      = cfg.desc;
+  el.href  = cfg.href;
+  if (cfg.newTab) el.target = '_blank';
+}
+
+
+/* ============================================================
+ *  Tab 切换条 + 每项计数
+ * ============================================================ */
+function renderTabs() {
+  const counts = PARTNERS_CONFIG.tabs.reduce((acc, t) => {
+    acc[t.key] = PARTNERS_CONFIG.partners.filter(p => p.tab === t.key).length;
+    return acc;
+  }, {});
+
+  $('tabs').innerHTML = PARTNERS_CONFIG.tabs.map(t => `
+    <button class="tab ${t.key===state.tab?'active':''}" data-tab="${t.key}">
+      ${t.emoji} ${t.label}<span class="count">${counts[t.key]||0}</span>
+    </button>
+  `).join('');
+}
+
+
+/* ============================================================
+ *  状态筛选 chip —— 第一项永远是"全部"
+ * ============================================================ */
+function renderFilters() {
+  const html = [`<button class="chip ${state.status===null?'active':''}"
+                   data-status="">全部</button>`]
+    .concat(PARTNERS_CONFIG.status.map(s => `
+      <button class="chip ${state.status===s.key?'active':''}"
+              data-status="${s.key}">${s.label}</button>
+    `));
+  $('filters').innerHTML = html.join('');
+}
+
+
+/* ============================================================
+ *  卡片网格 —— 整块重画
+ *  过滤规则：
+ *    1) tab 必须等于当前 Tab
+ *    2) 如果选了状态筛选，status 必须相等
+ *    3) 搜索词会在 title + desc + tags 里大小写不敏感地匹配
+ * ============================================================ */
+function renderGrid() {
+  const q    = state.q.trim().toLowerCase();
+  const list = PARTNERS_CONFIG.partners.filter(p => {
+    if (p.tab !== state.tab) return false;
+    if (state.status && p.status !== state.status) return false;
+    if (q) {
+      const hay = [p.title, p.desc, ...(p.tags||[])].join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  if (!list.length) {
+    $('grid').innerHTML = `
+      <div class="empty">
+        <div class="face">🍃</div>
+        <p>没有匹配的搭子，换个词试试？</p>
+      </div>`;
+    return;
+  }
+
+  $('grid').innerHTML = list.map(p => {
+    const sMeta = p.status ? statusMeta(p.status) : null;
+    const tagBadges = (p.tags || []).map(t =>
+      `<span class="badge">${t}</span>`).join('');
+    const statusBadge = sMeta
+      ? `<span class="badge ${sMeta.className}">${sMeta.label}</span>`
+      : '';
+    /* —— preview 模式：不可点击，显示敬请期待角标 —— */
+    const previewBadge = p.preview
+      ? `<span class="badge preview">敬请期待</span>`
+      : '';
+    /* —— preview 的卡片用 <div> 而非 <a>，确保点击完全不跳转 —— */
+    const tag = p.preview ? 'div' : 'a';
+    const hrefAttr = p.preview ? '' : ` href="${p.href}"`;
+    return `
+      <${tag} class="card ${p.preview?'preview':''}"${hrefAttr}>
+        <div class="top">
+          <span class="emoji">${p.emoji}</span>
+          <h3>${p.title}</h3>
+        </div>
+        <p class="desc">${p.desc}</p>
+        <div class="tags">${tagBadges}${statusBadge}${previewBadge}</div>
+      </${tag}>`;
+  }).join('');
+}
+
+
+/* ============================================================
+ *  底部统计
+ * ============================================================ */
+function renderStats() {
+  const all     = PARTNERS_CONFIG.partners.length;
+  const tabs    = PARTNERS_CONFIG.tabs.length;
+  const updated = new Date().toISOString().slice(0,10);
+  $('stats').innerHTML = `
+    <span><strong>${all}</strong> 搭子</span>
+    <span><strong>${tabs}</strong> 维度</span>
+    <span>更新于 ${updated}</span>
+  `;
+}
+
+
+/* ================================================================
+ *  状态条 —— 上次访问 / 今日已打卡（localStorage）
+ *  --------------------------------------------------------------
+ *  存储 key：
+ *    sp:lastVisit        ISO 时间戳字符串
+ *    sp:checkin:{YYYY-MM-DD}  当天是否打卡过
+ *    sp:totalCheckins    累计打卡次数（数字）
+ * ================================================================ */
+const STORAGE = {
+  lastVisit: 'sp:lastVisit',
+  today:     () => 'sp:checkin:' + new Date().toISOString().slice(0,10),
+  total:     'sp:totalCheckins',
+};
+
+function fmtTimeAgo(iso) {
+  if (!iso) return '从未';
+  const diff = Date.now() - new Date(iso).getTime();
+  const min  = Math.floor(diff / 60000);
+  if (min < 1)    return '刚刚';
+  if (min < 60)   return min + ' 分钟前';
+  if (min < 1440) return Math.floor(min / 60) + ' 小时前';
+  const d = new Date(iso);
+  return `${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
+}
+
+function checkinToday() {
+  localStorage.setItem(STORAGE.today(), '1');
+  const prev = Number(localStorage.getItem(STORAGE.total) || 0);
+  localStorage.setItem(STORAGE.total, String(prev + 1));
+  renderStatusBar();
+}
+
+function renderStatusBar() {
+  const lastVisit  = localStorage.getItem(STORAGE.lastVisit);
+  const isCheckin  = !!localStorage.getItem(STORAGE.today());
+  const total      = Number(localStorage.getItem(STORAGE.total) || 0);
+
+  const lastPill = `
+    <span class="pill">
+      <span class="dot"></span>
+      上次访问：${fmtTimeAgo(lastVisit)}
+    </span>`;
+
+  const checkinPill = isCheckin
+    ? `<span class="pill"><span class="dot"></span>今日已打卡 · 累计 <strong style="color:var(--ink);margin:0 4px">${total}</strong> 次</span>`
+    : `<span class="pill warn">
+         <span class="dot"></span>今日还没打卡
+         <button class="btn" id="checkinBtn">点我打卡 →</button>
+       </span>`;
+
+  $('statusBar').innerHTML = lastPill + checkinPill;
+
+  const btn = $('checkinBtn');
+  if (btn) btn.addEventListener('click', checkinToday);
+}
+
+
+/* ============================================================
+ *  总渲染入口
+ * ============================================================ */
+function renderAll() {
+  renderFeatured();
+  renderTabs();
+  renderFilters();
+  renderGrid();
+  renderStats();
+  renderStatusBar();
+}
+
+
+/* ============================================================
+ *  事件绑定
+ * ============================================================ */
+document.addEventListener('click', (e) => {
+  const tab = e.target.closest('.tab');
+  if (tab) {
+    state.tab    = tab.dataset.tab;
+    state.status = null;                  // 切 Tab 时把状态筛选清掉
+    renderTabs();
+    renderFilters();
+    renderGrid();
+    return;
+  }
+  const chip = e.target.closest('.chip');
+  if (chip) {
+    state.status = chip.dataset.status || null;
+    renderFilters();
+    renderGrid();
+  }
+});
+
+let searchTimer;
+$('search').addEventListener('input', (e) => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    state.q = e.target.value;
+    renderGrid();
+  }, 120);                              // 简单防抖
+});
+
+
+/* ============================================================
+ *  启动 —— 顺手记录"上次访问"
+ * ============================================================ */
+const _prevVisit = localStorage.getItem(STORAGE.lastVisit);
+localStorage.setItem(STORAGE.lastVisit, new Date().toISOString());
+renderAll();
+
+console.log('[Slim Partner] 上次访问：', _prevVisit);
+console.log('[Slim Partner] 数据条数：', PARTNERS_CONFIG.partners.length);
+</script>
+</body>
+</html>
