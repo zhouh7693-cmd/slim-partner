@@ -2697,10 +2697,11 @@ function openSceneSheet() {
     list.forEach((item, i) => {
       const card = document.createElement('div');
       card.className = 'qa-card ' + type;
+      card.style.cssText = 'flex-direction:row;align-items:center;justify-content:flex-start;gap:10px;text-align:left;grid-column:1 / -1;width:100%;';
       const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
         (type === 'pos' ? 'background:#7c7fea;color:white;' : 'background:#b07cd6;color:white;');
-      card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>' +
-        '<div class="qa-card-text">' + item.title + '</div>' +
+      card.innerHTML = '<div style="font-size:22px;flex-shrink:0;line-height:1;">' + item.icon + '</div>' +
+        '<div style="font-size:14px;font-weight:600;color:#37474f;flex:1;line-height:1.5;">' + item.title + '</div>' +
         '<span style="' + tagStyle + '">' + item.tag + '</span>';
       card.onclick = () => {
         closeQAPanelSafe();
