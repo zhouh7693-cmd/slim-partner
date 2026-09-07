@@ -711,7 +711,7 @@
       });
     });
     var items=wrap.querySelectorAll('.crp-item');
-    var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+    var state={}; try{var _sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(_sv&&_sv._d===new Date().toISOString().slice(0,10)){state=_sv.s||{}}}catch(e){}
     function render(){
       var d=0;
       items.forEach(function(it,i){
@@ -724,7 +724,7 @@
     items.forEach(function(it,i){
       it.addEventListener('click',function(){
         state[i]=!state[i];
-        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+        try{localStorage.setItem(KEY,JSON.stringify({_d:new Date().toISOString().slice(0,10),s:state}))}catch(e){}
         render();
       });
     });
@@ -994,7 +994,30 @@ function getContinuousDays() {
 }
 
 // ===== 黄金标准辅助函数 =====
-function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); }
+function getSOPData() { var d = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); return _sopDailyReset(d, STORAGE.SOP); }
+// 新的一天自动归零（2026-09-06）：读取入口校验日期，昨日未提交成绩补归档后重置，不再依赖切换 tab 触发
+function _sopDailyReset(d, sopKey, extra) {
+  try {
+    var today = new Date().toISOString().slice(0,10);
+    if (d && d.date && d.date !== today) {
+      var hasData = (d.score > 0) || (d.selected && Object.keys(d.selected).length > 0) || d.done;
+      if (hasData && (typeof getSOPHistory === 'function') && (typeof saveSOPToHistory === 'function')) {
+        try {
+          var _hist = getSOPHistory();
+          if (!_hist.some(function(h){ return h && h.date === d.date; })) {
+            saveSOPToHistory({ date: d.date, score: d.score || 0 });
+          }
+        } catch(e) {}
+      }
+      var _reset = { score: 0, selected: {}, done: false, date: today, submittedCats: [] };
+      if (extra) { for (var k in extra) { _reset[k] = extra[k]; } }
+      try { localStorage.setItem(sopKey, JSON.stringify(_reset)); } catch(e) {}
+      return _reset;
+    }
+  } catch(e) {}
+  return d;
+}
+setTimeout(function(){ try { getSOPData(); } catch(e) {} }, 0);
 function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); }
 function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
 function saveSOPStreaks(d) { localStorage.setItem(STORAGE.SOP_STREAKS, JSON.stringify(d)); }
@@ -1082,7 +1105,12 @@ function renderCheckinPage() {
   </div>`;
   html += `<div class="interaction-panel" id="interactionPanel" style="display:none">
     <div class="panel-label">💬 告诉搭子你现在的状态</div>
-    <div class="mood-row" id="moodRow"></div>
+    <div class="mood-row" id="moodRow">
+      <div class="mood-btn" data-mood="happy" title="干劲满满" onclick="sendMood('happy')">😄</div>
+      <div class="mood-btn" data-mood="neutral" title="平稳推进" onclick="sendMood('neutral')">😌</div>
+      <div class="mood-btn" data-mood="sad" title="有点受挫" onclick="sendMood('sad')">😔</div>
+      <div class="mood-btn" data-mood="tired" title="累但值得" onclick="sendMood('tired')">😫</div>
+    </div>
     <div class="panel-label" style="margin-top:10px">🚀 想聊点什么？</div>
     <div class="talk-btn-row">
       <button class="talk-btn" data-type="progress">📈 进展</button>
@@ -1795,7 +1823,7 @@ function renderSOPCats() {
       : doneCount > 0
       ? '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff9800;margin-left:4px;vertical-align:middle;"></span>'
       : '';
-    return '<button class="sop-cat-tab' + (i === sopCatIdx ? ' active' : '') + '" onclick="switchSOPCat(' + i + ')">' + c.icon + ' ' + c.name + dot + '</button>';
+    return '<button class="sop-cat-tab' + (i === sopCatIdx ? ' active' : '') + '" onclick="switchSOPCat(' + i + ')">' + c.name + dot + '</button>';
   }).join('');
 }
 

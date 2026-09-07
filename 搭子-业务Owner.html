@@ -400,7 +400,7 @@
         });
       });
       var items = wrap.querySelectorAll('.crp-item');
-      var state = {}; try { state = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) {}
+      var state = {}; try { var _sv = JSON.parse(localStorage.getItem(KEY) || 'null'); if (_sv && _sv._d === new Date().toISOString().slice(0,10)) { state = _sv.s || {}; } } catch(e) {}
       function render() {
         var d = 0;
         items.forEach(function(it, i) {
@@ -413,7 +413,7 @@
       items.forEach(function(it, i) {
         it.addEventListener('click', function() {
           state[i] = !state[i];
-          try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {}
+          try { localStorage.setItem(KEY, JSON.stringify({_d: new Date().toISOString().slice(0,10), s: state})); } catch(e) {}
           render();
         });
       });
@@ -769,8 +769,8 @@ if (savedPartner) {
   document.getElementById('tabBar').style.display = 'flex';
   document.getElementById('checkinPage').classList.add('active');
   initDashboard();
-  renderSOP();
-  autoCloseSOPGuide();
+  // 延迟到脚本执行完毕后渲染（SOP_CATEGORIES/SOP_HABITS 定义在 INIT 之后，同步调用会报 undefined.forEach）
+  setTimeout(function(){ try { renderSOP(); autoCloseSOPGuide(); } catch(e) {} }, 0);
 } else {
   renderPartnerGrid();
 }
@@ -1241,8 +1241,35 @@ function submitSOPList() {
   }
 }
 
+// 新的一天自动归零（2026-09-06）：抽出为独立函数，页面加载即执行 + 每次读取校验（幂等）
+function _sopOwnerDailyCheck() {
+  try {
+    var today = new Date().toISOString().slice(0,10);
+    var lastDate = localStorage.getItem('slim_sop_owner_lastdate');
+    if (lastDate && lastDate !== today) {
+      var yScore = parseInt(localStorage.getItem(STORAGE.SOP_STREAKS) || '0');
+      try {
+        var hist = JSON.parse(localStorage.getItem('slim_sop_owner_history') || '[]');
+        hist = hist.filter(function(h){ return h.date !== lastDate; });
+        hist.push({ date: lastDate, score: yScore });
+        hist.sort(function(a,b){ return a.date < b.date ? 1 : -1; });
+        if (hist.length > 60) hist = hist.slice(0, 60);
+        localStorage.setItem('slim_sop_owner_history', JSON.stringify(hist));
+      } catch(e) {}
+      try {
+        var data = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}');
+        Object.keys(data).forEach(function(k){ delete data[k]; });
+        localStorage.setItem(STORAGE.SOP, JSON.stringify(data));
+      } catch(e) {}
+      try { localStorage.setItem(STORAGE.SOP_STREAKS, '0'); } catch(e) {}
+    }
+    localStorage.setItem('slim_sop_owner_lastdate', today);
+  } catch(e) {}
+}
+try { _sopOwnerDailyCheck(); } catch(e) {}
 function getSOPDone(catId) {
   try {
+    _sopOwnerDailyCheck();
     var data = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}');
     return data[catId] ? Object.keys(data[catId]).length : 0;
   } catch(e) { return 0; }

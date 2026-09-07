@@ -986,9 +986,34 @@ function saveTagHistory(d) { localStorage.setItem(STORAGE.TAG_HISTORY, JSON.stri
 function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
 function saveWeightData(d) { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(d)); }
 function getSOPData() {
-  try { return JSON.parse(localStorage.getItem(STORAGE.SOP)) || { score:0, selected:{}, done:false, submittedCats:[], answerCount:0, date:null }; }
-  catch(e) { return { score:0, selected:{}, done:false, submittedCats:[], answerCount:0, date:null }; }
+  var d;
+  try { d = JSON.parse(localStorage.getItem(STORAGE.SOP)) || { score:0, selected:{}, done:false, submittedCats:[], answerCount:0, date:null }; }
+  catch(e) { d = { score:0, selected:{}, done:false, submittedCats:[], answerCount:0, date:null }; }
+  return _sopDailyReset(d, STORAGE.SOP, { answerCount: 0 });
 }
+// 新的一天自动归零（2026-09-06）：读取入口校验日期，昨日未提交成绩补归档后重置，不再依赖切换 tab 触发
+function _sopDailyReset(d, sopKey, extra) {
+  try {
+    var today = new Date().toISOString().slice(0,10);
+    if (d && d.date && d.date !== today) {
+      var hasData = (d.score > 0) || (d.selected && Object.keys(d.selected).length > 0) || d.done;
+      if (hasData && (typeof getSOPHistory === 'function') && (typeof saveSOPToHistory === 'function')) {
+        try {
+          var _hist = getSOPHistory();
+          if (!_hist.some(function(h){ return h && h.date === d.date; })) {
+            saveSOPToHistory({ date: d.date, score: d.score || 0 });
+          }
+        } catch(e) {}
+      }
+      var _reset = { score: 0, selected: {}, done: false, date: today, submittedCats: [] };
+      if (extra) { for (var k in extra) { _reset[k] = extra[k]; } }
+      try { localStorage.setItem(sopKey, JSON.stringify(_reset)); } catch(e) {}
+      return _reset;
+    }
+  } catch(e) {}
+  return d;
+}
+setTimeout(function(){ try { getSOPData(); } catch(e) {} }, 0);
 function saveSOPData(d) {
   d.answerCount = Object.values(d.selected || {}).reduce((s, a) => s + (Array.isArray(a) ? a.length : 0), 0);
   localStorage.setItem(STORAGE.SOP, JSON.stringify(d));

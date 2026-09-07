@@ -875,7 +875,7 @@
       });
     });
     var items=wrap.querySelectorAll('.crp-item');
-    var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+    var state={}; try{var _sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(_sv&&_sv._d===new Date().toISOString().slice(0,10)){state=_sv.s||{}}}catch(e){}
     function render(){
       var d=0;
       items.forEach(function(it,i){
@@ -888,7 +888,7 @@
     items.forEach(function(it,i){
       it.addEventListener('click',function(){
         state[i]=!state[i];
-        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+        try{localStorage.setItem(KEY,JSON.stringify({_d:new Date().toISOString().slice(0,10),s:state}))}catch(e){}
         render();
       });
     });
@@ -1012,7 +1012,30 @@ function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) 
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
 function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
 function saveWeightData(d) { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(d)); if(window.saveWeightToFirebase) saveWeightToFirebase(d); }
-function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null}'); }
+function getSOPData() { var d = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null}'); return _sopDailyReset(d, STORAGE.SOP); }
+// 新的一天自动归零（2026-09-06）：读取入口校验日期，昨日未提交成绩补归档后重置，不再依赖切换 tab 触发
+function _sopDailyReset(d, sopKey, extra) {
+  try {
+    var today = new Date().toISOString().slice(0,10);
+    if (d && d.date && d.date !== today) {
+      var hasData = (d.score > 0) || (d.selected && Object.keys(d.selected).length > 0) || d.done;
+      if (hasData && (typeof getSOPHistory === 'function') && (typeof saveSOPToHistory === 'function')) {
+        try {
+          var _hist = getSOPHistory();
+          if (!_hist.some(function(h){ return h && h.date === d.date; })) {
+            saveSOPToHistory({ date: d.date, score: d.score || 0 });
+          }
+        } catch(e) {}
+      }
+      var _reset = { score: 0, selected: {}, done: false, date: today, submittedCats: [] };
+      if (extra) { for (var k in extra) { _reset[k] = extra[k]; } }
+      try { localStorage.setItem(sopKey, JSON.stringify(_reset)); } catch(e) {}
+      return _reset;
+    }
+  } catch(e) {}
+  return d;
+}
+setTimeout(function(){ try { getSOPData(); } catch(e) {} }, 0);
 function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); if(window.saveSOPToFirebase) saveSOPToFirebase(d); }
 function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
 function saveSOPStreaks(d) { localStorage.setItem(STORAGE.SOP_STREAKS, JSON.stringify(d)); if(window.saveSOPStreaksToFirebase) saveSOPStreaksToFirebase(d); }
