@@ -573,7 +573,13 @@
     .ie-p2 { background: #ede9fe; color: #6b21a8; }
 
     @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  </style>
+  
+    /* 弹层右上角 X 关闭按钮（2026-09-08） */
+    .qa-panel { position: relative; }
+    .qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; }
+    .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#1f2937; }
+    .qa-close-x:active { background:rgba(0,0,0,0.18); }
+</style>
 </head>
 <body>
 
@@ -1122,7 +1128,8 @@
 
 <!-- ===== QA 面板 ===== -->
 <div class="qa-overlay" id="qaOverlay">
-  <div class="qa-panel">
+  <div class="qa-panel"><button class="qa-close-x" onclick="try{if(typeof closeQAPanel==='function')closeQAPanel();else this.closest('.qa-overlay').classList.remove('show');}catch(e){this.closest('.qa-overlay').classList.remove('show');}" aria-label="关闭">✕</button>
+    
     <div class="qa-handle"></div>
     <div class="qa-header">
       <div class="qa-title" id="qaTitle">汇报进展</div>

@@ -478,7 +478,13 @@
     .fb-partner-label { font-size: 11px; color: #8f9eae; margin-bottom: 6px; font-style: normal; font-weight: 600; }
     .fb-btn { background: #3a7ca5; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
-  </style>
+  
+    /* 弹层右上角 X 关闭按钮（2026-09-08） */
+    .qa-panel { position: relative; }
+    .qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; }
+    .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#1f2937; }
+    .qa-close-x:active { background:rgba(0,0,0,0.18); }
+</style>
 </head>
 <body data-page-node-id="0eerS2IGHHdoxWgooB6LRx">
 
@@ -866,7 +872,8 @@
 
 <!-- ===== 问答/进展选择面板 ===== -->
 <div class="qa-overlay" id="qaOverlay" data-page-node-id="V1rEvBj7kmrCNpSXwryUXS">
-  <div class="qa-panel" data-page-node-id="8Z0n1F69ZsKuP9qz4CrU3F">
+  <div class="qa-panel" data-page-node-id="8Z0n1F69ZsKuP9qz4CrU3F"><button class="qa-close-x" onclick="try{if(typeof closeQAPanel==='function')closeQAPanel();else this.closest('.qa-overlay').classList.remove('show');}catch(e){this.closest('.qa-overlay').classList.remove('show');}" aria-label="关闭">✕</button>
+    
     <div class="qa-handle" data-page-node-id="CsUQRoSNxpp7wcu88cuh7p"></div>
     <div class="qa-header" data-page-node-id="EJJwH7JLkudSYzqfF4HhTr">
       <div class="qa-title" id="qaTitle" data-page-node-id="DuaHnAGBf5FvQ7nGEeKEiG">🤔 有问题想问</div>

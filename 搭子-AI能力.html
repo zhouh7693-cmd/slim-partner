@@ -228,6 +228,12 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
   .ai-clk-item:hover { background: #f5f5f7; }
   .ai-clk-item.done { color: #8f9eae; text-decoration: line-through; }
   .ai-clk-item .ai-clk-box { margin-right: 8px; }
+
+    /* 弹层右上角 X 关闭按钮（2026-09-08） */
+    .qa-panel { position: relative; }
+    .qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; }
+    .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#1f2937; }
+    .qa-close-x:active { background:rgba(0,0,0,0.18); }
 </style>
 </head>
 <body data-page-node-id="wZyORxs7FXgMpVHylEZuIK">
@@ -361,7 +367,8 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
 
 <!-- QA Overlay -->
 <div class="qa-overlay" id="qaOverlay" data-page-node-id="zhSPbaVFdkEVqF4IFTMfUV">
-  <div class="qa-panel" data-page-node-id="G96aVrCLaN2ANdjnv1qRea">
+  <div class="qa-panel" data-page-node-id="G96aVrCLaN2ANdjnv1qRea"><button class="qa-close-x" onclick="try{if(typeof closeQAPanel==='function')closeQAPanel();else this.closest('.qa-overlay').classList.remove('show');}catch(e){this.closest('.qa-overlay').classList.remove('show');}" aria-label="关闭">✕</button>
+    
     <div class="qa-header" data-page-node-id="9E5QS87nidUE5l88vWdGCI">
       <div class="qa-title" id="qaTitle" data-page-node-id="94aGkz0fI1EOkesd7ZAhDw"></div>
       <div class="qa-sub" id="qaSub" style="font-size:12px;color:#8f9eae;margin-top:4px;" data-page-node-id="X1RiHS0zHbl8bF1hDI48ic">点击选择一个话题，AI搭子将给你反馈</div>

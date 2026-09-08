@@ -538,7 +538,13 @@
     .report-next-step h3 { font-size: 15px; font-weight: 700; color: #1e3a7a; margin-bottom: 10px; }
     .report-next-step p { font-size: 13px; color: #666; line-height: 1.6; }
     .coach-restart-btn { width: 100%; padding: 14px; border-radius: 14px; border: none; background: linear-gradient(135deg, #3a5fcd, #1e3a7a); color: white; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 8px; }
-  </style>
+  
+    /* 弹层右上角 X 关闭按钮（2026-09-08） */
+    .qa-panel { position: relative; }
+    .qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; }
+    .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#1f2937; }
+    .qa-close-x:active { background:rgba(0,0,0,0.18); }
+</style>
 </head>
 <body data-page-node-id="M7Un9k9huHa5tWwyTdYMHD">
 
@@ -836,7 +842,8 @@
 
 <!-- QA 面板（搭子6类交互） -->
 <div class="qa-overlay" id="qaOverlay" data-page-node-id="49DTEVgK2FqN3DJBUbZPYP">
-  <div class="qa-panel" data-page-node-id="Fp91ZZbyITEUXozu8Auobz">
+  <div class="qa-panel" data-page-node-id="Fp91ZZbyITEUXozu8Auobz"><button class="qa-close-x" onclick="try{if(typeof closeQAPanel==='function')closeQAPanel();else this.closest('.qa-overlay').classList.remove('show');}catch(e){this.closest('.qa-overlay').classList.remove('show');}" aria-label="关闭">✕</button>
+    
     <div class="qa-handle" data-page-node-id="8L2xWASHCce2SUB76BQsjq"></div>
     <div class="qa-header" data-page-node-id="wqLeEfhnqxRq3iwKU3nSrN">
       <div class="qa-title" id="qaTitle" data-page-node-id="yPd6M79blhRseXAhgGWO5t">选择场景</div>
