@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="4r5DKXS4MwHn8g0uohEk2c">
+<head data-page-node-id="znS2i68GpCtAsNbPcWHhOy">
+<meta charset="UTF-8" data-page-node-id="qhGLj6lMpGh9fQovOH9x1Z">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes,viewport-fit=cover" data-page-node-id="TCkvcrF3RsM5Zh3hwZG0ec">
+<title>🛡️ 健康底盘搭子 · 提前一点，少生病一点</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+body {
+  background: linear-gradient(145deg, #f0fdfa 0%, #e6fffa 100%);
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, 'PingFang SC', 'Hiragino Sans GB', Roboto, Helvetica, Arial, sans-serif;
+  padding: 16px 16px 90px;
+  color: #1f2937;
+}
+/* === Tab Bar === */
+.tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 8px 0 max(8px, env(safe-area-inset-bottom)); box-shadow: 0 -4px 20px rgba(0,0,0,0.08); border-radius: 24px 24px 0 0; z-index: 100; }
+.tab-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 4px; cursor: pointer; border-radius: 16px; transition: all .2s; flex: 1; min-width: 0; }
+.tab-item.active { background: #e6fffa; }
+.tab-item .tab-icon { font-size: 20px; line-height: 1; }
+.tab-item .tab-label { font-size: 10px; color: #6b7280; font-weight: 500; letter-spacing: -.3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.tab-item.active .tab-label { color: #0d9488; font-weight: 700; }
+/* === Pages === */
+.page { display: none; }
+.page.active { display: block; }
+
+/* === Cards / Sections === */
+.wrap { max-width: 460px; margin: 0 auto; }
+.card { background: white; border-radius: 24px; padding: 20px 18px; box-shadow: 0 8px 24px -12px rgba(13,148,136,0.15); margin-top: 14px; }
+.card-title { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+.card-sub { font-size: 12px; color: #64748b; margin-bottom: 14px; line-height: 1.6; }
+
+/* === Hero === */
+.hero { text-align: center; padding: 28px 18px 18px; max-width: 460px; margin: 0 auto; }
+.hero-emoji { font-size: 56px; line-height: 1; filter: drop-shadow(0 6px 12px rgba(13,148,136,0.25)); }
+.hero-title { font-size: 24px; font-weight: 800; margin-top: 10px; background: linear-gradient(135deg, #0d9488, #134e4a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero-sub { font-size: 14px; color: #475569; margin-top: 8px; line-height: 1.6; }
+
+/* === Checkin dashboard === */
+.checkin-btn { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #0d9488, #14b8a6); color: white; margin: 12px auto; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 8px 24px rgba(13,148,136,0.3); transition: transform .15s; }
+.checkin-btn:active { transform: scale(.96); }
+.checkin-btn.checked { background: linear-gradient(135deg, #94a3b8, #64748b); box-shadow: none; }
+.checkin-status { font-size: 22px; font-weight: 800; }
+.checkin-sub { font-size: 11px; opacity: .9; margin-top: 2px; }
+.streak-num { font-size: 32px; font-weight: 800; color: #0d9488; text-align: center; margin-top: 6px; }
+.streak-label { font-size: 11px; color: #94a3b8; text-align: center; }
+
+/* === Action items === */
+.action-list { display: flex; flex-direction: column; gap: 10px; }
+.action-row { display: flex; align-items: center; gap: 12px; padding: 14px; background: #f8fafc; border-radius: 16px; cursor: pointer; transition: all .2s; }
+.action-row:active { background: #ccfbf1; }
+.action-row.done { background: #ccfbf1; }
+.action-row .em { font-size: 26px; flex-shrink: 0; }
+.action-row .tx { flex: 1; min-width: 0; }
+.action-row .ti { font-size: 14px; font-weight: 600; color: #0f172a; }
+.action-row .tip { font-size: 11px; color: #64748b; margin-top: 2px; }
+.action-row .chk { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #cbd5e1; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; font-size: 14px; color: white; }
+.action-row.done .chk { background: #0d9488; border-color: #0d9488; }
+
+/* === Q&A panel === */
+.qa-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.45); display: none; align-items: flex-end; justify-content: center; z-index: 300; }
+.qa-overlay.show { display: flex; }
+.qa-panel { position: relative; max-width: 460px; width: 100%; background: white; border-radius: 28px 28px 0 0; padding: 22px 18px 26px; max-height: 80vh; overflow-y: auto; animation: slideUp .25s ease-out; }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.qa-title { font-size: 17px; font-weight: 700; text-align: center; margin-bottom: 4px; color: #0f172a; }
+.qa-sub { font-size: 13px; text-align: center; color: #64748b; margin-bottom: 16px; }
+.qa-card { display: block; padding: 14px 16px; background: #f8fafc; border-radius: 16px; margin-bottom: 10px; cursor: pointer; transition: all .15s; border: 1.5px solid transparent; }
+.qa-card:hover { border-color: #0d9488; background: #ccfbf1; }
+.qa-card .emoji { font-size: 22px; margin-right: 8px; vertical-align: middle; }
+.qa-card .text { font-size: 14px; font-weight: 500; color: #1f2937; line-height: 1.5; }
+
+/* === Scenes === */
+.scene-list { display: flex; flex-direction: column; gap: 10px; }
+.scene-row { padding: 12px 14px; background: #f8fafc; border-radius: 14px; }
+.scene-row.feedback-pos { background: #ccfbf1; }
+.scene-row.feedback-neg { background: #fff1f2; }
+.scene-row.feedback-q   { background: #eef2ff; }
+.scene-row .em { font-size: 20px; margin-right: 8px; }
+.scene-row .tx { font-size: 13px; line-height: 1.6; }
+
+/* === Mood Buttons === */
+.mood-row { display: flex; gap: 10px; justify-content: center; padding: 10px 0; }
+.mood-btn { width: 50px; height: 50px; background: white; border: 2px solid #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; transition: all .2s; }
+.mood-btn:active { background: #ccfbf1; border-color: #0d9488; transform: scale(.95); }
+
+.talk-btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+.talk-btn { padding: 12px; background: white; border: 1.5px solid #e2e8f0; border-radius: 14px; font-size: 13px; font-weight: 600; color: #1f2937; cursor: pointer; transition: all .15s; }
+.talk-btn:active { background: #ccfbf1; border-color: #0d9488; }
+
+/* === Chat === */
+.chat-area { display: flex; flex-direction: column; gap: 10px; padding: 10px 4px; }
+.msg { max-width: 78%; padding: 10px 14px; border-radius: 16px; font-size: 13.5px; line-height: 1.5; }
+.msg.user { background: #0d9488; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+.msg.partner { background: #f1f5f9; color: #0f172a; align-self: flex-start; border-bottom-left-radius: 4px; }
+
+/* === Days Dots === */
+.week-progress { background: white; border-radius: 18px; padding: 14px; margin-top: 12px; box-shadow: 0 6px 20px -10px rgba(0,0,0,0.1); }
+.week-title { display: flex; justify-content: space-between; font-size: 13px; color: #475569; margin-bottom: 8px; font-weight: 600; }
+.week-dots { display: flex; gap: 6px; justify-content: space-between; }
+.dot { flex: 1; height: 22px; border-radius: 8px; background: #e2e8f0; }
+.dot.done { background: #0d9488; }
+.dot.today { box-shadow: 0 0 0 2px #0d9488; }
+
+/* === SOP / 6 维自评 === */
+.sop-cats { display: flex; gap: 6px; overflow-x: auto; padding: 4px 2px 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.sop-cats::-webkit-scrollbar { display: none; }
+.sop-cat { padding: 8px 12px; background: #f1f5f9; border-radius: 14px; font-size: 12px; cursor: pointer; flex-shrink: 0; transition: all .15s; white-space: nowrap; border: 1.5px solid transparent; }
+.sop-cat.active { background: #ccfbf1; border-color: #0d9488; color: #0d9488; font-weight: 700; }
+.sop-cat-tip { background: #f1f5f9; border-radius: 14px; padding: 10px 14px; font-size: 12px; color: #475569; line-height: 1.6; margin-top: 10px; }
+.sop-score-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 12px; }
+.sop-score-btn { aspect-ratio: 1; border-radius: 14px; background: white; border: 1.5px solid #e2e8f0; font-size: 16px; font-weight: 700; cursor: pointer; transition: all .15s; color: #64748b; }
+.sop-score-btn.active { background: #0d9488; color: white; border-color: #0d9488; box-shadow: 0 4px 12px rgba(13,148,136,0.3); }
+.sop-submit-row { display: flex; gap: 10px; margin-top: 14px; }
+.sop-submit-btn { flex: 1; padding: 12px; border-radius: 14px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; }
+.sop-submit-btn.primary { background: #0d9488; color: white; }
+.sop-submit-btn.ghost { background: #f1f5f9; color: #475569; }
+
+/* === Radar === */
+.radar-wrap { background: white; border-radius: 18px; padding: 16px; box-shadow: 0 4px 14px -6px rgba(0,0,0,0.08); margin-top: 12px; }
+.radar-svg { width: 100%; height: auto; display: block; }
+.radar-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; font-size: 11px; color: #475569; }
+.radar-legend .it { display: flex; align-items: center; gap: 4px; }
+.radar-legend .sw { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* === Metrics === */
+.metric-form { background: white; border-radius: 18px; padding: 14px; box-shadow: 0 4px 14px -6px rgba(0,0,0,0.08); margin-top: 10px; }
+.metric-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
+.metric-row:last-child { border-bottom: none; }
+.metric-name { font-size: 13px; font-weight: 600; color: #1f2937; }
+.metric-ideal { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+.metric-input { width: 100%; padding: 6px 8px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 13px; }
+.metric-input:focus { outline: none; border-color: #0d9488; }
+.metric-unit { font-size: 10px; color: #94a3b8; }
+
+/* === Yearly Checklist === */
+.yearly-list { display: flex; flex-direction: column; gap: 8px; }
+.yearly-row { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #f8fafc; border-radius: 14px; cursor: pointer; transition: all .15s; }
+.yearly-row.done { background: #ccfbf1; }
+.yearly-row .chk { width: 22px; height: 22px; border-radius: 7px; border: 2px solid #cbd5e1; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 13px; transition: all .15s; }
+.yearly-row.done .chk { background: #0d9488; border-color: #0d9488; }
+.yearly-row .tx { flex: 1; font-size: 13.5px; color: #1f2937; font-weight: 500; }
+.yearly-row.done .tx { text-decoration: line-through; color: #94a3b8; }
+.yearly-row .fr { font-size: 10px; color: #94a3b8; flex-shrink: 0; }
+
+/* === Evidence cards === */
+.evid { border-radius: 16px; padding: 14px; margin-bottom: 10px; }
+.evid-label { font-size: 13px; font-weight: 800; margin-bottom: 6px; }
+.evid-list { padding-left: 16px; font-size: 12px; line-height: 1.6; }
+.evid-list li { margin-bottom: 4px; }
+
+/* === Red flag === */
+.redflag { background: #fef2f2; border-radius: 18px; padding: 16px; margin-top: 12px; }
+.redflag-head { font-size: 14px; font-weight: 800; color: #991b1b; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.redflag-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.redflag-list .it { background: white; border-radius: 10px; padding: 8px 10px; font-size: 11.5px; color: #1f2937; line-height: 1.4; }
+.redflag-foot { background: white; border-radius: 10px; padding: 10px 12px; margin-top: 12px; font-size: 12px; color: #991b1b; font-weight: 700; text-align: center; }
+
+/* === Linkages === */
+.link-card { display: flex; align-items: center; gap: 12px; padding: 14px; background: #f8fafc; border-radius: 16px; margin-bottom: 8px; text-decoration: none; color: inherit; transition: all .15s; }
+.link-card:hover { background: #ccfbf1; }
+.link-card .em { font-size: 22px; flex-shrink: 0; }
+.link-card .tx { flex: 1; }
+.link-card .nm { font-size: 13px; font-weight: 700; color: #0f172a; }
+.link-card .msg { font-size: 11px; color: #64748b; margin-top: 2px; line-height: 1.4; }
+
+/* === Share === */
+.share-summary { background: linear-gradient(135deg, #0d9488, #134e4a); border-radius: 20px; padding: 22px; margin-top: 14px; color: white; box-shadow: 0 8px 20px rgba(13,148,136,0.25); }
+.share-summary .label { font-size: 12px; opacity: .9; margin-bottom: 6px; }
+.share-summary .text { font-size: 14.5px; font-weight: 600; line-height: 1.7; }
+.share-stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 12px; }
+.share-stat { background: rgba(255,255,255,0.18); border-radius: 14px; padding: 10px; text-align: center; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.share-stat .n { font-size: 22px; font-weight: 800; }
+.share-stat .l { font-size: 10px; opacity: .9; margin-top: 2px; }
+
+/* === Partner selector === */
+.partner-selector { max-width: 460px; margin: 18px auto 0; background: white; border-radius: 36px; padding: 24px 18px 28px; box-shadow: 0 12px 28px -12px rgba(0,0,0,0.12); }
+.selector-title { font-size: 22px; font-weight: 800; text-align: center; background: linear-gradient(135deg, #0d9488, #134e4a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.selector-sub { font-size: 12.5px; color: #64748b; text-align: center; margin-top: 4px; }
+.partner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+.partner-card { padding: 14px 10px; border-radius: 18px; background: #f8fafc; border: 2px solid transparent; cursor: pointer; text-align: center; transition: all .15s; }
+.partner-card.selected { background: #ccfbf1; border-color: #0d9488; }
+.partner-emoji { font-size: 28px; }
+.partner-name { font-size: 13px; font-weight: 700; margin-top: 6px; color: #0f172a; }
+.partner-desc { font-size: 10.5px; color: #64748b; margin-top: 2px; line-height: 1.4; }
+.confirm-btn { width: 100%; margin-top: 16px; padding: 14px; border-radius: 16px; border: none; background: linear-gradient(135deg, #0d9488, #14b8a6); color: white; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 16px rgba(13,148,136,0.25); }
+.confirm-btn:active { transform: scale(.98); }
+.partner-badge { display: inline-block; padding: 4px 12px; border-radius: 999px; background: #ccfbf1; color: #0d9488; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+
+/* === X close === */
+.qa-close-x { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%; background: #f1f5f9; color: #64748b; border: none; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; transition: all .15s; z-index: 5; }
+.qa-close-x:hover { background: #e2e8f0; color: #1f2937; }
+.qa-close-x:active { transform: scale(.92); }
+
+/* === Footer / Disclaimer === */
+.disclaimer { max-width: 460px; margin: 24px auto 0; padding: 14px 18px; background: #f8fafc; border-radius: 14px; font-size: 11px; color: #64748b; line-height: 1.6; text-align: center; }
+.disclaimer b { color: #475569; }
+
+/* === QA close button === */
+.qa-close-x { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%; background: #f1f5f9; color: #64748b; border: none; font-size: 14px; font-weight: 700; cursor: pointer; }
+
+/* === Copy stats === */
+.copy-btn { width: 100%; margin-top: 10px; padding: 12px; border-radius: 14px; border: 1.5px solid #e2e8f0; background: white; font-size: 13px; font-weight: 600; color: #0d9488; cursor: pointer; }
+</style>
+</head>
+<body data-page-node-id="ccLpZuYZt47e4q8xESSLQM"><div class="wrap hero" data-page-node-id="IqaGWvXPqn44JI0K4DXwUu"><div class="hero-emoji" data-page-node-id="35afzenozzyzlyECGBqm5W">🛡️</div><div class="hero-title" data-page-node-id="kGp2DcJwmKFZcFxy5QD9kW">健康底盘搭子</div><div class="hero-sub" data-page-node-id="R14EG2YqlykOOaMIT889FU">把健康当资产经营。<br data-page-node-id="6wswnA0DfhoLO25ks6uM1D">提前一点，少生病一点。</div></div><div id="page-chat" class="page active" data-page-node-id="vKIRsMv0MH2JD17r3ix1iV"><div class="wrap" data-page-node-id="e2U1bBnRqcCsVUyCGthhp8"><div id="dashboard" style="display:none;" data-page-node-id="lr92pBb5y4WyfCAJ5JEZQj"><div class="card" style="text-align:center;" data-page-node-id="gN3Fz0U1FxDHFypA2tGHJz"><div id="currentPartnerBadge" class="partner-badge" data-page-node-id="CwcUdLigo35u3AkKoUbJze">🌿 温和提醒型</div><div class="question" style="font-size:17px;font-weight:700;color:#0f172a;margin-top:4px;" data-page-node-id="IDmHUQsvvOY0Qz7BYzUhDc">今天，做一件对自己身体好的小事</div><div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="VndnssmuVyusxqZzCzGSzf"><div class="checkin-status" id="checkinStatusText" data-page-node-id="uDB9IxH7bdELQcD0fgm2kb">已打卡</div><div class="checkin-sub" id="checkinSubText" data-page-node-id="UWWUV2AyBWkfMmLnyRcTLh">点击完成</div></div><div class="streak-num" id="streakNum" data-page-node-id="mCwhbOoCaJXcUHFapaUl2E">0</div><div class="streak-label" data-page-node-id="Lz881awcNcWXam2rrklS2s">连续天数 · 断签不清零</div></div><div class="chat-area" id="chatArea" data-page-node-id="CCakN0w8FP9LRSzGFH26fY"></div><div class="week-progress" data-page-node-id="ky0AHQyoTfvuIgZVs0LD05"><div class="week-title" data-page-node-id="WEdjBiJ4MNGkwN1DWBcCUk"><span data-page-node-id="5bdWeAWm7cPVrAwPfemjVQ">📅 本周</span><span id="weekRange" data-page-node-id="xjsEB1uyn7FRx8MEBgKJNa"></span></div><div class="week-dots" id="weekDots" data-page-node-id="Zsg05NhUndO2DiP2HhF3RS"></div></div><button class="copy-btn" onclick="copyStats()" data-page-node-id="4rx8VtAyW8qJaXNI3WJZKx">📋 复制今日战绩</button><div class="card" data-page-node-id="CLpbiuII3DIsINrOonA8rS"><div class="card-title" data-page-node-id="MLgRl0i8GA2Fif491yhQhO">🎯 今日 3 个预防小动作</div><div class="card-sub" data-page-node-id="JvZ88EEBQjbdJqtpEMU2CV">挑一两个做就好，做不到不扣分。</div><div class="action-list" id="actionList" data-page-node-id="oG748HnnCZewBapISdjhrK"></div></div><div class="card" data-page-node-id="UGJBjnLeoAaFFhxZkpf80U"><div class="card-title" data-page-node-id="VzXrRKclvQlNBSk5fZvDCk">🔗 与其他搭子联动</div><div class="card-sub" data-page-node-id="60SygKuLa7HICmdEz824Ld">健康底盘不只在这里，跟其他搭子有连接。</div><a class="link-card" href="搭子-睡眠.html" data-page-node-id="uNYoyPzLvmDJrtybHjlbsz"><div class="em" data-page-node-id="144gFxNaDDatxyQFekGA3L">😴</div><div class="tx" data-page-node-id="0jr9gCsAfBLsDXNNUAJiLb"><div class="nm" data-page-node-id="sWoi0rX0Zkhh7iYY9lo00l">睡眠搭子</div><div class="msg" data-page-node-id="SOqOCEPS9yZ3obzZXjwWr0">睡眠是健康底盘的地基——所有 6 维都从一夜睡眠开始。</div></div></a><a class="link-card" href="index.html" data-page-node-id="1EWa8D4nyRNfMcA8jseTpR"><div class="em" data-page-node-id="59m4PkwefUZ6gwxCOySxsU">🏃</div><div class="tx" data-page-node-id="MnAFnpn5ofeyF9YqKexLlS"><div class="nm" data-page-node-id="u713t1lyPXkyaiPWmzPr2F">减肥搭子</div><div class="msg" data-page-node-id="4xmB1dfhM2HNmEKIda7f8p">腰围、BMI 是代谢风险最直观的信号，体重下来血糖血脂也会跟着好转。</div></div></a><a class="link-card" href="搭子-状态.html" data-page-node-id="Qt4ijHttzDBnYqHUArdt3s"><div class="em" data-page-node-id="a6AAjiFcrmihni231GKxkY">🌊</div><div class="tx" data-page-node-id="vxJWWC8USWIovwMvq6JTXH"><div class="nm" data-page-node-id="vTjHP8vfIMRN2c0BJgCQMV">状态搭子</div><div class="msg" data-page-node-id="U3ewptuPCgClhAfP2TZcNC">压力、情绪、能量直接影响免疫和睡眠——这是隐性变量。</div></div></a><a class="link-card" href="搭子-长期主义.html" data-page-node-id="TQ56Y1Gth6TfbGDCfmISFY"><div class="em" data-page-node-id="GwsNU6gZyMVadR9SfkHewI">⏳</div><div class="tx" data-page-node-id="3Ux6AlxzNhQ6Q01nqxvXXr"><div class="nm" data-page-node-id="HzmOGCZnDR4xK2BLksBQlg">长期主义搭子</div><div class="msg" data-page-node-id="IHmsKlWCTT1OeC6kJ8z8kY">健康是少有的"复利资产"——每年体检坚持 10 年，会成为一个家庭的安全垫。</div></div></a></div><div class="redflag" data-page-node-id="pabnjx8tP4YxpV8YLcHfYJ"><div class="redflag-head" data-page-node-id="FB2PD2PTPFSLMwqPquKL87">🚨 出现这些，不要继续自我管理</div><div class="redflag-list" data-page-node-id="yI7Tf9wyavgAwob8C0PMLb"><div class="it" data-page-node-id="ySU83aKvHM91XBD161hVVF">🩸 便血、黑便</div><div class="it" data-page-node-id="8vtlujRnFVLcPFhG0vhQ8w">⚖️ 不明原因 6 个月内体重下降 ≥ 5%</div><div class="it" data-page-node-id="Wz0TNhCZRitCDxNUzmF2vc">🤮 持续呕吐超过 24 小时</div><div class="it" data-page-node-id="phwg76UD6pRserbt1IPH5C">🌙 夜间腹泻或夜间症状把你叫醒</div><div class="it" data-page-node-id="ffFdi7ZFiuFk57nGm4QLRv">😰 明显贫血（面色苍白、头晕、心悸）</div><div class="it" data-page-node-id="Sq7W8QgdqRJzwZz34GnaX4">🌡️ 持续发热超过 3 天</div><div class="it" data-page-node-id="0QpSuG16sKiIc54BddH2gq">🩹 剧烈腹痛（按不动、跳痛、放射痛）</div><div class="it" data-page-node-id="tUmC4FO5gvaOGCrtHb979C">🍽️ 吞咽困难或进行性加重</div><div class="it" data-page-node-id="eu5UAgE9dpUMsHqXc2IaxH">🟡 黄疸（皮肤/眼白发黄）</div><div class="it" data-page-node-id="eR2SvmE5PZhH8lSC6HsgCv">💔 静息时胸痛或呼吸困难</div><div class="it" data-page-node-id="Vu656sYxGzlqQJu0ozQp8G">🦵 单侧腿肿胀/疼痛（排除外伤）</div><div class="it" data-page-node-id="SEqaqIsme6lXrVGjBDIPho">⚡ 突发剧烈头痛（"一生中最严重"）</div></div><div class="redflag-foot" data-page-node-id="HORjsGadHdaxWRauN64a99">直接就医 · 搭子不替你判断</div></div></div><div id="partnerSelectorMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:250;" data-page-node-id="UM0zHyrRTrbJOruIqcGLRl"></div>
+<!-- 怎么和搭子说（参考减肥搭子） -->
+<div class="interaction-panel" style="margin-top:18px;background:#fff;border-radius:18px;padding:14px 12px;box-shadow:0 4px 14px rgba(0,0,0,0.05);">
+  <div class="panel-label" style="font-size:13px;color:#64748b;margin-bottom:8px;text-align:center;font-weight:600;">🎓 怎么和搭子说</div>
+  <div style="font-size:11px;color:#94a3b8;text-align:center;margin-bottom:10px;">先选情绪状态，再说事。</div>
+  <div class="mood-row" style="display:flex;justify-content:center;gap:10px;margin-bottom:12px;">
+    <div class="mood-btn" data-mood="happy"   title="状态好"   onclick="sendMood('happy')">😊</div>
+    <div class="mood-btn" data-mood="neutral" title="正常"     onclick="sendMood('neutral')">😐</div>
+    <div class="mood-btn" data-mood="tired"   title="疲惫"     onclick="sendMood('tired')">😴</div>
+    <div class="mood-btn" data-mood="unwell"  title="不太舒服" onclick="sendMood('unwell')">🤒</div>
+  </div>
+  <div class="talk-btn-row">
+    <button class="talk-btn" data-type="progress"  onclick="askPartner('progress')">📈 进展</button>
+    <button class="talk-btn" data-type="struggle"  onclick="askPartner('struggle')">😣 困难</button>
+    <button class="talk-btn" data-type="idea"      onclick="askPartner('idea')">💡 想法</button>
+    <button class="talk-btn" data-type="cheer"     onclick="askPartner('cheer')">🎉 喜事</button>
+  </div>
+  <div class="talk-btn-row" style="margin-top:8px;">
+    <button class="talk-btn" data-type="report"    onclick="askPartner('report')">📣 汇报指标</button>
+    <button class="talk-btn" data-type="question"  onclick="askPartner('question')">🤔 有问题想问</button>
+  </div>
+</div>
+<div id="partnerSelector" style="display:none;position:fixed;left:0;right:0;bottom:0;top:0;z-index:251;overflow-y:auto;" data-page-node-id="usnD4uaR7oFAuHW1qO7hU6"><div class="partner-selector" data-page-node-id="E0ScMljjvFYuvA8gW7P4lo"><div class="selector-title" data-page-node-id="P8T3iN9vz1BND66nCNKwwm">选个健康搭子</div><div class="selector-sub" data-page-node-id="83yQaKlYT5Jx2pUwgF37Ux">陪你把预防变成日常，不吓人、不卖保健品。</div><div class="partner-grid" id="partnerGrid" data-page-node-id="cCI7suYPseL99F49BvGsu8"><div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')" data-page-node-id="xJhqV6OKCXzbyvvJYOIPu4"><div class="partner-emoji" data-page-node-id="euMgWK4Pk1D3DIBIZOz7BR">🌿</div><div class="partner-name" data-page-node-id="IlN2lj76RwvcVcGMBC6n4m">温和提醒型</div><div class="partner-desc" data-page-node-id="p4EOCnReDPud00oSKbENxP">不催不骂，慢慢来</div></div><div class="partner-card" id="pc-science" onclick="selectPartner('science')" data-page-node-id="20X5Yermbj0pteCQLORH3M"><div class="partner-emoji" data-page-node-id="SEEuYc1gP6igNIkzByQ7V9">🔬</div><div class="partner-name" data-page-node-id="9ffEq6yP4GdniQ529wnDAa">循证派</div><div class="partner-desc" data-page-node-id="aTFOIY2JrPkCrdhIR57HfM">每条建议都标证据等级</div></div><div class="partner-card" id="pc-coach" onclick="selectPartner('coach')" data-page-node-id="EWTFBtaAdI0Z8UW4ZY19pF"><div class="partner-emoji" data-page-node-id="z9ZzeLsTSPZBozlQ480d9I">🏋️</div><div class="partner-name" data-page-node-id="4MA1gQAilxrgguleJk9GHW">行动派</div><div class="partner-desc" data-page-node-id="yj7MWQYwc0zW7ziJeHzpTd">每天 3 件，一件件来</div></div><div class="partner-card" id="pc-warm" onclick="selectPartner('warm')" data-page-node-id="pmaZ4mX8mPFiBgeKktmiiC"><div class="partner-emoji" data-page-node-id="gR79IJFCNw11ioZ72bYdgB">🧸</div><div class="partner-name" data-page-node-id="2ryhj3MmjA7l23hTmNEAOy">陪伴型</div><div class="partner-desc" data-page-node-id="wRsCguz7kGRQqHEyMSu2xz">焦虑的时候也能来聊</div></div></div><button class="confirm-btn" onclick="confirmPartner()" data-page-node-id="yKAwXJFw6SM192VsG2h5fL">✨ 开始陪伴 ✨</button></div></div></div></div><div id="page-coach" class="page" data-page-node-id="1S7mITmyvk62RiJaQ9YRsC">
+<!-- 教练 tab：情绪 + 谈话入口 + 成长路线 + checklist -->
+<div style="max-width:420px;margin:0 auto;">
+  <div class="interaction-panel" style="background:#fff;border-radius:18px;padding:14px 12px;box-shadow:0 4px 14px rgba(0,0,0,0.05);">
+    <div style="font-size:13px;color:#64748b;margin-bottom:8px;text-align:center;font-weight:600;">🎓 怎么和教练说</div>
+    <div style="font-size:11px;color:#94a3b8;text-align:center;margin-bottom:10px;">先选情绪状态，再说事。</div>
+    <div class="mood-row" style="display:flex;justify-content:center;gap:10px;margin-bottom:12px;">
+      <div class="mood-btn" data-mood="happy"   title="状态好"   onclick="sendMood('happy')">😊</div>
+      <div class="mood-btn" data-mood="neutral" title="正常"     onclick="sendMood('neutral')">😐</div>
+      <div class="mood-btn" data-mood="tired"   title="疲惫"     onclick="sendMood('tired')">😴</div>
+      <div class="mood-btn" data-mood="unwell"  title="不太舒服" onclick="sendMood('unwell')">🤒</div>
+    </div>
+    <div class="talk-btn-row">
+      <button class="talk-btn" data-type="progress"  onclick="askPartner('progress')">📈 进展</button>
+      <button class="talk-btn" data-type="struggle"  onclick="askPartner('struggle')">😣 困难</button>
+      <button class="talk-btn" data-type="idea"      onclick="askPartner('idea')">💡 想法</button>
+      <button class="talk-btn" data-type="cheer"     onclick="askPartner('cheer')">🎉 喜事</button>
+    </div>
+    <div class="talk-btn-row" style="margin-top:8px;">
+      <button class="talk-btn" data-type="report"    onclick="askPartner('report')">📣 汇报指标</button>
+      <button class="talk-btn" data-type="question"  onclick="askPartner('question')">🤔 有问题想问</button>
+    </div>
+  </div>
+
+  <!-- 成长路线 + Checklist -->
+  <div id="crpWrap_health" class="crp-wrap" style="margin-top:14px;">
+    <style>
+      #crpWrap_health .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
+      #crpWrap_health .crp-title { font-size:15px; font-weight:800; color:#0f172a; margin-bottom:12px; }
+      #crpWrap_health .crp-tip { font-size:11px; font-weight:500; color:#94a3b8; margin-left:6px; }
+      #crpWrap_health .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+      #crpWrap_health .crp-stage:active { transform:scale(.98); }
+      #crpWrap_health .crp-stage-head { font-weight:700; font-size:13px; }
+      #crpWrap_health .crp-arrow { float:right; color:#94a3b8; }
+      #crpWrap_health .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#475569; }
+      #crpWrap_health .crp-stage.collapsed .crp-stage-body { display:none; }
+      #crpWrap_health .crp-item { font-size:13px; color:#475569; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+      #crpWrap_health .crp-item:hover { background:#f8fafc; }
+      #crpWrap_health .crp-item.done { color:#94a3b8; text-decoration:line-through; }
+      #crpWrap_health .crp-box { margin-right:8px; }
+    </style>
+    <div class="crp-card">
+      <div class="crp-title">🗺️ 健康三阶段成长路线<span class="crp-tip">👆 点击展开/收起</span></div>
+      <div class="crp-stage" style="background:#ecfeff;">
+        <div class="crp-stage-head" style="color:#0e7490;">📌 第1阶段 · 第1-2周 · 建立日常底盘 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">每天只做 3 件可监督的小事（吃饭/睡眠/运动）<br>• 每周固定 1 天量血压、体重、腰围<br>• 找到 1 个红旗症状的"什么时候必须就医"清单</div>
+      </div>
+      <div class="crp-stage" style="background:#fef3c7;">
+        <div class="crp-stage-head" style="color:#b45309;">📌 第2阶段 · 第3-8周 · 把"指标"连起来 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">每月做 1 次自评，看 6 维雷达图变化<br>• 每 3 个月做 1 次年度清单回顾<br>• 找到自己最在意的 1 个指标，给它设目标区间</div>
+      </div>
+      <div class="crp-stage" style="background:#dcfce7;">
+        <div class="crp-stage-head" style="color:#15803d;">📌 第3阶段 · 长期 · 维持和复盘 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">把体检报告里的异常项，做成"下次复查日历"<br>• 每年家族史和疫苗更新一次<br>• 找到 1 个让自己长期能坚持下去的小动作</div>
+      </div>
+    </div>
+    <div class="crp-card">
+      <div class="crp-title">📋 健康基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_health" style="color:#0d9488;">0</b>/7 · 自动保存</span></div>
+      <div>
+        <div class="crp-item"><span class="crp-box">☐</span>连续 7 天记录日常 3 件小事</div>
+        <div class="crp-item"><span class="crp-box">☐</span>每天睡够 7 小时</div>
+        <div class="crp-item"><span class="crp-box">☐</span>每天 1 份深色蔬菜</div>
+        <div class="crp-item"><span class="crp-box">☐</span>每周 ≥3 次 30 分钟运动</div>
+        <div class="crp-item"><span class="crp-box">☐</span>每周固定 1 天量血压</div>
+        <div class="crp-item"><span class="crp-box">☐</span>知道自己的红旗症状就医清单</div>
+        <div class="crp-item"><span class="crp-box">☐</span>今年体检报告已和家庭医生过一遍</div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var KEY='crp_checklist_health';
+      var wrap=document.getElementById('crpWrap_health'); if(!wrap) return;
+      wrap.querySelectorAll('.crp-stage').forEach(function(s){
+        s.addEventListener('click',function(){
+          s.classList.toggle('collapsed');
+          var a=s.querySelector('.crp-arrow'); if(a) a.textContent=s.classList.contains('collapsed')?'▸':'▾';
+        });
+      });
+      var items=wrap.querySelectorAll('.crp-item');
+      var state={}; try{var _sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(_sv&&_sv._d===new Date().toISOString().slice(0,10)){state=_sv.s||{}}}catch(e){}
+      function render(){
+        var d=0;
+        items.forEach(function(it,i){
+          var b=it.querySelector('.crp-box');
+          if(state[i]){it.classList.add('done');b.textContent='☑';d++;}
+          else{it.classList.remove('done');b.textContent='☐';}
+        });
+        var c=document.getElementById('crpCnt_health'); if(c) c.textContent=d;
+      }
+      items.forEach(function(it,i){
+        it.addEventListener('click',function(){
+          state[i]=!state[i];
+          try{localStorage.setItem(KEY,JSON.stringify({_d:new Date().toISOString().slice(0,10),s:state}))}catch(e){}
+          render();
+        });
+      });
+      render();
+    })();
+    </script>
+  </div>
+</div>
+<div class="wrap" data-page-node-id="QxApH959v9GCtJBi0abM56"><div class="card" data-page-node-id="utpPKib5z5OF3PJ83Wjlum"><div class="card-title" data-page-node-id="sGyXkttOqeLOha0tgL2m9k">🎓 怎么和搭子说</div><div class="card-sub" data-page-node-id="HSsOU8DwRmy8icJznNIshX">先选情绪状态，再说事。</div><div class="mood-row" id="moodRow" data-page-node-id="cdHiiDWfDDm7JBy3TVnCxt"><div class="mood-btn" data-mood="happy" onclick="sendMood('happy')" title="开心" data-page-node-id="GMBoXWeKi95gNGHG029CQ3">😄</div><div class="mood-btn" data-mood="calm" onclick="sendMood('calm')" title="平静" data-page-node-id="GYyOiYVbGt51ozrv3fNLny">😌</div><div class="mood-btn" data-mood="low" onclick="sendMood('low')" title="低落" data-page-node-id="IfsZce0Jli3YBU0yHEiaud">😔</div><div class="mood-btn" data-mood="tired" onclick="sendMood('tired')" title="累了" data-page-node-id="NOybM32G4fwACNF16JSfGr">😫</div></div><div class="talk-btn-row" data-page-node-id="GgEs2MA9ye4PKf6wUu0web"><button class="talk-btn" data-type="progress" onclick="sendTalk('progress')" data-page-node-id="B7nIpbI9nkDcwJC2fdWsh1">📈 进展</button><button class="talk-btn" data-type="struggle" onclick="sendTalk('struggle')" data-page-node-id="MLTVOSWq7WI6jfHzDVSLLi">😣 困难</button><button class="talk-btn" data-type="idea" onclick="sendTalk('idea')" data-page-node-id="Ar47IgZzKRXQrQUXgLJFnU">💡 想法</button><button class="talk-btn" data-type="cheer" onclick="sendTalk('cheer')" data-page-node-id="tj26ZQM8I9B8ND3VRyFxnE">🎉 喜事</button></div><div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="KDUfus5a0J3wYwKhECNnke"><button class="talk-btn" data-type="report" onclick="sendTalk('report')" data-page-node-id="A80Ll1oww5RfCF7tpstBU4">📣 汇报进展</button><button class="talk-btn" data-type="question" onclick="sendTalk('question')" data-page-node-id="Gvf2ULGM0UhRg6z69HBymS">🤔 有问题想问</button></div></div><div class="card" data-page-node-id="ZMjB14Wcd44YeBBklWFEcj"><div class="card-title" data-page-node-id="cTZF0oixvnsarrgpdIhTkF">🔬 证据分级卡</div><div class="card-sub" data-page-node-id="S2OwBBXNgbb4uSNHt5E2ID">同样的健康话题，证据不一样就标不一样。</div><div class="evid" style="background:#ecfdf5;border:1px solid #10b98133;" data-page-node-id="ourrN7Z2ApSqmj7Vxin85Z"><div class="evid-label" style="color:#10b981;" data-page-node-id="J5T8LSIkUcRnizPBU9GcZl">🔒 锁定</div><ul class="evid-list" data-page-node-id="u7DTABU68TasDXz9loOcRU"><li data-page-node-id="Uut8YJJLFk9xvdiBtNdZrf">植物多样性（每周 ≥ 30 种）：肠道菌群和代谢双重受益</li><li data-page-node-id="YWXtHDYV2z796J1E78IBZR">膳食纤维 25-30g/天：独立降低全因死亡率、心血管、结直肠癌</li><li data-page-node-id="Mje1oqwjqubDA7egEynV3n">规律运动（150 分钟/周）：改善代谢、认知、情绪几乎是"零副作用"</li><li data-page-node-id="pqdLIUsshFmkiugy8oDzwL">睡眠 7-9 小时：低于 5 小时免疫反应明显下降</li><li data-page-node-id="vH9Wr6mFjjvlQS28jJHrSk">戒烟、控制血压/血糖/血脂：每控一项寿命可观改变</li></ul></div><div class="evid" style="background:#fffbeb;border:1px solid #f59e0b33;" data-page-node-id="6u5XJGT5UxLXxC5SVj6RgW"><div class="evid-label" style="color:#f59e0b;" data-page-node-id="il6r2UVF5IPlmWmsOAPjrh">⏳ 限定情境</div><ul class="evid-list" data-page-node-id="L2ESSmT6V5Vrew5AqaMHkd"><li data-page-node-id="7CADwHYCmNm92xN6t9z2U7">发酵食品（酸奶/泡菜）：特定情境下有益，不是所有人都受益</li><li data-page-node-id="OwmWLTObRZAtxfm6Vf3iBV">特定益生菌菌株：只能在特定适应症短期使用，不建议长期当保健品</li><li data-page-node-id="a8hGubPLInTYD8kPKtPWnm">间歇性断食：减重效果存在，需个体化评估（糖尿病等慎用）</li><li data-page-node-id="Zo2l6qsrCXqFA2bLt0uWFS">低碳/生酮饮食：短期代谢指标改善，长期数据仍有限</li><li data-page-node-id="lv52fOhqhF4XJi98H9zoUU">Omega-3 补充：饮食来源稳定，不建议高剂量补充剂</li></ul></div><div class="evid" style="background:#eff6ff;border:1px solid #3b82f633;" data-page-node-id="Atk3y36PeeU2LMnNrOtq3u"><div class="evid-label" style="color:#3b82f6;" data-page-node-id="wPaCIb0SrM42KoPgW2XZfR">🔬 继续验证</div><ul class="evid-list" data-page-node-id="gBuNVsMzuPP4hRoqRiGGXU"><li data-page-node-id="1GK2N81IuFJSaeDu19jkqF">菌群检测指导个体饮食：技术刚起步，结果稳定性差</li><li data-page-node-id="DoPK2RjUzqftsu7vg2MWQW">心理益生菌（psychobiotics）：仅小型研究，机制未明</li><li data-page-node-id="cJ71xu0IVBu80rd3UYFLHC">精准减重菌群：营销大于证据，别当主要方案</li><li data-page-node-id="jp705gmPeBFJOfWybSdP0D">冷暴露/桑拿延寿：相关性强，机制研究中</li><li data-page-node-id="5WHQtURlmKgyzV5qEU5wBr">"功能性食品"对慢性病逆转：监管层面尚未厘清</li></ul></div><div class="evid" style="background:#fef2f2;border:1px solid #dc262633;" data-page-node-id="IAnnWahvoSxqqQWGBeLT0A"><div class="evid-label" style="color:#dc2626;" data-page-node-id="7zyjHZhnU4OHE9wGIyjeP4">🚫 退休</div><ul class="evid-list" data-page-node-id="UxGPEVhaKQKZ2N2Nqu1qFm"><li data-page-node-id="IRCE1IZAp7lUK2I1zGH2oG">"排毒"疗程（果汁/断食排毒）：人体肝肾就是排毒器官</li><li data-page-node-id="O0JSCnmpKMBv9CpdIU9uHD">"肠漏"万能论：机制存在但被滥用，几乎所有慢病都被挂上</li><li data-page-node-id="MrtlE2cmgXOBcZidN7RfYM">好菌越多越好：单一菌种过度增殖反而可能有害</li><li data-page-node-id="DYZ043r2zxW5wfBOdEWJ2V">纯素自动健康：需要补 B12、铁、锌、Omega-3，规划好是健康的</li><li data-page-node-id="WKAE0BEwzMQ5XWj9lrjngV">一次检测找到百病根因：基因/菌群/食物不耐受检测目前做不到</li></ul></div></div><div class="disclaimer" data-page-node-id="rHoJLOiQtm4mZtg5DiG1ju"><b data-page-node-id="rtt7j8mRyIJkxtIDoDOji7">健康底盘搭子不替代医生诊断、治疗和处方。</b><br data-page-node-id="sWcXFJmlMyDyOz0mHXnHaU">所有建议仅用于一般健康教育。出现持续或明显症状，请及时就医。</div></div></div><div id="page-sop" class="page" data-page-node-id="Kq25RHoFuigWtmK96gplLs"><div class="wrap" data-page-node-id="VFcBBL4XtTMAU6agOVjNF1"><div class="card" data-page-node-id="gQNBuHQqqUX8jCZEKA3SDS"><div class="card-title" data-page-node-id="mDF7XeuDcMp3mtpGCZCaWK">🎯 健康六维自评</div><div class="card-sub" data-page-node-id="bLUCrARbBWCYpbXAwO6HPn">每周一次，每个维度 1-5 分。不评没事，评了就是数据。</div><div class="sop-cats" id="sopCats" data-page-node-id="kR3RICprycoW0q7pweY1CF"></div><div class="sop-cat-tip" id="sopTipText" data-page-node-id="GqkrQNdZxpdHX0V7bVakgA">从六个维度选一个开始。<br data-page-node-id="9auXVWXEqYwJuE8i0KbsXo"><b data-page-node-id="EeSXTCJOdNuAC4z32rgVsz">原则：</b>不评"病了"，只评"这一维本周偏低，可以从一个小动作开始"。</div><div class="sop-score-row" id="sopScoreRow" data-page-node-id="BYBd2W0P4PpdO6JAN2ktDj"></div><div class="sop-submit-row" data-page-node-id="FLnKq09oULnxPjSTNpbNuJ"><button class="sop-submit-btn primary" onclick="submitSOPScore()" data-page-node-id="Asxxb54ihq3s6AjhzEONlu">记下这一维</button><button class="sop-submit-btn ghost" onclick="clearSOPScore()" data-page-node-id="B9dGhg7APuvCDTrkCbsstW">不评了</button></div></div><div class="radar-wrap" data-page-node-id="lnwZNWbBS6REQOtLcx4r6y"><div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:6px;" data-page-node-id="16dzuPugHzOx7hEay8AQ1f">📊 六维健康图谱</div><div class="radar-svg" id="radarSvg" data-page-node-id="grHECvp8fstskEMrYZs6Ar"></div><div class="radar-legend" id="radarLegend" data-page-node-id="A65hneyVa0NfzbynnRXxEN"></div></div><div class="card" id="cardHealthMetrics"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font-size:22px;">📊</span><span style="font-weight:800;font-size:15px;color:#0f172a;">日常可监测</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">在家就能做 · 不焦虑</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">这 7 项是<b>生活医学</b>能在家监督的指标：血压计、体重秤、计步器、手机。频率看心情，<b>不是每天</b>。</div><div id="dailyMetricList" style="display:flex;flex-direction:column;gap:6px;"></div><div style="margin-top:14px;display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font-size:22px;">🩺</span><span style="font-weight:800;font-size:15px;color:#0f172a;">体检项目</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">按年度周期</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">这部分需要医院/体检机构测，记录最近一次结果便于下次对比。<b>不诊断，只显示你和医生要讨论的范围。</b></div><div id="yearlyMetricList" style="display:flex;flex-direction:column;gap:6px;"></div></div></div></div><div id="page-checkin" class="page" data-page-node-id="OeJppHx2BF7FM7bZ2WeUrW"><div class="wrap" data-page-node-id="nLdVFsC5UEgFSaHfC1cdgw"><div class="card" style="text-align:center;" data-page-node-id="o6IbWHzAD2oFDqBDZM8aac"><div style="font-size:13px;color:#64748b;" data-page-node-id="xX3PWrJBmNt6u8xAkOXd2I">今日打卡进度</div><div style="font-size:44px;font-weight:800;color:#0d9488;margin-top:4px;" id="checkinProgress" data-page-node-id="Vss6knfZReemnzigz0AZyS">0 / 3</div><div style="font-size:12px;color:#94a3b8;margin-top:4px;" data-page-node-id="VDgEzT8UjpvaR3cS2RzILc">完成 1 件算"打卡"</div></div>
+<div class="card">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:22px;">📋</span><span style="font-weight:800;font-size:15px;color:#0f172a;">今日打卡场景</span></div>
+  <div style="font-size:12px;color:#64748b;margin-bottom:12px;">挑最贴近今天的一个。这 8 个维度覆盖预防医学最关键的方向：<b>饮食 · 运动 · 睡眠 · 压力 · 放松 · 喝水 · 屏幕 · 用药补剂</b>。</div>
+  <div id="checkinSceneList" style="display:flex;flex-direction:column;gap:8px;"></div>
+</div>
+</div><div class="card-sub" data-page-node-id="HhNHvVZAGXg4LcDDEBPyj9">挑一个最贴近今天的——不是非做不可。</div><div class="scene-list" id="sceneList" data-page-node-id="FJNxWIzhJqh5LHIHNAUpMB"></div></div></div></div><div id="page-data" class="page" data-page-node-id="MtqeJpwlLM6MANHJmpOGGC"><div class="wrap" data-page-node-id="MysCJH4z4zmps7MGzSMgow"><div class="card" data-page-node-id="blTTPOh7r3PWdsutwHz6t3"><div class="card-title" data-page-node-id="wvvd75U1unhzGjtgM20ZRn">🧮 健康度（6 维综合）</div><div class="card-sub" data-page-node-id="ciG6MrEsU3pBgy2y5k2BV9">把六维评分整合为一个数字，趋势比单次更说明问题。</div><div style="font-size:42px;font-weight:800;color:#0d9488;text-align:center;margin-top:8px;" id="overallScore" data-page-node-id="uE3NltdDwR8HBihhDT6fS7">—</div><div style="font-size:12px;color:#64748b;text-align:center;" data-page-node-id="TObO861AaDtSFcKu6kNiRp">满分 30 · 综合健康度</div><div id="recommendText" style="background:#ccfbf1;border-radius:14px;padding:12px 14px;margin-top:14px;font-size:12.5px;color:#0d9488;line-height:1.6;" data-page-node-id="nAcDyPreDmgzv7hbgZvYLg"></div></div><div class="card" id="cardHealthCycle"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:22px;">📅</span><span style="font-weight:800;font-size:15px;color:#0f172a;">日常监督周期</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">勾上 = 已加入节奏</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">预防医学的核心不是"每天检查"，而是<b>按节奏做事</b>。勾上你能跟上的节奏。断签不扣分。</div><div id="cycleList" style="display:flex;flex-direction:column;gap:10px;"></div></div></div></div><div id="page-progress" class="page" data-page-node-id="Udo3RXSOavpucGgyzfiX3w"><div class="wrap" data-page-node-id="kFSQOw0MgnC9zoiWwlUdfa"><div class="card" data-page-node-id="DW8FzLeVIt2i2HGEWOLSlD"><div class="card-title" data-page-node-id="bZap7symzEbeDGzsnlQEBX">📈 进展趋势</div><div class="card-sub" data-page-node-id="HE0FGcVTcuSvrsHFtiqxaG">看趋势，不看单次 —— 4 周以上才有意义。</div><div id="progressChart" style="height:200px;display:flex;align-items:flex-end;gap:6px;padding:8px 4px;border-bottom:1px solid #e2e8f0;" data-page-node-id="a0ALaHQfBwA78mruKEB9yL"></div><div style="font-size:11px;color:#94a3b8;text-align:center;margin-top:8px;" id="progressLabel" data-page-node-id="jqEEsmQ866MJAG29Kw5MNF">还没有数据 — 完成 2 周自评后会出现趋势</div></div><div class="card" data-page-node-id="YgeM2hv18HOiD15RF53BVH"><div class="card-title" data-page-node-id="zDiRwHMarR6f8BHOJrFHcw">📊 六维对比（最近 2 次）</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:11px;color:#64748b;text-align:center;font-weight:700;padding:0 4px 6px;" data-page-node-id="rFn9fleGfRkTY38qukLmwF"><div data-page-node-id="GgT2trmMu0IgYQNRC1Sb6D">维度</div><div data-page-node-id="tGMMTpbPegkN9xBdgR7orM">最近</div><div data-page-node-id="vxZCXzNWgWtUMNhOluDkCG">上次</div></div><div id="compareList" data-page-node-id="CC6jNtgKsuDJHxEhYLwoGd"></div></div></div></div><div id="page-share" class="page" data-page-node-id="7BJomBQwYKLBe5b7HlJ0RS"><div class="wrap" data-page-node-id="lqnMbKOG72xjtboFjbSzGs"><div style="text-align:center;padding:18px 0 6px;" data-page-node-id="QpYrwNQOE2d65RMUaF7G7I"><div style="font-size:50px;line-height:1;" data-page-node-id="6N3Xury2IpBiNUCPubf44P">🛡️</div><div style="font-size:22px;font-weight:800;margin-top:8px;color:#0f172a;" data-page-node-id="ZgEOMFvSnRpzPRXsgOKeGD">健康底盘搭子</div><div style="font-size:13px;color:#64748b;margin-top:4px;" data-page-node-id="BG17WrVDhOhKjtDTqVtVvc">把健康当资产 · 提前一点少生病一点</div></div><div class="share-summary" data-page-node-id="sBbdwZC3hDysdgtYahJUEM"><div class="label" data-page-node-id="XxHcMaroGAwUxn6xoG4Fyw">我的健康账本</div><div class="text" id="sharePnLSummary" data-page-node-id="Q189AbdoCunDa1fkxQPCWN">还在积累中。开始打卡后这里会出现你的健康账本摘要。</div></div><div class="share-stat-grid" id="shareStatGrid" data-page-node-id="JfaSoIUAICFZD7wulUhUyT"></div><div style="margin-top:16px;background:linear-gradient(135deg,#f0fdfa,#e6fffa);border-radius:18px;padding:18px;" data-page-node-id="QAF1OHPDOIvVq0ujs8z7OJ"><div style="font-size:14px;font-weight:700;color:#0f172a;" data-page-node-id="VGfrRoTEG9Zh6Ew5x4ESSj">🛡️ 这个搭子适合谁</div><div style="font-size:12.5px;color:#475569;margin-top:6px;line-height:1.7;" data-page-node-id="C3ZzhHztEiVK2RE4iaXBte">想把健康当资产经营的人——<br data-page-node-id="7vqvEqhB72Jv7IxExcuCOM">不焦虑、不卖保健品、不替你诊断。<br data-page-node-id="CkOP3nT0Hp6apeS1WB5pR7">每天 3 件小事 + 每年 1 次体检复盘。</div></div><button class="copy-btn" onclick="copyShareLink()" style="margin-top:14px;" data-page-node-id="YOw7D34pMvsd4Foi5bkTZY">📋 复制分享文案</button><div class="disclaimer" style="margin-top:14px;" data-page-node-id="dzE9vLXIf8GZVUo4793Hom">本搭子不替代医生诊断 · 仅用于一般健康教育</div></div></div><div class="tab-bar" data-page-node-id="esFCc3wBDep9T1Wa0vmVVH"><div class="tab-item active" onclick="switchTab('chat')" data-page-node-id="Z1jzh1gZURMC8FPKa1pDnu"><div class="tab-icon" data-page-node-id="uM3ZRDtJtBHq5lWemTyjof">🏠</div><div class="tab-label" data-page-node-id="eIeIwU2AsK2E9El8T3Az1F">搭子</div></div><div class="tab-item" onclick="switchTab('coach')" data-page-node-id="ZKua2pBiN2erwq65LeM7yk"><div class="tab-icon" data-page-node-id="hHCfFNZo3oIrjdKFWocD2b">🎓</div><div class="tab-label" data-page-node-id="8ZyUi3MsNjaXSnrEmtHSXd">教练</div></div><div class="tab-item" onclick="switchTab('sop')" data-page-node-id="q5wFwEWXLftIe6CydePsD2"><div class="tab-icon" data-page-node-id="ukyfIpWC9AYZbvBPudt7fU">🎯</div><div class="tab-label" data-page-node-id="rEUm9QtLBHtuRDIY75oG4c">自检</div></div><div class="tab-item" onclick="switchTab('checkin')" data-page-node-id="GWjAbUeEcRncopobUXxuto"><div class="tab-icon" data-page-node-id="0cMJItOiqShPoQCHErDAv0">✅</div><div class="tab-label" data-page-node-id="cMY2TEUrqEelWG7AT3tLHW">打卡</div></div><div class="tab-item" onclick="switchTab('data')" data-page-node-id="ApvYEaswKUQZxi4TFtjTNA"><div class="tab-icon" data-page-node-id="WS7JzB4GRSGUDoKVThF3kL">🧮</div><div class="tab-label" data-page-node-id="GQ40dpzJEr2FqwzV4AHC0w">健康度</div></div><div class="tab-item" onclick="switchTab('progress')" data-page-node-id="Z6B64LScCeabqsFFGrjJTD"><div class="tab-icon" data-page-node-id="ttw2s1yD7A2ATMwlXTowiZ">📈</div><div class="tab-label" data-page-node-id="VlqCM37LjD3eiPaDmAOj27">进展</div></div><div class="tab-item" onclick="switchTab('share')" data-page-node-id="QGEFrMetHtKAcNLipqds6n"><div class="tab-icon" data-page-node-id="3Ppq1JUDu1D8mmbfPjugmx">📣</div><div class="tab-label" data-page-node-id="q3vmra7CHkpuUucFoBAu43">分享</div></div></div><div id="qaOverlay" class="qa-overlay" data-page-node-id="khiNMxEH9Wl4S3pHAiba8i"><div class="qa-panel" data-page-node-id="xkKGTVNiOxsEAHze7YRiGV"><button class="qa-close-x" onclick="closeQAPanel()" aria-label="关闭" data-page-node-id="iOEZJZRWfx50q65JN6N4zK">✕</button><div id="qaTitle" class="qa-title" data-page-node-id="PETQbCzySgmF1khg48ywet"></div><div id="qaSub" class="qa-sub" data-page-node-id="SfVu7mRWf7qVY7gOkHrbFN"></div><div id="qaList" class="qa-cards" data-page-node-id="pqXpxlri91fVzLoOkCW3vF"></div></div></div><div id="fbOverlay" class="qa-overlay" data-page-node-id="4w0cdIVqxWpCOpN9dWYqPP"><div class="qa-panel" data-page-node-id="Xy45GtJLX0l03w8UZaHXTW"><button class="qa-close-x" onclick="closeFB()" aria-label="关闭" data-page-node-id="iX6SQUEjdfi27rb7MmSBLC">✕</button><div id="fbTitle" class="qa-title" data-page-node-id="C93nlJcwWP90HXG91xtciZ"></div><div id="fbSub" class="qa-sub" data-page-node-id="EPcXRTrBxqHxZUG6uQlbdh"></div><div id="fbBody" data-page-node-id="6n18ZPI8va9OqNGKOkCYKi"></div></div></div></body><script>const STORAGE = { PARTNER: "slim_partner_health", CHECKIN: "slim_checkin_health", ACTIONS: "slim_health_actions", ACTIONS_DONE: "slim_health_actions_done", SOP: "slim_sop_health", SOP_HIST: "slim_sop_health_hist", SOP_LASTW: "slim_sop_health_lastw", METRICS: "slim_health_metrics", YEARLY: "slim_health_yearly", STREAKS: "slim_health_streaks" };const SOP_CATEGORIES = [{"key": "metab", "icon": "🩸", "name": "代谢", "desc": "血糖、血脂、血压、体重、腰围", "tip": "空腹血糖、腰围、血压，每 3-6 个月看一次趋势，比看单次数值更说明问题。"}, {"key": "gut", "icon": "🌱", "name": "肠道", "desc": "排便规律、菌群多样性、纤维摄入", "tip": "每周 25-30g 膳食纤维 + 多种植物（≥30 种/周），是肠道最稳的两件事。"}, {"key": "immune", "icon": "🛡", "name": "免疫", "desc": "疫苗更新、睡眠、急性病恢复期", "tip": "疫苗不焦虑每年补一次；睡眠连续 5 天低于 6 小时，免疫反应就会下降。"}, {"key": "sleep", "icon": "🌙", "name": "睡眠", "desc": "时长、入睡、深睡、节律", "tip": "固定上床时间比\"睡够\"更重要；连续 3 周规律，节律就稳了。"}, {"key": "stress", "icon": "🧘", "name": "压力", "desc": "心率、HRV、情绪复原、休息能力", "tip": "HRV（心率变异性）比\"心情\"更客观；连续 7 天早晨 5 分钟呼吸引续就能回升。"}, {"key": "move", "icon": "🏃", "name": "运动", "desc": "有氧、力量、柔韧、日常活动量", "tip": "每周 150 分钟中等强度有氧 + 2 次力量，比\"每天 1 万步\"更说明问题。"}];const ACTION_POOL = [{"emoji": "🥬", "title": "吃够 1 份深色蔬菜", "tip": "至少 80g，深绿色最好"}, {"emoji": "🚶", "title": "快走 10 分钟", "tip": "微喘能说话的速度"}, {"emoji": "📵", "title": "23:30 前放下手机", "tip": "屏幕蓝光骗大脑以为是白天"}, {"emoji": "💧", "title": "喝水 1.5L", "tip": "小口慢喝，不是一次灌"}, {"emoji": "🧘", "title": "5 分钟深呼吸", "tip": "4-7-8 节奏，鼻子吸嘴呼"}, {"emoji": "🍎", "title": "今天吃 1 份完整水果", "tip": "带皮吃，纤维更全"}, {"emoji": "🥗", "title": "主食用 1/3 粗粮替换", "tip": "糙米/燕麦/玉米/薯类"}, {"emoji": "🦴", "title": "靠墙静蹲 30 秒 × 3 组", "tip": "膝盖不超脚尖"}, {"emoji": "☀️", "title": "出门晒 10 分钟", "tip": "上午 10 点前最佳"}, {"emoji": "🛏", "title": "22:30 前上床", "tip": "节律比时长更值钱"}, {"emoji": "🚶‍♀️", "title": "饭后走 15 分钟", "tip": "降餐后血糖最有效"}, {"emoji": "📵", "title": "吃饭不看屏幕", "tip": "胃也会\"专注\"消化"}, {"emoji": "🌰", "title": "一小把坚果", "tip": "约 15-20g，原味最好"}, {"emoji": "🧂", "title": "看一眼包装食品盐含量", "tip": "警惕\"低钠\"标签"}, {"emoji": "😴", "title": "中午午休 15-20 分钟", "tip": "超过 30 分钟反而困"}, {"emoji": "🪥", "title": "认真刷牙 2 分钟", "tip": "牙周和心血管是连着的"}, {"emoji": "📝", "title": "写下 1 件让你焦虑的事", "tip": "写下来焦虑值就降一半"}, {"emoji": "🌬", "title": "做 5 次腹式呼吸", "tip": "吸 4 停 4 呼 6"}, {"emoji": "🪟", "title": "开窗通风 10 分钟", "tip": "CO₂ 比 PM2.5 更影响认知"}, {"emoji": "🎯", "title": "为 1 件明天要做的事定时", "tip": "把\"打算\"变成\"约定\""}];const METRICS = [{"key": "bp_systolic", "name": "收缩压", "unit": "mmHg", "ideal": "< 120"}, {"key": "bp_diastolic", "name": "舒张压", "unit": "mmHg", "ideal": "< 80"}, {"key": "fpg", "name": "空腹血糖", "unit": "mmol/L", "ideal": "3.9 - 6.1"}, {"key": "hba1c", "name": "糖化血红蛋白", "unit": "%", "ideal": "< 5.7"}, {"key": "ldl", "name": "低密度脂蛋白", "unit": "mmol/L", "ideal": "< 3.4"}, {"key": "tg", "name": "甘油三酯", "unit": "mmol/L", "ideal": "< 1.7"}, {"key": "hdl", "name": "高密度脂蛋白", "unit": "mmol/L", "ideal": "> 1.0"}, {"key": "waist", "name": "腰围", "unit": "cm", "ideal": "男<90 女<85"}, {"key": "bmi", "name": "BMI", "unit": "kg/m²", "ideal": "18.5 - 24"}, {"key": "uric_acid", "name": "尿酸", "unit": "μmol/L", "ideal": "男<420 女<360"}, {"key": "alt", "name": "ALT（肝功）", "unit": "U/L", "ideal": "< 40"}, {"key": "ast", "name": "AST（肝功）", "unit": "U/L", "ideal": "< 40"}];const YEARLY_ITEMS = [{"key": "physical", "text": "今年做了年度体检", "freq": "年度"}, {"key": "bp_retest", "text": "血压复查", "freq": "建议 3 个月"}, {"key": "glucose_retest", "text": "血糖/糖化复查", "freq": "健康 1 年/有异常 3 月"}, {"key": "lipid_retest", "text": "血脂复查", "freq": "健康 3-5 年/有异常 1 年"}, {"key": "vaccine", "text": "疫苗更新（流感/新冠/带状疱疹等）", "freq": "按品种 1-5 年"}, {"key": "dental", "text": "口腔检查 + 洁牙", "freq": "半年到一年"}, {"key": "vision", "text": "视力 / 眼底检查", "freq": "建议一年"}, {"key": "cancer_screen", "text": "年龄对应癌症筛查咨询", "freq": "按医生建议"}, {"key": "family_history", "text": "家族史更新（父母/兄弟姐妹）", "freq": "每年回顾"}, {"key": "colon", "text": "肠镜（45 岁后或家族史）", "freq": "按医生建议"}, {"key": "breast", "text": "乳腺（女性，40+ 视情况）", "freq": "按医生建议"}, {"key": "cervical", "text": "宫颈（女性，21+ 起）", "freq": "按医生建议"}, {"key": "prostate", "text": "前列腺（男性，50+ 视情况）", "freq": "按医生建议"}];const TYPE_SCENES = {"progress": [{"type": "pos", "feedback": "看到你在认真维持每周记录，这就是最稳的那条路。"}, {"type": "pos", "feedback": "数据在握，未来十年你的身体会感谢今天的你。"}, {"type": "pos", "feedback": "把指标当朋友，不当敌人，趋势比单次更重要。"}], "struggle": [{"type": "neg", "feedback": "今天做不到，不代表明天做不到。先停一停，别硬撑。"}, {"type": "neg", "feedback": "焦虑的时候身体也在听你说话，对它温和一点。"}, {"type": "neg", "feedback": "断签一天不丢任何东西；连轴紧绷才是真正伤身体。"}], "idea": [{"type": "pos", "feedback": "好问题——健康的所有改进都是从这种\"咦\"开始。"}, {"type": "pos", "feedback": "记住这个念头，下次体检前再翻出来问问自己。"}], "cheer": [{"type": "pos", "feedback": "好事情 — 情绪好的时候免疫也好，稳稳的多收一份红利。"}], "question": [{"type": "q", "feedback": "我猜你最在意的是「这样是不是真的有用」。对吗？"}, {"type": "q", "feedback": "你愿意从哪一个最小的一步开始？"}], "report": [{"type": "pos", "feedback": "记下来了。我们看 4 周趋势，比看一周更说明问题。"}]};
+let sopCatIdx = 0;
+let sopScore = 0;
+let sopSubmitted = {};
+
+function $(id) { return document.getElementById(id); }
+function safeParse(k, def) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch(e) { return def; } }
+function safeSet(k, v) { try { localStorage.setItem(k, typeof v === 'string' ? v : JSON.stringify(v)); } catch(e) {} }
+function today() { return new Date().toISOString().slice(0, 10); }
+function thisMondayISO() {
+  var d = new Date();
+  var day = d.getDay() || 7;
+  if (day !== 1) d.setDate(d.getDate() - day + 1);
+  return d.toISOString().slice(0, 10);
+}
+
+// === Switch Tab ===
+function switchTab(tab) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  var pg = document.getElementById('page-' + tab);
+  if (pg) pg.classList.add('active');
+  var tabs = document.querySelectorAll('.tab-item');
+  var idx = ['chat','coach','sop','checkin','data','progress','share'].indexOf(tab);
+  if (idx >= 0 && tabs[idx]) tabs[idx].classList.add('active');
+  if (tab === 'sop') renderSOP();
+  if (tab === 'checkin') renderCheckinScenes();
+  if (tab === 'data') renderDataPage();
+  if (tab === 'progress') renderProgressPage();
+  if (tab === 'share') renderSharePage();
+}
+
+// === Partner selection ===
+var PARTNERS = {
+  gentle:  { emoji: '🌿', name: '温和提醒型', desc: '不催不骂' },
+  science: { emoji: '🔬', name: '循证派',     desc: '每条建议都标证据等级' },
+  coach:   { emoji: '🏋️', name: '行动派',    desc: '每天 3 件，一件件来' },
+  warm:    { emoji: '🧸', name: '陪伴型',     desc: '焦虑的时候也能来聊' },
+};
+var currentPartner = null;
+var currentPartnerKey = null;
+
+function showPartnerSelector() {
+  $('partnerSelector').style.display = 'block';
+  $('partnerSelectorMask').style.display = 'block';
+}
+function hidePartnerSelector() {
+  $('partnerSelector').style.display = 'none';
+  $('partnerSelectorMask').style.display = 'none';
+}
+function selectPartner(k) {
+  document.querySelectorAll('#partnerGrid .partner-card').forEach(c => c.classList.remove('selected'));
+  var card = $('pc-' + k);
+  if (card) card.classList.add('selected');
+  currentPartnerKey = k;
+  currentPartner = PARTNERS[k];
+}
+function confirmPartner() {
+  if (!currentPartnerKey) currentPartnerKey = 'gentle';
+  currentPartner = PARTNERS[currentPartnerKey];
+  safeSet(STORAGE.PARTNER, currentPartnerKey);
+  hidePartnerSelector();
+  renderDashboard();
+  appendMsg(currentPartner.emoji + ' ' + currentPartner.name + ' 来了。', 'partner');
+}
+
+function renderDashboard() {
+  $('partnerSelector').style.display = 'none';
+  $('partnerSelectorMask').style.display = 'none';
+  $('dashboard').style.display = 'block';
+  $('currentPartnerBadge').innerText = currentPartner.emoji + ' ' + currentPartner.name;
+  var checkinDate = safeParse(STORAGE.CHECKIN, null);
+  var checked = checkinDate && checkinDate.date === today();
+  updateCheckinBtn(checked);
+  updateStreak();
+  renderTodayActions();
+  renderWeekDots();
+}
+
+function updateCheckinBtn(checked) {
+  var btn = $('checkinBtn');
+  if (checked) { btn.classList.add('checked'); $('checkinStatusText').innerText = '✓ 已完成'; $('checkinSubText').innerText = '明天再来'; }
+  else { btn.classList.remove('checked'); $('checkinStatusText').innerText = '打卡'; $('checkinSubText').innerText = '点击完成'; }
+}
+
+function doCheckin() {
+  var chk = safeParse(STORAGE.CHECKIN, null);
+  if (chk && chk.date === today()) return;
+  // 当天只要做了至少一件 action 也算打卡
+  var done = safeParse(STORAGE.ACTIONS_DONE, {});
+  var todayDone = Object.keys(done).filter(k => done[k] && done[k].date === today());
+  if (todayDone.length === 0) {
+    appendMsg('今天还没完成小动作 —— 先去"打卡"页挑一个。', 'partner');
+    switchTab('checkin');
+    return;
+  }
+  safeSet(STORAGE.CHECKIN, { date: today(), count: todayDone.length });
+  updateCheckinBtn(true);
+  updateStreak();
+  renderWeekDots();
+  appendMsg('看到了。今天的"打勾"会累计进健康账本。', 'partner');
+}
+
+function updateStreak() {
+  var chk = safeParse(STORAGE.CHECKIN, null);
+  var streak = 0;
+  if (chk) {
+    var d = new Date(chk.date);
+    var yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
+    var ys = yesterday.toISOString().slice(0, 10);
+    var ts = today();
+    if (chk.date === ts) streak = chk.count >= 1 ? (chk.streak || 1) : 0;
+  }
+  var last = safeParse(STORAGE.STREAKS, 0);
+  if (chk && chk.date === today() && chk.count >= 1) {
+    if (last) streak = last + 1; else streak = 1;
+    chk.streak = streak;
+    safeSet(STORAGE.CHECKIN, chk);
+  }
+  safeSet(STORAGE.STREAKS, streak);
+  $('streakNum').innerText = streak;
+}
+
+function renderWeekDots() {
+  var dots = $('weekDots');
+  dots.innerHTML = '';
+  var start = new Date();
+  var day = start.getDay() || 7;
+  start.setDate(start.getDate() - day + 1);
+  for (var i = 0; i < 7; i++) {
+    var d = new Date(start); d.setDate(start.getDate() + i);
+    var iso = d.toISOString().slice(0, 10);
+    var dot = document.createElement('div');
+    dot.className = 'dot';
+    var chk = safeParse(STORAGE.CHECKIN, null);
+    if (chk && chk.date === iso) dot.classList.add('done');
+    if (iso === today()) dot.classList.add('today');
+    dots.appendChild(dot);
+  }
+  // week range
+  var end = new Date(start); end.setDate(end.getDate() + 6);
+  $('weekRange').innerText = (start.getMonth()+1) + '/' + start.getDate() + ' — ' + (end.getMonth()+1) + '/' + end.getDate();
+}
+
+// === Today actions ===
+function pickTodayActions() {
+  var stored = safeParse(STORAGE.ACTIONS, null);
+  if (stored && stored.date === today()) return stored.items;
+  // hash today as seed
+  var seed = 0;
+  var d = today();
+  for (var i = 0; i < d.length; i++) seed = (seed * 31 + d.charCodeAt(i)) & 0xffff;
+  var pool = ACTION_POOL.slice();
+  for (var j = pool.length - 1; j > 0; j--) {
+    seed = (seed * 9301 + 49297) % 233280;
+    var k = Math.floor((seed / 233280) * (j + 1));
+    var t = pool[j]; pool[j] = pool[k]; pool[k] = t;
+  }
+  var picked = pool.slice(0, 3);
+  safeSet(STORAGE.ACTIONS, { date: today(), items: picked });
+  return picked;
+}
+function renderTodayActions() {
+  var items = pickTodayActions();
+  var done = safeParse(STORAGE.ACTIONS_DONE, {});
+  var html = '';
+  items.forEach(function(it, i) {
+    var k = 'a' + i;
+    var isDone = done[k] && done[k].date === today();
+    html += '<div class="action-row ' + (isDone ? 'done' : '') + '" onclick="toggleAction(' + i + ')">'
+      + '<div class="em">' + it.emoji + '</div>'
+      + '<div class="tx"><div class="ti">' + it.title + '</div><div class="tip">' + it.tip + '</div></div>'
+      + '<div class="chk">' + (isDone ? '✓' : '') + '</div>'
+      + '</div>';
+  });
+  $('actionList').innerHTML = html;
+  updateProgress();
+}
+function toggleAction(i) {
+  var done = safeParse(STORAGE.ACTIONS_DONE, {});
+  var k = 'a' + i;
+  if (done[k] && done[k].date === today()) {
+    delete done[k];
+  } else {
+    done[k] = { date: today(), ts: Date.now() };
+    // 自动触发打卡
+    var chk = safeParse(STORAGE.CHECKIN, null);
+    if (!chk || chk.date !== today()) {
+      var items = safeParse(STORAGE.ACTIONS, null);
+      safeSet(STORAGE.CHECKIN, { date: today(), count: 1, streak: 1 });
+      updateCheckinBtn(true);
+      var streak = safeParse(STORAGE.STREAKS, 0);
+      safeSet(STORAGE.STREAKS, streak ? streak + 1 : 1);
+      $('streakNum').innerText = streak ? streak + 1 : 1;
+      renderWeekDots();
+      appendMsg('✨ 今天第一次打卡，1 件都算。', 'partner');
+    } else {
+      chk.count = (chk.count || 0) + 1;
+      safeSet(STORAGE.CHECKIN, chk);
+    }
+  }
+  safeSet(STORAGE.ACTIONS_DONE, done);
+  renderTodayActions();
+}
+function updateProgress() {
+  var done = safeParse(STORAGE.ACTIONS_DONE, {});
+  var n = Object.keys(done).filter(k => done[k] && done[k].date === today()).length;
+  $('checkinProgress').innerText = n + ' / 3';
+}
+
+// === SOP ===
+function renderSOP() {
+  // 分类 tab
+  var cats = $('sopCats');
+  cats.innerHTML = '';
+  SOP_CATEGORIES.forEach(function(c, i) {
+    var el = document.createElement('div');
+    el.className = 'sop-cat' + (i === sopCatIdx ? ' active' : '');
+    el.innerText = c.icon + ' ' + c.name;
+    el.onclick = function() { sopCatIdx = i; renderSOP(); };
+    cats.appendChild(el);
+  });
+  var cur = SOP_CATEGORIES[sopCatIdx];
+  $('sopTipText').innerHTML = '<b>' + cur.name + ' · </b>' + cur.tip;
+  // 评分
+  var sr = $('sopScoreRow'); sr.innerHTML = '';
+  for (var i = 1; i <= 5; i++) {
+    var b = document.createElement('button');
+    b.className = 'sop-score-btn' + (sopScore === i ? ' active' : '');
+    b.innerText = i;
+    b.onclick = function(n) { return function() { sopScore = n; renderSOP(); }; }(i);
+    sr.appendChild(b);
+  }
+  renderRadar();
+}
+function submitSOPScore() {
+  if (sopScore < 1 || sopScore > 5) { appendMsg('先点一个分数（1-5）。', 'partner'); return; }
+  var data = safeParse(STORAGE.SOP, {});
+  var week = thisMondayISO();
+  data[week] = data[week] || {};
+  data[week][SOP_CATEGORIES[sopCatIdx].key] = sopScore;
+  safeSet(STORAGE.SOP, data);
+  // 归档到历史（保留每周最新）
+  var hist = safeParse(STORAGE.SOP_HIST, []);
+  var lastW = safeParse(STORAGE.SOP_LASTW, null);
+  if (lastW && lastW !== week) {
+    var prev = data[lastW];
+    if (prev) {
+      var sum = 0; var n = 0;
+      SOP_CATEGORIES.forEach(function(c) {
+        if (typeof prev[c.key] === 'number') { sum += prev[c.key]; n++; }
+      });
+      hist.push({ week: lastW, date: lastW, total: sum, avg: n ? +(sum/n).toFixed(2) : 0 });
+      if (hist.length > 60) hist = hist.slice(-60);
+      safeSet(STORAGE.SOP_HIST, hist);
+    }
+  }
+  safeSet(STORAGE.SOP_LASTW, week);
+  appendMsg('记下来了。下一维？还是下周再来？', 'partner');
+  sopScore = 0;
+  renderSOP();
+  renderDataPage();
+  renderProgressPage();
+}
+function clearSOPScore() {
+  sopScore = 0; renderSOP();
+}
+function getThisWeekScores() {
+  var data = safeParse(STORAGE.SOP, {});
+  var week = thisMondayISO();
+  return data[week] || {};
+}
+function renderRadar() {
+  var scores = getThisWeekScores();
+  var n = SOP_CATEGORIES.length;
+  var max = 5;
+  var cx = 150, cy = 130, r = 90;
+  var pts = [];
+  for (var i = 0; i < n; i++) {
+    var ang = -Math.PI / 2 + i * 2 * Math.PI / n;
+    var v = scores[SOP_CATEGORIES[i].key] || 0;
+    var rr = (v / max) * r;
+    pts.push({ x: cx + Math.cos(ang) * rr, y: cy + Math.sin(ang) * rr });
+  }
+  var svg = '';
+  // 背景层
+  for (var l = 1; l <= 5; l++) {
+    var pl = [];
+    for (var i2 = 0; i2 < n; i2++) {
+      var ang2 = -Math.PI / 2 + i2 * 2 * Math.PI / n;
+      var rl = (l / max) * r;
+      pl.push((cx + Math.cos(ang2) * rl).toFixed(1) + ',' + (cy + Math.sin(ang2) * rl).toFixed(1));
+    }
+    svg += '<polygon points="' + pl.join(' ') + '" fill="none" stroke="#e2e8f0" stroke-width="' + (l === 5 ? 1.5 : 0.6) + '" />';
+  }
+  // 标签
+  for (var i3 = 0; i3 < n; i3++) {
+    var ang3 = -Math.PI / 2 + i3 * 2 * Math.PI / n;
+    var lx = cx + Math.cos(ang3) * (r + 22);
+    var ly = cy + Math.sin(ang3) * (r + 22) + 4;
+    svg += '<text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" font-size="11" fill="#475569" text-anchor="middle">' + SOP_CATEGORIES[i3].name + '</text>';
+  }
+  // 数值折线
+  if (pts.length && pts.some(function(p) { return p.x !== cx && p.y !== cy; })) {
+    var polyPts = pts.map(function(p) { return p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' ');
+    svg += '<polygon points="' + cx + ',' + cy + ' ' + polyPts + '" fill="#0d948822" stroke="#0d9488" stroke-width="2.5" stroke-linejoin="round" />';
+    pts.forEach(function(p) {
+      svg += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="3.5" fill="#0d9488" />';
+    });
+  }
+  $('radarSvg').innerHTML = '<svg class="radar-svg" viewBox="0 0 300 270">' + svg + '</svg>';
+
+  // 图例
+  var lg = $('radarLegend');
+  SOP_CATEGORIES.forEach(function(c) {
+    var v = scores[c.key] || 0;
+    lg.innerHTML += '<div class="it"><div class="sw" style="background:#0d9488;"></div>' + c.icon + ' ' + c.name + ' · ' + v + '/5</div>';
+  });
+  if (!lg.innerHTML) lg.innerHTML = '<div style="grid-column:1/-1;color:#94a3b8;">还没有评分 — 完成至少 1 维即可</div>';
+  else lg.innerHTML = '';
+  SOP_CATEGORIES.forEach(function(c) {
+    var v = scores[c.key] || 0;
+    lg.innerHTML += '<div class="it"><div class="sw" style="background:#0d9488;"></div>' + c.icon + ' ' + c.name + ' · ' + v + '/5</div>';
+  });
+}
+
+// === Metrics ===
+function renderMetrics() {
+  // v5: 改名为兼容调用（体检指标已拆为"日常可监测"+"体检项目"两层）
+  try { renderDailyMetrics(); } catch(e) {}
+  try { renderYearlyMetrics(); } catch(e) {}
+}
+function saveMetrics() {
+  // 兼容旧引用：触发一次 render 让 input 重新 render
+  try { renderDailyMetrics(); } catch(e) {}
+  try { renderYearlyMetrics(); } catch(e) {}
+  appendMsg('体检数据存好了。这些只是数字，不替你看病。', 'partner');
+}
+function clearMetrics() {
+  safeSet(STORAGE.METRICS, {});
+  try { renderDailyMetrics(); } catch(e) {}
+  try { renderYearlyMetrics(); } catch(e) {}
+}
+      // === Checkin scenes ===
+function renderHealthCheckinScenes() {
+  var p = $('checkinSceneList');
+  if (!p) { p = $('sceneList'); }
+  if (!p) return;
+  var html = '';
+  HEALTH_SCENES.forEach(function(s, i) {
+    var done = false;
+    try {
+      var st = JSON.parse(localStorage.getItem(STORAGE.CHECKIN) || 'null');
+      if (st && st._d === today() && st.scenes && st.scenes[s.key]) done = true;
+    } catch (e) {}
+    html += '<div class="scene-row" data-key="' + s.key + '"><span class="em">' + s.ic + '</span><span class="tx">' + s.tx + '</span><span class="chk">' + (done ? '✓' : '○') + '</span></div>';
+  });
+  p.innerHTML = html;
+  p.querySelectorAll('.scene-row').forEach(function(row, i) {
+    row.addEventListener('click', function() {
+      pickHealthScene(row.dataset.key);
+    });
+  });
+}
+
+// === 兼容旧引用 ===
+function renderCheckinScenes() { return renderHealthCheckinScenes(); }
+function pickHealthScene(key) {
+  var s = HEALTH_SCENES.filter(function(x) { return x.key === key; })[0];
+  if (!s) return;
+  // 写 localStorage
+  try {
+    var st = JSON.parse(localStorage.getItem(STORAGE.CHECKIN) || '{"date":null,"count":0,"streak":0,"scenes":{}}');
+    if (!st.scenes) st.scenes = {};
+    if (!st._d || st._d !== today()) { st._d = today(); st.scenes = {}; st.count = 0; }
+    if (st.scenes[key]) {
+      st.scenes[key] = false;
+      var c = 0; Object.keys(st.scenes).forEach(function(k){ if (st.scenes[k]) c++; });
+      st.count = c;
+    } else {
+      st.scenes[key] = true;
+      var c2 = 0; Object.keys(st.scenes).forEach(function(k){ if (st.scenes[k]) c2++; });
+      st.count = c2;
+    }
+    localStorage.setItem(STORAGE.CHECKIN, JSON.stringify(st));
+  } catch (e) {}
+  // 弹层反馈
+  var reply = s.reply || '收到～';
+  var box = document.createElement('div');
+  box.className = 'bubble partner';
+  box.style.cssText = 'background:#f0fdfa;border-left:3px solid #0d9488;padding:10px 14px;border-radius:14px;margin:8px 0;font-size:13px;line-height:1.7;color:#334155;';
+  box.innerHTML = '<b style="color:#0d9488;">🛡️ 搭子</b><br>' + reply;
+  var chatArea = document.getElementById('partnerChatArea') || document.getElementById('chatArea') || document.getElementById('chatMessages');
+  if (chatArea) { chatArea.appendChild(box); chatArea.scrollTop = chatArea.scrollHeight; }
+  // 重新渲染
+  renderHealthCheckinScenes();
+}
+
+// === 体检指标 - 日常可监测（7 项，生活医学监督）===
+var DAILY_METRICS = [
+  { key: 'bp_systolic', name: '收缩压', unit: 'mmHg', ideal: '< 120', freq: '每周 1 次', why: '在家用血压计测，是高血压最直接的指标' },
+  { key: 'bp_diastolic', name: '舒张压', unit: 'mmHg', ideal: '< 80', freq: '每周 1 次', why: '和收缩压一起看，了解血压全貌' },
+  { key: 'weight', name: '体重', unit: 'kg', freq: '每周 1-2 次', why: '体重突然变化比 BMI 更敏感，腰围更重要' },
+  { key: 'waist', name: '腰围', unit: 'cm', ideal: '男<90 / 女<85', freq: '每周 1 次', why: '代谢综合征最敏感的家用指标' },
+  { key: 'steps', name: '步数', unit: '步', ideal: '> 7000', freq: '每天看', why: '不是锻炼强度，是"日常活动量"信号' },
+  { key: 'sleep_hours', name: '睡眠时长', unit: '小时', ideal: '7-9', freq: '每天', why: '慢性病独立风险因子，手机可自动记录' },
+  { key: 'stress', name: '压力自评', unit: '1-5', ideal: '<= 3', freq: '每天', why: '慢性压力会让血压、炎症、免疫力同时变差' }
+];
+
+// === 体检项目（按年度周期）===
+var YEARLY_METRICS = [
+  { key: 'fpg', name: '空腹血糖', unit: 'mmol/L', ideal: '3.9 - 6.1', freq: '健康 1 年/有异常 3 月', why: '早期发现糖尿病前期' },
+  { key: 'hba1c', name: '糖化血红蛋白', unit: '%', ideal: '< 5.7', freq: '健康 1 年/有异常 3 月', why: '反映 2-3 个月的平均血糖水平' },
+  { key: 'ldl', name: '低密度脂蛋白', unit: 'mmol/L', ideal: '< 3.4', freq: '健康 1-3 年/有异常 1 年', why: '"坏胆固醇"，动脉粥样硬化主因' },
+  { key: 'tg', name: '甘油三酯', unit: 'mmol/L', ideal: '< 1.7', freq: '健康 1-3 年', why: '饮食敏感指标，能反映近期油脂摄入' },
+  { key: 'hdl', name: '高密度脂蛋白', unit: 'mmol/L', ideal: '> 1.0', freq: '健康 1-3 年', why: '"好胆固醇"，越高越好' },
+  { key: 'bmi', name: 'BMI', unit: 'kg/m²', ideal: '18.5 - 24', freq: '健康 1 年', why: '体脂的简化版' },
+  { key: 'uric', name: '尿酸', unit: 'µmol/L', ideal: '男<420 / 女<360', freq: '健康 1 年', why: '痛风和代谢综合征相关' },
+  { key: 'alt', name: 'ALT（肝功）', unit: 'U/L', ideal: '< 40', freq: '健康 1 年', why: '肝脏损伤最敏感的指标之一' },
+  { key: 'ast', name: 'AST（肝功）', unit: 'U/L', ideal: '< 40', freq: '健康 1 年', why: '和 ALT 一起看肝功能' }
+];
+
+function renderDailyMetrics() {
+  var p = $('dailyMetricList'); if (!p) return;
+  var data = safeParse(STORAGE.METRICS || 'slim_health_metrics', {});
+  var html = '';
+  DAILY_METRICS.forEach(function(m) {
+    var v = data[m.key];
+    html += '<div class="metric-row" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f8fafc;border-radius:12px;">';
+    html += '<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;color:#0f172a;">' + m.name + '</div>';
+    html += '<div style="font-size:11px;color:#64748b;margin-top:2px;">参考 ' + m.ideal + ' · ' + m.freq + '</div></div>';
+    html += '<input type="number" step="0.1" data-key="' + m.key + '" placeholder="—" value="' + (v || '') + '" style="width:80px;padding:6px 8px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:13px;text-align:center;">';
+    html += '<span style="font-size:11px;color:#94a3b8;min-width:36px;">' + m.unit + '</span>';
+    html += '</div>';
+  });
+  html += '<div style="font-size:11px;color:#94a3b8;margin-top:6px;line-height:1.6;">📌 数据只存本地，不上传。改完数字会自动保存。</div>';
+  p.innerHTML = html;
+  p.querySelectorAll('input[data-key]').forEach(function(inp) {
+    var k = inp.dataset.key;
+    inp.addEventListener('change', function() {
+      try {
+        var all = JSON.parse(localStorage.getItem(STORAGE.METRICS || 'slim_health_metrics') || '{}');
+        var v = parseFloat(inp.value);
+        if (!isNaN(v)) all[k] = v; else delete all[k];
+        all._date = today();
+        localStorage.setItem(STORAGE.METRICS || 'slim_health_metrics', JSON.stringify(all));
+      } catch (e) {}
+    });
+  });
+}
+
+function renderYearlyMetrics() {
+  var p = $('yearlyMetricList'); if (!p) return;
+  var data = safeParse(STORAGE.METRICS || 'slim_health_metrics', {});
+  var html = '';
+  YEARLY_METRICS.forEach(function(m) {
+    var v = data[m.key];
+    html += '<div class="metric-row" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff7ed;border-radius:12px;">';
+    html += '<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;color:#0f172a;">' + m.name + '</div>';
+    html += '<div style="font-size:11px;color:#64748b;margin-top:2px;">参考 ' + m.ideal + ' · ' + m.freq + '</div>';
+    if (m.why) html += '<div style="font-size:10px;color:#94a3b8;margin-top:2px;">' + m.why + '</div>';
+    html += '</div>';
+    html += '<input type="number" step="0.01" data-key="' + m.key + '" placeholder="—" value="' + (v || '') + '" style="width:80px;padding:6px 8px;border:1.5px solid #fed7aa;border-radius:10px;font-size:13px;text-align:center;">';
+    html += '<span style="font-size:11px;color:#94a3b8;min-width:36px;">' + m.unit + '</span>';
+    html += '</div>';
+  });
+  html += '<div style="font-size:11px;color:#94a3b8;margin-top:6px;line-height:1.6;">⚠️ 不诊断，只显示你和医生要讨论的范围。</div>';
+  p.innerHTML = html;
+  p.querySelectorAll('input[data-key]').forEach(function(inp) {
+    var k = inp.dataset.key;
+    inp.addEventListener('change', function() {
+      try {
+        var all = JSON.parse(localStorage.getItem(STORAGE.METRICS || 'slim_health_metrics') || '{}');
+        var v = parseFloat(inp.value);
+        if (!isNaN(v)) all[k] = v; else delete all[k];
+        all._date = today();
+        localStorage.setItem(STORAGE.METRICS || 'slim_health_metrics', JSON.stringify(all));
+      } catch (e) {}
+    });
+  });
+}
+
+// === 日常监督周期 ===
+var CYCLE_ITEMS = [
+  { freq: '每天', icon: '☀️', color: '#fbbf24', items: [
+    { key: 'd_meal_color', text: '至少 1 份深色蔬菜（绿/紫/红）' },
+    { key: 'd_water', text: '喝水达到体重 kg × 30 ml' },
+    { key: 'd_screen_off', text: '23:30 前放下手机' },
+    { key: 'd_sun', text: '户外活动至少 15 分钟' }
+  ]},
+  { freq: '每周', icon: '📅', color: '#60a5fa', items: [
+    { key: 'w_bp', text: '量 1 次血压（早晚各 1 次取平均）' },
+    { key: 'w_weight', text: '称体重 + 量腰围' },
+    { key: 'w_steps', text: '看 1 次本周平均步数' },
+    { key: 'w_sleep', text: '看 1 次本周平均睡眠时长' }
+  ]},
+  { freq: '每月', icon: '🗓️', color: '#a78bfa', items: [
+    { key: 'm_self_check', text: '自我检查（皮肤、淋巴结、口腔）' },
+    { key: 'm_meds', text: '复盘常用药 / 补剂是否继续' },
+    { key: 'm_goal', text: '本月最在意的那 1 个指标做了吗？' }
+  ]},
+  { freq: '每季度', icon: '🌿', color: '#34d399', items: [
+    { key: 'q_metric_trend', text: '看 1 次核心指标 3 个月趋势' },
+    { key: 'q_dental', text: '口腔自检 / 牙齿状况' },
+    { key: 'q_family', text: '家族健康信息是否变化' }
+  ]},
+  { freq: '每年', icon: '🏥', color: '#f87171', items: [
+    { key: 'y_physical', text: '年度体检已做' },
+    { key: 'y_vaccine', text: '疫苗更新（流感/新冠/带状疱疹等）' },
+    { key: 'y_screen', text: '按医生建议做年龄对应筛查' },
+    { key: 'y_review', text: '和家庭医生过一遍体检报告' }
+  ]}
+];
+
+function renderCycleList() {
+  var p = $('cycleList'); if (!p) return;
+  var data = safeParse('slim_health_cycle', {});
+  var html = '';
+  CYCLE_ITEMS.forEach(function(group) {
+    html += '<div style="background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">';
+    html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">';
+    html += '<span style="font-size:18px;">' + group.icon + '</span>';
+    html += '<span style="font-weight:800;font-size:14px;color:' + group.color + ';">' + group.freq + '</span>';
+    html += '<span style="margin-left:auto;font-size:11px;color:#94a3b8;">' + group.items.length + ' 项</span>';
+    html += '</div>';
+    group.items.forEach(function(it) {
+      var done = !!data[it.key];
+      html += '<div data-key="' + it.key + '" class="cycle-item" style="display:flex;align-items:center;gap:10px;padding:8px 4px;cursor:pointer;border-bottom:1px solid #f1f5f9;">';
+      html += '<span style="width:20px;height:20px;border:2px solid ' + group.color + ';border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;color:' + group.color + ';">' + (done ? '✓' : '') + '</span>';
+      html += '<span style="flex:1;font-size:13px;color:' + (done ? '#94a3b8' : '#1f2937') + ';text-decoration:' + (done ? 'line-through' : 'none') + ';">' + it.text + '</span>';
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+  p.innerHTML = html;
+  p.querySelectorAll('.cycle-item').forEach(function(row) {
+    row.addEventListener('click', function() {
+      var k = row.dataset.key;
+      try {
+        var d = JSON.parse(localStorage.getItem('slim_health_cycle') || '{}');
+        d[k] = !d[k];
+        localStorage.setItem('slim_health_cycle', JSON.stringify(d));
+        renderCycleList();
+      } catch (e) {}
+    });
+  });
+}
+
+// === 健康场景（8 个关键维度）===
+var HEALTH_SCENES = [
+  { key: 'meal_quality', ic: '🥗', tx: '今天吃了"五颜六色"的一餐', reply: '颜色越多，植物化学物越全。明天试试再加 1 种颜色。' },
+  { key: 'move_done', ic: '🚶', tx: '今天走了 7000 步以上', reply: '不需要剧烈，量比强度更重要。明天继续保持。' },
+  { key: 'sleep_ok', ic: '😴', tx: '昨晚睡够了 7 小时', reply: '睡眠是免费的"降压药"。今晚继续保持。' },
+  { key: 'stress_low', ic: '🧘', tx: '今天主动放松了 5 分钟', reply: '5 分钟呼吸就能让皮质醇下降。慢性压力比急性压力更伤身体。' },
+  { key: 'water', ic: '💧', tx: '今天喝水量达标了', reply: '口渴已经是轻度脱水。明天继续注意。' },
+  { key: 'screen_off', ic: '📵', tx: '23:30 前放下了手机', reply: '蓝光骗大脑以为是白天。明天试试看纸质书。' },
+  { key: 'meds_taken', ic: '💊', tx: '该吃的药/补剂今天没漏', reply: '规律性比剂量更影响效果。坚持！' },
+  { key: 'body_check', ic: '👀', tx: '今天注意到身体的某个信号', reply: '身体给你的信号值得记录。下次不舒服持续 2 周以上，就去看医生。' }
+];
+
+
+function showSceneFeedback(k, idx) {
+  var data = TYPE_SCENES[k] || [];
+  var item = data[idx];
+  if (!item) return;
+  $('fbTitle').innerText = '搭子的回应';
+  $('fbSub').innerHTML = '证据来源：<b>一般健康教育</b>';
+  $('fbBody').innerHTML = '<div class="scene-row feedback-' + item.type + '"><div class="tx">' + item.feedback + '</div></div>'
+    + '<button class="copy-btn" style="margin-top:14px;" onclick="closeFB()">知道了</button>';
+  $('fbOverlay').classList.add('show');
+}
+function closeFB() { $('fbOverlay').classList.remove('show'); }
+
+// === Q&A Panel ===
+function openQAPanel(type) {
+  var t = $('qaTitle'), s = $('qaSub'), l = $('qaList');
+  t.innerText = '搭子想说';
+  s.innerText = '挑一句最贴近今天的。';
+  var data = TYPE_SCENES[type] || [];
+  var html = '';
+  data.forEach(function(it, i) {
+    html += '<div class="qa-card" data-type="' + type + '" data-idx="' + i + '" onclick="pickScene(this.dataset.type, this.dataset.idx)"><span class="emoji">' + (it.type === 'pos' ? '✅' : (it.type === 'neg' ? '🛑' : '💡')) + '</span><span class="text">' + it.feedback + '</span></div>';
+  });
+  l.innerHTML = html;
+  $('qaOverlay').classList.add('show');
+}
+function pickScene(t, i) {
+  closeQAPanel();
+  setTimeout(function() { showSceneFeedback(t, i); }, 100);
+}
+function closeQAPanel() { $('qaOverlay').classList.remove('show'); }
+
+// === Talk Buttons ===
+function sendTalk(t) { openQAPanel(t); }
+function sendMood(m) {
+  var responses = {
+    happy: '看了就精神。健康的心情也会带动免疫。',
+    calm: '平静最好——这是身体在低功耗自修。',
+    low: '低落的时候别硬撑，做"一件能做的"就行。',
+    tired: '累是信号。最有效的修复是睡，不是扛。'
+  };
+  appendMsg('你选了：' + m, 'user');
+  setTimeout(function() { appendMsg(responses[m] || '记下来了。', 'partner'); }, 280);
+
+// === 怎么和搭子说（健康底盘专属）===
+var HEALTH_TALK_REPLIES = {
+  progress: { gentle: '听起来你状态不错～今天的 3 件事完成了多少？断签也不扣分哦。', evidence: '有进展就是好数据。把"做了什么"记在进展 tab，下次复盘用得上。', action: '继续干就完了！今天的 3 件事打卡了吗？', companion: '哇，好消息～ 我陪你一起记得这个感觉。' },
+  struggle: { gentle: '没关系，预防本来就不是直线。可以告诉我卡在哪吗？我陪你看看是节奏问题还是目标太高。', evidence: '诚实地说，比硬撑更有用。我们看看是哪个环节在反复打转。', action: '卡住不是失败，是信息。今天先做最小版本，1 件也行。', companion: '我在呢。说出来会轻一点。' },
+  idea: { gentle: '好想法～ 你可以记在进展 tab 的"想法"里，下周回看。', evidence: '想法值得记录，但它需要变成"一次只做一件"才有用。要不要先选最小可执行版本？', action: '想法不变成行动就是空气。明天哪个时段试试？', companion: '嗯，记下了。我陪你想清楚是不是真的想做。' },
+  cheer: { gentle: '开心～ 身体的小确幸值得庆祝。今天可以打 1 件打个卡。', evidence: '正向事件是数据点，写下来对长期复盘有用。', action: '享受这一刻！然后继续走。', companion: '替你高兴～ 我记得你也会有难过的时候，到时候也一样重要。' },
+  report: { gentle: '收到～ 我把今天的指标先记着。下周自评时能用上。', evidence: '数字本身就是证据。继续按这个颗粒度记，3 周后能看到趋势。', action: '数字记录就位！接下来动作别停。', companion: '谢谢你愿意告诉我具体数字～ 我们一起看着。' },
+  question: { gentle: '好问题～ 我尽量给简单不吓人的答案。也可以去问医生。', evidence: '好问题背后是好学心。如果是"该不该做某项筛查"，我建议先去和家庭医生确认。', action: '问题清楚了就成功一半。要不要我们先把它拆成 2 个子问题？', companion: '我可以陪你想，但最终答案在你和你的医生那里。' },
+  scene: { gentle: '今天发生了什么不重要，重要的是你记得来打卡了。', evidence: '记下来才有数据。', action: '继续做今天的 3 件事。', companion: '我听着呢。' }
+};
+function askPartner(type) {
+  if (typeof type === 'object' && type && type.currentTarget) type = type.currentTarget.dataset.type || type.currentTarget.getAttribute('data-type');
+  if (!type) return;
+  var replies = HEALTH_TALK_REPLIES[type];
+  if (!replies) return;
+  var persona = 'gentle';
+  try { var p2 = localStorage.getItem('slim_partner_health'); if (p2) persona = p2; } catch (e) {}
+  var reply = replies[persona] || replies.gentle;
+  var box = document.createElement('div');
+  box.className = 'bubble partner';
+  box.style.cssText = 'background:#f0fdfa;border-left:3px solid #0d9488;padding:10px 14px;border-radius:14px;margin:8px 0;font-size:13px;line-height:1.7;color:#334155;';
+  var pe = '🛡️';
+  try { var pp = JSON.parse(localStorage.getItem('slim_partner_health_obj') || 'null'); if (pp && pp.emoji) pe = pp.emoji; } catch (e) {}
+  box.innerHTML = '<b style="color:#0d9488;">' + pe + ' 搭子</b><br>' + reply;
+  var chatArea = document.getElementById('partnerChatArea') || document.getElementById('chatArea') || document.getElementById('chatMessages');
+  if (!chatArea) return;
+  chatArea.appendChild(box);
+  chatArea.scrollTop = chatArea.scrollHeight;
+  try {
+    var histKey = 'slim_health_chat';
+    var hist = JSON.parse(localStorage.getItem(histKey) || '[]');
+    hist.push({ type: type, reply: reply, ts: Date.now(), persona: persona });
+    if (hist.length > 20) hist = hist.slice(-20);
+    localStorage.setItem(histKey, JSON.stringify(hist));
+  } catch (e) {}
+}
+
+}
+
+// === Chat ===
+function appendMsg(txt, who) {
+  var a = $('chatArea');
+  if (!a) return;
+  var m = document.createElement('div');
+  m.className = 'msg ' + (who || 'partner');
+  m.innerText = txt;
+  a.appendChild(m);
+  a.scrollTop = a.scrollHeight;
+}
+
+// === Yearly ===
+// === 旧 renderYearly 改名为兼容引用（v5：年度清单已升级为"日常监督周期"）===
+function renderYearly() {
+  try { renderCycleList(); } catch(e) {}
+}
+function toggleYearly(k) {
+  try {
+    var d = JSON.parse(localStorage.getItem('slim_health_cycle') || '{}');
+    d[k] = !d[k];
+    localStorage.setItem('slim_health_cycle', JSON.stringify(d));
+    renderCycleList();
+  } catch (e) {}
+}
+
+// === Data page ===
+function renderDataPage() {
+  var scores = getThisWeekScores();
+  var sum = 0; var n = 0;
+  SOP_CATEGORIES.forEach(function(c) {
+    if (typeof scores[c.key] === 'number') { sum += scores[c.key]; n++; }
+  });
+  var avg = n ? +(sum / n).toFixed(1) : null;
+  $('overallScore').innerText = avg ? (avg * 6).toFixed(0) : '—';
+  if (!avg) {
+    $('recommendText').innerText = '还没有本周数据。去「自检」选一维评个分试试。';
+  } else if (avg >= 4) {
+    $('recommendText').innerText = '整体很好 —— 保持节奏，重点放在去年还没做的体检项目。';
+  } else if (avg >= 3) {
+    $('recommendText').innerText = '中等水平 —— 选一个偏低维度，每天做一件小事改善，4 周后再看。';
+  } else {
+    $('recommendText').innerText = '本周偏低 —— 不需要全部改善，只做一件能做的。注意下面"红旗"是否出现。';
+  }
+  renderYearly();
+}
+
+// === Progress ===
+function renderProgressPage() {
+  var hist = safeParse(STORAGE.SOP_HIST, []);
+  var data = safeParse(STORAGE.SOP, {});
+  var weeks = Object.keys(data).sort();
+  // 加当前周
+  var cur = thisMondayISO();
+  var series = [];
+  hist.forEach(function(h) { series.push({ w: h.week, avg: h.avg }); });
+  if (data[cur]) {
+    var sum = 0; var n = 0;
+    SOP_CATEGORIES.forEach(function(c) {
+      if (typeof data[cur][c.key] === 'number') { sum += data[cur][c.key]; n++; }
+    });
+    if (n) series.push({ w: cur, avg: +(sum/n).toFixed(2) });
+  }
+  series.sort(function(a, b) { return a.w < b.w ? -1 : 1; });
+  var chart = $('progressChart');
+  if (series.length < 2) {
+    chart.innerHTML = '<div style="width:100%;text-align:center;color:#94a3b8;font-size:12px;">累计 ≥ 2 周数据后呈现趋势</div>';
+    $('progressLabel').innerText = '累计 ≥ 2 周数据后呈现趋势';
+  } else {
+    var max = 5, min = 1;
+    var bw = 30, gap = 6;
+    var html = '';
+    series.forEach(function(p, i) {
+      var h = Math.max(4, (p.avg - min) / (max - min) * 170);
+      html += '<div style="flex:0 0 ' + bw + 'px;display:flex;flex-direction:column;align-items:center;gap:4px;">'
+        + '<div style="font-size:10px;color:#64748b;font-weight:700;">' + p.avg.toFixed(1) + '</div>'
+        + '<div style="width:' + bw + 'px;height:' + h + 'px;background:linear-gradient(180deg,#0d9488,#14b8a6);border-radius:6px 6px 0 0;"></div>'
+        + '<div style="font-size:9px;color:#94a3b8;">' + p.w.slice(5) + '</div>'
+        + '</div>';
+    });
+    chart.innerHTML = html;
+    $('progressLabel').innerText = '近 ' + series.length + ' 周健康度均值 · 越高越好';
+  }
+
+  // 维度对比（最近 2 周）
+  var cmpEl = $('compareList');
+  var allWeeks = weeks;
+  var last = allWeeks[allWeeks.length - 1];
+  var prev = allWeeks[allWeeks.length - 2];
+  var html = '';
+  SOP_CATEGORIES.forEach(function(c) {
+    var lastV = data[last] ? data[last][c.key] : 0;
+    var prevV = data[prev] ? data[prev][c.key] : 0;
+    var delta = lastV - prevV;
+    var arrow = delta > 0 ? '↑' : (delta < 0 ? '↓' : '—');
+    var col = delta > 0 ? '#0d9488' : (delta < 0 ? '#ef4444' : '#94a3b8');
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;align-items:center;padding:8px 4px;border-bottom:1px solid #f1f5f9;">'
+      + '<div style="font-size:12.5px;">' + c.icon + ' ' + c.name + '</div>'
+      + '<div style="text-align:center;font-size:13px;font-weight:700;">' + (lastV || '—') + '</div>'
+      + '<div style="text-align:center;font-size:13px;color:' + col + ';">' + (prevV || '—') + ' ' + arrow + '</div>'
+      + '</div>';
+  });
+  cmpEl.innerHTML = html || '<div style="text-align:center;color:#94a3b8;font-size:12px;padding:20px;">需要 ≥ 2 周数据 · 每周评一次</div>';
+}
+
+function renderSharePage() {
+  var scores = getThisWeekScores();
+  var sum = 0; var n = 0;
+  SOP_CATEGORIES.forEach(function(c) {
+    if (typeof scores[c.key] === 'number') { sum += scores[c.key]; n++; }
+  });
+  var avg = n ? (sum / n) : 0;
+  var streak = safeParse(STORAGE.STREAKS, 0);
+  var yearly = safeParse(STORAGE.YEARLY, {});
+  var yearDone = Object.keys(yearly).filter(function(k) { return yearly[k]; }).length;
+  var yearlyTotal = YEARLY_ITEMS.length;
+  var msg;
+  if (avg === 0 && streak === 0 && yearDone === 0) {
+    msg = '🛡️ 我刚开始重视自己的健康底盘。';
+  } else if (avg >= 4) {
+    msg = '🛡️ 我的健康底盘稳定了：连续 ' + streak + ' 天打卡，六维均值 ' + avg.toFixed(1) + '/5，年度清单完成 ' + yearDone + '/' + yearlyTotal + '。';
+  } else {
+    msg = '🛡️ 我在认真经营自己的健康：连续 ' + streak + ' 天，六维均值 ' + avg.toFixed(1) + '/5。';
+  }
+  $('sharePnLSummary').innerText = msg;
+  $('shareStatGrid').innerHTML = '<div class="share-stat"><div class="n">' + streak + '</div><div class="l">连续天数</div></div>'
+    + '<div class="share-stat"><div class="n">' + (avg ? avg.toFixed(1) : '—') + '</div><div class="l">六维均值</div></div>'
+    + '<div class="share-stat"><div class="n">' + yearDone + '/' + yearlyTotal + '</div><div class="l">年度清单</div></div>';
+}
+
+function copyShareLink() {
+  var txt = $('sharePnLSummary') ? $('sharePnLSummary').innerText : '';
+  var link = 'https://zhouh7693-cmd.github.io/slim-partner/搭子-健康底盘.html';
+  var payload = txt + '\n' + link;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(payload).then(function() { alert('已复制分享链接'); }, function() { fallbackCopy(payload); });
+  } else { fallbackCopy(payload); }
+}
+function fallbackCopy(t) {
+  var ta = document.createElement('textarea'); ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); alert('已复制'); } catch(e) {}
+  document.body.removeChild(ta);
+}
+function copyStats() {
+  var chk = safeParse(STORAGE.CHECKIN, null);
+  var scores = getThisWeekScores();
+  var sum = 0; var n = 0;
+  SOP_CATEGORIES.forEach(function(c) {
+    if (typeof scores[c.key] === 'number') { sum += scores[c.key]; n++; }
+  });
+  var txt = '🛡️ 健康底盘搭子\n';
+  txt += '打卡：' + (chk && chk.date === today() ? '✓ 今天已完成' : '— 今天未完成') + '\n';
+  txt += '连续：' + safeParse(STORAGE.STREAKS, 0) + ' 天\n';
+  txt += '六维均值：' + (n ? (sum/n).toFixed(1) : '—') + ' / 5\n';
+  txt += '—— 别神化、别焦虑、把健康当资产';
+  fallbackCopy(txt);
+}
+
+// === INIT ===
+function init() {
+  var savedPartner = safeParse(STORAGE.PARTNER, null);
+  if (savedPartner && PARTNERS[savedPartner]) {
+    currentPartnerKey = savedPartner;
+    currentPartner = PARTNERS[savedPartner];
+    renderDashboard();
+  } else {
+    showPartnerSelector();
+  }
+  renderMetrics();
+}
+  // === v4 健康底盘新增渲染 ===
+  try { renderDailyMetrics(); } catch(e) {}
+  try { renderYearlyMetrics(); } catch(e) {}
+  try { renderCycleList(); } catch(e) {}
+  try { renderHealthCheckinScenes(); } catch(e) {}
+
+setTimeout(init, 0);
+</script></html>
