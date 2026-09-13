@@ -7,38 +7,26 @@
 <style>
   /* ===========================================================
      [基础变量] —— 想换主题色 / 圆角 / 间距，只改这里
-     【v2 视觉优化】按"每日搭子中心视觉规范"统一：
-       主色 #1a1a1a / 辅 #6b6b6b / 淡 #999 / 强调 #5b6cff
-       bg #f7f6f4 / 卡片 16px / 阴影柔和
      =========================================================== */
   :root {
-    --bg:           #f7f6f4;           /* 柔和米白 */
+    --bg:           #fafaf7;
     --surface:      #ffffff;
-    --ink:          #1a1a1a;           /* 主色（标题/数字） */
-    --ink-2:        #6b6b6b;           /* 辅助色（描述） */
-    --ink-3:        #999999;           /* 淡色（标签/次要） */
-    --ink-4:        #bbbbbb;           /* 占位 */
-    --line:         #e8e8e8;           /* 边框/分割 */
-    --line-soft:    #f0f0f0;
-    --brand:        #5b6cff;           /* 强调色 */
-    --brand-soft:   rgba(91,108,255,0.06);
+    --ink:          #1f2330;
+    --ink-soft:     #5b6273;
+    --line:         #ecedf0;
+    --brand:        #5b6cff;
+    --brand-soft:   #eef0ff;
     --accent:       #ff7a45;
     --ok:           #16a34a;
     --warn:         #d97706;
-    --radius-lg:    16px;              /* 卡片圆角统一 */
+    --radius-lg:    18px;
     --radius-md:    10px;
-    --shadow-sm:    0 2px 8px rgba(0,0,0,0.05);
-    --shadow-md:    0 8px 24px rgba(0,0,0,0.08);
+    --shadow-sm:    0 1px 2px rgba(20,22,30,.06), 0 1px 1px rgba(20,22,30,.04);
+    --shadow-md:    0 8px 24px rgba(20,22,30,.08);
     --space-1:      8px;
     --space-2:      16px;
-    --space-3:      20px;              /* 卡片间距 */
-    --space-4:      24px;              /* 卡片内边距 + 页面左右桌面 */
-    --space-5:      32px;              /* 更大间距 */
-    /* 分类维度色（底部统计用） */
-    --cat-daily:    #4A90D9;
-    --cat-career:   #5B6CFF;
-    --cat-wealth:   #F5A623;
-    --cat-tools:    #7ED321;
+    --space-3:      24px;
+    --space-4:      32px;
   }
 
   * { box-sizing: border-box; }
@@ -53,220 +41,56 @@
   }
 
   /* ===========================================================
-     [顶层容器] —— 桌面 24px 内边距，移动 16px（规范 #1）
+     [顶层容器]
      =========================================================== */
   .app {
     max-width: 960px;
     margin: 0 auto;
-    padding: var(--space-5) var(--space-4);
+    padding: var(--space-4) var(--space-2);
   }
 
   /* ===========================================================
      [头部：标题 + 本月精选卡]
      =========================================================== */
-  .header { text-align: center; margin-bottom: var(--space-5); padding-bottom: 0; border-bottom: 0; }
+  .header { text-align: center; margin-bottom: var(--space-3); }
   .header h1 {
     margin: 0 0 var(--space-1);
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--ink);
-    letter-spacing: 0;
+    font-size: 28px;
+    letter-spacing: .5px;
   }
   .header .lead {
-    color: var(--ink-2);
-    margin: 0 0 var(--space-2);
-    font-size: 14px;
-    font-weight: 400;
-  }
-  .header .greeting {
-    color: var(--ink-2);
-    font-size: 13px;
-    font-weight: 400;
+    color: var(--ink-soft);
     margin: 0 0 var(--space-3);
   }
 
-  /* 引导层 / 付费墙 / Toast 通用遮罩 */
-  .fp-overlay {
-    position: fixed; inset: 0;
-    background: rgba(20,22,30,0.55);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 200;
-    padding: 20px;
-    animation: fpFadeIn .25s ease;
-  }
-  @keyframes fpFadeIn { from { opacity: 0; } to { opacity: 1; } }
-  .fp-card {
-    background: #fff;
-    border-radius: 28px;
-    padding: 28px 22px 22px;
-    max-width: 380px; width: 100%;
-    box-shadow: 0 22px 50px rgba(0,0,0,0.30);
-    animation: fpPop .35s cubic-bezier(0.2, 1, 0.3, 1.05);
-    max-height: calc(100vh - 80px); overflow-y: auto;
-    position: relative;
-  }
-  @keyframes fpPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .fp-card .fp-title { font-size: 19px; font-weight: 800; color: var(--ink); margin-bottom: 4px; text-align: center; }
-  .fp-card .fp-sub { font-size: 13px; color: var(--ink-2); text-align: center; margin-bottom: 18px; }
-  .fp-close {
-    position: absolute; top: 14px; right: 14px;
-    background: rgba(255,255,255,0.7); border: none; cursor: pointer;
-    width: 32px; height: 32px; border-radius: 50%; font-size: 18px; line-height: 1;
-    color: var(--ink-3);
-  }
-
-  /* 引导层选项网格 */
-  .fp-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-  .fp-option {
-    border: 1.5px solid #e9edf2;
-    border-radius: 18px;
-    padding: 18px 12px 14px;
-    text-align: center;
-    cursor: pointer;
-    background: #fcfdfe;
-    transition: all .15s;
-  }
-  .fp-option:hover { border-color: #3a7ca5; transform: translateY(-2px); }
-  .fp-option .opt-emoji { font-size: 32px; line-height: 1; margin-bottom: 6px; }
-  .fp-option .opt-text { font-size: 13px; font-weight: 600; color: var(--ink); }
-
-  /* 付费墙 */
-  .pw-summary {
-    display: grid; gap: 8px;
-    background: #f7f9fc;
-    border-radius: 14px;
-    padding: 14px 16px;
-    margin-bottom: 16px;
-  }
-  .pw-summary-row {
-    display: flex; justify-content: space-between; align-items: center;
-    font-size: 13px; color: var(--ink-2);
-  }
-  .pw-summary-row b { color: var(--ink); }
-
-  .pw-pricing {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-    margin-bottom: 16px;
-  }
-  .pw-pricing-card {
-    border: 1.5px solid #e9edf2;
-    border-radius: 16px;
-    padding: 14px 10px;
-    text-align: center;
-    background: #fff;
-    cursor: pointer;
-    transition: all .15s;
-    position: relative;
-  }
-  .pw-pricing-card.featured {
-    border-color: #22c55e;
-    background: #f0fdf4;
-    box-shadow: 0 4px 10px rgba(34,197,94,0.12);
-  }
-  .pw-pricing-card .plan-name { font-size: 12px; color: var(--ink-2); }
-  .pw-pricing-card .plan-price {
-    font-size: 22px; font-weight: 800; color: var(--ink); margin: 4px 0;
-  }
-  .pw-pricing-card .plan-price small { font-size: 12px; color: var(--ink-3); font-weight: 500; }
-  .pw-pricing-card .plan-tag {
-    display: inline-block; font-size: 10px; padding: 2px 8px;
-    border-radius: 999px; background: #22c55e; color: #fff; font-weight: 700;
-  }
-
-  .pw-points {
-    background: linear-gradient(135deg, #fff4d6, #ffe8b3);
-    border-radius: 14px;
-    padding: 12px 16px;
-    margin-bottom: 16px;
-    font-size: 12px;
-    line-height: 1.6;
-    color: #7a5a16;
-  }
-  .pw-points b { color: #5b3e0a; }
-
-  .pw-cta-primary {
-    width: 100%; padding: 14px;
-    border: none; border-radius: 999px;
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    color: #fff; font-size: 16px; font-weight: 700;
-    cursor: pointer; margin-bottom: 10px;
-    box-shadow: 0 6px 14px rgba(34,197,94,0.32);
-  }
-  .pw-cta-primary:active { transform: scale(0.97); }
-  .pw-cta-secondary {
-    width: 100%; padding: 12px;
-    border: 1.5px solid #e9edf2; border-radius: 999px;
-    background: #fff; color: var(--ink-2);
-    font-size: 13px; cursor: pointer;
-  }
-  .pw-cta-secondary:hover { border-color: var(--ink-3); }
-  .pw-footnote {
-    text-align: center; margin-top: 12px;
-    font-size: 11px; color: var(--ink-3);
-  }
-
-  /* 内层 demo 占位 toast */
-  .fp-mini {
-    position: fixed; bottom: 24px; left: 50%;
-    transform: translateX(-50%);
-    background: var(--ink); color: #fff;
-    padding: 12px 18px; border-radius: 14px;
-    font-size: 13px; max-width: 320px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.30);
-    z-index: 220; line-height: 1.55;
-    animation: fpPop .25s ease;
-  }
-  .fp-mini b { color: #fbbf24; }
-
-  /* —— 本月精选（规范 #2）：纯白卡 + 顶部小标签 + 28px emoji —— */
   .featured {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
-    background: var(--surface);
-    border: 1px solid var(--line);
+    gap: var(--space-2);
+    background: linear-gradient(135deg, #fff4ec 0%, #ffe9d9 100%);
+    border: 1px solid #ffd9bd;
     border-radius: var(--radius-lg);
-    padding: var(--space-4);
+    padding: var(--space-3);
     text-align: left;
     box-shadow: var(--shadow-sm);
-    transition: all .25s ease;
+    transition: transform .2s ease;
     text-decoration: none;
     color: inherit;
-    position: relative;
   }
-  .featured:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    border-color: #d4d7e0;
-  }
-  /* "⭐ 本月精选"小标签 */
-  .featured::before {
-    content: "⭐ 本月精选";
-    position: absolute;
-    top: 12px; left: 16px;
-    font-size: 11px;
-    color: var(--ink-3);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-  }
-  .featured .emoji { font-size: 28px; line-height: 1; flex-shrink: 0; margin-top: 14px; }
-  .featured .meta { flex: 1; margin-top: 14px; }
-  .featured h3 { margin: 0 0 4px; font-size: 16px; font-weight: 600; color: var(--ink); }
-  .featured p  { margin: 0; color: var(--ink-2); font-size: 13px; font-weight: 400; line-height: 1.5; }
-  /* —— "去看看 →" 改为纯文字链（规范 #2 要求） —— */
+  .featured:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .featured .emoji { font-size: 36px; }
+  .featured .meta { flex: 1; }
+  .featured h3 { margin: 0 0 4px; font-size: 17px; }
+  .featured p  { margin: 0; color: var(--ink-soft); font-size: 13px; }
   .featured .cta {
-    background: transparent;
-    color: var(--ink-2);
-    padding: 6px 0;
-    border-radius: 0;
+    background: var(--accent);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 999px;
     font-size: 13px;
-    font-weight: 500;
     text-decoration: none;
     white-space: nowrap;
-    transition: color .25s;
-    margin-top: 14px;
   }
-  .featured:hover .cta { color: var(--brand); }
 
   /* ===========================================================
      [状态条] —— 上次访问 / 今日打卡
@@ -277,9 +101,9 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: var(--space-1);
-    margin-bottom: var(--space-5);
+    margin-bottom: var(--space-3);
     font-size: 12px;
-    color: var(--ink-2);
+    color: var(--ink-soft);
   }
   .status-bar .pill {
     display: inline-flex;
@@ -304,79 +128,58 @@
   .status-bar .pill .btn:hover { text-decoration: underline; }
 
   /* ===========================================================
-     [Tab 切换] —— 规范 #5：count 圆点徽章；激活态文字+下划线
+     [Tab 切换]
      =========================================================== */
   .tabs {
     display: flex;
-    gap: var(--space-1);
-    background: transparent;
-    padding: 0;
-    border-radius: 0;
-    box-shadow: none;
+    gap: 6px;
+    background: var(--surface);
+    padding: 6px;
+    border-radius: 14px;
+    box-shadow: var(--shadow-sm);
     overflow-x: auto;
     margin-bottom: var(--space-3);
-    border-bottom: 1px solid var(--line);
   }
   .tab {
     flex: 1;
     min-width: 90px;
-    padding: 10px 8px;
+    padding: 10px 12px;
     border: 0;
     background: transparent;
-    border-radius: 0;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
-    font-weight: 500;
-    color: var(--ink-2);
+    color: var(--ink-soft);
     font-family: inherit;
     transition: all .2s;
     white-space: nowrap;
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
   }
-  /* count 圆点徽章（不抢 Tab 名称） */
   .tab .count {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 22px;
+    display: inline-block;
+    margin-left: 4px;
     font-size: 11px;
-    background: var(--line-soft);
-    color: var(--ink-3);
-    padding: 2px 8px;
+    background: var(--line);
+    color: var(--ink-soft);
+    padding: 1px 6px;
     border-radius: 999px;
-    font-weight: 500;
   }
-  /* 激活态：文字加深 + 底部品牌色下划线（规范 #5） */
   .tab.active {
-    background: transparent;
-    color: var(--ink);
-    font-weight: 600;
-  }
-  .tab.active::after {
-    content: "";
-    position: absolute;
-    left: 12px; right: 12px; bottom: -1px;
-    height: 2px;
-    background: var(--brand);
-    border-radius: 2px 2px 0 0;
+    background: var(--ink);
+    color: #fff;
   }
   .tab.active .count {
-    background: var(--brand-soft);
-    color: var(--brand);
+    background: rgba(255,255,255,.18);
+    color: #fff;
   }
 
   /* ===========================================================
-     [工具条] —— 搜索 + 状态筛选（规范 #1 #6）
+     [工具条] —— 搜索 + 状态筛选
      =========================================================== */
   .toolbar {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-bottom: var(--space-4);
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
     align-items: center;
   }
   .search {
@@ -395,10 +198,6 @@
     color: var(--ink);
     transition: border-color .2s, box-shadow .2s;
   }
-  .search input::placeholder {
-    color: var(--ink-4);
-    font-weight: 400;
-  }
   .search input:focus {
     outline: 0;
     border-color: var(--brand);
@@ -413,19 +212,17 @@
     font-size: 14px;
   }
 
-  /* 筛选 chip（规范 #6）：轻量胶囊，激活态用极淡蓝底 */
-  .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; }
   .chip {
-    padding: 6px 16px;
+    padding: 6px 12px;
     border: 1px solid var(--line);
-    background: transparent;
+    background: var(--surface);
     border-radius: 999px;
-    font-size: 13px;
+    font-size: 12px;
     cursor: pointer;
-    color: var(--ink-2);
-    transition: all .2s;
+    color: var(--ink-soft);
+    transition: all .15s;
     font-family: inherit;
-    font-weight: 400;
   }
   .chip:hover { border-color: var(--brand); color: var(--brand); }
   .chip.active {
@@ -436,31 +233,30 @@
   }
 
   /* ===========================================================
-     [卡片网格] —— 规范 #3：所有卡统一白底 16px 圆角 柔和阴影
+     [卡片网格]
      =========================================================== */
   .grid {
     display: grid;
-    gap: var(--space-3);                       /* 卡片之间 20px */
+    gap: var(--space-2);
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
   .card {
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: var(--radius-lg);           /* 16px 圆角 */
-    padding: var(--space-4);                   /* 卡片内边距 20px */
-    box-shadow: var(--shadow-sm);              /* 0 2px 8px */
+    border-radius: var(--radius-lg);
+    padding: var(--space-3);
     text-decoration: none;
     color: inherit;
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
-    transition: all .25s ease;
+    transition: all .2s ease;
     position: relative;
   }
   .card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     border-color: #d4d7e0;
-    box-shadow: var(--shadow-md);              /* 0 8px 24px */
+    box-shadow: var(--shadow-md);
   }
   .card .top {
     display: flex;
@@ -475,16 +271,12 @@
   .card h3 {
     margin: 0;
     font-size: 16px;
-    font-weight: 600;
-    color: var(--ink);
     flex: 1;
   }
   .card .desc {
-    color: var(--ink-2);
+    color: var(--ink-soft);
     font-size: 13px;
-    font-weight: 400;
     margin: 4px 0 0;
-    line-height: 1.5;
   }
   .card .tags {
     display: flex;
@@ -493,44 +285,19 @@
     margin-top: auto;
     padding-top: var(--space-1);
   }
-
-  /* —— 分类标签（规范 #7）：统一灰底灰字，999 圆角 —— */
   .badge {
     font-size: 11px;
-    padding: 2px 10px;
-    border-radius: 999px;
-    background: var(--line-soft);
-    color: var(--ink-3);
-    font-weight: 400;
-  }
-  /* —— "最新"角标：唯一强调色，右上角 —— */
-  .badge.new {
-    background: var(--brand);
-    color: #fff;
-    font-size: 10px;
-    padding: 2px 8px;
-    font-weight: 700;
-  }
-  /* —— preview 敬请期待 —— */
-  .badge.preview {
-    background: var(--line-soft);
-    color: var(--ink-3);
-    border: 1px dashed #c4c8d2;
-  }
-
-  /* —— "最新"角标：贴在卡片右上角 —— */
-  .corner-new {
-    position: absolute;
-    top: 12px; right: 12px;
-    font-size: 10px;
-    font-weight: 700;
     padding: 2px 8px;
     border-radius: 999px;
-    background: var(--brand);
-    color: #fff;
-    letter-spacing: .3px;
-    z-index: 1;
+    background: var(--line);
+    color: var(--ink-soft);
   }
+  .badge.ok      { background: #dcfce7; color: var(--ok); }
+  .badge.warn    { background: #fef3c7; color: var(--warn); }
+  .badge.new     { background: var(--brand-soft); color: var(--brand); }
+  .badge.accent  { background: #ffe9d9; color: var(--accent); }
+  .badge.preview { background: #f3f4f6; color: var(--ink-soft);
+                    border: 1px dashed #c4c8d2; }
 
   /* —— preview 卡片：禁用 hover 提升 + 半透明，提示不可点击 —— */
   .card.preview {
@@ -544,148 +311,38 @@
   }
 
   /* ===========================================================
-     [空状态] —— 规范 #9：温和文案 + 回到全部按钮
+     [空状态]
      =========================================================== */
   .empty {
     grid-column: 1/-1;
     text-align: center;
-    padding: var(--space-5) 0;
-    color: var(--ink-2);
+    padding: var(--space-4) 0;
+    color: var(--ink-soft);
   }
   .empty .face { font-size: 40px; opacity: .4; margin-bottom: var(--space-1); }
-  .empty .empty-text { font-size: 14px; margin: 0 0 var(--space-2); }
-  .empty .empty-back {
-    display: inline-block;
-    background: transparent;
-    color: var(--brand);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    border: 0;
-    padding: 6px 0;
-    font-family: inherit;
-    text-decoration: none;
-  }
-  .empty .empty-back:hover { text-decoration: underline; }
 
   /* ===========================================================
-     [元信息与页脚] —— 规范 #4：底部可视化
+     [元信息与页脚]
      =========================================================== */
   .meta {
     text-align: center;
-    margin-top: var(--space-5);                /* 与卡片网格 32px */
-    padding-top: var(--space-4);
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
     border-top: 1px dashed var(--line);
-    color: var(--ink-2);
+    color: var(--ink-soft);
     font-size: 13px;
   }
-  .meta .stats {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-4);
-    margin-bottom: var(--space-2);
-    flex-wrap: wrap;
-  }
-  .meta .stat-num {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1;
-  }
-  .meta .stat-label {
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--ink-2);
-    margin-left: 4px;
-  }
-  .meta .stat-dots {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 12px;
-    color: var(--ink-3);
-  }
-  .meta .stat-dots .dot-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .meta .stat-dots .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    display: inline-block;
-  }
-  .meta .stat-dots .dot.daily  { background: var(--cat-daily);  }
-  .meta .stat-dots .dot.career { background: var(--cat-career); }
-  .meta .stat-dots .dot.wealth { background: var(--cat-wealth); }
-  .meta .stat-dots .dot.tools  { background: var(--cat-tools);  }
-  .meta .update {
-    font-size: 12px;
-    color: var(--ink-3);
-    margin-top: 4px;
-  }
+  .meta .stats { display: flex; justify-content: center; gap: var(--space-3); margin-bottom: var(--space-1); }
+  .meta .stats span strong { color: var(--ink); }
 
   /* ===========================================================
-     [右下角"今天休息一下"浮动按钮]
-     —— 不是搭子（搭子是"一起做事"，这个是"允许你不做事"），
-     —— 所以不进 PARTNERS_CONFIG、不占 Tab、不累计打卡、不记 localStorage。
-     —— 视觉：温暖的便签纸 / 淡奶黄底，温和存在而非催促。
-     =========================================================== */
-  .rest-btn {
-    position: fixed;
-    bottom: 28px; right: 24px;
-    background: #fff4d6;
-    border: 1px solid #f0dba8;
-    color: #8b6f3e;
-    padding: 11px 18px;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 500;
-    text-decoration: none;
-    letter-spacing: 0.3px;
-    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.18), 0 1px 2px rgba(20,22,30,.04);
-    transition: all .25s ease;
-    z-index: 50;
-    /* —— 呼吸感：3-4% 的轻微明暗浮动，像贴在角落的便签纸轻轻飘 —— */
-    animation: restBreath 4.5s ease-in-out infinite;
-  }
-  .rest-btn .rest-emoji {
-    display: inline-block;
-    margin-right: 4px;
-    font-size: 15px;
-    line-height: 1;
-    transform: translateY(0.5px);
-  }
-  .rest-btn:hover {
-    background: #ffe9b5;
-    border-color: #e6c98c;
-    color: #6e552b;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.28), 0 2px 4px rgba(20,22,30,.06);
-    animation: none;
-  }
-  .rest-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(212, 175, 55, 0.22);
-  }
-  @keyframes restBreath {
-    0%, 100% { box-shadow: 0 4px 12px rgba(212, 175, 55, 0.18), 0 1px 2px rgba(20,22,30,.04); }
-    50%      { box-shadow: 0 6px 18px rgba(212, 175, 55, 0.26), 0 1px 2px rgba(20,22,30,.04); }
-  }
-
-  /* ===========================================================
-     [响应式] —— 规范 #1：桌面 24px / 移动 16px
+     [响应式]
      =========================================================== */
   @media (max-width: 640px) {
-    .app { padding: var(--space-4) var(--space-2); }
+    .app { padding: var(--space-2) var(--space-1); }
     .header h1 { font-size: 22px; }
-    .featured { flex-wrap: wrap; padding: var(--space-3); }
+    .featured { flex-wrap: wrap; }
     .featured .cta { width: 100%; text-align: center; margin-top: var(--space-1); }
-    .rest-btn { bottom: 20px; right: 16px; padding: 10px 15px; font-size: 12px; }
-    .card { padding: var(--space-3); }
-    .meta .stat-num { font-size: 22px; }
-    .meta .stat-dots { gap: 8px; font-size: 11px; }
   }
 </style>
 </head>
@@ -699,7 +356,6 @@
   <header class="header" data-page-node-id="HsXSun0NIhFhB5bJl6ZTsw">
     <h1 data-page-node-id="zdACYAecuvNsMcy8yKW9bL">🌟 每日搭子中心</h1>
     <p class="lead" data-page-node-id="5mzre6wgYbPc9idf3AbCnr">选一个搭子，开始今天的成长打卡</p>
-    <p class="greeting" id="greeting" data-page-node-id="greetingNode"></p>
 
     <!-- 顶置「本月精选」卡：内容完全由下方 featured 配置驱动 -->
     <a id="featured" class="featured" href="#" style="display:none" data-page-node-id="Nb95uD0AOZDf2456P2FSR3">
@@ -797,21 +453,20 @@ const PARTNERS_CONFIG = {
     { key: 'daily',    label: '日常打卡',  emoji: '🏃' },
     { key: 'career',   label: '职场成长',  emoji: '💼' },
     { key: 'wealth',   label: '五大财富',  emoji: '💰' },
+    { key: 'tools',    label: '工具资源',  emoji: '🔧' },
   ],
 
   /* ┌─────────────────────────────────────────────────────────┐
    * │ ④ 状态标签
    * │    这些标签会出现在卡片右下角 + 顶部"筛选器"chip
-   * │    想加新状态：
+   * │    想加新状态（比如"限时"、"热门"）：
    * │      在 status 数组里加 { key:'hot', label:'热门', className:'accent' }
    * │    className 可选：ok / warn / new / accent
-   * │
-   * │  ⚠️ 卡片右下角的状态标签已隐藏（只保留分类标签），
-   * │     这些 status 仅作为「筛选器」chip 用。
    * └─────────────────────────────────────────────────────────┘ */
   status: [
-    { key: 'optimized',  label: '精选',  className: 'ok'    },
-    { key: 'new',        label: '最新',  className: 'new'   },
+    { key: 'optimized',  label: '已优化',  className: 'ok'    },
+    { key: 'optimizing', label: '优化中',  className: 'warn'  },
+    { key: 'new',        label: 'NEW',    className: 'new'   },
   ],
 
   /* ┌─────────────────────────────────────────────────────────┐
@@ -823,81 +478,87 @@ const PARTNERS_CONFIG = {
    * │      href     必填，可点击卡片跳转的 URL
    * │      desc     必填，卡片副标题描述
    * │      tags     可选，额外标签（数组），如 ['健康','财富']
-   * │      status   可选，对应 status 里的 key（仅作为「筛选器」过滤用）
-   * │      preview  可选，true 表示"敬请期待"占位卡，点击不跳转
-   * │      hidden   可选，true 表示完全隐藏（不显示，等建好后删掉这一行）
+   * │      status   可选，对应 status 里的 key（可选其一）
+   * │      preview  可选，true 表示「敬请期待」卡片，点击不跳转
+   * │               等页面建好后，把这一行删掉就行
    * │
    * │    🆕 加一个新搭子（拷贝下面一行再改字段）：
    * │      { tab:'daily', emoji:'🎨', title:'XX搭子', href:'xx.html',
    * │        desc:'一句话介绍', tags:['标签1'] },
    * │    🗑 删一个搭子：从数组里删掉对应的那一行
    * │    ✏️ 改卡片跳转：直接改 href
-   * │    🚧 把"敬请期待"改成可点击：删掉 preview:true 这一行
-   * │    🚫 临时隐藏某个搭子（页面还没建好）：加 hidden:true
+   * │    🚧 把「敬请期待」改成可点击：删掉 preview:true 这一行
    * └─────────────────────────────────────────────────────────┘ */
   partners: [
-    /* —— 日常打卡 ——
-     *   排序原则：按"使用普遍性"排——睡眠 / 状态是几乎所有人每天都会面对的事；
-     *   减肥、陪读妈妈有较明确的人群画像。所以：
-     *     睡眠（精力基础）→ 减肥（健康习惯）→ 状态（情绪 / 能量）→ 陪读妈妈（家庭场景）
-     */
-    { tab:'daily',  emoji:'😴', title:'睡眠搭子',    href:'搭子-睡眠.html',
-      desc:'早睡 · 早起 · 规律 · 精力', tags:['精力'],
-      /* ⏳ 搭子-睡眠.html 还未创建 —— 当前先占位，等页面建好后删这一行注释即可正常使用 */ },
-
-    { tab:'daily',  emoji:'🛡️', title:'健康底盘搭子', href:'搭子-健康底盘.html',
-      desc:'体检 · 疫苗 · 代谢 · 肠道 · 睡眠 · 压力 · 早筛', tags:['健康', '预防'],
-      status:'new' },
-
-    { tab:'daily',  emoji:'🏃', title:'减肥搭子',    href:'index.html',
+    /* —— 日常打卡 —— */
+    { tab:'daily',  emoji:'🏃', title:'减肥搭子',      href:'index.html',
       desc:'饮食 · 体重 · 习惯', tags:['健康'] },
 
-    { tab:'daily',  emoji:'🌊', title:'状态搭子',    href:'搭子-状态.html',
-      desc:'觉察 · 平静 · 能量 · 专注', tags:['状态'],
-      /* ⏳ 搭子-状态.html 还未创建 —— 当前先占位（href 可先改为 '#'）；
-       *   页面建好后把 href 改回真实路径、删这条注释即可 */ },
+    { tab:'daily',  emoji:'🛡️', title:'健康底盘搭子',  href:'搭子-健康底盘.html',
+      desc:'血压 · 睡眠 · 运动 · 体检 · 习惯', tags:['健康'], status:'new' },
 
-    { tab:'daily',  emoji:'👩‍👧', title:'陪读妈妈',    href:'陪读妈妈搭子.html',
-      /* 在 ['家庭'] 基础上加 '陪伴'：陪读的本质是"陪伴"这件动作；
-       *   '家庭'是场景；两者并列让搜索/筛选更精准（搜"陪伴"也能命中） */
-      desc:'心情 · 学业 · 沟通 · 平衡 · 成长', tags:['家庭', '陪伴'] },
+    { tab:'daily',  emoji:'💪', title:'肌肉搭子',      href:'搭子-肌肉.html',
+      desc:'力量训练 · 体脂率 · 蛋白质 · 恢复', tags:['健康'], status:'new' },
+
+    { tab:'daily',  emoji:'✨', title:'形象搭子',      href:'搭子-形象.html',
+      desc:'护肤 · 发型 · 穿搭 · 仪态 · 表达', tags:['气质'], status:'new' },
+
+    { tab:'daily',  emoji:'😴', title:'睡眠搭子',      href:'搭子-睡眠.html',
+      desc:'入睡 · 时长 · 节律', tags:['健康'] },
+
+    { tab:'daily',  emoji:'🌈', title:'状态搭子',      href:'搭子-状态.html',
+      desc:'情绪 · 精力 · 状态管理', tags:['健康'] },
+
+    { tab:'daily',  emoji:'👩‍👧', title:'陪读妈妈',      href:'陪读妈妈搭子.html',
+      desc:'情绪 · 学业 · 沟通 · 平衡 · 成长', tags:['家庭'] },
 
     /* —— 职场成长 —— */
-    { tab:'career', emoji:'🚀', title:'创业搭子',    href:'创业搭子.html',
+    { tab:'career', emoji:'🚀', title:'创业搭子',      href:'创业搭子.html',
       desc:'方向 · 团队 · 产品 · 增长 · 心力', tags:['创业'] },
 
-    { tab:'career', emoji:'💼', title:'P7→P8',        href:'搭子-P7-P8.html',
+    { tab:'career', emoji:'💼', title:'P7→P8',          href:'搭子-P7-P8.html',
       desc:'战略 · 团队 · 业务 · 协同 · 迭代', tags:['晋升'],
       status:'optimized' },
 
-    { tab:'career', emoji:'🌿', title:'业务 Owner',   href:'搭子-业务Owner.html',
+    { tab:'career', emoji:'🌿', title:'业务 Owner',     href:'搭子-业务Owner.html',
       desc:'客户价值 · 产品思维 · 数据驱动 · 团队协作', tags:['团队'],
       status:'optimized' },
 
-    { tab:'career', emoji:'🌸', title:'关系力修炼搭子',   href:'搭子-关系力修复.html',
+    { tab:'career', emoji:'🌸', title:'关系力修炼搭子', href:'搭子-关系力修复.html',
       desc:'倾听 · 表达 · 共情 · 边界 · 能量', tags:['软实力'] },
-    { tab:'career', emoji:'⏳', title:'长期主义搭子', href:'搭子-长期主义.html',
-      desc:'看清时间花在哪 · 不做低价值的事 · 时间开始复利', tags:['时间经营'] },
 
-    { tab:'career', emoji:'🤖', title:'AI 能力搭子',  href:'搭子-AI能力.html',
+    { tab:'career', emoji:'⏳', title:'长期主义搭子',   href:'搭子-长期主义.html',
+      desc:'把本人时间从短视任务搬到长线价值，KEEP / DELEGATE / SKILL / AUTOMATE / STOP 五张清单', tags:['时间经营'] },
+
+    { tab:'career', emoji:'🤖', title:'AI 能力搭子',    href:'搭子-AI能力.html',
       desc:'工具 · Prompt · 自动化 · 学习 · 实践', tags:['AI'],
       status:'new' },
 
     /* —— 五大财富 SOP —— */
-    { tab:'wealth', emoji:'💪', title:'身体财富',    href:'搭子-身体财富.html',
+    { tab:'wealth', emoji:'💪', title:'身体财富',      href:'搭子-身体财富.html',
       desc:'运动 · 睡眠 · 健康', tags:['财富'] },
 
-    { tab:'wealth', emoji:'💰', title:'财务财富',    href:'搭子-财务财富.html',
+    { tab:'wealth', emoji:'💰', title:'财务财富',      href:'搭子-财务财富.html',
       desc:'收入 · 储蓄 · 投资', tags:['财富'] },
 
-    { tab:'wealth', emoji:'🕊️', title:'精神财富',    href:'搭子-精神财富.html',
+    { tab:'wealth', emoji:'🕊️', title:'精神财富',      href:'搭子-精神财富.html',
       desc:'阅读 · 冥想 · 成长', tags:['财富'] },
 
-    { tab:'wealth', emoji:'❤️', title:'关系财富',    href:'搭子-关系财富.html',
+    { tab:'wealth', emoji:'❤️', title:'关系财富',      href:'搭子-关系财富.html',
       desc:'家人 · 朋友 · 连接', tags:['财富'] },
 
-    { tab:'wealth', emoji:'🎯', title:'使命财富',    href:'搭子-使命财富.html',
+    { tab:'wealth', emoji:'🎯', title:'使命财富',      href:'搭子-使命财富.html',
       desc:'目标 · 价值 · 人生贡献', tags:['财富'] },
+
+    /* —— 工具 & 分享 —— */
+    { tab:'tools',  emoji:'🛋️', title:'休息一下',      href:'休息一下.html',
+      desc:'累了就歇一歇 · 恢复区', tags:['放松'] },
+
+    { tab:'tools',  emoji:'📖', title:'使用指南',      href:'guide.html',
+      desc:'快速上手所有搭子', tags:['教程'] },
+
+    { tab:'tools',  emoji:'📣', title:'分享卡片',      href:'share.html',
+      desc:'一键生成专属海报', tags:['分享'] },
   ],
 };
 
@@ -936,8 +597,7 @@ function renderFeatured() {
  * ============================================================ */
 function renderTabs() {
   const counts = PARTNERS_CONFIG.tabs.reduce((acc, t) => {
-    /* —— 统计排除 hidden 的项，count 与卡片网格一致 —— */
-    acc[t.key] = PARTNERS_CONFIG.partners.filter(p => p.tab === t.key && !p.hidden).length;
+    acc[t.key] = PARTNERS_CONFIG.partners.filter(p => p.tab === t.key).length;
     return acc;
   }, {});
 
@@ -973,7 +633,6 @@ function renderFilters() {
 function renderGrid() {
   const q    = state.q.trim().toLowerCase();
   const list = PARTNERS_CONFIG.partners.filter(p => {
-    if (p.hidden) return false;             // hidden:true 整体不渲染
     if (p.tab !== state.tab) return false;
     if (state.status && p.status !== state.status) return false;
     if (q) {
@@ -987,28 +646,17 @@ function renderGrid() {
     $('grid').innerHTML = `
       <div class="empty">
         <div class="face">🍃</div>
-        <p class="empty-text">没找到你想要的。试试换个词，或者去「全部」看看？</p>
-        <button class="empty-back" id="emptyBackBtn">回到全部搭子 →</button>
+        <p>没有匹配的搭子，换个词试试？</p>
       </div>`;
-    const back = document.getElementById('emptyBackBtn');
-    if (back) back.addEventListener('click', () => {
-      state.q = '';
-      state.status = null;
-      const inp = document.getElementById('search');
-      if (inp) inp.value = '';
-      renderFilters();
-      renderGrid();
-    });
     return;
   }
 
   $('grid').innerHTML = list.map(p => {
-    /* —— 只显示分类标签，状态标签已移出卡片视觉（仅用于筛选） —— */
+    const sMeta = p.status ? statusMeta(p.status) : null;
     const tagBadges = (p.tags || []).map(t =>
       `<span class="badge">${t}</span>`).join('');
-    /* —— "最新"角标：仅 p.status === 'new'，放在卡片右上角 —— */
-    const newCorner = p.status === 'new'
-      ? `<span class="corner-new">最新</span>`
+    const statusBadge = sMeta
+      ? `<span class="badge ${sMeta.className}">${sMeta.label}</span>`
       : '';
     /* —— preview 模式：不可点击，显示敬请期待角标 —— */
     const previewBadge = p.preview
@@ -1019,36 +667,28 @@ function renderGrid() {
     const hrefAttr = p.preview ? '' : ` href="${p.href}"`;
     return `
       <${tag} class="card ${p.preview?'preview':''}"${hrefAttr}>
-        ${newCorner}
         <div class="top">
           <span class="emoji">${p.emoji}</span>
           <h3>${p.title}</h3>
         </div>
         <p class="desc">${p.desc}</p>
-        <div class="tags">${tagBadges}${previewBadge}</div>
+        <div class="tags">${tagBadges}${statusBadge}${previewBadge}</div>
       </${tag}>`;
   }).join('');
 }
 
 
 /* ============================================================
- *  底部统计 —— 规范 #4：大数字 + 四色圆点 + 更新日期
+ *  底部统计
  * ============================================================ */
 function renderStats() {
-  const all = PARTNERS_CONFIG.partners.filter(p => !p.hidden).length;
-  const updated = new Date().toISOString().slice(0,10).replace(/-/g, '.');
+  const all     = PARTNERS_CONFIG.partners.length;
+  const tabs    = PARTNERS_CONFIG.tabs.length;
+  const updated = new Date().toISOString().slice(0,10);
   $('stats').innerHTML = `
-    <div class="stat-num-row">
-      <span class="stat-num">${all}</span>
-      <span class="stat-label">个搭子</span>
-    </div>
-    <div class="stat-dots">
-      <span class="dot-item"><span class="dot daily"></span>日常</span>
-      <span class="dot-item"><span class="dot career"></span>职场</span>
-      <span class="dot-item"><span class="dot wealth"></span>财富</span>
-      <span class="dot-item"><span class="dot tools"></span>工具</span>
-    </div>
-    <div class="update">内容更新 · ${updated}</div>
+    <span><strong>${all}</strong> 搭子</span>
+    <span><strong>${tabs}</strong> 维度</span>
+    <span>更新于 ${updated}</span>
   `;
 }
 
@@ -1062,31 +702,10 @@ function renderStats() {
  *    sp:totalCheckins    累计打卡次数（数字）
  * ================================================================ */
 const STORAGE = {
-  lastVisit:  'sp:lastVisit',
-  today:      () => 'sp:checkin:' + new Date().toISOString().slice(0,10),
-  total:      'sp:totalCheckins',
-  freemium:   'sp:freemium',  // 新增 —— 付费墙元数据
+  lastVisit: 'sp:lastVisit',
+  today:     () => 'sp:checkin:' + new Date().toISOString().slice(0,10),
+  total:     'sp:totalCheckins',
 };
-
-const FREEMIUM = {
-  freeUsesLimit:    5,                       // 前 N 次免费
-  priceMonth:       9.9,                     // 月费 ¥
-  priceYear:        99,                      // 年费 ¥
-  yearSaveRatio:    0.17,                    // 年费省 17%
-  pointsPerCheckin: 10,                      // 每日打卡 +10 积分
-  streak7Bonus:     50,
-  streak30Bonus:    200,
-  pointsPerYuan:    100,                     // 100 积分 = ¥1
-};
-
-/**
- * freemium 状态（写入 localStorage 持久化）
- * @typedef {Object} FreemiumState
- * @property {string} firstSeenDate         - YYYY-MM-DD
- * @property {number} freeUsesUsed          - 第几次打卡（1-indexed，仅试玩期累积）
- * @property {boolean} paywallShown         - 是否已展示过付费墙（防止重复弹）
- * @property {?{since:string,price:number,status:string}} subscription
- */
 
 function fmtTimeAgo(iso) {
   if (!iso) return '从未';
@@ -1099,20 +718,6 @@ function fmtTimeAgo(iso) {
   return `${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
 }
 
-/* ============================================================
- *  顶部时段问候（规范 #10）
- * ============================================================ */
-function renderGreeting() {
-  const h = new Date().getHours();
-  let text;
-  if (h >= 6  && h < 12) text = '☀️ 早上好，今天想从哪里开始？';
-  else if (h >= 12 && h < 18) text = '🌤️ 下午好，选一个搭子陪你度过今天';
-  else if (h >= 18 && h < 24) text = '🌙 今天辛苦了，选一个搭子放松一下吧';
-  else                         text = '🌃 夜深了，睡眠搭子在等你';
-  const el = $('greeting');
-  if (el) el.textContent = text;
-}
-
 function checkinToday() {
   localStorage.setItem(STORAGE.today(), '1');
   const prev = Number(localStorage.getItem(STORAGE.total) || 0);
@@ -1120,243 +725,29 @@ function checkinToday() {
   renderStatusBar();
 }
 
-function getFreemiumState() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE.freemium) || '{}');
-  } catch (e) { return {}; }
-}
-function setFreemiumState(s) {
-  localStorage.setItem(STORAGE.freemium, JSON.stringify(s));
-}
-function ensureFreemiumState() {
-  const s = getFreemiumState();
-  if (!s.firstSeenDate) {
-    s.firstSeenDate = new Date().toISOString().slice(0,10);
-    s.freeUsesUsed  = 0;
-    s.paywallShown  = false;
-    s.subscription  = null;
-    setFreemiumState(s);
-  }
-  return s;
-}
-
-/**
- * 完成一次打卡 —— 增加 freeUsesUsed 计数，并在第 5 次返回 'show_paywall'
- * @returns {string} 'normal' | 'show_paywall'
- */
-function recordFreeUse() {
-  const s = ensureFreemiumState();
-  if (s.subscription) return 'normal';                  // 已订阅：不再累积 freeUses
-  if (s.freeUsesUsed >= FREEMIUM.freeUsesLimit) return 'normal'; // 已经过 5 次：不再计数
-  s.freeUsesUsed = (s.freeUsesUsed || 0) + 1;
-  setFreemiumState(s);
-  // 前 5 次正常使用，第 6 次才提醒
-  return (s.freeUsesUsed > FREEMIUM.freeUsesLimit) ? 'show_paywall' : 'normal';
-}
-
-function activateDemoSubscription() {
-  const s = ensureFreemiumState();
-  s.subscription = {
-    since:  new Date().toISOString(),
-    price:  FREEMIUM.priceMonth,
-    status: 'demo_placeholder',   // 标记：这是 demo 占位，后续接入真支付
-  };
-  setFreemiumState(s);
-}
-
 function renderStatusBar() {
-  const lastVisit = localStorage.getItem(STORAGE.lastVisit);
-  const total     = Number(localStorage.getItem(STORAGE.total) || 0);
-  const s         = ensureFreemiumState();
+  const lastVisit  = localStorage.getItem(STORAGE.lastVisit);
+  const isCheckin  = !!localStorage.getItem(STORAGE.today());
+  const total      = Number(localStorage.getItem(STORAGE.total) || 0);
 
-  // 最后访问
   const lastPill = `
     <span class="pill">
       <span class="dot"></span>
       上次访问：${fmtTimeAgo(lastVisit)}
     </span>`;
 
-  // 状态条：根据 freemium 状态切换文案
-  let statusPill = '';
-  if (s.subscription) {
-    // 已订阅（demo 标记）
-    statusPill = `
-      <span class="pill" style="background:#f0fff4;border-color:#86efac;">
-        <span class="dot" style="background:#22c55e;"></span>
-        ⭐ 已订阅（demo）· 累计打卡 <strong style="color:var(--ink);margin:0 4px">${total}</strong> 次
-      </span>`;
-  } else {
-    const used  = s.freeUsesUsed || 0;
-    const limit = FREEMIUM.freeUsesLimit;
-    const left  = Math.max(0, limit - used);
-    // 前台不显示剩余次数，仅后台在第 6 次触发付费墙
-    if (left > 0) {
-      // 今天是否已打卡（规范 #10：打卡后显示温和文案）
-      const checkedToday = !!localStorage.getItem(STORAGE.today());
-      const completedPill = checkedToday
-        ? `
-          <span class="pill" style="background:#f0fff4;border-color:#86efac;">
-            <span class="dot" style="background:#22c55e;"></span>
-            ✅ 今天已经完成一件小事，明天见
-          </span>`
-        : '';
-      statusPill = completedPill + `
-        <span class="pill">
-          <span class="dot"></span>
-          累计打卡 <strong style="color:var(--ink);margin:0 4px">${total}</strong> 次
-        </span>`;
-    } else {
-      statusPill = `
-        <span class="pill warn">
-          <span class="dot"></span>
-          体验次数已用完 · <button class="btn" id="openPaywallBtn" style="color:#22c55e;font-weight:700;">立即订阅 ¥9.9/月</button>
-        </span>`;
-    }
-  }
+  const checkinPill = isCheckin
+    ? `<span class="pill"><span class="dot"></span>今日已打卡 · 累计 <strong style="color:var(--ink);margin:0 4px">${total}</strong> 次</span>`
+    : `<span class="pill warn">
+         <span class="dot"></span>今日还没打卡
+         <button class="btn" id="checkinBtn">点我打卡 →</button>
+       </span>`;
 
-  $('statusBar').innerHTML = lastPill + statusPill;
+  $('statusBar').innerHTML = lastPill + checkinPill;
 
-  // 绑定"立即订阅"按钮 → 打开付费墙
-  const payBtn = $('openPaywallBtn');
-  if (payBtn) payBtn.addEventListener('click', () => openPaywall('entry_pill'));
+  const btn = $('checkinBtn');
+  if (btn) btn.addEventListener('click', checkinToday);
 }
-
-/* ============================================================
- *  引导层（首次引导用户选方向）
- * ============================================================ */
-const INTEREST_OPTIONS = [
-  { key: 'sleep',    emoji: '😴', text: '睡得更好',     href: '搭子-睡眠.html' },
-  { key: 'health',   emoji: '🏃', text: '身体更健康',   href: 'index.html#slim' },
-  { key: 'focus',    emoji: '🧠', text: '状态更专注',   href: '搭子-状态.html' },
-  { key: 'wealth',   emoji: '💼', text: '工作更高效',   href: '搭子-AI能力.html' },
-  { key: 'explore',  emoji: '🤷', text: '随便看看',     href: '#grid' },
-];
-
-function openInterestPicker() {
-  // 若今天已经选过就不再重复弹
-  const SEEN_KEY = 'sp:interestSeen:' + new Date().toISOString().slice(0,10);
-  if (sessionStorage.getItem(SEEN_KEY)) return;
-  sessionStorage.setItem(SEEN_KEY, '1');
-
-  const overlay = document.createElement('div');
-  overlay.className = 'fp-overlay';
-  overlay.onclick = (e) => { if (e.target === overlay) document.body.removeChild(overlay); };
-  overlay.innerHTML = `
-    <div class="fp-card" onclick="event.stopPropagation()">
-      <button class="fp-close" onclick="document.body.removeChild(this.parentNode.parentNode)">×</button>
-      <div class="fp-title">今天你最想改善什么？</div>
-      <div class="fp-sub">选一个 · 直接进入对应的搭子页面</div>
-      <div class="fp-options">
-        ${INTEREST_OPTIONS.map(o => `
-          <div class="fp-option" data-key="${o.key}" data-href="${o.href}">
-            <div class="opt-emoji">${o.emoji}</div>
-            <div class="opt-text">${o.text}</div>
-          </div>
-        `).join('')}
-      </div>
-      <div style="text-align:center;font-size:11px;color:var(--ink-3);margin-top:8px;">
-        💡 选错了也没关系 · 随时可以从顶部 Tab 切换其他搭子
-      </div>
-    </div>
-  `;
-  document.body.appendChild(overlay);
-
-  // 绑定选项点击
-  overlay.querySelectorAll('.fp-option').forEach(opt => {
-    opt.addEventListener('click', () => {
-      const href = opt.getAttribute('data-href');
-      document.body.removeChild(overlay);
-      if (href && href !== '#grid') window.location.href = href;
-      else window.scrollTo({ top: document.getElementById('grid').offsetTop, behavior: 'smooth' });
-    });
-  });
-}
-
-/* ============================================================
- *  付费墙
- * ============================================================ */
-function openPaywall(source) {
-  // 已订阅就不弹
-  const s = ensureFreemiumState();
-  if (s.subscription) return;
-
-  const overlay = document.createElement('div');
-  overlay.className = 'fp-overlay';
-  overlay.id = 'paywallOverlay';
-  overlay.innerHTML = `
-    <div class="fp-card">
-      <button class="fp-close" onclick="closePaywall()">×</button>
-      <div style="text-align:center;font-size:40px;margin-bottom:4px;">🎉</div>
-      <div class="fp-title">恭喜完成 5 次免费体验</div>
-      <div class="fp-sub">你已经拿到了第一份《个人周报》草稿 · 想继续往前走吗？</div>
-
-      <div class="pw-summary">
-        <div class="pw-summary-row"><span>✅ 5 次打卡</span><b>已记录</b></div>
-        <div class="pw-summary-row"><span>📊 周报草稿</span><b>已生成</b></div>
-        <div class="pw-summary-row"><span>🧠 教练诊断</span><b>已解锁</b></div>
-      </div>
-
-      <div class="pw-pricing">
-        <div class="pw-pricing-card" id="pwPlanMonth">
-          <div class="plan-name">月度</div>
-          <div class="plan-price">¥${FREEMIUM.priceMonth}<small>/月</small></div>
-          <div style="font-size:11px;color:var(--ink-3);">随时取消</div>
-        </div>
-        <div class="pw-pricing-card featured" id="pwPlanYear">
-          <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);"><span class="plan-tag">省 ${Math.round(FREEMIUM.yearSaveRatio*100)}%</span></div>
-          <div class="plan-name">年度（推荐）</div>
-          <div class="plan-price">¥${FREEMIUM.priceYear}<small>/年</small></div>
-          <div style="font-size:11px;color:var(--ink-3);">≈ ¥${(FREEMIUM.priceYear/12).toFixed(1)}/月</div>
-        </div>
-      </div>
-
-      <div class="pw-points">
-        💎 <b>积分抵扣机制：</b>每天打卡赚 <b>${FREEMIUM.pointsPerCheckin} 积分</b>，
-        连续 7 天额外 <b>+${FREEMIUM.streak7Bonus}</b>，
-        <b>${FREEMIUM.pointsPerYuan} 积分 = ¥1</b> 抵扣订阅费。
-        月费 ¥${FREEMIUM.priceMonth} 约 <b>${Math.round(FREEMIUM.priceMonth * FREEMIUM.pointsPerYuan / FREEMIUM.pointsPerCheckin)} 天</b> 打卡就能挣回来。
-      </div>
-
-      <button class="pw-cta-primary" id="pwSubscribeBtn">
-        立即订阅 · 首月 ¥${FREEMIUM.priceMonth}
-      </button>
-      <button class="pw-cta-secondary" onclick="closePaywall()">
-        先看免费周报再说
-      </button>
-      <div class="pw-footnote">source: ${source || 'direct'}</div>
-    </div>
-  `;
-  document.body.appendChild(overlay);
-
-  document.getElementById('pwSubscribeBtn').addEventListener('click', () => {
-    closePaywall();
-    activateDemoSubscription();
-    showMini(`
-      ✅ <b>Demo 订阅成功（占位）</b><br>
-      当前是 demo 环境，真实接入支付时将延续这次订阅记录。
-    `);
-    renderStatusBar();
-  });
-}
-
-function closePaywall() {
-  const el = document.getElementById('paywallOverlay');
-  if (el && el.parentNode) el.parentNode.removeChild(el);
-}
-
-function showMini(html) {
-  const el = document.createElement('div');
-  el.className = 'fp-mini';
-  el.innerHTML = html;
-  document.body.appendChild(el);
-  setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 4200);
-}
-
-/* ============================================================
- *  首次加载：初始化 freemium 状态、刷新状态条
- * ============================================================ */
-ensureFreemiumState();
-renderStatusBar();
 
 
 /* ============================================================
@@ -1369,7 +760,6 @@ function renderAll() {
   renderGrid();
   renderStats();
   renderStatusBar();
-  renderGreeting();
 }
 
 
@@ -1414,14 +804,5 @@ renderAll();
 console.log('[Slim Partner] 上次访问：', _prevVisit);
 console.log('[Slim Partner] 数据条数：', PARTNERS_CONFIG.partners.length);
 </script>
-
-<!-- =========================================================
-     [今天休息一下] —— 浮动独立入口，不进 PARTNERS_CONFIG
-     视觉：温暖的便签纸（淡奶黄 / 咖啡棕字）
-     href → 休息一下.html（已就绪）
-     这是邀请，不是要求，无追踪、无记录、无统计
-     ========================================================= -->
-<a class="rest-btn" href="休息一下.html" data-page-node-id="restBtn"><span class="rest-emoji">☕</span>今天休息一下</a>
-
 </body>
 </html>
