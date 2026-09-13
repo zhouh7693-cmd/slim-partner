@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-page-node-id="4r5DKXS4MwHn8g0uohEk2c">
-<head data-page-node-id="znS2i68GpCtAsNbPcWHhOy">
-<meta charset="UTF-8" data-page-node-id="qhGLj6lMpGh9fQovOH9x1Z">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes,viewport-fit=cover" data-page-node-id="TCkvcrF3RsM5Zh3hwZG0ec">
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes,viewport-fit=cover">
 <title>🛡️ 健康底盘搭子 · 提前一点，少生病一点</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
@@ -61,6 +61,14 @@ body {
 .qa-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.45); display: none; align-items: flex-end; justify-content: center; z-index: 300; }
 .qa-overlay.show { display: flex; }
 .qa-panel { position: relative; max-width: 460px; width: 100%; background: white; border-radius: 28px 28px 0 0; padding: 22px 18px 26px; max-height: 80vh; overflow-y: auto; animation: slideUp .25s ease-out; }
+/* 反馈弹窗：居中卡片，对齐减肥搭子 */
+.fb-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.55); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; z-index: 400; padding: 20px; }
+.fb-overlay.show { display: flex; }
+.fb-panel { position: relative; background: white; border-radius: 28px; padding: 28px 22px; max-width: 360px; width: 100%; max-height: 80vh; overflow-y: auto; text-align: center; animation: fbPop .35s cubic-bezier(0.175,0.885,0.32,1.275); }
+.fb-panel.pos { border-top: 5px solid #0d9488; }
+.fb-panel.neg { border-top: 5px solid #ef4444; }
+.fb-panel.q { border-top: 5px solid #3b82f6; }
+@keyframes fbPop { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: scale(1); } }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 .qa-title { font-size: 17px; font-weight: 700; text-align: center; margin-bottom: 4px; color: #0f172a; }
 .qa-sub { font-size: 13px; text-align: center; color: #64748b; margin-bottom: 16px; }
@@ -200,9 +208,28 @@ body {
 
 /* === Copy stats === */
 .copy-btn { width: 100%; margin-top: 10px; padding: 12px; border-radius: 14px; border: 1.5px solid #e2e8f0; background: white; font-size: 13px; font-weight: 600; color: #0d9488; cursor: pointer; }
+
+    /* === 今天提醒自己（健康搭子-按时段）=== */
+    .daily-tip { display: block; max-width: 420px; margin: 14px auto 0; background: linear-gradient(135deg,#f0fdfa,#ccfbf1); border-radius: 18px; padding: 14px 16px; font-size: 13px; color: #0f766e; line-height: 1.7; box-shadow: 0 6px 16px rgba(13,148,136,0.08); }
+    .daily-tip-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .daily-tip-title { font-weight: 700; color: #0f766e; }
+    .daily-tip-swap { margin-left: auto; font-size: 11px; color: #0f766e; cursor: pointer; text-decoration: underline; }
+    /* === 时段徽章 === */
+    .time-badge { display: inline-block; margin-top: 8px; padding: 4px 10px; background: rgba(255,255,255,0.7); border-radius: 12px; font-size: 12px; color: #0f766e; font-weight: 600; backdrop-filter: blur(4px); }
 </style>
 </head>
-<body data-page-node-id="ccLpZuYZt47e4q8xESSLQM"><div class="wrap hero" data-page-node-id="IqaGWvXPqn44JI0K4DXwUu"><div class="hero-emoji" data-page-node-id="35afzenozzyzlyECGBqm5W">🛡️</div><div class="hero-title" data-page-node-id="kGp2DcJwmKFZcFxy5QD9kW">健康底盘搭子</div><div class="hero-sub" data-page-node-id="R14EG2YqlykOOaMIT889FU">把健康当资产经营。<br data-page-node-id="6wswnA0DfhoLO25ks6uM1D">提前一点，少生病一点。</div></div><div id="page-chat" class="page active" data-page-node-id="vKIRsMv0MH2JD17r3ix1iV"><div class="wrap" data-page-node-id="e2U1bBnRqcCsVUyCGthhp8"><div id="dashboard" style="display:none;" data-page-node-id="lr92pBb5y4WyfCAJ5JEZQj"><div class="card" style="text-align:center;" data-page-node-id="gN3Fz0U1FxDHFypA2tGHJz"><div id="currentPartnerBadge" class="partner-badge" data-page-node-id="CwcUdLigo35u3AkKoUbJze">🌿 温和提醒型</div><div class="question" style="font-size:17px;font-weight:700;color:#0f172a;margin-top:4px;" data-page-node-id="IDmHUQsvvOY0Qz7BYzUhDc">今天，做一件对自己身体好的小事</div><div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="VndnssmuVyusxqZzCzGSzf"><div class="checkin-status" id="checkinStatusText" data-page-node-id="uDB9IxH7bdELQcD0fgm2kb">已打卡</div><div class="checkin-sub" id="checkinSubText" data-page-node-id="UWWUV2AyBWkfMmLnyRcTLh">点击完成</div></div><div class="streak-num" id="streakNum" data-page-node-id="mCwhbOoCaJXcUHFapaUl2E">0</div><div class="streak-label" data-page-node-id="Lz881awcNcWXam2rrklS2s">连续天数 · 断签不清零</div></div><div class="chat-area" id="chatArea" data-page-node-id="CCakN0w8FP9LRSzGFH26fY"></div><div class="week-progress" data-page-node-id="ky0AHQyoTfvuIgZVs0LD05"><div class="week-title" data-page-node-id="WEdjBiJ4MNGkwN1DWBcCUk"><span data-page-node-id="5bdWeAWm7cPVrAwPfemjVQ">📅 本周</span><span id="weekRange" data-page-node-id="xjsEB1uyn7FRx8MEBgKJNa"></span></div><div class="week-dots" id="weekDots" data-page-node-id="Zsg05NhUndO2DiP2HhF3RS"></div></div><button class="copy-btn" onclick="copyStats()" data-page-node-id="4rx8VtAyW8qJaXNI3WJZKx">📋 复制今日战绩</button><div class="card" data-page-node-id="CLpbiuII3DIsINrOonA8rS"><div class="card-title" data-page-node-id="MLgRl0i8GA2Fif491yhQhO">🎯 今日 3 个预防小动作</div><div class="card-sub" data-page-node-id="JvZ88EEBQjbdJqtpEMU2CV">挑一两个做就好，做不到不扣分。</div><div class="action-list" id="actionList" data-page-node-id="oG748HnnCZewBapISdjhrK"></div></div><div class="card" data-page-node-id="UGJBjnLeoAaFFhxZkpf80U"><div class="card-title" data-page-node-id="VzXrRKclvQlNBSk5fZvDCk">🔗 与其他搭子联动</div><div class="card-sub" data-page-node-id="60SygKuLa7HICmdEz824Ld">健康底盘不只在这里，跟其他搭子有连接。</div><a class="link-card" href="搭子-睡眠.html" data-page-node-id="uNYoyPzLvmDJrtybHjlbsz"><div class="em" data-page-node-id="144gFxNaDDatxyQFekGA3L">😴</div><div class="tx" data-page-node-id="0jr9gCsAfBLsDXNNUAJiLb"><div class="nm" data-page-node-id="sWoi0rX0Zkhh7iYY9lo00l">睡眠搭子</div><div class="msg" data-page-node-id="SOqOCEPS9yZ3obzZXjwWr0">睡眠是健康底盘的地基——所有 6 维都从一夜睡眠开始。</div></div></a><a class="link-card" href="index.html" data-page-node-id="1EWa8D4nyRNfMcA8jseTpR"><div class="em" data-page-node-id="59m4PkwefUZ6gwxCOySxsU">🏃</div><div class="tx" data-page-node-id="MnAFnpn5ofeyF9YqKexLlS"><div class="nm" data-page-node-id="u713t1lyPXkyaiPWmzPr2F">减肥搭子</div><div class="msg" data-page-node-id="4xmB1dfhM2HNmEKIda7f8p">腰围、BMI 是代谢风险最直观的信号，体重下来血糖血脂也会跟着好转。</div></div></a><a class="link-card" href="搭子-状态.html" data-page-node-id="Qt4ijHttzDBnYqHUArdt3s"><div class="em" data-page-node-id="a6AAjiFcrmihni231GKxkY">🌊</div><div class="tx" data-page-node-id="vxJWWC8USWIovwMvq6JTXH"><div class="nm" data-page-node-id="vTjHP8vfIMRN2c0BJgCQMV">状态搭子</div><div class="msg" data-page-node-id="U3ewptuPCgClhAfP2TZcNC">压力、情绪、能量直接影响免疫和睡眠——这是隐性变量。</div></div></a><a class="link-card" href="搭子-长期主义.html" data-page-node-id="TQ56Y1Gth6TfbGDCfmISFY"><div class="em" data-page-node-id="GwsNU6gZyMVadR9SfkHewI">⏳</div><div class="tx" data-page-node-id="3Ux6AlxzNhQ6Q01nqxvXXr"><div class="nm" data-page-node-id="HzmOGCZnDR4xK2BLksBQlg">长期主义搭子</div><div class="msg" data-page-node-id="IHmsKlWCTT1OeC6kJ8z8kY">健康是少有的"复利资产"——每年体检坚持 10 年，会成为一个家庭的安全垫。</div></div></a></div><div class="redflag" data-page-node-id="pabnjx8tP4YxpV8YLcHfYJ"><div class="redflag-head" data-page-node-id="FB2PD2PTPFSLMwqPquKL87">🚨 出现这些，不要继续自我管理</div><div class="redflag-list" data-page-node-id="yI7Tf9wyavgAwob8C0PMLb"><div class="it" data-page-node-id="ySU83aKvHM91XBD161hVVF">🩸 便血、黑便</div><div class="it" data-page-node-id="8vtlujRnFVLcPFhG0vhQ8w">⚖️ 不明原因 6 个月内体重下降 ≥ 5%</div><div class="it" data-page-node-id="Wz0TNhCZRitCDxNUzmF2vc">🤮 持续呕吐超过 24 小时</div><div class="it" data-page-node-id="phwg76UD6pRserbt1IPH5C">🌙 夜间腹泻或夜间症状把你叫醒</div><div class="it" data-page-node-id="ffFdi7ZFiuFk57nGm4QLRv">😰 明显贫血（面色苍白、头晕、心悸）</div><div class="it" data-page-node-id="Sq7W8QgdqRJzwZz34GnaX4">🌡️ 持续发热超过 3 天</div><div class="it" data-page-node-id="0QpSuG16sKiIc54BddH2gq">🩹 剧烈腹痛（按不动、跳痛、放射痛）</div><div class="it" data-page-node-id="tUmC4FO5gvaOGCrtHb979C">🍽️ 吞咽困难或进行性加重</div><div class="it" data-page-node-id="eu5UAgE9dpUMsHqXc2IaxH">🟡 黄疸（皮肤/眼白发黄）</div><div class="it" data-page-node-id="eR2SvmE5PZhH8lSC6HsgCv">💔 静息时胸痛或呼吸困难</div><div class="it" data-page-node-id="Vu656sYxGzlqQJu0ozQp8G">🦵 单侧腿肿胀/疼痛（排除外伤）</div><div class="it" data-page-node-id="SEqaqIsme6lXrVGjBDIPho">⚡ 突发剧烈头痛（"一生中最严重"）</div></div><div class="redflag-foot" data-page-node-id="HORjsGadHdaxWRauN64a99">直接就医 · 搭子不替你判断</div></div></div><div id="partnerSelectorMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:250;" data-page-node-id="UM0zHyrRTrbJOruIqcGLRl"></div>
+<body><div class="wrap hero"><div class="hero-emoji">🛡️</div><div class="hero-title">健康底盘搭子</div><div class="hero-sub">把健康当资产经营。<br>提前一点，少生病一点。</div><div class="time-badge" id="timeBadge"></div></div><div id="page-chat" class="page active"><div class="wrap"><div id="dashboard" style="display:none;"><div class="card" style="text-align:center;"><div id="currentPartnerBadge" class="partner-badge">🌿 温和提醒型</div><div class="question" style="font-size:17px;font-weight:700;color:#0f172a;margin-top:4px;">今天，做一件对自己身体好的小事</div><div id="checkinBtn" class="checkin-btn" onclick="doCheckin()"><div class="checkin-status" id="checkinStatusText">已打卡</div><div class="checkin-sub" id="checkinSubText">点击完成</div></div><div class="streak-num" id="streakNum">0</div><div class="streak-label">连续天数 · 断签不清零</div></div><div class="chat-area" id="chatArea"></div><div class="week-progress"><div class="week-title"><span>📅 本周</span><span id="weekRange"></span></div><div class="week-dots" id="weekDots"></div></div><button class="copy-btn" onclick="copyStats()">📋 复制今日战绩</button><div class="card"><div class="card-title">🎯 今日 3 个预防小动作</div><div class="card-sub">挑一两个做就好，做不到不扣分。</div><div class="action-list" id="actionList"></div></div><div class="card"><div class="card-title">🔗 与其他搭子联动</div><div class="card-sub">健康底盘不只在这里，跟其他搭子有连接。</div><a class="link-card" href="搭子-睡眠.html"><div class="em">😴</div><div class="tx"><div class="nm">睡眠搭子</div><div class="msg">睡眠是健康底盘的地基——所有 6 维都从一夜睡眠开始。</div></div></a><a class="link-card" href="index.html"><div class="em">🏃</div><div class="tx"><div class="nm">减肥搭子</div><div class="msg">腰围、BMI 是代谢风险最直观的信号，体重下来血糖血脂也会跟着好转。</div></div></a><a class="link-card" href="搭子-状态.html"><div class="em">🌊</div><div class="tx"><div class="nm">状态搭子</div><div class="msg">压力、情绪、能量直接影响免疫和睡眠——这是隐性变量。</div></div></a><a class="link-card" href="搭子-长期主义.html"><div class="em">⏳</div><div class="tx"><div class="nm">长期主义搭子</div><div class="msg">健康是少有的"复利资产"——每年体检坚持 10 年，会成为一个家庭的安全垫。</div></div></a></div><div class="redflag"><div class="redflag-head">🚨 出现这些，不要继续自我管理</div><div class="redflag-list"><div class="it">🩸 便血、黑便</div><div class="it">⚖️ 不明原因 6 个月内体重下降 ≥ 5%</div><div class="it">🤮 持续呕吐超过 24 小时</div><div class="it">🌙 夜间腹泻或夜间症状把你叫醒</div><div class="it">😰 明显贫血（面色苍白、头晕、心悸）</div><div class="it">🌡️ 持续发热超过 3 天</div><div class="it">🩹 剧烈腹痛（按不动、跳痛、放射痛）</div><div class="it">🍽️ 吞咽困难或进行性加重</div><div class="it">🟡 黄疸（皮肤/眼白发黄）</div><div class="it">💔 静息时胸痛或呼吸困难</div><div class="it">🦵 单侧腿肿胀/疼痛（排除外伤）</div><div class="it">⚡ 突发剧烈头痛（"一生中最严重"）</div></div><div class="redflag-foot">直接就医 · 搭子不替你判断</div></div></div><!-- 今天提醒自己（按时段区分） -->
+<div class="daily-tip" id="dailyTip">
+  <div class="daily-tip-header">
+    <span>📌</span>
+    <span class="daily-tip-title">今天提醒自己</span>
+    <span class="daily-tip-swap" onclick="nextDailyTip()">换一条</span>
+  </div>
+  <div id="dailyTipText"></div>
+  <div style="font-size:11px;color:#0d9488;margin-top:6px;opacity:0.75;">每天一次 · 跟着当下时段自动切换</div>
+</div>
+
+<div id="partnerSelectorMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:250;"></div>
 <!-- 怎么和搭子说（参考减肥搭子） -->
 <div class="interaction-panel" style="margin-top:18px;background:#fff;border-radius:18px;padding:14px 12px;box-shadow:0 4px 14px rgba(0,0,0,0.05);">
   <div class="panel-label" style="font-size:13px;color:#64748b;margin-bottom:8px;text-align:center;font-weight:600;">🎓 怎么和搭子说</div>
@@ -224,31 +251,8 @@ body {
     <button class="talk-btn" data-type="question"  onclick="askPartner('question')">🤔 有问题想问</button>
   </div>
 </div>
-<div id="partnerSelector" style="display:none;position:fixed;left:0;right:0;bottom:0;top:0;z-index:251;overflow-y:auto;" data-page-node-id="usnD4uaR7oFAuHW1qO7hU6"><div class="partner-selector" data-page-node-id="E0ScMljjvFYuvA8gW7P4lo"><div class="selector-title" data-page-node-id="P8T3iN9vz1BND66nCNKwwm">选个健康搭子</div><div class="selector-sub" data-page-node-id="83yQaKlYT5Jx2pUwgF37Ux">陪你把预防变成日常，不吓人、不卖保健品。</div><div class="partner-grid" id="partnerGrid" data-page-node-id="cCI7suYPseL99F49BvGsu8"><div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')" data-page-node-id="xJhqV6OKCXzbyvvJYOIPu4"><div class="partner-emoji" data-page-node-id="euMgWK4Pk1D3DIBIZOz7BR">🌿</div><div class="partner-name" data-page-node-id="IlN2lj76RwvcVcGMBC6n4m">温和提醒型</div><div class="partner-desc" data-page-node-id="p4EOCnReDPud00oSKbENxP">不催不骂，慢慢来</div></div><div class="partner-card" id="pc-science" onclick="selectPartner('science')" data-page-node-id="20X5Yermbj0pteCQLORH3M"><div class="partner-emoji" data-page-node-id="SEEuYc1gP6igNIkzByQ7V9">🔬</div><div class="partner-name" data-page-node-id="9ffEq6yP4GdniQ529wnDAa">循证派</div><div class="partner-desc" data-page-node-id="aTFOIY2JrPkCrdhIR57HfM">每条建议都标证据等级</div></div><div class="partner-card" id="pc-coach" onclick="selectPartner('coach')" data-page-node-id="EWTFBtaAdI0Z8UW4ZY19pF"><div class="partner-emoji" data-page-node-id="z9ZzeLsTSPZBozlQ480d9I">🏋️</div><div class="partner-name" data-page-node-id="4MA1gQAilxrgguleJk9GHW">行动派</div><div class="partner-desc" data-page-node-id="yj7MWQYwc0zW7ziJeHzpTd">每天 3 件，一件件来</div></div><div class="partner-card" id="pc-warm" onclick="selectPartner('warm')" data-page-node-id="pmaZ4mX8mPFiBgeKktmiiC"><div class="partner-emoji" data-page-node-id="gR79IJFCNw11ioZ72bYdgB">🧸</div><div class="partner-name" data-page-node-id="2ryhj3MmjA7l23hTmNEAOy">陪伴型</div><div class="partner-desc" data-page-node-id="wRsCguz7kGRQqHEyMSu2xz">焦虑的时候也能来聊</div></div></div><button class="confirm-btn" onclick="confirmPartner()" data-page-node-id="yKAwXJFw6SM192VsG2h5fL">✨ 开始陪伴 ✨</button></div></div></div></div><div id="page-coach" class="page" data-page-node-id="1S7mITmyvk62RiJaQ9YRsC">
-<!-- 教练 tab：情绪 + 谈话入口 + 成长路线 + checklist -->
-<div style="max-width:420px;margin:0 auto;">
-  <div class="interaction-panel" style="background:#fff;border-radius:18px;padding:14px 12px;box-shadow:0 4px 14px rgba(0,0,0,0.05);">
-    <div style="font-size:13px;color:#64748b;margin-bottom:8px;text-align:center;font-weight:600;">🎓 怎么和教练说</div>
-    <div style="font-size:11px;color:#94a3b8;text-align:center;margin-bottom:10px;">先选情绪状态，再说事。</div>
-    <div class="mood-row" style="display:flex;justify-content:center;gap:10px;margin-bottom:12px;">
-      <div class="mood-btn" data-mood="happy"   title="状态好"   onclick="sendMood('happy')">😊</div>
-      <div class="mood-btn" data-mood="neutral" title="正常"     onclick="sendMood('neutral')">😐</div>
-      <div class="mood-btn" data-mood="tired"   title="疲惫"     onclick="sendMood('tired')">😴</div>
-      <div class="mood-btn" data-mood="unwell"  title="不太舒服" onclick="sendMood('unwell')">🤒</div>
-    </div>
-    <div class="talk-btn-row">
-      <button class="talk-btn" data-type="progress"  onclick="askPartner('progress')">📈 进展</button>
-      <button class="talk-btn" data-type="struggle"  onclick="askPartner('struggle')">😣 困难</button>
-      <button class="talk-btn" data-type="idea"      onclick="askPartner('idea')">💡 想法</button>
-      <button class="talk-btn" data-type="cheer"     onclick="askPartner('cheer')">🎉 喜事</button>
-    </div>
-    <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" data-type="report"    onclick="askPartner('report')">📣 汇报指标</button>
-      <button class="talk-btn" data-type="question"  onclick="askPartner('question')">🤔 有问题想问</button>
-    </div>
-  </div>
-
-  <!-- 成长路线 + Checklist -->
+<div id="partnerSelector" style="display:none;position:fixed;left:0;right:0;bottom:0;top:0;z-index:251;overflow-y:auto;"><div class="partner-selector"><div class="selector-title">选个健康搭子</div><div class="selector-sub">陪你把预防变成日常，不吓人、不卖保健品。</div><div class="partner-grid" id="partnerGrid"><div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')"><div class="partner-emoji">🌿</div><div class="partner-name">温和提醒型</div><div class="partner-desc">不催不骂，慢慢来</div></div><div class="partner-card" id="pc-science" onclick="selectPartner('science')"><div class="partner-emoji">🔬</div><div class="partner-name">循证派</div><div class="partner-desc">每条建议都标证据等级</div></div><div class="partner-card" id="pc-coach" onclick="selectPartner('coach')"><div class="partner-emoji">🏋️</div><div class="partner-name">行动派</div><div class="partner-desc">每天 3 件，一件件来</div></div><div class="partner-card" id="pc-warm" onclick="selectPartner('warm')"><div class="partner-emoji">🧸</div><div class="partner-name">陪伴型</div><div class="partner-desc">焦虑的时候也能来聊</div></div></div><button class="confirm-btn" onclick="confirmPartner()">✨ 开始陪伴 ✨</button></div></div></div></div><div id="page-coach" class="page">
+<!-- 成长路线 + Checklist -->
   <div id="crpWrap_health" class="crp-wrap" style="margin-top:14px;">
     <style>
       #crpWrap_health .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
@@ -325,13 +329,26 @@ body {
     </script>
   </div>
 </div>
-<div class="wrap" data-page-node-id="QxApH959v9GCtJBi0abM56"><div class="card" data-page-node-id="utpPKib5z5OF3PJ83Wjlum"><div class="card-title" data-page-node-id="sGyXkttOqeLOha0tgL2m9k">🎓 怎么和搭子说</div><div class="card-sub" data-page-node-id="HSsOU8DwRmy8icJznNIshX">先选情绪状态，再说事。</div><div class="mood-row" id="moodRow" data-page-node-id="cdHiiDWfDDm7JBy3TVnCxt"><div class="mood-btn" data-mood="happy" onclick="sendMood('happy')" title="开心" data-page-node-id="GMBoXWeKi95gNGHG029CQ3">😄</div><div class="mood-btn" data-mood="calm" onclick="sendMood('calm')" title="平静" data-page-node-id="GYyOiYVbGt51ozrv3fNLny">😌</div><div class="mood-btn" data-mood="low" onclick="sendMood('low')" title="低落" data-page-node-id="IfsZce0Jli3YBU0yHEiaud">😔</div><div class="mood-btn" data-mood="tired" onclick="sendMood('tired')" title="累了" data-page-node-id="NOybM32G4fwACNF16JSfGr">😫</div></div><div class="talk-btn-row" data-page-node-id="GgEs2MA9ye4PKf6wUu0web"><button class="talk-btn" data-type="progress" onclick="sendTalk('progress')" data-page-node-id="B7nIpbI9nkDcwJC2fdWsh1">📈 进展</button><button class="talk-btn" data-type="struggle" onclick="sendTalk('struggle')" data-page-node-id="MLTVOSWq7WI6jfHzDVSLLi">😣 困难</button><button class="talk-btn" data-type="idea" onclick="sendTalk('idea')" data-page-node-id="Ar47IgZzKRXQrQUXgLJFnU">💡 想法</button><button class="talk-btn" data-type="cheer" onclick="sendTalk('cheer')" data-page-node-id="tj26ZQM8I9B8ND3VRyFxnE">🎉 喜事</button></div><div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="KDUfus5a0J3wYwKhECNnke"><button class="talk-btn" data-type="report" onclick="sendTalk('report')" data-page-node-id="A80Ll1oww5RfCF7tpstBU4">📣 汇报进展</button><button class="talk-btn" data-type="question" onclick="sendTalk('question')" data-page-node-id="Gvf2ULGM0UhRg6z69HBymS">🤔 有问题想问</button></div></div><div class="card" data-page-node-id="ZMjB14Wcd44YeBBklWFEcj"><div class="card-title" data-page-node-id="cTZF0oixvnsarrgpdIhTkF">🔬 证据分级卡</div><div class="card-sub" data-page-node-id="S2OwBBXNgbb4uSNHt5E2ID">同样的健康话题，证据不一样就标不一样。</div><div class="evid" style="background:#ecfdf5;border:1px solid #10b98133;" data-page-node-id="ourrN7Z2ApSqmj7Vxin85Z"><div class="evid-label" style="color:#10b981;" data-page-node-id="J5T8LSIkUcRnizPBU9GcZl">🔒 锁定</div><ul class="evid-list" data-page-node-id="u7DTABU68TasDXz9loOcRU"><li data-page-node-id="Uut8YJJLFk9xvdiBtNdZrf">植物多样性（每周 ≥ 30 种）：肠道菌群和代谢双重受益</li><li data-page-node-id="YWXtHDYV2z796J1E78IBZR">膳食纤维 25-30g/天：独立降低全因死亡率、心血管、结直肠癌</li><li data-page-node-id="Mje1oqwjqubDA7egEynV3n">规律运动（150 分钟/周）：改善代谢、认知、情绪几乎是"零副作用"</li><li data-page-node-id="pqdLIUsshFmkiugy8oDzwL">睡眠 7-9 小时：低于 5 小时免疫反应明显下降</li><li data-page-node-id="vH9Wr6mFjjvlQS28jJHrSk">戒烟、控制血压/血糖/血脂：每控一项寿命可观改变</li></ul></div><div class="evid" style="background:#fffbeb;border:1px solid #f59e0b33;" data-page-node-id="6u5XJGT5UxLXxC5SVj6RgW"><div class="evid-label" style="color:#f59e0b;" data-page-node-id="il6r2UVF5IPlmWmsOAPjrh">⏳ 限定情境</div><ul class="evid-list" data-page-node-id="L2ESSmT6V5Vrew5AqaMHkd"><li data-page-node-id="7CADwHYCmNm92xN6t9z2U7">发酵食品（酸奶/泡菜）：特定情境下有益，不是所有人都受益</li><li data-page-node-id="OwmWLTObRZAtxfm6Vf3iBV">特定益生菌菌株：只能在特定适应症短期使用，不建议长期当保健品</li><li data-page-node-id="a8hGubPLInTYD8kPKtPWnm">间歇性断食：减重效果存在，需个体化评估（糖尿病等慎用）</li><li data-page-node-id="Zo2l6qsrCXqFA2bLt0uWFS">低碳/生酮饮食：短期代谢指标改善，长期数据仍有限</li><li data-page-node-id="lv52fOhqhF4XJi98H9zoUU">Omega-3 补充：饮食来源稳定，不建议高剂量补充剂</li></ul></div><div class="evid" style="background:#eff6ff;border:1px solid #3b82f633;" data-page-node-id="Atk3y36PeeU2LMnNrOtq3u"><div class="evid-label" style="color:#3b82f6;" data-page-node-id="wPaCIb0SrM42KoPgW2XZfR">🔬 继续验证</div><ul class="evid-list" data-page-node-id="gBuNVsMzuPP4hRoqRiGGXU"><li data-page-node-id="1GK2N81IuFJSaeDu19jkqF">菌群检测指导个体饮食：技术刚起步，结果稳定性差</li><li data-page-node-id="DoPK2RjUzqftsu7vg2MWQW">心理益生菌（psychobiotics）：仅小型研究，机制未明</li><li data-page-node-id="cJ71xu0IVBu80rd3UYFLHC">精准减重菌群：营销大于证据，别当主要方案</li><li data-page-node-id="jp705gmPeBFJOfWybSdP0D">冷暴露/桑拿延寿：相关性强，机制研究中</li><li data-page-node-id="5WHQtURlmKgyzV5qEU5wBr">"功能性食品"对慢性病逆转：监管层面尚未厘清</li></ul></div><div class="evid" style="background:#fef2f2;border:1px solid #dc262633;" data-page-node-id="IAnnWahvoSxqqQWGBeLT0A"><div class="evid-label" style="color:#dc2626;" data-page-node-id="7zyjHZhnU4OHE9wGIyjeP4">🚫 退休</div><ul class="evid-list" data-page-node-id="UxGPEVhaKQKZ2N2Nqu1qFm"><li data-page-node-id="IRCE1IZAp7lUK2I1zGH2oG">"排毒"疗程（果汁/断食排毒）：人体肝肾就是排毒器官</li><li data-page-node-id="O0JSCnmpKMBv9CpdIU9uHD">"肠漏"万能论：机制存在但被滥用，几乎所有慢病都被挂上</li><li data-page-node-id="MrtlE2cmgXOBcZidN7RfYM">好菌越多越好：单一菌种过度增殖反而可能有害</li><li data-page-node-id="DYZ043r2zxW5wfBOdEWJ2V">纯素自动健康：需要补 B12、铁、锌、Omega-3，规划好是健康的</li><li data-page-node-id="WKAE0BEwzMQ5XWj9lrjngV">一次检测找到百病根因：基因/菌群/食物不耐受检测目前做不到</li></ul></div></div><div class="disclaimer" data-page-node-id="rHoJLOiQtm4mZtg5DiG1ju"><b data-page-node-id="rtt7j8mRyIJkxtIDoDOji7">健康底盘搭子不替代医生诊断、治疗和处方。</b><br data-page-node-id="sWcXFJmlMyDyOz0mHXnHaU">所有建议仅用于一般健康教育。出现持续或明显症状，请及时就医。</div></div></div><div id="page-sop" class="page" data-page-node-id="Kq25RHoFuigWtmK96gplLs"><div class="wrap" data-page-node-id="VFcBBL4XtTMAU6agOVjNF1"><div class="card" data-page-node-id="gQNBuHQqqUX8jCZEKA3SDS"><div class="card-title" data-page-node-id="mDF7XeuDcMp3mtpGCZCaWK">🎯 健康六维自评</div><div class="card-sub" data-page-node-id="bLUCrARbBWCYpbXAwO6HPn">每周一次，每个维度 1-5 分。不评没事，评了就是数据。</div><div class="sop-cats" id="sopCats" data-page-node-id="kR3RICprycoW0q7pweY1CF"></div><div class="sop-cat-tip" id="sopTipText" data-page-node-id="GqkrQNdZxpdHX0V7bVakgA">从六个维度选一个开始。<br data-page-node-id="9auXVWXEqYwJuE8i0KbsXo"><b data-page-node-id="EeSXTCJOdNuAC4z32rgVsz">原则：</b>不评"病了"，只评"这一维本周偏低，可以从一个小动作开始"。</div><div class="sop-score-row" id="sopScoreRow" data-page-node-id="BYBd2W0P4PpdO6JAN2ktDj"></div><div class="sop-submit-row" data-page-node-id="FLnKq09oULnxPjSTNpbNuJ"><button class="sop-submit-btn primary" onclick="submitSOPScore()" data-page-node-id="Asxxb54ihq3s6AjhzEONlu">记下这一维</button><button class="sop-submit-btn ghost" onclick="clearSOPScore()" data-page-node-id="B9dGhg7APuvCDTrkCbsstW">不评了</button></div></div><div class="radar-wrap" data-page-node-id="lnwZNWbBS6REQOtLcx4r6y"><div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:6px;" data-page-node-id="16dzuPugHzOx7hEay8AQ1f">📊 六维健康图谱</div><div class="radar-svg" id="radarSvg" data-page-node-id="grHECvp8fstskEMrYZs6Ar"></div><div class="radar-legend" id="radarLegend" data-page-node-id="A65hneyVa0NfzbynnRXxEN"></div></div><div class="card" id="cardHealthMetrics"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font-size:22px;">📊</span><span style="font-weight:800;font-size:15px;color:#0f172a;">日常可监测</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">在家就能做 · 不焦虑</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">这 7 项是<b>生活医学</b>能在家监督的指标：血压计、体重秤、计步器、手机。频率看心情，<b>不是每天</b>。</div><div id="dailyMetricList" style="display:flex;flex-direction:column;gap:6px;"></div><div style="margin-top:14px;display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font-size:22px;">🩺</span><span style="font-weight:800;font-size:15px;color:#0f172a;">体检项目</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">按年度周期</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">这部分需要医院/体检机构测，记录最近一次结果便于下次对比。<b>不诊断，只显示你和医生要讨论的范围。</b></div><div id="yearlyMetricList" style="display:flex;flex-direction:column;gap:6px;"></div></div></div></div><div id="page-checkin" class="page" data-page-node-id="OeJppHx2BF7FM7bZ2WeUrW"><div class="wrap" data-page-node-id="nLdVFsC5UEgFSaHfC1cdgw"><div class="card" style="text-align:center;" data-page-node-id="o6IbWHzAD2oFDqBDZM8aac"><div style="font-size:13px;color:#64748b;" data-page-node-id="xX3PWrJBmNt6u8xAkOXd2I">今日打卡进度</div><div style="font-size:44px;font-weight:800;color:#0d9488;margin-top:4px;" id="checkinProgress" data-page-node-id="Vss6knfZReemnzigz0AZyS">0 / 3</div><div style="font-size:12px;color:#94a3b8;margin-top:4px;" data-page-node-id="VDgEzT8UjpvaR3cS2RzILc">完成 1 件算"打卡"</div></div>
+<div class="wrap"><!-- 教练角色介绍（对齐减肥搭子 coach-intro 结构） -->
+    <div class="coach-intro">
+      <div class="coach-intro-icon">🏥</div>
+      <div class="coach-intro-title">循证医学 · 健康底盘教练</div>
+      <div class="coach-intro-sub">帮你把健康话题的证据和你的具体情况分开，不卖保健品、不吓你</div>
+      <div class="method-steps">
+        <div class="method-step"><span class="step-num">①</span> 盘点底盘<br><span class="step-desc">代谢 / 睡眠 / 压力 / 运动现状</span></div>
+        <div class="method-step"><span class="step-num">②</span> 查证据<br><span class="step-desc">每条建议标证据等级（🔒锁定 / ⏳情境 / 🚫少碰）</span></div>
+        <div class="method-step"><span class="step-num">③</span> 排优先级<br><span class="step-desc">把"先做哪 3 件"排出来</span></div>
+      </div>
+      <button class="coach-start-btn" onclick="startHealthCoach()">和教练深聊一次 →</button>
+      <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 循证医学框架</div>
+    </div>
+<div id="page-sop" class="page"><div class="wrap"><div class="card"><div class="card-title">🎯 健康六维自评</div><div class="card-sub">每周一次，每个维度 1-5 分。不评没事，评了就是数据。</div><div class="sop-cats" id="sopCats"></div><div class="sop-cat-tip" id="sopTipText">从六个维度选一个开始。<br><b>原则：</b>不评"病了"，只评"这一维本周偏低，可以从一个小动作开始"。</div><div class="sop-score-row" id="sopScoreRow"></div></div><div class="radar-wrap"><div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:6px;">📊 六维健康图谱</div><div class="radar-svg" id="radarSvg"></div><div class="radar-legend" id="radarLegend"></div></div><div class="card" id="cardHealthMetrics"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font-size:22px;">📊</span><span style="font-weight:800;font-size:15px;color:#0f172a;">日常可监测</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">在家就能做 · 不焦虑</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">这 5 项是<b>生活医学</b>能在家监督的指标：血压计、体重秤、计步器、手机。频率看心情，<b>不是每天</b>。</div><div id="dailyMetricList" style="display:flex;flex-direction:column;gap:6px;"></div><div style="margin-top:14px;display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font-size:22px;">🩺</span><span style="font-weight:800;font-size:15px;color:#0f172a;">体检项目</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">按年度周期</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">这部分需要医院/体检机构测，记录最近一次结果便于下次对比。<b>不诊断，只显示你和医生要讨论的范围。</b></div><div id="yearlyMetricList" style="display:flex;flex-direction:column;gap:6px;"></div></div></div></div><div id="page-checkin" class="page"><div class="wrap"><div class="card" style="text-align:center;"><div style="font-size:13px;color:#64748b;">今日打卡进度</div><div style="font-size:44px;font-weight:800;color:#0d9488;margin-top:4px;" id="checkinProgress">0 / 3</div><div style="font-size:12px;color:#94a3b8;margin-top:4px;">完成 1 件算"打卡"</div></div>
 <div class="card">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:22px;">📋</span><span style="font-weight:800;font-size:15px;color:#0f172a;">今日打卡场景</span></div>
   <div style="font-size:12px;color:#64748b;margin-bottom:12px;">挑最贴近今天的一个。这 8 个维度覆盖预防医学最关键的方向：<b>饮食 · 运动 · 睡眠 · 压力 · 放松 · 喝水 · 屏幕 · 用药补剂</b>。</div>
   <div id="checkinSceneList" style="display:flex;flex-direction:column;gap:8px;"></div>
 </div>
-</div><div class="card-sub" data-page-node-id="HhNHvVZAGXg4LcDDEBPyj9">挑一个最贴近今天的——不是非做不可。</div><div class="scene-list" id="sceneList" data-page-node-id="FJNxWIzhJqh5LHIHNAUpMB"></div></div></div></div><div id="page-data" class="page" data-page-node-id="MtqeJpwlLM6MANHJmpOGGC"><div class="wrap" data-page-node-id="MysCJH4z4zmps7MGzSMgow"><div class="card" data-page-node-id="blTTPOh7r3PWdsutwHz6t3"><div class="card-title" data-page-node-id="wvvd75U1unhzGjtgM20ZRn">🧮 健康度（6 维综合）</div><div class="card-sub" data-page-node-id="ciG6MrEsU3pBgy2y5k2BV9">把六维评分整合为一个数字，趋势比单次更说明问题。</div><div style="font-size:42px;font-weight:800;color:#0d9488;text-align:center;margin-top:8px;" id="overallScore" data-page-node-id="uE3NltdDwR8HBihhDT6fS7">—</div><div style="font-size:12px;color:#64748b;text-align:center;" data-page-node-id="TObO861AaDtSFcKu6kNiRp">满分 30 · 综合健康度</div><div id="recommendText" style="background:#ccfbf1;border-radius:14px;padding:12px 14px;margin-top:14px;font-size:12.5px;color:#0d9488;line-height:1.6;" data-page-node-id="nAcDyPreDmgzv7hbgZvYLg"></div></div><div class="card" id="cardHealthCycle"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:22px;">📅</span><span style="font-weight:800;font-size:15px;color:#0f172a;">日常监督周期</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">勾上 = 已加入节奏</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">预防医学的核心不是"每天检查"，而是<b>按节奏做事</b>。勾上你能跟上的节奏。断签不扣分。</div><div id="cycleList" style="display:flex;flex-direction:column;gap:10px;"></div></div></div></div><div id="page-progress" class="page" data-page-node-id="Udo3RXSOavpucGgyzfiX3w"><div class="wrap" data-page-node-id="kFSQOw0MgnC9zoiWwlUdfa"><div class="card" data-page-node-id="DW8FzLeVIt2i2HGEWOLSlD"><div class="card-title" data-page-node-id="bZap7symzEbeDGzsnlQEBX">📈 进展趋势</div><div class="card-sub" data-page-node-id="HE0FGcVTcuSvrsHFtiqxaG">看趋势，不看单次 —— 4 周以上才有意义。</div><div id="progressChart" style="height:200px;display:flex;align-items:flex-end;gap:6px;padding:8px 4px;border-bottom:1px solid #e2e8f0;" data-page-node-id="a0ALaHQfBwA78mruKEB9yL"></div><div style="font-size:11px;color:#94a3b8;text-align:center;margin-top:8px;" id="progressLabel" data-page-node-id="jqEEsmQ866MJAG29Kw5MNF">还没有数据 — 完成 2 周自评后会出现趋势</div></div><div class="card" data-page-node-id="YgeM2hv18HOiD15RF53BVH"><div class="card-title" data-page-node-id="zDiRwHMarR6f8BHOJrFHcw">📊 六维对比（最近 2 次）</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:11px;color:#64748b;text-align:center;font-weight:700;padding:0 4px 6px;" data-page-node-id="rFn9fleGfRkTY38qukLmwF"><div data-page-node-id="GgT2trmMu0IgYQNRC1Sb6D">维度</div><div data-page-node-id="tGMMTpbPegkN9xBdgR7orM">最近</div><div data-page-node-id="vxZCXzNWgWtUMNhOluDkCG">上次</div></div><div id="compareList" data-page-node-id="CC6jNtgKsuDJHxEhYLwoGd"></div></div></div></div><div id="page-share" class="page" data-page-node-id="7BJomBQwYKLBe5b7HlJ0RS"><div class="wrap" data-page-node-id="lqnMbKOG72xjtboFjbSzGs"><div style="text-align:center;padding:18px 0 6px;" data-page-node-id="QpYrwNQOE2d65RMUaF7G7I"><div style="font-size:50px;line-height:1;" data-page-node-id="6N3Xury2IpBiNUCPubf44P">🛡️</div><div style="font-size:22px;font-weight:800;margin-top:8px;color:#0f172a;" data-page-node-id="ZgEOMFvSnRpzPRXsgOKeGD">健康底盘搭子</div><div style="font-size:13px;color:#64748b;margin-top:4px;" data-page-node-id="BG17WrVDhOhKjtDTqVtVvc">把健康当资产 · 提前一点少生病一点</div></div><div class="share-summary" data-page-node-id="sBbdwZC3hDysdgtYahJUEM"><div class="label" data-page-node-id="XxHcMaroGAwUxn6xoG4Fyw">我的健康账本</div><div class="text" id="sharePnLSummary" data-page-node-id="Q189AbdoCunDa1fkxQPCWN">还在积累中。开始打卡后这里会出现你的健康账本摘要。</div></div><div class="share-stat-grid" id="shareStatGrid" data-page-node-id="JfaSoIUAICFZD7wulUhUyT"></div><div style="margin-top:16px;background:linear-gradient(135deg,#f0fdfa,#e6fffa);border-radius:18px;padding:18px;" data-page-node-id="QAF1OHPDOIvVq0ujs8z7OJ"><div style="font-size:14px;font-weight:700;color:#0f172a;" data-page-node-id="VGfrRoTEG9Zh6Ew5x4ESSj">🛡️ 这个搭子适合谁</div><div style="font-size:12.5px;color:#475569;margin-top:6px;line-height:1.7;" data-page-node-id="C3ZzhHztEiVK2RE4iaXBte">想把健康当资产经营的人——<br data-page-node-id="7vqvEqhB72Jv7IxExcuCOM">不焦虑、不卖保健品、不替你诊断。<br data-page-node-id="CkOP3nT0Hp6apeS1WB5pR7">每天 3 件小事 + 每年 1 次体检复盘。</div></div><button class="copy-btn" onclick="copyShareLink()" style="margin-top:14px;" data-page-node-id="YOw7D34pMvsd4Foi5bkTZY">📋 复制分享文案</button><div class="disclaimer" style="margin-top:14px;" data-page-node-id="dzE9vLXIf8GZVUo4793Hom">本搭子不替代医生诊断 · 仅用于一般健康教育</div></div></div><div class="tab-bar" data-page-node-id="esFCc3wBDep9T1Wa0vmVVH"><div class="tab-item active" onclick="switchTab('chat')" data-page-node-id="Z1jzh1gZURMC8FPKa1pDnu"><div class="tab-icon" data-page-node-id="uM3ZRDtJtBHq5lWemTyjof">🏠</div><div class="tab-label" data-page-node-id="eIeIwU2AsK2E9El8T3Az1F">搭子</div></div><div class="tab-item" onclick="switchTab('coach')" data-page-node-id="ZKua2pBiN2erwq65LeM7yk"><div class="tab-icon" data-page-node-id="hHCfFNZo3oIrjdKFWocD2b">🎓</div><div class="tab-label" data-page-node-id="8ZyUi3MsNjaXSnrEmtHSXd">教练</div></div><div class="tab-item" onclick="switchTab('sop')" data-page-node-id="q5wFwEWXLftIe6CydePsD2"><div class="tab-icon" data-page-node-id="ukyfIpWC9AYZbvBPudt7fU">🎯</div><div class="tab-label" data-page-node-id="rEUm9QtLBHtuRDIY75oG4c">自检</div></div><div class="tab-item" onclick="switchTab('checkin')" data-page-node-id="GWjAbUeEcRncopobUXxuto"><div class="tab-icon" data-page-node-id="0cMJItOiqShPoQCHErDAv0">✅</div><div class="tab-label" data-page-node-id="cMY2TEUrqEelWG7AT3tLHW">打卡</div></div><div class="tab-item" onclick="switchTab('data')" data-page-node-id="ApvYEaswKUQZxi4TFtjTNA"><div class="tab-icon" data-page-node-id="WS7JzB4GRSGUDoKVThF3kL">🧮</div><div class="tab-label" data-page-node-id="GQ40dpzJEr2FqwzV4AHC0w">健康度</div></div><div class="tab-item" onclick="switchTab('progress')" data-page-node-id="Z6B64LScCeabqsFFGrjJTD"><div class="tab-icon" data-page-node-id="ttw2s1yD7A2ATMwlXTowiZ">📈</div><div class="tab-label" data-page-node-id="VlqCM37LjD3eiPaDmAOj27">进展</div></div><div class="tab-item" onclick="switchTab('share')" data-page-node-id="QGEFrMetHtKAcNLipqds6n"><div class="tab-icon" data-page-node-id="3Ppq1JUDu1D8mmbfPjugmx">📣</div><div class="tab-label" data-page-node-id="q3vmra7CHkpuUucFoBAu43">分享</div></div></div><div id="qaOverlay" class="qa-overlay" data-page-node-id="khiNMxEH9Wl4S3pHAiba8i"><div class="qa-panel" data-page-node-id="xkKGTVNiOxsEAHze7YRiGV"><button class="qa-close-x" onclick="closeQAPanel()" aria-label="关闭" data-page-node-id="iOEZJZRWfx50q65JN6N4zK">✕</button><div id="qaTitle" class="qa-title" data-page-node-id="PETQbCzySgmF1khg48ywet"></div><div id="qaSub" class="qa-sub" data-page-node-id="SfVu7mRWf7qVY7gOkHrbFN"></div><div id="qaList" class="qa-cards" data-page-node-id="pqXpxlri91fVzLoOkCW3vF"></div></div></div><div id="fbOverlay" class="qa-overlay" data-page-node-id="4w0cdIVqxWpCOpN9dWYqPP"><div class="qa-panel" data-page-node-id="Xy45GtJLX0l03w8UZaHXTW"><button class="qa-close-x" onclick="closeFB()" aria-label="关闭" data-page-node-id="iX6SQUEjdfi27rb7MmSBLC">✕</button><div id="fbTitle" class="qa-title" data-page-node-id="C93nlJcwWP90HXG91xtciZ"></div><div id="fbSub" class="qa-sub" data-page-node-id="EPcXRTrBxqHxZUG6uQlbdh"></div><div id="fbBody" data-page-node-id="6n18ZPI8va9OqNGKOkCYKi"></div></div></div></body><script>const STORAGE = { PARTNER: "slim_partner_health", CHECKIN: "slim_checkin_health", ACTIONS: "slim_health_actions", ACTIONS_DONE: "slim_health_actions_done", SOP: "slim_sop_health", SOP_HIST: "slim_sop_health_hist", SOP_LASTW: "slim_sop_health_lastw", METRICS: "slim_health_metrics", YEARLY: "slim_health_yearly", STREAKS: "slim_health_streaks" };const SOP_CATEGORIES = [{"key": "metab", "icon": "🩸", "name": "代谢", "desc": "血糖、血脂、血压、体重、腰围", "tip": "空腹血糖、腰围、血压，每 3-6 个月看一次趋势，比看单次数值更说明问题。"}, {"key": "gut", "icon": "🌱", "name": "肠道", "desc": "排便规律、菌群多样性、纤维摄入", "tip": "每周 25-30g 膳食纤维 + 多种植物（≥30 种/周），是肠道最稳的两件事。"}, {"key": "immune", "icon": "🛡", "name": "免疫", "desc": "疫苗更新、睡眠、急性病恢复期", "tip": "疫苗不焦虑每年补一次；睡眠连续 5 天低于 6 小时，免疫反应就会下降。"}, {"key": "sleep", "icon": "🌙", "name": "睡眠", "desc": "时长、入睡、深睡、节律", "tip": "固定上床时间比\"睡够\"更重要；连续 3 周规律，节律就稳了。"}, {"key": "stress", "icon": "🧘", "name": "压力", "desc": "心率、HRV、情绪复原、休息能力", "tip": "HRV（心率变异性）比\"心情\"更客观；连续 7 天早晨 5 分钟呼吸引续就能回升。"}, {"key": "move", "icon": "🏃", "name": "运动", "desc": "有氧、力量、柔韧、日常活动量", "tip": "每周 150 分钟中等强度有氧 + 2 次力量，比\"每天 1 万步\"更说明问题。"}];const ACTION_POOL = [{"emoji": "🥬", "title": "吃够 1 份深色蔬菜", "tip": "至少 80g，深绿色最好"}, {"emoji": "🚶", "title": "快走 10 分钟", "tip": "微喘能说话的速度"}, {"emoji": "📵", "title": "23:30 前放下手机", "tip": "屏幕蓝光骗大脑以为是白天"}, {"emoji": "💧", "title": "喝水 1.5L", "tip": "小口慢喝，不是一次灌"}, {"emoji": "🧘", "title": "5 分钟深呼吸", "tip": "4-7-8 节奏，鼻子吸嘴呼"}, {"emoji": "🍎", "title": "今天吃 1 份完整水果", "tip": "带皮吃，纤维更全"}, {"emoji": "🥗", "title": "主食用 1/3 粗粮替换", "tip": "糙米/燕麦/玉米/薯类"}, {"emoji": "🦴", "title": "靠墙静蹲 30 秒 × 3 组", "tip": "膝盖不超脚尖"}, {"emoji": "☀️", "title": "出门晒 10 分钟", "tip": "上午 10 点前最佳"}, {"emoji": "🛏", "title": "22:30 前上床", "tip": "节律比时长更值钱"}, {"emoji": "🚶‍♀️", "title": "饭后走 15 分钟", "tip": "降餐后血糖最有效"}, {"emoji": "📵", "title": "吃饭不看屏幕", "tip": "胃也会\"专注\"消化"}, {"emoji": "🌰", "title": "一小把坚果", "tip": "约 15-20g，原味最好"}, {"emoji": "🧂", "title": "看一眼包装食品盐含量", "tip": "警惕\"低钠\"标签"}, {"emoji": "😴", "title": "中午午休 15-20 分钟", "tip": "超过 30 分钟反而困"}, {"emoji": "🪥", "title": "认真刷牙 2 分钟", "tip": "牙周和心血管是连着的"}, {"emoji": "📝", "title": "写下 1 件让你焦虑的事", "tip": "写下来焦虑值就降一半"}, {"emoji": "🌬", "title": "做 5 次腹式呼吸", "tip": "吸 4 停 4 呼 6"}, {"emoji": "🪟", "title": "开窗通风 10 分钟", "tip": "CO₂ 比 PM2.5 更影响认知"}, {"emoji": "🎯", "title": "为 1 件明天要做的事定时", "tip": "把\"打算\"变成\"约定\""}];const METRICS = [{"key": "bp_systolic", "name": "收缩压", "unit": "mmHg", "ideal": "< 120"}, {"key": "bp_diastolic", "name": "舒张压", "unit": "mmHg", "ideal": "< 80"}, {"key": "fpg", "name": "空腹血糖", "unit": "mmol/L", "ideal": "3.9 - 6.1"}, {"key": "hba1c", "name": "糖化血红蛋白", "unit": "%", "ideal": "< 5.7"}, {"key": "ldl", "name": "低密度脂蛋白", "unit": "mmol/L", "ideal": "< 3.4"}, {"key": "tg", "name": "甘油三酯", "unit": "mmol/L", "ideal": "< 1.7"}, {"key": "hdl", "name": "高密度脂蛋白", "unit": "mmol/L", "ideal": "> 1.0"}, {"key": "waist", "name": "腰围", "unit": "cm", "ideal": "男<90 女<85"}, {"key": "bmi", "name": "BMI", "unit": "kg/m²", "ideal": "18.5 - 24"}, {"key": "uric_acid", "name": "尿酸", "unit": "μmol/L", "ideal": "男<420 女<360"}, {"key": "alt", "name": "ALT（肝功）", "unit": "U/L", "ideal": "< 40"}, {"key": "ast", "name": "AST（肝功）", "unit": "U/L", "ideal": "< 40"}];const YEARLY_ITEMS = [{"key": "physical", "text": "今年做了年度体检", "freq": "年度"}, {"key": "bp_retest", "text": "血压复查", "freq": "建议 3 个月"}, {"key": "glucose_retest", "text": "血糖/糖化复查", "freq": "健康 1 年/有异常 3 月"}, {"key": "lipid_retest", "text": "血脂复查", "freq": "健康 3-5 年/有异常 1 年"}, {"key": "vaccine", "text": "疫苗更新（流感/新冠/带状疱疹等）", "freq": "按品种 1-5 年"}, {"key": "dental", "text": "口腔检查 + 洁牙", "freq": "半年到一年"}, {"key": "vision", "text": "视力 / 眼底检查", "freq": "建议一年"}, {"key": "cancer_screen", "text": "年龄对应癌症筛查咨询", "freq": "按医生建议"}, {"key": "family_history", "text": "家族史更新（父母/兄弟姐妹）", "freq": "每年回顾"}, {"key": "colon", "text": "肠镜（45 岁后或家族史）", "freq": "按医生建议"}, {"key": "breast", "text": "乳腺（女性，40+ 视情况）", "freq": "按医生建议"}, {"key": "cervical", "text": "宫颈（女性，21+ 起）", "freq": "按医生建议"}, {"key": "prostate", "text": "前列腺（男性，50+ 视情况）", "freq": "按医生建议"}];const TYPE_SCENES = {"progress": [{"type": "pos", "feedback": "看到你在认真维持每周记录，这就是最稳的那条路。"}, {"type": "pos", "feedback": "数据在握，未来十年你的身体会感谢今天的你。"}, {"type": "pos", "feedback": "把指标当朋友，不当敌人，趋势比单次更重要。"}], "struggle": [{"type": "neg", "feedback": "今天做不到，不代表明天做不到。先停一停，别硬撑。"}, {"type": "neg", "feedback": "焦虑的时候身体也在听你说话，对它温和一点。"}, {"type": "neg", "feedback": "断签一天不丢任何东西；连轴紧绷才是真正伤身体。"}], "idea": [{"type": "pos", "feedback": "好问题——健康的所有改进都是从这种\"咦\"开始。"}, {"type": "pos", "feedback": "记住这个念头，下次体检前再翻出来问问自己。"}], "cheer": [{"type": "pos", "feedback": "好事情 — 情绪好的时候免疫也好，稳稳的多收一份红利。"}], "question": [{"type": "q", "feedback": "我猜你最在意的是「这样是不是真的有用」。对吗？"}, {"type": "q", "feedback": "你愿意从哪一个最小的一步开始？"}], "report": [{"type": "pos", "feedback": "记下来了。我们看 4 周趋势，比看一周更说明问题。"}]};
+</div><div class="card-sub">挑一个最贴近今天的——不是非做不可。</div><div class="scene-list" id="sceneList"></div></div></div></div><div id="page-data" class="page"><div class="wrap"><div class="card"><div class="card-title">🧮 健康度（6 维综合）</div><div class="card-sub">把六维评分整合为一个数字，趋势比单次更说明问题。</div><div style="font-size:42px;font-weight:800;color:#0d9488;text-align:center;margin-top:8px;" id="overallScore">—</div><div style="font-size:12px;color:#64748b;text-align:center;">满分 30 · 综合健康度</div><div id="recommendText" style="background:#ccfbf1;border-radius:14px;padding:12px 14px;margin-top:14px;font-size:12.5px;color:#0d9488;line-height:1.6;"></div></div><div class="card" id="cardHealthCycle"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:22px;">📅</span><span style="font-weight:800;font-size:15px;color:#0f172a;">日常监督周期</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">勾上 = 已加入节奏</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">预防医学的核心不是"每天检查"，而是<b>按节奏做事</b>。勾上你能跟上的节奏。断签不扣分。</div><div id="cycleList" style="display:flex;flex-direction:column;gap:10px;"></div></div></div></div><div id="page-progress" class="page"><div class="wrap"><div class="card"><div class="card-title">📈 进展趋势</div><div class="card-sub">看趋势，不看单次 —— 4 周以上才有意义。</div><div id="progressChart" style="height:200px;display:flex;align-items:flex-end;gap:6px;padding:8px 4px;border-bottom:1px solid #e2e8f0;"></div><div style="font-size:11px;color:#94a3b8;text-align:center;margin-top:8px;" id="progressLabel">还没有数据 — 完成 2 周自评后会出现趋势</div></div><div class="card"><div class="card-title">📊 六维对比（最近 2 次）</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:11px;color:#64748b;text-align:center;font-weight:700;padding:0 4px 6px;"><div>维度</div><div>最近</div><div>上次</div></div><div id="compareList"></div></div></div></div><div id="page-share" class="page"><div class="wrap"><div style="text-align:center;padding:18px 0 6px;"><div style="font-size:50px;line-height:1;">🛡️</div><div style="font-size:22px;font-weight:800;margin-top:8px;color:#0f172a;">健康底盘搭子</div><div style="font-size:13px;color:#64748b;margin-top:4px;">把健康当资产 · 提前一点少生病一点</div></div><div class="share-summary"><div class="label">我的健康账本</div><div class="text" id="sharePnLSummary">还在积累中。开始打卡后这里会出现你的健康账本摘要。</div></div><div class="share-stat-grid" id="shareStatGrid"></div><div style="margin-top:16px;background:linear-gradient(135deg,#f0fdfa,#e6fffa);border-radius:18px;padding:18px;"><div style="font-size:14px;font-weight:700;color:#0f172a;">🛡️ 这个搭子适合谁</div><div style="font-size:12.5px;color:#475569;margin-top:6px;line-height:1.7;">想把健康当资产经营的人——<br>不焦虑、不卖保健品、不替你诊断。<br>每天 3 件小事 + 每年 1 次体检复盘。</div></div><button class="copy-btn" onclick="copyShareLink()" style="margin-top:14px;">📋 复制分享文案</button><div class="disclaimer" style="margin-top:14px;">本搭子不替代医生诊断 · 仅用于一般健康教育</div></div></div><div class="tab-bar"><div class="tab-item active" onclick="switchTab('chat')"><div class="tab-icon">🏠</div><div class="tab-label">搭子</div></div><div class="tab-item" onclick="switchTab('coach')"><div class="tab-icon">🎓</div><div class="tab-label">教练</div></div><div class="tab-item" onclick="switchTab('sop')"><div class="tab-icon">🎯</div><div class="tab-label">自检</div></div><div class="tab-item" onclick="switchTab('checkin')"><div class="tab-icon">✅</div><div class="tab-label">打卡</div></div><div class="tab-item" onclick="switchTab('data')"><div class="tab-icon">🧮</div><div class="tab-label">健康度</div></div><div class="tab-item" onclick="switchTab('progress')"><div class="tab-icon">📈</div><div class="tab-label">进展</div></div><div class="tab-item" onclick="switchTab('share')"><div class="tab-icon">📣</div><div class="tab-label">分享</div></div></div><div id="qaOverlay" class="qa-overlay"><div class="qa-panel"><button class="qa-close-x" onclick="closeQAPanel()" aria-label="关闭">✕</button><div id="qaTitle" class="qa-title"></div><div id="qaSub" class="qa-sub"></div><div id="qaList" class="qa-cards"></div></div></div><div id="fbOverlay" class="fb-overlay"><div id="fbPanel" class="fb-panel"><button class="qa-close-x" onclick="closeFB()" aria-label="关闭">✕</button><div id="fbTitle" class="qa-title"></div><div id="fbSub" class="qa-sub"></div><div id="fbBody" style="font-size:14px;line-height:1.8;color:#334155;white-space:pre-wrap;text-align:left;"></div></div></div></body><script>const STORAGE = { PARTNER: "slim_partner_health", CHECKIN: "slim_checkin_health", ACTIONS: "slim_health_actions", ACTIONS_DONE: "slim_health_actions_done", SOP: "slim_sop_health", SOP_HIST: "slim_sop_health_hist", SOP_LASTW: "slim_sop_health_lastw", METRICS: "slim_health_metrics", YEARLY: "slim_health_yearly", STREAKS: "slim_health_streaks" };const SOP_CATEGORIES = [{"key": "metab", "icon": "🩸", "name": "代谢", "desc": "血糖、血脂、血压、体重、腰围", "tip": "空腹血糖、腰围、血压，每 3-6 个月看一次趋势，比看单次数值更说明问题。"}, {"key": "gut", "icon": "🌱", "name": "肠道", "desc": "排便规律、菌群多样性、纤维摄入", "tip": "每周 25-30g 膳食纤维 + 多种植物（≥30 种/周），是肠道最稳的两件事。"}, {"key": "immune", "icon": "🛡", "name": "免疫", "desc": "疫苗更新、睡眠、急性病恢复期", "tip": "疫苗不焦虑每年补一次；睡眠连续 5 天低于 6 小时，免疫反应就会下降。"}, {"key": "sleep", "icon": "🌙", "name": "睡眠", "desc": "时长、入睡、深睡、节律", "tip": "固定上床时间比\"睡够\"更重要；连续 3 周规律，节律就稳了。"}, {"key": "stress", "icon": "🧘", "name": "压力", "desc": "心率、HRV、情绪复原、休息能力", "tip": "HRV（心率变异性）比\"心情\"更客观；连续 7 天早晨 5 分钟呼吸引续就能回升。"}, {"key": "move", "icon": "🏃", "name": "运动", "desc": "有氧、力量、柔韧、日常活动量", "tip": "每周 150 分钟中等强度有氧 + 2 次力量，比\"每天 1 万步\"更说明问题。"}];const ACTION_POOL = [{"emoji": "🥬", "title": "吃够 1 份深色蔬菜", "tip": "至少 80g，深绿色最好"}, {"emoji": "🚶", "title": "快走 10 分钟", "tip": "微喘能说话的速度"}, {"emoji": "📵", "title": "23:30 前放下手机", "tip": "屏幕蓝光骗大脑以为是白天"}, {"emoji": "💧", "title": "喝水 1.5L", "tip": "小口慢喝，不是一次灌"}, {"emoji": "🧘", "title": "5 分钟深呼吸", "tip": "4-7-8 节奏，鼻子吸嘴呼"}, {"emoji": "🍎", "title": "今天吃 1 份完整水果", "tip": "带皮吃，纤维更全"}, {"emoji": "🥗", "title": "主食用 1/3 粗粮替换", "tip": "糙米/燕麦/玉米/薯类"}, {"emoji": "🦴", "title": "靠墙静蹲 30 秒 × 3 组", "tip": "膝盖不超脚尖"}, {"emoji": "☀️", "title": "出门晒 10 分钟", "tip": "上午 10 点前最佳"}, {"emoji": "🛏", "title": "22:30 前上床", "tip": "节律比时长更值钱"}, {"emoji": "🚶‍♀️", "title": "饭后走 15 分钟", "tip": "降餐后血糖最有效"}, {"emoji": "📵", "title": "吃饭不看屏幕", "tip": "胃也会\"专注\"消化"}, {"emoji": "🌰", "title": "一小把坚果", "tip": "约 15-20g，原味最好"}, {"emoji": "🧂", "title": "看一眼包装食品盐含量", "tip": "警惕\"低钠\"标签"}, {"emoji": "😴", "title": "中午午休 15-20 分钟", "tip": "超过 30 分钟反而困"}, {"emoji": "🪥", "title": "认真刷牙 2 分钟", "tip": "牙周和心血管是连着的"}, {"emoji": "📝", "title": "写下 1 件让你焦虑的事", "tip": "写下来焦虑值就降一半"}, {"emoji": "🌬", "title": "做 5 次腹式呼吸", "tip": "吸 4 停 4 呼 6"}, {"emoji": "🪟", "title": "开窗通风 10 分钟", "tip": "CO₂ 比 PM2.5 更影响认知"}, {"emoji": "🎯", "title": "为 1 件明天要做的事定时", "tip": "把\"打算\"变成\"约定\""}];const METRICS = [{"key": "fpg", "name": "空腹血糖", "unit": "mmol/L", "ideal": "3.9 - 6.1"}, {"key": "hba1c", "name": "糖化血红蛋白", "unit": "%", "ideal": "< 5.7"}, {"key": "ldl", "name": "低密度脂蛋白", "unit": "mmol/L", "ideal": "< 3.4"}, {"key": "tg", "name": "甘油三酯", "unit": "mmol/L", "ideal": "< 1.7"}, {"key": "hdl", "name": "高密度脂蛋白", "unit": "mmol/L", "ideal": "> 1.0"}, {"key": "waist", "name": "腰围", "unit": "cm", "ideal": "男<90 女<85"}, {"key": "bmi", "name": "BMI", "unit": "kg/m²", "ideal": "18.5 - 24"}, {"key": "uric_acid", "name": "尿酸", "unit": "μmol/L", "ideal": "男<420 女<360"}, {"key": "alt", "name": "ALT（肝功）", "unit": "U/L", "ideal": "< 40"}, {"key": "ast", "name": "AST（肝功）", "unit": "U/L", "ideal": "< 40"}];const YEARLY_ITEMS = [{"key": "physical", "text": "今年做了年度体检", "freq": "年度"}, {"key": "bp_retest", "text": "血压复查", "freq": "建议 3 个月"}, {"key": "glucose_retest", "text": "血糖/糖化复查", "freq": "健康 1 年/有异常 3 月"}, {"key": "lipid_retest", "text": "血脂复查", "freq": "健康 3-5 年/有异常 1 年"}, {"key": "vaccine", "text": "疫苗更新（流感/新冠/带状疱疹等）", "freq": "按品种 1-5 年"}, {"key": "dental", "text": "口腔检查 + 洁牙", "freq": "半年到一年"}, {"key": "vision", "text": "视力 / 眼底检查", "freq": "建议一年"}, {"key": "cancer_screen", "text": "年龄对应癌症筛查咨询", "freq": "按医生建议"}, {"key": "family_history", "text": "家族史更新（父母/兄弟姐妹）", "freq": "每年回顾"}, {"key": "colon", "text": "肠镜（45 岁后或家族史）", "freq": "按医生建议"}, {"key": "breast", "text": "乳腺（女性，40+ 视情况）", "freq": "按医生建议"}, {"key": "cervical", "text": "宫颈（女性，21+ 起）", "freq": "按医生建议"}, {"key": "prostate", "text": "前列腺（男性，50+ 视情况）", "freq": "按医生建议"}];const TYPE_SCENES = {"progress": [{"type": "pos", "feedback": "看到你在认真维持每周记录，这就是最稳的那条路。"}, {"type": "pos", "feedback": "数据在握，未来十年你的身体会感谢今天的你。"}, {"type": "pos", "feedback": "把指标当朋友，不当敌人，趋势比单次更重要。"}], "struggle": [{"type": "neg", "feedback": "今天做不到，不代表明天做不到。先停一停，别硬撑。"}, {"type": "neg", "feedback": "焦虑的时候身体也在听你说话，对它温和一点。"}, {"type": "neg", "feedback": "断签一天不丢任何东西；连轴紧绷才是真正伤身体。"}], "idea": [{"type": "pos", "feedback": "好问题——健康的所有改进都是从这种\"咦\"开始。"}, {"type": "pos", "feedback": "记住这个念头，下次体检前再翻出来问问自己。"}], "cheer": [{"type": "pos", "feedback": "好事情 — 情绪好的时候免疫也好，稳稳的多收一份红利。"}], "question": [{"type": "q", "feedback": "我猜你最在意的是「这样是不是真的有用」。对吗？"}, {"type": "q", "feedback": "你愿意从哪一个最小的一步开始？"}], "report": [{"type": "pos", "feedback": "记下来了。我们看 4 周趋势，比看一周更说明问题。"}]};
 let sopCatIdx = 0;
 let sopScore = 0;
 let sopSubmitted = {};
@@ -555,13 +572,13 @@ function renderSOP() {
   });
   var cur = SOP_CATEGORIES[sopCatIdx];
   $('sopTipText').innerHTML = '<b>' + cur.name + ' · </b>' + cur.tip;
-  // 评分
+  // 评分 - 点 1-5 直接记下这一维
   var sr = $('sopScoreRow'); sr.innerHTML = '';
   for (var i = 1; i <= 5; i++) {
     var b = document.createElement('button');
     b.className = 'sop-score-btn' + (sopScore === i ? ' active' : '');
     b.innerText = i;
-    b.onclick = function(n) { return function() { sopScore = n; renderSOP(); }; }(i);
+    b.onclick = function(n) { return function() { sopScore = n; submitSOPScore(); }; }(i);
     sr.appendChild(b);
   }
   renderRadar();
@@ -645,16 +662,13 @@ function renderRadar() {
 
   // 图例
   var lg = $('radarLegend');
+  var legendHtml = '';
   SOP_CATEGORIES.forEach(function(c) {
     var v = scores[c.key] || 0;
-    lg.innerHTML += '<div class="it"><div class="sw" style="background:#0d9488;"></div>' + c.icon + ' ' + c.name + ' · ' + v + '/5</div>';
+    legendHtml += '<div class="it"><div class="sw" style="background:#0d9488;"></div>' + c.icon + ' ' + c.name + ' · ' + v + '/5</div>';
   });
-  if (!lg.innerHTML) lg.innerHTML = '<div style="grid-column:1/-1;color:#94a3b8;">还没有评分 — 完成至少 1 维即可</div>';
-  else lg.innerHTML = '';
-  SOP_CATEGORIES.forEach(function(c) {
-    var v = scores[c.key] || 0;
-    lg.innerHTML += '<div class="it"><div class="sw" style="background:#0d9488;"></div>' + c.icon + ' ' + c.name + ' · ' + v + '/5</div>';
-  });
+  if (!legendHtml) legendHtml = '<div style="grid-column:1/-1;color:#94a3b8;">还没有评分 — 完成至少 1 维即可</div>';
+  lg.innerHTML = legendHtml;
 }
 
 // === Metrics ===
@@ -731,8 +745,6 @@ function pickHealthScene(key) {
 
 // === 体检指标 - 日常可监测（7 项，生活医学监督）===
 var DAILY_METRICS = [
-  { key: 'bp_systolic', name: '收缩压', unit: 'mmHg', ideal: '< 120', freq: '每周 1 次', why: '在家用血压计测，是高血压最直接的指标' },
-  { key: 'bp_diastolic', name: '舒张压', unit: 'mmHg', ideal: '< 80', freq: '每周 1 次', why: '和收缩压一起看，了解血压全貌' },
   { key: 'weight', name: '体重', unit: 'kg', freq: '每周 1-2 次', why: '体重突然变化比 BMI 更敏感，腰围更重要' },
   { key: 'waist', name: '腰围', unit: 'cm', ideal: '男<90 / 女<85', freq: '每周 1 次', why: '代谢综合征最敏感的家用指标' },
   { key: 'steps', name: '步数', unit: '步', ideal: '> 7000', freq: '每天看', why: '不是锻炼强度，是"日常活动量"信号' },
@@ -896,6 +908,7 @@ function showSceneFeedback(k, idx) {
   var data = TYPE_SCENES[k] || [];
   var item = data[idx];
   if (!item) return;
+  $('fbPanel').className = 'fb-panel ' + item.type;
   $('fbTitle').innerText = '搭子的回应';
   $('fbSub').innerHTML = '证据来源：<b>一般健康教育</b>';
   $('fbBody').innerHTML = '<div class="scene-row feedback-' + item.type + '"><div class="tx">' + item.feedback + '</div></div>'
@@ -926,6 +939,7 @@ function closeQAPanel() { $('qaOverlay').classList.remove('show'); }
 // === Talk Buttons ===
 function sendTalk(t) { openQAPanel(t); }
 function sendMood(m) {
+  try { showToast('你点了：' + m + ' \u270c\ufe0f'); } catch (e) { console.warn('toast err', e); }
   var responses = {
     happy: '看了就精神。健康的心情也会带动免疫。',
     calm: '平静最好——这是身体在低功耗自修。',
@@ -934,6 +948,7 @@ function sendMood(m) {
   };
   appendMsg('你选了：' + m, 'user');
   setTimeout(function() { appendMsg(responses[m] || '记下来了。', 'partner'); }, 280);
+}
 
 // === 怎么和搭子说（健康底盘专属）===
 var HEALTH_TALK_REPLIES = {
@@ -945,34 +960,241 @@ var HEALTH_TALK_REPLIES = {
   question: { gentle: '好问题～ 我尽量给简单不吓人的答案。也可以去问医生。', evidence: '好问题背后是好学心。如果是"该不该做某项筛查"，我建议先去和家庭医生确认。', action: '问题清楚了就成功一半。要不要我们先把它拆成 2 个子问题？', companion: '我可以陪你想，但最终答案在你和你的医生那里。' },
   scene: { gentle: '今天发生了什么不重要，重要的是你记得来打卡了。', evidence: '记下来才有数据。', action: '继续做今天的 3 件事。', companion: '我听着呢。' }
 };
-function askPartner(type) {
-  if (typeof type === 'object' && type && type.currentTarget) type = type.currentTarget.dataset.type || type.currentTarget.getAttribute('data-type');
-  if (!type) return;
-  var replies = HEALTH_TALK_REPLIES[type];
-  if (!replies) return;
-  var persona = 'gentle';
-  try { var p2 = localStorage.getItem('slim_partner_health'); if (p2) persona = p2; } catch (e) {}
-  var reply = replies[persona] || replies.gentle;
-  var box = document.createElement('div');
-  box.className = 'bubble partner';
-  box.style.cssText = 'background:#f0fdfa;border-left:3px solid #0d9488;padding:10px 14px;border-radius:14px;margin:8px 0;font-size:13px;line-height:1.7;color:#334155;';
-  var pe = '🛡️';
-  try { var pp = JSON.parse(localStorage.getItem('slim_partner_health_obj') || 'null'); if (pp && pp.emoji) pe = pp.emoji; } catch (e) {}
-  box.innerHTML = '<b style="color:#0d9488;">' + pe + ' 搭子</b><br>' + reply;
-  var chatArea = document.getElementById('partnerChatArea') || document.getElementById('chatArea') || document.getElementById('chatMessages');
-  if (!chatArea) return;
-  chatArea.appendChild(box);
-  chatArea.scrollTop = chatArea.scrollHeight;
-  try {
-    var histKey = 'slim_health_chat';
-    var hist = JSON.parse(localStorage.getItem(histKey) || '[]');
-    hist.push({ type: type, reply: reply, ts: Date.now(), persona: persona });
-    if (hist.length > 20) hist = hist.slice(-20);
-    localStorage.setItem(histKey, JSON.stringify(hist));
-  } catch (e) {}
+// ==================== 健康底盘搭子 6 类场景数据（对齐减肥搭子 TYPE_SCENES）====================
+const HEALTH_TYPE_SCENES = {
+  progress: [
+    { icon: '🎓', tag: '体检过关', scenario: '上周体检，关键指标都在正常区间', feedback: '中年以后年检是最被必要的一项健康底盘资产检查。多项指标同时正常 = 你的生活区已经成为"能防住大病"的资产。记下哪些项是"可控变量"，哪些是"不可控"，明年复检时能对比。', type: 'pos' },
+    { icon: '💯', tag: '睡眠过关', scenario: '这周有 5 天晚上是 11 点前睡下', feedback: '持续睡眠的价值在体检数据上会很明显反映。常这 1 个习惯 = 多为心血管/免疫/免擦颜色"投资"。鼓励自己，明天周续。', type: 'pos' },
+    { icon: '🌱', tag: '饮食多样', scenario: '这 3 天主食包不一样：鲜菜、粉、豆制品、不同的蛋白质都有', feedback: '饮食多样性是扫抱环境以外"肠道豊象多样性"唯一能控的变量。可能带动隐形能量、色素、蜂生菌的供给。周均厚多是实现路径，不需要计算炖炉。', type: 'pos' },
+    { icon: '😺', tag: '成熟出门', scenario: '沉淀几周的领城开始重返运动、选择与互动、重启记录', feedback: '领城重启经常伴随"事情老不一样了 / 坚持有意义 / 神状轻杰"这些表迹。多问身体一个周、不是一个月，平顺是长期在变。', type: 'pos' },
+    { icon: '😭', tag: '睡不着', scenario: '这周起床没严格按点，睡不着或睡了不钟醒', feedback: '以你现在的生活节奏，可以尝试：⑴ 上午 1 点前 15 分锺多麻位床（到草起床的人的重点）；⑵ 晚 4-6 点不喝咖啡；⑶ 锺到 30 分锺离床（补睡过后晚睡会很难上外）。', type: 'neg' },
+    { icon: '😬', tag: '焦虑植变', scenario: '体检某个指标越限，或出现临时变动', feedback: '请不要跳过主治医师去"调理"。阅读你的临床体征查看隐警量评（在 1 个 -1 个仅变量限吗），复查后与主治医师主动谈话。', type: 'neg' },
+    { icon: '🂹', tag: '煤起点', scenario: '举不意领、身体沉重、难以出门运动', feedback: '指定一件可以"下边发现"的小事。以"在屋内走圈走 10 分锺"为勘蒙饰，以"这周 1 次上梯肩卿"为勘蒙饰，先脱出业所。', type: 'neg' }
+  ],
+  struggle: [
+    { icon: '🧠', tag: '不得重症', scenario: '朋友有个重症体验，我也开始担心自己的健康', feedback: '研证类起点："某个退位要错最少 1 项体育主题变量 / 随位中年期"不会怎么。你是在上证据？请先阅读中华体育馆公众号的《年育纪要》。', type: 'pos' },
+    { icon: '👨‍👩‍👧', tag: '名言均产', scenario: '家人表现现在的"体重名言"', feedback: '名言能成为你胸口"后期提醒"，但不能代替你的主观能力。代表你需要的"交集点"，不是你的所有，为他们理解你的选择，但不是你全部为他们变。', type: 'pos' },
+    { icon: '🧬', tag: '跟随医生', scenario: '上次看医生后你按照建议调整了部分习惯', feedback: '最安心的某件事：重点争取以你的生活实际，不要在发坐后送压。调整进度 1 项为环，业上只加 1 个变量，易于多心咨询。', type: 'pos' },
+    { icon: '🧚', tag: '插间接受', scenario: '医生推荐某项检查，你还在考虑', feedback: '抵作代错：拒绝某项检查可能错过可接受的位。提问"最坏结果是什么 / 放弃后会怎么补"，看看能不能接受，而不是坐着等他人决定。', type: 'pos' },
+    { icon: '🤰', tag: '照购免擦', scenario: '上过"糙糙肠道"、"陆陆提酶酵"这些片什么的几面', feedback: '应子联谊师很难带动表现。步完身后 / 查出价格 / 看有没有表明口服 / 公众号划击发货 这 4 项动子以后决定。', type: 'neg' },
+    { icon: '👏', tag: '嘴边手心', scenario: '"其中一小半"补补打一下意思', feedback: '以"拍拍手"个补补上上悬。为不重要的人 / 环境，你不需要"愿意"只需要业主提问。', type: 'neg' },
+    { icon: '🟌', tag: '东购', scenario: '考虑某个中药、营养素、检测套餐，以为"合适"', feedback: '东购是最低成本的"投入"，但不设有限期 / 途径的东购是浪费。某件能"提醒你业务生主义东购"，思考"谁在未来 3 个月 需要什么"。', type: 'neg' }
+  ],
+  idea: [
+    { icon: '🌳', tag: '习以为常', scenario: '打算以"靠这件东西"作为里程碑', feedback: '你的动机会是动能。只记住一件、记不动动能。"靠这件东西"可以"这周 / 今天 / 这 3 ックッケ"。', type: 'pos' },
+    { icon: '📝', tag: '起点记录', scenario: '这周有起点在记录体检指标 / 担心事件、表现以外的表现', feedback: '你能拉话题。多在平台的健身房 / 交货机，都不能""股东占""。你今天上健身房，明个年你也能上外二点"车"。', type: 'pos' },
+    { icon: '🧪', tag: '交班', scenario: '打算考虑某项体育馆、交什里、校验试查', feedback: '交什里是个口。创门口"装"你不是"走出去"。请从"门口时间 / 走什么路 / 吃什么饭 / 环境 / 双手控件"这 5 项起手。', type: 'pos' },
+    { icon: '🏊', tag: '决心', scenario: '本周或下周决定开始某个健康习惯', feedback: '记住：年以后人互考证中、习惯能够"公时"。你可以上 1 项「公」、致»公»。主动 10 分锺、冷东水 。', type: 'pos' },
+    { icon: '📱', tag: '路道多', scenario: '某大 V 中人推荐了"练肐肐 / 几个 X 项 / Y 项补剂"，以为"是该重点了"', feedback: '错过会代表人身脱身。在"为什么应该是该 / 反证例 / 证据来源"同意后，才是"该进行"。', type: 'neg' },
+    { icon: '🧘', tag: '吃什么会补"', scenario: '某个身体不适、贪不理想 / 人云亦云', feedback: '许多上上上周末也胡鲜。记住谁会"紧急"必须留下 / 调查同意 。', type: 'neg' },
+    { icon: '🂉', tag: '伴旅', scenario: '人多、表达贪云心云心', feedback: '表现不同不代表意思不同。表现是表现、意思是意思。多质量多口会表现是"报备进行中"，你需为能"谈"的一个人。', type: 'neg' }
+  ],
+  cheer: [
+    { icon: '🎉', tag: '小定定', scenario: '过了一个限、达成了一个事、提醒上一个考验', feedback: '你可以"上更一步"了，但不要"上宝顶"。多在化中叠「调位」。多以为"小定定 不愿意"业友。', type: 'pos' },
+    { icon: '🅰', tag: '护礼', scenario: '出门走走、某个肐肐身体变了', feedback: '谢谢你以"交什里体育习惯"记录这件事。献"护礼"是最低成本的事件 - 报造你身边友人。', type: 'pos' },
+    { icon: '✨', tag: '鼓励上取', scenario: '外界推荐某项体育馆、某个营养素、某个设备，你也上了', feedback: '多以是在护献中叠「护」踏。你上一周 / 上一月，记住后有什么事表现。', type: 'pos' },
+    { icon: '🕹', tag: '报保护肤', scenario: '抱怨这周体检多个指标不错', feedback: '报查本就是护肤本。你全世界查有多者以位多年 每年 1 - 2 次 ，越多、越以为外。', type: 'pos' },
+    { icon: '😊', tag: '在反复', scenario: '怕怕上会业友业友', feedback: '〈复友人〉不能被心里名、报名谈友。多会"派"业外。', type: 'neg' },
+    { icon: '🍯', tag: '偶尔亮', scenario: '该月遇到某件不可能的事、不可能的人、遵意义是什么', feedback: '接仁「不可能」是运动。"今天上文" 的意义不仅 变。你上一步是"多接受一次"。', type: 'neg' },
+    { icon: '🩹', tag: '"跳到口"', scenario: '在外面会议上、某个开公司上的仪式上看到某个名誓 / 某位老', feedback: '献「口取进口」是助护世代意识。不一定是口取。你今天以口取以外的「代替」。', type: 'neg' }
+  ],
+  report: [
+    { icon: '📊', tag: '指标正常', scenario: '指标近 3 次都在区间、越稳定', feedback: '你现在的某件健康底盘"基位"。在区间就代表你现在是"不会跳多"。', type: 'pos' },
+    { icon: '🧋', tag: '指标改善', scenario: '上周 / 上月 某项指标换了：吓跌 / 饮食 / 睡眠位 / 肠体 / 心率', feedback: '记下诸如"为什么改善 / 改善幅度 / 可能未来 / 同主治会同意"。多有"汇率"能以以"使用人"说。', type: 'pos' },
+    { icon: '😀', tag: '心率4连低', scenario: '这 3 月心率跌不多 / 最高不到 100 不在倒心', feedback: '、「心率4连低」不是、「你不会病」，是、「你以为什么什么都能体会」。「公众号什么」是你的。', type: 'pos' },
+    { icon: '🧱', tag: '肠道冠状', scenario: '表现位运位生示愈 / 重震 / 吆项多于 均以外', feedback: '【必须】外交友：外层体境"外"，你能护你的肠道、肠道之外的事护不了你。', type: 'pos' },
+    { icon: '😵', tag: '指标走高', scenario: '某项指标越限 / 越受限 / 不断上锺', feedback: '不要、「瞬间交接 / 交接以外动手」，取而代之。在 3 月内靠"饮食 / 运动 / 心率以外"外需动手。', type: 'neg' },
+    { icon: '🩪', tag: '指标跳低', scenario: '某项指标越限下限 / 越受限下 / 偏偏低', feedback: '不诨以实际「看不出高 / 看不出低 / 人云亦云」。请多问不仅 1 个医生。', type: 'neg' },
+    { icon: '🌡', tag: '指标波动', scenario: '指标上上下下、以为"什么都可能"', feedback: '「表现 0 / 表现 ±1 「该什么 」。请以过去 4 次 / 遇到 2 个主业 / 你上下设计以多路。', type: 'neg' }
+  ],
+  question: [
+    { icon: '🧬', tag: '体检频率', scenario: '问：什么世代应该某项筛查、在哪个简频期、多少个月', feedback: '你现在年龄、性别、家族、个人后台 / 依靠 "个体体育馆" 会检查。不要主观"别人推荐"，请按你的实际调整。', type: 'pos' },
+    { icon: '📚', tag: '查资料', scenario: '某项体育馆 / 健康设备什么公司 / 某个表达是什么', feedback: '先查 CFDA、公众号 、体育馆 都 必事。 记住、「公众号 、体育馆不是《《《《《《《', type: 'pos' },
+    { icon: '🩾', tag: '获动能', scenario: '某项"表现位动能" 某个该该表现', feedback: '表现是表现。为你 表现、不代表能够 。考虑多三步表达。"谈话 / 出门 / 结算 / 领设 / 吃饭 / 上取"他一项。', type: 'pos' },
+    { icon: '👍', tag: '补补加加', scenario: '某项"道人师变越 / 某个老夫 联系 "', feedback: '多越不要《 《「只能补什么」 》。今天必须在完成饭饭后 "补补" ，你 以由你 于。', type: 'pos' },
+    { icon: '🚫', tag: '"是该学"', scenario: '某项体育馆 / 营养素 / 补剂、你该"以为必须 "', feedback: '以为该、不代表能够。以取老金 / 以为某件老股 。请以某件东西以外。', type: 'neg' },
+    { icon: '🩾', tag: '偶尔亮', scenario: '该月遇到某件不可能的事、不可能的人', feedback: '接仁「不可能」是运动。"今天上序" 的意义不仅 变。你上一步是"多接受一次"。', type: 'neg' },
+    { icon: '😐', tag: '全体周末', scenario: '上周跳位 挂号、某项服务不到位 "', feedback: '献、「以外」 。你能《以外《个人、以外人以外 。请记住 1 项 某项以外。', type: 'neg' }
+  ]
+};
+
+// 6 类 × 4 风格 intro（每风格 2 条）
+const HEALTH_PARTNER_INTROS = {
+  progress: {
+    gentle: ['告诉我近况 🌿', '今天的小亮点是什么 💫'],
+    passion: ['冲！说说你最近的成果！🔥', '听起来就很有劲 ⚡'],
+    rational: ['进展汇报 📊 关键数据是什么', '总结一下这段时间的变化'],
+    tsundere: ['行吧～说说看 😏', '嗯～让我听听你的进展 😏']
+  },
+  struggle: {
+    gentle: ['遇到难事 说给我听 💙', '没关系 我陪你想办法 🌿'],
+    passion: ['困难打不倒你 💪', '来！我帮你拆解 🔥'],
+    rational: ['困难是数据。说 我帮你分析 📊', '拿出问题 看证据'],
+    tsundere: ['谁没卡过呢 😒', '行了 说说吧 😏']
+  },
+  idea: {
+    gentle: ['好想法 说说你的灵感 💫', '点子来了 快记下来'],
+    passion: ['好创意！展开说！🔥', '我想听你的兴奋 ⚡'],
+    rational: ['核心假设是什么 📊', '可行性的瓶颈在哪'],
+    tsundere: ['倒要看看你的想法 😏', '说说看 不保证有用 🤷']
+  },
+  cheer: {
+    gentle: ['哈哈 好事 快说 🎉', '恭喜 这种时刻值得好好庆祝 💫'],
+    passion: ['🎉 让我听全部细节！', '太棒了 截图留念 🔥'],
+    rational: ['积极事件记录对长期有用 📊', '势头保持 数据的支撑'],
+    tsundere: ['嗯 算你有本事 😏', '好吧 什么好事 😒']
+  },
+  report: {
+    gentle: ['收到 说给我听 🌿', '让我了解你的最新情况 💫'],
+    passion: ['冲 汇报收到！🔥', '好 让我听听！⚡'],
+    rational: ['数据记录中 📊', '关键变化是什么'],
+    tsundere: ['行吧 说吧 😏', '又卡了？😒 哼 说说']
+  },
+  question: {
+    gentle: ['问吧 我尽力回答 💙', '哪方面的事 🌿'],
+    passion: ['问！什么都能接！💪', '来！展开讲！🔥'],
+    rational: ['好问题 给出问题 📊', '把背景说清楚'],
+    tsundere: ['🤷 不保证你能听懂 😏', '问就问 🤨']
+  }
+};
+
+let currentHealthQAType = null;
+
+// ===== 工具：搭子消息入到 chatArea =====
+function showPartnerMsg(txt, isPartner) {
+  if (isPartner === undefined) isPartner = true;
+  var a = $('chatArea');
+  if (!a) return;
+  var m = document.createElement('div');
+  m.className = isPartner ? 'msg partner' : 'msg user';
+  m.innerText = txt;
+  a.appendChild(m);
+  a.scrollTop = a.scrollHeight;
 }
 
+// sendTalk 也指向 askPartner
+function sendTalk(type) { askPartner(type); }
+
+// ===== askPartner 主流程：label → intro → 浮窗选场景 =====
+function askPartner(type) {
+  if (typeof type === 'object' && type && type.currentTarget) {
+    type = type.currentTarget.dataset.type || type.currentTarget.getAttribute('data-type');
+  }
+  if (!type) return;
+  if (!HEALTH_TYPE_SCENES[type]) return;
+
+  // 当前 persona style
+  var style = 'gentle';
+  try {
+    var p = JSON.parse(localStorage.getItem('slim_partner_health_obj') || 'null');
+    if (p && p.style) style = p.style;
+    else {
+      var p2 = localStorage.getItem('slim_partner_health');
+      if (p2) style = p2;
+    }
+  } catch (e) {}
+
+  var typeConfig = {
+    progress: { label: '📈 进展' },
+    struggle: { label: '😣 困难' },
+    idea:     { label: '💡 想法' },
+    cheer:    { label: '🎉 喜事' },
+    report:   { label: '📣 汇报指标' },
+    question: { label: '🤔 有问题想问' }
+  };
+  var label = typeConfig[type].label;
+  var introArr = (HEALTH_PARTNER_INTROS[type] && HEALTH_PARTNER_INTROS[type][style]) || [];
+  var intro = introArr.length ? introArr[Math.floor(Math.random() * introArr.length)] : '说说吧';
+
+  var emoji = '🛡️';
+  try {
+    var pp = JSON.parse(localStorage.getItem('slim_partner_health_obj') || 'null');
+    if (pp && pp.emoji) emoji = pp.emoji;
+  } catch (e) {}
+
+  // 1) 用户标签
+  showPartnerMsg(label, false);
+  // 2) 700ms 后搭子引导
+  setTimeout(function() {
+    showPartnerMsg(emoji + ' ' + intro, true);
+    // 3) 500ms 后弹浮窗
+    setTimeout(function() {
+      openHealthPanel(type);
+    }, 500);
+  }, 700);
 }
+
+// ===== 打开场景选择浮窗 =====
+function openHealthPanel(type) {
+  currentHealthQAType = type;
+  var data = HEALTH_TYPE_SCENES[type] || [];
+  var titleMap = {
+    progress: '📈 选择一个最符合你进展的场景',
+    struggle: '😣 选择一个你正在面对的困难',
+    idea:     '💡 选择一个你想聊的想法',
+    cheer:    '🎉 选择一件你想分享的喜事',
+    report:   '📣 选择一个最像本周情况',
+    question: '🤔 选一个最接近的问题'
+  };
+  $('qaTitle').innerText = titleMap[type] || type;
+  $('qaSub').innerText = '选一条最像的，我会按你当前搭子风格给反馈';
+  var list = $('qaList');
+  list.innerHTML = '';
+  data.forEach(function(item, i) {
+    var card = document.createElement('div');
+    card.className = 'qa-card ' + item.type;
+    card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>'
+      + '<div class="qa-card-text">' + item.scenario + '</div>'
+      + '<div class="qa-card-tag ' + item.type + '">' + item.tag + '</div>';
+    card._click = function() { pickHealthScene(currentHealthQAType, i); };
+    card.onclick = card._click;
+    list.appendChild(card);
+  });
+  $('qaOverlay').classList.add('show');
+}
+
+// ===== 选场景后弹反馈浮窗 =====
+function pickHealthScene(type, i) {
+  closeQAPanel();
+  setTimeout(function() { showHealthFeedback(type, i); }, 300);
+}
+
+function showHealthFeedback(type, i) {
+  var item = (HEALTH_TYPE_SCENES[type] || [])[i];
+  if (!item) return;
+  var style = 'gentle';
+  try {
+    var p = JSON.parse(localStorage.getItem('slim_partner_health_obj') || 'null');
+    if (p && p.style) style = p.style;
+    else {
+      var p2 = localStorage.getItem('slim_partner_health');
+      if (p2) style = p2;
+    }
+  } catch (e) {}
+  var emoji = '🛡️';
+  try {
+    var pp = JSON.parse(localStorage.getItem('slim_partner_health_obj') || 'null');
+    if (pp && pp.emoji) emoji = pp.emoji;
+  } catch (e) {}
+
+  var feedback = item.feedback;
+  if (style === 'passion') feedback = '🔥 ' + feedback;
+  else if (style === 'tsundere') feedback = '😏 嗯... ' + feedback;
+  else if (style === 'rational') feedback = '📊 ' + feedback;
+
+  showPartnerMsg(emoji + ' 已记录：' + item.tag, true);
+
+  $('fbPanel').className = 'fb-panel ' + item.type;
+  $('fbTitle').innerText = item.tag + ' · ' + item.scenario;
+  $('fbSub').innerText = item.type === 'pos' ? '✨ 正向 · 继续保持' : '⚠️ 需要关注 · 不必一个人扛';
+  $('fbBody').innerText = feedback;
+  $('fbOverlay').classList.add('show');
+}
+
+function closeFB() {
+  $('fbOverlay').classList.remove('show');
+}
+
 
 // === Chat ===
 function appendMsg(txt, who) {
@@ -1143,12 +1365,149 @@ function init() {
     showPartnerSelector();
   }
   renderMetrics();
-}
   // === v4 健康底盘新增渲染 ===
   try { renderDailyMetrics(); } catch(e) {}
   try { renderYearlyMetrics(); } catch(e) {}
   try { renderCycleList(); } catch(e) {}
   try { renderHealthCheckinScenes(); } catch(e) {}
+}
 
 setTimeout(init, 0);
+
+// ===== 点击反馈 toast（调试及防御性）=====
+function showToast(msg, color) {
+  color = color || '#0d9488';
+  var t = document.getElementById('clickToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'clickToast';
+    t.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:' + color + ';color:white;padding:12px 22px;border-radius:20px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transition:opacity .25s;box-shadow:0 6px 20px rgba(0,0,0,.15);max-width:80vw;text-align:center;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._t);
+  t._t = setTimeout(function() { t.style.opacity = '0'; }, 2200);
+}
+
+// ===== 今天提醒自己（按时段区分）=====
+const HEALTH_TIPS_BY_PERIOD = {
+  morning: [
+    '起床先喝 200ml 温水，比任何保健品都实在',
+    '早饭里有蛋白质（全蛋 / 酸奶 / 豆浆），下午不那么饿',
+    '出门晒 10 分钟上午阳光，帮你晚上睡得更好',
+    '今天的步数目标：分散到 3 个时间块，比一次走完更有用',
+    '早晨是测血压最准的时候（起床后 1 小时内、未吃药前）'
+  ],
+  noon: [
+    '午饭前喝 300ml 水，能少吃点',
+    '饭后站 10 分钟再坐，比午睡更降血糖',
+    '午休 15-20 分钟刚好，超过 30 分钟反而困',
+    '下午 2 点后不喝咖啡，今晚会更好入睡',
+    '午饭有 1/3 粗粮，下午精力更稳'
+  ],
+  afternoon: [
+    '下午 3 点最容易困，出去走 5 分钟比咖啡有效',
+    '晚上想吃得少，下午先吃点蛋白质垫一垫',
+    '每坐 1 小时起来动 2 分钟，腰围就在帮你记账',
+    '下午是第二杯咖啡的最后界限（15 点前）',
+    '下午小饿别扛，吃点原味坚果比奶茶健康'
+  ],
+  evening: [
+    '晚饭离睡前 3 小时，是胃和睡眠都舒服的间距',
+    '饭后散步 15 分钟，比任何保健品都降餐后血糖',
+    '睡前 1 小时关屏（手机/平板），节律会感谢你',
+    '温水泡脚 / 拉伸 5 分钟，是今晚睡得深的最快方法',
+    '如果晚上饿了：酸奶 / 一小把坚果，比泡面划算'
+  ],
+  night: [
+    '睡不着不是失败，起来喝点温水，坐 5 分钟再回去',
+    '把脑子里的待办写在纸上，大脑就会放下',
+    '如果已经醒了超过 20 分钟，别硬躺，起来读点轻松的东西',
+    '深呼吸 4-7-8（吸 4 停 7 呼 8），3 次就困',
+    '今晚没睡好也没关系，明天中午补 20 分钟就好'
+  ]
+};
+
+function getCurrentPeriod() {
+  var h = new Date().getHours();
+  if (h >= 5 && h < 11) return 'morning';
+  if (h >= 11 && h < 14) return 'noon';
+  if (h >= 14 && h < 18) return 'afternoon';
+  if (h >= 18 && h < 23) return 'evening';
+  return 'night';
+}
+
+var HEALTH_TIP_DAY_KEY = 'slim_health_dailytip_' + new Date().toISOString().slice(0,10);
+
+function pickDailyTip() {
+  var period = getCurrentPeriod();
+  var tips = HEALTH_TIPS_BY_PERIOD[period];
+  var saved = null;
+  try { saved = localStorage.getItem(HEALTH_TIP_DAY_KEY); } catch(e) {}
+  if (saved && HEALTH_TIPS_BY_PERIOD[period].indexOf(saved) >= 0) return saved;
+  var pick = tips[Math.floor(Math.random() * tips.length)];
+  try { localStorage.setItem(HEALTH_TIP_DAY_KEY, pick); } catch(e) {}
+  return pick;
+}
+
+function nextDailyTip() {
+  var period = getCurrentPeriod();
+  var tips = HEALTH_TIPS_BY_PERIOD[period];
+  var cur = '';
+  try { cur = localStorage.getItem(HEALTH_TIP_DAY_KEY) || ''; } catch(e) {}
+  var pool = tips.filter(function(t) { return t !== cur; });
+  if (!pool.length) pool = tips;
+  var pick = pool[Math.floor(Math.random() * pool.length)];
+  try { localStorage.setItem(HEALTH_TIP_DAY_KEY, pick); } catch(e) {}
+  var el = document.getElementById('dailyTipText');
+  if (el) el.innerText = pick;
+}
+
+// ===== 时段徽章 =====
+var PERIOD_LABEL = {
+  morning: '☀️ 早晨',
+  noon: '🌞 中午',
+  afternoon: '☕ 下午',
+  evening: '🌙 傍晚',
+  night: '🌙 深夜'
+};
+function renderTimeBadge() {
+  var el = document.getElementById('timeBadge');
+  if (!el) return;
+  var p = getCurrentPeriod();
+  var h = new Date().getHours();
+  var m = new Date().getMinutes();
+  el.textContent = PERIOD_LABEL[p] + ' · 现在 ' + (h<10?'0':'') + h + ':' + (m<10?'0':'') + m;
+}
+
+// 初始化
+setTimeout(function() {
+  try {
+    var tipEl = document.getElementById('dailyTipText');
+    if (tipEl) tipEl.innerText = pickDailyTip();
+    renderTimeBadge();
+    setInterval(renderTimeBadge, 60000);
+  } catch(e) { console.warn('init daily tip error:', e); }
+}, 0);
+
+// ===== 健康底盘教练（fallback） =====
+function startHealthCoach() {
+  if (typeof HEALTH_COACH_TREE !== "undefined") {
+    var intro = document.querySelector(".coach-intro");
+    var chat = document.getElementById("coachChat");
+    if (intro) intro.style.display = "none";
+    if (chat) chat.style.display = "block";
+    if (typeof initHealthCoach === "function") initHealthCoach();
+    return;
+  }
+  var msg = "健康底盘教练对话脚本还在搭建中。"
+    + "\n\n"
+    + "现在可以："
+    + "\n"
+    + "1. 点确定去搭子 tab 先选情绪、说一句话"
+    + "\n"
+    + "2. 取消留在教练 tab，继续看 Checklist / 成长路线";
+  if (confirm(msg)) switchTab("chat");
+}
 </script></html>
