@@ -344,6 +344,83 @@
 
 <!-- ===== 教练页面 ===== -->
 <div class="page" id="coachPage">
+<!-- 成长路线 + Checklist（与富教育搭子同构） -->
+  <div id="crpWrap_owner" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
+    <style>
+      #crpWrap_owner .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
+      #crpWrap_owner .crp-title { font-size:15px; font-weight:800; color:#14532d; margin-bottom:12px; }
+      #crpWrap_owner .crp-tip { font-size:11px; font-weight:500; color:#86efac; margin-left:6px; }
+      #crpWrap_owner .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+      #crpWrap_owner .crp-stage:active { transform:scale(.98); }
+      #crpWrap_owner .crp-stage-head { font-weight:700; font-size:13px; }
+      #crpWrap_owner .crp-arrow { float:right; color:#86efac; }
+      #crpWrap_owner .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#14532d; }
+      #crpWrap_owner .crp-stage.collapsed .crp-stage-body { display:none; }
+      #crpWrap_owner .crp-item { font-size:13px; color:#14532d; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+      #crpWrap_owner .crp-item:hover { background:#f5f5f7; }
+      #crpWrap_owner .crp-item.done { color:#86efac; text-decoration:line-through; }
+      #crpWrap_owner .crp-box { margin-right:8px; }
+    </style>
+    <div class="crp-card">
+      <div class="crp-title">🗺️ 业务 Owner 三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+      <div class="crp-stage" style="background:#f0fdf4;">
+        <div class="crp-stage-head" style="color:#15803d;">📌 第1阶段 · 第1-4周 · 看清业务 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">每周 1 次客户 / 用户深聊，建立「客户价值」第一手体感<br>· 每天 10 分钟读数据看板，写下 1 个发现<br>· 把业务里最说不清的一环先说清楚</div>
+      </div>
+      <div class="crp-stage" style="background:#ecfdf5;">
+        <div class="crp-stage-head" style="color:#047857;">📌 第2阶段 · 第2-3月 · 建机制 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">把重复动作 SOP 化，交给团队和系统<br>· 关键决策写「假设 - 验证」记录<br>· 让团队对齐唯一的北极星指标</div>
+      </div>
+      <div class="crp-stage" style="background:#dcfce7;">
+        <div class="crp-stage-head" style="color:#166534;">📌 第3阶段 · 长期 · 带人拿结果 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">从自己做转向带人做，你的杠杆是人<br>· 每周给 1 次有质量的反馈<br>· 每月复盘 1 个自己拍板的业务决策</div>
+      </div>
+    </div>
+    <div class="crp-card">
+      <div class="crp-title">📋 业务 Owner 基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_owner" style="color:#16a34a;">0</b>/7 · 自动保存</span></div>
+      <div id="crpList_owner">
+        <div class="crp-item"><span class="crp-box">☐</span>连续 7 天看数据看板并写下 1 个发现</div>
+        <div class="crp-item"><span class="crp-box">☐</span>完成 1 次客户 / 用户深度访谈</div>
+        <div class="crp-item"><span class="crp-box">☐</span>写下 1 个业务假设并设计验证</div>
+        <div class="crp-item"><span class="crp-box">☐</span>把 1 个重复流程 SOP 化交给团队</div>
+        <div class="crp-item"><span class="crp-box">☐</span>给下属 / 协作方 1 次有质量的反馈</div>
+        <div class="crp-item"><span class="crp-box">☐</span>复盘 1 个自己拍板的业务决策</div>
+        <div class="crp-item"><span class="crp-box">☐</span>明确本月唯一的北极星指标</div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var KEY='crp_checklist_owner';
+      var wrap=document.getElementById('crpWrap_owner'); if(!wrap) return;
+      wrap.querySelectorAll('.crp-stage').forEach(function(s){
+        s.addEventListener('click',function(){
+          s.classList.toggle('collapsed');
+          var a=s.querySelector('.crp-arrow'); if(a) a.textContent=s.classList.contains('collapsed')?'▸':'▾';
+        });
+      });
+      var items=wrap.querySelectorAll('.crp-item');
+      var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+      function render(){
+        var d=0;
+        items.forEach(function(it,i){
+          var b=it.querySelector('.crp-box');
+          if(state[i]){it.classList.add('done');b.textContent='☑';d++;}
+          else{it.classList.remove('done');b.textContent='☐';}
+        });
+        var c=document.getElementById('crpCnt_owner'); if(c) c.textContent=d;
+      }
+      items.forEach(function(it,i){
+        it.addEventListener('click',function(){
+          state[i]=!state[i];
+          try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+          render();
+        });
+      });
+      render();
+    })();
+    </script>
+  </div>
+
   <div class="coach-page">
     <div class="coach-chat" id="coachChat">
       <div class="chat-messages" id="chatMessages"></div>
@@ -354,8 +431,6 @@
       </div>
     </div>
   </div>
-  <div class="coach-report" id="coachReport" style="display:none;"></div>
-</div>
   <div class="coach-report" id="coachReport" style="display:none;"></div>
 </div>
 

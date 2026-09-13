@@ -565,6 +565,82 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
 <!-- Page: 教练 -->
 <div id="page-coach" class="page">
 
+<!-- 成长路线 + Checklist（与富教育搭子同构） -->
+  <div id="crpWrap_ai" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
+    <style>
+      #crpWrap_ai .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
+      #crpWrap_ai .crp-title { font-size:15px; font-weight:800; color:#312e81; margin-bottom:12px; }
+      #crpWrap_ai .crp-tip { font-size:11px; font-weight:500; color:#a5b4fc; margin-left:6px; }
+      #crpWrap_ai .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
+      #crpWrap_ai .crp-stage:active { transform:scale(.98); }
+      #crpWrap_ai .crp-stage-head { font-weight:700; font-size:13px; }
+      #crpWrap_ai .crp-arrow { float:right; color:#a5b4fc; }
+      #crpWrap_ai .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#312e81; }
+      #crpWrap_ai .crp-stage.collapsed .crp-stage-body { display:none; }
+      #crpWrap_ai .crp-item { font-size:13px; color:#312e81; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+      #crpWrap_ai .crp-item:hover { background:#f5f5f7; }
+      #crpWrap_ai .crp-item.done { color:#a5b4fc; text-decoration:line-through; }
+      #crpWrap_ai .crp-box { margin-right:8px; }
+    </style>
+    <div class="crp-card">
+      <div class="crp-title">🗺️ AI 能力三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+      <div class="crp-stage" style="background:#eef2ff;">
+        <div class="crp-stage-head" style="color:#4338ca;">📌 第1阶段 · 第1-2周 · 会用 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">每天用 AI 解决 1 件真实小事（写周报 / 查资料 / 改文案）<br>· 用完把好用的问法收藏起来<br>· 不求高深，先让 AI 进入你的日常</div>
+      </div>
+      <div class="crp-stage" style="background:#f5f3ff;">
+        <div class="crp-stage-head" style="color:#6d28d9;">📌 第2阶段 · 第3-6周 · 用好 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">按场景沉淀自己的 Prompt 库（写作 / 分析 / 方案）<br>· 把 1 个重复任务做成模板，每次只微调<br>· 每次产出后复盘问法，迭代一次再存</div>
+      </div>
+      <div class="crp-stage" style="background:#e0e7ff;">
+        <div class="crp-stage-head" style="color:#3730a3;">📌 第3阶段 · 第7-12周 · 自动化 <span class="crp-arrow">▾</span></div>
+        <div class="crp-stage-body">把多步流程串起来（AI + 工具），让机器跑例行<br>· 你只做判断和把关，不再做搬运<br>· 形成自己的「AI 工作流」清单</div>
+      </div>
+    </div>
+    <div class="crp-card">
+      <div class="crp-title">📋 AI 能力基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_ai" style="color:#4f46e5;">0</b>/7 · 自动保存</span></div>
+      <div id="crpList_ai">
+        <div class="crp-item"><span class="crp-box">☐</span>连续 7 天用 AI 解决 1 件真实小事</div>
+        <div class="crp-item"><span class="crp-box">☐</span>沉淀 1 条自己打磨过的高质量 Prompt</div>
+        <div class="crp-item"><span class="crp-box">☐</span>把 1 个重复任务做成可复用模板</div>
+        <div class="crp-item"><span class="crp-box">☐</span>完成 1 次多步骤流程自动化</div>
+        <div class="crp-item"><span class="crp-box">☐</span>教会 1 个同事 / 家人使用一个 AI 技巧</div>
+        <div class="crp-item"><span class="crp-box">☐</span>复盘 1 次 AI 产出质量并迭代问法</div>
+        <div class="crp-item"><span class="crp-box">☐</span>画出自己的「AI 工作流」清单</div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var KEY='crp_checklist_ai';
+      var wrap=document.getElementById('crpWrap_ai'); if(!wrap) return;
+      wrap.querySelectorAll('.crp-stage').forEach(function(s){
+        s.addEventListener('click',function(){
+          s.classList.toggle('collapsed');
+          var a=s.querySelector('.crp-arrow'); if(a) a.textContent=s.classList.contains('collapsed')?'▸':'▾';
+        });
+      });
+      var items=wrap.querySelectorAll('.crp-item');
+      var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+      function render(){
+        var d=0;
+        items.forEach(function(it,i){
+          var b=it.querySelector('.crp-box');
+          if(state[i]){it.classList.add('done');b.textContent='☑';d++;}
+          else{it.classList.remove('done');b.textContent='☐';}
+        });
+        var c=document.getElementById('crpCnt_ai'); if(c) c.textContent=d;
+      }
+      items.forEach(function(it,i){
+        it.addEventListener('click',function(){
+          state[i]=!state[i];
+          try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+          render();
+        });
+      });
+      render();
+    })();
+    </script>
+  </div>
     <!-- ===== 互动教练（麦肯锡式三步对话 · 点击开始）===== -->
     <div class="coach-intro" id="coachIntro">
       <div class="coach-intro-icon">🎓</div>
@@ -1441,8 +1517,105 @@ document.getElementById('qaOverlay').addEventListener('click', function(e){
   if (currentPartner) {
     selectPartner(currentPartner.id);
   }
-  bindAIInteractionFallback();
+  if (typeof bindAIInteractionFallback === 'function') bindAIInteractionFallback();
 })();
+</script>
+<script>
+/* === 教练对话引擎（麦肯锡式 5 问 · 补齐 startCoach）=== */
+var AI_COACH_QS = [
+  "① 你现在最想用 AI 解决的问题是哪类？（写作 / 查资料 / 做方案 / 重复劳动 / 学习提效…）",
+  "② 你已经会用 AI 做什么？哪里感觉不顺手？",
+  "③ 学 AI 的过程中，最大的卡点是？（不会问 / 记不住 / 不敢用 / 没场景）",
+  "④ 你每天能稳定投入多少时间练习？（10 分钟 / 30 分钟 / 1 小时）",
+  "⑤ 未来 30 天，你希望 AI 帮你拿下哪一个具体成果？"
+];
+var aiCoachStep = 0;
+var aiCoachAnswers = [];
+
+function aiCoachMsg(role, text) {
+  var chat = document.getElementById('chatMessages');
+  if (!chat) return;
+  var div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  div.innerHTML = '<div class="chat-avatar">' + (role === 'coach' ? '🎓' : '🧑') + '</div><div class="chat-bubble"></div>';
+  div.querySelector('.chat-bubble').innerText = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function aiCoachProgress(n) {
+  var phase = n < 2 ? 1 : (n < 4 ? 2 : 3);
+  for (var i = 1; i <= 3; i++) {
+    var el = document.getElementById('progressStep' + i);
+    if (el) el.classList.toggle('active', i === phase);
+  }
+}
+
+function startCoach() {
+  aiCoachStep = 0;
+  aiCoachAnswers = [];
+  var intro = document.getElementById('coachIntro');
+  var chat = document.getElementById('coachChat');
+  var rep = document.getElementById('coachReport');
+  if (intro) intro.style.display = 'none';
+  if (chat) chat.style.display = 'block';
+  if (rep) { rep.style.display = 'none'; rep.innerHTML = ''; }
+  var msgs = document.getElementById('chatMessages');
+  if (msgs) msgs.innerHTML = '';
+  var ia = document.getElementById('chatInputArea');
+  if (ia) ia.style.display = 'flex';
+  var pr = document.getElementById('coachPrompt');
+  if (pr) pr.style.display = 'block';
+  aiCoachProgress(0);
+  aiCoachMsg('coach', '🎓 我是 AI 能力教练。先问 5 个问题，帮你拆解学习卡点、定出可落地的下一步。准备好了就开始 ↓');
+  setTimeout(aiCoachAsk, 600);
+}
+
+function aiCoachAsk() {
+  if (aiCoachStep >= AI_COACH_QS.length) { aiCoachShowReport(); return; }
+  aiCoachProgress(aiCoachStep);
+  aiCoachMsg('coach', AI_COACH_QS[aiCoachStep]);
+}
+
+function sendCoachMsg() {
+  var input = document.getElementById('coachInput');
+  if (!input) return;
+  var v = (input.value || '').trim();
+  if (!v) return;
+  aiCoachMsg('user', v);
+  aiCoachAnswers[aiCoachStep] = v;
+  input.value = '';
+  aiCoachStep++;
+  setTimeout(aiCoachAsk, 500);
+}
+
+function aiCoachShowReport() {
+  aiCoachProgress(AI_COACH_QS.length);
+  aiCoachMsg('coach', '✅ 5 个问题都收到了。下面是你的专属诊断报告 ↓');
+  var ia = document.getElementById('chatInputArea');
+  if (ia) ia.style.display = 'none';
+  var pr = document.getElementById('coachPrompt');
+  if (pr) pr.style.display = 'none';
+  function esc(t) { var d = document.createElement('div'); d.innerText = t || ''; return d.innerHTML; }
+  var labels = ['① 目标场景', '② 现状', '③ 卡点', '④ 可投入时间', '⑤ 30 天成果'];
+  var h = '<div class="coach-report-title" style="font-size:17px;font-weight:800;color:#312e81;margin-bottom:14px;">🤖 AI 能力诊断报告</div>';
+  for (var i = 0; i < 5; i++) {
+    h += '<div style="background:#fafafa;border:1.5px solid #ececf3;border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+       + '<div style="font-size:13px;font-weight:700;color:#4f46e5;margin-bottom:5px;">' + labels[i] + '</div>'
+       + '<div style="font-size:13px;color:#444;line-height:1.7;white-space:pre-wrap;">' + esc(aiCoachAnswers[i]) + '</div></div>';
+  }
+  h += '<div style="background:#eef2ff;border:1.5px solid #dfe3ff;border-radius:14px;padding:12px 14px;">'
+     + '<div style="font-size:13px;font-weight:700;color:#4338ca;margin-bottom:5px;">🚀 建议行动</div><ul style="padding-left:18px;margin:0;">'
+     + '<li style="font-size:13px;color:#444;line-height:1.8;">从「30 天成果」倒推，每天用 AI 解决 1 件真实小事，连续 7 天</li>'
+     + '<li style="font-size:13px;color:#444;line-height:1.8;">每次产出后迭代一次问法，把好用的存进自己的 Prompt 库</li>'
+     + '<li style="font-size:13px;color:#444;line-height:1.8;">本周把 1 个重复任务做成可复用模板，下周直接用</li>'
+     + '<li style="font-size:13px;color:#444;line-height:1.8;">在上方「成长路线」卡里勾 Checklist，看进度一点点涨</li>'
+     + '</ul></div>';
+  var rep = document.getElementById('coachReport');
+  if (rep) { rep.innerHTML = h; rep.style.display = 'block'; }
+  var msgs = document.getElementById('chatMessages');
+  if (msgs) msgs.scrollTop = msgs.scrollHeight;
+}
 </script>
 <script>
 /* === emoji/tag 统一事件委托兜底 v3 === */

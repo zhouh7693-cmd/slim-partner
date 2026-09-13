@@ -446,6 +446,159 @@ body {
     })();
     </script>
   </div>
+<!-- ===== 教练介绍卡 + 5问对话 + 报告（与富教育搭子同构） ===== -->
+  <style>
+    #hcCoachIntro.hcc-coach-intro { background:#fff; border-radius:32px; padding:32px 24px; margin:16px auto; max-width:420px; text-align:center; box-shadow:0 8px 24px rgba(0,0,0,0.06); }
+    #hcCoachIntro .hcc-coach-intro-icon { font-size:56px; margin-bottom:16px; }
+    #hcCoachIntro .hcc-coach-intro-title { font-size:22px; font-weight:800; background:linear-gradient(135deg,#14b8a6,#0d9488); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:8px; }
+    #hcCoachIntro .hcc-coach-intro-sub { font-size:14px; color:#64748b; margin-bottom:20px; }
+    #hcCoachIntro .hcc-method-steps { display:flex; gap:8px; margin-bottom:20px; }
+    #hcCoachIntro .hcc-method-step { flex:1; background:#ecfeff; border-radius:14px; padding:12px 6px; font-size:12px; font-weight:700; color:#134e4a; line-height:1.5; }
+    #hcCoachIntro .hcc-step-num { display:block; font-size:18px; margin-bottom:4px; }
+    #hcCoachIntro .hcc-step-desc { display:block; font-size:11px; font-weight:500; color:#64748b; margin-top:2px; }
+    #hcCoachIntro .hcc-coach-start-btn { margin-top:6px; width:100%; padding:14px; border-radius:60px; border:none; background:linear-gradient(135deg,#14b8a6,#0d9488); color:white; font-size:16px; font-weight:700; cursor:pointer; transition:transform .15s; }
+    #hcCoachIntro .hcc-coach-start-btn:active { transform:scale(.97); }
+    #hcCoachIntro .hcc-coach-intro-note { font-size:11px; color:#94a3b8; margin-top:14px; }
+    #hcCoachChat { max-width:420px; margin:0 auto; padding:0 4px; }
+    #hcCoachChat .hcc-coach-progress-bar { display:flex; gap:6px; padding:12px 8px 8px; }
+    #hcCoachChat .hcc-progress-step { flex:1; text-align:center; font-size:11px; font-weight:700; padding:6px 4px; border-radius:20px; background:#f1f1f3; color:#aaa; }
+    #hcCoachChat .hcc-progress-step.active { background:linear-gradient(135deg,#14b8a6,#0d9488); color:#fff; }
+    #hcChatList { display:flex; flex-direction:column; gap:8px; padding:8px 8px 12px; max-height:46vh; overflow-y:auto; }
+    #hcChatList .hcc-coach-msg { max-width:85%; padding:10px 14px; border-radius:16px; font-size:13.5px; line-height:1.65; white-space:pre-wrap; }
+    #hcChatList .hcc-coach-msg.coach { background:#fff; color:#333; border:1.5px solid #e8e8e8; border-bottom-left-radius:4px; align-self:flex-start; }
+    #hcChatList .hcc-coach-msg.user { background:linear-gradient(135deg,#14b8a6,#0d9488); color:#fff; border-bottom-right-radius:4px; align-self:flex-end; }
+    #hcCoachChat .hcc-coach-prompt { text-align:center; color:#0d9488; font-size:12.5px; font-weight:600; padding:2px 0 6px; }
+    #hcCoachChat .hcc-coach-input-row { display:flex; gap:8px; padding:0 8px 12px; align-items:flex-end; }
+    #hcCoachChat .hcc-coach-input-row textarea { flex:1; border:1.5px solid #e0e0e0; border-radius:14px; padding:10px 12px; font-size:13.5px; font-family:inherit; resize:none; outline:none; background:#fff; }
+    #hcCoachChat .hcc-coach-input-row textarea:focus { border-color:#14b8a6; }
+    #hcCoachChat .hcc-coach-input-row button { border:none; border-radius:14px; padding:11px 18px; background:linear-gradient(135deg,#14b8a6,#0d9488); color:#fff; font-weight:700; font-size:14px; cursor:pointer; }
+    #hcGenerating { text-align:center; color:#94a3b8; font-size:13px; font-weight:600; padding:10px 0; }
+    #hcCoachReport { max-width:420px; margin:0 auto 8px; padding:24px 20px; background:#fff; border-radius:24px; box-shadow:0 8px 24px rgba(0,0,0,0.06); text-align:center; }
+    #hcCoachReport .hcc-report-title { font-size:19px; font-weight:800; color:#134e4a; margin-bottom:14px; }
+    #hcCoachReport .hcc-report-section { background:#fafafa; border:1.5px solid #efefef; border-radius:14px; padding:12px 14px; margin-bottom:10px; text-align:left; }
+    #hcCoachReport .hcc-report-section h4 { margin:0 0 6px; font-size:13px; color:#0d9488; }
+    #hcCoachReport .hcc-report-section p { margin:0; font-size:13px; color:#444; line-height:1.7; white-space:pre-wrap; }
+    #hcCoachReport .hcc-report-action { text-align:left; }
+    #hcCoachReport .hcc-report-action ul { padding-left:18px; margin:0; }
+    #hcCoachReport .hcc-report-action li { font-size:13px; color:#444; line-height:1.8; }
+    #hcRestartRow { max-width:420px; margin:0 auto; padding:0 4px 80px; }
+    #hcRestartRow button { width:100%; padding:13px; border-radius:60px; border:none; background:linear-gradient(135deg,#14b8a6,#0d9488); color:#fff; font-size:14px; font-weight:700; cursor:pointer; margin-top:8px; }
+  </style>
+  <div class="hcc-coach-intro" id="hcCoachIntro">
+    <div class="hcc-coach-intro-icon">🛡️</div>
+    <div class="hcc-coach-intro-title">麦肯锡风格健康教练</div>
+    <div class="hcc-coach-intro-sub">5 个问题看清你的健康卡点，制定可落地的预防方案</div>
+    <div class="hcc-method-steps">
+        <div class="hcc-method-step"><span class="hcc-step-num">①</span> 诊断模式<br><span class="hcc-step-desc">看清卡点</span></div>
+        <div class="hcc-method-step"><span class="hcc-step-num">②</span> 拆解原因<br><span class="hcc-step-desc">三层归因</span></div>
+        <div class="hcc-method-step"><span class="hcc-step-num">③</span> 定制动作<br><span class="hcc-step-desc">只动 1 维度</span></div>
+    </div>
+    <button class="hcc-coach-start-btn" onclick="hcStartCoach()">开始深度对话 →</button>
+    <div class="hcc-coach-intro-note">💡 免费版 · 纯前端模拟 · 5 问引导</div>
+  </div>
+
+  <div id="hcCoachChat" style="display:none;">
+    <div class="hcc-coach-progress-bar">
+        <div class="hcc-progress-step active" id="hcProg1">① 诊断</div>
+        <div class="hcc-progress-step" id="hcProg2">② 拆解</div>
+        <div class="hcc-progress-step" id="hcProg3">③ 行动</div>
+    </div>
+    <div class="hcc-chat-list" id="hcChatList"></div>
+    <div class="hcc-coach-prompt" id="hcPrompt">💡 在下方输入你的回复，点击 发送 继续</div>
+    <div class="hcc-coach-input-row" id="hcInputRow">
+      <textarea id="hcCoachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
+      <button onclick="hcSendCoachMsg()">发送</button>
+    </div>
+    <div class="hcc-generating-report" id="hcGenerating" style="display:none;">⏳ 正在生成诊断报告...</div>
+  </div>
+
+  <div class="hcc-coach-report-card" id="hcCoachReport" style="display:none;"></div>
+  <div class="hcRestartRow" id="hcRestartRow" style="display:none;">
+    <button onclick="hcStartCoach()">🔄 重新对话</button>
+  </div>
+
+  <script>
+  (function(){
+    var QS = [
+  "① 现在最让你担心的健康指标或习惯是什么？（血压 / 睡眠 / 体重 / 运动 / 体检异常项…）",
+  "② 这些问题持续多久了？你试过哪些改善方法？效果如何？",
+  "③ 没坚持下来的方法，主要卡在哪？（没时间 / 没反馈 / 情绪化 / 环境不允许）",
+  "④ 你每天能稳定投入多少时间在健康上？（10 分钟 / 30 分钟 / 1 小时）",
+  "⑤ 你最想先改善哪一个维度？（睡眠 / 饮食 / 运动 / 血压监测 / 压力）",
+    ];
+    var LABELS = ["① 卡点", "② 已尝试", "③ 卡在哪", "④ 可投入时间", "⑤ 优先改善"];
+    var px = 'hc', cls = 'hcc-';
+    var step = 0, answers = [];
+    function $(id) { return document.getElementById(id); }
+    function addMsg(role, text) {
+      var chat = $(px + 'ChatList');
+      var div = document.createElement('div');
+      div.className = cls + 'coach-msg ' + role;
+      div.innerText = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+    function progress(n) {
+      var phase = n < 2 ? 0 : (n < 4 ? 1 : 2);
+      for (var i = 1; i <= 3; i++) {
+        var el = $(px + 'Prog' + i);
+        if (el) el.classList.toggle('active', i - 1 === phase);
+      }
+    }
+    window.hcStartCoach = function() {
+      step = 0; answers = [];
+      $(px + 'CoachIntro').style.display = 'none';
+      $(px + 'CoachChat').style.display = 'block';
+      $(px + 'CoachReport').style.display = 'none';
+      $(px + 'RestartRow').style.display = 'none';
+      $(px + 'ChatList').innerHTML = '';
+      $(px + 'InputRow').style.display = 'flex';
+      $(px + 'Prompt').style.display = 'block';
+      progress(0);
+      addMsg('coach', "🎓 我是健康教练。先问 5 个问题，帮你看清自己的健康卡点。准备好了就开始 ↓");
+      setTimeout(ask, 600);
+    };
+    function ask() {
+      if (step >= QS.length) { showReport(); return; }
+      progress(step);
+      addMsg('coach', QS[step]);
+    }
+    window.hcSendCoachMsg = function() {
+      var input = $(px + 'CoachInput');
+      var v = (input.value || '').trim();
+      if (!v) return;
+      addMsg('user', v);
+      answers[step] = v;
+      input.value = '';
+      step++;
+      setTimeout(ask, 500);
+    };
+    function showReport() {
+      progress(QS.length);
+      addMsg('coach', "✅ 5 个问题都收到了。下面是你的专属诊断报告 ↓");
+      $(px + 'InputRow').style.display = 'none';
+      $(px + 'Prompt').style.display = 'none';
+      var gen = $(px + 'Generating');
+      if (gen) { gen.style.display = 'block'; setTimeout(function() { gen.style.display = 'none'; render(); }, 700); }
+      else render();
+    }
+    function esc(t) { var d = document.createElement('div'); d.innerText = t || ''; return d.innerHTML; }
+    function render() {
+      var h = '<div class="hcc-report-icon" style="font-size:40px;">🛡️</div>';
+      h += '<div class="hcc-report-title">健康诊断报告</div>';
+      for (var i = 0; i < 5; i++) {
+        h += '<div class="hcc-report-section"><h4>' + LABELS[i] + '</h4><p>' + esc(answers[i]) + '</p></div>';
+      }
+      h += '<div class="hcc-report-section hcc-report-action" style="background:#ecfeff;border-color:#a5f3fc;"><h4 style="color:#0e7490;">🩺 建议行动</h4><ul>        <li>从「优先改善」维度对应的 1 个小动作开始，写进今日 3 个预防小动作</li><li>连续 7 天，用打卡 Tab 追踪，看趋势不看单点</li><li>1 周只动 1 个维度，别同时开三条线</li><li>每周固定 1 天量血压 / 体重 / 腰围，月度回看雷达图变化</li></ul></div>';
+      var r = $(px + 'CoachReport');
+      r.innerHTML = h;
+      r.style.display = 'block';
+      var row = $(px + 'RestartRow');
+      if (row) row.style.display = 'block';
+      $(px + 'ChatList').scrollTop = $(px + 'ChatList').scrollHeight;
+    }
+  })();
+  </script>
 </div>
 <div id="page-sop" class="page" data-page-node-id="Kq25RHoFuigWtmK96gplLs"><div class="wrap" data-page-node-id="VFcBBL4XtTMAU6agOVjNF1"><div class="card" data-page-node-id="gQNBuHQqqUX8jCZEKA3SDS"><div class="card-title" data-page-node-id="mDF7XeuDcMp3mtpGCZCaWK">🎯 健康六维自评</div><div class="card-sub" data-page-node-id="bLUCrARbBWCYpbXAwO6HPn">每周一次，每个维度 1-5 分。不评没事，评了就是数据。</div><div class="sop-cats" id="sopCats" data-page-node-id="kR3RICprycoW0q7pweY1CF"></div><div class="sop-cat-tip" id="sopTipText" data-page-node-id="GqkrQNdZxpdHX0V7bVakgA">从六个维度选一个开始。<br data-page-node-id="9auXVWXEqYwJuE8i0KbsXo"><b data-page-node-id="EeSXTCJOdNuAC4z32rgVsz">原则：</b>不评"病了"，只评"这一维本周偏低，可以从一个小动作开始"。</div><div class="sop-score-row" id="sopScoreRow" data-page-node-id="BYBd2W0P4PpdO6JAN2ktDj"></div></div><div class="radar-wrap" data-page-node-id="lnwZNWbBS6REQOtLcx4r6y"><div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:6px;" data-page-node-id="16dzuPugHzOx7hEay8AQ1f">📊 六维健康图谱</div><div class="radar-svg" id="radarSvg" data-page-node-id="grHECvp8fstskEMrYZs6Ar"></div><div class="radar-legend" id="radarLegend" data-page-node-id="A65hneyVa0NfzbynnRXxEN"></div></div><div class="card" id="cardHealthMetrics"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font-size:22px;">📊</span><span style="font-weight:800;font-size:15px;color:#0f172a;">日常可监测</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">在家就能做 · 不焦虑</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">这 5 项是<b>生活医学</b>能在家监督的指标：血压计、体重秤、计步器、手机。频率看心情，<b>不是每天</b>。</div><div id="dailyMetricList" style="display:flex;flex-direction:column;gap:6px;"></div><div style="margin-top:14px;display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font-size:22px;">🩺</span><span style="font-weight:800;font-size:15px;color:#0f172a;">体检项目</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">按年度周期</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">这部分需要医院/体检机构测，记录最近一次结果便于下次对比。<b>不诊断，只显示你和医生要讨论的范围。</b></div><div id="yearlyMetricList" style="display:flex;flex-direction:column;gap:6px;"></div></div></div></div><div id="page-checkin" class="page" data-page-node-id="OeJppHx2BF7FM7bZ2WeUrW"><div class="wrap" data-page-node-id="nLdVFsC5UEgFSaHfC1cdgw"><div class="card" style="text-align:center;" data-page-node-id="o6IbWHzAD2oFDqBDZM8aac"><div style="font-size:13px;color:#64748b;" data-page-node-id="xX3PWrJBmNt6u8xAkOXd2I">今日打卡进度</div><div style="font-size:44px;font-weight:800;color:#0d9488;margin-top:4px;" id="checkinProgress" data-page-node-id="Vss6knfZReemnzigz0AZyS">0 / 3</div><div style="font-size:12px;color:#94a3b8;margin-top:4px;" data-page-node-id="VDgEzT8UjpvaR3cS2RzILc">完成 1 件算"打卡"</div></div>
 <div class="card">
