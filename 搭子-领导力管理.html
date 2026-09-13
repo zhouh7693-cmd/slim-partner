@@ -1,0 +1,3647 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="HZMWy2NkIA7MzMJrGGQYTB">
+<head data-page-node-id="JSKlnQy0C0ugvWwRhWZz9C">
+  <meta charset="UTF-8" data-page-node-id="Pxb98muHUu1UdJcg0e74uP">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" data-page-node-id="u5feFAPihstjBwmfDtq1XI">
+    <title>领导力搭子 · 带人成事修炼手册</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+    body {
+      background: linear-gradient(145deg, #f3f6fc 0%, #eef3fb 100%);
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      padding: 16px 16px 90px;
+    }
+
+    /* ===== Tab Bar ===== */
+    .tab-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: white;
+      display: flex; justify-content: space-around;
+      padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+      border-radius: 24px 24px 0 0;
+      z-index: 100;
+    }
+    .tab-item {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 3px; padding: 6px 12px; cursor: pointer;
+      border-radius: 16px; transition: all 0.2s;
+    }
+    .tab-item.active { background: #edf3fb; }
+    .tab-item .tab-icon { font-size: 22px; }
+    .tab-item .tab-label { font-size: 10px; color: #b7cbe8; font-weight: 500; }
+    .tab-item.active .tab-label { color: #2456a4; font-weight: 700; }
+
+    /* ===== Pages ===== */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ===== 打卡页面 ===== */
+    .partner-selector {
+      max-width: 400px; margin: 0 auto;
+      background: white; border-radius: 48px;
+      padding: 28px 20px 32px;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+    }
+    .selector-title {
+      font-size: 28px; font-weight: 700; text-align: center;
+      background: linear-gradient(135deg, #2456a4, #0d2f66);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin-bottom: 8px;
+    }
+    .selector-sub { text-align: center; color: #2c5a9e; margin-bottom: 28px; font-size: 15px; }
+    .partner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+    .partner-card {
+      background: #fff; border-radius: 28px; padding: 20px 12px 16px; text-align: center;
+      cursor: pointer; box-shadow: 0 6px 14px rgba(0,0,0,0.03);
+      border: 1.5px solid #f2edde; transition: all 0.2s;
+    }
+    .partner-card.selected { border-color: #2456a4; background: #f1f5fc; transform: scale(0.98); }
+    .partner-emoji { font-size: 48px; margin-bottom: 12px; }
+    .partner-name { font-weight: 700; font-size: 18px; margin-bottom: 6px; }
+    .partner-desc { font-size: 13px; color: #2c5a9e; }
+    .confirm-btn {
+      background: #2456a4; color: white; border: none;
+      width: 100%; padding: 16px; border-radius: 60px;
+      font-size: 18px; font-weight: 600; cursor: pointer;
+    }
+    .confirm-btn:active { background: #0d2f66; transform: scale(0.97); }
+
+    .card {
+      max-width: 420px; margin: 0 auto;
+      background: white; border-radius: 44px;
+      padding: 28px 24px 32px;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+      margin-bottom: 20px; text-align: center;
+    }
+    .partner-badge {
+      display: inline-block; background: #eef3fb; padding: 6px 16px;
+      border-radius: 40px; font-size: 14px; margin-bottom: 20px; color: #2456a4;
+    }
+    .question { font-size: 22px; font-weight: 600; margin-bottom: 24px; }
+    .checkin-btn {
+      width: 170px; height: 170px;
+      background: linear-gradient(145deg, #9db8dd, #4a74ba);
+      border-radius: 100%; margin: 0 auto 24px;
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+      color: white; cursor: pointer;
+      box-shadow: 0 20px 30px -8px rgba(163,114,28,0.4);
+      transition: transform 0.15s;
+    }
+    .checkin-btn:active { transform: scale(0.96); }
+    .checkin-status { font-size: 28px; font-weight: 800; }
+    .checkin-sub { font-size: 13px; opacity: 0.9; margin-top: 6px; }
+    .continuous { font-size: 44px; font-weight: 800; margin: 8px 0 4px; color: #2456a4; }
+    .continuous-label { font-size: 13px; color: #b7cbe8; margin-bottom: 20px; }
+    .week-progress { background: white; border-radius: 36px; padding: 18px 20px; margin-bottom: 20px; max-width: 420px; margin-left: auto; margin-right: auto; }
+    .week-title { font-weight: 600; margin-bottom: 16px; display: flex; justify-content: space-between; }
+    .week-dots { display: flex; justify-content: space-between; gap: 8px; }
+    .day-item { flex: 1; text-align: center; }
+    .day-name { font-size: 12px; color: #b7cbe8; margin-bottom: 6px; }
+    .dot { width: 40px; height: 40px; background: #eef3fb; border-radius: 100%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 18px; transition: all 0.2s; }
+    .dot.checked { background: #2456a4; color: white; }
+
+    /* ===== 搭子消息气泡 ===== */
+    .chat-area { max-width: 420px; margin: 0 auto 20px; }
+    .msg-bubble-wrap { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 12px; }
+    .msg-avatar { font-size: 32px; flex-shrink: 0; }
+    .msg-bubble {
+      background: white; border-radius: 18px 18px 18px 4px;
+      padding: 12px 16px; max-width: 75%; font-size: 15px;
+      line-height: 1.5; color: #12244d;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      animation: bubbleIn 0.3s ease;
+    }
+    .msg-bubble.ai { border-radius: 18px 18px 4px 18px; background: #edf3fb; }
+    @keyframes bubbleIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .typing-indicator { display: flex; gap: 4px; padding: 4px 0; }
+    .typing-indicator span { width: 6px; height: 6px; background: #b7cbe8; border-radius: 50%; animation: bounce 1.2s infinite; }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%,80%,100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1.2); opacity: 1; } }
+
+    /* ===== 搭子交互按钮 ===== */
+    .interaction-panel { max-width: 420px; margin: 0 auto 20px; background: white; border-radius: 28px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .panel-label { font-size: 12px; color: #b7cbe8; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
+    .mood-row { display: flex; justify-content: space-around; margin-bottom: 14px; }
+    .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; pointer-events: auto !important; touch-action: manipulation; }
+    .mood-btn,.talk-btn{pointer-events:auto !important;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;}
+    .mood-btn:hover, .mood-btn:active { background: #f1f5fc; transform: scale(1.15); }
+    .talk-btn-row { display: flex; gap: 8px; }
+    .talk-btn {
+      flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #f2edde;
+      background: white; font-size: 14px; font-weight: 500; color: #2456a4;
+      cursor: pointer; transition: all 0.15s;
+      pointer-events: auto !important; touch-action: manipulation;
+    }
+    .talk-btn:active { background: #edf3fb; transform: scale(0.97); }
+    .talk-btn.pressed { background: #edf3fb; transform: scale(0.95); }
+
+    /* ===== 分享卡片入口 ===== */
+    .share-inline-card {
+      max-width: 420px; margin: 0 auto 20px;
+      background: linear-gradient(135deg, #f1f5fc, #edf3fb);
+      border-radius: 24px; padding: 16px 20px;
+      border: 1px solid #d0e8f5;
+    }
+    .share-inline-label { font-size: 11px; color: #b7cbe8; letter-spacing: 0.5px; margin-bottom: 10px; }
+    .share-inline-preview {
+      background: white; border-radius: 16px; padding: 14px 16px; margin-bottom: 12px;
+      font-size: 13px; color: #0d2f66; display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .share-copy-row { display: flex; gap: 8px; }
+    .share-copy-btn, .share-link-btn {
+      flex: 1; padding: 10px; border-radius: 16px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      border: none; transition: all 0.15s;
+    }
+    .share-copy-btn { background: #2456a4; color: white; }
+    .share-copy-btn:active { background: #0d2f66; transform: scale(0.97); }
+    .share-link-btn { background: white; color: #2456a4; border: 1.5px solid #e0d0a0; }
+    .share-link-btn:active { transform: scale(0.97); }
+
+    footer { font-size: 12px; text-align: center; color: #b7cbe8; margin-top: 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
+
+    /* ===== 体重记录页面 ===== */
+    .weight-page { max-width: 420px; margin: 0 auto; }
+    .weight-header { background: white; border-radius: 32px; padding: 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
+    .weight-title { font-size: 20px; font-weight: 700; color: #0d2f66; margin-bottom: 4px; }
+    .weight-sub { font-size: 13px; color: #b7cbe8; margin-bottom: 20px; }
+    .weight-input-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .weight-input { width: 120px; height: 52px; border-radius: 16px; border: 2px solid #f2edde; text-align: center; font-size: 24px; font-weight: 700; color: #2456a4; outline: none; }
+    .weight-input:focus { border-color: #2456a4; }
+    .weight-unit { font-size: 18px; color: #b7cbe8; font-weight: 500; }
+    .weight-add-btn { padding: 12px 24px; background: #2456a4; color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .weight-add-btn:active { background: #0d2f66; }
+    .weight-chart-card { background: white; border-radius: 32px; padding: 20px 16px 16px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .chart-title { font-size: 15px; font-weight: 700; color: #0d2f66; margin-bottom: 4px; }
+    .chart-sub { font-size: 12px; color: #b7cbe8; margin-bottom: 12px; }
+    #weightCanvas { width: 100%; border-radius: 12px; background: #fcfaf4; }
+    .weight-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .wstat { background: #f3f6fc; border-radius: 16px; padding: 12px 8px; text-align: center; }
+    .wstat-num { font-size: 20px; font-weight: 800; color: #2456a4; }
+    .wstat-label { font-size: 11px; color: #b7cbe8; margin-top: 2px; }
+    .wstat.change-up { color: #e57373; }
+    .wstat.change-down { color: #c2953f; }
+    .weight-records { background: white; border-radius: 32px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .records-title { font-size: 15px; font-weight: 700; color: #0d2f66; margin-bottom: 14px; }
+    .record-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f7f3e8; }
+    .record-item:last-child { border-bottom: none; }
+    .record-date { font-size: 13px; color: #b7cbe8; }
+    .record-val { font-size: 18px; font-weight: 700; color: #2456a4; }
+    .record-change { font-size: 12px; margin-left: 6px; }
+    .record-change.down { color: #c2953f; }
+    .record-change.up { color: #e57373; }
+
+    /* ===== SOP 游戏页面 ===== */
+    .sop-page { max-width: 420px; margin: 0 auto; }
+    .sop-header { background: white; border-radius: 32px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
+    .sop-title { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #3f6db5, #ff5722); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 4px; }
+    .sop-sub { font-size: 13px; color: #b7cbe8; margin-bottom: 14px; }
+    .sop-score-row { display: flex; justify-content: center; gap: 24px; }
+    .sop-score { text-align: center; }
+    .sop-score-num { font-size: 28px; font-weight: 800; color: #2456a4; }
+    .sop-score-label { font-size: 11px; color: #b7cbe8; }
+    .sop-progress-wrap { margin-top: 12px; display: flex; align-items: center; gap: 10px; }
+    .sop-progress-bg { flex: 1; height: 8px; background: #eef3fb; border-radius: 10px; overflow: hidden; }
+    .sop-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #6c8fc9, #e6c229); border-radius: 10px; transition: width 0.4s ease, background 0.4s; }
+    .sop-progress-text { font-size: 12px; font-weight: 600; color: #b7cbe8; min-width: 40px; text-align: right; }
+    .sop-category-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; }
+    .sop-cat-tab { padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; border: none; background: #eef3fb; color: #2c5a9e; transition: all 0.2s; flex-shrink: 0; }
+    .sop-cat-tab.active { background: linear-gradient(135deg, #2456a4, #0d2f66); color: white; }
+    /* ===== SOP 清单模式 ===== */
+    .sop-game-card { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); position: relative; overflow: hidden; }
+    .sop-cat-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 12px; color: #b7cbe8; }
+    .sop-cat-progress-bar { flex: 1; height: 4px; background: #eef3fb; border-radius: 4px; overflow: hidden; }
+    .sop-cat-progress-fill { height: 100%; background: #2456a4; border-radius: 4px; transition: width 0.3s; }
+    .sop-habit-card { text-align: center; padding: 8px 0 20px; }
+    .sop-habit-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #b7cbe8; margin-bottom: 10px; }
+    .sop-habit-label.pos { color: #3f6db5; }
+    .sop-habit-label.neg { color: #ef5350; }
+    .sop-habit-emoji { font-size: 40px; margin-bottom: 8px; display: block; }
+    .sop-habit-text { font-size: 17px; font-weight: 600; color: #0d2f66; line-height: 1.5; margin-bottom: 4px; }
+    .sop-habit-sub { font-size: 12px; color: #b7cbe8; margin-bottom: 20px; }
+    .sop-btn-row { display: flex; gap: 12px; }
+    .sop-btn { flex: 1; padding: 14px 8px; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .sop-btn:active { transform: scale(0.97); }
+    .sop-btn.yes { background: #edf3fb; color: #173e7e; border: 2px solid #f0e2b6; }
+    .sop-btn.no { background: #fff3f3; color: #c62828; border: 2px solid #ffcdd2; }
+    .sop-btn.done { background: #eef3fb; color: #b7cbe8; border: 2px solid #e0d8c0; }
+    .sop-btn .sop-btn-pts { font-size: 12px; opacity: 0.8; }
+    .sop-cat-summary { background: #f3f6fc; border-radius: 16px; padding: 16px; text-align: center; }
+    .sop-cat-summary-icon { font-size: 36px; margin-bottom: 8px; }
+    .sop-cat-summary-title { font-size: 15px; font-weight: 700; color: #0d2f66; margin-bottom: 4px; }
+    .sop-cat-summary-sub { font-size: 12px; color: #b7cbe8; }
+    .sop-tip { background: #fff9e6; border-radius: 16px; padding: 14px 16px; margin-bottom: 16px; border: 1px solid #ffe599; }
+    .sop-tip-title { font-size: 13px; font-weight: 700; color: #3f6db5; margin-bottom: 6px; }
+    .sop-tip-item { font-size: 12px; color: #7a6a3a; margin-bottom: 3px; }
+    .sop-done-state { background: white; border-radius: 32px; padding: 40px 24px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .sop-done-emoji { font-size: 72px; margin-bottom: 16px; }
+    .sop-done-title { font-size: 22px; font-weight: 800; color: #0d2f66; margin-bottom: 8px; }
+    .sop-done-desc { font-size: 14px; color: #b7cbe8; margin-bottom: 16px; }
+    .sop-done-stats { background: #f3f6fc; border-radius: 20px; padding: 20px; margin-bottom: 16px; }
+    .sop-done-stat-row { display: flex; justify-content: space-around; }
+    .sop-done-stat { text-align: center; }
+    .sop-done-stat-num { font-size: 28px; font-weight: 800; color: #2456a4; }
+    .sop-done-stat-lbl { font-size: 11px; color: #b7cbe8; }
+    .sop-done-reset { font-size: 12px; color: #b7cbe8; }
+    .sop-all-done-card { background: linear-gradient(135deg, #edf3fb, #f9fbfe); border-radius: 32px; padding: 16px; margin-bottom: 16px; text-align: center; border: 2px solid #f0e2b6; }
+    .sop-all-done-emoji { font-size: 48px; margin-bottom: 8px; }
+    .sop-all-done-text { font-size: 16px; font-weight: 700; color: #173e7e; margin-bottom: 4px; }
+    .sop-all-done-sub { font-size: 13px; color: #9c7a10; }
+    /* ===== SOP 清单多选模式 ===== */
+    .sop-list-container { display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto; }
+    .sop-item { background: #f8f9fa; border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; }
+    .sop-item.sop-item-yes { background: #edf3fb; border: 1px solid #f0e2b6; }
+    .sop-item.sop-item-no { background: #fff3f3; border: 1px solid #ffcdd2; }
+    .sop-item-text { flex: 1; font-size: 14px; color: #0d2f66; line-height: 1.4; margin-right: 12px; }
+    .sop-item-btns { display: flex; gap: 6px; }
+    .sop-check-btn { padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #e0d8c0; background: white; color: #b7cbe8; transition: all 0.15s; display: flex; align-items: center; gap: 3px; }
+    .sop-check-btn:active { transform: scale(0.95); }
+    .sop-check-btn.yes-checked { background: #3f6db5; color: white; border-color: #3f6db5; }
+    .sop-check-btn.no-checked { background: #ef5350; color: white; border-color: #ef5350; }
+
+    /* ===== SOP 全部完成弹窗（新版） ===== */
+    .sop-finish-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 300; padding: 20px;
+    }
+    .sop-finish-overlay.show { display: flex; }
+    .sop-finish-card {
+      background: #fff; border-radius: 28px; padding: 28px 20px;
+      max-width: 340px; width: 100%; text-align: center;
+      animation: sopPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.22);
+    }
+    @keyframes sopPop { from { transform: scale(0.5) rotate(-5deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+    .sf-header { margin-bottom: 20px; }
+    .sf-emoji { font-size: 60px; display: block; margin-bottom: 8px; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.12)); }
+    .sf-title { font-size: 20px; font-weight: 900; color: #1a2535; margin-bottom: 4px; line-height: 1.3; }
+    .sf-subtitle { font-size: 12px; color: #bda87a; margin-bottom: 0; }
+    .sf-stats { display: flex; gap: 8px; margin-bottom: 18px; }
+    .sf-stat { flex: 1; background: #f8fafc; border-radius: 16px; padding: 12px 8px; text-align: center; border: 1.5px solid #eceff1; }
+    .sf-stat-center { background: linear-gradient(135deg, #edf3fb, #f9fbfe); border-color: #f0e2b6; }
+    .sf-stat-yes { background: linear-gradient(135deg, #edf3fb, #e9f0fa); border-color: #c2953f; }
+    .sf-stat-no { background: linear-gradient(135deg, #ecf2fb, #ffe0b2); border-color: #ffb74d; }
+    .sf-stat-num { font-size: 26px; font-weight: 900; line-height: 1.1; color: #12244d; }
+    .sf-stat-center .sf-stat-num { color: #173e7e; }
+    .sf-stat-yes .sf-stat-num { color: #3f6db5; }
+    .sf-stat-no .sf-stat-num { color: #3f6db5; }
+    .sf-stat-label { font-size: 10px; color: #78909c; margin-top: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .sf-divider { height: 1px; background: linear-gradient(90deg, transparent, #eceff1, transparent); margin: 0 0 14px; }
+    .sf-cat-title { font-size: 11px; color: #bda87a; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; text-align: left; padding: 0 2px; margin-bottom: 8px; }
+    .sf-cats { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .sf-cat-row { display: flex; align-items: center; gap: 8px; background: #f8fafc; border-radius: 12px; padding: 9px 12px; border: 1px solid #eceff1; }
+    .sf-cat-icon { font-size: 18px; flex-shrink: 0; }
+    .sf-cat-name { flex: 1; font-size: 13px; color: #12244d; font-weight: 500; text-align: left; }
+    .sf-cat-yes { font-size: 11px; font-weight: 800; color: #fff; background: #3f6db5; border-radius: 8px; padding: 2px 8px; flex-shrink: 0; }
+    .sf-cat-no { font-size: 11px; font-weight: 800; color: #fff; background: #ef5350; border-radius: 8px; padding: 2px 8px; flex-shrink: 0; margin-left: 2px; }
+    .sf-cat-streak { font-size: 11px; font-weight: 900; color: #ff6d00; flex-shrink: 0; }
+    .sf-note { font-size: 11px; color: #b7cbe8; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .sf-btn { display: block; width: 100%; background: linear-gradient(135deg, #3f6db5, #173e7e); color: white; border: none; border-radius: 50px; padding: 15px; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px rgba(46,125,50,0.35); letter-spacing: 0.5px; }
+    .sf-btn:active { transform: scale(0.97); }
+    .sf-cat-title { font-size: 11px; color: #bda87a; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; text-align: left; padding: 0 2px; margin-bottom: 8px; }
+    .sf-hist-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .sf-history { display: flex; gap: 6px; align-items: flex-end; margin-bottom: 16px; }
+    .sf-hist-day { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .sf-hist-bar-wrap { height: 50px; display: flex; align-items: flex-end; width: 100%; justify-content: center; }
+    .sf-hist-bar { width: 70%; border-radius: 6px 6px 0 0; min-height: 8px; }
+    .sf-hist-label { font-size: 9px; color: #bda87a; text-align: center; }
+    .sf-hist-score { font-size: 9px; font-weight: 600; text-align: center; }
+    /* 维度小结弹窗（新版） */
+    .sf-cat-header { margin-bottom: 12px; }
+    .sf-cat-emoji { font-size: 56px; display: block; margin-bottom: 6px; }
+    .sf-cat-subtitle { font-size: 18px; font-weight: 900; margin-bottom: 2px; }
+    .sf-score-pct { font-size: 40px; font-weight: 900; margin: 10px 0 12px; }
+    .sf-feedback { background: #f8fafc; border-radius: 16px; padding: 16px; font-size: 15px; line-height: 1.7; color: #12244d; font-weight: 500; border: 1.5px solid #eceff1; margin-bottom: 16px; }
+    .sf-btn-cat { background: linear-gradient(135deg, #9db8dd, #4a74ba); color: white; border: none; border-radius: 50px; padding: 15px; font-size: 16px; font-weight: 800; width: 100%; cursor: pointer; box-shadow: 0 6px 20px rgba(0,200,83,0.35); letter-spacing: 0.5px; }
+    .sf-btn-cat:active { transform: scale(0.97); }
+
+    /* ===== 负向批评弹窗 ===== */
+    .neg-critic-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(200, 50, 50, 0.2); backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 300; padding: 20px;
+    }
+    .neg-critic-overlay.show { display: flex; }
+    .neg-critic-card {
+      background: white; border-radius: 28px; padding: 28px 24px;
+      max-width: 320px; width: 100%; text-align: center;
+      border-top: 4px solid #ef5350;
+      animation: negShake 0.5s ease;
+    }
+    @keyframes negShake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-10px); }
+      40% { transform: translateX(10px); }
+      60% { transform: translateX(-8px); }
+      80% { transform: translateX(8px); }
+    }
+    .neg-critic-emoji { font-size: 52px; margin-bottom: 8px; }
+    .neg-critic-title { font-size: 18px; font-weight: 800; color: #c62828; margin-bottom: 8px; }
+    .neg-critic-desc { font-size: 14px; color: #2c5a9e; margin-bottom: 12px; line-height: 1.5; }
+    .neg-critic-reply { background: #fff3f3; border-radius: 12px; padding: 10px 14px; font-size: 14px; color: #c62828; margin-bottom: 16px; font-style: italic; }
+    .neg-critic-row { display: flex; gap: 10px; }
+    .neg-btn { flex: 1; padding: 12px; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; }
+    .neg-btn.yes { background: #ef5350; color: white; }
+    .neg-btn:active { transform: scale(0.97); }
+
+    /* ===== 正向奖励弹窗 ===== */
+    .pos-reward-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,120,60,0.15); backdrop-filter: blur(2px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 300; padding: 20px;
+    }
+    .pos-reward-overlay.show { display: flex; }
+    .pos-reward-card {
+      background: white; border-radius: 32px; padding: 36px 28px;
+      max-width: 280px; width: 100%; text-align: center;
+      border: 3px solid #3f6db5;
+      animation: posBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes posBounce {
+      0% { transform: scale(0.2) rotate(-15deg); opacity: 0; }
+      60% { transform: scale(1.15) rotate(3deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0); opacity: 1; }
+    }
+    .pos-reward-emoji { font-size: 64px; margin-bottom: 12px; }
+    .pos-reward-msg { font-size: 16px; font-weight: 600; color: #173e7e; margin-bottom: 8px; }
+    .pos-reward-pts { font-size: 42px; font-weight: 900; color: #3f6db5; }
+    .pos-reward-pts.neg { color: #ef5350; font-size: 32px; }
+
+    /* ===== Toast ===== */
+    .toast { position: fixed; bottom: 100px; left: 20px; right: 20px; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
+    .toast.show { opacity: 1; }
+
+    /* ===== 问答/进展选择面板 ===== */
+    .qa-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+      display: none; align-items: flex-end; justify-content: center;
+      z-index: 400; padding: 0;
+    }
+    .qa-overlay.show { display: flex; }
+    .qa-panel {
+      background: white; border-radius: 32px 32px 0 0;
+      width: 100%; max-width: 420px; max-height: 82vh;
+      display: flex; flex-direction: column;
+      animation: slideUp 0.35s cubic-bezier(0.32,0.72,0,1);
+      overflow: hidden;
+    }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .qa-handle {
+      width: 40px; height: 4px; background: #e0d8c0; border-radius: 4px;
+      margin: 12px auto 0; flex-shrink: 0;
+    }
+    .qa-header {
+      padding: 16px 20px 10px; flex-shrink: 0; text-align: center;
+      border-bottom: 1px solid #f7f3e8;
+    }
+    .qa-title { font-size: 18px; font-weight: 700; color: #0d2f66; }
+    .qa-sub { font-size: 12px; color: #b7cbe8; margin-top: 4px; }
+    .qa-scroll { overflow-y: auto; padding: 12px 16px 20px; flex: 1; }
+    .qa-card {
+      background: #f3f6fc; border-radius: 16px; padding: 14px 16px;
+      margin-bottom: 10px; cursor: pointer;
+      border: 2px solid transparent; transition: all 0.2s;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .qa-card:active { transform: scale(0.97); }
+    .qa-card.pos { border-color: #e9f0fa; background: #f9fbfe; }
+    .qa-card.neg { border-color: #ffcdd2; background: #fff5f5; }
+    .qa-card-icon { font-size: 24px; flex-shrink: 0; }
+    .qa-card-text { font-size: 14px; color: #3a4a5a; line-height: 1.4; }
+    .qa-card-tag {
+      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px;
+      margin-left: auto; flex-shrink: 0;
+    }
+    .qa-card-tag.pos { background: #3f6db5; color: white; }
+    .qa-card-tag.neg { background: #ef5350; color: white; }
+
+    /* ===== 反馈弹窗 ===== */
+    .fb-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 500; padding: 20px;
+    }
+    .fb-overlay.show { display: flex; }
+    .fb-card {
+      background: white; border-radius: 32px; padding: 32px 24px;
+      max-width: 340px; width: 100%; text-align: center;
+    }
+    .fb-card.pos { border-top: 5px solid #3f6db5; animation: fbPop 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+    .fb-card.neg { border-top: 5px solid #ef5350; animation: fbShake 0.5s ease; }
+    @keyframes fbPop { from { transform: scale(0.5); opacity:0; } to { transform: scale(1); opacity:1; } }
+    @keyframes fbShake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+    .fb-emoji { font-size: 64px; margin-bottom: 12px; }
+    .fb-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; border-radius: 20px; display: inline-block; padding: 2px 12px; }
+    .fb-label.pos { background: #edf3fb; color: #173e7e; }
+    .fb-label.neg { background: #fff3f3; color: #c62828; }
+    .fb-title { font-size: 20px; font-weight: 800; color: #0d2f66; margin-bottom: 10px; }
+    .fb-text { font-size: 14px; color: #2c5a9e; line-height: 1.7; margin-bottom: 16px; }
+    .fb-partner-quote {
+      background: #f3f6fc; border-radius: 12px; padding: 12px 16px;
+      font-size: 14px; color: #3a4a5a; font-style: italic;
+      margin-bottom: 20px; line-height: 1.6;
+      text-align: left;
+    }
+    .fb-partner-label { font-size: 11px; color: #b7cbe8; margin-bottom: 6px; font-style: normal; font-weight: 600; }
+    .fb-btn { background: #2456a4; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
+    .fb-btn:active { transform: scale(0.97); }
+  
+    /* 弹层右上角 X 关闭按钮（2026-09-08） */
+    .qa-panel { position: relative; }
+    .qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; }
+    .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#1f2937; }
+    .qa-close-x:active { background:rgba(0,0,0,0.18); }
+</style>
+</head>
+<body data-page-node-id="3eJ08NGTBYeqqZSC7p6VMQ">
+
+<!-- ===== 底部右侧搭子切换 ===== -->
+<div style="position:fixed;bottom:88px;right:16px;z-index:200;" data-page-node-id="S50W6ZXDBjaJY7bZNdg7nB">
+  <div id="avatarBtn" onclick="showPartnerSelector()" style="width:48px;height:48px;background:white;border:2.5px solid #9db8dd;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:26px;transition:transform 0.2s;position:relative;" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'" data-page-node-id="VScecncSTf4ZMkigsAupX7">😊</div>
+</div>
+
+<!-- ===== Tab Bar ===== -->
+<div class="tab-bar" data-page-node-id="UHfP3t2bEAXHIkvnwG8QUe">
+  <div class="tab-item active" onclick="switchTab('chat')" data-page-node-id="MLTmEt6HZEgfTGYQB9Rk7x">
+    <div class="tab-icon" data-page-node-id="5J1bEqJAChjwE3W6wDBAA1">💬</div>
+    <div class="tab-label" data-page-node-id="hlxQ9mhSHKGhIVD2tnHUxX">搭子</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('coach')" data-page-node-id="2ra69PPrXxmoYrZM71UYbk">
+    <div class="tab-icon" data-page-node-id="Peae87WGTjiGcOTjVrcWQr">🎓</div>
+    <div class="tab-label" data-page-node-id="r3R2zLRalEdBdwyNSmwZkr">教练</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('sop')" data-page-node-id="QZgBEAVuLpHjTEjEVagBQu">
+    <div class="tab-icon" data-page-node-id="PyxUeUwHpWwFpEMDMpwrX0">🎯</div>
+    <div class="tab-label" data-page-node-id="6M3gpI46zUVowaODE8GKEv">自检</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('checkin')" data-page-node-id="16Wp9b6pOIbCkMhEgPlQuk">
+    <div class="tab-icon" data-page-node-id="wEiuq7RvSyOEBkFI1Sl3zh">✅</div>
+    <div class="tab-label" data-page-node-id="Kb9gaFYkYNMeyNSxhKutNa">打卡</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('weight')" data-page-node-id="VozJ98DJZ6wkM0FaFB7RCa">
+    <div class="tab-icon" data-page-node-id="7euA9ARzt5FqpQmtMlwetv">🔥</div>
+    <div class="tab-label" data-page-node-id="MPL5ByDXumF5UFxsWb8Da0">领导</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('progress')" data-page-node-id="P8idCBc5N4OFobF5fckBfO">
+    <div class="tab-icon" data-page-node-id="Ae7Swqmv0QeeochAL99ljM">📊</div>
+    <div class="tab-label" data-page-node-id="DPwUfKDfuRwE9EnhLM2KdO">进展</div>
+  </div>
+  <div class="tab-item" onclick="switchTab('share')" data-page-node-id="qS5JlNI3FRRcztew0itFCf">
+    <div class="tab-icon" data-page-node-id="JiA4iwH470ivibnMa54QBE">📣</div>
+    <div class="tab-label" data-page-node-id="PAX7dsxb8Rqr9TIaYq8fMg">分享</div>
+  </div>
+</div>
+
+<!-- ===== Page: 打卡 ===== -->
+<div id="page-checkin" class="page active" data-page-node-id="wWd2f7hRWDe7pQcjv97Npm">
+
+  <!-- 搭子选择器 -->
+  <div id="partnerSelector" class="partner-selector" data-page-node-id="CEwgdQ2DbQvFPB29LYvtmV">
+    <div class="selector-title" data-page-node-id="3fYy9W8GMf4CyHBoIAF1I3">选个领导力搭子</div>
+    <div class="selector-sub" data-page-node-id="4TJvOqwqk9l7W07XMsGSo6">陪你带人成事，把领导力练成日常</div>
+    <div class="partner-grid" id="partnerGrid" data-page-node-id="IAvfR1VH7TIKDVcBLzqK8U">
+      <div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')" data-page-node-id="dRzrAQ21OtZX21pKMXDmIx">
+        <div class="partner-emoji" data-page-node-id="u45BvopHJZyFPrp7tDdyvH">🧭</div>
+        <div class="partner-name" data-page-node-id="YWw4mO0BUQoG5Sr5RDFlCA">教练型领导</div>
+        <div class="partner-desc" data-page-node-id="A32wBDIYbZkxL1fIyjB3hT">先听懂，再带路</div>
+      </div>
+      <div class="partner-card" id="pc-passion" onclick="selectPartner('passion')" data-page-node-id="6elyozUw9Ocr3uvs0scwfM">
+        <div class="partner-emoji" data-page-node-id="82waN5dKSrd690bzhV5fWa">🔥</div>
+        <div class="partner-name" data-page-node-id="HtSoAT8TqcDwYX2ZROruiQ">将领型</div>
+        <div class="partner-desc" data-page-node-id="6n4VIRPETa8kBsy0yH1SzJ">目标必达，说到做到</div>
+      </div>
+      <div class="partner-card" id="pc-rational" onclick="selectPartner('rational')" data-page-node-id="r2li4tIKP6zgctltrpjcZw">
+        <div class="partner-emoji" data-page-node-id="C3OYn5qPhndfu1fNy33HCi">📐</div>
+        <div class="partner-name" data-page-node-id="b7tgeuswczZSy3SCOXcA4L">体系型</div>
+        <div class="partner-desc" data-page-node-id="QxRZtXdWWSgq2FM2L0pHh4">建标准，造系统</div>
+      </div>
+      <div class="partner-card" id="pc-tsundere" onclick="selectPartner('tsundere')" data-page-node-id="dnTtbzBuE6ajQWfoadvgAh">
+        <div class="partner-emoji" data-page-node-id="ZZ73YvDXaHskLLdy7rpfib">🌿</div>
+        <div class="partner-name" data-page-node-id="uVsnUZ149Pa8jWAyHTLzI9">园丁型</div>
+        <div class="partner-desc" data-page-node-id="lTO5oB50oxDP65d8dXQFKj">成就他人，静待花开</div>
+      </div>
+    </div>
+    <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner()" data-page-node-id="aTj6HBtoGrE2b2VB5mqQxZ">✨ 开始陪伴 ✨</button>
+  </div>
+
+  <!-- 打卡仪表盘 -->
+  <div id="dashboard" style="display:none;" data-page-node-id="vfVuMQwF3UeaHGW2orLVwx">
+    <div class="card" data-page-node-id="gI3hNZcUZw72CR8YWSS3jB">
+      <div id="currentPartnerBadge" class="partner-badge" data-page-node-id="SNIyjCea6spPzEne4n0Ft5">🧭 教练型领导</div>
+      <div class="question" data-page-node-id="wEsKAfr6GSIgeRSGYgBfj2">今天，你带人带得怎么样？</div>
+      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="wTTlRGFIFkGdUY9EwMKngh">
+        <div class="checkin-status" id="checkinStatusText" data-page-node-id="21ouhoXvil26CEMF6bq4XH">签到</div>
+        <div class="checkin-sub" data-page-node-id="X1CbQcxbv3N652HjR5onOd">点击打卡</div>
+      </div>
+      <div class="continuous" id="continuousDays" data-page-node-id="jpFCHusbFg0AaBowUsiMsw">0</div>
+      <div class="continuous-label" data-page-node-id="mLCDsaAvtYoLih8wGrvcck">连续打卡天数</div>
+    </div>
+
+    <!-- 搭子消息区 -->
+    <div class="chat-area" id="chatArea" data-page-node-id="EtrERTHm90cCoHu4zzaToP"></div>
+
+    <!-- 本周进度 -->
+    <div class="week-progress" data-page-node-id="3ZaueiZIuNLzv7IHjHCXsQ">
+      <div class="week-title" data-page-node-id="CeXcrsXcBdsG2qJ8ei0i1v"><span data-page-node-id="TpGojX3oUV8HcqI1QqMMfJ">📅 本周进度</span><span id="weekRange" data-page-node-id="zZTEnHhGTBm0yWpwB802la"></span></div>
+      <div class="week-dots" id="weekDots" data-page-node-id="Veunh6ZNmgA1jaGVR8f0Zw"></div>
+      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyStats()" data-page-node-id="e9J7Vbjse5NHxWHXwjC9sD">📋 复制战绩</button>
+    </div>
+
+    <!-- 搭子交互（仪表盘底部） -->
+    <div class="interaction-panel" data-page-node-id="C1MrpGyLfG7k0LTekRhlRd">
+      <div class="panel-label" data-page-node-id="Dq2Iu6gex8II6hTNvQ6H8Z">💬 和搭子说说话</div>
+      <div class="mood-row" data-page-node-id="YHvo0sfWHcPl3l3GypPlhm">
+        <div class="mood-btn" data-mood="happy" title="开心" data-page-node-id="PNavE7qCJWLJgMrpDeICFT">😄</div>
+        <div class="mood-btn" data-mood="neutral" title="平静" data-page-node-id="aJIl28dtOfQCggRPDCyjSF">😌</div>
+        <div class="mood-btn" data-mood="sad" title="低落" data-page-node-id="ON6ZIuCUuhZoviEF7wyrHm">😔</div>
+        <div class="mood-btn" data-mood="tired" title="累了" data-page-node-id="kjI6JC3BdxuxQ5iYEGvl16">😫</div>
+      </div>
+      <div class="talk-btn-row" data-page-node-id="ZVzbShUh46BBErg7hbMsAO">
+        <button class="talk-btn" data-type="progress" data-page-node-id="HvT81sJFQCfkJW97Dz5Umu">📈 进展</button>
+        <button class="talk-btn" data-type="struggle" data-page-node-id="FXHDMDXwTEqAnOXDGN3Htl">😣 困难</button>
+        <button class="talk-btn" data-type="idea" data-page-node-id="gUGNq5TURLeknyba27iXo2">💡 想法</button>
+        <button class="talk-btn" data-type="cheer" data-page-node-id="vNxloubEW5jZ1mp7dnPuXH">🎉 喜事</button>
+      </div>
+      <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="WEpG8Ub3GhdLFJfMd7wPHM">
+        <button class="talk-btn" data-type="report" data-page-node-id="rqvxCAxL64P54LdREmJCUk">📣 汇报进展</button>
+        <button class="talk-btn" data-type="question" data-page-node-id="5MHlCrCf6dtkLfMIu7vRim">🤔 有问题想问</button>
+      </div>
+    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene">💭 今天发生了什么</button></div>
+    </div>
+
+    <!-- 分享入口 -->
+    
+    <!-- 🎯 今日 3 个关键小动作 -->
+    <div id="key3Card" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+        <span style="font-size:18px;">🎯</span>
+        <span style="font-weight:700;font-size:14px;color:#333;">🎯 今日 3 个领导力小动作</span>
+      </div>
+      <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
+      <div id="key3List"></div>
+    </div>
+    <script>
+    (function(){
+            var KEY3_ACTIONS = [
+        { icon: '🪞', title: '照一次镜子', sub: '复盘今天的一次情绪与判断' },
+        { icon: '🤲', title: '成就一个人', sub: '给一条具体反馈，或授权一件事' },
+        { icon: '🎯', title: '聚焦一件事', sub: '砍掉一个伪问题，压到真价值上' }
+      ];;
+      var KEY3_STORE = 'buddy_key3_ldship';
+      var K3_COLOR = '#2456a4';
+      function k3today(){ return new Date().toISOString().slice(0,10); }
+      function k3data(){ try { var d = JSON.parse(localStorage.getItem(KEY3_STORE) || '{}'); if (d.date !== k3today()) d = { date: k3today(), checked: {} }; return d; } catch(e) { return { date: k3today(), checked: {} }; } }
+      window.toggleKey3 = function(i){
+        var d = k3data();
+        var __was = !!d.checked[i];
+        d.checked[i] = !d.checked[i];
+        try { localStorage.setItem(KEY3_STORE, JSON.stringify(d)); } catch(e) {}
+        renderKey3();
+        if (!__was && d.checked[i]) {
+          try {
+            var __tails = ['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
+            var __m = '🔥 收到！「' + KEY3_ACTIONS[i].title + '」' + __tails[Math.floor(Math.random() * __tails.length)];
+            if (typeof showToast === 'function') { showToast(__m); } else if (typeof ccToast === 'function') { ccToast(__m); }
+          } catch(e) {}
+        }
+      };
+      window.renderKey3 = function(){
+        var box = document.getElementById('key3List');
+        if (!box) return;
+        var d = k3data();
+        box.innerHTML = KEY3_ACTIONS.map(function(a, i){
+          var on = !!d.checked[i];
+          var circle = on ? 'background:' + K3_COLOR + ';color:#fff;text-align:center;line-height:26px;font-size:14px;font-weight:700;' : 'border:2px solid #d1d5db;background:#fff;';
+          return '<div onclick="toggleKey3(' + i + ')" style="display:flex;align-items:center;gap:10px;background:#f6f8fa;border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;">'
+            + '<div style="font-size:22px;flex-shrink:0;">' + a.icon + '</div>'
+            + '<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;color:#333;">' + a.title + '</div>'
+            + '<div style="font-size:11px;color:#999;margin-top:2px;">' + a.sub + '</div></div>'
+            + '<div style="width:26px;height:26px;border-radius:50%;flex-shrink:0;' + circle + '">' + (on ? '✓' : '') + '</div>'
+            + '</div>';
+        }).join('');
+      };
+      setTimeout(function(){ try { renderKey3(); } catch(e) {} }, 0);
+    })();
+    </script>
+<!-- 📌 今天提醒自己 -->
+    <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#edf3fb,#e9f0fa);border-radius:18px;padding:14px 16px;font-size:13px;color:#173e7e;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <span style="font-size:18px;">📌</span>
+        <span style="font-weight:700;">今天提醒自己</span>
+        <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
+      </div>
+      <div id="dailyTipText">先听懂，再带路——理解先于评价</div>
+    </div>
+
+    <footer data-page-node-id="f8BK3JzUPvY9OncVl93jwC">每天一次签到 · 你的搭子会给你力量</footer>
+  </div>
+</div>
+
+<!-- ===== Page: 体重 ===== -->
+<div id="page-weight" class="page" data-page-node-id="EYO6rcKZjpKHwUSps0SgOr">
+  <div class="weight-page" data-page-node-id="lOHHQOnAzn1m3UkE1vK9eb">
+    <div class="weight-header" data-page-node-id="wWAcfdJ9jNAwlAGplrEMgH">
+      <div class="weight-title" data-page-node-id="4g1XEWKSf8gdeIyFxBJTQc">🌸 领导分记录</div>
+      <div class="weight-sub" id="weightSummary" data-page-node-id="SAnoTzwDAcJ2M4GF1Y64GJ">记录自己每天的领导力状态，趋势比单次重要</div>
+      <div class="weight-input-row" data-page-node-id="n3qfzRPex71UpWXfLOknqU">
+        <input class="weight-input" id="weightInput" type="number" step="1" min="1" max="100" placeholder="--" data-page-node-id="ALmvl3szcoHSTliiVxom2v">
+        <span class="weight-unit" data-page-node-id="bCX4BtOzg6Ubmqq5xr1jDk">分</span>
+        <button class="weight-add-btn" onclick="addWeight()" data-page-node-id="EMFIwWL17EbcHSiZkapClq">记录</button>
+      </div>
+    </div>
+
+    <div class="weight-chart-card" data-page-node-id="ASptTjH5Waeq5UtSuKMUFo">
+      <div class="chart-title" data-page-node-id="0s3Wq4jwWbtY6KxWIAq40R">📈 领导分曲线</div>
+      <div class="chart-sub" id="chartSub" data-page-node-id="WVLPa5ueT3HobKDCA3A7Lp">坚持记录，趋势一目了然</div>
+      <canvas id="weightCanvas" width="380" height="200" data-page-node-id="hetmipTQppRntgTDWi5wq0"></canvas>
+      <div class="weight-stats" id="weightStats" data-page-node-id="mpSZrAPb7eH3EQzIIDaZfP"></div>
+    </div>
+
+    <!-- 每周进步报告 -->
+    <div class="weight-chart-card" id="weeklyReportCard" data-page-node-id="FA7JeordoXvqa5nRwv66Oc">
+      <div class="chart-title" data-page-node-id="bvcy6mHT6xp6AYpdjqozfJ">📊 本周进展</div>
+      <div id="weeklyReportContent" data-page-node-id="UDNbomKwEE6mtKZM94IUkc">
+        <div style="text-align:center;padding:16px;color:#b7cbe8;font-size:13px;" data-page-node-id="WHKdZ4xgFgK2N7rAKuZKc8">本周打卡后再来看进展报告 📝</div>
+      </div>
+      <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b35,#ff9500);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareWeeklyReport()" data-page-node-id="3tezSvgepdWe2hZnutisZk">📤 分享本周进展</button>
+    </div>
+
+    <div class="weight-records" data-page-node-id="NG4iYjpbt9a08UX7BNHYEI">
+      <div class="records-title" data-page-node-id="pDKan3acDLNMtTu9fxIkfN">📝 历史记录</div>
+      <div id="weightRecords" data-page-node-id="4AOob8UUZYlYI1G5zRobUF"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: SOP ===== -->
+<div id="page-sop" class="page" data-page-node-id="Lcb4EgcACsFmnOolsxGQ7D">
+  <div class="sop-page" data-page-node-id="935xXD9BWs1nC3eDcVqaQ5">
+    <div class="sop-header" data-page-node-id="cUlRfJodn2fUnwGsNnzX26">
+      <div class="sop-title" data-page-node-id="kboDp0tLHMQwzwvcVLdAT9">🎯 今日习惯复盘</div>
+      <div class="sop-sub" data-page-node-id="vVGcQCc93kWQkTjgx52NQV">切掉坏习惯，养成好习惯 · 满分100分</div>
+      <div class="sop-score-row" data-page-node-id="YKWQLNbICG9dGUkFYTEPzd">
+        <div class="sop-score" data-page-node-id="FpDLXMaBGU9BrSSyh2VZNT">
+          <div class="sop-score-num" id="sopScore" data-page-node-id="4wi41SJ5DG5BG8ROYxUdTd">0</div>
+          <div class="sop-score-label" data-page-node-id="X199xACbtekkbYNpF1BSti">今日得分</div>
+        </div>
+        <div class="sop-score" data-page-node-id="LxWkNsOc4q283r4k5UMBmA">
+          <div class="sop-score-num" id="sopPosCount" data-page-node-id="FqclSEeOus3e2IssG6y03o">0</div>
+          <div class="sop-score-label" data-page-node-id="ahKLrEPqRL5siYvwB5FMz9">做到了</div>
+        </div>
+        <div class="sop-score" data-page-node-id="GtthX0qe4zcu1nRB1Ir7u6">
+          <div class="sop-score-num" id="sopNegCount" data-page-node-id="y07pSXE2gC6xmtbDfFzIWN">0</div>
+          <div class="sop-score-label" data-page-node-id="P0ZBh2XFJrK5YfLjdmyAl2">需注意</div>
+        </div>
+      </div>
+      <div class="sop-progress-wrap" data-page-node-id="6Xe3UZwffNXWjZtxUeLvxT">
+        <div class="sop-progress-bg" data-page-node-id="2MsnJWcGHdrY6CvsfLrZvd"><div class="sop-progress-bar" id="sopScoreBar" data-page-node-id="qMcUIxXHSaMo51QRSlhKgD"></div></div>
+        <div class="sop-progress-text" id="sopProgressText" data-page-node-id="bEWDWVbPLHQXo4gzPE0pdG">0 / 100</div>
+      </div>
+    </div>
+
+    <div class="sop-category-tabs" id="sopCatTabs" data-page-node-id="vGMPevfNdUZrFrmJR41g6w"></div>
+
+    <div class="sop-game-card" id="sopGameCard" data-page-node-id="asivpeDwdbeiztAT2RDBVD">
+      <!-- 清单内容由 JS 动态渲染 -->
+    </div>
+
+    <div class="sop-tip" data-page-node-id="Gb4cDEMFf68BNaaf3mlXtS">
+      <div class="sop-tip-title" data-page-node-id="GhoCF6PjIGCCk6jxUFSy2o">💡 第一性原理提示</div>
+      <div class="sop-tip-item" id="sopTipText" data-page-node-id="vCT06NfVLohG3DTEzA4tBt"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 进展 ===== -->
+<div id="page-progress" class="page" data-page-node-id="DQB9I125o9HY34I7c2CVL5">
+  <div class="weight-page" data-page-node-id="KGfqxBhOGP4IAWMOFKiE2d">
+    <div class="weight-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;" data-page-node-id="G4h4IAHyr9pHiFKNsRf647">
+      <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="E01F1c5DcNG4T1WvWCYiq0">🏆</div>
+      <div class="chart-title" style="font-size:18px;margin-bottom:4px;" data-page-node-id="VQJUBNpG0FFybHeCck4bD1">思维进展</div>
+      <div style="font-size:13px;color:#b7cbe8;margin-bottom:20px;" data-page-node-id="953VtES35IuKZFGVpgs4vw">你的 SOP 全局视图</div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;position:relative;" data-page-node-id="oCipMvPmk6gDfe8DQ9OGig">
+        <svg width="140" height="140" viewBox="0 0 140 140" data-page-node-id="aSHfORf9uH5eTFEjP8tTnr">
+          <defs data-page-node-id="8GfXZ3GHRnimYP7iF4iHet"><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%" data-page-node-id="APzs9nRDdWSvpkZ6IEyylA">
+            <stop offset="0%" stop-color="#9db8dd" data-page-node-id="QBjsMyQh7cTOgW7XunTe37"/><stop offset="100%" stop-color="#6c8fc9" data-page-node-id="ibA2OOVGXOXCYd79GtwClZ"/>
+          </linearGradient></defs>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#eef3fb" stroke-width="14" data-page-node-id="8701ABPzSkVDWqMphcEhlX"/>
+          <circle id="ringFill" cx="70" cy="70" r="54" fill="none" stroke="url(#ringGrad)" stroke-width="14"
+            stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"
+            transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.8s;" data-page-node-id="hDnWfFA56m2EjxBTnhoZpF"/>
+          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#9db8dd;" id="ringPct" data-page-node-id="LKFiBtgLSCCAmECK7amJ3C">0%</text>
+          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#b7cbe8;" data-page-node-id="mnGPuL7K0voSLoWHmDIjqq">平均得分</text>
+        </svg>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;" data-page-node-id="rv2TUvznC5fVn3faUsTJrk">
+        <div style="background:#edf3fb;border-radius:16px;padding:10px 16px;text-align:center;" data-page-node-id="rroRRPsAAC7S3il9UuVmYG">
+          <div style="font-size:18px;font-weight:800;color:#173e7e;" id="progStreakNum" data-page-node-id="jtgUmXgMcb0XmUIjTLCRgj">0</div>
+          <div style="font-size:11px;color:#b7cbe8;" data-page-node-id="WNeEfwxFsWB5UDB59AxmVu">连续天数</div>
+        </div>
+        <div style="background:#edf3fb;border-radius:16px;padding:10px 16px;text-align:center;" data-page-node-id="kOBQKI1tNZuSdfowEL8X5f">
+          <div style="font-size:18px;font-weight:800;color:#2456a4;" id="progTotalDays" data-page-node-id="OrjJmNE1xS66FYBoeQi1qU">0</div>
+          <div style="font-size:11px;color:#b7cbe8;" data-page-node-id="iMn0CQy065eVAwQSILuTx2">累计天数</div>
+        </div>
+        <div style="background:#fff8e1;border-radius:16px;padding:10px 16px;text-align:center;" data-page-node-id="UC7ceq93qQks3SciC4ND2u">
+          <div style="font-size:18px;font-weight:800;color:#ff8f00;" id="progTodayScore" data-page-node-id="i5qHbYcMvLrr2jZWSkOYyn">-</div>
+          <div style="font-size:11px;color:#b7cbe8;" data-page-node-id="2Hy6MrxHKro2dDt8lu29Yn">今日得分</div>
+        </div>
+      </div>
+    </div>
+    <div class="weight-chart-card" style="margin-bottom:16px;" data-page-node-id="82Vweq98FHFWBEF4p7xMRp">
+      <div class="chart-title" data-page-node-id="i9KhL1yJ8xqAy4Ay5wfREc">📊 各维度平均得分</div>
+      <div id="progDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;" data-page-node-id="OIKSYjX12yQD6gXKleRKs0"></div>
+    </div>
+    <div class="weight-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#f1f5fc,#edf3fb);border:1px solid #d0e8f5;margin-bottom:16px;" data-page-node-id="ooxmX4HUI7wlo1vdKjBFVi">
+      <div style="font-size:36px;margin-bottom:8px;" id="progPartnerEmoji" data-page-node-id="h0DsV2gTAWAMSxKty8xJ6i">🧭</div>
+      <div style="font-size:14px;font-weight:700;color:#0d2f66;margin-bottom:4px;" id="progPartnerName" data-page-node-id="9ZzMPXs2Bl337zzCG9pFzX">教练型领导</div>
+      <div style="font-size:13px;color:#2456a4;line-height:1.6;" id="progPartnerMsg" data-page-node-id="o9vcMhpAktysp0AidsuQ0s">每天一点点，思维在复利！</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 分享 ===== -->
+<div id="page-share" class="page" data-page-node-id="U3CGAY3QHhfKcaFqUsINbC">
+  <div class="weight-page" data-page-node-id="e52vPwHMC9Lkt4J1I5F5JF">
+    <div class="weight-header" style="text-align:center;" data-page-node-id="Vky0bu0XnbowHEwOLAKHRW">
+      <div class="weight-title" data-page-node-id="NPKgicGgWVRXFuCcNgB0CM">📣 分享</div>
+      <div class="weight-sub" data-page-node-id="PRtOGOwhghFxySmgiadAPx">邀请朋友一起带人成事</div>
+    </div>
+
+    <!-- 我的状态 -->
+    <div class="sop-card" style="margin-bottom:12px;;border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="8YGfvMubtD4tRAA02qkDbo">
+      <div class="chart-title" data-page-node-id="z3SBBx0U4NvPOgtaQk2dL2">🧭 我的状态</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;" data-page-node-id="ahRahxmuMNHn405xOhGZt8">
+        <div style="background:#f1f5fc;border-radius:12px;padding:12px 6px;" data-page-node-id="L2twJxSCQ2EufQCEDbNwgG">
+          <div style="font-size:20px;font-weight:700;color:#4a74ba;" id="shareStreak" data-page-node-id="ED1d4478jmdNKP8SN9LQAS">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="iskxCD9YUKYCMwMLG9tlgp">连续打卡</div>
+        </div>
+        <div style="background:#f1f5fc;border-radius:12px;padding:12px 6px;" data-page-node-id="KcMNAxN7Xuxj64fWJGXX18">
+          <div style="font-size:20px;font-weight:700;color:#9db8dd;" id="shareToday" data-page-node-id="Z4GrAqDz4zYCbr02DeamIV">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="XQ3V8gpLB6xC1CMlGH9fNU">今日打卡</div>
+        </div>
+        <div style="background:#f1f5fc;border-radius:12px;padding:12px 6px;" data-page-node-id="qQaHerHi3pXpcCcJeFYt6F">
+          <div style="font-size:20px;font-weight:700;color:#9db8dd;" id="shareTotal" data-page-node-id="zWgKweVuFIxAzCbwBJPqyK">-</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="TDjZBX6hwoiGiiV4XTyQwB">累计天数</div>
+        </div>
+      </div><div style="margin-top:12px;background:linear-gradient(135deg,#edf3fb,#edf3fb);border-radius:14px;padding:16px;"><div style="font-size:13px;color:#173e7e;line-height:1.8;font-weight:600;" id="sharePnLSummary">还在积累中。开始打卡后这里会出现你的领导力领导力摘要。</div></div>
+    </div>
+
+    <!-- 领导力搭子介绍卡片 -->
+    <div class="sop-card" style="border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="YFkooFtoUSGehtV0DyCsGG">
+      <div class="chart-title" data-page-node-id="h1GmY7bQGXqSnvmPjVEm03">🧭 领导力搭子</div>
+      <div style="margin-top:12px;background:linear-gradient(135deg,#edf3fb,#edf3fb);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;" data-page-node-id="5jlGT9C35Nt8CCH9tgHbSX">
+        <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="fGYZhaPybrwfDH1GDGZG0k">🧭</div>
+        <div style="font-size:16px;font-weight:700;color:#173e7e;margin-bottom:4px;" data-page-node-id="9MCIW6IAKKVbICTl228nIn">领导力搭子</div>
+        <div style="font-size:13px;color:#2456a4;line-height:1.6;margin-bottom:8px;" data-page-node-id="FywuCLUnhYGb3yZ52GUGsP">4种性格陪你带人成事<br data-page-node-id="puNHE1jCHobfGOnMjip5h5">每天5分钟，把领导力练成日常动作</div>
+        <div style="font-size:11px;color:#6c8fc9;" data-page-node-id="E3lnY6DDPpiQERig3Fs8ti">觉察 · 同理 · 标准 · 成就 · 聚焦 · 复盘</div>
+      </div>
+      <div class="chart-title" style="margin-bottom:12px;" data-page-node-id="yoFYzVcRzBkLUF7V3uzMGC">📋 SOP 复盘维度</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;" data-page-node-id="UF3yMxz6gIjepiCXfaU65p">
+        <div style="background:#eef3fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">🪞</div><div style="font-size:12px;font-weight:600;color:#2456a4;">觉察</div></div><div style="background:#eef3fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">❤️</div><div style="font-size:12px;font-weight:600;color:#2456a4;">同理</div></div><div style="background:#eef3fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">📏</div><div style="font-size:12px;font-weight:600;color:#2456a4;">标准</div></div><div style="background:#eef3fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">🤲</div><div style="font-size:12px;font-weight:600;color:#2456a4;">成就</div></div><div style="background:#eef3fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">🎯</div><div style="font-size:12px;font-weight:600;color:#2456a4;">聚焦</div></div><div style="background:#eef3fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">🔄</div><div style="font-size:12px;font-weight:600;color:#2456a4;">复盘</div></div>
+      </div>
+      <div class="chart-title" data-page-node-id="fRrWxivCpQ7wIyDXRSSzbu">🔗 邀请链接</div>
+      <div style="background:#f1f5fc;border-radius:12px;padding:12px 14px;font-size:13px;color:#173e7e;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay" data-page-node-id="692ACgRIE5QNukQat4JiN2"></div>
+      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#2456a4,#0d2f66);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(163,114,28,0.4);" data-page-node-id="MuZrRVlAhMf9wVufeKMwjK">📋 复制邀请链接</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Page: 搭子 ===== -->
+<div id="page-partner" class="page" style="display:none;" data-page-node-id="7oLn0Nj2SW93fVqb2MAKjT">
+  <div style="padding:16px 12px 80px;" data-page-node-id="GLXhKX91vvwClpDdh6iTr8">
+    <div style="text-align:center;margin-bottom:20px;" data-page-node-id="SBXDDKcf4G5AilAzpDjt5l">
+      <div style="font-size:24px;font-weight:700;color:#333;" data-page-node-id="HKmod4hjT7UvLyOlyaTpvG">💬 搭子</div>
+      <div style="font-size:13px;color:#999;margin-top:4px;" data-page-node-id="XsFxAKXsnvBazIe67e4HTK">和你的领导力搭子聊聊</div>
+    </div>
+    <div id="partnerCard" style="background:linear-gradient(135deg,#edf3fb,#f9fbfe);border-radius:20px;padding:20px;margin-bottom:16px;" data-page-node-id="xJkJAcL5RVGMLFRbPcL6Mc">
+      <div id="partnerAvatarB" style="font-size:48px;text-align:center;margin-bottom:8px;" data-page-node-id="92QDrDjjFA79qN2nUMSglw"></div>
+      <div id="partnerNameB" style="text-align:center;font-size:16px;font-weight:700;color:#333;" data-page-node-id="5F3gbus0Qn7GpITGBNE0cr"></div>
+      <div id="partnerStyleB" style="text-align:center;font-size:12px;color:#173e7e;margin-top:4px;" data-page-node-id="9LxhfFxncn91wuS3a7U1y4"></div>
+    </div>
+    <!-- 搭子消息区 -->
+    <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;" data-page-node-id="acRGMSmEDH91KyKOXLopDX"></div>
+    <div class="panel-label" style="margin-bottom:10px;" data-page-node-id="Kl5C6kJNz08PtDhrhcm6ZJ">💬 和搭子说说话</div>
+    <div class="mood-row" style="justify-content:center;gap:12px;margin-bottom:14px;" data-page-node-id="6MVCOa5cdOtpylcVJr1kNe">
+      <div class="mood-btn" data-mood="happy" title="开心" data-page-node-id="2LYBxRi0eKAEwG8RQWdHfu">😄</div>
+      <div class="mood-btn" data-mood="neutral" title="平静" data-page-node-id="BW5NnD6beVXIJHlRqWp2PW">😌</div>
+      <div class="mood-btn" data-mood="sad" title="低落" data-page-node-id="IBfq5CBo4cYLJB2GadVVL9">😔</div>
+      <div class="mood-btn" data-mood="tired" title="疲惫" data-page-node-id="vxW04gzAcTUvIJjGiVVD6U">😫</div>
+    </div>
+    <div class="talk-btn-row" data-page-node-id="1Lh56nfowrV5aZergEHL6y">
+      <button class="talk-btn" data-type="progress" data-page-node-id="5VDDiPRyu0sQs05kCToe36">📈 进展</button>
+      <button class="talk-btn" data-type="struggle" data-page-node-id="vBSuoIxK4q0AQMt2JjeECf">😣 困难</button>
+      <button class="talk-btn" data-type="idea" data-page-node-id="ustfTGHKERyf17qnxns6ZE">💡 想法</button>
+    </div>
+    <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="QWn1pAyzSdJxwYR8AmxW9B">
+      <button class="talk-btn" data-type="cheer" data-page-node-id="bvayeUm3fkrOYxGTVPAmxc">🎉 喜事</button>
+      <button class="talk-btn" data-type="report" data-page-node-id="jNUdXXFQ9aeaICQorMHVSF">📣 汇报</button>
+      <button class="talk-btn" data-type="question" data-page-node-id="nuAuWEvtXkrgleOXfjONPe">🤔 提问</button>
+    </div>
+  
+    <div id="partnerDailyTip" style="max-width:420px;margin:14px auto 0;background:linear-gradient(135deg,#edf3fb,#e9f0fa);border-radius:18px;padding:14px 16px;font-size:13px;color:#173e7e;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <span style="font-size:18px;">📌</span>
+        <span style="font-weight:700;">今天提醒自己</span>
+        <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
+      </div>
+      <div id="partnerTipText"></div>
+    </div>
+    <script>
+    (function(){
+      window.nextDailyTip = function(){
+        try {
+          var t = TIPS[Math.floor(Math.random() * TIPS.length)];
+          var a = document.getElementById('dailyTipText'); if (a) a.innerText = t;
+          var b = document.getElementById('partnerTipText'); if (b) b.innerText = t;
+          var c = document.getElementById('checkinTipText'); if (c) c.innerText = t;
+        } catch(e) {}
+      };
+      setTimeout(function(){
+        try {
+          var b = document.getElementById('partnerTipText');
+          if (b && !b.innerText) {
+            var a = document.getElementById('dailyTipText');
+            b.innerText = (a && a.innerText) ? a.innerText : TIPS[Math.floor(Math.random() * TIPS.length)];
+          }
+        } catch(e) {}
+      }, 0);
+    })();
+    </script>
+</div>
+</div>
+
+<!-- ===== Page: 教练 (McKinsey风格) ===== -->
+<div id="page-coach" class="page" style="display:none;" data-page-node-id="KIhseEQIsCZRP2AhZtBYEt">
+  <!-- 教练介绍页 -->
+    
+<!-- ===== 成长路线 & 基本功 Checklist（参照AI搭子优化 · 可点击互动）===== -->
+<div id="crpWrap_weight" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;" data-page-node-id="HDq0vHUrLKFZmVf9CHcHJb"><!-- 成长路线 & 基本功 Checklist（可点击互动）-->
+<div id="crpWrap_weight" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
+  <div class="crp-card">
+    <div class="crp-title">🗺️ 领导力三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+  <div class="crp-stage" style="background:#edf3fb;">
+    <div class="crp-stage-head" style="color:#173e7e;">📌 第1阶段 · 第1个月 · 立标准照镜子 <span class="crp-arrow">▾</span></div>
+    <div class="crp-stage-body">每天复盘一次自己的情绪与判断，建立自我觉察<br>把最重要三件事的标准写成可验收的条款<br>先听后说：练习听完再表态</div>
+  </div>
+  <div class="crp-stage" style="background:#ecf2fb;">
+    <div class="crp-stage-head" style="color:#3f6db5;">📌 第2阶段 · 第2-3个月 · 管事理人 <span class="crp-arrow">▾</span></div>
+    <div class="crp-stage-body">管事：目标、标准、复盘闭环，说到做到<br>理人：每月与每位核心成员深谈一次<br>授权：把可复制的动作交给能承接的人</div>
+  </div>
+  <div class="crp-stage" style="background:#ede7f6;">
+    <div class="crp-stage-head" style="color:#0d2f66;">📌 第3阶段 · 第4-6个月 · 成就他人 <span class="crp-arrow">▾</span></div>
+    <div class="crp-stage-body">培养接班人：团队离开你也能运转，你才配打更大的仗<br>把功劳给团队，把责任留给自己<br>聚焦问题创造价值：把团队精力压到真问题上</div>
+  </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">📋 领导力基本功 Checklist<span class="crp-tip">👆 点击勾选 · 当天自动清零</span></div>
+    <div>
+    <div class="crp-item"><span class="crp-box">☐</span>连续 7 天睡前复盘一次自己的判断</div>
+    <div class="crp-item"><span class="crp-box">☐</span>给一位同事「行为+影响」式具体反馈</div>
+    <div class="crp-item"><span class="crp-box">☐</span>授权一件原本自己干的事并约定检查点</div>
+    <div class="crp-item"><span class="crp-box">☐</span>开会砍掉至少一个伪议题</div>
+    <div class="crp-item"><span class="crp-box">☐</span>当面纠正一个问题，不和稀泥</div>
+    <div class="crp-item"><span class="crp-box">☐</span>听完一位下属的完整表达，没打断</div>
+    <div class="crp-item"><span class="crp-box">☐</span>向上主动同步一次进展，不让老板来问</div>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">📜 管理三大禁忌<span class="crp-tip">👆 底线动作 · 一条都不能破</span></div>
+    <div class="crp-stage-body" style="margin-top:0;">
+      <b>1️⃣ 只管不理</b>：只盯任务不看人，队伍迟早散——管是管事，理是理人，缺一不可。<br><b>2️⃣ 当老好人</b>：不敢建标准、不敢纠正，是拿团队的未来换眼前的和气。<br><b>3️⃣ 抢下属的活</b>：你干得越多，团队成长越慢，你也越不可替代地累。<br>
+      <span style="color:#2456a4;">管理的本质：管事理人——把事管清楚，把人理顺。</span>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">💬 每天对自己说的四句话<span class="crp-tip">👆 不花钱，但比什么都值钱</span></div>
+    <div class="crp-stage-body" style="margin-top:0;">
+      <b>1️⃣ 「先听，再判断。」</b>——听完才表态，理解先于评价。<br><b>2️⃣ 「标准，我先守。」</b>——要求别人的，自己先做到。<br><b>3️⃣ 「功劳，给团队。」</b>——成就他人，才有人愿意跟你走。<br><b>4️⃣ 「问题，我来扛。」</b>——甩锅一次，信任崩塌一次。<br>
+      <span style="color:#2456a4;">这四句话每天挑一句说出口，练成你的领导肌肉。</span>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">📐 领导力方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
+    <div class="crp-stage-body" style="margin-top:0;">
+      <b>Fact 事实底座</b>：顶尖人才共同的底层特质：自我觉察、同理心、建立标准、成就他人。领导力不是天赋，是可修炼的四个习惯。<br><b>Core 核心结论</b>：管理的本质是管事理人：管，是把事管清楚（目标/标准/复盘）；理，是把人理顺（意愿/成长/情绪）。<br><b>Insight 洞察</b>：蔡崇信看人三特质：智力、情商、谦逊——智力决定起点，情商决定协作，谦逊决定成长上限。<br><b>So What</b>：管理者每天最大的价值=聚焦问题，创造价值：把80%的精力压在真问题上，砍掉伪议题。<br><b>How To Do</b>：每天三个动作：照一次镜子（觉察）、成就一个人（反馈/授权）、聚焦一件事（砍伪问题）。<br><b>Know How</b>：关键不是学多少管理课，而是不做禁忌动作：只管不理、当老好人、抢下属的活。<br><b>验收口径</b>：每晚问三个问题：今天我听懂了几个人？我建立或守住了一条什么标准？有谁因为我而变强了？
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">🧱 领导力五力模型<span class="crp-tip">👆 对照练习 · 缺哪补哪</span></div>
+    <div class="crp-stage-body" style="margin-top:0;">
+      <b>1️⃣ 自驱力</b>：以身作则，先要求自己再要求团队<br><b>2️⃣ 洞察力</b>：看穿问题背后的结构，不做救火队长<br><b>3️⃣ 沟通力</b>：把复杂讲简单，把模糊讲清楚<br><b>4️⃣ 决策力</b>：基于标准拍板，错了就复盘修正<br><b>5️⃣ 感召力</b>：讲清意义和愿景，让人愿意跟你走<br>
+      <span style="color:#2456a4;">五力不是五门课，是每天动作里的五面镜子。</span>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">🪶 蔡崇信三特质<span class="crp-tip">👆 选人育人的一致标准</span></div>
+    <div class="crp-stage-body" style="margin-top:0;">
+      <b>1️⃣ 智力</b>：学得快、想得深，能把复杂问题拆开<br><b>2️⃣ 情商</b>：听得进话、接得住情绪、处得好关系<br><b>3️⃣ 谦逊</b>：承认自己会错，别人才敢跟你说真话<br>
+      <span style="color:#2456a4;">招人、带人、留人，都用这三条照一照。</span>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">👑 领导者三大资产<span class="crp-tip">👆 比期权更值钱</span></div>
+    <div class="crp-stage-body" style="margin-top:0;">
+      <b>1️⃣ 团队的信任</b>：说到做到攒出来的，一次甩锅就清零<br><b>2️⃣ 人才的梯队</b>：有人能接你的班，你才自由<br><b>3️⃣ 清晰的标准</b>：标准在，人心就不散，质量就不崩<br>
+      <span style="color:#2456a4;">这三样攒得慢、丢得快，每天都要存一点。</span>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">🌈 我的领导者信号 · 每周观察<span class="crp-tip">👆 点亮自己的样子 · 每周自动清零</span></div>
+    <div style="font-size:11px;color:#999;margin:4px 0 8px;">管理不看气势看状态：这周你出现了几个信号？</div>
+    <div id="childFxList"></div>
+    <div style="font-size:12px;color:#2456a4;margin-top:8px;">本周点亮 <b id="childFxCnt">0</b> / 12</div>
+  </div>
+
+  <div class="crp-card">
+    <div class="crp-title">👑 领导者的六条自律<span class="crp-tip">👆 活成自己的模板</span></div>
+    <div class="crp-stage-body" style="margin-top:0;">
+      1️⃣ 说到做到，承诺必兑现<br>2️⃣ 先要求自己，再要求团队<br>3️⃣ 不抢功、不甩锅<br>4️⃣ 当面说真话，背后说好话<br>5️⃣ 培养能接替自己的人<br>6️⃣ 每周留白半天，只想战略<br>
+      <span style="color:#2456a4;">管理者的高度，就是团队的天花板。</span>
+    </div>
+  </div>
+  <div class="crp-card">
+    <div class="crp-title">🗣️ 今天提醒自己的话 · 30 条<span class="crp-tip">👆 每天挑几条 · 当天自动清零</span></div>
+    <div style="font-size:11px;color:#999;margin:4px 0 8px;">六组忠告，读完勾一条，形成肌肉记忆：已读 <b id="sayCnt">0</b> / 30</div>
+    <div id="sayWrap"></div>
+  </div>
+  <script>
+  (function(){
+    var KEY='crp_say_ldship';
+    var G=[
+      {t:'🪞 觉察 · 先看见自己', items:[['自我觉察是领导力的第一特质','你先看见自己，才谈得上管理别人'],['情绪上头，先停十秒','你是团队的减压阀，不是放大器'],['每晚复盘一次今天的判断','判断力是复盘出来的，不是天生的'],['承认「我可能错了」','谦逊不是软弱，是让真话流进来的阀门'],['你的行为就是团队的标准答案','以身作则是最快的领导方式']]},
+      {t:'👂 同理 · 先听懂，再带路', items:[['听完再表态','打断是最廉价的否定'],['复述对方的观点，确认理解','理解先于评价'],['对不同意见，先找合理部分','这不是妥协，是智力上的诚实'],['记住同事的近况和难处','理人，从看见具体的人开始'],['听得进话、接得住情绪','情商决定协作的天花板']]},
+      {t:'📏 标准 · 没有标准的期待就是埋雷', items:[['把模糊的要求写成可验收的条款','标准让团队省心，让你省话'],['要求别人的，自己先做到','标准的第一守门人是你自己'],['拒绝和稀泥','问题不纠正，就是在奖励它'],['对低于标准的给反馈，不翻旧账','对事不对人，反馈才有效'],['说到做到','信任是一次次兑现攒出来的']]},
+      {t:'🤲 成就 · 你带出多少强人，你就有多强', items:[['表扬要具体：行为+影响','泛泛的夸奖激励不了任何人'],['授权交事，守住标准','授权不是放羊'],['把功劳归给做事的人','抢一次功，寒一片心'],['每月和核心成员深谈一次','理人要花时间，没有捷径'],['培养能接替你的人','有人接班，你才自由']]},
+      {t:'🎯 聚焦 · 聚焦问题，创造价值', items:[['把80%的精力压在真问题上','管理者的时间是团队最贵的资源'],['砍掉伪议题','议程越短，思考越深'],['问「这件事背后的问题是什么」','别在症状上打转'],['拒绝不创造价值的忙碌','用战术勤奋掩盖战略懒惰是自欺'],['一次只推进一件最重要的事','多线程是幻觉，聚焦才出结果']]},
+      {t:'🔄 复盘 · 对经验征税', items:[['复盘一次得失，写下一条改进','不交税的经验，永远变不成能力'],['归因于流程，而不是人','归因于人制造恐惧，归因于流程制造改进'],['同样的坑不踩第二次','不复盘的失败会原样重来'],['向上主动同步','让信任不断供'],['每周留白半天只想战略','忙碌不等于产出，思考才是杠杆']]}
+    ];
+    var wrap=document.getElementById('sayWrap'); if(!wrap) return;
+    function today(){ return new Date().toISOString().slice(0,10); }
+    var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
+    var refs=[];
+    G.forEach(function(g){
+      var h=document.createElement('div');
+      h.style.cssText='font-size:12px;font-weight:700;color:#2456a4;margin:10px 0 4px;';
+      h.textContent=g.t; wrap.appendChild(h);
+      g.items.forEach(function(it){
+        var d=document.createElement('div'); d.className='crp-item';
+        d.innerHTML='<span class="crp-box">☐</span><div style="flex:1;"><b style="font-size:13px;">「'+it[0]+'」</b><br><span style="font-size:11px;color:#888;">'+it[1]+'</span></div>';
+        wrap.appendChild(d); refs.push({el:d, k:it[0]});
+      });
+    });
+    function render(){
+      var n=0;
+      refs.forEach(function(r){
+        var on=!!st[r.k];
+        r.el.classList.toggle('done',on);
+        r.el.querySelector('.crp-box').textContent=on?'☑':'☐';
+        if(on)n++;
+      });
+      var cc=document.getElementById('sayCnt'); if(cc)cc.textContent=n;
+    }
+    refs.forEach(function(r){
+      r.el.addEventListener('click',function(){
+        st[r.k]=!st[r.k];
+        try{localStorage.setItem(KEY,JSON.stringify({d:today(),s:st}))}catch(e){}
+        render();
+      });
+    });
+    render();
+  })();
+  </script>
+  <script>
+  (function(){
+    var KEY='crp_fx_ldship';
+    var items=[    '🪞 高压下觉察到了自己的情绪，没有发作',
+    '👂 听完了一位同事的完整表达',
+    '🎁 给了一条「行为+影响」的具体反馈',
+    '🤲 授权了一件原来自己干的事',
+    '📏 建立或守住了一条标准',
+    '🎯 开会砍掉了至少一个伪议题',
+    '🌿 帮一个人看清了他的优势',
+    '🛡️ 把功劳归给了做事的人',
+    '🔄 复盘了一次失败并改进了流程',
+    '📣 向上主动同步了一次进展',
+    '🧑‍🏫 花时间带教了一次',
+    '😮‍💨 压力没有原样砸给团队',
+    ];
+    var wrap=document.getElementById('childFxList'); if(!wrap) return;
+    function weekKey(){var d=new Date();var o=new Date(d.getFullYear(),0,1);var w=Math.ceil((((d-o)/86400000)+o.getDay()+1)/7);return d.getFullYear()+'-W'+w;}
+    var st={};try{var sv=JSON.parse(localStorage.getItem(KEY)||'null');if(sv&&sv.w===weekKey())st=sv.s||{}}catch(e){}
+    function render(){items.forEach(function(t,i){var el=wrap.querySelector('[data-i="'+i+'"]');if(!el)return;var on=!!st[i];el.classList.toggle('done',on);el.querySelector('.crp-box').textContent=on?'☑':'☐';});var c=document.getElementById('childFxCnt');if(c)c.textContent=Object.keys(st).length;}
+    items.forEach(function(t,i){var div=document.createElement('div');div.className='crp-item';div.setAttribute('data-i',String(i));div.innerHTML='<span class="crp-box">☐</span><div style="flex:1;">'+t+'</div>';div.addEventListener('click',function(){st[i]=!st[i];try{localStorage.setItem(KEY,JSON.stringify({w:weekKey(),s:st}))}catch(e){};render();});wrap.appendChild(div);});
+    render();
+  })();
+  </script>
+  <script>
+  (function(){
+    var KEY='crp_checklist_ldship';
+    var wrap=document.getElementById('crpWrap_weight'); if(!wrap) return;
+    wrap.querySelectorAll('.crp-stage').forEach(function(s){
+      s.addEventListener('click',function(){
+        s.classList.toggle('collapsed');
+        var a=s.querySelector('.crp-arrow'); if(a) a.textContent=s.classList.contains('collapsed')?'▸':'▾';
+      });
+    });
+    var items=wrap.querySelectorAll('.crp-item');
+    var state={}; try{var _sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(_sv&&_sv._d===new Date().toISOString().slice(0,10)){state=_sv.s||{}}}catch(e){}
+    function render(){
+      var d=0;
+      items.forEach(function(it,i){
+        var b=it.querySelector('.crp-box');
+        if(state[i]){it.classList.add('done');b.textContent='☑';d++;}
+        else{it.classList.remove('done');b.textContent='☐';}
+      });
+      var c=document.getElementById('crpCnt_weight'); if(c) c.textContent=d;
+    }
+    items.forEach(function(it,i){
+      it.addEventListener('click',function(){
+        state[i]=!state[i];
+        try{localStorage.setItem(KEY,JSON.stringify({_d:new Date().toISOString().slice(0,10),s:state}))}catch(e){}
+        render();
+      });
+    });
+    render();
+  })();
+  </script></div>
+
+    <div class="coach-intro" id="coachIntro" data-page-node-id="23HxbGX7q3TkKn3BLw5cZc">
+    <div class="coach-intro-icon" data-page-node-id="XjfJafZja7JbFkxGasEoze">🎓</div>
+    <div class="coach-intro-title" data-page-node-id="ni1Rer6ggUZfu39XxlwTVZ">麦肯锡风格领导力教练</div>
+    <div class="coach-intro-sub" data-page-node-id="HiaSXcEqK4dZVPgBlkSHPj">帮你拆解领导力卡点，制定可落地的行动方案</div>
+    <div class="method-steps" data-page-node-id="olfP9Fq51V03tM2xk0bvRH">
+      <div class="method-step" data-page-node-id="BJz2HXMQ5JWK0I0EAHxgJy"><span class="step-num" data-page-node-id="t7jZnE4hpwuGciBgneSfuS">①</span> 诊断卡点<br data-page-node-id="0VRcwtjXqJTOfRaB2I114F"><span class="step-desc" data-page-node-id="T8AkMCcHsGWo26xwZVYrs2">找准根本原因</span></div>
+      <div class="method-step" data-page-node-id="Z8IyQadBFqXBUTBtTaQGRy"><span class="step-num" data-page-node-id="BqObRUijhsYckjHqigbLkY">②</span> 策略分析<br data-page-node-id="faZTrvlIdlrKfMlJ5JJWgT"><span class="step-desc" data-page-node-id="YUCktyAR9aZyB4phRqNaB9">三层拆解问题</span></div>
+      <div class="method-step" data-page-node-id="SlOwTAbHpKSbsMkFd0pWUT"><span class="step-num" data-page-node-id="FoEKPs2PMGr8gmTU8tSj8q">③</span> 行动优先<br data-page-node-id="qoiy31S5fIdTpPLXoHpqc2"><span class="step-desc" data-page-node-id="b6uKthSnUOHT8BMeGPUtui">可执行的下一步</span></div>
+    </div>
+    <button class="coach-start-btn" onclick="startCoach()" data-page-node-id="jwRfFHrm2485LNyXCDaP8d">开始深度对话 →</button>
+    <div class="coach-intro-note" data-page-node-id="cIiPYkrp4AYaiXr1KkTDKp">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
+  </div>
+  <!-- 对话界面 (McKinsey风格) -->
+  <div id="coachChat" style="display:none;" data-page-node-id="MhBSiuVsdyPUns8riLjoSr">
+    <div class="coach-progress-bar" data-page-node-id="D61ktbVuOnCExVj6dixWC0">
+      <div class="progress-step active" id="progressStep1" data-page-node-id="0K58nakox5nwkHxPfBej3P">① 界定问题</div>
+      <div class="progress-step" id="progressStep2" data-page-node-id="tO8DHiKTQApIiPo9gu9o0m">② 结构化分析</div>
+      <div class="progress-step" id="progressStep3" data-page-node-id="FwbiUAQMVUFfIcZPFcGbaw">③ 优先级行动</div>
+    </div>
+    <div class="chat-messages" id="chatMessages" data-page-node-id="hmU5Tiy883LxAfyXdGaZC9"></div>
+    <div class="coach-prompt" id="coachPrompt" style="display:none;" data-page-node-id="UsUxiDMfFOEmLFLkJbiPGp">
+      💡 请在下方输入框中回复，按 Enter 发送
+    </div>
+    <div class="generating-report" id="generatingReport" style="display:none;" data-page-node-id="NnHIsRmF6Og3QNBZt9Al8V">⏳ 正在生成MECE诊断报告，请稍候...</div>
+    <div class="chat-input-area" id="chatInputArea" style="display:none;" data-page-node-id="Iv0C9dSLcWutR5dgBtUmmq">
+      <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
+      <button class="chat-send-btn" onclick="sendCoachMsg()" data-page-node-id="PMxcycuRzbdVidHF0GGGiz">发送</button>
+    </div>
+    <div class="coach-buttons" id="coachButtons" style="display:none;" data-page-node-id="YpAwW63T2ZSwlGS6RLAEWp">
+      <div class="coach-btn-prompt" id="coachBtnPrompt" data-page-node-id="9rT2eKsRqf4jaE8qufzmBk"></div>
+      <div class="coach-btn-list" id="coachBtnList" data-page-node-id="5LTFu9mi85Pv9xcVxpgNBj"></div>
+    </div>
+  </div>
+  <!-- 诊断报告页 -->
+  <div class="coach-report-mckinsey" id="coachReport" style="display:none;" data-page-node-id="428oVSGoXvd1BDAqAlCVEB"></div>
+</div><!-- end page-coach -->
+
+<!-- ===== Toast ===== -->
+<div id="toastMsg" class="toast" data-page-node-id="WneQP2kbdD1AbqeKN3AtEJ"></div>
+
+<!-- ===== SOP 单维度小结弹窗 ===== -->
+<div class="sop-finish-overlay" id="catSummaryOverlay" data-page-node-id="JrYdP8zzbKG0EEWAXfH4ZY"></div>
+
+<!-- ===== SOP 全部完成弹窗 ===== -->
+<div class="sop-finish-overlay" id="sopFinishOverlay" data-page-node-id="UmZ64TguYmfgS2kgpUTlzu"></div>
+
+<!-- ===== 负向行为批评弹窗 ===== -->
+<div class="neg-critic-overlay" id="negCriticOverlay" data-page-node-id="E7Sfqp2Ul4AvKWhHUY6r2m">
+  <div class="neg-critic-card" data-page-node-id="NEfb2MHmJfzIGba05xUDqB">
+    <div class="neg-critic-emoji" id="negEmoji" data-page-node-id="6iN9DibMTJSsB2QIduAYuj">⚠️</div>
+    <div class="neg-critic-title" id="negTitle" data-page-node-id="1hnE12SDbHRzNyn0OpHLGH">这个习惯需要注意</div>
+    <div class="neg-critic-desc" id="negDesc" data-page-node-id="yHFMUHbOaTUlvzdbSGzVLA"></div>
+    <div class="neg-critic-reply" id="negReply" data-page-node-id="HhEB5rg48cGg7oQuCm5UFX"></div>
+    <div class="neg-critic-row" data-page-node-id="q9Oq8odewfHNeeXD4Izshz">
+      <button class="neg-btn yes" onclick="negYes()" data-page-node-id="RtVbaWPU1zvEDGjqCbyHxv">✅ 知道了</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 正向奖励弹窗 ===== -->
+<div class="pos-reward-overlay" id="posRewardOverlay" data-page-node-id="Bi5St6ZUjRIC83dGsoBpfT">
+  <div class="pos-reward-card" id="posRewardCard" data-page-node-id="IrultBktD6Q5Bsc4crA6Q7">
+    <div class="pos-reward-emoji" id="posRewardEmoji" data-page-node-id="pqdmgsm8hqSdLqtcJgIOzC">✨</div>
+    <div class="pos-reward-msg" id="posRewardMsg" data-page-node-id="rwAEZUdz9rGA7jcUa8WnRx"></div>
+    <div class="pos-reward-pts" id="posRewardPts" data-page-node-id="sSryaQCLrqk2nqdUI6B70P">+0</div>
+  </div>
+</div>
+
+<!-- ===== 问答/进展选择面板 ===== -->
+<div class="qa-overlay" id="qaOverlay" data-page-node-id="FuzWz6VpAzP2PSCFwbrOov">
+  <div class="qa-panel" data-page-node-id="Y3MPCOlrmy7F5DjUmuPyO0"><button class="qa-close-x" onclick="try{if(typeof closeQAPanel==='function')closeQAPanel();else this.closest('.qa-overlay').classList.remove('show');}catch(e){this.closest('.qa-overlay').classList.remove('show');}" aria-label="关闭">✕</button>
+    
+    <div class="qa-handle" data-page-node-id="sG5osJ87iDVRXpMkgCHOnS"></div>
+    <div class="qa-header" data-page-node-id="rS2sBaaz31mgWAoTgQTzF2">
+      <div class="qa-title" id="qaTitle" data-page-node-id="OXAwqTKttLywNaBSOl8xbK">🤔 有问题想问</div>
+      <div class="qa-sub" id="qaSub" data-page-node-id="nW9CHO19A9ZATn3xF7Nnpt">选择一个最符合你情况的问题</div>
+    </div>
+    <div class="qa-scroll" id="qaScroll" data-page-node-id="SnTvWNGGEzhRRaNthTP9OY"></div>
+  </div>
+</div>
+
+<!-- ===== 反馈弹窗 ===== -->
+<div class="fb-overlay" id="fbOverlay" data-page-node-id="igCYD5aYUJ8ZG5g9wJYvEd">
+  <div class="fb-card" id="fbCard" data-page-node-id="PNPGO5PcmyXULOeu6v6y08">
+    <div class="fb-emoji" id="fbEmoji" data-page-node-id="e28ZhizGEHPSr57FYF0wDC">✨</div>
+    <div class="fb-label" id="fbLabel" data-page-node-id="QLJrAiF53E2FekgKp0qTmS">正向</div>
+    <div class="fb-title" id="fbTitle" data-page-node-id="rkb3VMQGgwiHNErVo47vkO"></div>
+    <div class="fb-text" id="fbText" data-page-node-id="gCpkAsDvm14FmBh5GUaQXh"></div>
+    <div class="fb-partner-quote" id="fbQuote" data-page-node-id="Vdh8ew7D47ubb1lTdCIB6W"></div>
+    <button class="fb-btn" onclick="closeFeedback()" data-page-node-id="9DeHTcaujbmjIfKVUNTMfl">✅ 知道了</button>
+  </div>
+</div>
+
+<script>
+// ==================== 全局 & 存储 ====================
+const PARTNERS = [
+  { id: 'gentle', name: '教练型领导', emoji: '🧭', style: 'gentle', desc: '先听懂，再带路', color: '#e8eef9' },
+  { id: 'passion', name: '将领型', emoji: '🔥', style: 'passion', desc: '目标必达，说到做到', color: '#fdeada' },
+  { id: 'rational', name: '体系型', emoji: '📐', style: 'rational', desc: '建标准，造系统', color: '#e5ecf5' },
+  { id: 'tsundere', name: '园丁型', emoji: '🌿', style: 'tsundere', desc: '成就他人，静待花开', color: '#e7f2e4' }
+];
+const STORAGE = { PARTNER: 'ldship_partner', HISTORY: 'ldship_history', WEIGHT: 'ldship_weight', SOP: 'ldship_sop', SOP_STREAKS: 'ldship_sop_streaks', TARGET_WEIGHT: 'ldship_target_weight' }
+const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner'; // GitHub Pages
+function getSiteUrl() {
+  // 生产环境自动用当前域名
+  if (window.location.hostname && window.location.hostname.includes('netlify')) {
+    return window.location.origin + '/';
+  }
+  return SHARE_URL + '/';
+}
+
+function getToday() { return new Date().toISOString().slice(0,10); }
+function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
+function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
+function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
+function saveWeightData(d) { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(d)); if(window.saveWeightToFirebase) saveWeightToFirebase(d); }
+function getSOPData() { var d = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null}'); return _sopDailyReset(d, STORAGE.SOP); }
+// 新的一天自动归零（2026-09-06）：读取入口校验日期，昨日未提交成绩补归档后重置，不再依赖切换 tab 触发
+function _sopDailyReset(d, sopKey, extra) {
+  try {
+    var today = new Date().toISOString().slice(0,10);
+    if (d && d.date && d.date !== today) {
+      var hasData = (d.score > 0) || (d.selected && Object.keys(d.selected).length > 0) || d.done;
+      if (hasData && (typeof getSOPHistory === 'function') && (typeof saveSOPToHistory === 'function')) {
+        try {
+          var _hist = getSOPHistory();
+          if (!_hist.some(function(h){ return h && h.date === d.date; })) {
+            saveSOPToHistory({ date: d.date, score: d.score || 0 });
+          }
+        } catch(e) {}
+      }
+      var _reset = { score: 0, selected: {}, done: false, date: today, submittedCats: [] };
+      if (extra) { for (var k in extra) { _reset[k] = extra[k]; } }
+      try { localStorage.setItem(sopKey, JSON.stringify(_reset)); } catch(e) {}
+      return _reset;
+    }
+  } catch(e) {}
+  return d;
+}
+setTimeout(function(){ try { getSOPData(); } catch(e) {} }, 0);
+function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); if(window.saveSOPToFirebase) saveSOPToFirebase(d); }
+function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
+function saveSOPStreaks(d) { localStorage.setItem(STORAGE.SOP_STREAKS, JSON.stringify(d)); if(window.saveSOPStreaksToFirebase) saveSOPStreaksToFirebase(d); }
+
+// SOP历史记录
+const SOP_HIST_KEY = STORAGE.SOP + '_history';
+function getSOPHistory() { return JSON.parse(localStorage.getItem(SOP_HIST_KEY) || '[]'); }
+function saveSOPToHistory(record) {
+  let history = getSOPHistory();
+  history = history.filter(h => h.date !== record.date);
+  history.push(record);
+  if (history.length > 30) history = history.slice(-30);
+  localStorage.setItem(SOP_HIST_KEY, JSON.stringify(history));
+  if(window.saveSOPHistoryToFirebase) saveSOPHistoryToFirebase(history);
+}
+
+function updateSOPCatStreak(catId, score) {
+  let streaks = getSOPStreaks();
+  let today = getToday();
+  if (!streaks[catId]) streaks[catId] = { streak: 0, lastDate: null };
+  if (score >= 40) {
+    if (streaks[catId].lastDate) {
+      let last = new Date(streaks[catId].lastDate);
+      let diff = (new Date(today) - last) / (1000*60*60*24);
+      if (diff === 1) streaks[catId].streak++;
+      else if (diff > 1) streaks[catId].streak = 1;
+    } else {
+      streaks[catId].streak = 1;
+    }
+    streaks[catId].lastDate = today;
+  }
+  saveSOPStreaks(streaks);
+  return streaks;
+}
+
+let currentPartner = null;
+let partnerIdx = 0;
+
+// ==================== 问答数据 ====================
+const QA_DATA = {
+  "pos": [
+    { "icon": "🪞", "tag": "觉察", "question": "今天觉察到了一次自己的情绪触发点，没让它在团队面前爆发", "answer": "自我觉察是领导力的第一特质——你先看见自己，才谈得上管理别人。", "score": 2 },
+    { "icon": "🪞", "tag": "谦逊", "question": "决策前写下了自己的预设，并问了一句「我有没有可能错」", "answer": "承认自己可能错，是谦逊，也是让真话流进来的阀门。", "score": 2 },
+    { "icon": "👂", "tag": "同理", "question": "听完了一位同事的完整表达，没有中途打断", "answer": "先听懂，再带路。打断是最廉价的否定。", "score": 2 },
+    { "icon": "🔁", "tag": "同理", "question": "复述了对方观点并确认「你的意思是这样吗」", "answer": "复述是最被低估的同理心工具——理解先于评价。", "score": 0 },
+    { "icon": "📏", "tag": "标准", "question": "为一件工作明确了可验收的标准", "answer": "没有标准的期待就是埋雷。标准让团队省心，让你省话。", "score": 2 },
+    { "icon": "🧗", "tag": "以身作则", "question": "要求别人做的事，自己先做到了", "answer": "以身作则是最快的领导方式——你的行为就是团队的标准答案。", "score": 0 },
+    { "icon": "🎁", "tag": "成就", "question": "给了一位同事具体的表扬：行为+影响", "answer": "「具体」是表扬的生命——泛泛的夸奖激励不了任何人。", "score": 2 },
+    { "icon": "🤲", "tag": "授权", "question": "授权了一件原本自己干的事，并约定了检查点", "answer": "授权不是放羊：交出去的是事，守住的是标准。", "score": 0 },
+    { "icon": "🎯", "tag": "聚焦", "question": "今天大部分时间花在最重要的一件事上", "answer": "管理者的时间是团队最贵的资源，你聚焦，团队才聚焦。", "score": 2 },
+    { "icon": "✂️", "tag": "聚焦", "question": "开会时砍掉了一个伪议题", "answer": "聚焦问题，创造价值——砍议题是管理者的日常动作。", "score": 0 },
+    { "icon": "🔄", "tag": "复盘", "question": "复盘了一次得失，写下了一条改进", "answer": "复盘是对经验征税——不交税的经验，永远变不成能力。", "score": 2 },
+    { "icon": "🛠️", "tag": "归因", "question": "把一次失败归因到方法和流程，而不是人", "answer": "归因于人制造恐惧，归因于流程制造改进。", "score": 0 },
+    { "icon": "🧑‍🏫", "tag": "带教", "question": "花时间辅导带教了一次，哪怕只有15分钟", "answer": "成就他人是最深的领导力——你带出多少强人，你就有多强。", "score": 2 },
+    { "icon": "🕊️", "tag": "开放", "question": "对不同意见，先找到了它合理的那部分", "answer": "先找合理部分，不是妥协，是智力上的诚实。", "score": 2 }
+  ],
+  "neg": [
+    { "icon": "🌋", "tag": "失控", "question": "情绪上头，对下属发了火", "answer": "情绪失控一次，信任账户透支一大笔。觉察是刹车。", "score": 2 },
+    { "icon": "🥇", "tag": "抢功", "question": "功劳揽到了自己身上", "answer": "抢一次功，寒一片心。领导者的功劳簿上写的是团队。", "score": 2 },
+    { "icon": "🫥", "tag": "回避", "question": "当面没纠正，背后在抱怨", "answer": "和稀泥是慢性毒药：问题不纠正，就是在奖励它。", "score": 2 },
+    { "icon": "🦺", "tag": "抢活", "question": "又把下属的活抢过来自己干了", "answer": "你干得越欢，团队成长越慢。忍住，教他干。", "score": 2 },
+    { "icon": "🌀", "tag": "瞎忙", "question": "忙了一天，全是不创造价值的琐事", "answer": "用战术勤奋掩盖战略懒惰，是管理者最常见的自欺。", "score": 2 },
+    { "icon": "✋", "tag": "打断", "question": "打断了别人，没听完就下结论", "answer": "你打断的不只是话，还有对方的信任和真实信息。", "score": 2 },
+    { "icon": "🕳️", "tag": "重蹈", "question": "同样的坑踩了第二次", "answer": "不复盘的失败会原样重来。交一次税，记住它。", "score": 2 },
+    { "icon": "🤝", "tag": "和稀泥", "question": "为了赶和气，放低了一次标准", "answer": "当老好人是最贵的奢侈：牺牲的是结果和认真的人。", "score": 2 },
+    { "icon": "📡", "tag": "失联", "question": "没向上同步，老板主动来问了进度", "answer": "向上管理不是邀功，是让信任不断供。", "score": 0 },
+    { "icon": "🧨", "tag": "传压", "question": "把压力原样砸给了团队", "answer": "消化压力是管理者的本职——你是团队的减压阀，不是放大器。", "score": 2 }
+  ]
+}
+
+// ==================== 搭子互动6类场景数据 ====================
+const TYPE_SCENES = {
+  "progress": [
+    { "icon": "🪞", "tag": "觉察", "scenario": "你在高压会议后复盘了自己的情绪", "feedback": "觉察先于管理。能在高压后复盘的人，才带得住团队。", "type": "pos" },
+    { "icon": "🤲", "tag": "授权", "scenario": "你放手让下属独立主导了一个项目", "feedback": "授权是信任的放大器——他成长了，你也自由了。", "type": "pos" },
+    { "icon": "📏", "tag": "标准", "scenario": "团队按你定的标准，交付质量稳了", "feedback": "标准在，质量就不崩。这是体系型领导的复利。", "type": "pos" },
+    { "icon": "📣", "tag": "同步", "scenario": "你主动向上同步，老板没再来问进度", "feedback": "向上管理让信任不断供——这是职场最便宜的保险。", "type": "pos" }
+  ],
+  "struggle": [
+    { "icon": "🌋", "tag": "失控", "scenario": "又对下属发了火，气氛僵了一下午", "feedback": "先修复关系，再复盘情绪触发点。你是减压阀，不是放大器。", "type": "neg" },
+    { "icon": "🦺", "tag": "抢活", "scenario": "忍不住又把下属的活干了", "feedback": "忍住，教他干。短期慢一点，长期你才脱得开身。", "type": "neg" },
+    { "icon": "🤝", "tag": "和稀泥", "scenario": "为了和气，没纠正一次明显的问题", "feedback": "你回避的每一次纠正，都会变成团队的 Slack 里那句「就这样吧」。", "type": "neg" },
+    { "icon": "🌀", "tag": "瞎忙", "scenario": "一天全被琐事填满，正事没动", "feedback": "给日程留白：先定今天必须推进的一件事，再打开邮箱。", "type": "neg" }
+  ],
+  "idea": [
+    { "icon": "🧱", "tag": "体系", "scenario": "你想给团队建一套标准流程", "feedback": "好流程是团队的隐形管理者。先从最痛的环节开始建。", "type": "pos" },
+    { "icon": "🪜", "tag": "梯队", "scenario": "你想培养一个能接你班的人", "feedback": "有人能接你的班，你才配去打更大的仗。这是最划算的投资。", "type": "pos" },
+    { "icon": "🎯", "tag": "聚焦", "scenario": "你想砍掉一个没人受益的例会", "feedback": "砍掉低价值会议，是给全团队的加薪——每人每周多几小时。", "type": "pos" },
+    { "icon": "🔁", "tag": "机制", "scenario": "你想把一次复盘沉淀成检查清单", "feedback": "清单是经验的集装箱——把教训装进去，团队就不会重摔。", "type": "pos" }
+  ],
+  "cheer": [
+    { "icon": "🌿", "tag": "带教", "scenario": "你带的人独当一面了", "feedback": "这就是领导力的果实：他越强，证明你越强。", "type": "pos" },
+    { "icon": "🏆", "tag": "信任", "scenario": "团队在你不在时也打了一场硬仗", "feedback": "团队离开你也能赢，才是真正的带队伍。", "type": "pos" },
+    { "icon": "💬", "tag": "真话", "scenario": "有下属当面指出了你的问题", "feedback": "有人敢跟你说真话，是你谦逊攒出来的红利，珍惜它。", "type": "pos" },
+    { "icon": "✂️", "tag": "聚焦", "scenario": "你砍掉了一个伪项目，团队长舒一口气", "feedback": "做减法是管理者最难的勇气。省下的力气会加倍回来。", "type": "pos" }
+  ],
+  "report": [
+    { "icon": "🪞", "tag": "觉察", "scenario": "你记录了一周自己的情绪触发点", "feedback": "看见模式，才能改写模式。这是自我觉察的正确打开方式。", "type": "pos" },
+    { "icon": "📏", "tag": "标准", "scenario": "你把三条模糊要求写成了验收标准", "feedback": "标准的复利：返工少了，扯皮少了，信任多了。", "type": "pos" },
+    { "icon": "🤲", "tag": "成就", "scenario": "这周你给了三次具体反馈", "feedback": "反馈是成本最低、回报最高的管理动作。保持频率。", "type": "pos" },
+    { "icon": "🎯", "tag": "聚焦", "scenario": "你把一个长期扯皮的议题拆出了真问题", "feedback": "聚焦问题，创造价值——你已经站在管理者的位置上思考了。", "type": "pos" }
+  ]
+}
+
+// QA类（有问题想问）复用于ask场景，结构兼容
+const ASK_SCENES = QA_DATA.pos.map(q => ({ icon: q.icon, tag: q.tag, scenario: q.question, feedback: q.answer, type: 'pos' }))
+  .concat(QA_DATA.neg.map(q => ({ icon: q.icon, tag: q.tag, scenario: q.question, feedback: q.answer, type: 'neg' })));
+
+// ==================== 进展数据 ====================
+const PROGRESS_DATA = {
+  "pos": [
+    { "icon": "🪞", "tag": "觉察", "scenario": "连续一周睡前复盘自己的判断", "feedback": "判断力是复盘出来的。你已经把镜子立起来了。", "type": "pos" },
+    { "icon": "📏", "tag": "标准", "scenario": "团队按新标准交付，返工明显变少", "feedback": "标准是团队的隐形管理者，建一次，长期受益。", "type": "pos" },
+    { "icon": "🤲", "tag": "授权", "scenario": "授权出去的事，下属做得比你预期好", "feedback": "你的忍住，换来了他的成长。这就是领导力的杠杆。", "type": "pos" },
+    { "icon": "🌿", "tag": "带教", "scenario": "你带的人开始独当一面", "feedback": "成就他人是最深的领导力——你已经验证了它。", "type": "pos" },
+    { "icon": "🎯", "tag": "聚焦", "scenario": "砍掉了两个低价值会议/项目", "feedback": "做减法需要勇气，省下的注意力是全团队的礼物。", "type": "pos" },
+    { "icon": "💬", "tag": "真话", "scenario": "团队开始敢当面指出你的问题", "feedback": "心理安全感是你谦逊攒出来的。有人敢说真话，团队才不会翻车。", "type": "pos" },
+    { "icon": "🔄", "tag": "复盘", "scenario": "一次失败被沉淀成了检查清单", "feedback": "同样的坑不踩第二次——这就是复盘的价值。", "type": "pos" },
+    { "icon": "📣", "tag": "向上", "scenario": "一个月没让老板主动来问进度", "feedback": "向上同步是信任的氧气泵。你已经养成了。", "type": "pos" }
+  ],
+  "neg": [
+    { "icon": "🌋", "tag": "失控", "scenario": "这周情绪失控超过一次", "feedback": "情绪稳定是管理者的地板。下次先停十秒，再开口。", "type": "neg" },
+    { "icon": "🦺", "tag": "抢活", "scenario": "下属的活你干了三件以上", "feedback": "你不是救火队长。教他灭火，比替他灭火值钱十倍。", "type": "neg" },
+    { "icon": "🤝", "tag": "和稀泥", "scenario": "两次明显的问题被你放过", "feedback": "你不纠正问题，就是在奖励问题。团队会照着你做。", "type": "neg" },
+    { "icon": "🥇", "tag": "抢功", "scenario": "汇报里功劳没有给到做事的人", "feedback": "功劳给出去才是领导力，揽进来只是虚荣。", "type": "neg" },
+    { "icon": "🌀", "tag": "瞎忙", "scenario": "一周没留白，战略一次没想", "feedback": "忙碌不等于产出。每周半天留白，是你给自己团队的投研时间。", "type": "neg" },
+    { "icon": "✋", "tag": "打断", "scenario": "开会你打断别人的次数超过五次", "feedback": "你打断的每句话里，可能都藏着你想听的真话。", "type": "neg" }
+  ]
+}
+
+// ==================== Tab 导航 ====================
+function switchTab(tab) {
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
+  const tabs = ['chat','coach','sop','checkin','weight','progress','share'];
+  const tabIdx = tabs.indexOf(tab);
+  if (tabIdx !== -1) document.querySelectorAll('.tab-item')[tabIdx].classList.add('active');
+  // chat 对应 page-partner
+  const pageId = tab === 'chat' ? 'page-partner' : `page-${tab}`;
+  const pageEl = document.getElementById(pageId);
+  if (pageEl) {
+    pageEl.classList.add('active');
+    pageEl.style.display = '';
+  }
+  if (tab === 'weight') {
+    renderWeightPage();
+    renderWeeklyReport();
+    // 自动填入上次体重
+    let data = getWeightData();
+    if (data.length > 0) {
+      let last = data[data.length - 1].value;
+      let inp = document.getElementById('weightInput');
+      if (inp) inp.placeholder = last.toFixed(1);
+    }
+  }
+  // ===== 教练页：显示介绍卡，隐藏聊天 =====
+  if (tab === 'coach') {
+    var cp = document.getElementById('page-coach');
+    if (cp) { cp.classList.add('active'); cp.style.display = ''; }
+    if (typeof initCoach === 'function') initCoach();
+  }
+  if (tab === 'sop') initSOP();
+  if (tab === 'progress') renderProgress();
+  if (tab === 'share') renderSharePage();
+  if (tab === 'chat') renderPartnerPage();
+}
+
+// ==================== 打卡功能 ====================
+const FEEDBACK = {
+  "gentle": {
+    "checkin": ["收到，记下了。今天这步走得很稳。", "好。领导力是一天一天修出来的。", "已记录。守住节奏。"],
+    "happy": ["这个时刻值得记住——团队因为你变强了一点。", "很好。带人的成就感，是别的事换不来的。"],
+    "neutral": ["平稳的日子也在积累信任。", "好，按节奏走。"],
+    "sad": ["管理最难的不是事，是人心。先照顾好自己。", "低落不耽误你是好领导。缓一缓再出发。"],
+    "tired": ["累了就收。你的状态是团队的状态。", "先休息，队伍明天还需要你。"],
+    "progress": ["说，我听着。", "讲讲最近带队伍的观察。"],
+    "question": ["问吧。"],
+    "milestone7": ["一周了。镜子已经开始起作用。"],
+    "milestone21": ["三周。管事理人在成型。"],
+    "milestone30": ["一个月。你的团队应该已经感觉到了变化。"],
+    "late": ["这么晚还在复盘？明天也要留点力气给团队。"],
+    "reminder": ["今天还没打卡。照一次镜子也行。", "回来报个到，团队等你稳住军心。", "别失踪，我在。"]
+  },
+  "passion": {
+    "checkin": ["💪 带队伍就该这样！", "🔥 记下了，将军！", "💪 稳！标准守住了！"],
+    "happy": ["🔥 这个时刻值得全队庆祝！", "💪 团队又强了一分，你的功劳！"],
+    "neutral": ["🔥 平稳推进，也是战斗力。"],
+    "sad": ["💪 带队伍哪有不委屈的，扛住！", "说出来，我接得住！"],
+    "tired": ["🔥 先充电！指挥官倒了队伍怎么办！", "睡觉！明天还要打仗！"],
+    "progress": ["说！你的队伍最近怎么样！"],
+    "question": ["问！都能接！"],
+    "milestone7": ["🔥 七天！军心已稳！"],
+    "milestone21": ["🔥 三周！你已经开始像样了！"],
+    "milestone30": ["🏆 一个月！这支队伍是你的作品！"],
+    "late": ["🔥 深夜练兵？明天也要让队伍看到你的状态！"],
+    "reminder": ["🔥 今天还没打卡！将军不能失踪！", "🔥 人呢？回来点卯！", "💪 断一天，军心就散一分！"]
+  },
+  "rational": {
+    "checkin": ["已记录。节奏正常。", "收到，数据已同步。", "打卡完成。"],
+    "happy": ["建议复盘：哪个动作起了作用，固化它。"],
+    "neutral": ["平稳。按节奏推进即可。"],
+    "sad": ["低谷期降低预期，保住底线动作：一次具体反馈。"],
+    "tired": ["精力不足时只做一件事：照一次镜子。"],
+    "progress": ["说说：动作、变化、卡点。"],
+    "question": ["问。我们一起拆。"],
+    "milestone7": ["第7天。觉察习惯启动期通过。"],
+    "milestone21": ["第21天。管理操作系统初步成型。"],
+    "milestone30": ["30天。建议复盘：哪个维度在涨，哪个需要加码。"],
+    "late": ["深夜记录。你的睡眠是明天判断力的本金。"],
+    "reminder": ["今日无打卡记录。建议最小动作：给一条具体反馈。", "昨日缺席。今天补上即可，不必加量。", "频率预警：本周还差2次打卡。"]
+  },
+  "tsundere": {
+    "checkin": ["哦，来了啊。还行。", "记下了。别指望我夸你。", "打卡了？勉强。"],
+    "happy": ["开心什么，团队变强有你多少功劳？……行吧，算你的。"],
+    "neutral": ["不咸不淡的。去给一条具体反馈。"],
+    "sad": ["难过了？管人哪有不受委屈的。去复盘，去睡觉。"],
+    "tired": ["累就对了，说明在带人。……但今晚都给我睡。"],
+    "progress": ["说吧，让我看看你这周的成色。"],
+    "question": ["问。答案很简单，就怕你不做。"],
+    "milestone7": ["一周而已。……不过，你没断，我看到了。"],
+    "milestone21": ["三周。有点领导的样子了，别飘。"],
+    "milestone30": ["一个月。……好吧，你带队伍有点东西。"],
+    "late": ["深夜打卡？领导力是睡出来的，不是熬出来的。"],
+    "reminder": ["喂，今天没打卡？团队可不会自己变强。", "又鸽了？镜子不会自己照自己。", "两天没来了啊……我可没替你找借口。"]
+  }
+}
+
+
+function getMsg(style, type) {
+  const arr = (FEEDBACK[style] || {})[type] || FEEDBACK.gentle[type] || ['嗯。'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function computeContinuous(history, today) {
+  if (!history.includes(today)) return 0;
+  let cnt = 1, cur = new Date(today);
+  for (let i = 1; i <= 365; i++) {
+    let prev = new Date(cur); prev.setDate(cur.getDate() - i);
+    if (history.includes(prev.toISOString().slice(0,10))) cnt++; else break;
+  }
+  return cnt;
+}
+
+function showMsg(text, isAi = true) {
+  const area = document.getElementById('chatArea');
+  const partner = currentPartner || PARTNERS[0];
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-bubble-wrap';
+  if (isAi) {
+    wrap.innerHTML = `<div class="msg-avatar">${partner.emoji}</div><div class="msg-bubble ai">${text}</div>`;
+  } else {
+    wrap.innerHTML = `<div class="msg-bubble" style="margin-left:auto;border-radius:18px 18px 4px 18px;background:#edf3fb;">${text}</div>`;
+  }
+  area.appendChild(wrap);
+  area.scrollTop = area.scrollHeight;
+  if (area.children.length > 20) area.removeChild(area.children[0]);
+}
+
+function showTyping() {
+  const area = document.getElementById('chatArea');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-bubble-wrap';
+  wrap.id = 'typingBubble';
+  const partner = currentPartner || PARTNERS[0];
+  wrap.innerHTML = `<div class="msg-avatar">${partner.emoji}</div><div class="msg-bubble ai"><div class="typing-indicator"><span></span><span></span><span></span></div></div>`;
+  area.appendChild(wrap);
+  area.scrollTop = area.scrollHeight;
+}
+
+function removeTyping() {
+  (function(){var _el=document.getElementById('typingBubble');if(_el)_el.remove();})();
+}
+
+function delayedMsg(text) {
+  showTyping();
+  setTimeout(() => {
+    removeTyping();
+    showMsg(text);
+  }, 800 + Math.random() * 600);
+}
+
+function doCheckin() {
+  let today = getToday();
+  let history = getHistory();
+  if (history.includes(today)) { showToast('今天已经签过啦～明天再来'); return; }
+  history.push(today); saveHistory(history);
+  refreshDashboard();
+  simpleConfetti();
+  let hour = new Date().getHours();
+  delayedMsg(hour >= 23 || hour <= 5 ? getMsg((currentPartner && currentPartner.style) || 'gentle','late') : getMsg((currentPartner && currentPartner.style) || 'gentle','checkin'));
+  let continuous = computeContinuous(history, today);
+  setTimeout(() => {
+    if (continuous === 7 && !localStorage.getItem('achievement_shown_7')) showAchievement(7);
+    else if (continuous === 21 && !localStorage.getItem('achievement_shown_21')) showAchievement(21);
+    else if (continuous === 30 && !localStorage.getItem('achievement_shown_30')) showAchievement(30);
+  }, 2500);
+}
+
+// ===== 搭子tab消息显示 =====
+function showPartnerMsg(text, isAI) {
+  const area = document.getElementById('partnerChatArea');
+  if (!area) return;
+  const partner = currentPartner || PARTNERS[0];
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-bubble-wrap';
+  if (isAI) {
+    wrap.innerHTML = `<div class="msg-avatar">${partner.emoji}</div><div class="msg-bubble ai">${text}</div>`;
+  } else {
+    wrap.innerHTML = `<div class="msg-bubble" style="margin-left:auto;border-radius:18px 18px 4px 18px;background:#edf3fb;">${text}</div>`;
+  }
+  area.appendChild(wrap);
+  area.scrollTop = area.scrollHeight;
+  if (area.children.length > 20) area.removeChild(area.children[0]);
+}
+
+function sendMood(mood) {
+  const partner = currentPartner || PARTNERS[0];
+  const pStyle = partner.style || 'gentle';
+  const moodText = {
+    happy: '今天心情不错！',
+    neutral: '今天心情一般。',
+    sad: '今天心情有点低落……',
+    tired: '今天感觉好累。'
+  };
+        const replies = {
+    "gentle": {
+      "happy": ["团队有你，是他们的运气 ✨", "这个时刻值得记下来，带人的成就感最养人", "看见你带人成长，真为你高兴"],
+      "neutral": ["平稳推进也很好 🧭", "不急不躁，信任就是这样攒的", "平静里，标准在生根"],
+      "sad": ["管理的委屈，先接住自己 💙", "你需要的是休息，不是自责", "我知道你累了，先照顾好自己"],
+      "tired": ["累了就先歇，队伍明天还需要你", "你已经做得够好了", "今晚早点睡，指挥官也要回血"]
+    },
+    "passion": {
+      "happy": ["🔥 好样的！这是你的战功！", "带队伍带出样子了！继续！", "这种高光时刻，多来几次！"],
+      "neutral": ["🔥 平稳蓄力，也是练兵！", "稳扎稳打，军心就是这样稳的", "这样的节奏，保持！"],
+      "sad": ["💪 抱一抱，带队伍哪有不受委屈的！", "说出来，我接得住", "今天允许低落，明天照样冲锋！"],
+      "tired": ["🔥 先休息！指挥官不能倒！", "撑不住就说，我来想办法", "带兵的人也需要回血，睡觉！"]
+    },
+    "rational": {
+      "happy": ["好时刻值得复盘：哪个动作有效？", "记录下来，这就是你的管理资产", "趁热复盘：最有效的细节是什么？"],
+      "neutral": ["平稳期是建体系的好窗口", "按节奏推进，不需要激情", "这个状态适合打磨一个标准"],
+      "sad": ["先接情绪，再找原因，顺序别反", "是人的问题还是流程的问题？拆开看", "允许低落，观察就是行动"],
+      "tired": ["精力见底时只做一件事：照镜子", "你的状态是团队的天气", "最差的决策来自最累的时刻"]
+    },
+    "tsundere": {
+      "happy": ["……开心就开心吧，别太得瑟", "哼，带得还行，勉强及格", "……算你今天在线"],
+      "neutral": ["不咸不淡的……去给一条具体反馈。", "哼，普通的一天，也要守标准", "平静？平静可带不出强队。去。"],
+      "sad": ["难过了？先复盘，再睡觉。", "……别啰嗦了，去修复一下。", "一句闲话就僵一整天？管理者不该这样。"],
+      "tired": ["累就对了，说明在带人。……今晚都睡。", "谁还没累过。……行，休一天。", "哼，想摆烂就直说"]
+    }
+  };
+  const options = (replies[pStyle] || {})[mood] || replies.gentle[mood];
+  showPartnerMsg(moodText[mood], false);
+  setTimeout(() => {
+    var reply = options[Math.floor(Math.random() * options.length)];
+    showPartnerMsg(reply, true);
+    try {
+      var pp = document.getElementById('page-partner');
+      if (!pp || !pp.classList.contains('active')) showToast(reply);
+    } catch(e) { try { showToast(reply); } catch(x) {} }
+  }, 800 + Math.random() * 600);
+}
+
+// ===== 搭子tag交互（6类入口） =====
+function askPartner(type) {
+  if (type === 'scene') { openSceneSheet(); return; }
+  const partner = currentPartner || PARTNERS[0];
+  const style = partner.style || 'gentle';
+  const emoji = partner.emoji;
+    const typeConfig = {
+    "progress":  { "label": "📈 进展",       "panel": "progress", "dir": "result", "intro": { "gentle": ["说说最近的带队伍进展，我想听 🧭", "好，讲讲你和团队这周的样子"], "passion": ["冲！说说你的战报！🔥", "好！让我听听队伍的变化！💪"], "rational": ["收到。说说这周的具体观察。📐", "好。哪些管理动作有效，讲数据。"], "tsundere": ["进展？说。……听着呢。", "哼，让我看看你带得怎么样。"] } },
+    "struggle":  { "label": "😣 困难",       "panel": "struggle", "dir": "solution", "intro": { "gentle": ["带队伍哪有不难的，说说看 🧭", "没关系，我们一起想办法"], "passion": ["困难算什么，我们一起面对！💪", "来！我帮你拆解！🔥"], "rational": ["困难是信号，不是判决。说，我帮你分析。📐"], "tsundere": ["又卡住了？说。……我听着。"] } },
+    "idea":      { "label": "💡 想法",       "panel": "idea",     "dir": "result", "intro": { "gentle": ["好想法！说说你的思路 🧭", "来，展开讲讲这个管理动作"], "passion": ["好主意！🔥 让我听听！", "来！展开讲！我要听完整方案！💪"], "rational": ["好。目标是什么？验收标准呢？📐", "拆解一下：这个机制解决什么问题？"], "tsundere": ["哦？说来听听。……有点意思。"] } },
+    "cheer":     { "label": "🎉 喜事",       "panel": "cheer",    "dir": "result", "intro": { "gentle": ["哈哈！你的喜事！快说！🎉", "这种时刻值得好好庆祝"], "passion": ["🎉🎉🎉 说！我要听！全部细节！", "太棒了！这就是带队伍的荣耀！🔥"], "rational": ["📐 积极时刻要复盘：什么起了作用？", "好事！说细节，我记录归因。"], "tsundere": ["……哟，喜事啊。恭喜。", "哼，还算你带得不错。"] } },
+    "report":    { "label": "📣 汇报进展",   "panel": "report",   "dir": "result", "intro": { "gentle": ["收到。说给我听听 🧭", "好，让我了解你的最新变化"], "passion": ["冲！汇报收到！🔥", "好！让我听听！💪"], "rational": ["汇报收到。数据记录中。📐", "好。说说关键变化。"], "tsundere": ["汇报？行，说。……我还挺想听。"] } },
+    "question":  { "label": "🤔 有问题想问", "panel": "question", "dir": "solution", "intro": { "gentle": ["问吧，我尽力回答 🧭"], "passion": ["问！什么问题都能接住！💪"], "rational": ["好的。给出你的问题。📐"], "tsundere": ["🤷 问就问，不保证你能听懂。🌿"] } }
+  };
+  const cfg = typeConfig[type] || typeConfig.progress;
+  const introArr = cfg.intro[style] || cfg.intro.gentle;
+  const intro = introArr[Math.floor(Math.random() * introArr.length)];
+
+  showPartnerMsg(cfg.label, false);
+  setTimeout(() => {
+    showPartnerMsg(emoji + ' ' + intro, true);
+    setTimeout(() => openTypePanel(cfg.panel, cfg.dir), 500);
+  }, 700);
+}
+
+// 打开6类场景选择面板
+function openTypePanel(panel, dir) {
+  currentQAType = panel;
+  currentQADir  = dir;
+  const data = panel === 'question' ? ASK_SCENES : (TYPE_SCENES[panel] || []);
+
+  const titleMap = {
+    progress: '📈 选择一个最符合你情况的进展',
+    struggle: '😣 选择一个你正在面对的困难',
+    idea: '💡 选择一个你想聊的想法',
+    cheer: '🎉 选择一件你想分享的喜事',
+    report: '📣 汇报一下本周的情况',
+    question: '🤔 有问题想问？选一个最接近的'
+  };
+  const subMap = {
+    result: '选择后我会和你共情，然后给出结果导向的反馈 💫',
+    solution: '选择后我会和你共情，然后一起想办法 💪'
+  };
+  document.getElementById('qaTitle').innerText = titleMap[panel] || panel;
+  document.getElementById('qaSub').innerText   = subMap[dir] || '';
+
+  const scroll = document.getElementById('qaScroll');
+  scroll.innerHTML = '';
+
+  // 正向分组
+  const posItems = data.filter(i => i.type === 'pos');
+  if (posItems.length) {
+    const posLabel = document.createElement('div');
+    posLabel.style.cssText = 'font-size:11px;font-weight:700;color:#3f6db5;letter-spacing:1px;margin:8px 2px 6px;';
+    posLabel.innerText = '⬆️ 好的进展 / 想得到鼓励';
+    scroll.appendChild(posLabel);
+    posItems.forEach((item, i) => {
+      scroll.appendChild(makeTypeCard(panel, dir, item, i));
+    });
+  }
+
+  // 负向分组
+  const negItems = data.filter(i => i.type === 'neg');
+  if (negItems.length) {
+    const negLabel = document.createElement('div');
+    negLabel.style.cssText = 'font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;';
+    negLabel.innerText = '⬇️ 遇到困难 / 需要引导';
+    scroll.appendChild(negLabel);
+    negItems.forEach((item, i) => {
+      const realIdx = data.indexOf(item);
+      scroll.appendChild(makeTypeCard(panel, dir, item, realIdx));
+    });
+  }
+
+  document.getElementById('qaOverlay').classList.add('show');
+  document.getElementById('qaOverlay').onclick = function(e) {
+    if (e.target === document.getElementById('qaOverlay')) closeQAPanel();
+  };
+}
+
+let currentQADir = 'result';
+
+function makeTypeCard(panel, dir, item, index) {
+  const card = document.createElement('div');
+  card.className = `qa-card ${item.type}`;
+  card.innerHTML = `
+    <div class="qa-card-icon">${item.icon}</div>
+    <div class="qa-card-text">${item.scenario}</div>
+    <div class="qa-card-tag ${item.type}">${item.tag}</div>
+  `;
+  card._qaClick = () => {
+    closeQAPanel();
+    setTimeout(() => showTypeFeedback(panel, dir, item, index), 300);
+  };
+  card.onclick = card._qaClick;
+  return card;
+}
+
+function showTypeFeedback(panel, dir, item, index) {
+  const partner = currentPartner || PARTNERS[0];
+  const style  = partner.style || 'gentle';
+  const emoji  = partner.emoji;
+  const isPos  = item.type === 'pos';
+
+  // 搭子共情回复
+  const empathy = getTypeEmpathy(style, panel, dir, isPos);
+  const empathyMsg = emoji + ' ' + empathy;
+
+  // 搭子结果/方案导向反馈
+  const partnerFeedback = getTypePartnerFeedback(style, panel, dir, isPos);
+
+  // 构建反馈卡片
+  const fbCard = document.getElementById('fbCard');
+  fbCard.className = `fb-card ${item.type}`;
+  document.getElementById('fbEmoji').innerText = item.icon;
+  const labelEl = document.getElementById('fbLabel');
+  labelEl.innerText = isPos ? '✨ 正向' : '⚠️ 需要引导';
+  labelEl.className = `fb-label ${item.type}`;
+  document.getElementById('fbTitle').innerText = item.tag;
+  // 显示场景内容 + 搭子结果导向回复
+  document.getElementById('fbText').innerText = item.feedback;
+  document.getElementById('fbQuote').innerHTML =
+    `<div class="fb-partner-label">${emoji} ${partner.name}说：</div>"${empathyMsg.replace(emoji,' ').trim()} "<span style="color:#1565c0">${partnerFeedback}</span>"`;
+
+  document.getElementById('fbOverlay').classList.add('show');
+}
+
+function getTypeEmpathy(style, panel, dir, isPos) {
+  const msgs = {
+    gentle: {
+      result:    { pos: ['这种感觉真的很好，为你高兴 🌿','你做到了，这很重要 💫','这个进展很真实，继续保持 💚'], neg: ['这种感觉我理解，不着急，慢慢来 💙','我听见了，陪你一起 🌿'] },
+      solution:  { pos: ['谢谢你告诉我这些 💙','愿意说出来本身就需要勇气 🌿'], neg: ['能感觉到你的为难，我在这里 🤝','没关系，我们一起拆解 🌿'] }
+    },
+    passion: {
+      result:    { pos: ['太强了！继续保持！☀️','这就是进步！继续燃烧！🚀','干得漂亮！🔥'], neg: ['别急，调整一下！💪','小调整，继续冲！☀️'] },
+      solution:  { pos: ['好！说得好！我听到了！💪','这种主动分享让我很高兴 ☀️'], neg: ['来！我帮你拆解！☀️','没有困难是过不去的！冲！💪'] }
+    },
+    rational: {
+      result:    { pos: ['数据记录在案。这个变化值得关注。📊','收到。行为数据显示你的方向正确。📈'], neg: ['这种情况在改变过程中很常见。📊','数据出现波动，分析后可以调整。📋'] },
+      solution:  { pos: ['这种情况有方法可以优化。📊','收到，让我帮你拆解。🧩'], neg: ['这个问题的本质可以进一步分析。📊','先拆解，再制定对策。🛠️'] }
+    },
+    tsundere: {
+      result:    { pos: ['……还行吧，算你有点料。🌳','哼，还凑合。😶'], neg: ['又来了？……哼，我听听。😒','算了，不说你了。🤷'] },
+      solution:  { pos: ['……行吧，我勉强听一下。😒'], neg: ['怎么又这样……说吧，我帮你。😒','哼，说吧，我看看能不能救。🤷'] }
+    }
+  };
+  const arr = ((msgs[style] || {})[dir] || {})[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function getTypePartnerFeedback(style, panel, dir, isPos) {
+  const msgs = {
+    gentle: {
+      result:    { pos: ['继续保持，你走的每一步都在积累 🌿','这个方向很对，坚持下去 💚','你比自己以为的更接近目标 💫'],
+                   neg: ['不要因为这样就放弃，我们来看看怎么调整 🌿','先给自己一点耐心，我们慢慢来 💙'] },
+      solution:  { pos: ['找到突破口后继续往前 💪','我们来看看下一步可以怎么做 🌿'],
+                   neg: ['说说具体卡在哪里，我帮你理清思路 🌿','这件事拆开来看，其实没有那么难 💙'] }
+    },
+    passion: {
+      result:    { pos: ['继续这个节奏，效果会越来越明显的！☀️','这就是复利！保持！💪'],
+                   neg: ['调整一下，明天继续冲！🔥','战术修正，继续干！💪'] },
+      solution:  { pos: ['找对方法，继续冲！☀️','说干就干！💪'],
+                   neg: ['来！我帮你拆解！没有过不去的坎！☀️','拆解完立刻行动！🚀'] }
+    },
+    rational: {
+      result:    { pos: ['继续执行当前方案，效果会逐步显现。📊','这个趋势值得坚持。📈'],
+                   neg: ['需要分析原因后调整策略。📊','在可修正范围内，继续监测。📋'] },
+      solution:  { pos: ['有清晰的分析路径，可以优化。📊','建议先量化问题，再对症下药。🧩'],
+                   neg: ['从数据入手，找核心原因。📊','把问题拆成小块，逐个击破。🛠️'] }
+    },
+    tsundere: {
+      result:    { pos: ['……行吧，算你有点进步。🌳','嗯。还凑合。😶'],
+                   neg: ['……我又来了。哼。😒','就这样吧，我也习惯了。🤷'] },
+      solution:  { pos: ['说，我看看能不能帮。😒'],
+                   neg: ['……算了，我帮你想想。😒','好吧，我勉强帮一下。🤷'] }
+    }
+  };
+  const arr = ((msgs[style] || {})[dir] || {})[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// 以下保留兼容
+function sendTalk(type) { askPartner(type); }
+let currentQAType = null;
+function openQAPanel(type) { askPartner(type); }
+function makeQACard(type, polarity, index, item) { return makeTypeCard(type, 'result', item, index); }
+function closeQAPanel() {
+  document.getElementById('qaOverlay').classList.remove('show');
+  document.getElementById('qaOverlay').onclick = null;
+}
+function showFeedback(type, polarity, index) {
+  const data = type === 'question' ? ASK_SCENES : (TYPE_SCENES[type] || []);
+  const item = data.find((d,i) => d.type === polarity && i === index) || data.filter(d=>d.type===polarity)[index];
+  if (item) showTypeFeedback(type, 'result', item, index);
+}
+function getPartnerReply(style, type, polarity) { return getTypeEmpathy(style, type, 'result', polarity === 'pos'); }
+function closeFeedback() { document.getElementById('fbOverlay').classList.remove('show'); }
+
+function refreshDashboard() {
+  let today = getToday(), history = getHistory();
+  let checked = history.includes(today);
+  document.getElementById('checkinStatusText').innerText = checked ? '✅ 已签到' : '签到';
+  document.getElementById('checkinBtn').style.opacity = checked ? '0.7' : '1';
+  let continuous = computeContinuous(history, today);
+  document.getElementById('continuousDays').innerText = continuous;
+  let now = new Date(), dow = now.getDay();
+  let mon = new Date(now); mon.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1));
+  let weekDays = [];
+  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(d.toISOString().slice(0,10)); }
+  document.getElementById('weekRange').innerText = `${weekDays[0].slice(5)}~${weekDays[6].slice(5)}`;
+  let dotsHtml = '', dayNames = ['一','二','三','四','五','六','日'];
+  for (let i = 0; i < 7; i++) {
+    let isChecked = history.includes(weekDays[i]);
+    let symbol = isChecked ? '✓' : (weekDays[i] === today ? '🍀' : '○');
+    dotsHtml += `<div class="day-item"><div class="day-name">${dayNames[i]}</div><div class="dot ${isChecked?'checked':''}">${symbol}</div></div>`;
+  }
+  document.getElementById('weekDots').innerHTML = dotsHtml;
+}
+
+function copyStats() {
+  let history = getHistory(), continuous = document.getElementById('continuousDays').innerText;
+  let partner = currentPartner || PARTNERS[0];
+  let today = getToday();
+  let text = `🏆 领导力搭子战绩\n搭子：${partner.name} ${partner.emoji}\n连续打卡：${continuous}天\n总打卡：${history.length}天\n${today} 继续加油！`;
+  navigator.clipboard.writeText(text).then(() => showToast('✅ 战绩已复制，快去分享')).catch(() => showToast('复制失败，手动复制吧'));
+}
+
+function selectPartner(id) {
+  document.querySelectorAll('.partner-card').forEach(c => c.classList.remove('selected'));
+  const card = document.getElementById('pc-' + id);
+  if (card) card.classList.add('selected');
+  localStorage.setItem(STORAGE.PARTNER, id);
+  if (window.savePartnerToFirebase) savePartnerToFirebase(id);
+}
+
+function renderPartnerSelector() {
+  let saved = localStorage.getItem(STORAGE.PARTNER);
+  if (!saved) localStorage.setItem(STORAGE.PARTNER, PARTNERS[0].id);
+  // 更新选中状态（HTML已写死，这里只更新样式）
+  document.querySelectorAll('.partner-card').forEach(c => {
+    c.classList.remove('selected');
+    if (c.id === 'pc-' + saved) c.classList.add('selected');
+  });
+  // 渲染右上角弹窗
+  let grid2 = document.getElementById('partnerGrid2');
+  if (grid2) { grid2.innerHTML = ''; PARTNERS.forEach((p, idx) => {
+    let card = document.createElement('div');
+    card.className = 'partner-card' + (saved === p.id ? ' selected' : '');
+    card.style.cssText = 'padding:14px 8px;border-radius:14px;border:2px solid ' + (saved === p.id ? p.color : '#eee') + ';cursor:pointer;transition:all 0.2s;background:' + (saved === p.id ? p.color + '22' : 'white') + ';';
+    card.innerHTML = `<div style="font-size:28px;margin-bottom:6px;">${p.emoji}</div><div style="font-size:13px;font-weight:600;color:#333;">${p.name}</div><div style="font-size:11px;color:#888;margin-top:2px;">${p.desc}</div>`;
+    card.onclick = () => {
+      grid2.querySelectorAll('.partner-card').forEach(c => { c.style.borderColor = '#eee'; c.style.background = 'white'; c.classList.remove('selected'); });
+      card.style.borderColor = p.color;
+      card.style.background = p.color + '22';
+      card.classList.add('selected');
+      localStorage.setItem(STORAGE.PARTNER, p.id);
+      if(window.savePartnerToFirebase) savePartnerToFirebase(p.id);
+    };
+    grid2.appendChild(card);
+  });}
+}
+
+function confirmPartner() {
+  if (!currentPartner) {
+    const cards = document.querySelectorAll('.partner-card');
+    if (cards.length > 0) {
+      cards[0].click();
+    }
+  }
+  startApp();
+}
+
+function startApp() {
+  currentPartner = localStorage.getItem(STORAGE.PARTNER);
+  // page-checkin 的显示由 switchTab / .page.active CSS 控制，不需要动
+  if (currentPartner && PARTNERS.some(p => p.id === currentPartner)) {
+    document.getElementById('partnerSelector').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    let p = PARTNERS.find(pp => pp.id === currentPartner);
+    document.getElementById('currentPartnerBadge').innerHTML = `${p.emoji} ${p.name}`;
+    partnerIdx = PARTNERS.indexOf(p);
+    currentPartner = p;
+    updateAvatarBtn();
+    refreshDashboard();
+  } else {
+    document.getElementById('partnerSelector').style.display = 'block';
+    document.getElementById('dashboard').style.display = 'none';
+    renderPartnerSelector();
+  }
+  // 24小时未打卡提醒检查
+  checkReminder();
+  // 每小时检查一次
+  setInterval(checkReminder, 60 * 60 * 1000);
+
+  // 兜底：部分浏览器/预览环境对 inline onclick 派发不稳定，
+  // 用事件代理再补一层，确保 mood-btn / talk-btn / qa-card 都能响应
+  bindInteractionFallback();
+}
+
+function bindInteractionFallback() {
+  const chatWrap = document.querySelector('.interaction-panel');
+  if (chatWrap) {
+    chatWrap.addEventListener('click', e => {
+      const mood = e.target.closest('.mood-btn');
+      const talk = e.target.closest('.talk-btn');
+      if (mood) {
+        const m = mood.getAttribute('data-mood') || mood.title;
+        if (m) sendMood(m);
+        return;
+      }
+      if (talk) {
+        const t = talk.getAttribute('data-type');
+        if (t) askPartner(t);
+        return;
+      }
+    }, true);
+  }
+  const qaScroll = document.getElementById('qaScroll');
+  if (qaScroll) {
+    qaScroll.addEventListener('click', e => {
+      const card = e.target.closest('.qa-card');
+      if (card && card._qaClick) card._qaClick();
+    }, true);
+  }
+}
+
+function checkReminder() {
+  let history = getHistory();
+  if (history.length === 0) return;
+  let last = history[history.length - 1]; // last 是日期字符串
+  if (last === getToday()) return; // 今天已打卡
+  let lastTime = new Date(last).getTime();
+  let now = Date.now();
+  let diffH = (now - lastTime) / (1000 * 60 * 60);
+  let reminderKey = 'last_reminder_' + getToday();
+  if (diffH >= 24 && !localStorage.getItem(reminderKey)) {
+    localStorage.setItem(reminderKey, '1');
+    let msg = getMsg((currentPartner && currentPartner.style) || 'gentle', 'reminder');
+    delayedMsg(msg);
+  }
+}
+
+(function(){var _el=document.getElementById('confirmPartnerBtn');if(_el)_el.addEventListener('click', confirmPartner);})();
+
+// 更新右上角搭子头像
+function updateAvatarBtn() {
+  let btn = document.getElementById('avatarBtn');
+  if (btn && currentPartner) {
+    btn.innerHTML = currentPartner.emoji + '<div style="position:absolute;bottom:-2px;right:-2px;width:16px;height:16px;background:#9db8dd;border-radius:50%;border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:10px;color:white;font-weight:bold;line-height:1;">✎</div>';
+  }
+}
+
+// 右上角切换搭子 - 弹窗模式，任意页面都可用
+function showPartnerSelector() {
+  renderPartnerSelector();
+  document.getElementById('partnerOverlay').style.display = 'flex';
+}
+
+function closePartnerOverlay() {
+  document.getElementById('partnerOverlay').style.display = 'none';
+  // 更新搭子状态
+  let saved = localStorage.getItem(STORAGE.PARTNER);
+  if (saved && PARTNERS.some(p => p.id === saved)) {
+    let p = PARTNERS.find(pp => pp.id === saved);
+    if (currentPartner && currentPartner.id !== saved) {
+      currentPartner = p;
+      partnerIdx = PARTNERS.indexOf(p);
+      localStorage.setItem(STORAGE.PARTNER, p.id);
+      if(window.savePartnerToFirebase) savePartnerToFirebase(p.id);
+      updateAvatarBtn();
+      document.getElementById('currentPartnerBadge').innerHTML = `${p.emoji} ${p.name}`;
+      refreshDashboard();
+      showToast(`✨ 已切换为 ${p.emoji} ${p.name}`);
+    }
+  }
+}
+
+// ===== 成就弹窗 =====
+function showAchievement(days) {
+  let titles = { 7: '一周纪念', 21: '三周成就', 30: '一个月勋章' };
+  let icons = { 7: '☀️', 21: '🏅', 30: '🏆' };
+  let msgs = {
+    7: getMsg((currentPartner && currentPartner.style) || 'gentle','milestone7'),
+    21: getMsg((currentPartner && currentPartner.style) || 'gentle','milestone21'),
+    30: getMsg((currentPartner && currentPartner.style) || 'gentle','milestone30')
+  };
+  document.getElementById('achievementIcon').textContent = icons[days] || '🏆';
+  document.getElementById('achievementTitle').textContent = titles[days] || '里程碑达成！';
+  document.getElementById('achievementDays').textContent = days + '天';
+  document.getElementById('achievementMsg').textContent = msgs[days] || '继续保持！';
+  document.getElementById('achievementOverlay').style.display = 'flex';
+  startAchievementConfetti();
+  playAchievementSound(); // 播放胜利音效
+  // 标记已展示
+  localStorage.setItem('achievement_shown_' + days, '1');
+}
+
+// 成就音效（Web Audio API）
+function playAchievementSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5 E5 G5 C6
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = freq;
+      osc.type = 'sine';
+      gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.12);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i * 0.12 + 0.3);
+      osc.start(ctx.currentTime + i * 0.12);
+      osc.stop(ctx.currentTime + i * 0.12 + 0.3);
+    });
+  } catch(e) {}
+}
+function closeAchievement() {
+  document.getElementById('achievementOverlay').style.display = 'none';
+  stopAchievementConfetti();
+}
+let achievementConfettiId = null, achievementParticles = [];
+function startAchievementConfetti() {
+  let canvas = document.getElementById('achievementConfetti');
+  let ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  let colors = ['#ff6b35','#ffd700','#9db8dd','#5ab0d8','#ff69b4','#ff4500'];
+  achievementParticles = Array.from({length:120}, () => ({
+    x: Math.random() * canvas.width, y: -20 - Math.random() * 200,
+    w: 6 + Math.random() * 8, h: 4 + Math.random() * 6,
+    color: colors[Math.floor(Math.random()*colors.length)],
+    vy: 2 + Math.random() * 4, vx: (Math.random() - 0.5) * 2,
+    rot: Math.random() * 360, vr: (Math.random() - 0.5) * 8,
+    op: 1
+  }));
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    achievementParticles.forEach(p => {
+      p.y += p.vy; p.x += p.vx; p.rot += p.vr;
+      if (p.y > canvas.height) p.op -= 0.05;
+      ctx.save(); ctx.globalAlpha = p.op; ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    });
+    achievementParticles = achievementParticles.filter(p => p.op > 0);
+    if (achievementParticles.length > 0) achievementConfettiId = requestAnimationFrame(draw);
+  }
+  draw();
+}
+function stopAchievementConfetti() {
+  if (achievementConfettiId) cancelAnimationFrame(achievementConfettiId);
+  achievementParticles = [];
+}
+
+function simpleConfetti() {
+  let canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;';
+  document.body.appendChild(canvas);
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  let ctx = canvas.getContext('2d'), particles = [];
+  for (let i = 0; i < 80; i++) {
+    particles.push({
+      x: Math.random()*canvas.width, y: Math.random()*canvas.height - canvas.height,
+      size: Math.random()*6+2, color: `hsl(${Math.random()*360},70%,60%)`,
+      speed: Math.random()*5+3
+    });
+  }
+  let anim;
+  function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let done = true;
+    for (let p of particles) {
+      p.y += p.speed;
+      if (p.y < canvas.height+50) done = false;
+      ctx.fillStyle = p.color;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill();
+    }
+    if (done) { cancelAnimationFrame(anim); document.body.removeChild(canvas); return; }
+    anim = requestAnimationFrame(draw);
+  }
+  draw();
+  setTimeout(() => { if(canvas.parentNode){cancelAnimationFrame(anim);document.body.removeChild(canvas);} }, 1500);
+}
+
+function showToast(msg, duration = 2000) {
+  let t = document.getElementById('toastMsg');
+  t.innerText = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+function previewShareCard() {
+  let url = getSiteUrl() + 'share.html';
+  let history = getHistory();
+  let continuous = history.length > 0 ? computeContinuous(history, getToday()) : 0;
+  let weight = getWeightData();
+  let change = '';
+  if (weight.length >= 2) {
+    let c = (weight[weight.length-1].value - weight[0].value).toFixed(1);
+    change = (parseFloat(c) > 0 ? '+' : '') + c + '分';
+  }
+  let partner = currentPartner ? encodeURIComponent(currentPartner.emoji + ' ' + currentPartner.name) : '';
+  let params = new URLSearchParams();
+  if (continuous > 0) params.set('days', continuous);
+  if (change) params.set('change', change);
+  if (partner) params.set('partner', partner);
+  let fullUrl = url + (params.toString() ? '?' + params.toString() : '');
+  window.open(fullUrl, '_blank');
+}
+
+// ==================== 体重模块 ====================
+function addWeight() {
+  let val = parseFloat(document.getElementById('weightInput').value);
+  if (!val || val < 1 || val > 100) { showToast('请输入有效的领导分（1~100）'); return; }
+  let data = getWeightData();
+  let today = getToday();
+  // 删除今天的旧记录（如果有）
+  data = data.filter(d => d.date !== today);
+  data.push({ date: today, value: val });
+  data.sort((a,b) => a.date.localeCompare(b.date));
+  try {
+    saveWeightData(data);
+  } catch(e) {
+    showToast('⚠️ 存储失败，请检查浏览器隐私设置');
+    return;
+  }
+  document.getElementById('weightInput').value = '';
+  showToast(`✅ 记录成功：${val}分`);
+  drawWeightChart();
+  renderWeightRecords();
+}
+
+function drawWeightChart() {
+  let canvas = document.getElementById('weightCanvas');
+  let ctx = canvas.getContext('2d');
+  let data = getWeightData().slice(-30);
+  let W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  if (data.length < 2) {
+    ctx.fillStyle = '#b7cbe8'; ctx.font = '14px system-ui';
+    ctx.textAlign = 'center'; ctx.fillText('记录2次以上即可显示曲线', W/2, H/2);
+    renderWeightStats(null);
+    return;
+  }
+  let vals = data.map(d => d.value);
+  let minV = Math.min(...vals) - 1, maxV = Math.max(...vals) + 1;
+  let toX = i => 20 + (i / (data.length - 1)) * (W - 40);
+  let toY = v => H - 30 - ((v - minV) / (maxV - minV)) * (H - 60);
+
+  // 网格
+  ctx.strokeStyle = '#f7f3e8'; ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    let y = 20 + i * (H - 50) / 4;
+    ctx.beginPath(); ctx.moveTo(20,y); ctx.lineTo(W-20,y); ctx.stroke();
+    ctx.fillStyle = '#b7cbe8'; ctx.font = '10px system-ui'; ctx.textAlign = 'right';
+    ctx.fillText((maxV - i*(maxV-minV)/4).toFixed(1), 18, y+3);
+  }
+
+  // 渐变填充
+  let grad = ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,'rgba(58,124,165,0.3)');
+  grad.addColorStop(1,'rgba(58,124,165,0)');
+  ctx.beginPath();
+  data.forEach((d,i) => { let x=toX(i),y=toY(d.value); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+  ctx.lineTo(toX(data.length-1), H-20);
+  ctx.lineTo(toX(0), H-20);
+  ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
+
+  // 线
+  ctx.beginPath();
+  data.forEach((d,i) => { let x=toX(i),y=toY(d.value); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+  ctx.strokeStyle='#2456a4'; ctx.lineWidth=2.5; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.stroke();
+
+  // 点
+  data.forEach((d,i) => {
+    let x=toX(i),y=toY(d.value);
+    ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2);
+    ctx.fillStyle='#fff'; ctx.fill(); ctx.strokeStyle='#2456a4'; ctx.lineWidth=2; ctx.stroke();
+  });
+
+  // 今天标注
+  let today = getToday();
+  let todayIdx = data.findIndex(d => d.date === today);
+  if (todayIdx >= 0) {
+    let x=toX(todayIdx),y=toY(data[todayIdx].value);
+    ctx.fillStyle='#3f6db5'; ctx.font='bold 12px system-ui'; ctx.textAlign='center';
+    ctx.fillText('今天',x,y-12);
+  }
+
+  renderWeightStats(data);
+}
+
+function renderWeightStats(data) {
+  let stats = document.getElementById('weightStats');
+  if (!data || data.length === 0) { stats.innerHTML='<div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">当前领导分</div></div><div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">本周变化</div></div><div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">总记录</div></div>'; return; }
+  let latest = data[data.length-1].value;
+  let first = data[0].value;
+  let weekData = data.filter(d => { let diff=(new Date()-new Date(d.date))/86400000; return diff<=7; });
+  let weekChange = weekData.length >= 2 ? (weekData[weekData.length-1].value - weekData[0].value) : null;
+  stats.innerHTML = `
+    <div class="wstat"><div class="wstat-num">${latest.toFixed(1)}</div><div class="wstat-label">当前(分)</div></div>
+    <div class="wstat ${weekChange!==null?(weekChange<0?'change-down':'change-up'):''}">
+      <div class="wstat-num">${weekChange!==null?(weekChange>0?'+':'')+weekChange.toFixed(1):'--'}</div>
+      <div class="wstat-label">本周(分)</div>
+    </div>
+    <div class="wstat"><div class="wstat-num">${data.length}</div><div class="wstat-label">总记录</div></div>
+  `;
+}
+
+function renderWeightPage() {
+  drawWeightChart();
+  renderWeightRecords();
+}
+
+var sopPositives = []; var sopNegatives = [];
+function renderWeeklyReport() {
+  let container = document.getElementById('weeklyReportContent');
+  if (!container) return;
+  let history = getHistory();
+  let weight = getWeightData();
+  let sop = getSOPData();
+  let streaks = getSOPStreaks();
+  let today = getToday();
+
+  // 计算本周（最近7天）
+  let now = new Date();
+  let weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+  let fmt = d => d.toISOString().slice(0,10);
+
+  let thisWeekHistory = history.filter(h => new Date(h) >= weekAgo);
+  let lastWeekStart = new Date(weekAgo); lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+  let lastWeekEnd = new Date(weekAgo); lastWeekEnd.setDate(lastWeekEnd.getDate() - 1);
+  let lastWeekHistory = history.filter(h => new Date(h) >= lastWeekStart && new Date(h) <= lastWeekEnd);
+
+  // 本周体重变化
+  let weekWeight = weight.filter(w => {
+    let d = new Date(w.date); return d >= weekAgo;
+  }).sort((a,b) => a.date.localeCompare(b.date));
+  let weekChange = null;
+  if (weekWeight.length >= 2) {
+    weekChange = (weekWeight[weekWeight.length-1].value - weekWeight[0].value).toFixed(1);
+  }
+
+  // SOP本周平均分
+  let sopThisWeek = weekAgo <= now; // 简化：本周SOP完成情况
+  let sopScore = sop.score || 0;
+  let sopDone = sop.date === today;
+
+  let items = [];
+
+  // 打卡次数
+  let thisWeekDays = thisWeekHistory.length;
+  let lastWeekDays = lastWeekHistory.length;
+  let checkinChange = thisWeekDays - lastWeekDays;
+  let checkinColor = checkinChange > 0 ? '#6c8fc9' : checkinChange < 0 ? '#ef5350' : '#888';
+  let checkinIcon = checkinChange > 0 ? '📈' : checkinChange < 0 ? '📉' : '➡️';
+  items.push(`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;">
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">🦁</span><span style="font-size:13px;color:#666;">本周打卡</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><span style="font-weight:700;font-size:15px;">${thisWeekDays}天</span><span style="font-size:12px;color:${checkinColor};">${checkinIcon} ${checkinChange > 0 ? '+' : ''}${checkinChange}天</span></div>
+  </div>`);
+
+  // 体重变化
+  if (weekChange !== null) {
+    let wc = parseFloat(weekChange);
+    let wcColor = wc < 0 ? '#6c8fc9' : wc > 0 ? '#ef5350' : '#888';
+    let wcIcon = wc < 0 ? '⬇️' : wc > 0 ? '⬆️' : '➡️';
+    items.push(`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;">
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">🔥</span><span style="font-size:13px;color:#666;">本周领导分</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><span style="font-weight:700;font-size:15px;">${wc > 0 ? '+' : ''}${weekChange}分</span><span style="font-size:12px;color:${wcColor};">${wcIcon}</span></div>
+  </div>`);
+  }
+
+  // SOP今日得分（各分类详情）
+  let sopColor = sopScore >= 60 ? '#6c8fc9' : sopScore >= 30 ? '#6c8fc9' : '#ef5350';
+  items.push(`<div style="padding:10px 0;border-bottom:1px solid #f0f0f0;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+      <span style="font-size:18px;">🎯</span>
+      <span style="font-size:13px;color:#666;">今日SOP</span>
+      <span style="font-weight:700;font-size:15px;color:${sopColor};margin-left:auto;">${sopScore}分</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+      ${SOP_CATEGORIES.map(cat => {
+        let st = streaks[cat.id] || { streak: 0 };
+        let catScore = sopScore > 0 ? Math.round(sopScore / SOP_CATEGORIES.length) : 0;
+        let catDone = sopPositives ? sopPositives.filter(p => p.cat === cat.id).length : 0;
+        let negCount = sopNegatives ? sopNegatives.filter(n => n.cat === cat.id).length : 0;
+        let doneTotal = (catDone || 0) - (negCount || 0);
+        let statusColor = doneTotal >= 3 ? '#6c8fc9' : doneTotal >= 1 ? '#6c8fc9' : '#ef5350';
+        return `<div style="background:${cat.color}18;border-radius:10px;padding:8px 6px;text-align:center;">
+          <div style="font-size:16px;">${cat.icon}</div>
+          <div style="font-size:10px;color:${cat.color};font-weight:600;">${cat.name}</div>
+          <div style="font-size:11px;color:#666;margin-top:2px;">${doneTotal >= 0 ? '+' : ''}${doneTotal}项</div>
+          ${st.streak > 0 ? `<div style="font-size:10px;color:${cat.color};margin-top:2px;">☀️${st.streak}天</div>` : `<div style="font-size:10px;color:#ccc;margin-top:2px;">坚持?</div>`}
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`);
+
+  // 综合评价
+  let goodCount = thisWeekDays + (weekChange !== null && parseFloat(weekChange) <= 0 ? 1 : 0) + (sopScore >= 60 ? 1 : 0);
+  let evalIcon = ['😔', '😐', '👍', '😊', '🎉'][Math.min(goodCount, 4)];
+  let evalText = ['需加油', '一般', '还不错', '很好', '太棒了'][Math.min(goodCount, 4)];
+  items.push(`<div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 0;margin-top:8px;background:#fdfeff;border-radius:12px;">
+    <span style="font-size:20px;">${evalIcon}</span>
+    <span style="font-size:14px;font-weight:600;color:#333;">本周综合评价：</span>
+    <span style="font-size:14px;font-weight:700;color:#6c8fc9;">${evalText}</span>
+  </div>`);
+
+  container.innerHTML = items.join('');
+  // 显示分享按钮（有本周数据才显示）
+  let btn = document.getElementById('shareWeeklyBtn');
+  if (btn && thisWeekDays > 0) btn.style.display = 'block';
+}
+
+// 分享本周进展（生成小红图）
+function shareWeeklyReport() {
+  let history = getHistory();
+  let weight = getWeightData();
+  let sop = getSOPData();
+  let now = new Date();
+  let weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+  let thisWeekHistory = history.filter(h => new Date(h) >= weekAgo);
+  let weekWeight = weight.filter(w => { let d = new Date(w.date); return d >= weekAgo; }).sort((a,b) => a.date.localeCompare(b.date));
+  let weekChange = weekWeight.length >= 2 ? (weekWeight[weekWeight.length-1].value - weekWeight[0].value).toFixed(1) : null;
+  let sopScore = sop.score || 0;
+  let continuous = computeContinuous(getHistory(), getToday());
+  let targetWeight = localStorage.getItem(STORAGE.TARGET_WEIGHT) || '80';
+  let partnerName = currentPartner ? currentPartner.name : '搭子';
+
+  // 创建Canvas
+  let canvas = document.createElement('canvas');
+  canvas.width = 750; canvas.height = 1000;
+  let ctx = canvas.getContext('2d');
+
+  // 背景渐变
+  let grad = ctx.createLinearGradient(0, 0, 750, 1000);
+  grad.addColorStop(0, '#9db8dd');
+  grad.addColorStop(1, '#4a74ba');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 750, 1000);
+
+  // 标题
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 48px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('🧭 领导力搭子', 375, 100);
+  ctx.font = '32px sans-serif';
+  ctx.fillText('本周进展报告', 375, 160);
+
+  // 白色卡片
+  ctx.fillStyle = 'white';
+  roundRect(ctx, 50, 200, 650, 700, 30);
+  ctx.fill();
+
+  let y = 280;
+  let items2 = [];
+
+  // 连续天数
+  ctx.fillStyle = '#333';
+  ctx.font = 'bold 56px sans-serif';
+  ctx.fillText('☀️ ' + continuous + '天', 375, y += 80);
+  ctx.font = '28px sans-serif';
+  ctx.fillStyle = '#666';
+  ctx.fillText('连续打卡', 375, y += 50);
+
+  // 打卡天数
+  ctx.font = 'bold 48px sans-serif';
+  ctx.fillStyle = '#9db8dd';
+  ctx.fillText('📅 ' + thisWeekHistory.length + '天', 375, y += 100);
+  ctx.font = '28px sans-serif';
+  ctx.fillStyle = '#666';
+  ctx.fillText('本周打卡次数', 375, y += 50);
+
+  // 体重变化
+  if (weekChange !== null) {
+    let wc = parseFloat(weekChange);
+    ctx.font = 'bold 48px sans-serif';
+    ctx.fillStyle = wc < 0 ? '#6c8fc9' : '#ef5350';
+    ctx.fillText((wc > 0 ? '⬆️ +' : '⬇️ ') + weekChange + '分', 375, y += 100);
+    ctx.font = '28px sans-serif';
+    ctx.fillStyle = '#666';
+    ctx.fillText('本周领导分变化', 375, y += 50);
+  }
+
+  // SOP得分
+  ctx.font = 'bold 48px sans-serif';
+  ctx.fillStyle = sopScore >= 60 ? '#6c8fc9' : sopScore >= 30 ? '#6c8fc9' : '#ef5350';
+  ctx.fillText('🎯 ' + sopScore + '分', 375, y += 100);
+  ctx.font = '28px sans-serif';
+  ctx.fillStyle = '#666';
+  ctx.fillText('今日SOP得分', 375, y += 50);
+
+  // 底部邀请
+  ctx.fillStyle = '#9db8dd';
+  roundRect(ctx, 100, 850, 550, 100, 50);
+  ctx.fill();
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 32px sans-serif';
+  ctx.fillText('👾 和' + partnerName + '一起加油！', 375, 910);
+
+  // 生成图片
+  let dataUrl = canvas.toDataURL('image/png');
+  let link = document.createElement('a');
+  link.download = '领导力搭子-本周进展.png';
+  link.href = dataUrl;
+  link.click();
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function renderWeightRecords() {
+  let el = document.getElementById('weightRecords');
+  let data = getWeightData().slice().reverse().slice(0,10);
+  if (data.length === 0) { el.innerHTML = '<div style="text-align:center;color:#b7cbe8;font-size:13px;padding:20px;">还没有记录，开始记录第一条吧</div>'; return; }
+  el.innerHTML = data.map((d,i) => {
+    let prev = data[i+1];
+    let change = prev ? (d.value - prev.value) : 0;
+    let cls = change < 0 ? 'down' : change > 0 ? 'up' : '';
+    let sign = change > 0 ? '+' : '';
+    let dateStr = d.date === getToday() ? '今天' : d.date.slice(5);
+    return `<div class="record-item"><span class="record-date">${dateStr}</span><span><span class="record-val">${d.value.toFixed(1)}</span><span class="record-change ${cls}">${prev ? sign+change.toFixed(1)+'分' : ''}</span></span></div>`;
+  }).join('');
+}
+
+// ==================== SOP 游戏模块 ====================
+const SOP_CATEGORIES = [
+  { id: 'juecha', name: '觉察', icon: '🪞', color: '#2456a4',
+    tips: '自我觉察是领导力的第一特质。你先看见自己，才谈得上管理别人。',
+    items: [
+      { text: '觉察到了一次情绪触发点，没有发作', pts: 16 },
+      { text: '决策前写下预设，问了一句「我可能错在哪」', pts: 14 },
+      { text: '主动问了一次「别人怎么看我的行为」', pts: 12 },
+      { text: '情绪上头时暂停了十秒再开口', pts: 12 },
+      { text: '睡前复盘了今天一个判断的对错', pts: 12 }
+    ]
+  },
+  { id: 'tongli', name: '同理', icon: '❤️', color: '#3f6db5',
+    tips: '先听懂，再带路。打断是最廉价的否定，复述是最便宜的同理。',
+    items: [
+      { text: '听完了对方的完整表达，没打断', pts: 16 },
+      { text: '复述对方观点，确认理解无误', pts: 14 },
+      { text: '站对方立场问了一次「他为什么这么想」', pts: 12 },
+      { text: '对不同意见，先找到合理的那部分', pts: 12 },
+      { text: '记住了一位同事的近况与难处', pts: 12 }
+    ]
+  },
+  { id: 'biaozhun', name: '标准', icon: '📏', color: '#6c8fc9',
+    tips: '没有标准的期待就是埋雷。要求别人的，自己先做到。',
+    items: [
+      { text: '为一件工作明确了可验收的标准', pts: 16 },
+      { text: '自己先做到了要求别人的标准', pts: 14 },
+      { text: '拒绝了一次和稀泥', pts: 12 },
+      { text: '把模糊要求写成了可验收的条款', pts: 12 },
+      { text: '对低于标准的结果给了反馈', pts: 12 }
+    ]
+  },
+  { id: 'chengjiu', name: '成就', icon: '🤲', color: '#4a74ba',
+    tips: '你带出多少强人，你就有多强。成就他人是最深的领导力。',
+    items: [
+      { text: '给了一条「行为+影响」的具体反馈', pts: 16 },
+      { text: '授权了一件原来自己干的事', pts: 14 },
+      { text: '帮一个人看清了他的优势', pts: 12 },
+      { text: '把功劳归给了做事的人', pts: 12 },
+      { text: '花时间带教或辅导了一次', pts: 12 }
+    ]
+  },
+  { id: 'jujiao', name: '聚焦', icon: '🎯', color: '#2c5a9e',
+    tips: '聚焦问题，创造价值。管理者的时间是团队最贵的资源。',
+    items: [
+      { text: '砍掉了一个伪问题或伪需求', pts: 16 },
+      { text: '大部分时间花在最重要的一件事上', pts: 14 },
+      { text: '开会砍掉了至少一个议题', pts: 12 },
+      { text: '拒绝了一次不创造价值的忙碌', pts: 12 },
+      { text: '问了一次「这件事背后的问题是什么」', pts: 12 }
+    ]
+  },
+  { id: 'fupan', name: '复盘', icon: '🔄', color: '#0d2f66',
+    tips: '复盘是对经验征税。不交税的经验，永远变不成能力。',
+    items: [
+      { text: '复盘了一次得失，写下一条改进', pts: 16 },
+      { text: '把失败归因到流程而不是人', pts: 14 },
+      { text: '更新了一个流程或检查清单', pts: 12 },
+      { text: '向上或向外同步了一次进展', pts: 12 },
+      { text: '睡前为明天定了一个优先级', pts: 12 }
+    ]
+  }
+];
+let sopScore = 0, sopCatIdx = 0;
+let sopSelected = {}; // catId -> array of item indices
+let sopDone = false;
+let sopSubmittedCats = []; // 已确认过小结的维度 ID 列表
+
+function initSOP() {
+  let d = getSOPData();
+  let today = getToday();
+  if (d.date !== today) {
+    sopScore = 0;
+    sopSelected = {};
+    sopDone = false;
+    sopSubmittedCats = [];
+  } else {
+    sopScore = d.score || 0;
+    sopSelected = d.selected || {};
+    sopDone = d.done || false;
+    sopSubmittedCats = d.submittedCats || [];
+  }
+  updateSOPDisplay();
+  renderSOPCats();
+  renderSOPTips();
+  if (sopDone) {
+    renderSOPDoneState();
+  } else {
+    renderSOPList(); // 始终渲染卡片内容，引导遮罩浮在上方
+    if (!localStorage.getItem('sop_guide_shown')) {
+      showSOPGuideOverlay();
+    }
+  }
+}
+
+function showSOPGuideOverlay() {
+  let overlay = document.createElement('div');
+  overlay.id = 'sopGuideOverlay';
+  overlay.style.cssText = 'position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.88);border-radius:24px;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;';
+  overlay.innerHTML = `
+    <div style="text-align:center;max-width:320px;">
+      <div style="font-size:56px;margin-bottom:16px;">👆</div>
+      <div style="color:white;font-size:18px;font-weight:700;margin-bottom:12px;">领导力六维 · 复盘</div>
+      <div style="color:rgba(255,255,255,0.8);font-size:14px;line-height:1.8;margin-bottom:20px;text-align:left;">
+        <div style="margin-bottom:10px;">📋 每个维度逐项核对，<span style="color:#6c8fc9;font-weight:700;">勾选今天做到的</span>：</div>
+        <div style="margin-bottom:8px;">✅ <span style="color:#6c8fc9;font-weight:700;">绿色勾选</span> = 今天做到了</div>
+        <div style="margin-bottom:8px;">❌ <span style="color:#ef5350;font-weight:700;">红色取消</span> = 没做到/有问题</div>
+        <div style="margin-top:16px;color:rgba(255,255,255,0.6);font-size:12px;">点击选项即可打分，全部完成解锁成就 🎉</div>
+      </div>
+      <button onclick="closeSOPGuide()" style="background:#9db8dd;color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;margin-top:4px;">我知道了，开始！</button>
+    </div>
+  `;
+  document.querySelector('.sop-page').style.position = 'relative';
+  document.querySelector('.sop-page').appendChild(overlay);
+  autoCloseSOPGuide();
+}
+
+function closeSOPGuide() {
+  localStorage.setItem('sop_guide_shown', '1');
+  let overlay = document.getElementById('sopGuideOverlay');
+  if (overlay) overlay.remove();
+  renderSOPList();
+}
+
+// 自动关闭 SOP 引导遮罩（5秒后）
+let sopGuideTimer = null;
+function autoCloseSOPGuide() {
+  sopGuideTimer = setTimeout(() => {
+    let overlay = document.getElementById('sopGuideOverlay');
+    if (overlay) { closeSOPGuide(); }
+  }, 5000);
+}
+
+function getCatSelected(catId) {
+  return sopSelected[catId] || {};
+}
+
+function getCatDoneCount(catId) {
+  let selected = getCatSelected(catId);
+  return Object.keys(selected).length;
+}
+
+function renderSOPCats() {
+  let tabs = document.getElementById('sopCatTabs');
+  tabs.innerHTML = SOP_CATEGORIES.map((c, i) => {
+    let doneCount = getCatDoneCount(c.id);
+    let totalCount = c.items.length;
+    let allDone = doneCount >= totalCount;
+    let dot = allDone
+      ? `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#6c8fc9;margin-left:4px;vertical-align:middle;"></span>`
+      : doneCount > 0
+      ? `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#6c8fc9;margin-left:4px;vertical-align:middle;"></span>`
+      : '';
+    return `<button class="sop-cat-tab${i===sopCatIdx?' active':''}" onclick="switchSOPCat(${i})">${c.icon} ${c.name}${dot}</button>`;
+  }).join('');
+}
+
+function switchSOPCat(idx) {
+  if (sopDone) return;
+  sopCatIdx = idx;
+  renderSOPCats();
+  renderSOPTips();
+  renderSOPList();
+}
+
+function renderSOPTips() {
+  document.getElementById('sopTipText').innerText = SOP_CATEGORIES[sopCatIdx].tips;
+}
+
+function renderSOPList() {
+  let card = document.getElementById('sopGameCard');
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  let selected = getCatSelected(cat.id);
+  let doneCount = Object.keys(selected).length;
+  let totalCount = cat.items.length;
+  let allAnswered = doneCount >= totalCount;
+
+  // 分类进度
+  let pct = Math.min(100, (doneCount / totalCount) * 100);
+  let progressFill = `<div class="sop-cat-progress-fill" style="width:${pct}%;background:${cat.color}"></div>`;
+
+  // 如果该分类全部回答完了 → 显示总结
+  if (allAnswered) {
+    let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+    // 生成客观反馈和鼓励语
+    let yesCount = Object.values(selected).filter(v => v === 'yes').length;
+    let noCount = totalCount - yesCount;
+    // 归一化为百分比（与 showSOPFinish / showCatSummary 保持一致）
+    let catScore = Math.round((yesCount / totalCount) * 100);
+    let feedback = '';
+    if (yesCount === totalCount) {
+      feedback = streak > 0 ? `太棒了！${cat.name}满分保持中，坚持${streak}天！🌟` : `完美！${cat.name}全部做到，给自己点赞！💯`;
+    } else if (yesCount >= totalCount * 0.7) {
+      feedback = `${cat.name}做得不错！${noCount > 0 ? `还有${noCount}项可以加强，继续保持！` : `继续保持这个状态！`}💪`;
+    } else if (yesCount >= totalCount * 0.5) {
+      feedback = `${cat.name}有进步空间哦，${yesCount}项做到，继续加油！🌿`;
+    } else {
+      feedback = `${cat.name}今天有点困难没关系，明天重新开始！不要放弃！☀️`;
+    }
+    
+    card.innerHTML = `
+      <div class="sop-cat-progress" style="margin-bottom:12px;">
+        <span style="font-size:18px;">${cat.icon}</span>
+        <span style="font-weight:700;color:${cat.color};">${cat.name}</span>
+        <div class="sop-cat-progress-bar">${progressFill}</div>
+        <span style="font-size:11px;color:#b7cbe8;">完成 ✅</span>
+      </div>
+      <div class="sop-cat-summary">
+        <div class="sop-cat-summary-icon">${cat.icon}</div>
+        <div class="sop-cat-summary-title">${cat.name} · 复盘完成</div>
+        <div style="font-size:24px;font-weight:800;color:${cat.color};margin-top:8px;">${catScore}分</div>
+        <div style="font-size:12px;color:#b7cbe8;margin-top:4px;">做到了 ${yesCount} 项 · 需注意 ${noCount} 项</div>
+        <div style="margin-top:12px;padding:12px;background:linear-gradient(135deg, ${cat.color}11, ${cat.color}22);border-radius:12px;font-size:13px;color:#555;line-height:1.6;">${feedback}</div>
+        ${streak > 0 ? `<div style="margin-top:10px;font-size:13px;color:${cat.color};font-weight:700;">☀️ 已坚持 ${streak} 天</div>` : ''}
+      </div>
+    `;
+    return;
+  }
+
+  // 渲染清单列表
+  let listItems = cat.items.map((item, idx) => {
+    let state = selected[idx]; // undefined | 'yes' | 'no'
+    let yesClass = state === 'yes' ? 'sop-item-yes' : '';
+    let noClass = state === 'no' ? 'sop-item-no' : '';
+    let yesBtnClass = state === 'yes' ? 'sop-check-btn yes-checked' : 'sop-check-btn';
+    let noBtnClass = state === 'no' ? 'sop-check-btn no-checked' : 'sop-check-btn';
+    
+    return `
+      <div class="sop-item ${yesClass} ${noClass}" data-idx="${idx}">
+        <div class="sop-item-text">${item.text}</div>
+        <div class="sop-item-btns">
+          <button class="${yesBtnClass}" onclick="toggleSOPItem(${idx}, 'yes')">
+            <span>✅</span><span>做到了</span>
+          </button>
+          <button class="${noBtnClass}" onclick="toggleSOPItem(${idx}, 'no')">
+            <span>❌</span><span>没做到</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  card.innerHTML = `
+    <div class="sop-cat-progress" style="margin-bottom:16px;">
+      <span style="font-size:18px;">${cat.icon}</span>
+      <span style="font-weight:700;color:${cat.color};">${cat.name}</span>
+      <div class="sop-cat-progress-bar">${progressFill}</div>
+      <span style="font-size:11px;color:#b7cbe8;">${doneCount}/${totalCount}</span>
+    </div>
+    <div class="sop-list-container">
+      ${listItems}
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <div style="font-size:12px;color:#b7cbe8;margin-bottom:8px;">点击上方选项确认，每项可单独打分</div>
+      ${doneCount > 0 ? `<button onclick="submitSOPCat()" style="background:${cat.color};color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;">确认本维度 ✓</button>` : ''}
+    </div>
+  `;
+}
+
+function toggleSOPItem(idx, state) {
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  if (!sopSelected[cat.id]) sopSelected[cat.id] = {};
+  
+  if (sopSelected[cat.id][idx] === state) {
+    // 取消选择
+    delete sopSelected[cat.id][idx];
+  } else {
+    // 选择该状态
+    sopSelected[cat.id][idx] = state;
+  }
+  
+  renderSOPList();
+}
+
+function submitSOPCat() {
+  let cat = SOP_CATEGORIES[sopCatIdx];
+  let selected = sopSelected[cat.id] || {};
+  let yesCount = 0, totalItems = cat.items.length;
+
+  cat.items.forEach((item, idx) => {
+    if (selected[idx] === 'yes') yesCount++;
+  });
+
+  // 计算本维度得分（归一化为百分比）
+  let catScore = Math.round((yesCount / totalItems) * 100);
+
+  // 统计全局 yes 数和总题数，计算归一化总分
+  let totalYes = 0, totalItemsAll = 0;
+  SOP_CATEGORIES.forEach(c => {
+    let sel = sopSelected[c.id] || {};
+    c.items.forEach((item, idx) => {
+      totalItemsAll++;
+      if (sel[idx] === 'yes') totalYes++;
+    });
+  });
+  sopScore = Math.round((totalYes / totalItemsAll) * 100);
+
+  // 标记当前维度已确认
+  if (!sopSubmittedCats.includes(cat.id)) {
+    sopSubmittedCats.push(cat.id);
+  }
+
+  // 检查是否所有维度都确认了
+  let allDone = sopSubmittedCats.length >= SOP_CATEGORIES.length;
+
+  updateSOPDisplay();
+  renderSOPCats();
+
+  if (allDone) {
+    if (!sopDone) {
+      sopDone = true;
+      saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: getToday(), submittedCats: sopSubmittedCats });
+      saveSOPToHistory({ date: getToday(), score: sopScore, selected: sopSelected });
+      setTimeout(() => showSOPFinish(), 300);
+    }
+  } else {
+    saveSOPData({ score: sopScore, selected: sopSelected, done: sopDone, date: getToday(), submittedCats: sopSubmittedCats });
+    setTimeout(() => { showCatSummary(cat, selected, catScore); }, 200);
+    let nextCat = SOP_CATEGORIES.findIndex((c, i) => {
+      if (i <= sopCatIdx) return false;
+      return !sopSubmittedCats.includes(c.id);
+    });
+    if (nextCat >= 0) {
+      setTimeout(() => {
+        sopCatIdx = nextCat;
+        renderSOPCats();
+        renderSOPTips();
+        renderSOPList();
+      }, 3000);
+    } else {
+      renderSOPList();
+    }
+  }
+}
+
+
+
+function renderSOPDoneState() {
+  let card = document.getElementById('sopGameCard');
+  let score = Math.max(0, Math.min(100, sopScore));
+  let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌿' : '😊';
+  let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
+  
+  let totalItems = 0, doneItems = 0, yesItems = 0;
+  SOP_CATEGORIES.forEach(cat => {
+    totalItems += cat.items.length;
+    let sel = sopSelected[cat.id] || {};
+    Object.keys(sel).forEach(idx => {
+      doneItems++;
+      if (sel[idx] === 'yes') yesItems++;
+    });
+  });
+
+  let streaks = getSOPStreaks();
+  let catDetails = SOP_CATEGORIES.map(cat => {
+    let sel = sopSelected[cat.id] || {};
+    let catYes = 0, catNo = 0;
+    cat.items.forEach((item, idx) => {
+      let state = sel[idx];
+      if (state === 'yes') catYes++;
+      else if (state === 'no') catNo++;
+    });
+    let pct = Math.round((catYes / cat.items.length) * 100);
+    let st = streaks[cat.id] || { streak: 0 };
+    let fb = getCatFeedbackMsg(cat, catYes, catNo, cat.items.length, st.streak);
+    return `<div class="sf-cat-row">
+      <span class="sf-cat-icon">${cat.icon}</span>
+      <span class="sf-cat-name">${cat.name} <span style="font-size:11px;color:${cat.color};font-weight:bold;">${pct}%</span></span>
+      <span class="sf-cat-yes">+${catYes}</span>
+      <span class="sf-cat-no">-${catNo}</span>
+      ${st.streak > 0 ? `<span class="sf-cat-streak">☀️${st.streak}天</span>` : ''}
+    </div>
+    <div style="font-size:11px;color:#555;padding:4px 12px 10px;line-height:1.6;">${fb.summary}</div>`;
+  }).join('');
+
+  card.innerHTML = `
+    <div style="padding:20px 0 12px;">
+      <div style="text-align:center;margin-bottom:16px;">
+        <div style="font-size:52px;margin-bottom:8px;">${emoji}</div>
+        <div style="font-size:20px;font-weight:800;color:#0d2f66;margin-bottom:4px;">${title}</div>
+        <div style="font-size:12px;color:#b7cbe8;">今日复盘已完成 · 明天0点重置</div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:20px;margin-bottom:16px;">
+        <div style="text-align:center;">
+          <div style="font-size:26px;font-weight:800;color:#2456a4;">${score}%</div>
+          <div style="font-size:11px;color:#b7cbe8;">今日得分</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:26px;font-weight:800;color:#3f6db5;">${yesItems}</div>
+          <div style="font-size:11px;color:#b7cbe8;">做到了</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:26px;font-weight:800;color:#ef5350;">${doneItems - yesItems}</div>
+          <div style="font-size:11px;color:#b7cbe8;">需注意</div>
+        </div>
+      </div>
+      <div style="font-size:12px;font-weight:600;color:#2456a4;padding:0 12px 6px;">📊 各维度总结</div>
+      <div style="padding:0 4px;">${catDetails}</div>
+      <div style="text-align:center;font-size:11px;color:#b7cbe8;margin-top:12px;">🌙 明天0点自动重置</div>
+    </div>
+  `;
+  document.getElementById('sopCatTabs').style.display = 'none';
+}
+
+function updateSOPDisplay() {
+  let maxScore = 100;
+  let displayScore = Math.max(0, Math.min(maxScore, sopScore));
+  document.getElementById('sopScore').innerText = displayScore;
+  
+  // 统计完成情况
+  let totalItems = 0, doneItems = 0, yesItems = 0;
+  SOP_CATEGORIES.forEach(cat => {
+    totalItems += cat.items.length;
+    let sel = sopSelected[cat.id] || {};
+    Object.keys(sel).forEach(idx => {
+      doneItems++;
+      if (sel[idx] === 'yes') yesItems++;
+    });
+  });
+  
+  document.getElementById('sopPosCount').innerText = yesItems;
+  document.getElementById('sopNegCount').innerText = doneItems - yesItems;
+  let pct = Math.max(0, Math.min(100, (displayScore / maxScore) * 100));
+  let bar = document.getElementById('sopScoreBar');
+  let ptext = document.getElementById('sopProgressText');
+  if (bar) {
+    bar.style.width = pct + '%';
+    bar.style.background = pct >= 60 ? 'linear-gradient(90deg, #6c8fc9, #e6c229)' : pct >= 30 ? 'linear-gradient(90deg, #6c8fc9, #ffc107)' : pct > 0 ? 'linear-gradient(90deg, #ef5350, #ff7043)' : '#e0e0e0';
+  }
+  if (ptext) ptext.innerText = displayScore + ' / ' + maxScore;
+}
+
+
+
+// ===== 今日完成弹窗 =====
+function showSOPFinish() {
+  let score = Math.max(0, Math.min(100, sopScore));
+  let totalYes = 0, totalNo = 0;
+  SOP_CATEGORIES.forEach(cat => {
+    let sel = sopSelected[cat.id] || {};
+    cat.items.forEach((item, idx) => {
+      let state = sel[idx];
+      if (state === 'yes') totalYes++;
+      else if (state === 'no') totalNo++;
+    });
+    let catYes = Object.values(sel).filter(v => v === 'yes').length;
+    updateSOPCatStreak(cat.id, catYes);
+  });
+  let streaks = getSOPStreaks();
+  let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌿' : '😊';
+  let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
+
+  // 各维度总结
+  let catRows = SOP_CATEGORIES.map(cat => {
+    let st = streaks[cat.id] || { streak: 0 };
+    let sel = sopSelected[cat.id] || {};
+    let catYes = 0, catNo = 0;
+    cat.items.forEach((item, idx) => {
+      let state = sel[idx];
+      if (state === 'yes') catYes++;
+      else if (state === 'no') catNo++;
+    });
+    let pct = Math.round((catYes / cat.items.length) * 100);
+    let fb = getCatFeedbackMsg(cat, catYes, catNo, cat.items.length, st.streak);
+    return `<div class="sf-cat-row">
+      <span class="sf-cat-icon">${cat.icon}</span>
+      <span class="sf-cat-name">${cat.name} <span style="font-size:11px;color:${cat.color};font-weight:bold;">${pct}%</span></span>
+      <span class="sf-cat-yes">+${catYes}</span>
+      <span class="sf-cat-no">-${catNo}</span>
+      ${st.streak > 0 ? `<span class="sf-cat-streak">☀️${st.streak}天</span>` : ''}
+    </div>
+    <div style="font-size:11px;color:#555;padding:4px 12px 10px;line-height:1.6;">${fb.summary}</div>`;
+  }).join('');
+
+  // 历史对比（最近7天）
+  let history = getSOPHistory();
+  let today = getToday();
+  let recent7 = [];
+  for (let i = 6; i >= 0; i--) {
+    let d = new Date();
+    d.setDate(d.getDate() - i);
+    let dateStr = d.toISOString().slice(0, 10);
+    let dayLabel = (i === 0) ? '今天' : (d.getMonth() + 1) + '/' + d.getDate();
+    let hRecord = history.find(h => h.date === dateStr);
+    recent7.push({ date: dateStr, label: dayLabel, score: hRecord ? hRecord.score : null, isToday: i === 0 });
+  }
+
+  let trendIcon = '', trendText = '', trendColor = '#bda87a';
+  if (recent7[6].score !== null && recent7[5].score !== null) {
+    let diff = recent7[6].score - recent7[5].score;
+    if (diff > 0) { trendIcon = '📈'; trendText = '较昨日+' + diff; trendColor = '#3f6db5'; }
+    else if (diff < 0) { trendIcon = '📉'; trendText = '较昨日' + diff; trendColor = '#ef5350'; }
+    else { trendIcon = '➡️'; trendText = '与昨日持平'; trendColor = '#bda87a'; }
+  }
+
+  let validScores = recent7.filter(d => d.score !== null).map(d => d.score);
+  let maxS = validScores.length ? Math.max(...validScores) : 100;
+  let minS = validScores.length ? Math.min(...validScores) : 0;
+  let range = Math.max(maxS - minS, 20);
+
+  let histBars = recent7.map(d => {
+    let h = d.score !== null ? Math.max(20, Math.round(((d.score - minS) / range) * 40) + 20) : 8;
+    let bg = d.score !== null ? (d.score >= 80 ? '#3f6db5' : d.score >= 50 ? '#6c8fc9' : '#ef5350') : '#e0e0e0';
+    let op = d.isToday ? 1 : (d.score !== null ? 0.85 : 0.3);
+    let scoreLabel = d.score !== null ? d.score + '%' : '-';
+    return `<div class="sf-hist-day">
+      <div class="sf-hist-bar-wrap"><div class="sf-hist-bar" style="height:${h}px;background:${bg};opacity:${op};"></div></div>
+      <div class="sf-hist-label" style="font-weight:${d.isToday?'700':'400'};color:${d.isToday?'#2456a4':'#bda87a'};">${d.label}</div>
+      <div class="sf-hist-score" style="color:${d.score!==null?(d.score>=80?'#3f6db5':d.score>=50?'#6c8fc9':'#ef5350'):'#ccc'};">${scoreLabel}</div>
+    </div>`;
+  }).join('');
+
+  let overlay = document.getElementById('sopFinishOverlay');
+  overlay.innerHTML = `
+    <div class="sop-finish-card">
+      <div class="sf-header">
+        <span class="sf-emoji">${emoji}</span>
+        <div class="sf-title">${title}</div>
+        <div class="sf-subtitle">今日复盘已完成 · 明天0点重置</div>
+      </div>
+      <div class="sf-stats">
+        <div class="sf-stat sf-stat-yes">
+          <div class="sf-stat-num">${totalYes}</div>
+          <div class="sf-stat-label">做到了</div>
+        </div>
+        <div class="sf-stat sf-stat-center">
+          <div class="sf-stat-num">${score}%</div>
+          <div class="sf-stat-label">今日得分</div>
+        </div>
+        <div class="sf-stat sf-stat-no">
+          <div class="sf-stat-num">${totalNo}</div>
+          <div class="sf-stat-label">需注意</div>
+        </div>
+      </div>
+      <div class="sf-divider"></div>
+      <div class="sf-cat-title">📊 各维度总结</div>
+      <div class="sf-cats">${catRows}</div>
+      <div class="sf-divider"></div>
+      <div class="sf-hist-header">
+        <span class="sf-cat-title">📈 历史对比</span>
+        ${trendIcon ? `<span style="font-size:11px;color:${trendColor};font-weight:600;">${trendIcon} ${trendText}</span>` : ''}
+      </div>
+      <div class="sf-history">${histBars}</div>
+      <div class="sf-note">🌙 明天0点自动重置</div>
+      <button onclick="closeSOPFinish()" class="sf-btn">V 知道了</button>
+    </div>
+  `;
+  overlay.classList.add('show');
+  sopDone = true;
+  saveSOPData({ score: sopScore, selected: sopSelected, done: true, date: today });
+  saveSOPToHistory({ date: today, score: score, totalYes: totalYes, totalNo: totalNo });
+}
+
+function closeSOPFinish() {
+  document.getElementById('sopFinishOverlay').classList.remove('show');
+}
+
+// 生成维度鼓励语
+function getCatFeedbackMsg(cat, yesCount, noCount, total, streak) {
+  let pct = Math.round((yesCount / total) * 100);
+  let emoji, summary;
+  if (pct === 100) {
+    emoji = '🌟';
+    summary = streak > 0
+      ? `太棒了！满分保持中，坚持${streak}天！✨`
+      : `满分！${cat.name}全部做到，继续保持！💯`;
+  } else if (pct >= 70) {
+    emoji = '💪';
+    summary = streak > 0
+      ? `做得不错！坚持${streak}天，继续保持！`
+      : `做得不错！还有${noCount}项可以加强，继续保持！💪`;
+  } else if (pct >= 50) {
+    emoji = '🌿';
+    summary = `有进步空间，${yesCount}项做到，继续加油！`;
+  } else {
+    emoji = '☀️';
+    summary = `今天有点困难没关系，不要放弃！明天重新开始！`;
+  }
+  return { emoji, summary };
+}
+
+// 显示单维度小结弹窗
+function showCatSummary(cat, selected, catScore) {
+  let yesCount = Object.values(selected).filter(v => v === 'yes').length;
+  let noCount = cat.items.length - yesCount;
+  let total = cat.items.length;
+  let pct = Math.round((yesCount / total) * 100);
+  let streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
+  let { emoji, summary } = getCatFeedbackMsg(cat, yesCount, noCount, total, streak);
+  let overlay = document.getElementById('catSummaryOverlay');
+  let isLast = sopSubmittedCats.length >= SOP_CATEGORIES.length;
+  overlay.innerHTML = `
+    <div class="sop-finish-card">
+      <div class="sf-cat-header">
+        <span class="sf-cat-emoji">${emoji}</span>
+        <div class="sf-cat-subtitle" style="color:${cat.color};">${cat.icon} ${cat.name}</div>
+        <div class="sf-score-pct" style="color:${cat.color};">${pct}%</div>
+        <div class="sf-subtitle">${yesCount} / ${total} 项完成</div>
+      </div>
+      <div class="sf-feedback">${summary}</div>
+      <button onclick="closeCatSummary()" class="sf-btn-cat">✅ ${isLast ? '查看今日总结' : '继续下一个维度'}</button>
+    </div>
+  `;
+  overlay.classList.add('show');
+}
+
+function closeCatSummary() {
+  document.getElementById('catSummaryOverlay').classList.remove('show');
+  if (sopSubmittedCats.length >= SOP_CATEGORIES.length) {
+    setTimeout(() => showSOPFinish(), 500);
+  } else {
+    let nextCat = SOP_CATEGORIES.findIndex(c => !sopSubmittedCats.includes(c.id));
+    if (nextCat >= 0) {
+      sopCatIdx = nextCat;
+      renderSOPCats();
+      renderSOPTips();
+      renderSOPList();
+      showSOPGuideOverlay();
+    }
+  }
+}
+
+// ==================== 进展页面 ====================
+function renderProgress() {
+  const sopKey = STORAGE.SOP + '_history';
+  const history = JSON.parse(localStorage.getItem(sopKey) || '[]');
+  const checkinHistory = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
+  const totalDays = checkinHistory.length;
+  const streak = getStreak();
+
+  // 平均得分（归一化为百分比）
+  const avgScore = history.length > 0
+    ? Math.round(history.reduce((s, h) => s + (h.score || 0), 0) / history.length)
+    : 0;
+
+  // 今日得分
+  const today = new Date().toISOString().slice(0, 10);
+  const todayRecord = history.find(h => h.date === today);
+  const todayScore = todayRecord ? todayRecord.score + '%' : '-';
+
+  // 圆环动画
+  const circumference = 2 * Math.PI * 54;
+  const offset = circumference - (avgScore / 100) * circumference;
+  const ringEl = document.getElementById('ringFill');
+  const pctEl = document.getElementById('ringPct');
+  if (ringEl) ringEl.setAttribute('stroke-dashoffset', offset);
+  if (pctEl) pctEl.textContent = avgScore + '%';
+
+  const streakEl = document.getElementById('progStreakNum');
+  const totalEl = document.getElementById('progTotalDays');
+  const todayEl = document.getElementById('progTodayScore');
+  if (streakEl) streakEl.textContent = streak;
+  if (totalEl) totalEl.textContent = totalDays;
+  if (todayEl) todayEl.textContent = todayScore;
+
+  // 各维度得分
+  const dimsEl = document.getElementById('progDims');
+  if (dimsEl && SOP_CATEGORIES) {
+    dimsEl.innerHTML = SOP_CATEGORIES.map(cat => {
+      const catAvg = history.length > 0
+        ? Math.round(history.reduce((s, h) => {
+            const sel = (h.selected && h.selected[cat.id]) || {};
+            const yes = Object.values(sel).filter(v => v === 'yes').length;
+            return s + (yes / cat.items.length * 100);
+          }, 0) / history.length)
+        : 0;
+      const fill = Math.round(catAvg);
+      return `<div style="display:flex;align-items:center;gap:10px;">
+        <div style="font-size:18px;width:28px;text-align:center;">${cat.icon}</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;color:#0d2f66;font-weight:600;margin-bottom:4px;">${cat.name}</div>
+          <div style="height:6px;background:#eef3fb;border-radius:6px;overflow:hidden;">
+            <div style="height:100%;width:${fill}%;background:${cat.color};border-radius:6px;transition:width 0.8s;"></div>
+          </div>
+        </div>
+        <div style="font-size:12px;font-weight:700;color:#9db8dd;width:40px;text-align:right;">${fill}%</div>
+      </div>`;
+    }).join('');
+  }
+
+  // 搭子鼓励语
+  const partner = PARTNERS.find(p => p.id === (localStorage.getItem(STORAGE.PARTNER) || 'gentle')) || PARTNERS[0];
+  const emojiEl = document.getElementById('progPartnerEmoji');
+  const nameEl = document.getElementById('progPartnerName');
+  const msgEl = document.getElementById('progPartnerMsg');
+  if (emojiEl) emojiEl.textContent = partner.emoji;
+  if (nameEl) nameEl.textContent = partner.name;
+  if (msgEl) msgEl.textContent = partner.fb ? partner.fb.text : '每天一点点，思维在复利！';
+}
+
+// ==================== 分享页面 ====================
+function renderSharePage() {
+  let history = getHistory();
+  let today = getToday();
+  let conDays = 0;
+  let d = new Date();
+  for (let i = 0; i < 60; i++) {
+    let dd = new Date(d); dd.setDate(d.getDate() - i);
+    if (history.some(h => h.date === dd.toISOString().slice(0,10) && h.checkin)) conDays++;
+    else if (i > 0) break;
+  }
+  document.getElementById('shareStreak').textContent = conDays + '天';
+  document.getElementById('shareToday').textContent = history.some(h => h.date === today && h.checkin) ? '已打卡' : '未打卡';
+  document.getElementById('shareTotal').textContent = history.length;
+  let url = getSiteUrl() + '%E6%90%AD%E5%AD%90-%E9%A2%86%E5%AF%BC%E5%8A%9B%E7%AE%A1%E7%90%86.html';
+  document.getElementById('shareUrlDisplay').textContent = url;
+  updateShareSummary();
+}
+
+function copyShareLink() {
+  let url = getSiteUrl() + '%E6%90%AD%E5%AD%90-%E9%A2%86%E5%AF%BC%E5%8A%9B%E7%AE%A1%E7%90%86.html';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => showToast('链接已复制！去分享给其他想变强的朋友吧 🦁'));
+  } else {
+    prompt('复制以下链接：', url);
+  }
+}function updateShareSummary() {
+  var el = document.getElementById('sharePnLSummary');
+  if (!el) return;
+  var st = (document.getElementById('shareStreak') || {}).textContent || '-';
+  var td = (document.getElementById('shareToday') || {}).textContent || '';
+  var tt = (document.getElementById('shareTotal') || {}).textContent || '-';
+  el.innerHTML = '☀️ 连续打卡 <b>' + st + '</b> · 今日 ' + td + ' · 累计 <b>' + tt + '</b><br>💛 你带出的每一个强人，都算数';
+}
+
+
+function openSharePage() {
+  let url = getSiteUrl() + '%E6%90%AD%E5%AD%90-%E9%A2%86%E5%AF%BC%E5%8A%9B%E7%AE%A1%E7%90%86.html';
+  window.open(url, '_blank');
+}
+
+function getStreak() {
+  let history = getHistory();
+  return computeContinuous(history, getToday());
+}
+
+function copyMainLink() {
+  navigator.clipboard.writeText(getSiteUrl()+'index.html').then(() => showToast('✅ 链接已复制！'));
+}
+
+// ==================== Firebase ====================
+(function(){
+  // Firebase配置
+  const firebaseConfig = {
+    apiKey: "AIzaSyCxxp2ETc8Ublx5RyEhuMzAQti07gHp8fs",
+    authDomain: "drop-it-duo.firebaseapp.com",
+    projectId: "drop-it-duo",
+    storageBucket: "drop-it-duo.firebasestorage.app",
+    messagingSenderId: "362612967606",
+    appId: "1:362612967606:web:0e172e5b6f3424173d3e17",
+    measurementId: "G-6WVF200SYS"
+  };
+
+  // 加载Firebase SDK
+  function loadFirebase() {
+    const scripts = [
+      'https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js',
+      'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js',
+      'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js'
+    ];
+    let idx = 0;
+    function loadNext() {
+      if (idx >= scripts.length) {
+        initFirebase();
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = scripts[idx++];
+      s.onload = loadNext;
+      document.head.appendChild(s);
+    }
+    loadNext();
+  }
+
+  let db, auth, currentUid;
+  window.FB = { db: null, auth: null, uid: null, ready: false };
+
+  function initFirebase() {
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+    auth = firebase.auth();
+    FB.db = db;
+    FB.auth = auth;
+
+    // 匿名登录
+    auth.signInAnonymously().then(result => {
+      currentUid = result.user.uid;
+      FB.uid = currentUid;
+      FB.ready = true;
+      console.log('Firebase已连接，用户ID:', currentUid);
+      
+      // 同步本地数据到Firebase
+      syncLocalToFirebase();
+      
+      // 加载Firebase数据到本地
+      loadFirebaseData();
+      
+      // 监听登录状态变化
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          currentUid = user.uid;
+          FB.uid = currentUid;
+          updateAvatarBtn();
+        }
+      });
+    }).catch(err => {
+      console.error('Firebase登录失败:', err);
+    });
+  }
+
+  // 同步本地数据到Firebase（首次登录时）
+  function syncLocalToFirebase() {
+    const history = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]');
+    const weight = JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]');
+    const sop = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}');
+    const partner = localStorage.getItem(STORAGE.PARTNER) || '';
+
+    if (history.length > 0 || weight.length > 0 || Object.keys(sop).length > 0 || partner) {
+      const userRef = db.collection('users').doc(currentUid);
+      const batch = db.batch();
+      
+      if (history.length > 0) batch.set(userRef.collection('history').doc('main'), { records: history }, { merge: true });
+      if (weight.length > 0) batch.set(userRef.collection('weight').doc('main'), { records: weight }, { merge: true });
+      if (Object.keys(sop).length > 0) batch.set(userRef.collection('sop').doc('main'), sop, { merge: true });
+      if (partner) batch.set(userRef, { partner: partner }, { merge: true });
+      
+      batch.commit().then(() => console.log('本地数据已同步到Firebase'));
+    }
+  }
+
+  // 从Firebase加载数据
+  function loadFirebaseData() {
+    const userRef = db.collection('users').doc(currentUid);
+    
+    // 加载打卡历史
+    userRef.collection('history').doc('main').get().then(doc => {
+      if (doc.exists && doc.data().records) {
+        const records = doc.data().records;
+        localStorage.setItem(STORAGE.HISTORY, JSON.stringify(records));
+        if (typeof refreshHistoryList === 'function') refreshHistoryList();
+      }
+    });
+
+    // 加载体重数据
+    userRef.collection('weight').doc('main').get().then(doc => {
+      if (doc.exists && doc.data().records) {
+        const records = doc.data().records;
+        localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(records));
+        if (typeof renderWeightRecords === 'function') renderWeightRecords();
+        if (typeof drawWeightChart === 'function') drawWeightChart();
+      }
+    });
+
+    // 加载SOP数据
+    userRef.collection('sop').doc('main').get().then(doc => {
+      if (doc.exists) {
+        const data = doc.data();
+        localStorage.setItem(STORAGE.SOP, JSON.stringify(data));
+        if (typeof refreshSOPState === 'function') refreshSOPState();
+      }
+    });
+
+    // 加载搭子选择
+    userRef.get().then(doc => {
+      if (doc.exists && doc.data().partner) {
+        localStorage.setItem(STORAGE.PARTNER, doc.data().partner);
+      }
+    });
+  }
+
+  // 保存打卡历史到Firebase
+  window.saveHistoryToFirebase = function(records) {
+    if (!FB.ready) return;
+    db.collection('users').doc(currentUid).collection('history').doc('main').set({ records: records });
+  };
+
+  // 保存体重数据到Firebase
+  window.saveWeightToFirebase = function(records) {
+    if (!FB.ready) return;
+    db.collection('users').doc(currentUid).collection('weight').doc('main').set({ records: records });
+  };
+
+  // 保存SOP数据到Firebase
+  window.saveSOPToFirebase = function(data) {
+    if (!FB.ready) return;
+    db.collection('users').doc(currentUid).collection('sop').doc('main').set(data);
+  };
+
+  // 保存搭子选择到Firebase
+  window.savePartnerToFirebase = function(partnerId) {
+    if (!FB.ready) return;
+    db.collection('users').doc(currentUid).set({ partner: partnerId }, { merge: true });
+  };
+
+  loadFirebase();
+})();
+
+// ==================== 搭子页面 ====================
+function renderPartnerPage() {
+  var selected = localStorage.getItem(STORAGE.PARTNER) || 'gentle';
+  var p = PARTNERS.find(function(x) { return x.id === selected; }) || PARTNERS[0];
+  var styleMap = { gentle: '🧭 教练型领导', passion: '🔥 将领型', rational: '📐 体系型', tsundere: '🌿 园丁型' };
+  document.getElementById('partnerAvatarB').textContent = p.emoji;
+  document.getElementById('partnerNameB').textContent = p.name;
+  document.getElementById('partnerStyleB').textContent = styleMap[p.style] || p.name;
+  // 搭子tab首次打开时显示欢迎语
+  var area = document.getElementById('partnerChatArea');
+  if (area && area.children.length === 0) {
+    var welcomes = [
+      '嗨！今天状态怎么样？说说看 😊',
+      p.emoji + ' 搭子已上线，有什么事和我说说 💬',
+      '记得你说过要健康生活，现在感觉如何？'
+    ];
+    area.innerHTML = '<div class="msg-bubble-wrap"><div class="msg-avatar">' + p.emoji + '</div><div class="msg-bubble ai">' + welcomes[Math.floor(Math.random() * welcomes.length)] + '</div></div>';
+  }
+}
+
+// ==================== 教练对话（由外部 coach.js 提供）====================
+
+// ==================== 初始化 ====================
+startApp();
+</script>
+<!-- ===== 搭子切换弹窗 ===== -->
+<div id="partnerOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center;" data-page-node-id="03biCJEs9B7p9azpjgyqco">
+  <div style="background:white;border-radius:24px;padding:28px 20px;max-width:360px;width:90%;text-align:center;position:relative;" data-page-node-id="xi4HSCQCbuDeSLkGBZQeLM">
+    <div style="position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;" onclick="closePartnerOverlay()" data-page-node-id="IAYM8z5sCeF7vCtkECIIoz">✕</div>
+    <div style="font-size:20px;font-weight:700;margin-bottom:4px;" data-page-node-id="NN2KcZYTfKo0NidHfVnL7F">💬 换个搭子</div>
+    <div style="font-size:13px;color:#888;margin-bottom:20px;" data-page-node-id="Ii3oUh8THbaIuycsdjyTUJ">随时切换，搭子风格由你定</div>
+    <div class="partner-grid" id="partnerGrid2" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;" data-page-node-id="cOKssdWUh0eBomgWRecYGS"></div>
+    <button onclick="closePartnerOverlay()" style="width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#9db8dd,#4a74ba);color:white;font-size:15px;font-weight:600;cursor:pointer;" data-page-node-id="ZtXpp0jdoP8DItTgJ3dkqG">✨ 确认搭子 ✨</button>
+  </div>
+</div>
+
+<!-- ===== 成就弹窗 ===== -->
+<div id="achievementOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:600;align-items:center;justify-content:center;flex-direction:column;" data-page-node-id="cR8GTLs4Kg6BNmoHo1AWA3">
+  <canvas id="achievementConfetti" style="position:fixed;inset:0;pointer-events:none;z-index:601;" data-page-node-id="HCnCd7ANdfryFJZ0MmjJ0A"></canvas>
+  <div style="background:white;border-radius:32px;padding:40px 32px;max-width:340px;width:90%;text-align:center;position:relative;z-index:602;animation:achievementPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);" data-page-node-id="FL2D93HjijZG9HOWSQhHgB">
+    <div style="position:absolute;top:-32px;left:50%;transform:translateX(-50%);font-size:56px;animation:achievementBounce 1s infinite;" id="achievementIcon" data-page-node-id="gsSU3UqUFNpW6ZaprJEWXx">🏆</div>
+    <div style="margin-top:24px;font-size:28px;font-weight:800;color:#ff6b35;margin-bottom:4px;" id="achievementTitle" data-page-node-id="TjYHA7bIvo8HQBO06GmvW0">里程碑达成！</div>
+    <div style="font-size:14px;color:#888;margin-bottom:20px;" id="achievementSub" data-page-node-id="OR7rWg1EeBzP0V3ZjxBh6N">你已经坚持了</div>
+    <div style="font-size:48px;font-weight:800;color:#333;margin-bottom:8px;" id="achievementDays" data-page-node-id="Y85eVTwRDe70ae2BGBcNXH">7天</div>
+    <div style="font-size:15px;color:#666;line-height:1.6;margin-bottom:24px;padding:16px;background:#f8f9fa;border-radius:16px;" id="achievementMsg" data-page-node-id="tFFvRycUzgDv0kqR55N9pN">继续保持，胜利就在前方！</div>
+    <button onclick="closeAchievement()" style="width:100%;padding:14px;border:none;border-radius:60px;background:linear-gradient(135deg,#ff6b35,#ff9500);color:white;font-size:16px;font-weight:700;cursor:pointer;" data-page-node-id="T4FfOjQENcII9EKboAs8wD">🎉 太棒了！</button>
+  </div>
+</div>
+<style>
+@keyframes achievementPop { from { transform:scale(0.5);opacity:0; } to { transform:scale(1);opacity:1; } }
+@keyframes achievementBounce { 0%,100% { transform:translateX(-50%) translateY(0); } 50% { transform:translateX(-50%) translateY(-10px); } }
+.coach-prompt { text-align:center; color:#d97706; font-size:13px; font-weight:600; padding:8px; animation:pulse 2s infinite; }
+.chat-input-area { display:flex; gap:8px; align-items:flex-end; margin-top:10px; }
+.chat-input-area textarea { flex:1; padding:12px 16px; border-radius:16px; border:1.5px solid #f2edde; font-size:14px; resize:none; outline:none; font-family:inherit; min-height:44px; }
+.chat-send-btn { padding:12px 20px; border-radius:16px; border:none; background:linear-gradient(135deg,#9db8dd,#3f6db5); color:white; font-size:14px; font-weight:700; cursor:pointer; flex-shrink:0; }
+.chat-send-btn:active { transform:scale(0.97); }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+.generating-report { text-align:center; color:#0891b2; font-size:14px; font-weight:600; padding:16px; animation:blink 1.5s infinite; }
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+.msg { max-width:85%; padding:10px 14px; border-radius:16px; margin-bottom:8px; line-height:1.6; font-size:14px; word-break:break-all; }
+.msg-coach { background:#fff; color:#333; border:1.5px solid #e0e0e0; border-bottom-left-radius:4px; align-self:flex-start; }
+.msg-user { background:#9db8dd; color:#fff; border-bottom-right-radius:4px; align-self:flex-end; }
+#coachMessages { display:flex; flex-direction:column; gap:8px; }
+.coach-btn { display:block; width:100%; text-align:left; padding:10px 14px; background:#fdfeff; border:1.5px solid #9db8dd; border-radius:12px; font-size:13px; color:#333; cursor:pointer; margin-bottom:6px; transition:all 0.2s; }
+.coach-btn:hover { background:#9db8dd; color:#fff; }
+.coach-report-section { background:#fff; border-radius:16px; padding:16px; margin-bottom:12px; border:1.5px solid #e8e8e8; }
+.coach-report-title { font-size:15px; font-weight:700; color:#0d2f66; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.coach-report-content { font-size:13px; color:#555; line-height:1.7; }
+.coach-diagnosis-tag { display:inline-block; background:#ecf2fb; color:#3f6db5; border-radius:20px; padding:2px 10px; font-size:12px; font-weight:600; margin:2px; }
+.coach-action-tag { display:inline-block; background:#edf3fb; color:#173e7e; border-radius:20px; padding:2px 10px; font-size:12px; font-weight:600; margin:2px; }
+    /* ===== 教练介绍卡 (McKinsey风格) ===== */
+    .coach-intro { background: white; border-radius: 32px; padding: 32px 24px; margin-bottom: 16px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .coach-intro-icon { font-size: 56px; margin-bottom: 16px; }
+    .coach-intro-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #9db8dd, #3f6db5); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+    .coach-intro-sub { font-size: 14px; color: #2c5a9e; margin-bottom: 24px; }
+    .method-steps { display: flex; gap: 8px; margin-bottom: 24px; }
+    .method-step { flex: 1; background: #f1f5fc; border-radius: 16px; padding: 14px 8px; font-size: 13px; font-weight: 700; color: #173e7e; line-height: 1.5; }
+    .step-num { font-size: 18px; display: block; margin-bottom: 4px; }
+    .step-desc { font-size: 11px; font-weight: 500; color: #888; margin-top: 2px; display: block; }
+    .coach-intro-note { font-size: 11px; color: #b7cbe8; margin-top: 16px; }
+    .coach-start-btn { margin-top: 18px; width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #9db8dd, #3f6db5); color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.15s; }
+    .coach-start-btn:active { transform: scale(0.97); }
+    /* ===== McKinsey教练对话样式 ===== */
+    .coach-progress-bar { display: flex; gap: 6px; padding: 12px 16px 0; }
+    .progress-step { flex: 1; text-align: center; padding: 6px 4px; border-radius: 10px; font-size: 11px; font-weight: 600; color: #aaa; background: #f0f0f0; transition: all 0.3s; }
+    .progress-step.active { background: #9db8dd; color: #fff; }
+    .chat-messages { padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; max-height: calc(100vh - 340px); overflow-y: auto; }
+    .chat-msg { display: flex; gap: 8px; align-items: flex-start; }
+    .chat-msg.coach { align-self: flex-start; }
+    .chat-msg.user { align-self: flex-end; flex-direction: row-reverse; }
+    .chat-avatar { width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+    .chat-bubble { max-width: 75%; padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.6; }
+    .chat-msg.coach .chat-bubble { background: #f1f5fc; color: #333; border-bottom-left-radius: 4px; }
+    .chat-msg.user .chat-bubble { background: #9db8dd; color: white; border-bottom-right-radius: 4px; }
+    .chat-send-btn { background: #9db8dd; color: white; border: none; border-radius: 14px; padding: 10px 16px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .chat-send-btn:active { background: #3f6db5; }
+    .coach-buttons { padding: 0 16px 8px; }
+    .coach-btn-prompt { font-size: 12px; color: #888; margin-bottom: 8px; font-weight: 600; }
+    .coach-btn-list { display: flex; flex-direction: column; gap: 6px; }
+    .coach-choice-btn { display: block; width: 100%; text-align: left; padding: 10px 14px; background: #fdfeff; border: 1.5px solid #9db8dd; border-radius: 12px; font-size: 13px; color: #333; cursor: pointer; transition: all 0.2s; }
+    .coach-choice-btn:hover { background: #9db8dd; color: #fff; }
+    .coach-choice-btn.yes { background: #9db8dd; color: white; border-color: #9db8dd; }
+    .coach-choice-btn.no { background: #fff; color: #999; border-color: #ddd; }
+    .generating-report { text-align: center; color: #888; font-size: 13px; padding: 16px; animation: pulse 2s infinite; }
+    .coach-report-mckinsey { padding: 16px 16px 80px; max-width: 420px; margin: 0 auto; }
+    .report-header { background: white; border-radius: 24px; padding: 24px 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; text-align: center; }
+    .report-icon { font-size: 40px; margin-bottom: 8px; }
+    .report-title { font-size: 18px; font-weight: 800; color: #173e7e; margin-bottom: 4px; }
+    .report-subtitle { font-size: 11px; color: #aaa; }
+    .report-core-conclusion { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    .report-core-conclusion h3 { font-size: 15px; font-weight: 700; color: #173e7e; margin-bottom: 10px; }
+    .report-core-conclusion p { font-size: 14px; color: #333; line-height: 1.6; }
+    .report-mece-analysis { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    .report-mece-analysis h3 { font-size: 15px; font-weight: 700; color: #173e7e; margin-bottom: 12px; }
+    .mece-dimension { background: #fdfeff; border-radius: 14px; padding: 12px 14px; margin-bottom: 8px; }
+    .mece-dim-title { font-size: 13px; font-weight: 700; color: #333; margin-bottom: 4px; }
+    .mece-dim-desc { font-size: 12px; color: #666; line-height: 1.5; }
+    .report-impact-effort { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    .report-impact-effort h3 { font-size: 15px; font-weight: 700; color: #173e7e; margin-bottom: 10px; }
+    .ie-item { font-size: 12px; color: #666; margin-bottom: 6px; display: flex; gap: 6px; }
+    .ie-tag { display: inline-block; border-radius: 8px; padding: 2px 8px; font-weight: 700; font-size: 11px; }
+    .ie-tag.ie-p0 { background: #edf3fb; color: #173e7e; }
+    .ie-tag.ie-p1 { background: #ecf2fb; color: #3f6db5; }
+    .ie-tag.ie-p2 { background: #f3e5f5; color: #7b1fa2; }
+    .report-priority-actions { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    .report-priority-actions h3 { font-size: 15px; font-weight: 700; color: #173e7e; margin-bottom: 12px; }
+    .action-item { display: flex; gap: 10px; margin-bottom: 10px; }
+    .action-priority { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 8px; background: #edf3fb; color: #173e7e; white-space: nowrap; }
+    .action-text { font-size: 13px; color: #333; line-height: 1.5; }
+    .report-next-step { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    .report-next-step h3 { font-size: 15px; font-weight: 700; color: #173e7e; margin-bottom: 10px; }
+    .report-next-step p { font-size: 13px; color: #666; line-height: 1.6; }
+    .coach-restart-btn { width: 100%; padding: 14px; border-radius: 14px; border: none; background: linear-gradient(135deg, #9db8dd, #3f6db5); color: white; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+</style>
+
+<!-- McKinsey教练外部脚本 -->
+<script>
+/* === emoji/tag 统一事件委托兜底 v3 === */
+(function(){
+  if (window.__EMOJI_FB_UNIFIED__) return;
+  window.__EMOJI_FB_UNIFIED__ = true;
+  function stopEvt(e){
+    if (e.preventDefault) e.preventDefault(); else e.returnValue = false;
+    if (e.stopPropagation) e.stopPropagation(); else e.cancelBubble = true;
+    try { e.stopImmediatePropagation && e.stopImmediatePropagation(); } catch(x){}
+  }
+  function onDocClick(e){
+    try {
+      var target = e.target || e.srcElement;
+      if (!target) return;
+      if (target.nodeType === 3) target = target.parentElement;
+      if (!target || !target.closest) return;
+      var m = target.closest('.mood-btn');
+      if (m) {
+        var k = m.getAttribute('data-mood');
+        if (k && typeof sendMood === 'function') { stopEvt(e); sendMood(k); return false; }
+      }
+      var t = target.closest('.talk-btn');
+      if (t) {
+        var k2 = t.getAttribute('data-type');
+        if (k2 && typeof askPartner === 'function') { stopEvt(e); askPartner(k2); return false; }
+      }
+    } catch(err) { if (window.console && console.warn) console.warn('emoji fb err', err); }
+  }
+  if (document.addEventListener) document.addEventListener('click', onDocClick, true);
+})();
+</script>
+
+
+
+<script>
+(function(){
+    var TIPS = ['先听懂，再带路','管理的本质是管事理人','自我觉察是领导力的第一特质','没有标准的期待就是埋雷','要求别人的，自己先做到','表扬要具体：行为+影响','授权不是放羊，交事守标准','把功劳归给做事的人','抢一次功，寒一片心','情绪失控一次，信任透支一大笔','打断是最廉价的否定','聚焦问题，创造价值','砍掉伪议题，议程越短思考越深','当老好人是最贵的奢侈','归因于流程，而不是人','复盘是对经验征税','你带出多少强人，你就有多强','有人能接你的班，你才自由','向上同步，让信任不断供','领导者的功劳簿上写的是团队','标准在，人心就不散','你稳了，团队才稳'];
+  window.nextDailyTip = function() {
+    var el = document.getElementById("dailyTipText");
+    if (!el) return;
+    el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
+  };
+})();
+
+// ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
+const SCENE_DATA = {"pos": [
+  {"icon": "👂", "tag": "倾听", "title": "今天完整听完了一个人说话", "text": "先听懂，再带路", "quote": "🧭 搭子：你听懂的不只是话，还有人心"},
+  {"icon": "🤲", "tag": "授权", "title": "放手让下属独立干了一件事", "text": "授权是信任的放大器", "quote": "🧭 搭子：你的忍住，是他的成长"},
+  {"icon": "📏", "tag": "标准", "title": "守住了一次标准，没和稀泥", "text": "标准在，人心就不散", "quote": "🧭 搭子：认真的人会感谢你"},
+  {"icon": "🪞", "tag": "觉察", "title": "高压之下稳住了情绪", "text": "你是团队的减压阀", "quote": "🧭 搭子：你稳了，团队才稳"},
+  {"icon": "🎁", "tag": "反馈", "title": "给了一条具体的表扬或纠偏", "text": "反馈是成本最低的管理动作", "quote": "🧭 搭子：具体，是反馈的生命"}
+], "neg": [
+  {"icon": "🌋", "tag": "失控", "title": "情绪上头，对团队发了火", "text": "信任账户透支了一大笔", "quote": "🧭 搭子：明天先修复，再复盘触发点"},
+  {"icon": "🦺", "tag": "抢活", "title": "又把下属的活抢过来干了", "text": "你干得越欢，他成长越慢", "quote": "🧭 搭子：忍住，教他干"},
+  {"icon": "🤝", "tag": "和稀泥", "title": "为了和气，放过了一次问题", "text": "不纠正就是在奖励", "quote": "🧭 搭子：明天当面补上，还来得及"}
+]}
+
+function openSceneSheet() {
+  document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
+  document.getElementById('qaSub').innerText = '点一下 · 让搭子回应你 · 不计入打卡';
+  const scroll = document.getElementById('qaScroll');
+  scroll.innerHTML = '';
+  const mk = (type, label, color) => {
+    const list = SCENE_DATA[type] || [];
+    if (!list.length) return;
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;';
+    lbl.innerText = label;
+    scroll.appendChild(lbl);
+    list.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'qa-card ' + type;
+      const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
+        (type === 'pos' ? 'background:#7c7fea;color:white;' : 'background:#b07cd6;color:white;');
+      card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>' +
+        '<div class="qa-card-text">' + item.title + '</div>' +
+        '<span style="' + tagStyle + '">' + item.tag + '</span>';
+      card.onclick = () => {
+        closeQAPanelSafe();
+        setTimeout(() => openSceneFB(i, type), 300);
+      };
+      scroll.appendChild(card);
+    });
+  };
+  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#3f6db5');
+  mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
+  document.getElementById('qaOverlay').classList.add('show');
+  document.getElementById('qaOverlay').onclick = function(e) {
+    if (e.target === document.getElementById('qaOverlay')) closeQAPanelSafe();
+  };
+}
+function closeQAPanelSafe() {
+  if (typeof closeQAPanel === 'function') { closeQAPanel(); return; }
+  document.getElementById('qaOverlay').classList.remove('show');
+}
+function openSceneFB(idx, type) {
+  const item = SCENE_DATA[type] && SCENE_DATA[type][idx];
+  if (!item) return;
+  const card = document.getElementById('fbCard');
+  if (card) card.className = 'fb-card ' + type;
+  const em = document.getElementById('fbEmoji'); if (em) em.innerText = item.icon;
+  const lb = document.getElementById('fbLabel'); if (lb) lb.innerText = (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag;
+  const tt = document.getElementById('fbTitle'); if (tt) tt.innerText = item.title;
+  const tx = document.getElementById('fbText'); if (tx) tx.innerText = item.text;
+  const qt = document.getElementById('fbQuote'); if (qt) qt.innerText = item.quote;
+  document.getElementById('fbOverlay').classList.add('show');
+}
+</script>
+
+<script>/* cc-enhance-v1 教练卡逐条确认 */
+(function(){
+  if (window.__ccEnhanced) return; window.__ccEnhanced = 1;
+  var PREFIX = '搭子-领导力';
+  var STORE = 'cc_' + PREFIX;
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch(e) { state = {}; }
+  function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){} }
+  function hash(t){ var h = 0; for (var i = 0; i < t.length; i++) { h = (h * 31 + t.charCodeAt(i)) | 0; } return 'h' + (h >>> 0).toString(36); }
+  window.ccToast = function(msg){
+    var t = document.getElementById('ccToast');
+    if (!t) {
+      t = document.createElement('div'); t.id = 'ccToast';
+      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg; t.style.opacity = '1';
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+  };
+  function apply(body){
+    if (body.getAttribute('data-cc-done')) return;
+    var html = body.innerHTML;
+    if (!/<br/i.test(html) && html.replace(/<[^>]*>/g, '').trim().length < 2) return;
+    var card = body.closest ? body.closest('.crp-card') : null;
+    var title = '';
+    if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
+    var parts = html.split(/<br\s*\/?>/i);
+    var out = '', n = 0;
+    for (var k = 0; k < parts.length; k++) {
+      var seg = parts[k].trim();
+      var txt = seg.replace(/<[^>]*>/g, '').trim();
+      if (!txt) continue;
+      var id = hash(PREFIX + '|' + title + '|' + txt.slice(0, 48));
+      var on = !!state[id];
+      out += '<div class="cc-row' + (on ? ' done' : '') + '"><div class="cc-txt">' + seg + '</div>'
+           + '<span class="cc-chip' + (on ? ' on' : '') + '" data-ccid="' + id + '">' + (on ? '\u2713 已记住' : '标记记住') + '</span></div>';
+      n++;
+    }
+    if (!n) return;
+    body.innerHTML = out;
+    body.setAttribute('data-cc-done', '1');
+  }
+  function process(){
+    var bodies = document.querySelectorAll('.crp-card .crp-stage-body');
+    for (var i = 0; i < bodies.length; i++) { try { apply(bodies[i]); } catch(e) {} }
+  }
+  document.addEventListener('click', function(ev){
+    var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
+    if (!el) return;
+    ev.preventDefault();
+    var id = el.getAttribute('data-ccid');
+    if (state[id]) { delete state[id]; } else { state[id] = 1; }
+    save();
+    var on = !!state[id];
+    var row = el.closest('.cc-row');
+    if (row) row.classList.toggle('done', on);
+    el.classList.toggle('on', on);
+    el.innerHTML = on ? '\u2713 已记住' : '标记记住';
+    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+  });
+  var css = document.createElement('style');
+  css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
+    + '.cc-row:last-child{border-bottom:none;}'
+    + '.cc-txt{flex:1;min-width:0;font-size:13px;line-height:1.7;color:#37474f;}'
+    + '.cc-row.done .cc-txt{color:#b6b6b6;text-decoration:line-through;}'
+    + '.cc-chip{flex-shrink:0;font-size:11px;padding:3px 9px;border-radius:12px;border:1.5px solid #dcdcdc;color:#909090;cursor:pointer;user-select:none;white-space:nowrap;margin-top:2px;transition:all .15s;}'
+    + '.cc-chip:active{transform:scale(.94);}'
+    + '.cc-chip.on{background:#eaf7ea;border-color:#54b26a;color:#2e7d32;font-weight:700;}';
+  document.head.appendChild(css);
+  function boot(){ try { process(); } catch(e) {} }
+  setTimeout(boot, 300);
+  setTimeout(boot, 1500);
+  try {
+    var mo = new MutationObserver(function(){ setTimeout(boot, 80); });
+    mo.observe(document.body, { childList: true, subtree: true });
+  } catch(e) {}
+})();
+</script>
+
+</body>
+</html>
