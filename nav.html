@@ -450,9 +450,12 @@ const PARTNERS_CONFIG = {
    * │       否则那个分类会显示为空
    * └─────────────────────────────────────────────────────────┘ */
   tabs: [
-    { key: 'daily',    label: '日常打卡',  emoji: '🏃' },
+    { key: 'health',   label: '健康生活',  emoji: '🏃' },
+    { key: 'mind',     label: '心智成长',  emoji: '🌱' },
     { key: 'career',   label: '职场成长',  emoji: '💼' },
+    { key: 'startup',  label: '创业经营',  emoji: '🚀' },
     { key: 'wealth',   label: '五大财富',  emoji: '💰' },
+    { key: 'life',     label: '人生经营',  emoji: '⏳' },
     { key: 'tools',    label: '工具资源',  emoji: '🔧' },
   ],
 
@@ -483,74 +486,60 @@ const PARTNERS_CONFIG = {
    * │               等页面建好后，把这一行删掉就行
    * │
    * │    🆕 加一个新搭子（拷贝下面一行再改字段）：
-   * │      { tab:'daily', emoji:'🎨', title:'XX搭子', href:'xx.html',
+   * │      { tab:'health', emoji:'🎨', title:'XX搭子', href:'xx.html',
    * │        desc:'一句话介绍', tags:['标签1'] },
    * │    🗑 删一个搭子：从数组里删掉对应的那一行
    * │    ✏️ 改卡片跳转：直接改 href
    * │    🚧 把「敬请期待」改成可点击：删掉 preview:true 这一行
    * └─────────────────────────────────────────────────────────┘ */
   partners: [
-    /* —— 日常打卡 —— */
-    { tab:'daily',  emoji:'🏃', title:'减肥搭子',      href:'index.html',
+    /* —— 健康生活 —— */
+    { tab:'health', emoji:'🏃', title:'减肥搭子',      href:'index.html',
       desc:'饮食 · 体重 · 习惯', tags:['健康'] },
 
-    { tab:'daily',  emoji:'🏦', title:'富教育搭子',  href:'搭子-富教育.html',
-      desc:'财商 · 选择后果 · 延迟满足 · 提问 · 试错 · 主见', tags:['财商'] },
-
-    { tab:'daily',  emoji:'🦋', title:'富知行搭子',  href:'搭子-富知行.html',
-      desc:'注意力 · 圈子 · 行动 · 能量 · 习惯 · 翻篇', tags:['修炼'] },
-
-    { tab:'daily',  emoji:'🧭', title:'领导力管理搭子',  href:'搭子-领导力管理.html',
-      desc:'觉察 · 同理 · 标准 · 成就他人 · 聚焦 · 复盘', tags:['职场'], status:'new' },
-
-    { tab:'daily',  emoji:'🎛️', title:'AI OPC创业搭子',  href:'搭子-AI-OPC创业.html',
-      desc:'定位 · AI员工 · MVP · 获客 · 现金流 · 进化', tags:['创业'], status:'new' },
-
-    { tab:'daily',  emoji:'🌅', title:'银发经济创业搭子',  href:'搭子-银发经济.html',
-      desc:'洞察 · 信任 · 赛道 · 温度 · 产品 · 合规', tags:['创业'], status:'new' },
-
-    { tab:'daily',  emoji:'⛰️', title:'40岁重启搭子',  href:'搭子-40岁重启.html',
-      desc:'觉醒 · 盘点 · 学习 · 实验 · 收入 · 体能', tags:['修炼'], status:'new' },
-
-    { tab:'daily',  emoji:'☀️', title:'晨间启动搭子',  href:'搭子-晨间启动.html',
-      desc:'起床 · 唤醒 · 要事 · 断联 · 身体 · 秩序', tags:['修炼'], status:'new' },
-
-    { tab:'daily',  emoji:'🌸', title:'心态信念搭子',  href:'搭子-心态信念.html',
-      desc:'相信 · 期待 · 行动 · 内耗 · 静待 · 诚实', tags:['修炼'], status:'new' },
-
-    { tab:'daily',  emoji:'🪨', title:'坚持自律搭子',  href:'搭子-坚持自律.html',
-      desc:'定力 · 重复 · 早起 · 习惯 · 死磕 · 复利', tags:['修炼'], status:'new' },
-
-    { tab:'daily',  emoji:'🕸️', title:'认知思维搭子',  href:'搭子-认知思维.html',
-      desc:'深度思考 · 网状思维 · 知道做到 · 创造', tags:['修炼'], status:'new' },
-
-    { tab:'daily',  emoji:'🌷', title:'幸福力搭子',    href:'搭子-幸福力.html',
-      desc:'自信 · 勇敢 · 乐观 · 感知力 · 主体性 · 意义感', tags:['养育'], status:'new' },
-
-    { tab:'daily',  emoji:'🛡️', title:'健康底盘搭子',  href:'搭子-健康底盘.html',
+    { tab:'health', emoji:'🛡️', title:'健康底盘搭子',  href:'搭子-健康底盘.html',
       desc:'血压 · 睡眠 · 运动 · 体检 · 习惯', tags:['健康'], status:'new' },
 
-    { tab:'daily',  emoji:'💪', title:'肌肉搭子',      href:'搭子-肌肉.html',
+    { tab:'health', emoji:'💪', title:'肌肉搭子',      href:'搭子-肌肉.html',
       desc:'力量训练 · 体脂率 · 蛋白质 · 恢复', tags:['健康'], status:'new' },
 
-    { tab:'daily',  emoji:'✨', title:'形象搭子',      href:'搭子-形象.html',
-      desc:'护肤 · 发型 · 穿搭 · 仪态 · 表达', tags:['气质'], status:'new' },
-
-    { tab:'daily',  emoji:'😴', title:'睡眠搭子',      href:'搭子-睡眠.html',
+    { tab:'health', emoji:'😴', title:'睡眠搭子',      href:'搭子-睡眠.html',
       desc:'入睡 · 时长 · 节律', tags:['健康'] },
 
-    { tab:'daily',  emoji:'🌈', title:'状态搭子',      href:'搭子-状态.html',
+    { tab:'health', emoji:'🌈', title:'状态搭子',      href:'搭子-状态.html',
       desc:'情绪 · 精力 · 状态管理', tags:['健康'] },
 
-    { tab:'daily',  emoji:'👩‍👧', title:'陪读妈妈',      href:'陪读妈妈搭子.html',
-      desc:'情绪 · 学业 · 沟通 · 平衡 · 成长', tags:['家庭'] },
+    { tab:'health', emoji:'✨', title:'形象搭子',      href:'搭子-形象.html',
+      desc:'护肤 · 发型 · 穿搭 · 仪态 · 表达', tags:['气质'], status:'new' },
 
-    /* —— 职场成长 —— */
-    { tab:'career', emoji:'🦁', title:'主体性搭子',  href:'搭子-主体性.html',
+    /* —— 心智成长 —— */
+    { tab:'mind',   emoji:'☀️', title:'晨间启动搭子',  href:'搭子-晨间启动.html',
+      desc:'起床 · 唤醒 · 要事 · 断联 · 身体 · 秩序', tags:['修炼'], status:'new' },
+
+    { tab:'mind',   emoji:'🌸', title:'心态信念搭子',  href:'搭子-心态信念.html',
+      desc:'相信 · 期待 · 行动 · 内耗 · 静待 · 诚实', tags:['修炼'], status:'new' },
+
+    { tab:'mind',   emoji:'🪨', title:'坚持自律搭子',  href:'搭子-坚持自律.html',
+      desc:'定力 · 重复 · 早起 · 习惯 · 死磕 · 复利', tags:['修炼'], status:'new' },
+
+    { tab:'mind',   emoji:'🕸️', title:'认知思维搭子',  href:'搭子-认知思维.html',
+      desc:'深度思考 · 网状思维 · 知道做到 · 创造', tags:['修炼'], status:'new' },
+
+    { tab:'mind',   emoji:'🏦', title:'富教育搭子',  href:'搭子-富教育.html',
+      desc:'财商 · 选择后果 · 延迟满足 · 提问 · 试错 · 主见', tags:['财商'] },
+
+    { tab:'mind',   emoji:'🦋', title:'富知行搭子',  href:'搭子-富知行.html',
+      desc:'注意力 · 圈子 · 行动 · 能量 · 习惯 · 翻篇', tags:['修炼'] },
+
+    { tab:'mind',   emoji:'🌷', title:'幸福力搭子',    href:'搭子-幸福力.html',
+      desc:'自信 · 勇敢 · 乐观 · 感知力 · 主体性 · 意义感', tags:['养育'], status:'new' },
+
+    { tab:'mind',   emoji:'🦁', title:'主体性搭子',  href:'搭子-主体性.html',
       desc:'反应 · 场感 · 逻辑 · 主体性 · 表达 · 勇敢', tags:['强者'], status:'new' },
 
-    { tab:'career', emoji:'🚀', title:'创业搭子',      href:'创业搭子.html',
-      desc:'方向 · 团队 · 产品 · 增长 · 心力', tags:['创业'] },
+    /* —— 职场成长 —— */
+    { tab:'career', emoji:'🧭', title:'领导力管理搭子',  href:'搭子-领导力管理.html',
+      desc:'觉察 · 同理 · 标准 · 成就他人 · 聚焦 · 复盘', tags:['职场'], status:'new' },
 
     { tab:'career', emoji:'💼', title:'P7→P8',          href:'搭子-P7-P8.html',
       desc:'战略 · 团队 · 业务 · 协同 · 迭代', tags:['晋升'],
@@ -560,15 +549,19 @@ const PARTNERS_CONFIG = {
       desc:'客户价值 · 产品思维 · 数据驱动 · 团队协作', tags:['团队'],
       status:'optimized' },
 
-    { tab:'career', emoji:'🌸', title:'关系力修炼搭子', href:'搭子-关系力修复.html',
-      desc:'倾听 · 表达 · 共情 · 边界 · 能量', tags:['软实力'] },
-
-    { tab:'career', emoji:'⏳', title:'长期主义搭子',   href:'搭子-长期主义.html',
-      desc:'把本人时间从短视任务搬到长线价值，KEEP / DELEGATE / SKILL / AUTOMATE / STOP 五张清单', tags:['时间经营'] },
-
     { tab:'career', emoji:'🤖', title:'AI 能力搭子',    href:'搭子-AI能力.html',
       desc:'工具 · Prompt · 自动化 · 学习 · 实践', tags:['AI'],
       status:'new' },
+
+    /* —— 创业经营 —— */
+    { tab:'startup', emoji:'🚀', title:'创业搭子',      href:'创业搭子.html',
+      desc:'方向 · 团队 · 产品 · 增长 · 心力', tags:['创业'] },
+
+    { tab:'startup', emoji:'🎛️', title:'AI OPC创业搭子',  href:'搭子-AI-OPC创业.html',
+      desc:'定位 · AI员工 · MVP · 获客 · 现金流 · 进化', tags:['创业'], status:'new' },
+
+    { tab:'startup', emoji:'🌅', title:'银发经济创业搭子',  href:'搭子-银发经济.html',
+      desc:'洞察 · 信任 · 赛道 · 温度 · 产品 · 合规', tags:['创业'], status:'new' },
 
     /* —— 五大财富 SOP —— */
     { tab:'wealth', emoji:'💪', title:'身体财富',      href:'搭子-身体财富.html',
@@ -585,6 +578,19 @@ const PARTNERS_CONFIG = {
 
     { tab:'wealth', emoji:'🎯', title:'使命财富',      href:'搭子-使命财富.html',
       desc:'目标 · 价值 · 人生贡献', tags:['财富'] },
+
+    /* —— 人生经营 —— */
+    { tab:'life',   emoji:'⛰️', title:'40岁重启搭子',  href:'搭子-40岁重启.html',
+      desc:'觉醒 · 盘点 · 学习 · 实验 · 收入 · 体能', tags:['修炼'], status:'new' },
+
+    { tab:'life',   emoji:'⏳', title:'长期主义搭子',   href:'搭子-长期主义.html',
+      desc:'把本人时间从短视任务搬到长线价值，KEEP / DELEGATE / SKILL / AUTOMATE / STOP 五张清单', tags:['时间经营'] },
+
+    { tab:'life',   emoji:'🌸', title:'关系力修炼搭子', href:'搭子-关系力修复.html',
+      desc:'倾听 · 表达 · 共情 · 边界 · 能量', tags:['软实力'] },
+
+    { tab:'life',   emoji:'👩‍👧', title:'陪读妈妈',      href:'陪读妈妈搭子.html',
+      desc:'情绪 · 学业 · 沟通 · 平衡 · 成长', tags:['家庭'] },
 
     /* —— 工具 & 分享 —— */
     { tab:'tools',  emoji:'🛋️', title:'休息一下',      href:'休息一下.html',
