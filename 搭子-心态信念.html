@@ -3,11 +3,11 @@
 <head data-page-node-id="JSKlnQy0C0ugvWwRhWZz9C">
   <meta charset="UTF-8" data-page-node-id="Pxb98muHUu1UdJcg0e74uP">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" data-page-node-id="u5feFAPihstjBwmfDtq1XI">
-    <title>领导力搭子 · 带人成事修炼手册</title>
+    <title>心态信念搭子 · 相信自己修炼手册</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
     body {
-      background: linear-gradient(145deg, #f3f6fc 0%, #eef3fb 100%);
+      background: linear-gradient(145deg, #fdf6f8 0%, #fbf1f5 100%);
       min-height: 100vh;
       font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       padding: 16px 16px 90px;
@@ -28,10 +28,10 @@
       gap: 3px; padding: 6px 12px; cursor: pointer;
       border-radius: 16px; transition: all 0.2s;
     }
-    .tab-item.active { background: #edf3fb; }
+    .tab-item.active { background: #fbeaf0; }
     .tab-item .tab-icon { font-size: 22px; }
-    .tab-item .tab-label { font-size: 10px; color: #b7cbe8; font-weight: 500; }
-    .tab-item.active .tab-label { color: #2456a4; font-weight: 700; }
+    .tab-item .tab-label { font-size: 10px; color: #f6cddc; font-weight: 500; }
+    .tab-item.active .tab-label { color: #ad3b6e; font-weight: 700; }
 
     /* ===== Pages ===== */
     .page { display: none; }
@@ -46,27 +46,27 @@
     }
     .selector-title {
       font-size: 28px; font-weight: 700; text-align: center;
-      background: linear-gradient(135deg, #2456a4, #0d2f66);
+      background: linear-gradient(135deg, #ad3b6e, #5c1e3c);
       -webkit-background-clip: text; background-clip: text; color: transparent;
       margin-bottom: 8px;
     }
-    .selector-sub { text-align: center; color: #2c5a9e; margin-bottom: 28px; font-size: 15px; }
+    .selector-sub { text-align: center; color: #9c3163; margin-bottom: 28px; font-size: 15px; }
     .partner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
     .partner-card {
       background: #fff; border-radius: 28px; padding: 20px 12px 16px; text-align: center;
       cursor: pointer; box-shadow: 0 6px 14px rgba(0,0,0,0.03);
       border: 1.5px solid #f2edde; transition: all 0.2s;
     }
-    .partner-card.selected { border-color: #2456a4; background: #f1f5fc; transform: scale(0.98); }
+    .partner-card.selected { border-color: #ad3b6e; background: #fcf4f7; transform: scale(0.98); }
     .partner-emoji { font-size: 48px; margin-bottom: 12px; }
     .partner-name { font-weight: 700; font-size: 18px; margin-bottom: 6px; }
-    .partner-desc { font-size: 13px; color: #2c5a9e; }
+    .partner-desc { font-size: 13px; color: #9c3163; }
     .confirm-btn {
-      background: #2456a4; color: white; border: none;
+      background: #ad3b6e; color: white; border: none;
       width: 100%; padding: 16px; border-radius: 60px;
       font-size: 18px; font-weight: 600; cursor: pointer;
     }
-    .confirm-btn:active { background: #0d2f66; transform: scale(0.97); }
+    .confirm-btn:active { background: #5c1e3c; transform: scale(0.97); }
 
     .card {
       max-width: 420px; margin: 0 auto;
@@ -76,13 +76,13 @@
       margin-bottom: 20px; text-align: center;
     }
     .partner-badge {
-      display: inline-block; background: #eef3fb; padding: 6px 16px;
-      border-radius: 40px; font-size: 14px; margin-bottom: 20px; color: #2456a4;
+      display: inline-block; background: #fbf1f5; padding: 6px 16px;
+      border-radius: 40px; font-size: 14px; margin-bottom: 20px; color: #ad3b6e;
     }
     .question { font-size: 22px; font-weight: 600; margin-bottom: 24px; }
     .checkin-btn {
       width: 170px; height: 170px;
-      background: linear-gradient(145deg, #9db8dd, #4a74ba);
+      background: linear-gradient(145deg, #f0b3c9, #d96e97);
       border-radius: 100%; margin: 0 auto 24px;
       display: flex; align-items: center; justify-content: center; flex-direction: column;
       color: white; cursor: pointer;
@@ -92,15 +92,15 @@
     .checkin-btn:active { transform: scale(0.96); }
     .checkin-status { font-size: 28px; font-weight: 800; }
     .checkin-sub { font-size: 13px; opacity: 0.9; margin-top: 6px; }
-    .continuous { font-size: 44px; font-weight: 800; margin: 8px 0 4px; color: #2456a4; }
-    .continuous-label { font-size: 13px; color: #b7cbe8; margin-bottom: 20px; }
+    .continuous { font-size: 44px; font-weight: 800; margin: 8px 0 4px; color: #ad3b6e; }
+    .continuous-label { font-size: 13px; color: #f6cddc; margin-bottom: 20px; }
     .week-progress { background: white; border-radius: 36px; padding: 18px 20px; margin-bottom: 20px; max-width: 420px; margin-left: auto; margin-right: auto; }
     .week-title { font-weight: 600; margin-bottom: 16px; display: flex; justify-content: space-between; }
     .week-dots { display: flex; justify-content: space-between; gap: 8px; }
     .day-item { flex: 1; text-align: center; }
-    .day-name { font-size: 12px; color: #b7cbe8; margin-bottom: 6px; }
-    .dot { width: 40px; height: 40px; background: #eef3fb; border-radius: 100%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 18px; transition: all 0.2s; }
-    .dot.checked { background: #2456a4; color: white; }
+    .day-name { font-size: 12px; color: #f6cddc; margin-bottom: 6px; }
+    .dot { width: 40px; height: 40px; background: #fbf1f5; border-radius: 100%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 18px; transition: all 0.2s; }
+    .dot.checked { background: #ad3b6e; color: white; }
 
     /* ===== 搭子消息气泡 ===== */
     .chat-area { max-width: 420px; margin: 0 auto 20px; }
@@ -109,46 +109,46 @@
     .msg-bubble {
       background: white; border-radius: 18px 18px 18px 4px;
       padding: 12px 16px; max-width: 75%; font-size: 15px;
-      line-height: 1.5; color: #12244d;
+      line-height: 1.5; color: #45122a;
       box-shadow: 0 4px 12px rgba(0,0,0,0.06);
       animation: bubbleIn 0.3s ease;
     }
-    .msg-bubble.ai { border-radius: 18px 18px 4px 18px; background: #edf3fb; }
+    .msg-bubble.ai { border-radius: 18px 18px 4px 18px; background: #fbeaf0; }
     @keyframes bubbleIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     .typing-indicator { display: flex; gap: 4px; padding: 4px 0; }
-    .typing-indicator span { width: 6px; height: 6px; background: #b7cbe8; border-radius: 50%; animation: bounce 1.2s infinite; }
+    .typing-indicator span { width: 6px; height: 6px; background: #f6cddc; border-radius: 50%; animation: bounce 1.2s infinite; }
     .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
     .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
     @keyframes bounce { 0%,80%,100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1.2); opacity: 1; } }
 
     /* ===== 搭子交互按钮 ===== */
     .interaction-panel { max-width: 420px; margin: 0 auto 20px; background: white; border-radius: 28px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-    .panel-label { font-size: 12px; color: #b7cbe8; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
+    .panel-label { font-size: 12px; color: #f6cddc; margin-bottom: 12px; font-weight: 500; letter-spacing: 0.5px; }
     .mood-row { display: flex; justify-content: space-around; margin-bottom: 14px; }
     .mood-btn { font-size: 28px; cursor: pointer; padding: 6px 10px; border-radius: 16px; transition: all 0.15s; background: transparent; border: none; pointer-events: auto !important; touch-action: manipulation; }
     .mood-btn,.talk-btn{pointer-events:auto !important;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;}
-    .mood-btn:hover, .mood-btn:active { background: #f1f5fc; transform: scale(1.15); }
+    .mood-btn:hover, .mood-btn:active { background: #fcf4f7; transform: scale(1.15); }
     .talk-btn-row { display: flex; gap: 8px; }
     .talk-btn {
       flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #f2edde;
-      background: white; font-size: 14px; font-weight: 500; color: #2456a4;
+      background: white; font-size: 14px; font-weight: 500; color: #ad3b6e;
       cursor: pointer; transition: all 0.15s;
       pointer-events: auto !important; touch-action: manipulation;
     }
-    .talk-btn:active { background: #edf3fb; transform: scale(0.97); }
-    .talk-btn.pressed { background: #edf3fb; transform: scale(0.95); }
+    .talk-btn:active { background: #fbeaf0; transform: scale(0.97); }
+    .talk-btn.pressed { background: #fbeaf0; transform: scale(0.95); }
 
     /* ===== 分享卡片入口 ===== */
     .share-inline-card {
       max-width: 420px; margin: 0 auto 20px;
-      background: linear-gradient(135deg, #f1f5fc, #edf3fb);
+      background: linear-gradient(135deg, #fcf4f7, #fbeaf0);
       border-radius: 24px; padding: 16px 20px;
       border: 1px solid #d0e8f5;
     }
-    .share-inline-label { font-size: 11px; color: #b7cbe8; letter-spacing: 0.5px; margin-bottom: 10px; }
+    .share-inline-label { font-size: 11px; color: #f6cddc; letter-spacing: 0.5px; margin-bottom: 10px; }
     .share-inline-preview {
       background: white; border-radius: 16px; padding: 14px 16px; margin-bottom: 12px;
-      font-size: 13px; color: #0d2f66; display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: #5c1e3c; display: flex; align-items: center; gap: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
     .share-copy-row { display: flex; gap: 8px; }
@@ -157,40 +157,40 @@
       font-size: 14px; font-weight: 600; cursor: pointer;
       border: none; transition: all 0.15s;
     }
-    .share-copy-btn { background: #2456a4; color: white; }
-    .share-copy-btn:active { background: #0d2f66; transform: scale(0.97); }
-    .share-link-btn { background: white; color: #2456a4; border: 1.5px solid #e0d0a0; }
+    .share-copy-btn { background: #ad3b6e; color: white; }
+    .share-copy-btn:active { background: #5c1e3c; transform: scale(0.97); }
+    .share-link-btn { background: white; color: #ad3b6e; border: 1.5px solid #e0d0a0; }
     .share-link-btn:active { transform: scale(0.97); }
 
-    footer { font-size: 12px; text-align: center; color: #b7cbe8; margin-top: 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
+    footer { font-size: 12px; text-align: center; color: #f6cddc; margin-top: 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
 
     /* ===== 体重记录页面 ===== */
     .weight-page { max-width: 420px; margin: 0 auto; }
     .weight-header { background: white; border-radius: 32px; padding: 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
-    .weight-title { font-size: 20px; font-weight: 700; color: #0d2f66; margin-bottom: 4px; }
-    .weight-sub { font-size: 13px; color: #b7cbe8; margin-bottom: 20px; }
+    .weight-title { font-size: 20px; font-weight: 700; color: #5c1e3c; margin-bottom: 4px; }
+    .weight-sub { font-size: 13px; color: #f6cddc; margin-bottom: 20px; }
     .weight-input-row { display: flex; align-items: center; justify-content: center; gap: 12px; }
-    .weight-input { width: 120px; height: 52px; border-radius: 16px; border: 2px solid #f2edde; text-align: center; font-size: 24px; font-weight: 700; color: #2456a4; outline: none; }
-    .weight-input:focus { border-color: #2456a4; }
-    .weight-unit { font-size: 18px; color: #b7cbe8; font-weight: 500; }
-    .weight-add-btn { padding: 12px 24px; background: #2456a4; color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; }
-    .weight-add-btn:active { background: #0d2f66; }
+    .weight-input { width: 120px; height: 52px; border-radius: 16px; border: 2px solid #f2edde; text-align: center; font-size: 24px; font-weight: 700; color: #ad3b6e; outline: none; }
+    .weight-input:focus { border-color: #ad3b6e; }
+    .weight-unit { font-size: 18px; color: #f6cddc; font-weight: 500; }
+    .weight-add-btn { padding: 12px 24px; background: #ad3b6e; color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .weight-add-btn:active { background: #5c1e3c; }
     .weight-chart-card { background: white; border-radius: 32px; padding: 20px 16px 16px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-    .chart-title { font-size: 15px; font-weight: 700; color: #0d2f66; margin-bottom: 4px; }
-    .chart-sub { font-size: 12px; color: #b7cbe8; margin-bottom: 12px; }
+    .chart-title { font-size: 15px; font-weight: 700; color: #5c1e3c; margin-bottom: 4px; }
+    .chart-sub { font-size: 12px; color: #f6cddc; margin-bottom: 12px; }
     #weightCanvas { width: 100%; border-radius: 12px; background: #fcfaf4; }
     .weight-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 12px; }
-    .wstat { background: #f3f6fc; border-radius: 16px; padding: 12px 8px; text-align: center; }
-    .wstat-num { font-size: 20px; font-weight: 800; color: #2456a4; }
-    .wstat-label { font-size: 11px; color: #b7cbe8; margin-top: 2px; }
+    .wstat { background: #fdf6f8; border-radius: 16px; padding: 12px 8px; text-align: center; }
+    .wstat-num { font-size: 20px; font-weight: 800; color: #ad3b6e; }
+    .wstat-label { font-size: 11px; color: #f6cddc; margin-top: 2px; }
     .wstat.change-up { color: #e57373; }
     .wstat.change-down { color: #c2953f; }
     .weight-records { background: white; border-radius: 32px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-    .records-title { font-size: 15px; font-weight: 700; color: #0d2f66; margin-bottom: 14px; }
+    .records-title { font-size: 15px; font-weight: 700; color: #5c1e3c; margin-bottom: 14px; }
     .record-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f7f3e8; }
     .record-item:last-child { border-bottom: none; }
-    .record-date { font-size: 13px; color: #b7cbe8; }
-    .record-val { font-size: 18px; font-weight: 700; color: #2456a4; }
+    .record-date { font-size: 13px; color: #f6cddc; }
+    .record-val { font-size: 18px; font-weight: 700; color: #ad3b6e; }
     .record-change { font-size: 12px; margin-left: 6px; }
     .record-change.down { color: #c2953f; }
     .record-change.up { color: #e57373; }
@@ -198,69 +198,69 @@
     /* ===== SOP 游戏页面 ===== */
     .sop-page { max-width: 420px; margin: 0 auto; }
     .sop-header { background: white; border-radius: 32px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); text-align: center; }
-    .sop-title { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #3f6db5, #ff5722); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 4px; }
-    .sop-sub { font-size: 13px; color: #b7cbe8; margin-bottom: 14px; }
+    .sop-title { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #d4537e, #ff5722); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 4px; }
+    .sop-sub { font-size: 13px; color: #f6cddc; margin-bottom: 14px; }
     .sop-score-row { display: flex; justify-content: center; gap: 24px; }
     .sop-score { text-align: center; }
-    .sop-score-num { font-size: 28px; font-weight: 800; color: #2456a4; }
-    .sop-score-label { font-size: 11px; color: #b7cbe8; }
+    .sop-score-num { font-size: 28px; font-weight: 800; color: #ad3b6e; }
+    .sop-score-label { font-size: 11px; color: #f6cddc; }
     .sop-progress-wrap { margin-top: 12px; display: flex; align-items: center; gap: 10px; }
-    .sop-progress-bg { flex: 1; height: 8px; background: #eef3fb; border-radius: 10px; overflow: hidden; }
-    .sop-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #6c8fc9, #e6c229); border-radius: 10px; transition: width 0.4s ease, background 0.4s; }
-    .sop-progress-text { font-size: 12px; font-weight: 600; color: #b7cbe8; min-width: 40px; text-align: right; }
+    .sop-progress-bg { flex: 1; height: 8px; background: #fbf1f5; border-radius: 10px; overflow: hidden; }
+    .sop-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #e58aa8, #e6c229); border-radius: 10px; transition: width 0.4s ease, background 0.4s; }
+    .sop-progress-text { font-size: 12px; font-weight: 600; color: #f6cddc; min-width: 40px; text-align: right; }
     .sop-category-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; }
-    .sop-cat-tab { padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; border: none; background: #eef3fb; color: #2c5a9e; transition: all 0.2s; flex-shrink: 0; }
-    .sop-cat-tab.active { background: linear-gradient(135deg, #2456a4, #0d2f66); color: white; }
+    .sop-cat-tab { padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer; border: none; background: #fbf1f5; color: #9c3163; transition: all 0.2s; flex-shrink: 0; }
+    .sop-cat-tab.active { background: linear-gradient(135deg, #ad3b6e, #5c1e3c); color: white; }
     /* ===== SOP 清单模式 ===== */
     .sop-game-card { background: white; border-radius: 32px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); position: relative; overflow: hidden; }
-    .sop-cat-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 12px; color: #b7cbe8; }
-    .sop-cat-progress-bar { flex: 1; height: 4px; background: #eef3fb; border-radius: 4px; overflow: hidden; }
-    .sop-cat-progress-fill { height: 100%; background: #2456a4; border-radius: 4px; transition: width 0.3s; }
+    .sop-cat-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 12px; color: #f6cddc; }
+    .sop-cat-progress-bar { flex: 1; height: 4px; background: #fbf1f5; border-radius: 4px; overflow: hidden; }
+    .sop-cat-progress-fill { height: 100%; background: #ad3b6e; border-radius: 4px; transition: width 0.3s; }
     .sop-habit-card { text-align: center; padding: 8px 0 20px; }
-    .sop-habit-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #b7cbe8; margin-bottom: 10px; }
-    .sop-habit-label.pos { color: #3f6db5; }
+    .sop-habit-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #f6cddc; margin-bottom: 10px; }
+    .sop-habit-label.pos { color: #d4537e; }
     .sop-habit-label.neg { color: #ef5350; }
     .sop-habit-emoji { font-size: 40px; margin-bottom: 8px; display: block; }
-    .sop-habit-text { font-size: 17px; font-weight: 600; color: #0d2f66; line-height: 1.5; margin-bottom: 4px; }
-    .sop-habit-sub { font-size: 12px; color: #b7cbe8; margin-bottom: 20px; }
+    .sop-habit-text { font-size: 17px; font-weight: 600; color: #5c1e3c; line-height: 1.5; margin-bottom: 4px; }
+    .sop-habit-sub { font-size: 12px; color: #f6cddc; margin-bottom: 20px; }
     .sop-btn-row { display: flex; gap: 12px; }
     .sop-btn { flex: 1; padding: 14px 8px; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
     .sop-btn:active { transform: scale(0.97); }
-    .sop-btn.yes { background: #edf3fb; color: #173e7e; border: 2px solid #f0e2b6; }
+    .sop-btn.yes { background: #fbeaf0; color: #8f2757; border: 2px solid #f0e2b6; }
     .sop-btn.no { background: #fff3f3; color: #c62828; border: 2px solid #ffcdd2; }
-    .sop-btn.done { background: #eef3fb; color: #b7cbe8; border: 2px solid #e0d8c0; }
+    .sop-btn.done { background: #fbf1f5; color: #f6cddc; border: 2px solid #e0d8c0; }
     .sop-btn .sop-btn-pts { font-size: 12px; opacity: 0.8; }
-    .sop-cat-summary { background: #f3f6fc; border-radius: 16px; padding: 16px; text-align: center; }
+    .sop-cat-summary { background: #fdf6f8; border-radius: 16px; padding: 16px; text-align: center; }
     .sop-cat-summary-icon { font-size: 36px; margin-bottom: 8px; }
-    .sop-cat-summary-title { font-size: 15px; font-weight: 700; color: #0d2f66; margin-bottom: 4px; }
-    .sop-cat-summary-sub { font-size: 12px; color: #b7cbe8; }
+    .sop-cat-summary-title { font-size: 15px; font-weight: 700; color: #5c1e3c; margin-bottom: 4px; }
+    .sop-cat-summary-sub { font-size: 12px; color: #f6cddc; }
     .sop-tip { background: #fff9e6; border-radius: 16px; padding: 14px 16px; margin-bottom: 16px; border: 1px solid #ffe599; }
-    .sop-tip-title { font-size: 13px; font-weight: 700; color: #3f6db5; margin-bottom: 6px; }
+    .sop-tip-title { font-size: 13px; font-weight: 700; color: #d4537e; margin-bottom: 6px; }
     .sop-tip-item { font-size: 12px; color: #7a6a3a; margin-bottom: 3px; }
     .sop-done-state { background: white; border-radius: 32px; padding: 40px 24px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .sop-done-emoji { font-size: 72px; margin-bottom: 16px; }
-    .sop-done-title { font-size: 22px; font-weight: 800; color: #0d2f66; margin-bottom: 8px; }
-    .sop-done-desc { font-size: 14px; color: #b7cbe8; margin-bottom: 16px; }
-    .sop-done-stats { background: #f3f6fc; border-radius: 20px; padding: 20px; margin-bottom: 16px; }
+    .sop-done-title { font-size: 22px; font-weight: 800; color: #5c1e3c; margin-bottom: 8px; }
+    .sop-done-desc { font-size: 14px; color: #f6cddc; margin-bottom: 16px; }
+    .sop-done-stats { background: #fdf6f8; border-radius: 20px; padding: 20px; margin-bottom: 16px; }
     .sop-done-stat-row { display: flex; justify-content: space-around; }
     .sop-done-stat { text-align: center; }
-    .sop-done-stat-num { font-size: 28px; font-weight: 800; color: #2456a4; }
-    .sop-done-stat-lbl { font-size: 11px; color: #b7cbe8; }
-    .sop-done-reset { font-size: 12px; color: #b7cbe8; }
-    .sop-all-done-card { background: linear-gradient(135deg, #edf3fb, #f9fbfe); border-radius: 32px; padding: 16px; margin-bottom: 16px; text-align: center; border: 2px solid #f0e2b6; }
+    .sop-done-stat-num { font-size: 28px; font-weight: 800; color: #ad3b6e; }
+    .sop-done-stat-lbl { font-size: 11px; color: #f6cddc; }
+    .sop-done-reset { font-size: 12px; color: #f6cddc; }
+    .sop-all-done-card { background: linear-gradient(135deg, #fbeaf0, #fefbfc); border-radius: 32px; padding: 16px; margin-bottom: 16px; text-align: center; border: 2px solid #f0e2b6; }
     .sop-all-done-emoji { font-size: 48px; margin-bottom: 8px; }
-    .sop-all-done-text { font-size: 16px; font-weight: 700; color: #173e7e; margin-bottom: 4px; }
+    .sop-all-done-text { font-size: 16px; font-weight: 700; color: #8f2757; margin-bottom: 4px; }
     .sop-all-done-sub { font-size: 13px; color: #9c7a10; }
     /* ===== SOP 清单多选模式 ===== */
     .sop-list-container { display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto; }
     .sop-item { background: #f8f9fa; border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; }
-    .sop-item.sop-item-yes { background: #edf3fb; border: 1px solid #f0e2b6; }
+    .sop-item.sop-item-yes { background: #fbeaf0; border: 1px solid #f0e2b6; }
     .sop-item.sop-item-no { background: #fff3f3; border: 1px solid #ffcdd2; }
-    .sop-item-text { flex: 1; font-size: 14px; color: #0d2f66; line-height: 1.4; margin-right: 12px; }
+    .sop-item-text { flex: 1; font-size: 14px; color: #5c1e3c; line-height: 1.4; margin-right: 12px; }
     .sop-item-btns { display: flex; gap: 6px; }
-    .sop-check-btn { padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #e0d8c0; background: white; color: #b7cbe8; transition: all 0.15s; display: flex; align-items: center; gap: 3px; }
+    .sop-check-btn { padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #e0d8c0; background: white; color: #f6cddc; transition: all 0.15s; display: flex; align-items: center; gap: 3px; }
     .sop-check-btn:active { transform: scale(0.95); }
-    .sop-check-btn.yes-checked { background: #3f6db5; color: white; border-color: #3f6db5; }
+    .sop-check-btn.yes-checked { background: #d4537e; color: white; border-color: #d4537e; }
     .sop-check-btn.no-checked { background: #ef5350; color: white; border-color: #ef5350; }
 
     /* ===== SOP 全部完成弹窗（新版） ===== */
@@ -284,25 +284,25 @@
     .sf-subtitle { font-size: 12px; color: #bda87a; margin-bottom: 0; }
     .sf-stats { display: flex; gap: 8px; margin-bottom: 18px; }
     .sf-stat { flex: 1; background: #f8fafc; border-radius: 16px; padding: 12px 8px; text-align: center; border: 1.5px solid #eceff1; }
-    .sf-stat-center { background: linear-gradient(135deg, #edf3fb, #f9fbfe); border-color: #f0e2b6; }
-    .sf-stat-yes { background: linear-gradient(135deg, #edf3fb, #e9f0fa); border-color: #c2953f; }
-    .sf-stat-no { background: linear-gradient(135deg, #ecf2fb, #ffe0b2); border-color: #ffb74d; }
-    .sf-stat-num { font-size: 26px; font-weight: 900; line-height: 1.1; color: #12244d; }
-    .sf-stat-center .sf-stat-num { color: #173e7e; }
-    .sf-stat-yes .sf-stat-num { color: #3f6db5; }
-    .sf-stat-no .sf-stat-num { color: #3f6db5; }
+    .sf-stat-center { background: linear-gradient(135deg, #fbeaf0, #fefbfc); border-color: #f0e2b6; }
+    .sf-stat-yes { background: linear-gradient(135deg, #fbeaf0, #fae7ee); border-color: #c2953f; }
+    .sf-stat-no { background: linear-gradient(135deg, #f9edf2, #ffe0b2); border-color: #ffb74d; }
+    .sf-stat-num { font-size: 26px; font-weight: 900; line-height: 1.1; color: #45122a; }
+    .sf-stat-center .sf-stat-num { color: #8f2757; }
+    .sf-stat-yes .sf-stat-num { color: #d4537e; }
+    .sf-stat-no .sf-stat-num { color: #d4537e; }
     .sf-stat-label { font-size: 10px; color: #78909c; margin-top: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
     .sf-divider { height: 1px; background: linear-gradient(90deg, transparent, #eceff1, transparent); margin: 0 0 14px; }
     .sf-cat-title { font-size: 11px; color: #bda87a; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; text-align: left; padding: 0 2px; margin-bottom: 8px; }
     .sf-cats { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
     .sf-cat-row { display: flex; align-items: center; gap: 8px; background: #f8fafc; border-radius: 12px; padding: 9px 12px; border: 1px solid #eceff1; }
     .sf-cat-icon { font-size: 18px; flex-shrink: 0; }
-    .sf-cat-name { flex: 1; font-size: 13px; color: #12244d; font-weight: 500; text-align: left; }
-    .sf-cat-yes { font-size: 11px; font-weight: 800; color: #fff; background: #3f6db5; border-radius: 8px; padding: 2px 8px; flex-shrink: 0; }
+    .sf-cat-name { flex: 1; font-size: 13px; color: #45122a; font-weight: 500; text-align: left; }
+    .sf-cat-yes { font-size: 11px; font-weight: 800; color: #fff; background: #d4537e; border-radius: 8px; padding: 2px 8px; flex-shrink: 0; }
     .sf-cat-no { font-size: 11px; font-weight: 800; color: #fff; background: #ef5350; border-radius: 8px; padding: 2px 8px; flex-shrink: 0; margin-left: 2px; }
     .sf-cat-streak { font-size: 11px; font-weight: 900; color: #ff6d00; flex-shrink: 0; }
-    .sf-note { font-size: 11px; color: #b7cbe8; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; gap: 4px; }
-    .sf-btn { display: block; width: 100%; background: linear-gradient(135deg, #3f6db5, #173e7e); color: white; border: none; border-radius: 50px; padding: 15px; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px rgba(46,125,50,0.35); letter-spacing: 0.5px; }
+    .sf-note { font-size: 11px; color: #f6cddc; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .sf-btn { display: block; width: 100%; background: linear-gradient(135deg, #d4537e, #8f2757); color: white; border: none; border-radius: 50px; padding: 15px; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px rgba(46,125,50,0.35); letter-spacing: 0.5px; }
     .sf-btn:active { transform: scale(0.97); }
     .sf-cat-title { font-size: 11px; color: #bda87a; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; text-align: left; padding: 0 2px; margin-bottom: 8px; }
     .sf-hist-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
@@ -317,8 +317,8 @@
     .sf-cat-emoji { font-size: 56px; display: block; margin-bottom: 6px; }
     .sf-cat-subtitle { font-size: 18px; font-weight: 900; margin-bottom: 2px; }
     .sf-score-pct { font-size: 40px; font-weight: 900; margin: 10px 0 12px; }
-    .sf-feedback { background: #f8fafc; border-radius: 16px; padding: 16px; font-size: 15px; line-height: 1.7; color: #12244d; font-weight: 500; border: 1.5px solid #eceff1; margin-bottom: 16px; }
-    .sf-btn-cat { background: linear-gradient(135deg, #9db8dd, #4a74ba); color: white; border: none; border-radius: 50px; padding: 15px; font-size: 16px; font-weight: 800; width: 100%; cursor: pointer; box-shadow: 0 6px 20px rgba(0,200,83,0.35); letter-spacing: 0.5px; }
+    .sf-feedback { background: #f8fafc; border-radius: 16px; padding: 16px; font-size: 15px; line-height: 1.7; color: #45122a; font-weight: 500; border: 1.5px solid #eceff1; margin-bottom: 16px; }
+    .sf-btn-cat { background: linear-gradient(135deg, #f0b3c9, #d96e97); color: white; border: none; border-radius: 50px; padding: 15px; font-size: 16px; font-weight: 800; width: 100%; cursor: pointer; box-shadow: 0 6px 20px rgba(0,200,83,0.35); letter-spacing: 0.5px; }
     .sf-btn-cat:active { transform: scale(0.97); }
 
     /* ===== 负向批评弹窗 ===== */
@@ -344,7 +344,7 @@
     }
     .neg-critic-emoji { font-size: 52px; margin-bottom: 8px; }
     .neg-critic-title { font-size: 18px; font-weight: 800; color: #c62828; margin-bottom: 8px; }
-    .neg-critic-desc { font-size: 14px; color: #2c5a9e; margin-bottom: 12px; line-height: 1.5; }
+    .neg-critic-desc { font-size: 14px; color: #9c3163; margin-bottom: 12px; line-height: 1.5; }
     .neg-critic-reply { background: #fff3f3; border-radius: 12px; padding: 10px 14px; font-size: 14px; color: #c62828; margin-bottom: 16px; font-style: italic; }
     .neg-critic-row { display: flex; gap: 10px; }
     .neg-btn { flex: 1; padding: 12px; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; }
@@ -362,7 +362,7 @@
     .pos-reward-card {
       background: white; border-radius: 32px; padding: 36px 28px;
       max-width: 280px; width: 100%; text-align: center;
-      border: 3px solid #3f6db5;
+      border: 3px solid #d4537e;
       animation: posBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     @keyframes posBounce {
@@ -371,8 +371,8 @@
       100% { transform: scale(1) rotate(0); opacity: 1; }
     }
     .pos-reward-emoji { font-size: 64px; margin-bottom: 12px; }
-    .pos-reward-msg { font-size: 16px; font-weight: 600; color: #173e7e; margin-bottom: 8px; }
-    .pos-reward-pts { font-size: 42px; font-weight: 900; color: #3f6db5; }
+    .pos-reward-msg { font-size: 16px; font-weight: 600; color: #8f2757; margin-bottom: 8px; }
+    .pos-reward-pts { font-size: 42px; font-weight: 900; color: #d4537e; }
     .pos-reward-pts.neg { color: #ef5350; font-size: 32px; }
 
     /* ===== Toast ===== */
@@ -403,17 +403,17 @@
       padding: 16px 20px 10px; flex-shrink: 0; text-align: center;
       border-bottom: 1px solid #f7f3e8;
     }
-    .qa-title { font-size: 18px; font-weight: 700; color: #0d2f66; }
-    .qa-sub { font-size: 12px; color: #b7cbe8; margin-top: 4px; }
+    .qa-title { font-size: 18px; font-weight: 700; color: #5c1e3c; }
+    .qa-sub { font-size: 12px; color: #f6cddc; margin-top: 4px; }
     .qa-scroll { overflow-y: auto; padding: 12px 16px 20px; flex: 1; }
     .qa-card {
-      background: #f3f6fc; border-radius: 16px; padding: 14px 16px;
+      background: #fdf6f8; border-radius: 16px; padding: 14px 16px;
       margin-bottom: 10px; cursor: pointer;
       border: 2px solid transparent; transition: all 0.2s;
       display: flex; align-items: center; gap: 10px;
     }
     .qa-card:active { transform: scale(0.97); }
-    .qa-card.pos { border-color: #e9f0fa; background: #f9fbfe; }
+    .qa-card.pos { border-color: #fae7ee; background: #fefbfc; }
     .qa-card.neg { border-color: #ffcdd2; background: #fff5f5; }
     .qa-card-icon { font-size: 24px; flex-shrink: 0; }
     .qa-card-text { font-size: 14px; color: #3a4a5a; line-height: 1.4; }
@@ -421,7 +421,7 @@
       font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px;
       margin-left: auto; flex-shrink: 0;
     }
-    .qa-card-tag.pos { background: #3f6db5; color: white; }
+    .qa-card-tag.pos { background: #d4537e; color: white; }
     .qa-card-tag.neg { background: #ef5350; color: white; }
 
     /* ===== 反馈弹窗 ===== */
@@ -436,7 +436,7 @@
       background: white; border-radius: 32px; padding: 32px 24px;
       max-width: 340px; width: 100%; text-align: center;
     }
-    .fb-card.pos { border-top: 5px solid #3f6db5; animation: fbPop 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+    .fb-card.pos { border-top: 5px solid #d4537e; animation: fbPop 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
     .fb-card.neg { border-top: 5px solid #ef5350; animation: fbShake 0.5s ease; }
     @keyframes fbPop { from { transform: scale(0.5); opacity:0; } to { transform: scale(1); opacity:1; } }
     @keyframes fbShake {
@@ -448,18 +448,18 @@
     }
     .fb-emoji { font-size: 64px; margin-bottom: 12px; }
     .fb-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; border-radius: 20px; display: inline-block; padding: 2px 12px; }
-    .fb-label.pos { background: #edf3fb; color: #173e7e; }
+    .fb-label.pos { background: #fbeaf0; color: #8f2757; }
     .fb-label.neg { background: #fff3f3; color: #c62828; }
-    .fb-title { font-size: 20px; font-weight: 800; color: #0d2f66; margin-bottom: 10px; }
-    .fb-text { font-size: 14px; color: #2c5a9e; line-height: 1.7; margin-bottom: 16px; }
+    .fb-title { font-size: 20px; font-weight: 800; color: #5c1e3c; margin-bottom: 10px; }
+    .fb-text { font-size: 14px; color: #9c3163; line-height: 1.7; margin-bottom: 16px; }
     .fb-partner-quote {
-      background: #f3f6fc; border-radius: 12px; padding: 12px 16px;
+      background: #fdf6f8; border-radius: 12px; padding: 12px 16px;
       font-size: 14px; color: #3a4a5a; font-style: italic;
       margin-bottom: 20px; line-height: 1.6;
       text-align: left;
     }
-    .fb-partner-label { font-size: 11px; color: #b7cbe8; margin-bottom: 6px; font-style: normal; font-weight: 600; }
-    .fb-btn { background: #2456a4; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
+    .fb-partner-label { font-size: 11px; color: #f6cddc; margin-bottom: 6px; font-style: normal; font-weight: 600; }
+    .fb-btn { background: #ad3b6e; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
   
     /* 弹层右上角 X 关闭按钮（2026-09-08） */
@@ -473,7 +473,7 @@
 
 <!-- ===== 底部右侧搭子切换 ===== -->
 <div style="position:fixed;bottom:88px;right:16px;z-index:200;" data-page-node-id="S50W6ZXDBjaJY7bZNdg7nB">
-  <div id="avatarBtn" onclick="showPartnerSelector()" style="width:48px;height:48px;background:white;border:2.5px solid #9db8dd;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:26px;transition:transform 0.2s;position:relative;" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'" data-page-node-id="VScecncSTf4ZMkigsAupX7">😊</div>
+  <div id="avatarBtn" onclick="showPartnerSelector()" style="width:48px;height:48px;background:white;border:2.5px solid #f0b3c9;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:26px;transition:transform 0.2s;position:relative;" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'" data-page-node-id="VScecncSTf4ZMkigsAupX7">😊</div>
 </div>
 
 <!-- ===== Tab Bar ===== -->
@@ -496,7 +496,7 @@
   </div>
   <div class="tab-item" onclick="switchTab('weight')" data-page-node-id="VozJ98DJZ6wkM0FaFB7RCa">
     <div class="tab-icon" data-page-node-id="7euA9ARzt5FqpQmtMlwetv">🔥</div>
-    <div class="tab-label" data-page-node-id="MPL5ByDXumF5UFxsWb8Da0">领导</div>
+    <div class="tab-label" data-page-node-id="MPL5ByDXumF5UFxsWb8Da0">心力</div>
   </div>
   <div class="tab-item" onclick="switchTab('progress')" data-page-node-id="P8idCBc5N4OFobF5fckBfO">
     <div class="tab-icon" data-page-node-id="Ae7Swqmv0QeeochAL99ljM">📊</div>
@@ -513,28 +513,28 @@
 
   <!-- 搭子选择器 -->
   <div id="partnerSelector" class="partner-selector" data-page-node-id="CEwgdQ2DbQvFPB29LYvtmV">
-    <div class="selector-title" data-page-node-id="3fYy9W8GMf4CyHBoIAF1I3">选个领导力搭子</div>
-    <div class="selector-sub" data-page-node-id="4TJvOqwqk9l7W07XMsGSo6">陪你带人成事，把领导力练成日常</div>
+    <div class="selector-title" data-page-node-id="3fYy9W8GMf4CyHBoIAF1I3">选个心态信念搭子</div>
+    <div class="selector-sub" data-page-node-id="4TJvOqwqk9l7W07XMsGSo6">陪你稳住心态，把相信练成日常</div>
     <div class="partner-grid" id="partnerGrid" data-page-node-id="IAvfR1VH7TIKDVcBLzqK8U">
       <div class="partner-card selected" id="pc-gentle" onclick="selectPartner('gentle')" data-page-node-id="dRzrAQ21OtZX21pKMXDmIx">
-        <div class="partner-emoji" data-page-node-id="u45BvopHJZyFPrp7tDdyvH">🧭</div>
-        <div class="partner-name" data-page-node-id="YWw4mO0BUQoG5Sr5RDFlCA">教练型领导</div>
-        <div class="partner-desc" data-page-node-id="A32wBDIYbZkxL1fIyjB3hT">先听懂，再带路</div>
+        <div class="partner-emoji" data-page-node-id="u45BvopHJZyFPrp7tDdyvH">🌸</div>
+        <div class="partner-name" data-page-node-id="YWw4mO0BUQoG5Sr5RDFlCA">清醒型</div>
+        <div class="partner-desc" data-page-node-id="A32wBDIYbZkxL1fIyjB3hT">降低期待，提高行动</div>
       </div>
       <div class="partner-card" id="pc-passion" onclick="selectPartner('passion')" data-page-node-id="6elyozUw9Ocr3uvs0scwfM">
         <div class="partner-emoji" data-page-node-id="82waN5dKSrd690bzhV5fWa">🔥</div>
-        <div class="partner-name" data-page-node-id="HtSoAT8TqcDwYX2ZROruiQ">将领型</div>
-        <div class="partner-desc" data-page-node-id="6n4VIRPETa8kBsy0yH1SzJ">目标必达，说到做到</div>
+        <div class="partner-name" data-page-node-id="HtSoAT8TqcDwYX2ZROruiQ">点火型</div>
+        <div class="partner-desc" data-page-node-id="6n4VIRPETa8kBsy0yH1SzJ">先开始，再准备好</div>
       </div>
       <div class="partner-card" id="pc-rational" onclick="selectPartner('rational')" data-page-node-id="r2li4tIKP6zgctltrpjcZw">
-        <div class="partner-emoji" data-page-node-id="C3OYn5qPhndfu1fNy33HCi">📐</div>
-        <div class="partner-name" data-page-node-id="b7tgeuswczZSy3SCOXcA4L">体系型</div>
-        <div class="partner-desc" data-page-node-id="QxRZtXdWWSgq2FM2L0pHh4">建标准，造系统</div>
+        <div class="partner-emoji" data-page-node-id="C3OYn5qPhndfu1fNy33HCi">🪞</div>
+        <div class="partner-name" data-page-node-id="b7tgeuswczZSy3SCOXcA4L">诚实型</div>
+        <div class="partner-desc" data-page-node-id="QxRZtXdWWSgq2FM2L0pHh4">问自己一个真问题</div>
       </div>
       <div class="partner-card" id="pc-tsundere" onclick="selectPartner('tsundere')" data-page-node-id="dnTtbzBuE6ajQWfoadvgAh">
-        <div class="partner-emoji" data-page-node-id="ZZ73YvDXaHskLLdy7rpfib">🌿</div>
-        <div class="partner-name" data-page-node-id="uVsnUZ149Pa8jWAyHTLzI9">园丁型</div>
-        <div class="partner-desc" data-page-node-id="lTO5oB50oxDP65d8dXQFKj">成就他人，静待花开</div>
+        <div class="partner-emoji" data-page-node-id="ZZ73YvDXaHskLLdy7rpfib">⭐</div>
+        <div class="partner-name" data-page-node-id="uVsnUZ149Pa8jWAyHTLzI9">自信型</div>
+        <div class="partner-desc" data-page-node-id="lTO5oB50oxDP65d8dXQFKj">我是自己的第一个信徒</div>
       </div>
     </div>
     <button id="confirmPartnerBtn" class="confirm-btn" onclick="confirmPartner()" data-page-node-id="aTj6HBtoGrE2b2VB5mqQxZ">✨ 开始陪伴 ✨</button>
@@ -543,8 +543,8 @@
   <!-- 打卡仪表盘 -->
   <div id="dashboard" style="display:none;" data-page-node-id="vfVuMQwF3UeaHGW2orLVwx">
     <div class="card" data-page-node-id="gI3hNZcUZw72CR8YWSS3jB">
-      <div id="currentPartnerBadge" class="partner-badge" data-page-node-id="SNIyjCea6spPzEne4n0Ft5">🧭 教练型领导</div>
-      <div class="question" data-page-node-id="wEsKAfr6GSIgeRSGYgBfj2">今天，你带人带得怎么样？</div>
+      <div id="currentPartnerBadge" class="partner-badge" data-page-node-id="SNIyjCea6spPzEne4n0Ft5">🌸 清醒型</div>
+      <div class="question" data-page-node-id="wEsKAfr6GSIgeRSGYgBfj2">今天，你的心态稳吗？</div>
       <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="wTTlRGFIFkGdUY9EwMKngh">
         <div class="checkin-status" id="checkinStatusText" data-page-node-id="21ouhoXvil26CEMF6bq4XH">签到</div>
         <div class="checkin-sub" data-page-node-id="X1CbQcxbv3N652HjR5onOd">点击打卡</div>
@@ -591,7 +591,7 @@
     <div id="key3Card" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
         <span style="font-size:18px;">🎯</span>
-        <span style="font-weight:700;font-size:14px;color:#333;">🎯 今日 3 个领导力小动作</span>
+        <span style="font-weight:700;font-size:14px;color:#333;">🎯 今日 3 个心态信念小动作</span>
       </div>
       <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
       <div id="key3List"></div>
@@ -599,12 +599,12 @@
     <script>
     (function(){
             var KEY3_ACTIONS = [
-        { icon: '🪞', title: '照一次镜子', sub: '复盘今天的一次情绪与判断' },
-        { icon: '🤲', title: '成就一个人', sub: '给一条具体反馈，或授权一件事' },
-        { icon: '🎯', title: '聚焦一件事', sub: '砍掉一个伪问题，压到真价值上' }
+        { icon: '🪞', title: '问一个诚实问题', sub: '我今天在回避什么？' },
+        { icon: '🎯', title: '降低一次期待', sub: '把「必须完美」改成「先完成」' },
+        { icon: '🚀', title: '先干5分钟', sub: '拖了很久的事，立刻做5分钟' }
       ];;
-      var KEY3_STORE = 'buddy_key3_ldship';
-      var K3_COLOR = '#2456a4';
+      var KEY3_STORE = 'buddy_key3_mindset';
+      var K3_COLOR = '#ad3b6e';
       function k3today(){ return new Date().toISOString().slice(0,10); }
       function k3data(){ try { var d = JSON.parse(localStorage.getItem(KEY3_STORE) || '{}'); if (d.date !== k3today()) d = { date: k3today(), checked: {} }; return d; } catch(e) { return { date: k3today(), checked: {} }; } }
       window.toggleKey3 = function(i){
@@ -617,7 +617,7 @@
           try {
             var __tails = ['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
             var __m = '🔥 收到！「' + KEY3_ACTIONS[i].title + '」' + __tails[Math.floor(Math.random() * __tails.length)];
-            if (typeof showToast === 'function') { showToast(__m); } else if (typeof ccToast === 'function') { ccToast(__m); }
+            if (typeof ccToast === 'function') { ccToast(__m); } else if (typeof showToast === 'function') { showToast(__m); }
           } catch(e) {}
         }
       };
@@ -640,13 +640,13 @@
     })();
     </script>
 <!-- 📌 今天提醒自己 -->
-    <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#edf3fb,#e9f0fa);border-radius:18px;padding:14px 16px;font-size:13px;color:#173e7e;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+    <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#fbeaf0,#fae7ee);border-radius:18px;padding:14px 16px;font-size:13px;color:#8f2757;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
         <span style="font-size:18px;">📌</span>
         <span style="font-weight:700;">今天提醒自己</span>
         <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
       </div>
-      <div id="dailyTipText">先听懂，再带路——理解先于评价</div>
+      <div id="dailyTipText">降低期待，提高行动——该来的总会来</div>
     </div>
 
     <footer data-page-node-id="f8BK3JzUPvY9OncVl93jwC">每天一次签到 · 你的搭子会给你力量</footer>
@@ -657,8 +657,8 @@
 <div id="page-weight" class="page" data-page-node-id="EYO6rcKZjpKHwUSps0SgOr">
   <div class="weight-page" data-page-node-id="lOHHQOnAzn1m3UkE1vK9eb">
     <div class="weight-header" data-page-node-id="wWAcfdJ9jNAwlAGplrEMgH">
-      <div class="weight-title" data-page-node-id="4g1XEWKSf8gdeIyFxBJTQc">🌸 领导分记录</div>
-      <div class="weight-sub" id="weightSummary" data-page-node-id="SAnoTzwDAcJ2M4GF1Y64GJ">记录自己每天的领导力状态，趋势比单次重要</div>
+      <div class="weight-title" data-page-node-id="4g1XEWKSf8gdeIyFxBJTQc">🌸 心力分记录</div>
+      <div class="weight-sub" id="weightSummary" data-page-node-id="SAnoTzwDAcJ2M4GF1Y64GJ">记录自己每天的心力状态，趋势比单次重要</div>
       <div class="weight-input-row" data-page-node-id="n3qfzRPex71UpWXfLOknqU">
         <input class="weight-input" id="weightInput" type="number" step="1" min="1" max="100" placeholder="--" data-page-node-id="ALmvl3szcoHSTliiVxom2v">
         <span class="weight-unit" data-page-node-id="bCX4BtOzg6Ubmqq5xr1jDk">分</span>
@@ -667,7 +667,7 @@
     </div>
 
     <div class="weight-chart-card" data-page-node-id="ASptTjH5Waeq5UtSuKMUFo">
-      <div class="chart-title" data-page-node-id="0s3Wq4jwWbtY6KxWIAq40R">📈 领导分曲线</div>
+      <div class="chart-title" data-page-node-id="0s3Wq4jwWbtY6KxWIAq40R">📈 心力分曲线</div>
       <div class="chart-sub" id="chartSub" data-page-node-id="WVLPa5ueT3HobKDCA3A7Lp">坚持记录，趋势一目了然</div>
       <canvas id="weightCanvas" width="380" height="200" data-page-node-id="hetmipTQppRntgTDWi5wq0"></canvas>
       <div class="weight-stats" id="weightStats" data-page-node-id="mpSZrAPb7eH3EQzIIDaZfP"></div>
@@ -677,7 +677,7 @@
     <div class="weight-chart-card" id="weeklyReportCard" data-page-node-id="FA7JeordoXvqa5nRwv66Oc">
       <div class="chart-title" data-page-node-id="bvcy6mHT6xp6AYpdjqozfJ">📊 本周进展</div>
       <div id="weeklyReportContent" data-page-node-id="UDNbomKwEE6mtKZM94IUkc">
-        <div style="text-align:center;padding:16px;color:#b7cbe8;font-size:13px;" data-page-node-id="WHKdZ4xgFgK2N7rAKuZKc8">本周打卡后再来看进展报告 📝</div>
+        <div style="text-align:center;padding:16px;color:#f6cddc;font-size:13px;" data-page-node-id="WHKdZ4xgFgK2N7rAKuZKc8">本周打卡后再来看进展报告 📝</div>
       </div>
       <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b35,#ff9500);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareWeeklyReport()" data-page-node-id="3tezSvgepdWe2hZnutisZk">📤 分享本周进展</button>
     </div>
@@ -734,32 +734,32 @@
     <div class="weight-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;" data-page-node-id="G4h4IAHyr9pHiFKNsRf647">
       <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="E01F1c5DcNG4T1WvWCYiq0">🏆</div>
       <div class="chart-title" style="font-size:18px;margin-bottom:4px;" data-page-node-id="VQJUBNpG0FFybHeCck4bD1">思维进展</div>
-      <div style="font-size:13px;color:#b7cbe8;margin-bottom:20px;" data-page-node-id="953VtES35IuKZFGVpgs4vw">你的 SOP 全局视图</div>
+      <div style="font-size:13px;color:#f6cddc;margin-bottom:20px;" data-page-node-id="953VtES35IuKZFGVpgs4vw">你的 SOP 全局视图</div>
       <div style="display:flex;justify-content:center;margin-bottom:16px;position:relative;" data-page-node-id="oCipMvPmk6gDfe8DQ9OGig">
         <svg width="140" height="140" viewBox="0 0 140 140" data-page-node-id="aSHfORf9uH5eTFEjP8tTnr">
           <defs data-page-node-id="8GfXZ3GHRnimYP7iF4iHet"><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%" data-page-node-id="APzs9nRDdWSvpkZ6IEyylA">
-            <stop offset="0%" stop-color="#9db8dd" data-page-node-id="QBjsMyQh7cTOgW7XunTe37"/><stop offset="100%" stop-color="#6c8fc9" data-page-node-id="ibA2OOVGXOXCYd79GtwClZ"/>
+            <stop offset="0%" stop-color="#f0b3c9" data-page-node-id="QBjsMyQh7cTOgW7XunTe37"/><stop offset="100%" stop-color="#e58aa8" data-page-node-id="ibA2OOVGXOXCYd79GtwClZ"/>
           </linearGradient></defs>
-          <circle cx="70" cy="70" r="54" fill="none" stroke="#eef3fb" stroke-width="14" data-page-node-id="8701ABPzSkVDWqMphcEhlX"/>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#fbf1f5" stroke-width="14" data-page-node-id="8701ABPzSkVDWqMphcEhlX"/>
           <circle id="ringFill" cx="70" cy="70" r="54" fill="none" stroke="url(#ringGrad)" stroke-width="14"
             stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"
             transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.8s;" data-page-node-id="hDnWfFA56m2EjxBTnhoZpF"/>
-          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#9db8dd;" id="ringPct" data-page-node-id="LKFiBtgLSCCAmECK7amJ3C">0%</text>
-          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#b7cbe8;" data-page-node-id="mnGPuL7K0voSLoWHmDIjqq">平均得分</text>
+          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#f0b3c9;" id="ringPct" data-page-node-id="LKFiBtgLSCCAmECK7amJ3C">0%</text>
+          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#f6cddc;" data-page-node-id="mnGPuL7K0voSLoWHmDIjqq">平均得分</text>
         </svg>
       </div>
       <div style="display:flex;gap:12px;justify-content:center;" data-page-node-id="rv2TUvznC5fVn3faUsTJrk">
-        <div style="background:#edf3fb;border-radius:16px;padding:10px 16px;text-align:center;" data-page-node-id="rroRRPsAAC7S3il9UuVmYG">
-          <div style="font-size:18px;font-weight:800;color:#173e7e;" id="progStreakNum" data-page-node-id="jtgUmXgMcb0XmUIjTLCRgj">0</div>
-          <div style="font-size:11px;color:#b7cbe8;" data-page-node-id="WNeEfwxFsWB5UDB59AxmVu">连续天数</div>
+        <div style="background:#fbeaf0;border-radius:16px;padding:10px 16px;text-align:center;" data-page-node-id="rroRRPsAAC7S3il9UuVmYG">
+          <div style="font-size:18px;font-weight:800;color:#8f2757;" id="progStreakNum" data-page-node-id="jtgUmXgMcb0XmUIjTLCRgj">0</div>
+          <div style="font-size:11px;color:#f6cddc;" data-page-node-id="WNeEfwxFsWB5UDB59AxmVu">连续天数</div>
         </div>
-        <div style="background:#edf3fb;border-radius:16px;padding:10px 16px;text-align:center;" data-page-node-id="kOBQKI1tNZuSdfowEL8X5f">
-          <div style="font-size:18px;font-weight:800;color:#2456a4;" id="progTotalDays" data-page-node-id="OrjJmNE1xS66FYBoeQi1qU">0</div>
-          <div style="font-size:11px;color:#b7cbe8;" data-page-node-id="iMn0CQy065eVAwQSILuTx2">累计天数</div>
+        <div style="background:#fbeaf0;border-radius:16px;padding:10px 16px;text-align:center;" data-page-node-id="kOBQKI1tNZuSdfowEL8X5f">
+          <div style="font-size:18px;font-weight:800;color:#ad3b6e;" id="progTotalDays" data-page-node-id="OrjJmNE1xS66FYBoeQi1qU">0</div>
+          <div style="font-size:11px;color:#f6cddc;" data-page-node-id="iMn0CQy065eVAwQSILuTx2">累计天数</div>
         </div>
         <div style="background:#fff8e1;border-radius:16px;padding:10px 16px;text-align:center;" data-page-node-id="UC7ceq93qQks3SciC4ND2u">
           <div style="font-size:18px;font-weight:800;color:#ff8f00;" id="progTodayScore" data-page-node-id="i5qHbYcMvLrr2jZWSkOYyn">-</div>
-          <div style="font-size:11px;color:#b7cbe8;" data-page-node-id="2Hy6MrxHKro2dDt8lu29Yn">今日得分</div>
+          <div style="font-size:11px;color:#f6cddc;" data-page-node-id="2Hy6MrxHKro2dDt8lu29Yn">今日得分</div>
         </div>
       </div>
     </div>
@@ -767,10 +767,10 @@
       <div class="chart-title" data-page-node-id="i9KhL1yJ8xqAy4Ay5wfREc">📊 各维度平均得分</div>
       <div id="progDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;" data-page-node-id="OIKSYjX12yQD6gXKleRKs0"></div>
     </div>
-    <div class="weight-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#f1f5fc,#edf3fb);border:1px solid #d0e8f5;margin-bottom:16px;" data-page-node-id="ooxmX4HUI7wlo1vdKjBFVi">
-      <div style="font-size:36px;margin-bottom:8px;" id="progPartnerEmoji" data-page-node-id="h0DsV2gTAWAMSxKty8xJ6i">🧭</div>
-      <div style="font-size:14px;font-weight:700;color:#0d2f66;margin-bottom:4px;" id="progPartnerName" data-page-node-id="9ZzMPXs2Bl337zzCG9pFzX">教练型领导</div>
-      <div style="font-size:13px;color:#2456a4;line-height:1.6;" id="progPartnerMsg" data-page-node-id="o9vcMhpAktysp0AidsuQ0s">每天一点点，思维在复利！</div>
+    <div class="weight-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#fcf4f7,#fbeaf0);border:1px solid #d0e8f5;margin-bottom:16px;" data-page-node-id="ooxmX4HUI7wlo1vdKjBFVi">
+      <div style="font-size:36px;margin-bottom:8px;" id="progPartnerEmoji" data-page-node-id="h0DsV2gTAWAMSxKty8xJ6i">🌸</div>
+      <div style="font-size:14px;font-weight:700;color:#5c1e3c;margin-bottom:4px;" id="progPartnerName" data-page-node-id="9ZzMPXs2Bl337zzCG9pFzX">清醒型</div>
+      <div style="font-size:13px;color:#ad3b6e;line-height:1.6;" id="progPartnerMsg" data-page-node-id="o9vcMhpAktysp0AidsuQ0s">每天一点点，思维在复利！</div>
     </div>
   </div>
 </div>
@@ -780,44 +780,44 @@
   <div class="weight-page" data-page-node-id="e52vPwHMC9Lkt4J1I5F5JF">
     <div class="weight-header" style="text-align:center;" data-page-node-id="Vky0bu0XnbowHEwOLAKHRW">
       <div class="weight-title" data-page-node-id="NPKgicGgWVRXFuCcNgB0CM">📣 分享</div>
-      <div class="weight-sub" data-page-node-id="PRtOGOwhghFxySmgiadAPx">邀请朋友一起带人成事</div>
+      <div class="weight-sub" data-page-node-id="PRtOGOwhghFxySmgiadAPx">邀请朋友一起相信自己</div>
     </div>
 
     <!-- 我的状态 -->
     <div class="sop-card" style="margin-bottom:12px;;border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="8YGfvMubtD4tRAA02qkDbo">
-      <div class="chart-title" data-page-node-id="z3SBBx0U4NvPOgtaQk2dL2">🧭 我的状态</div>
+      <div class="chart-title" data-page-node-id="z3SBBx0U4NvPOgtaQk2dL2">🌸 我的状态</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;" data-page-node-id="ahRahxmuMNHn405xOhGZt8">
-        <div style="background:#f1f5fc;border-radius:12px;padding:12px 6px;" data-page-node-id="L2twJxSCQ2EufQCEDbNwgG">
-          <div style="font-size:20px;font-weight:700;color:#4a74ba;" id="shareStreak" data-page-node-id="ED1d4478jmdNKP8SN9LQAS">-</div>
+        <div style="background:#fcf4f7;border-radius:12px;padding:12px 6px;" data-page-node-id="L2twJxSCQ2EufQCEDbNwgG">
+          <div style="font-size:20px;font-weight:700;color:#d96e97;" id="shareStreak" data-page-node-id="ED1d4478jmdNKP8SN9LQAS">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="iskxCD9YUKYCMwMLG9tlgp">连续打卡</div>
         </div>
-        <div style="background:#f1f5fc;border-radius:12px;padding:12px 6px;" data-page-node-id="KcMNAxN7Xuxj64fWJGXX18">
-          <div style="font-size:20px;font-weight:700;color:#9db8dd;" id="shareToday" data-page-node-id="Z4GrAqDz4zYCbr02DeamIV">-</div>
+        <div style="background:#fcf4f7;border-radius:12px;padding:12px 6px;" data-page-node-id="KcMNAxN7Xuxj64fWJGXX18">
+          <div style="font-size:20px;font-weight:700;color:#f0b3c9;" id="shareToday" data-page-node-id="Z4GrAqDz4zYCbr02DeamIV">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="XQ3V8gpLB6xC1CMlGH9fNU">今日打卡</div>
         </div>
-        <div style="background:#f1f5fc;border-radius:12px;padding:12px 6px;" data-page-node-id="qQaHerHi3pXpcCcJeFYt6F">
-          <div style="font-size:20px;font-weight:700;color:#9db8dd;" id="shareTotal" data-page-node-id="zWgKweVuFIxAzCbwBJPqyK">-</div>
+        <div style="background:#fcf4f7;border-radius:12px;padding:12px 6px;" data-page-node-id="qQaHerHi3pXpcCcJeFYt6F">
+          <div style="font-size:20px;font-weight:700;color:#f0b3c9;" id="shareTotal" data-page-node-id="zWgKweVuFIxAzCbwBJPqyK">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="TDjZBX6hwoiGiiV4XTyQwB">累计天数</div>
         </div>
-      </div><div style="margin-top:12px;background:linear-gradient(135deg,#edf3fb,#edf3fb);border-radius:14px;padding:16px;"><div style="font-size:13px;color:#173e7e;line-height:1.8;font-weight:600;" id="sharePnLSummary">还在积累中。开始打卡后这里会出现你的领导力领导力摘要。</div></div>
+      </div><div style="margin-top:12px;background:linear-gradient(135deg,#fbeaf0,#fbeaf0);border-radius:14px;padding:16px;"><div style="font-size:13px;color:#8f2757;line-height:1.8;font-weight:600;" id="sharePnLSummary">还在积累中。开始打卡后这里会出现你的心态信念心力摘要。</div></div>
     </div>
 
-    <!-- 领导力搭子介绍卡片 -->
+    <!-- 心态信念搭子介绍卡片 -->
     <div class="sop-card" style="border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="YFkooFtoUSGehtV0DyCsGG">
-      <div class="chart-title" data-page-node-id="h1GmY7bQGXqSnvmPjVEm03">🧭 领导力搭子</div>
-      <div style="margin-top:12px;background:linear-gradient(135deg,#edf3fb,#edf3fb);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;" data-page-node-id="5jlGT9C35Nt8CCH9tgHbSX">
-        <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="fGYZhaPybrwfDH1GDGZG0k">🧭</div>
-        <div style="font-size:16px;font-weight:700;color:#173e7e;margin-bottom:4px;" data-page-node-id="9MCIW6IAKKVbICTl228nIn">领导力搭子</div>
-        <div style="font-size:13px;color:#2456a4;line-height:1.6;margin-bottom:8px;" data-page-node-id="FywuCLUnhYGb3yZ52GUGsP">4种性格陪你带人成事<br data-page-node-id="puNHE1jCHobfGOnMjip5h5">每天5分钟，把领导力练成日常动作</div>
-        <div style="font-size:11px;color:#6c8fc9;" data-page-node-id="E3lnY6DDPpiQERig3Fs8ti">觉察 · 同理 · 标准 · 成就 · 聚焦 · 复盘</div>
+      <div class="chart-title" data-page-node-id="h1GmY7bQGXqSnvmPjVEm03">🌸 心态信念搭子</div>
+      <div style="margin-top:12px;background:linear-gradient(135deg,#fbeaf0,#fbeaf0);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;" data-page-node-id="5jlGT9C35Nt8CCH9tgHbSX">
+        <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="fGYZhaPybrwfDH1GDGZG0k">🌸</div>
+        <div style="font-size:16px;font-weight:700;color:#8f2757;margin-bottom:4px;" data-page-node-id="9MCIW6IAKKVbICTl228nIn">心态信念搭子</div>
+        <div style="font-size:13px;color:#ad3b6e;line-height:1.6;margin-bottom:8px;" data-page-node-id="FywuCLUnhYGb3yZ52GUGsP">4种性格陪你修炼心力<br data-page-node-id="puNHE1jCHobfGOnMjip5h5">每天5分钟，把好心态变成标准动作</div>
+        <div style="font-size:11px;color:#e58aa8;" data-page-node-id="E3lnY6DDPpiQERig3Fs8ti">相信 · 期待 · 行动 · 内耗 · 静待 · 诚实</div>
       </div>
       <div class="chart-title" style="margin-bottom:12px;" data-page-node-id="yoFYzVcRzBkLUF7V3uzMGC">📋 SOP 复盘维度</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;" data-page-node-id="UF3yMxz6gIjepiCXfaU65p">
-        <div style="background:#eef3fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">🪞</div><div style="font-size:12px;font-weight:600;color:#2456a4;">觉察</div></div><div style="background:#eef3fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">❤️</div><div style="font-size:12px;font-weight:600;color:#2456a4;">同理</div></div><div style="background:#eef3fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">📏</div><div style="font-size:12px;font-weight:600;color:#2456a4;">标准</div></div><div style="background:#eef3fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">🤲</div><div style="font-size:12px;font-weight:600;color:#2456a4;">成就</div></div><div style="background:#eef3fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">🎯</div><div style="font-size:12px;font-weight:600;color:#2456a4;">聚焦</div></div><div style="background:#eef3fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">🔄</div><div style="font-size:12px;font-weight:600;color:#2456a4;">复盘</div></div>
+        <div style="background:#fbf1f5;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">💪</div><div style="font-size:12px;font-weight:600;color:#ad3b6e;">相信</div></div><div style="background:#fbf1f5;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">🎯</div><div style="font-size:12px;font-weight:600;color:#ad3b6e;">期待</div></div><div style="background:#fbf1f5;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">🚀</div><div style="font-size:12px;font-weight:600;color:#ad3b6e;">行动</div></div><div style="background:#fbf1f5;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">🧘</div><div style="font-size:12px;font-weight:600;color:#ad3b6e;">内耗</div></div><div style="background:#fbf1f5;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">⭐</div><div style="font-size:12px;font-weight:600;color:#ad3b6e;">静待</div></div><div style="background:#fbf1f5;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">🪞</div><div style="font-size:12px;font-weight:600;color:#ad3b6e;">诚实</div></div>
       </div>
       <div class="chart-title" data-page-node-id="fRrWxivCpQ7wIyDXRSSzbu">🔗 邀请链接</div>
-      <div style="background:#f1f5fc;border-radius:12px;padding:12px 14px;font-size:13px;color:#173e7e;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay" data-page-node-id="692ACgRIE5QNukQat4JiN2"></div>
-      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#2456a4,#0d2f66);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(163,114,28,0.4);" data-page-node-id="MuZrRVlAhMf9wVufeKMwjK">📋 复制邀请链接</button>
+      <div style="background:#fcf4f7;border-radius:12px;padding:12px 14px;font-size:13px;color:#8f2757;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay" data-page-node-id="692ACgRIE5QNukQat4JiN2"></div>
+      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#ad3b6e,#5c1e3c);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(163,114,28,0.4);" data-page-node-id="MuZrRVlAhMf9wVufeKMwjK">📋 复制邀请链接</button>
     </div>
   </div>
 </div>
@@ -827,12 +827,12 @@
   <div style="padding:16px 12px 80px;" data-page-node-id="GLXhKX91vvwClpDdh6iTr8">
     <div style="text-align:center;margin-bottom:20px;" data-page-node-id="SBXDDKcf4G5AilAzpDjt5l">
       <div style="font-size:24px;font-weight:700;color:#333;" data-page-node-id="HKmod4hjT7UvLyOlyaTpvG">💬 搭子</div>
-      <div style="font-size:13px;color:#999;margin-top:4px;" data-page-node-id="XsFxAKXsnvBazIe67e4HTK">和你的领导力搭子聊聊</div>
+      <div style="font-size:13px;color:#999;margin-top:4px;" data-page-node-id="XsFxAKXsnvBazIe67e4HTK">和你的心态信念搭子聊聊</div>
     </div>
-    <div id="partnerCard" style="background:linear-gradient(135deg,#edf3fb,#f9fbfe);border-radius:20px;padding:20px;margin-bottom:16px;" data-page-node-id="xJkJAcL5RVGMLFRbPcL6Mc">
+    <div id="partnerCard" style="background:linear-gradient(135deg,#fbeaf0,#fefbfc);border-radius:20px;padding:20px;margin-bottom:16px;" data-page-node-id="xJkJAcL5RVGMLFRbPcL6Mc">
       <div id="partnerAvatarB" style="font-size:48px;text-align:center;margin-bottom:8px;" data-page-node-id="92QDrDjjFA79qN2nUMSglw"></div>
       <div id="partnerNameB" style="text-align:center;font-size:16px;font-weight:700;color:#333;" data-page-node-id="5F3gbus0Qn7GpITGBNE0cr"></div>
-      <div id="partnerStyleB" style="text-align:center;font-size:12px;color:#173e7e;margin-top:4px;" data-page-node-id="9LxhfFxncn91wuS3a7U1y4"></div>
+      <div id="partnerStyleB" style="text-align:center;font-size:12px;color:#8f2757;margin-top:4px;" data-page-node-id="9LxhfFxncn91wuS3a7U1y4"></div>
     </div>
     <!-- 搭子消息区 -->
     <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;" data-page-node-id="acRGMSmEDH91KyKOXLopDX"></div>
@@ -854,7 +854,7 @@
       <button class="talk-btn" data-type="question" data-page-node-id="nuAuWEvtXkrgleOXfjONPe">🤔 提问</button>
     </div>
   
-    <div id="partnerDailyTip" style="max-width:420px;margin:14px auto 0;background:linear-gradient(135deg,#edf3fb,#e9f0fa);border-radius:18px;padding:14px 16px;font-size:13px;color:#173e7e;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+    <div id="partnerDailyTip" style="max-width:420px;margin:14px auto 0;background:linear-gradient(135deg,#fbeaf0,#fae7ee);border-radius:18px;padding:14px 16px;font-size:13px;color:#8f2757;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
         <span style="font-size:18px;">📌</span>
         <span style="font-weight:700;">今天提醒自己</span>
@@ -894,99 +894,99 @@
 <div id="crpWrap_weight" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;" data-page-node-id="HDq0vHUrLKFZmVf9CHcHJb"><!-- 成长路线 & 基本功 Checklist（可点击互动）-->
   <style>
     #crpWrap_weight .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
-    #crpWrap_weight .crp-title { font-size:15px; font-weight:800; color:#173e7e; margin-bottom:12px; }
-    #crpWrap_weight .crp-tip { font-size:11px; font-weight:500; color:#b7cbe8; margin-left:6px; }
+    #crpWrap_weight .crp-title { font-size:15px; font-weight:800; color:#8f2757; margin-bottom:12px; }
+    #crpWrap_weight .crp-tip { font-size:11px; font-weight:500; color:#f6cddc; margin-left:6px; }
     #crpWrap_weight .crp-stage { border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:transform .15s; }
     #crpWrap_weight .crp-stage:active { transform:scale(.98); }
     #crpWrap_weight .crp-stage-head { font-weight:700; font-size:13px; }
-    #crpWrap_weight .crp-arrow { float:right; color:#b7cbe8; }
-    #crpWrap_weight .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#173e7e; }
+    #crpWrap_weight .crp-arrow { float:right; color:#f6cddc; }
+    #crpWrap_weight .crp-stage-body { font-size:13px; line-height:1.7; margin-top:6px; color:#8f2757; }
     #crpWrap_weight .crp-stage.collapsed .crp-stage-body { display:none; }
-    #crpWrap_weight .crp-item { font-size:13px; color:#173e7e; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
+    #crpWrap_weight .crp-item { font-size:13px; color:#8f2757; line-height:1.6; padding:9px 10px; border-radius:12px; cursor:pointer; transition:background .15s; }
     #crpWrap_weight .crp-item:hover { background:#f5f5f7; }
-    #crpWrap_weight .crp-item.done { color:#b7cbe8; text-decoration:line-through; }
+    #crpWrap_weight .crp-item.done { color:#f6cddc; text-decoration:line-through; }
     #crpWrap_weight .crp-box { margin-right:8px; }
   </style>
   <div class="crp-card">
-    <div class="crp-title">🗺️ 领导力三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
-  <div class="crp-stage" style="background:#edf3fb;">
-    <div class="crp-stage-head" style="color:#173e7e;">📌 第1阶段 · 第1个月 · 立标准照镜子 <span class="crp-arrow">▾</span></div>
-    <div class="crp-stage-body">每天复盘一次自己的情绪与判断，建立自我觉察<br>把最重要三件事的标准写成可验收的条款<br>先听后说：练习听完再表态</div>
+    <div class="crp-title">🗺️ 心力修炼三阶段路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+  <div class="crp-stage" style="background:#fbeaf0;">
+    <div class="crp-stage-head" style="color:#8f2757;">📌 第1阶段 · 第1个月 · 看见自己的模式 <span class="crp-arrow">▾</span></div>
+    <div class="crp-stage-body">每天问自己一个诚实的问题：我在回避什么<br>记录一次情绪触发点，不评判只记录<br>拖延的事，先做5分钟——看清拖延背后是什么</div>
   </div>
-  <div class="crp-stage" style="background:#ecf2fb;">
-    <div class="crp-stage-head" style="color:#3f6db5;">📌 第2阶段 · 第2-3个月 · 管事理人 <span class="crp-arrow">▾</span></div>
-    <div class="crp-stage-body">管事：目标、标准、复盘闭环，说到做到<br>理人：每月与每位核心成员深谈一次<br>授权：把可复制的动作交给能承接的人</div>
+  <div class="crp-stage" style="background:#f9edf2;">
+    <div class="crp-stage-head" style="color:#d4537e;">📌 第2阶段 · 第2-3个月 · 换一套内在对话 <span class="crp-arrow">▾</span></div>
+    <div class="crp-stage-body">把「我必须完美」改成「先完成再说」<br>比较心发作时，回看自己这周的进步清单<br>睡前写下今天做得最好的一件小事</div>
   </div>
   <div class="crp-stage" style="background:#ede7f6;">
-    <div class="crp-stage-head" style="color:#0d2f66;">📌 第3阶段 · 第4-6个月 · 成就他人 <span class="crp-arrow">▾</span></div>
-    <div class="crp-stage-body">培养接班人：团队离开你也能运转，你才配打更大的仗<br>把功劳给团队，把责任留给自己<br>聚焦问题创造价值：把团队精力压到真问题上</div>
+    <div class="crp-stage-head" style="color:#5c1e3c;">📌 第3阶段 · 第4-6个月 · 成为自己的信徒 <span class="crp-arrow">▾</span></div>
+    <div class="crp-stage-body">别人的时钟还给你，只按自己的节奏走<br>期待降到行动上，不押在结果上<br>把「属于我的总会来」变成每天的心态底座</div>
   </div>
   </div>
   <div class="crp-card">
-    <div class="crp-title">📋 领导力基本功 Checklist<span class="crp-tip">👆 点击勾选 · 当天自动清零</span></div>
+    <div class="crp-title">📋 心力基本功 Checklist<span class="crp-tip">👆 点击勾选 · 当天自动清零</span></div>
     <div>
-    <div class="crp-item"><span class="crp-box">☐</span>连续 7 天睡前复盘一次自己的判断</div>
-    <div class="crp-item"><span class="crp-box">☐</span>给一位同事「行为+影响」式具体反馈</div>
-    <div class="crp-item"><span class="crp-box">☐</span>授权一件原本自己干的事并约定检查点</div>
-    <div class="crp-item"><span class="crp-box">☐</span>开会砍掉至少一个伪议题</div>
-    <div class="crp-item"><span class="crp-box">☐</span>当面纠正一个问题，不和稀泥</div>
-    <div class="crp-item"><span class="crp-box">☐</span>听完一位下属的完整表达，没打断</div>
-    <div class="crp-item"><span class="crp-box">☐</span>向上主动同步一次进展，不让老板来问</div>
+    <div class="crp-item"><span class="crp-box">☐</span>问了自己一个诚实的问题，并写下了答案</div>
+    <div class="crp-item"><span class="crp-box">☐</span>拖延的事先干了5分钟</div>
+    <div class="crp-item"><span class="crp-box">☐</span>把一次「必须完美」改写成「先完成」</div>
+    <div class="crp-item"><span class="crp-box">☐</span>比较心发作时没有内耗超过10分钟</div>
+    <div class="crp-item"><span class="crp-box">☐</span>睡前记了一件今天做得好的小事</div>
+    <div class="crp-item"><span class="crp-box">☐</span>对一件事降低了结果期待，只管行动</div>
+    <div class="crp-item"><span class="crp-box">☐</span>没有用别人的进度惩罚自己</div>
     </div>
   </div>
   <div class="crp-card">
-    <div class="crp-title">📜 管理三大禁忌<span class="crp-tip">👆 底线动作 · 一条都不能破</span></div>
+    <div class="crp-title">📜 心力三大禁忌<span class="crp-tip">👆 底线动作 · 一条都不能破</span></div>
     <div class="crp-stage-body" style="margin-top:0;">
-      <b>1️⃣ 只管不理</b>：只盯任务不看人，队伍迟早散——管是管事，理是理人，缺一不可。<br><b>2️⃣ 当老好人</b>：不敢建标准、不敢纠正，是拿团队的未来换眼前的和气。<br><b>3️⃣ 抢下属的活</b>：你干得越多，团队成长越慢，你也越不可替代地累。<br>
-      <span style="color:#2456a4;">管理的本质：管事理人——把事管清楚，把人理顺。</span>
+      <b>1️⃣ 用别人的时钟量自己</b>：比较偷走力量——你只看到别人的高光，看不到他的账单。<br><b>2️⃣ 等准备好再开始</b>：「还没准备好」是恐惧的礼貌说法——先开始，再准备好。<br><b>3️⃣ 把期待押在结果上</b>：期待越低，行动越稳——你能控制的只有今天的动作。<br>
+      <span style="color:#ad3b6e;">心力的本质：相信自己，降低期待，管好行动。</span>
     </div>
   </div>
   <div class="crp-card">
     <div class="crp-title">💬 每天对自己说的四句话<span class="crp-tip">👆 不花钱，但比什么都值钱</span></div>
     <div class="crp-stage-body" style="margin-top:0;">
-      <b>1️⃣ 「先听，再判断。」</b>——听完才表态，理解先于评价。<br><b>2️⃣ 「标准，我先守。」</b>——要求别人的，自己先做到。<br><b>3️⃣ 「功劳，给团队。」</b>——成就他人，才有人愿意跟你走。<br><b>4️⃣ 「问题，我来扛。」</b>——甩锅一次，信任崩塌一次。<br>
-      <span style="color:#2456a4;">这四句话每天挑一句说出口，练成你的领导肌肉。</span>
+      <b>1️⃣ 「我是自己的第一个信徒。」</b>——你都不信自己，谁替你信？<br><b>2️⃣ 「降低期待，提高行动。」</b>——把押在结果上的劲，全砸进今天。<br><b>3️⃣ 「拖延是恐惧的外衣。」</b>——拆开看看，里面多半没那么可怕。<br><b>4️⃣ 「属于我的，会找到我。」</b>——不追不抢，只管把路走对。<br>
+      <span style="color:#ad3b6e;">每天挑一句说出口，说给自己听。</span>
     </div>
   </div>
   <div class="crp-card">
-    <div class="crp-title">📐 领导力方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
+    <div class="crp-title">📐 心力方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
     <div class="crp-stage-body" style="margin-top:0;">
-      <b>Fact 事实底座</b>：顶尖人才共同的底层特质：自我觉察、同理心、建立标准、成就他人。领导力不是天赋，是可修炼的四个习惯。<br><b>Core 核心结论</b>：管理的本质是管事理人：管，是把事管清楚（目标/标准/复盘）；理，是把人理顺（意愿/成长/情绪）。<br><b>Insight 洞察</b>：蔡崇信看人三特质：智力、情商、谦逊——智力决定起点，情商决定协作，谦逊决定成长上限。<br><b>So What</b>：管理者每天最大的价值=聚焦问题，创造价值：把80%的精力压在真问题上，砍掉伪议题。<br><b>How To Do</b>：每天三个动作：照一次镜子（觉察）、成就一个人（反馈/授权）、聚焦一件事（砍伪问题）。<br><b>Know How</b>：关键不是学多少管理课，而是不做禁忌动作：只管不理、当老好人、抢下属的活。<br><b>验收口径</b>：每晚问三个问题：今天我听懂了几个人？我建立或守住了一条什么标准？有谁因为我而变强了？
+      <b>Fact 事实底座</b>：停止拖延、降低期待、相信自己——这三件事决定了你每天80%的情绪质量。<br><b>Core 核心结论</b>：心力不是打鸡血，是三个可训练的习惯：诚实自问、降低结果期待、先做5分钟。<br><b>Insight 洞察</b>：哈佛研究说拖延不是时间管理问题，是情绪管理问题——你逃避的不是任务，是任务带来的感觉。<br><b>So What</b>：诚实的问题比一百句安慰有用：let me ask you a very honest question——你今天在回避什么？<br><b>How To Do</b>：每天三个动作：问一个诚实的问题、把一句完美主义改写成先完成、干一件拖了很久的事5分钟。<br><b>Know How</b>：关键不是心态课学了多少，而是不做禁忌：拿别人当钟、等准备好、押注结果。<br><b>验收口径</b>：每晚问三个问题：今天我诚实了几次？期待降了几次？拖的事动了没有？
     </div>
   </div>
   <div class="crp-card">
-    <div class="crp-title">🧱 领导力五力模型<span class="crp-tip">👆 对照练习 · 缺哪补哪</span></div>
+    <div class="crp-title">🪞 诚实问题清单<span class="crp-tip">👆 每周挑一个问自己</span></div>
     <div class="crp-stage-body" style="margin-top:0;">
-      <b>1️⃣ 自驱力</b>：以身作则，先要求自己再要求团队<br><b>2️⃣ 洞察力</b>：看穿问题背后的结构，不做救火队长<br><b>3️⃣ 沟通力</b>：把复杂讲简单，把模糊讲清楚<br><b>4️⃣ 决策力</b>：基于标准拍板，错了就复盘修正<br><b>5️⃣ 感召力</b>：讲清意义和愿景，让人愿意跟你走<br>
-      <span style="color:#2456a4;">五力不是五门课，是每天动作里的五面镜子。</span>
+      <b>1️⃣ 我现在在回避什么？</b>——回避的清单就是待办的真实排序<br><b>2️⃣ 我在拿谁和我比？</b>——比较的坐标系选错了，怎么算都是输<br><b>3️⃣ 如果不慌，我会先做哪件事？</b>——焦虑管理有时就是排序问题<br><b>4️⃣ 一年后这件事还重要吗？</b>——大部分内耗经不起这一问<br>
+      <span style="color:#ad3b6e;">诚实的答案未必好听，但一定有用。</span>
     </div>
   </div>
   <div class="crp-card">
-    <div class="crp-title">🪶 蔡崇信三特质<span class="crp-tip">👆 选人育人的一致标准</span></div>
+    <div class="crp-title">⭐ 静待花开的智慧<span class="crp-tip">👆 属于你的总会找到你</span></div>
     <div class="crp-stage-body" style="margin-top:0;">
-      <b>1️⃣ 智力</b>：学得快、想得深，能把复杂问题拆开<br><b>2️⃣ 情商</b>：听得进话、接得住情绪、处得好关系<br><b>3️⃣ 谦逊</b>：承认自己会错，别人才敢跟你说真话<br>
-      <span style="color:#2456a4;">招人、带人、留人，都用这三条照一照。</span>
+      <b>运气</b>：是准备遇上了机会——你只管准备<br><b>花期</b>：每朵花有自己的季节，早开的未必结大果<br><b>磁场</b>：你专注做事的样子，就是最好的吸引力<br><b>翻篇</b>：错过的不遗憾，前面还有更好的<br>
+      <span style="color:#ad3b6e;">不追不抢，把路走对，该来的都在路上。</span>
     </div>
   </div>
   <div class="crp-card">
-    <div class="crp-title">👑 领导者三大资产<span class="crp-tip">👆 比期权更值钱</span></div>
+    <div class="crp-title">👑 心力强者的三大资产<span class="crp-tip">👆 比运气更值钱</span></div>
     <div class="crp-stage-body" style="margin-top:0;">
-      <b>1️⃣ 团队的信任</b>：说到做到攒出来的，一次甩锅就清零<br><b>2️⃣ 人才的梯队</b>：有人能接你的班，你才自由<br><b>3️⃣ 清晰的标准</b>：标准在，人心就不散，质量就不崩<br>
-      <span style="color:#2456a4;">这三样攒得慢、丢得快，每天都要存一点。</span>
+      <b>1️⃣ 稳定的情绪</b>：不是没情绪，是情绪来了接得住<br><b>2️⃣ 翻篇的能力</b>：昨天的事留在昨天，今天只管今天<br><b>3️⃣ 自我认可</b>：不需要别人点赞也能确认自己 value<br>
+      <span style="color:#ad3b6e;">没有焦虑失眠与抱怨的状态，是人生下半场最贵的资产。</span>
     </div>
   </div>
   <div class="crp-card">
-    <div class="crp-title">🌈 我的领导者信号 · 每周观察<span class="crp-tip">👆 点亮自己的样子 · 每周自动清零</span></div>
-    <div style="font-size:11px;color:#999;margin:4px 0 8px;">管理不看气势看状态：这周你出现了几个信号？</div>
+    <div class="crp-title">🌈 我的心力信号 · 每周观察<span class="crp-tip">👆 点亮自己的样子 · 每周自动清零</span></div>
+    <div style="font-size:11px;color:#999;margin:4px 0 8px;">不看意志力看状态：这周你出现了几个信号？</div>
     <div id="childFxList"></div>
-    <div style="font-size:12px;color:#2456a4;margin-top:8px;">本周点亮 <b id="childFxCnt">0</b> / 12</div>
+    <div style="font-size:12px;color:#ad3b6e;margin-top:8px;">本周点亮 <b id="childFxCnt">0</b> / 12</div>
   </div>
 
   <div class="crp-card">
-    <div class="crp-title">👑 领导者的六条自律<span class="crp-tip">👆 活成自己的模板</span></div>
+    <div class="crp-title">👑 心力强者的六条自律<span class="crp-tip">👆 活成自己的模板</span></div>
     <div class="crp-stage-body" style="margin-top:0;">
-      1️⃣ 说到做到，承诺必兑现<br>2️⃣ 先要求自己，再要求团队<br>3️⃣ 不抢功、不甩锅<br>4️⃣ 当面说真话，背后说好话<br>5️⃣ 培养能接替自己的人<br>6️⃣ 每周留白半天，只想战略<br>
-      <span style="color:#2456a4;">管理者的高度，就是团队的天花板。</span>
+      1️⃣ 每天问自己一个诚实的问题<br>2️⃣ 降低期待，提高行动<br>3️⃣ 拖延的事，先做5分钟<br>4️⃣ 不拿别人的高光量自己的日常<br>5️⃣ 睡前只记今天做好的小事<br>6️⃣ 属于我的，不追也会来<br>
+      <span style="color:#ad3b6e;">心力不是不慌，是慌的时候有办法。</span>
     </div>
   </div>
   <div class="crp-card">
@@ -996,14 +996,14 @@
   </div>
   <script>
   (function(){
-    var KEY='crp_say_ldship';
+    var KEY='crp_say_mindset';
     var G=[
-      {t:'🪞 觉察 · 先看见自己', items:[['自我觉察是领导力的第一特质','你先看见自己，才谈得上管理别人'],['情绪上头，先停十秒','你是团队的减压阀，不是放大器'],['每晚复盘一次今天的判断','判断力是复盘出来的，不是天生的'],['承认「我可能错了」','谦逊不是软弱，是让真话流进来的阀门'],['你的行为就是团队的标准答案','以身作则是最快的领导方式']]},
-      {t:'👂 同理 · 先听懂，再带路', items:[['听完再表态','打断是最廉价的否定'],['复述对方的观点，确认理解','理解先于评价'],['对不同意见，先找合理部分','这不是妥协，是智力上的诚实'],['记住同事的近况和难处','理人，从看见具体的人开始'],['听得进话、接得住情绪','情商决定协作的天花板']]},
-      {t:'📏 标准 · 没有标准的期待就是埋雷', items:[['把模糊的要求写成可验收的条款','标准让团队省心，让你省话'],['要求别人的，自己先做到','标准的第一守门人是你自己'],['拒绝和稀泥','问题不纠正，就是在奖励它'],['对低于标准的给反馈，不翻旧账','对事不对人，反馈才有效'],['说到做到','信任是一次次兑现攒出来的']]},
-      {t:'🤲 成就 · 你带出多少强人，你就有多强', items:[['表扬要具体：行为+影响','泛泛的夸奖激励不了任何人'],['授权交事，守住标准','授权不是放羊'],['把功劳归给做事的人','抢一次功，寒一片心'],['每月和核心成员深谈一次','理人要花时间，没有捷径'],['培养能接替你的人','有人接班，你才自由']]},
-      {t:'🎯 聚焦 · 聚焦问题，创造价值', items:[['把80%的精力压在真问题上','管理者的时间是团队最贵的资源'],['砍掉伪议题','议程越短，思考越深'],['问「这件事背后的问题是什么」','别在症状上打转'],['拒绝不创造价值的忙碌','用战术勤奋掩盖战略懒惰是自欺'],['一次只推进一件最重要的事','多线程是幻觉，聚焦才出结果']]},
-      {t:'🔄 复盘 · 对经验征税', items:[['复盘一次得失，写下一条改进','不交税的经验，永远变不成能力'],['归因于流程，而不是人','归因于人制造恐惧，归因于流程制造改进'],['同样的坑不踩第二次','不复盘的失败会原样重来'],['向上主动同步','让信任不断供'],['每周留白半天只想战略','忙碌不等于产出，思考才是杠杆']]}
+      {t:'💪 相信 · 我是自己的第一个信徒', items:[['人一定要先相信自己','你都不信自己，谁替你信？'],['自我认同不靠别人点赞','别人的评价是天气，你自己的判断是气候'],['相信自己能学会任何东西','成长型思维是所有能力的地基'],['你比自己以为的更有韧性','过去那些以为熬不过去的，都过去了'],['别把自信心外包','把评价权拿回自己手里']]},
+      {t:'🎯 期待 · 降低期待，提高行动', items:[['把期待降到行动上，不押在结果上','你能控制的只有今天的动作'],['「必须完美」改成「先完成」','完成是完美的前提'],['期待越低，惊喜越多','期待越高，落差越狠'],['对人也一样：降低改造别人的期待','你只能改变自己这一半'],['做好最坏打算，然后全力去做','底线的从容是行动的自由']]},
+      {t:'🚀 拖延 · 拖延是恐惧的外衣', items:[['拖延的事，先做5分钟','启动是最难的，开始了就会继续'],['看清你逃避的是什么感觉','逃避的不是任务，是任务带来的情绪'],['把大任务切成不失败的小块','量小到不可能失败，就没有借口'],['2分钟法则：只告诉自己做2分钟','多数时候你会做超过2分钟'],['deadline 是假的，今天是唯一真的','「以后再做」=「永远不做」的体面说法']]},
+      {t:'🧘 内耗 · 情绪来了接得住', items:[['情绪上头先停10秒','10秒后再开口，少说一半后悔的话'],['内耗的时间上限是10分钟','想不通的写下来，别在脑子里空转'],['焦虑时问：一年后这事还重要吗','大部分内耗经不起这一问'],['没有焦虑失眠与抱怨，才是真资产','人生下半场拼的是稳定的状态'],['允许自己有情绪低的一天','接住自己，明天照常出发']]},
+      {t:'⭐ 静待 · 属于你的总会来', items:[['属于你的东西，总会找到你','不追不抢，只管把路走对'],['运气是准备遇上了机会','你只管准备，机会不缺席'],['每朵花有自己的花期','早开的未必结大果'],['错过的不遗憾','翻篇能力是下半场最贵的资产'],['你专注做事的样子最有吸引力','磁场是自己攒的，不是求来的']]},
+      {t:'🪞 诚实 · 每天问自己一个真问题', items:[['我现在在回避什么','回避的清单就是待办的真实排序'],['我在拿谁和我比','坐标系选错，怎么算都是输'],['如果不慌，我会先做哪件事','焦虑管理有时就是排序问题'],['我在害怕什么具体的事','恐惧一旦具体，就小了一半'],['今天的我比昨天强在哪','进步要被看见，哪怕是小小的']]}
     ];
     var wrap=document.getElementById('sayWrap'); if(!wrap) return;
     function today(){ return new Date().toISOString().slice(0,10); }
@@ -1011,7 +1011,7 @@
     var refs=[];
     G.forEach(function(g){
       var h=document.createElement('div');
-      h.style.cssText='font-size:12px;font-weight:700;color:#2456a4;margin:10px 0 4px;';
+      h.style.cssText='font-size:12px;font-weight:700;color:#ad3b6e;margin:10px 0 4px;';
       h.textContent=g.t; wrap.appendChild(h);
       g.items.forEach(function(it){
         var d=document.createElement('div'); d.className='crp-item';
@@ -1041,19 +1041,19 @@
   </script>
   <script>
   (function(){
-    var KEY='crp_fx_ldship';
-    var items=[    '🪞 高压下觉察到了自己的情绪，没有发作',
-    '👂 听完了一位同事的完整表达',
-    '🎁 给了一条「行为+影响」的具体反馈',
-    '🤲 授权了一件原来自己干的事',
-    '📏 建立或守住了一条标准',
-    '🎯 开会砍掉了至少一个伪议题',
-    '🌿 帮一个人看清了他的优势',
-    '🛡️ 把功劳归给了做事的人',
-    '🔄 复盘了一次失败并改进了流程',
-    '📣 向上主动同步了一次进展',
-    '🧑‍🏫 花时间带教了一次',
-    '😮‍💨 压力没有原样砸给团队',
+    var KEY='crp_fx_mindset';
+    var items=[    '🪞 问了自己一个诚实的问题',
+    '🚀 把拖了很久的事干了5分钟',
+    '🎯 降低了一次结果期待',
+    '🧘 情绪上头时停住了10秒',
+    '🌸 比较心发作但没内耗',
+    '📜 把「必须完美」改成了「先完成」',
+    '⭐ 对不确定的事选择了不慌',
+    '✍️ 睡前写了一件做得好的小事',
+    '⏰ 没有用别人的进度惩罚自己',
+    '💎 拒绝了一次自我否定',
+    '🌤️ 坏消息来了但没失眠',
+    '🕊️ 对一件旧事真的翻了篇',
     ];
     var wrap=document.getElementById('childFxList'); if(!wrap) return;
     function weekKey(){var d=new Date();var o=new Date(d.getFullYear(),0,1);var w=Math.ceil((((d-o)/86400000)+o.getDay()+1)/7);return d.getFullYear()+'-W'+w;}
@@ -1065,7 +1065,7 @@
   </script>
   <script>
   (function(){
-    var KEY='crp_checklist_ldship';
+    var KEY='crp_checklist_mindset';
     var wrap=document.getElementById('crpWrap_weight'); if(!wrap) return;
     wrap.querySelectorAll('.crp-stage').forEach(function(s){
       s.addEventListener('click',function(){
@@ -1097,8 +1097,8 @@
 
     <div class="coach-intro" id="coachIntro" data-page-node-id="23HxbGX7q3TkKn3BLw5cZc">
     <div class="coach-intro-icon" data-page-node-id="XjfJafZja7JbFkxGasEoze">🎓</div>
-    <div class="coach-intro-title" data-page-node-id="ni1Rer6ggUZfu39XxlwTVZ">麦肯锡风格领导力教练</div>
-    <div class="coach-intro-sub" data-page-node-id="HiaSXcEqK4dZVPgBlkSHPj">帮你拆解领导力卡点，制定可落地的行动方案</div>
+    <div class="coach-intro-title" data-page-node-id="ni1Rer6ggUZfu39XxlwTVZ">麦肯锡风格心态信念教练</div>
+    <div class="coach-intro-sub" data-page-node-id="HiaSXcEqK4dZVPgBlkSHPj">帮你拆解心力卡点，制定可落地的行动方案</div>
     <div class="method-steps" data-page-node-id="olfP9Fq51V03tM2xk0bvRH">
       <div class="method-step" data-page-node-id="BJz2HXMQ5JWK0I0EAHxgJy"><span class="step-num" data-page-node-id="t7jZnE4hpwuGciBgneSfuS">①</span> 诊断卡点<br data-page-node-id="0VRcwtjXqJTOfRaB2I114F"><span class="step-desc" data-page-node-id="T8AkMCcHsGWo26xwZVYrs2">找准根本原因</span></div>
       <div class="method-step" data-page-node-id="Z8IyQadBFqXBUTBtTaQGRy"><span class="step-num" data-page-node-id="BqObRUijhsYckjHqigbLkY">②</span> 策略分析<br data-page-node-id="faZTrvlIdlrKfMlJ5JJWgT"><span class="step-desc" data-page-node-id="YUCktyAR9aZyB4phRqNaB9">三层拆解问题</span></div>
@@ -1191,12 +1191,12 @@
 <script>
 // ==================== 全局 & 存储 ====================
 const PARTNERS = [
-  { id: 'gentle', name: '教练型领导', emoji: '🧭', style: 'gentle', desc: '先听懂，再带路', color: '#e8eef9' },
-  { id: 'passion', name: '将领型', emoji: '🔥', style: 'passion', desc: '目标必达，说到做到', color: '#fdeada' },
-  { id: 'rational', name: '体系型', emoji: '📐', style: 'rational', desc: '建标准，造系统', color: '#e5ecf5' },
-  { id: 'tsundere', name: '园丁型', emoji: '🌿', style: 'tsundere', desc: '成就他人，静待花开', color: '#e7f2e4' }
+  { id: 'gentle', name: '清醒型', emoji: '🌸', style: 'gentle', desc: '降低期待，提高行动', color: '#fbeaf0' },
+  { id: 'passion', name: '点火型', emoji: '🔥', style: 'passion', desc: '先开始，再准备好', color: '#fdeee6' },
+  { id: 'rational', name: '诚实型', emoji: '🪞', style: 'rational', desc: '问自己一个真问题', color: '#eef0f6' },
+  { id: 'tsundere', name: '自信型', emoji: '⭐', style: 'tsundere', desc: '我是自己的第一个信徒', color: '#faf3e0' }
 ];
-const STORAGE = { PARTNER: 'ldship_partner', HISTORY: 'ldship_history', WEIGHT: 'ldship_weight', SOP: 'ldship_sop', SOP_STREAKS: 'ldship_sop_streaks', TARGET_WEIGHT: 'ldship_target_weight' }
+const STORAGE = { PARTNER: 'mindset_partner', HISTORY: 'mindset_history', WEIGHT: 'mindset_weight', SOP: 'mindset_sop', SOP_STREAKS: 'mindset_sop_streaks', TARGET_WEIGHT: 'mindset_target_weight' }
 const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner'; // GitHub Pages
 function getSiteUrl() {
   // 生产环境自动用当前域名
@@ -1276,66 +1276,66 @@ let partnerIdx = 0;
 // ==================== 问答数据 ====================
 const QA_DATA = {
   "pos": [
-    { "icon": "🪞", "tag": "觉察", "question": "今天觉察到了一次自己的情绪触发点，没让它在团队面前爆发", "answer": "自我觉察是领导力的第一特质——你先看见自己，才谈得上管理别人。", "score": 2 },
-    { "icon": "🪞", "tag": "谦逊", "question": "决策前写下了自己的预设，并问了一句「我有没有可能错」", "answer": "承认自己可能错，是谦逊，也是让真话流进来的阀门。", "score": 2 },
-    { "icon": "👂", "tag": "同理", "question": "听完了一位同事的完整表达，没有中途打断", "answer": "先听懂，再带路。打断是最廉价的否定。", "score": 2 },
-    { "icon": "🔁", "tag": "同理", "question": "复述了对方观点并确认「你的意思是这样吗」", "answer": "复述是最被低估的同理心工具——理解先于评价。", "score": 0 },
-    { "icon": "📏", "tag": "标准", "question": "为一件工作明确了可验收的标准", "answer": "没有标准的期待就是埋雷。标准让团队省心，让你省话。", "score": 2 },
-    { "icon": "🧗", "tag": "以身作则", "question": "要求别人做的事，自己先做到了", "answer": "以身作则是最快的领导方式——你的行为就是团队的标准答案。", "score": 0 },
-    { "icon": "🎁", "tag": "成就", "question": "给了一位同事具体的表扬：行为+影响", "answer": "「具体」是表扬的生命——泛泛的夸奖激励不了任何人。", "score": 2 },
-    { "icon": "🤲", "tag": "授权", "question": "授权了一件原本自己干的事，并约定了检查点", "answer": "授权不是放羊：交出去的是事，守住的是标准。", "score": 0 },
-    { "icon": "🎯", "tag": "聚焦", "question": "今天大部分时间花在最重要的一件事上", "answer": "管理者的时间是团队最贵的资源，你聚焦，团队才聚焦。", "score": 2 },
-    { "icon": "✂️", "tag": "聚焦", "question": "开会时砍掉了一个伪议题", "answer": "聚焦问题，创造价值——砍议题是管理者的日常动作。", "score": 0 },
-    { "icon": "🔄", "tag": "复盘", "question": "复盘了一次得失，写下了一条改进", "answer": "复盘是对经验征税——不交税的经验，永远变不成能力。", "score": 2 },
-    { "icon": "🛠️", "tag": "归因", "question": "把一次失败归因到方法和流程，而不是人", "answer": "归因于人制造恐惧，归因于流程制造改进。", "score": 0 },
-    { "icon": "🧑‍🏫", "tag": "带教", "question": "花时间辅导带教了一次，哪怕只有15分钟", "answer": "成就他人是最深的领导力——你带出多少强人，你就有多强。", "score": 2 },
-    { "icon": "🕊️", "tag": "开放", "question": "对不同意见，先找到了它合理的那部分", "answer": "先找合理部分，不是妥协，是智力上的诚实。", "score": 2 }
+    { "icon": "🪞", "tag": "诚实", "question": "问了自己一个诚实的问题，并写下了答案", "answer": "诚实的答案未必好听，但一定有用——回避的清单就是待办的真实排序。", "score": 2 },
+    { "icon": "🚀", "tag": "行动", "question": "把拖了很久的事干了5分钟", "answer": "启动是最难的——开始了，通常就会继续。", "score": 2 },
+    { "icon": "🎯", "tag": "期待", "question": "对一件事降低了结果期待，只管行动", "answer": "期待越低，行动越稳——你能控制的只有今天的动作。", "score": 0 },
+    { "icon": "💪", "tag": "相信", "question": "自我怀疑冒头时，回看了自己的进步清单", "answer": "把评价权拿回自己手里——自我认同不靠别人点赞。", "score": 0 },
+    { "icon": "🧘", "tag": "内耗", "question": "情绪上头时停住了10秒再开口", "answer": "10秒后再开口，少说一半后悔的话。", "score": 2 },
+    { "icon": "🌸", "tag": "内耗", "question": "比较心发作，但10分钟内止住了", "answer": "你只看到别人的高光，看不到他的账单——坐标系选错怎么算都是输。", "score": 2 },
+    { "icon": "📜", "tag": "改写", "question": "把一句「必须完美」改写成了「先完成」", "answer": "完成是完美的前提——先完成，再谈其他。", "score": 2 },
+    { "icon": "✍️", "tag": "记录", "question": "睡前写了一件今天做得好的小事", "answer": "进步要被看见，哪怕小小的——这是自我认可的训练。", "score": 0 },
+    { "icon": "⭐", "tag": "静待", "question": "对不确定的事选择了不慌，继续准备", "answer": "运气是准备遇上了机会——你只管准备，机会不缺席。", "score": 2 },
+    { "icon": "🕊️", "tag": "翻篇", "question": "对一件旧事真的翻了篇，没再反刍", "answer": "翻篇能力是下半场最贵的资产——昨天的事留在昨天。", "score": 2 },
+    { "icon": "💎", "tag": "自信", "question": "拒绝了一次自我否定，改用事实说话", "answer": "你比自己以为的更有韧性——过去以为熬不过去的，都过去了。", "score": 2 },
+    { "icon": "🌤️", "tag": "情绪", "question": "收到坏消息，情绪来了但没失眠", "answer": "心力不是没情绪，是情绪来了接得住。", "score": 2 },
+    { "icon": "⏰", "tag": "比较", "question": "看到同龄人的成就，没有用来自我攻击", "answer": "每朵花有自己的花期——早开的未必结大果。", "score": 2 },
+    { "icon": "🛠️", "tag": "拆解", "question": "把恐惧的事写具体了", "answer": "恐惧一旦具体，就小了一半。", "score": 2 }
   ],
   "neg": [
-    { "icon": "🌋", "tag": "失控", "question": "情绪上头，对下属发了火", "answer": "情绪失控一次，信任账户透支一大笔。觉察是刹车。", "score": 2 },
-    { "icon": "🥇", "tag": "抢功", "question": "功劳揽到了自己身上", "answer": "抢一次功，寒一片心。领导者的功劳簿上写的是团队。", "score": 2 },
-    { "icon": "🫥", "tag": "回避", "question": "当面没纠正，背后在抱怨", "answer": "和稀泥是慢性毒药：问题不纠正，就是在奖励它。", "score": 2 },
-    { "icon": "🦺", "tag": "抢活", "question": "又把下属的活抢过来自己干了", "answer": "你干得越欢，团队成长越慢。忍住，教他干。", "score": 2 },
-    { "icon": "🌀", "tag": "瞎忙", "question": "忙了一天，全是不创造价值的琐事", "answer": "用战术勤奋掩盖战略懒惰，是管理者最常见的自欺。", "score": 2 },
-    { "icon": "✋", "tag": "打断", "question": "打断了别人，没听完就下结论", "answer": "你打断的不只是话，还有对方的信任和真实信息。", "score": 2 },
-    { "icon": "🕳️", "tag": "重蹈", "question": "同样的坑踩了第二次", "answer": "不复盘的失败会原样重来。交一次税，记住它。", "score": 2 },
-    { "icon": "🤝", "tag": "和稀泥", "question": "为了赶和气，放低了一次标准", "answer": "当老好人是最贵的奢侈：牺牲的是结果和认真的人。", "score": 2 },
-    { "icon": "📡", "tag": "失联", "question": "没向上同步，老板主动来问了进度", "answer": "向上管理不是邀功，是让信任不断供。", "score": 0 },
-    { "icon": "🧨", "tag": "传压", "question": "把压力原样砸给了团队", "answer": "消化压力是管理者的本职——你是团队的减压阀，不是放大器。", "score": 2 }
+    { "icon": "🌀", "tag": "拖延", "question": "最重要的事拖到一天结束没动", "answer": "「以后再做」是「永远不做」的体面说法。现在做5分钟。", "score": 2 },
+    { "icon": "🪞", "tag": "比较", "question": "刷别人的人生，情绪低了一晚上", "answer": "拿别人的高光量自己的日常，是最亏的自我攻击。", "score": 2 },
+    { "icon": "🎭", "tag": "完美", "question": "因为怕不完美，一件事没交出去", "answer": "等准备好再开始，是恐惧的礼貌说法。先交60分版本。", "score": 2 },
+    { "icon": "♾️", "tag": "内耗", "question": "一件事在脑子里空转了一整天", "answer": "内耗上限10分钟——想不通的写下来，别空转。", "score": 2 },
+    { "icon": "🎰", "tag": "押注", "question": "把全部心情押在了一个结果上", "answer": "期待押在结果上，情绪就交给运气管。押回今天的动作。", "score": 2 },
+    { "icon": "📉", "tag": "否定", "question": "搞砸一件小事，否定了自己整个人", "answer": "搞砸的是一件事，不是你这个人。分开看。", "score": 2 },
+    { "icon": "🕰️", "tag": "反刍", "question": "昨晚的事，今天又翻出来难受一遍", "answer": "反刍是给旧伤口动刀——翻篇，是对自己的仁慈。", "score": 2 },
+    { "icon": "🎪", "tag": "外包", "question": "因为一条评论，心情跌了一整天", "answer": "别人的评价是天气，你自己的判断是气候。", "score": 2 },
+    { "icon": "🫥", "tag": "回避", "question": "用刷手机回避了一件重要的事", "answer": "回避的舒服是借的，利息是焦虑。5分钟，现在。", "score": 0 },
+    { "icon": "🌧️", "tag": "灾难化", "question": "把一件小事想成了灾难", "answer": "问一句：一年后这事还重要吗？大部分内耗经不起这一问。", "score": 2 }
   ]
 }
 
 // ==================== 搭子互动6类场景数据 ====================
 const TYPE_SCENES = {
   "progress": [
-    { "icon": "🪞", "tag": "觉察", "scenario": "你在高压会议后复盘了自己的情绪", "feedback": "觉察先于管理。能在高压后复盘的人，才带得住团队。", "type": "pos" },
-    { "icon": "🤲", "tag": "授权", "scenario": "你放手让下属独立主导了一个项目", "feedback": "授权是信任的放大器——他成长了，你也自由了。", "type": "pos" },
-    { "icon": "📏", "tag": "标准", "scenario": "团队按你定的标准，交付质量稳了", "feedback": "标准在，质量就不崩。这是体系型领导的复利。", "type": "pos" },
-    { "icon": "📣", "tag": "同步", "scenario": "你主动向上同步，老板没再来问进度", "feedback": "向上管理让信任不断供——这是职场最便宜的保险。", "type": "pos" }
+    { "icon": "🪞", "tag": "诚实", "scenario": "你诚实写下了自己在回避的事", "feedback": "敢面对回避清单的人，已经赢过大多数装睡的人。", "type": "pos" },
+    { "icon": "🚀", "tag": "行动", "scenario": "拖了两周的事，今天终于动了", "feedback": "启动是最难的——你已经过了最难的关口。", "type": "pos" },
+    { "icon": "🎯", "tag": "期待", "scenario": "结果没达预期，你居然很平静", "feedback": "这就是期待管理的能力——劲在动作上，不在结果上。", "type": "pos" },
+    { "icon": "🌸", "tag": "不比", "scenario": "看到别人晒成绩，你真心祝福了", "feedback": "不拿别人的时钟量自己——你的花期你做主。", "type": "pos" }
   ],
   "struggle": [
-    { "icon": "🌋", "tag": "失控", "scenario": "又对下属发了火，气氛僵了一下午", "feedback": "先修复关系，再复盘情绪触发点。你是减压阀，不是放大器。", "type": "neg" },
-    { "icon": "🦺", "tag": "抢活", "scenario": "忍不住又把下属的活干了", "feedback": "忍住，教他干。短期慢一点，长期你才脱得开身。", "type": "neg" },
-    { "icon": "🤝", "tag": "和稀泥", "scenario": "为了和气，没纠正一次明显的问题", "feedback": "你回避的每一次纠正，都会变成团队的 Slack 里那句「就这样吧」。", "type": "neg" },
-    { "icon": "🌀", "tag": "瞎忙", "scenario": "一天全被琐事填满，正事没动", "feedback": "给日程留白：先定今天必须推进的一件事，再打开邮箱。", "type": "neg" }
+    { "icon": "🌀", "tag": "拖延", "scenario": "最重要的事又拖到深夜", "feedback": "别自责，先看清你在逃避什么感觉。5分钟法则，现在用。", "type": "neg" },
+    { "icon": "♾️", "tag": "内耗", "scenario": "一句话反复回味了一整天", "feedback": "反刍是给旧伤动刀。写下来，10分钟内给这事结案。", "type": "neg" },
+    { "icon": "🎭", "tag": "完美", "scenario": "怕丢人，方案又没敢发出去", "answer": "60分的已完成，胜过100分的未开始。发出去。", "type": "neg" },
+    { "icon": "📉", "tag": "否定", "scenario": "一次失误，又全盘否定自己", "feedback": "搞砸的是一件事，不是你。把你对朋友说的话，对自己说。", "type": "neg" }
   ],
   "idea": [
-    { "icon": "🧱", "tag": "体系", "scenario": "你想给团队建一套标准流程", "feedback": "好流程是团队的隐形管理者。先从最痛的环节开始建。", "type": "pos" },
-    { "icon": "🪜", "tag": "梯队", "scenario": "你想培养一个能接你班的人", "feedback": "有人能接你的班，你才配去打更大的仗。这是最划算的投资。", "type": "pos" },
-    { "icon": "🎯", "tag": "聚焦", "scenario": "你想砍掉一个没人受益的例会", "feedback": "砍掉低价值会议，是给全团队的加薪——每人每周多几小时。", "type": "pos" },
-    { "icon": "🔁", "tag": "机制", "scenario": "你想把一次复盘沉淀成检查清单", "feedback": "清单是经验的集装箱——把教训装进去，团队就不会重摔。", "type": "pos" }
+    { "icon": "✍️", "tag": "清单", "scenario": "你想建一个自己的进步清单", "feedback": "好主意——自我怀疑的解药是事实存档，随取随用。", "type": "pos" },
+    { "icon": "🧘", "tag": "冥想", "scenario": "你想试每天10分钟冥想", "feedback": "情绪的健身房。不用玄乎，从呼吸开始就行。", "type": "pos" },
+    { "icon": "🗓️", "tag": "翻篇", "scenario": "你想给旧事办个「结案仪式」", "feedback": "翻篇需要仪式感——写下来、撕掉，都是好的结案方式。", "type": "pos" },
+    { "icon": "🌸", "tag": "不比", "scenario": "你想卸载让你焦虑的社交软件", "feedback": "物理隔离比意志力管用——眼不见，心不乱。", "type": "pos" }
   ],
   "cheer": [
-    { "icon": "🌿", "tag": "带教", "scenario": "你带的人独当一面了", "feedback": "这就是领导力的果实：他越强，证明你越强。", "type": "pos" },
-    { "icon": "🏆", "tag": "信任", "scenario": "团队在你不在时也打了一场硬仗", "feedback": "团队离开你也能赢，才是真正的带队伍。", "type": "pos" },
-    { "icon": "💬", "tag": "真话", "scenario": "有下属当面指出了你的问题", "feedback": "有人敢跟你说真话，是你谦逊攒出来的红利，珍惜它。", "type": "pos" },
-    { "icon": "✂️", "tag": "聚焦", "scenario": "你砍掉了一个伪项目，团队长舒一口气", "feedback": "做减法是管理者最难的勇气。省下的力气会加倍回来。", "type": "pos" }
+    { "icon": "🕊️", "tag": "翻篇", "scenario": "纠结很久的事，你真的放下了", "feedback": "放下不是认输，是把力气还给未来。恭喜你。", "type": "pos" },
+    { "icon": "💪", "tag": "自信", "scenario": "你第一次理直气壮地说「我可以」", "feedback": "这就是自我信徒的样子——说出来的那一刻，就是真的。", "type": "pos" },
+    { "icon": "🌤️", "tag": "情绪", "scenario": "坏事来了，你稳稳接住了", "feedback": "情绪来了接得住——这就是心力的肌肉，练出来了。", "type": "pos" },
+    { "icon": "🌈", "tag": "好运", "scenario": "之前播的种子，突然有了回响", "feedback": "运气是准备遇上了机会——你的准备没白费。", "type": "pos" }
   ],
   "report": [
-    { "icon": "🪞", "tag": "觉察", "scenario": "你记录了一周自己的情绪触发点", "feedback": "看见模式，才能改写模式。这是自我觉察的正确打开方式。", "type": "pos" },
-    { "icon": "📏", "tag": "标准", "scenario": "你把三条模糊要求写成了验收标准", "feedback": "标准的复利：返工少了，扯皮少了，信任多了。", "type": "pos" },
-    { "icon": "🤲", "tag": "成就", "scenario": "这周你给了三次具体反馈", "feedback": "反馈是成本最低、回报最高的管理动作。保持频率。", "type": "pos" },
-    { "icon": "🎯", "tag": "聚焦", "scenario": "你把一个长期扯皮的议题拆出了真问题", "feedback": "聚焦问题，创造价值——你已经站在管理者的位置上思考了。", "type": "pos" }
+    { "icon": "🪞", "tag": "诚实", "scenario": "这周回答了5个诚实问题", "feedback": "诚实是最贵的自我投资——你已经看见自己的模式了。", "type": "pos" },
+    { "icon": "🎯", "tag": "期待", "scenario": "这周三次把期待调回动作上", "feedback": "期待管理熟能生巧——你会越来越平静。", "type": "pos" },
+    { "icon": "🚀", "tag": "行动", "scenario": "拖延清单清掉了两件", "feedback": "清一件少一件焦虑源。这就是行动的复利。", "type": "pos" },
+    { "icon": "🧘", "tag": "情绪", "scenario": "这周没为小事失眠", "answer": "没有焦虑失眠与抱怨的状态——这就是最贵的资产。", "type": "pos" }
   ]
 }
 
@@ -1346,22 +1346,22 @@ const ASK_SCENES = QA_DATA.pos.map(q => ({ icon: q.icon, tag: q.tag, scenario: q
 // ==================== 进展数据 ====================
 const PROGRESS_DATA = {
   "pos": [
-    { "icon": "🪞", "tag": "觉察", "scenario": "连续一周睡前复盘自己的判断", "feedback": "判断力是复盘出来的。你已经把镜子立起来了。", "type": "pos" },
-    { "icon": "📏", "tag": "标准", "scenario": "团队按新标准交付，返工明显变少", "feedback": "标准是团队的隐形管理者，建一次，长期受益。", "type": "pos" },
-    { "icon": "🤲", "tag": "授权", "scenario": "授权出去的事，下属做得比你预期好", "feedback": "你的忍住，换来了他的成长。这就是领导力的杠杆。", "type": "pos" },
-    { "icon": "🌿", "tag": "带教", "scenario": "你带的人开始独当一面", "feedback": "成就他人是最深的领导力——你已经验证了它。", "type": "pos" },
-    { "icon": "🎯", "tag": "聚焦", "scenario": "砍掉了两个低价值会议/项目", "feedback": "做减法需要勇气，省下的注意力是全团队的礼物。", "type": "pos" },
-    { "icon": "💬", "tag": "真话", "scenario": "团队开始敢当面指出你的问题", "feedback": "心理安全感是你谦逊攒出来的。有人敢说真话，团队才不会翻车。", "type": "pos" },
-    { "icon": "🔄", "tag": "复盘", "scenario": "一次失败被沉淀成了检查清单", "feedback": "同样的坑不踩第二次——这就是复盘的价值。", "type": "pos" },
-    { "icon": "📣", "tag": "向上", "scenario": "一个月没让老板主动来问进度", "feedback": "向上同步是信任的氧气泵。你已经养成了。", "type": "pos" }
+    { "icon": "🪞", "tag": "诚实", "scenario": "连续一周每天问自己诚实问题", "feedback": "自我觉察的肌肉成型了——这是心力的地基。", "type": "pos" },
+    { "icon": "🚀", "tag": "行动", "scenario": "5分钟法则连续奏效一周", "feedback": "拖延的锁已经被你配到钥匙了。", "type": "pos" },
+    { "icon": "🎯", "tag": "期待", "scenario": "结果不如意但情绪没崩", "feedback": "劲在动作上不在结果上——你已经练成了。", "type": "pos" },
+    { "icon": "🌸", "tag": "不比", "scenario": "一个月没用别人的进度惩罚自己", "feedback": "你有了自己的时钟——这是可持续节奏的起点。", "type": "pos" },
+    { "icon": "🧘", "tag": "情绪", "scenario": "情绪上头停10秒成了本能", "feedback": "本能级的情绪管理——这句话值回所有修炼。", "type": "pos" },
+    { "icon": "🕊️", "tag": "翻篇", "scenario": "一件拖了半年的心事放下了", "feedback": "翻篇不是遗忘，是不再让它消耗今天的你。", "type": "pos" },
+    { "icon": "💎", "tag": "自信", "scenario": "被质疑时，你稳稳确认了自己的价值", "feedback": "自我认可的地基打牢了——外界的风摇不动你。", "type": "pos" },
+    { "icon": "⭐", "tag": "静待", "scenario": "之前的准备突然接到了机会", "feedback": "运气是准备遇上了机会——你的准备没白费。", "type": "pos" }
   ],
   "neg": [
-    { "icon": "🌋", "tag": "失控", "scenario": "这周情绪失控超过一次", "feedback": "情绪稳定是管理者的地板。下次先停十秒，再开口。", "type": "neg" },
-    { "icon": "🦺", "tag": "抢活", "scenario": "下属的活你干了三件以上", "feedback": "你不是救火队长。教他灭火，比替他灭火值钱十倍。", "type": "neg" },
-    { "icon": "🤝", "tag": "和稀泥", "scenario": "两次明显的问题被你放过", "feedback": "你不纠正问题，就是在奖励问题。团队会照着你做。", "type": "neg" },
-    { "icon": "🥇", "tag": "抢功", "scenario": "汇报里功劳没有给到做事的人", "feedback": "功劳给出去才是领导力，揽进来只是虚荣。", "type": "neg" },
-    { "icon": "🌀", "tag": "瞎忙", "scenario": "一周没留白，战略一次没想", "feedback": "忙碌不等于产出。每周半天留白，是你给自己团队的投研时间。", "type": "neg" },
-    { "icon": "✋", "tag": "打断", "scenario": "开会你打断别人的次数超过五次", "feedback": "你打断的每句话里，可能都藏着你想听的真话。", "type": "neg" }
+    { "icon": "🌀", "tag": "拖延", "scenario": "这周重要的事拖了三天以上", "feedback": "别加自责——加5分钟法则的剂量，先动起来。", "type": "neg" },
+    { "icon": "🪞", "tag": "比较", "scenario": "又拿别人的高光攻击了自己", "feedback": "你看到的是他的封面，不是他的书。合上他那本。", "type": "neg" },
+    { "icon": "♾️", "tag": "内耗", "scenario": "一件事反刍超过一晚上", "feedback": "写下来、给结论、结案——三步终止反刍。", "type": "neg" },
+    { "icon": "🎭", "tag": "完美", "scenario": "两件作品因怕不完美没发出去", "feedback": "60分的已完成>100分的未开始。先发，再迭代。", "type": "neg" },
+    { "icon": "🌧️", "tag": "灾难化", "scenario": "小事想成灾难，失眠了一晚", "answer": "一年后测试：这事还重要吗？让时间维度帮你减压。", "type": "neg" },
+    { "icon": "🎪", "tag": "外包", "scenario": "一条差评影响了你一整周", "feedback": "评价权在自己手里——别人的话是天气，不是气候。", "type": "neg" }
   ]
 }
 
@@ -1408,60 +1408,60 @@ function switchTab(tab) {
 // ==================== 打卡功能 ====================
 const FEEDBACK = {
   "gentle": {
-    "checkin": ["收到，记下了。今天这步走得很稳。", "好。领导力是一天一天修出来的。", "已记录。守住节奏。"],
-    "happy": ["这个时刻值得记住——团队因为你变强了一点。", "很好。带人的成就感，是别的事换不来的。"],
-    "neutral": ["平稳的日子也在积累信任。", "好，按节奏走。"],
-    "sad": ["管理最难的不是事，是人心。先照顾好自己。", "低落不耽误你是好领导。缓一缓再出发。"],
-    "tired": ["累了就收。你的状态是团队的状态。", "先休息，队伍明天还需要你。"],
-    "progress": ["说，我听着。", "讲讲最近带队伍的观察。"],
+    "checkin": ["收到，记下了。今天的心力又稳了一分。", "好。心力就是这样一天一天修的。", "已记录。守住自己的节奏。"],
+    "happy": ["这个时刻值得记住——你接住了自己。", "很好。稳稳的幸福，是自己给的。"],
+    "neutral": ["平稳的日子也在养心力。", "好，按节奏走。"],
+    "sad": ["低落不是你的错，是信号。先接住自己。", "允许今天低落，明天照常出发。"],
+    "tired": ["累了就收。情绪也是要休息的。", "先休息，明天的心力今天攒。"],
+    "progress": ["说，我听着。", "讲讲最近心态的变化。"],
     "question": ["问吧。"],
-    "milestone7": ["一周了。镜子已经开始起作用。"],
-    "milestone21": ["三周。管事理人在成型。"],
-    "milestone30": ["一个月。你的团队应该已经感觉到了变化。"],
-    "late": ["这么晚还在复盘？明天也要留点力气给团队。"],
-    "reminder": ["今天还没打卡。照一次镜子也行。", "回来报个到，团队等你稳住军心。", "别失踪，我在。"]
+    "milestone7": ["一周了。诚实的镜子立起来了。"],
+    "milestone21": ["三周。内在对话开始换频道了。"],
+    "milestone30": ["一个月。你已经比上月稳了一大截。"],
+    "late": ["这么晚还没睡？情绪的本金是睡眠。"],
+    "reminder": ["今天还没打卡。问自己一个问题也行。", "回来报个到，我陪你稳住。", "别失踪，我在。"]
   },
   "passion": {
-    "checkin": ["💪 带队伍就该这样！", "🔥 记下了，将军！", "💪 稳！标准守住了！"],
-    "happy": ["🔥 这个时刻值得全队庆祝！", "💪 团队又强了一分，你的功劳！"],
-    "neutral": ["🔥 平稳推进，也是战斗力。"],
-    "sad": ["💪 带队伍哪有不委屈的，扛住！", "说出来，我接得住！"],
-    "tired": ["🔥 先充电！指挥官倒了队伍怎么办！", "睡觉！明天还要打仗！"],
-    "progress": ["说！你的队伍最近怎么样！"],
+    "checkin": ["💪 心态就该这么刚！", "🔥 记下了，信自己！", "💪 稳！先干5分钟！"],
+    "happy": ["🔥 这个时刻值得庆祝！", "💪 心力又强一分，你的功劳！"],
+    "neutral": ["🔥 平稳推进，也是修炼。"],
+    "sad": ["💪 哪有不委屈的，扛住！", "说出来，我接得住！"],
+    "tired": ["🔥 先充电！情绪是本钱！", "睡觉！明天还要出发！"],
+    "progress": ["说！最近心态怎么样！"],
     "question": ["问！都能接！"],
-    "milestone7": ["🔥 七天！军心已稳！"],
-    "milestone21": ["🔥 三周！你已经开始像样了！"],
-    "milestone30": ["🏆 一个月！这支队伍是你的作品！"],
-    "late": ["🔥 深夜练兵？明天也要让队伍看到你的状态！"],
-    "reminder": ["🔥 今天还没打卡！将军不能失踪！", "🔥 人呢？回来点卯！", "💪 断一天，军心就散一分！"]
+    "milestone7": ["🔥 七天！心力启动！"],
+    "milestone21": ["🔥 三周！内耗少了一半！"],
+    "milestone30": ["🏆 一个月！你就是自己的信徒了！"],
+    "late": ["🔥 深夜复盘？明天也要满血！"],
+    "reminder": ["🔥 今天还没打卡！心态不能断！", "🔥 人呢？回来充电！", "💪 断一天，心力就松一分！"]
   },
   "rational": {
     "checkin": ["已记录。节奏正常。", "收到，数据已同步。", "打卡完成。"],
     "happy": ["建议复盘：哪个动作起了作用，固化它。"],
     "neutral": ["平稳。按节奏推进即可。"],
-    "sad": ["低谷期降低预期，保住底线动作：一次具体反馈。"],
-    "tired": ["精力不足时只做一件事：照一次镜子。"],
-    "progress": ["说说：动作、变化、卡点。"],
+    "sad": ["低谷期降低预期，保住底线动作：问一个诚实问题。"],
+    "tired": ["精力不足时只做一件事：写下一件做得好的小事。"],
+    "progress": ["说说：触发点、反应、结果。"],
     "question": ["问。我们一起拆。"],
-    "milestone7": ["第7天。觉察习惯启动期通过。"],
-    "milestone21": ["第21天。管理操作系统初步成型。"],
-    "milestone30": ["30天。建议复盘：哪个维度在涨，哪个需要加码。"],
-    "late": ["深夜记录。你的睡眠是明天判断力的本金。"],
-    "reminder": ["今日无打卡记录。建议最小动作：给一条具体反馈。", "昨日缺席。今天补上即可，不必加量。", "频率预警：本周还差2次打卡。"]
+    "milestone7": ["第7天。诚实自问习惯启动。"],
+    "milestone21": ["第21天。内在对话系统初步换轨。"],
+    "milestone30": ["30天。建议复盘：哪个情绪模式在改善。"],
+    "late": ["深夜记录。睡眠是情绪调节的本金。"],
+    "reminder": ["今日无打卡。建议最小动作：写下一件做得好的小事。", "昨日缺席。今天补上即可，不必加量。", "频率预警：本周还差2次打卡。"]
   },
   "tsundere": {
     "checkin": ["哦，来了啊。还行。", "记下了。别指望我夸你。", "打卡了？勉强。"],
-    "happy": ["开心什么，团队变强有你多少功劳？……行吧，算你的。"],
-    "neutral": ["不咸不淡的。去给一条具体反馈。"],
-    "sad": ["难过了？管人哪有不受委屈的。去复盘，去睡觉。"],
-    "tired": ["累就对了，说明在带人。……但今晚都给我睡。"],
+    "happy": ["开心什么，才一个月……行吧，你确实稳了点。"],
+    "neutral": ["不咸不淡的。去干那件拖着的事。"],
+    "sad": ["难过了？心又不是铁打的。去写下来，去睡觉。"],
+    "tired": ["累就对了，说明在修炼。……但今晚都给我睡。"],
     "progress": ["说吧，让我看看你这周的成色。"],
     "question": ["问。答案很简单，就怕你不做。"],
     "milestone7": ["一周而已。……不过，你没断，我看到了。"],
-    "milestone21": ["三周。有点领导的样子了，别飘。"],
-    "milestone30": ["一个月。……好吧，你带队伍有点东西。"],
-    "late": ["深夜打卡？领导力是睡出来的，不是熬出来的。"],
-    "reminder": ["喂，今天没打卡？团队可不会自己变强。", "又鸽了？镜子不会自己照自己。", "两天没来了啊……我可没替你找借口。"]
+    "milestone21": ["三周。有点心力的样子了，别飘。"],
+    "milestone30": ["一个月。……好吧，你这心态有点东西。"],
+    "late": ["深夜打卡？心力是睡出来的，不是熬出来的。"],
+    "reminder": ["喂，今天没打卡？心态可不会自己变稳。", "又鸽了？问题不会自己消失。", "两天没来了啊……我可没替你找借口。"]
   }
 }
 
@@ -1489,7 +1489,7 @@ function showMsg(text, isAi = true) {
   if (isAi) {
     wrap.innerHTML = `<div class="msg-avatar">${partner.emoji}</div><div class="msg-bubble ai">${text}</div>`;
   } else {
-    wrap.innerHTML = `<div class="msg-bubble" style="margin-left:auto;border-radius:18px 18px 4px 18px;background:#edf3fb;">${text}</div>`;
+    wrap.innerHTML = `<div class="msg-bubble" style="margin-left:auto;border-radius:18px 18px 4px 18px;background:#fbeaf0;">${text}</div>`;
   }
   area.appendChild(wrap);
   area.scrollTop = area.scrollHeight;
@@ -1546,7 +1546,7 @@ function showPartnerMsg(text, isAI) {
   if (isAI) {
     wrap.innerHTML = `<div class="msg-avatar">${partner.emoji}</div><div class="msg-bubble ai">${text}</div>`;
   } else {
-    wrap.innerHTML = `<div class="msg-bubble" style="margin-left:auto;border-radius:18px 18px 4px 18px;background:#edf3fb;">${text}</div>`;
+    wrap.innerHTML = `<div class="msg-bubble" style="margin-left:auto;border-radius:18px 18px 4px 18px;background:#fbeaf0;">${text}</div>`;
   }
   area.appendChild(wrap);
   area.scrollTop = area.scrollHeight;
@@ -1564,28 +1564,28 @@ function sendMood(mood) {
   };
         const replies = {
     "gentle": {
-      "happy": ["团队有你，是他们的运气 ✨", "这个时刻值得记下来，带人的成就感最养人", "看见你带人成长，真为你高兴"],
-      "neutral": ["平稳推进也很好 🧭", "不急不躁，信任就是这样攒的", "平静里，标准在生根"],
-      "sad": ["管理的委屈，先接住自己 💙", "你需要的是休息，不是自责", "我知道你累了，先照顾好自己"],
-      "tired": ["累了就先歇，队伍明天还需要你", "你已经做得够好了", "今晚早点睡，指挥官也要回血"]
+      "happy": ["你稳稳接住了自己，真为你高兴 ✨", "这个时刻值得记下来，心力最养人", "看见你越来越稳，真好"],
+      "neutral": ["平稳推进也很好 🌸", "不急不躁，心力就是这样攒的", "平静里，相信在生根"],
+      "sad": ["低落的时候，先接住自己 💙", "你需要的是休息，不是自责", "我知道你累了，先照顾好自己"],
+      "tired": ["累了就先歇，情绪也要回血", "你已经做得够好了", "今晚早点睡，明天的心力今天攒"]
     },
     "passion": {
-      "happy": ["🔥 好样的！这是你的战功！", "带队伍带出样子了！继续！", "这种高光时刻，多来几次！"],
-      "neutral": ["🔥 平稳蓄力，也是练兵！", "稳扎稳打，军心就是这样稳的", "这样的节奏，保持！"],
-      "sad": ["💪 抱一抱，带队伍哪有不受委屈的！", "说出来，我接得住", "今天允许低落，明天照样冲锋！"],
-      "tired": ["🔥 先休息！指挥官不能倒！", "撑不住就说，我来想办法", "带兵的人也需要回血，睡觉！"]
+      "happy": ["🔥 好样的！这是你的战功！", "心态练出样子了！继续！", "这种高光时刻，多来几次！"],
+      "neutral": ["🔥 平稳蓄力，也是修炼！", "稳扎稳打，心力就是这样来的", "这样的节奏，保持！"],
+      "sad": ["💪 抱一抱，哪有不受挫的！", "说出来，我接得住", "今天允许低落，明天照样出发！"],
+      "tired": ["🔥 先休息！情绪是本钱！", "撑不住就说，我来想办法", "修炼的人也需要回血，睡觉！"]
     },
     "rational": {
-      "happy": ["好时刻值得复盘：哪个动作有效？", "记录下来，这就是你的管理资产", "趁热复盘：最有效的细节是什么？"],
-      "neutral": ["平稳期是建体系的好窗口", "按节奏推进，不需要激情", "这个状态适合打磨一个标准"],
-      "sad": ["先接情绪，再找原因，顺序别反", "是人的问题还是流程的问题？拆开看", "允许低落，观察就是行动"],
-      "tired": ["精力见底时只做一件事：照镜子", "你的状态是团队的天气", "最差的决策来自最累的时刻"]
+      "happy": ["好时刻值得复盘：哪个动作有效？", "记录下来，这就是你的心力资产", "趁热复盘：最有效的细节是什么？"],
+      "neutral": ["平稳期是建立情绪规则的好窗口", "按节奏推进，不需要激情", "这个状态适合问一个诚实问题"],
+      "sad": ["先接情绪，再找原因，顺序别反", "是触发点还是解读偏了？拆开看", "允许低落，记录也是行动"],
+      "tired": ["精力见底时只做一件事：写下一件小事", "你的情绪需要睡眠巩固", "最差的决定来自最累的时刻"]
     },
     "tsundere": {
-      "happy": ["……开心就开心吧，别太得瑟", "哼，带得还行，勉强及格", "……算你今天在线"],
-      "neutral": ["不咸不淡的……去给一条具体反馈。", "哼，普通的一天，也要守标准", "平静？平静可带不出强队。去。"],
-      "sad": ["难过了？先复盘，再睡觉。", "……别啰嗦了，去修复一下。", "一句闲话就僵一整天？管理者不该这样。"],
-      "tired": ["累就对了，说明在带人。……今晚都睡。", "谁还没累过。……行，休一天。", "哼，想摆烂就直说"]
+      "happy": ["……开心就开心吧，别太得瑟", "哼，稳得还行，勉强及格", "……算你今天在线"],
+      "neutral": ["不咸不淡的……去干那件拖着的事。", "哼，普通的一天，也要稳住", "平静？平静可练不出心力。去。"],
+      "sad": ["难过了？先写下来，再睡觉。", "……别啰嗦了，去接住自己。", "一句话就慌一天？心力不该这样。"],
+      "tired": ["累就对了，说明在修炼。……今晚都睡。", "谁还没累过。……行，休一天。", "哼，想摆烂就直说"]
     }
   };
   const options = (replies[pStyle] || {})[mood] || replies.gentle[mood];
@@ -1607,12 +1607,12 @@ function askPartner(type) {
   const style = partner.style || 'gentle';
   const emoji = partner.emoji;
     const typeConfig = {
-    "progress":  { "label": "📈 进展",       "panel": "progress", "dir": "result", "intro": { "gentle": ["说说最近的带队伍进展，我想听 🧭", "好，讲讲你和团队这周的样子"], "passion": ["冲！说说你的战报！🔥", "好！让我听听队伍的变化！💪"], "rational": ["收到。说说这周的具体观察。📐", "好。哪些管理动作有效，讲数据。"], "tsundere": ["进展？说。……听着呢。", "哼，让我看看你带得怎么样。"] } },
-    "struggle":  { "label": "😣 困难",       "panel": "struggle", "dir": "solution", "intro": { "gentle": ["带队伍哪有不难的，说说看 🧭", "没关系，我们一起想办法"], "passion": ["困难算什么，我们一起面对！💪", "来！我帮你拆解！🔥"], "rational": ["困难是信号，不是判决。说，我帮你分析。📐"], "tsundere": ["又卡住了？说。……我听着。"] } },
-    "idea":      { "label": "💡 想法",       "panel": "idea",     "dir": "result", "intro": { "gentle": ["好想法！说说你的思路 🧭", "来，展开讲讲这个管理动作"], "passion": ["好主意！🔥 让我听听！", "来！展开讲！我要听完整方案！💪"], "rational": ["好。目标是什么？验收标准呢？📐", "拆解一下：这个机制解决什么问题？"], "tsundere": ["哦？说来听听。……有点意思。"] } },
-    "cheer":     { "label": "🎉 喜事",       "panel": "cheer",    "dir": "result", "intro": { "gentle": ["哈哈！你的喜事！快说！🎉", "这种时刻值得好好庆祝"], "passion": ["🎉🎉🎉 说！我要听！全部细节！", "太棒了！这就是带队伍的荣耀！🔥"], "rational": ["📐 积极时刻要复盘：什么起了作用？", "好事！说细节，我记录归因。"], "tsundere": ["……哟，喜事啊。恭喜。", "哼，还算你带得不错。"] } },
-    "report":    { "label": "📣 汇报进展",   "panel": "report",   "dir": "result", "intro": { "gentle": ["收到。说给我听听 🧭", "好，让我了解你的最新变化"], "passion": ["冲！汇报收到！🔥", "好！让我听听！💪"], "rational": ["汇报收到。数据记录中。📐", "好。说说关键变化。"], "tsundere": ["汇报？行，说。……我还挺想听。"] } },
-    "question":  { "label": "🤔 有问题想问", "panel": "question", "dir": "solution", "intro": { "gentle": ["问吧，我尽力回答 🧭"], "passion": ["问！什么问题都能接住！💪"], "rational": ["好的。给出你的问题。📐"], "tsundere": ["🤷 问就问，不保证你能听懂。🌿"] } }
+    "progress":  { "label": "📈 进展",       "panel": "progress", "dir": "result", "intro": { "gentle": ["说说最近的心态变化，我想听 🌸", "好，讲讲你这周稳住的时刻"], "passion": ["冲！说说你的战报！🔥", "好！让我听听你的心力！💪"], "rational": ["收到。说说这周的具体观察。🪞", "好。哪些动作有效，讲细节。"], "tsundere": ["进展？说。……听着呢。", "哼，让我看看你稳不稳。"] } },
+    "struggle":  { "label": "😣 困难",       "panel": "struggle", "dir": "solution", "intro": { "gentle": ["心态哪有不波动的，说说看 🌸", "没关系，我们一起想办法"], "passion": ["困难算什么，我们一起面对！💪", "来！我帮你拆解！🔥"], "rational": ["困难是信号，不是判决。说，我帮你分析。🪞"], "tsundere": ["又卡住了？说。……我听着。"] } },
+    "idea":      { "label": "💡 想法",       "panel": "idea",     "dir": "result", "intro": { "gentle": ["好想法！说说你的思路 🌸", "来，展开讲讲这个调整"], "passion": ["好主意！🔥 让我听听！", "来！展开讲！我要听完整方案！💪"], "rational": ["好。目标是什么？验收标准呢？🪞", "拆解一下：这个调整解决什么问题？"], "tsundere": ["哦？说来听听。……有点意思。"] } },
+    "cheer":     { "label": "🎉 喜事",       "panel": "cheer",    "dir": "result", "intro": { "gentle": ["哈哈！你的喜事！快说！🎉", "这种时刻值得好好庆祝"], "passion": ["🎉🎉🎉 说！我要听！全部细节！", "太棒了！这就是心力的荣耀！🔥"], "rational": ["🪞 积极时刻要复盘：什么起了作用？", "好事！说细节，我记录归因。"], "tsundere": ["……哟，喜事啊。恭喜。", "哼，还算你稳得住。"] } },
+    "report":    { "label": "📣 汇报进展",   "panel": "report",   "dir": "result", "intro": { "gentle": ["收到。说给我听听 🌸", "好，让我了解你的最新变化"], "passion": ["冲！汇报收到！🔥", "好！让我听听！💪"], "rational": ["汇报收到。数据记录中。🪞", "好。说说关键变化。"], "tsundere": ["汇报？行，说。……我还挺想听。"] } },
+    "question":  { "label": "🤔 有问题想问", "panel": "question", "dir": "solution", "intro": { "gentle": ["问吧，我尽力回答 🌸"], "passion": ["问！什么问题都能接住！💪"], "rational": ["好的。给出你的问题。🪞"], "tsundere": ["🤷 问就问，不保证你爱听。⭐"] } }
   };
   const cfg = typeConfig[type] || typeConfig.progress;
   const introArr = cfg.intro[style] || cfg.intro.gentle;
@@ -1653,7 +1653,7 @@ function openTypePanel(panel, dir) {
   const posItems = data.filter(i => i.type === 'pos');
   if (posItems.length) {
     const posLabel = document.createElement('div');
-    posLabel.style.cssText = 'font-size:11px;font-weight:700;color:#3f6db5;letter-spacing:1px;margin:8px 2px 6px;';
+    posLabel.style.cssText = 'font-size:11px;font-weight:700;color:#d4537e;letter-spacing:1px;margin:8px 2px 6px;';
     posLabel.innerText = '⬆️ 好的进展 / 想得到鼓励';
     scroll.appendChild(posLabel);
     posItems.forEach((item, i) => {
@@ -1823,7 +1823,7 @@ function copyStats() {
   let history = getHistory(), continuous = document.getElementById('continuousDays').innerText;
   let partner = currentPartner || PARTNERS[0];
   let today = getToday();
-  let text = `🏆 领导力搭子战绩\n搭子：${partner.name} ${partner.emoji}\n连续打卡：${continuous}天\n总打卡：${history.length}天\n${today} 继续加油！`;
+  let text = `🏆 心态信念搭子战绩\n搭子：${partner.name} ${partner.emoji}\n连续打卡：${continuous}天\n总打卡：${history.length}天\n${today} 继续加油！`;
   navigator.clipboard.writeText(text).then(() => showToast('✅ 战绩已复制，快去分享')).catch(() => showToast('复制失败，手动复制吧'));
 }
 
@@ -1948,7 +1948,7 @@ function checkReminder() {
 function updateAvatarBtn() {
   let btn = document.getElementById('avatarBtn');
   if (btn && currentPartner) {
-    btn.innerHTML = currentPartner.emoji + '<div style="position:absolute;bottom:-2px;right:-2px;width:16px;height:16px;background:#9db8dd;border-radius:50%;border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:10px;color:white;font-weight:bold;line-height:1;">✎</div>';
+    btn.innerHTML = currentPartner.emoji + '<div style="position:absolute;bottom:-2px;right:-2px;width:16px;height:16px;background:#f0b3c9;border-radius:50%;border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:10px;color:white;font-weight:bold;line-height:1;">✎</div>';
   }
 }
 
@@ -2025,7 +2025,7 @@ function startAchievementConfetti() {
   let canvas = document.getElementById('achievementConfetti');
   let ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-  let colors = ['#ff6b35','#ffd700','#9db8dd','#5ab0d8','#ff69b4','#ff4500'];
+  let colors = ['#ff6b35','#ffd700','#f0b3c9','#5ab0d8','#ff69b4','#ff4500'];
   achievementParticles = Array.from({length:120}, () => ({
     x: Math.random() * canvas.width, y: -20 - Math.random() * 200,
     w: 6 + Math.random() * 8, h: 4 + Math.random() * 6,
@@ -2113,7 +2113,7 @@ function previewShareCard() {
 // ==================== 体重模块 ====================
 function addWeight() {
   let val = parseFloat(document.getElementById('weightInput').value);
-  if (!val || val < 1 || val > 100) { showToast('请输入有效的领导分（1~100）'); return; }
+  if (!val || val < 1 || val > 100) { showToast('请输入有效的心力分（1~100）'); return; }
   let data = getWeightData();
   let today = getToday();
   // 删除今天的旧记录（如果有）
@@ -2139,7 +2139,7 @@ function drawWeightChart() {
   let W = canvas.width, H = canvas.height;
   ctx.clearRect(0,0,W,H);
   if (data.length < 2) {
-    ctx.fillStyle = '#b7cbe8'; ctx.font = '14px system-ui';
+    ctx.fillStyle = '#f6cddc'; ctx.font = '14px system-ui';
     ctx.textAlign = 'center'; ctx.fillText('记录2次以上即可显示曲线', W/2, H/2);
     renderWeightStats(null);
     return;
@@ -2154,7 +2154,7 @@ function drawWeightChart() {
   for (let i = 0; i <= 4; i++) {
     let y = 20 + i * (H - 50) / 4;
     ctx.beginPath(); ctx.moveTo(20,y); ctx.lineTo(W-20,y); ctx.stroke();
-    ctx.fillStyle = '#b7cbe8'; ctx.font = '10px system-ui'; ctx.textAlign = 'right';
+    ctx.fillStyle = '#f6cddc'; ctx.font = '10px system-ui'; ctx.textAlign = 'right';
     ctx.fillText((maxV - i*(maxV-minV)/4).toFixed(1), 18, y+3);
   }
 
@@ -2171,13 +2171,13 @@ function drawWeightChart() {
   // 线
   ctx.beginPath();
   data.forEach((d,i) => { let x=toX(i),y=toY(d.value); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
-  ctx.strokeStyle='#2456a4'; ctx.lineWidth=2.5; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.stroke();
+  ctx.strokeStyle='#ad3b6e'; ctx.lineWidth=2.5; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.stroke();
 
   // 点
   data.forEach((d,i) => {
     let x=toX(i),y=toY(d.value);
     ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2);
-    ctx.fillStyle='#fff'; ctx.fill(); ctx.strokeStyle='#2456a4'; ctx.lineWidth=2; ctx.stroke();
+    ctx.fillStyle='#fff'; ctx.fill(); ctx.strokeStyle='#ad3b6e'; ctx.lineWidth=2; ctx.stroke();
   });
 
   // 今天标注
@@ -2185,7 +2185,7 @@ function drawWeightChart() {
   let todayIdx = data.findIndex(d => d.date === today);
   if (todayIdx >= 0) {
     let x=toX(todayIdx),y=toY(data[todayIdx].value);
-    ctx.fillStyle='#3f6db5'; ctx.font='bold 12px system-ui'; ctx.textAlign='center';
+    ctx.fillStyle='#d4537e'; ctx.font='bold 12px system-ui'; ctx.textAlign='center';
     ctx.fillText('今天',x,y-12);
   }
 
@@ -2194,7 +2194,7 @@ function drawWeightChart() {
 
 function renderWeightStats(data) {
   let stats = document.getElementById('weightStats');
-  if (!data || data.length === 0) { stats.innerHTML='<div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">当前领导分</div></div><div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">本周变化</div></div><div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">总记录</div></div>'; return; }
+  if (!data || data.length === 0) { stats.innerHTML='<div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">当前心力分</div></div><div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">本周变化</div></div><div class="wstat"><div class="wstat-num">--</div><div class="wstat-label">总记录</div></div>'; return; }
   let latest = data[data.length-1].value;
   let first = data[0].value;
   let weekData = data.filter(d => { let diff=(new Date()-new Date(d.date))/86400000; return diff<=7; });
@@ -2254,7 +2254,7 @@ function renderWeeklyReport() {
   let thisWeekDays = thisWeekHistory.length;
   let lastWeekDays = lastWeekHistory.length;
   let checkinChange = thisWeekDays - lastWeekDays;
-  let checkinColor = checkinChange > 0 ? '#6c8fc9' : checkinChange < 0 ? '#ef5350' : '#888';
+  let checkinColor = checkinChange > 0 ? '#e58aa8' : checkinChange < 0 ? '#ef5350' : '#888';
   let checkinIcon = checkinChange > 0 ? '📈' : checkinChange < 0 ? '📉' : '➡️';
   items.push(`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;">
     <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">🦁</span><span style="font-size:13px;color:#666;">本周打卡</span></div>
@@ -2264,16 +2264,16 @@ function renderWeeklyReport() {
   // 体重变化
   if (weekChange !== null) {
     let wc = parseFloat(weekChange);
-    let wcColor = wc < 0 ? '#6c8fc9' : wc > 0 ? '#ef5350' : '#888';
+    let wcColor = wc < 0 ? '#e58aa8' : wc > 0 ? '#ef5350' : '#888';
     let wcIcon = wc < 0 ? '⬇️' : wc > 0 ? '⬆️' : '➡️';
     items.push(`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;">
-    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">🔥</span><span style="font-size:13px;color:#666;">本周领导分</span></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;">🔥</span><span style="font-size:13px;color:#666;">本周心力分</span></div>
     <div style="display:flex;align-items:center;gap:6px;"><span style="font-weight:700;font-size:15px;">${wc > 0 ? '+' : ''}${weekChange}分</span><span style="font-size:12px;color:${wcColor};">${wcIcon}</span></div>
   </div>`);
   }
 
   // SOP今日得分（各分类详情）
-  let sopColor = sopScore >= 60 ? '#6c8fc9' : sopScore >= 30 ? '#6c8fc9' : '#ef5350';
+  let sopColor = sopScore >= 60 ? '#e58aa8' : sopScore >= 30 ? '#e58aa8' : '#ef5350';
   items.push(`<div style="padding:10px 0;border-bottom:1px solid #f0f0f0;">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
       <span style="font-size:18px;">🎯</span>
@@ -2287,7 +2287,7 @@ function renderWeeklyReport() {
         let catDone = sopPositives ? sopPositives.filter(p => p.cat === cat.id).length : 0;
         let negCount = sopNegatives ? sopNegatives.filter(n => n.cat === cat.id).length : 0;
         let doneTotal = (catDone || 0) - (negCount || 0);
-        let statusColor = doneTotal >= 3 ? '#6c8fc9' : doneTotal >= 1 ? '#6c8fc9' : '#ef5350';
+        let statusColor = doneTotal >= 3 ? '#e58aa8' : doneTotal >= 1 ? '#e58aa8' : '#ef5350';
         return `<div style="background:${cat.color}18;border-radius:10px;padding:8px 6px;text-align:center;">
           <div style="font-size:16px;">${cat.icon}</div>
           <div style="font-size:10px;color:${cat.color};font-weight:600;">${cat.name}</div>
@@ -2302,10 +2302,10 @@ function renderWeeklyReport() {
   let goodCount = thisWeekDays + (weekChange !== null && parseFloat(weekChange) <= 0 ? 1 : 0) + (sopScore >= 60 ? 1 : 0);
   let evalIcon = ['😔', '😐', '👍', '😊', '🎉'][Math.min(goodCount, 4)];
   let evalText = ['需加油', '一般', '还不错', '很好', '太棒了'][Math.min(goodCount, 4)];
-  items.push(`<div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 0;margin-top:8px;background:#fdfeff;border-radius:12px;">
+  items.push(`<div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 0;margin-top:8px;background:#fffdfe;border-radius:12px;">
     <span style="font-size:20px;">${evalIcon}</span>
     <span style="font-size:14px;font-weight:600;color:#333;">本周综合评价：</span>
-    <span style="font-size:14px;font-weight:700;color:#6c8fc9;">${evalText}</span>
+    <span style="font-size:14px;font-weight:700;color:#e58aa8;">${evalText}</span>
   </div>`);
 
   container.innerHTML = items.join('');
@@ -2336,8 +2336,8 @@ function shareWeeklyReport() {
 
   // 背景渐变
   let grad = ctx.createLinearGradient(0, 0, 750, 1000);
-  grad.addColorStop(0, '#9db8dd');
-  grad.addColorStop(1, '#4a74ba');
+  grad.addColorStop(0, '#f0b3c9');
+  grad.addColorStop(1, '#d96e97');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, 750, 1000);
 
@@ -2345,7 +2345,7 @@ function shareWeeklyReport() {
   ctx.fillStyle = 'white';
   ctx.font = 'bold 48px sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('🧭 领导力搭子', 375, 100);
+  ctx.fillText('🌸 心态信念搭子', 375, 100);
   ctx.font = '32px sans-serif';
   ctx.fillText('本周进展报告', 375, 160);
 
@@ -2367,7 +2367,7 @@ function shareWeeklyReport() {
 
   // 打卡天数
   ctx.font = 'bold 48px sans-serif';
-  ctx.fillStyle = '#9db8dd';
+  ctx.fillStyle = '#f0b3c9';
   ctx.fillText('📅 ' + thisWeekHistory.length + '天', 375, y += 100);
   ctx.font = '28px sans-serif';
   ctx.fillStyle = '#666';
@@ -2377,23 +2377,23 @@ function shareWeeklyReport() {
   if (weekChange !== null) {
     let wc = parseFloat(weekChange);
     ctx.font = 'bold 48px sans-serif';
-    ctx.fillStyle = wc < 0 ? '#6c8fc9' : '#ef5350';
+    ctx.fillStyle = wc < 0 ? '#e58aa8' : '#ef5350';
     ctx.fillText((wc > 0 ? '⬆️ +' : '⬇️ ') + weekChange + '分', 375, y += 100);
     ctx.font = '28px sans-serif';
     ctx.fillStyle = '#666';
-    ctx.fillText('本周领导分变化', 375, y += 50);
+    ctx.fillText('本周心力分变化', 375, y += 50);
   }
 
   // SOP得分
   ctx.font = 'bold 48px sans-serif';
-  ctx.fillStyle = sopScore >= 60 ? '#6c8fc9' : sopScore >= 30 ? '#6c8fc9' : '#ef5350';
+  ctx.fillStyle = sopScore >= 60 ? '#e58aa8' : sopScore >= 30 ? '#e58aa8' : '#ef5350';
   ctx.fillText('🎯 ' + sopScore + '分', 375, y += 100);
   ctx.font = '28px sans-serif';
   ctx.fillStyle = '#666';
   ctx.fillText('今日SOP得分', 375, y += 50);
 
   // 底部邀请
-  ctx.fillStyle = '#9db8dd';
+  ctx.fillStyle = '#f0b3c9';
   roundRect(ctx, 100, 850, 550, 100, 50);
   ctx.fill();
   ctx.fillStyle = 'white';
@@ -2403,7 +2403,7 @@ function shareWeeklyReport() {
   // 生成图片
   let dataUrl = canvas.toDataURL('image/png');
   let link = document.createElement('a');
-  link.download = '领导力搭子-本周进展.png';
+  link.download = '心态信念搭子-本周进展.png';
   link.href = dataUrl;
   link.click();
 }
@@ -2425,7 +2425,7 @@ function roundRect(ctx, x, y, w, h, r) {
 function renderWeightRecords() {
   let el = document.getElementById('weightRecords');
   let data = getWeightData().slice().reverse().slice(0,10);
-  if (data.length === 0) { el.innerHTML = '<div style="text-align:center;color:#b7cbe8;font-size:13px;padding:20px;">还没有记录，开始记录第一条吧</div>'; return; }
+  if (data.length === 0) { el.innerHTML = '<div style="text-align:center;color:#f6cddc;font-size:13px;padding:20px;">还没有记录，开始记录第一条吧</div>'; return; }
   el.innerHTML = data.map((d,i) => {
     let prev = data[i+1];
     let change = prev ? (d.value - prev.value) : 0;
@@ -2438,64 +2438,64 @@ function renderWeightRecords() {
 
 // ==================== SOP 游戏模块 ====================
 const SOP_CATEGORIES = [
-  { id: 'juecha', name: '觉察', icon: '🪞', color: '#2456a4',
-    tips: '自我觉察是领导力的第一特质。你先看见自己，才谈得上管理别人。',
+  { id: 'xiangxin', name: '相信', icon: '💪', color: '#ad3b6e',
+    tips: '我是自己的第一个信徒。你都不信自己，谁替你信？',
     items: [
-      { text: '觉察到了一次情绪触发点，没有发作', pts: 16 },
-      { text: '决策前写下预设，问了一句「我可能错在哪」', pts: 14 },
-      { text: '主动问了一次「别人怎么看我的行为」', pts: 12 },
-      { text: '情绪上头时暂停了十秒再开口', pts: 12 },
-      { text: '睡前复盘了今天一个判断的对错', pts: 12 }
+      { text: '自我怀疑冒头时，回看了进步清单', pts: 16 },
+      { text: '拒绝了一次自我否定，改用事实说话', pts: 14 },
+      { text: '被质疑时，稳稳确认了自己的价值', pts: 12 },
+      { text: '没有把自信心外包给别人', pts: 12 },
+      { text: '相信了一件「我大概学不会」的事', pts: 12 }
     ]
   },
-  { id: 'tongli', name: '同理', icon: '❤️', color: '#3f6db5',
-    tips: '先听懂，再带路。打断是最廉价的否定，复述是最便宜的同理。',
+  { id: 'qiwang', name: '期待', icon: '🎯', color: '#d4537e',
+    tips: '降低期待，提高行动。你能控制的只有今天的动作。',
     items: [
-      { text: '听完了对方的完整表达，没打断', pts: 16 },
-      { text: '复述对方观点，确认理解无误', pts: 14 },
-      { text: '站对方立场问了一次「他为什么这么想」', pts: 12 },
-      { text: '对不同意见，先找到合理的那部分', pts: 12 },
-      { text: '记住了一位同事的近况与难处', pts: 12 }
+      { text: '把「必须完美」改写成「先完成」', pts: 16 },
+      { text: '对一件事降低了结果期待', pts: 14 },
+      { text: '结果不如预期，但情绪没崩', pts: 12 },
+      { text: '做好最坏打算后全力去做', pts: 12 },
+      { text: '降低了一次改造别人的期待', pts: 12 }
     ]
   },
-  { id: 'biaozhun', name: '标准', icon: '📏', color: '#6c8fc9',
-    tips: '没有标准的期待就是埋雷。要求别人的，自己先做到。',
+  { id: 'tuoyan', name: '行动', icon: '🚀', color: '#e58aa8',
+    tips: '拖延是恐惧的外衣。先做5分钟，拆开看看。',
     items: [
-      { text: '为一件工作明确了可验收的标准', pts: 16 },
-      { text: '自己先做到了要求别人的标准', pts: 14 },
-      { text: '拒绝了一次和稀泥', pts: 12 },
-      { text: '把模糊要求写成了可验收的条款', pts: 12 },
-      { text: '对低于标准的结果给了反馈', pts: 12 }
+      { text: '拖了很久的事，先干了5分钟', pts: 16 },
+      { text: '用2分钟法则启动了不想做的事', pts: 14 },
+      { text: '把大任务切成了不失败的小块', pts: 12 },
+      { text: '看清了逃避的是什么感觉', pts: 12 },
+      { text: 'deadline 前没再自欺「以后再做」', pts: 12 }
     ]
   },
-  { id: 'chengjiu', name: '成就', icon: '🤲', color: '#4a74ba',
-    tips: '你带出多少强人，你就有多强。成就他人是最深的领导力。',
+  { id: 'neihao', name: '内耗', icon: '🧘', color: '#d96e97',
+    tips: '内耗上限10分钟。想不通的写下来，别空转。',
     items: [
-      { text: '给了一条「行为+影响」的具体反馈', pts: 16 },
-      { text: '授权了一件原来自己干的事', pts: 14 },
-      { text: '帮一个人看清了他的优势', pts: 12 },
-      { text: '把功劳归给了做事的人', pts: 12 },
-      { text: '花时间带教或辅导了一次', pts: 12 }
+      { text: '情绪上头停住了10秒', pts: 16 },
+      { text: '反刍在10分钟内主动结案', pts: 14 },
+      { text: '用「一年后还重要吗」解压成功', pts: 12 },
+      { text: '把灾难化想法写具体了', pts: 12 },
+      { text: '坏消息来了，但没带进睡眠', pts: 12 }
     ]
   },
-  { id: 'jujiao', name: '聚焦', icon: '🎯', color: '#2c5a9e',
-    tips: '聚焦问题，创造价值。管理者的时间是团队最贵的资源。',
+  { id: 'jingdai', name: '静待', icon: '⭐', color: '#9c3163',
+    tips: '属于你的总会找到你。运气是准备遇上了机会。',
     items: [
-      { text: '砍掉了一个伪问题或伪需求', pts: 16 },
-      { text: '大部分时间花在最重要的一件事上', pts: 14 },
-      { text: '开会砍掉了至少一个议题', pts: 12 },
-      { text: '拒绝了一次不创造价值的忙碌', pts: 12 },
-      { text: '问了一次「这件事背后的问题是什么」', pts: 12 }
+      { text: '对不确定的事继续准备，没慌', pts: 16 },
+      { text: '没用别人的进度惩罚自己', pts: 14 },
+      { text: '对错过的事真心翻了篇', pts: 12 },
+      { text: '专注做事，没追风口焦虑', pts: 12 },
+      { text: '给了自己「慢慢来」的许可', pts: 12 }
     ]
   },
-  { id: 'fupan', name: '复盘', icon: '🔄', color: '#0d2f66',
-    tips: '复盘是对经验征税。不交税的经验，永远变不成能力。',
+  { id: 'chengshi', name: '诚实', icon: '🪞', color: '#5c1e3c',
+    tips: '每天问自己一个真问题。诚实的答案未必好听，但有用。',
     items: [
-      { text: '复盘了一次得失，写下一条改进', pts: 16 },
-      { text: '把失败归因到流程而不是人', pts: 14 },
-      { text: '更新了一个流程或检查清单', pts: 12 },
-      { text: '向上或向外同步了一次进展', pts: 12 },
-      { text: '睡前为明天定了一个优先级', pts: 12 }
+      { text: '问了自己「我在回避什么」', pts: 16 },
+      { text: '写下了诚实答案，没美化', pts: 14 },
+      { text: '问了自己「在拿谁和我比」', pts: 12 },
+      { text: '恐惧的事写具体了', pts: 12 },
+      { text: '承认了一次「我刚才错了」', pts: 12 }
     ]
   }
 ];
@@ -2538,14 +2538,14 @@ function showSOPGuideOverlay() {
   overlay.innerHTML = `
     <div style="text-align:center;max-width:320px;">
       <div style="font-size:56px;margin-bottom:16px;">👆</div>
-      <div style="color:white;font-size:18px;font-weight:700;margin-bottom:12px;">领导力六维 · 复盘</div>
+      <div style="color:white;font-size:18px;font-weight:700;margin-bottom:12px;">心力六维 · 复盘</div>
       <div style="color:rgba(255,255,255,0.8);font-size:14px;line-height:1.8;margin-bottom:20px;text-align:left;">
-        <div style="margin-bottom:10px;">📋 每个维度逐项核对，<span style="color:#6c8fc9;font-weight:700;">勾选今天做到的</span>：</div>
-        <div style="margin-bottom:8px;">✅ <span style="color:#6c8fc9;font-weight:700;">绿色勾选</span> = 今天做到了</div>
+        <div style="margin-bottom:10px;">📋 每个维度逐项核对，<span style="color:#e58aa8;font-weight:700;">勾选今天做到的</span>：</div>
+        <div style="margin-bottom:8px;">✅ <span style="color:#e58aa8;font-weight:700;">绿色勾选</span> = 今天做到了</div>
         <div style="margin-bottom:8px;">❌ <span style="color:#ef5350;font-weight:700;">红色取消</span> = 没做到/有问题</div>
         <div style="margin-top:16px;color:rgba(255,255,255,0.6);font-size:12px;">点击选项即可打分，全部完成解锁成就 🎉</div>
       </div>
-      <button onclick="closeSOPGuide()" style="background:#9db8dd;color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;margin-top:4px;">我知道了，开始！</button>
+      <button onclick="closeSOPGuide()" style="background:#f0b3c9;color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;margin-top:4px;">我知道了，开始！</button>
     </div>
   `;
   document.querySelector('.sop-page').style.position = 'relative';
@@ -2585,9 +2585,9 @@ function renderSOPCats() {
     let totalCount = c.items.length;
     let allDone = doneCount >= totalCount;
     let dot = allDone
-      ? `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#6c8fc9;margin-left:4px;vertical-align:middle;"></span>`
+      ? `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#e58aa8;margin-left:4px;vertical-align:middle;"></span>`
       : doneCount > 0
-      ? `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#6c8fc9;margin-left:4px;vertical-align:middle;"></span>`
+      ? `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#e58aa8;margin-left:4px;vertical-align:middle;"></span>`
       : '';
     return `<button class="sop-cat-tab${i===sopCatIdx?' active':''}" onclick="switchSOPCat(${i})">${c.icon} ${c.name}${dot}</button>`;
   }).join('');
@@ -2631,7 +2631,7 @@ function renderSOPList() {
     } else if (yesCount >= totalCount * 0.7) {
       feedback = `${cat.name}做得不错！${noCount > 0 ? `还有${noCount}项可以加强，继续保持！` : `继续保持这个状态！`}💪`;
     } else if (yesCount >= totalCount * 0.5) {
-      feedback = `${cat.name}有进步空间哦，${yesCount}项做到，继续加油！🌿`;
+      feedback = `${cat.name}有进步空间哦，${yesCount}项做到，继续加油！⭐`;
     } else {
       feedback = `${cat.name}今天有点困难没关系，明天重新开始！不要放弃！☀️`;
     }
@@ -2641,13 +2641,13 @@ function renderSOPList() {
         <span style="font-size:18px;">${cat.icon}</span>
         <span style="font-weight:700;color:${cat.color};">${cat.name}</span>
         <div class="sop-cat-progress-bar">${progressFill}</div>
-        <span style="font-size:11px;color:#b7cbe8;">完成 ✅</span>
+        <span style="font-size:11px;color:#f6cddc;">完成 ✅</span>
       </div>
       <div class="sop-cat-summary">
         <div class="sop-cat-summary-icon">${cat.icon}</div>
         <div class="sop-cat-summary-title">${cat.name} · 复盘完成</div>
         <div style="font-size:24px;font-weight:800;color:${cat.color};margin-top:8px;">${catScore}分</div>
-        <div style="font-size:12px;color:#b7cbe8;margin-top:4px;">做到了 ${yesCount} 项 · 需注意 ${noCount} 项</div>
+        <div style="font-size:12px;color:#f6cddc;margin-top:4px;">做到了 ${yesCount} 项 · 需注意 ${noCount} 项</div>
         <div style="margin-top:12px;padding:12px;background:linear-gradient(135deg, ${cat.color}11, ${cat.color}22);border-radius:12px;font-size:13px;color:#555;line-height:1.6;">${feedback}</div>
         ${streak > 0 ? `<div style="margin-top:10px;font-size:13px;color:${cat.color};font-weight:700;">☀️ 已坚持 ${streak} 天</div>` : ''}
       </div>
@@ -2683,13 +2683,13 @@ function renderSOPList() {
       <span style="font-size:18px;">${cat.icon}</span>
       <span style="font-weight:700;color:${cat.color};">${cat.name}</span>
       <div class="sop-cat-progress-bar">${progressFill}</div>
-      <span style="font-size:11px;color:#b7cbe8;">${doneCount}/${totalCount}</span>
+      <span style="font-size:11px;color:#f6cddc;">${doneCount}/${totalCount}</span>
     </div>
     <div class="sop-list-container">
       ${listItems}
     </div>
     <div style="text-align:center;margin-top:16px;">
-      <div style="font-size:12px;color:#b7cbe8;margin-bottom:8px;">点击上方选项确认，每项可单独打分</div>
+      <div style="font-size:12px;color:#f6cddc;margin-bottom:8px;">点击上方选项确认，每项可单独打分</div>
       ${doneCount > 0 ? `<button onclick="submitSOPCat()" style="background:${cat.color};color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;">确认本维度 ✓</button>` : ''}
     </div>
   `;
@@ -2776,7 +2776,7 @@ function submitSOPCat() {
 function renderSOPDoneState() {
   let card = document.getElementById('sopGameCard');
   let score = Math.max(0, Math.min(100, sopScore));
-  let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌿' : '😊';
+  let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '⭐' : '😊';
   let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
   
   let totalItems = 0, doneItems = 0, yesItems = 0;
@@ -2815,26 +2815,26 @@ function renderSOPDoneState() {
     <div style="padding:20px 0 12px;">
       <div style="text-align:center;margin-bottom:16px;">
         <div style="font-size:52px;margin-bottom:8px;">${emoji}</div>
-        <div style="font-size:20px;font-weight:800;color:#0d2f66;margin-bottom:4px;">${title}</div>
-        <div style="font-size:12px;color:#b7cbe8;">今日复盘已完成 · 明天0点重置</div>
+        <div style="font-size:20px;font-weight:800;color:#5c1e3c;margin-bottom:4px;">${title}</div>
+        <div style="font-size:12px;color:#f6cddc;">今日复盘已完成 · 明天0点重置</div>
       </div>
       <div style="display:flex;justify-content:center;gap:20px;margin-bottom:16px;">
         <div style="text-align:center;">
-          <div style="font-size:26px;font-weight:800;color:#2456a4;">${score}%</div>
-          <div style="font-size:11px;color:#b7cbe8;">今日得分</div>
+          <div style="font-size:26px;font-weight:800;color:#ad3b6e;">${score}%</div>
+          <div style="font-size:11px;color:#f6cddc;">今日得分</div>
         </div>
         <div style="text-align:center;">
-          <div style="font-size:26px;font-weight:800;color:#3f6db5;">${yesItems}</div>
-          <div style="font-size:11px;color:#b7cbe8;">做到了</div>
+          <div style="font-size:26px;font-weight:800;color:#d4537e;">${yesItems}</div>
+          <div style="font-size:11px;color:#f6cddc;">做到了</div>
         </div>
         <div style="text-align:center;">
           <div style="font-size:26px;font-weight:800;color:#ef5350;">${doneItems - yesItems}</div>
-          <div style="font-size:11px;color:#b7cbe8;">需注意</div>
+          <div style="font-size:11px;color:#f6cddc;">需注意</div>
         </div>
       </div>
-      <div style="font-size:12px;font-weight:600;color:#2456a4;padding:0 12px 6px;">📊 各维度总结</div>
+      <div style="font-size:12px;font-weight:600;color:#ad3b6e;padding:0 12px 6px;">📊 各维度总结</div>
       <div style="padding:0 4px;">${catDetails}</div>
-      <div style="text-align:center;font-size:11px;color:#b7cbe8;margin-top:12px;">🌙 明天0点自动重置</div>
+      <div style="text-align:center;font-size:11px;color:#f6cddc;margin-top:12px;">🌙 明天0点自动重置</div>
     </div>
   `;
   document.getElementById('sopCatTabs').style.display = 'none';
@@ -2863,7 +2863,7 @@ function updateSOPDisplay() {
   let ptext = document.getElementById('sopProgressText');
   if (bar) {
     bar.style.width = pct + '%';
-    bar.style.background = pct >= 60 ? 'linear-gradient(90deg, #6c8fc9, #e6c229)' : pct >= 30 ? 'linear-gradient(90deg, #6c8fc9, #ffc107)' : pct > 0 ? 'linear-gradient(90deg, #ef5350, #ff7043)' : '#e0e0e0';
+    bar.style.background = pct >= 60 ? 'linear-gradient(90deg, #e58aa8, #e6c229)' : pct >= 30 ? 'linear-gradient(90deg, #e58aa8, #ffc107)' : pct > 0 ? 'linear-gradient(90deg, #ef5350, #ff7043)' : '#e0e0e0';
   }
   if (ptext) ptext.innerText = displayScore + ' / ' + maxScore;
 }
@@ -2885,7 +2885,7 @@ function showSOPFinish() {
     updateSOPCatStreak(cat.id, catYes);
   });
   let streaks = getSOPStreaks();
-  let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '🌿' : '😊';
+  let emoji = score >= 80 ? '🏆' : score >= 60 ? '💪' : score >= 30 ? '⭐' : '😊';
   let title = score >= 80 ? '满分！完美复盘！' : score >= 60 ? '做得很好！' : score >= 30 ? '有收获，继续加油！' : '明天会更好！';
 
   // 各维度总结
@@ -2926,7 +2926,7 @@ function showSOPFinish() {
   let trendIcon = '', trendText = '', trendColor = '#bda87a';
   if (recent7[6].score !== null && recent7[5].score !== null) {
     let diff = recent7[6].score - recent7[5].score;
-    if (diff > 0) { trendIcon = '📈'; trendText = '较昨日+' + diff; trendColor = '#3f6db5'; }
+    if (diff > 0) { trendIcon = '📈'; trendText = '较昨日+' + diff; trendColor = '#d4537e'; }
     else if (diff < 0) { trendIcon = '📉'; trendText = '较昨日' + diff; trendColor = '#ef5350'; }
     else { trendIcon = '➡️'; trendText = '与昨日持平'; trendColor = '#bda87a'; }
   }
@@ -2938,13 +2938,13 @@ function showSOPFinish() {
 
   let histBars = recent7.map(d => {
     let h = d.score !== null ? Math.max(20, Math.round(((d.score - minS) / range) * 40) + 20) : 8;
-    let bg = d.score !== null ? (d.score >= 80 ? '#3f6db5' : d.score >= 50 ? '#6c8fc9' : '#ef5350') : '#e0e0e0';
+    let bg = d.score !== null ? (d.score >= 80 ? '#d4537e' : d.score >= 50 ? '#e58aa8' : '#ef5350') : '#e0e0e0';
     let op = d.isToday ? 1 : (d.score !== null ? 0.85 : 0.3);
     let scoreLabel = d.score !== null ? d.score + '%' : '-';
     return `<div class="sf-hist-day">
       <div class="sf-hist-bar-wrap"><div class="sf-hist-bar" style="height:${h}px;background:${bg};opacity:${op};"></div></div>
-      <div class="sf-hist-label" style="font-weight:${d.isToday?'700':'400'};color:${d.isToday?'#2456a4':'#bda87a'};">${d.label}</div>
-      <div class="sf-hist-score" style="color:${d.score!==null?(d.score>=80?'#3f6db5':d.score>=50?'#6c8fc9':'#ef5350'):'#ccc'};">${scoreLabel}</div>
+      <div class="sf-hist-label" style="font-weight:${d.isToday?'700':'400'};color:${d.isToday?'#ad3b6e':'#bda87a'};">${d.label}</div>
+      <div class="sf-hist-score" style="color:${d.score!==null?(d.score>=80?'#d4537e':d.score>=50?'#e58aa8':'#ef5350'):'#ccc'};">${scoreLabel}</div>
     </div>`;
   }).join('');
 
@@ -3008,7 +3008,7 @@ function getCatFeedbackMsg(cat, yesCount, noCount, total, streak) {
       ? `做得不错！坚持${streak}天，继续保持！`
       : `做得不错！还有${noCount}项可以加强，继续保持！💪`;
   } else if (pct >= 50) {
-    emoji = '🌿';
+    emoji = '⭐';
     summary = `有进步空间，${yesCount}项做到，继续加油！`;
   } else {
     emoji = '☀️';
@@ -3106,12 +3106,12 @@ function renderProgress() {
       return `<div style="display:flex;align-items:center;gap:10px;">
         <div style="font-size:18px;width:28px;text-align:center;">${cat.icon}</div>
         <div style="flex:1;">
-          <div style="font-size:13px;color:#0d2f66;font-weight:600;margin-bottom:4px;">${cat.name}</div>
-          <div style="height:6px;background:#eef3fb;border-radius:6px;overflow:hidden;">
+          <div style="font-size:13px;color:#5c1e3c;font-weight:600;margin-bottom:4px;">${cat.name}</div>
+          <div style="height:6px;background:#fbf1f5;border-radius:6px;overflow:hidden;">
             <div style="height:100%;width:${fill}%;background:${cat.color};border-radius:6px;transition:width 0.8s;"></div>
           </div>
         </div>
-        <div style="font-size:12px;font-weight:700;color:#9db8dd;width:40px;text-align:right;">${fill}%</div>
+        <div style="font-size:12px;font-weight:700;color:#f0b3c9;width:40px;text-align:right;">${fill}%</div>
       </div>`;
     }).join('');
   }
@@ -3140,13 +3140,13 @@ function renderSharePage() {
   document.getElementById('shareStreak').textContent = conDays + '天';
   document.getElementById('shareToday').textContent = history.some(h => h.date === today && h.checkin) ? '已打卡' : '未打卡';
   document.getElementById('shareTotal').textContent = history.length;
-  let url = getSiteUrl() + '%E6%90%AD%E5%AD%90-%E9%A2%86%E5%AF%BC%E5%8A%9B%E7%AE%A1%E7%90%86.html';
+  let url = getSiteUrl() + '%E6%90%AD%E5%AD%90-%E5%BF%83%E6%80%81%E4%BF%A1%E5%BF%B5.html';
   document.getElementById('shareUrlDisplay').textContent = url;
   updateShareSummary();
 }
 
 function copyShareLink() {
-  let url = getSiteUrl() + '%E6%90%AD%E5%AD%90-%E9%A2%86%E5%AF%BC%E5%8A%9B%E7%AE%A1%E7%90%86.html';
+  let url = getSiteUrl() + '%E6%90%AD%E5%AD%90-%E5%BF%83%E6%80%81%E4%BF%A1%E5%BF%B5.html';
   if (navigator.clipboard) {
     navigator.clipboard.writeText(url).then(() => showToast('链接已复制！去分享给其他想变强的朋友吧 🦁'));
   } else {
@@ -3158,12 +3158,12 @@ function copyShareLink() {
   var st = (document.getElementById('shareStreak') || {}).textContent || '-';
   var td = (document.getElementById('shareToday') || {}).textContent || '';
   var tt = (document.getElementById('shareTotal') || {}).textContent || '-';
-  el.innerHTML = '☀️ 连续打卡 <b>' + st + '</b> · 今日 ' + td + ' · 累计 <b>' + tt + '</b><br>💛 你带出的每一个强人，都算数';
+  el.innerHTML = '☀️ 连续打卡 <b>' + st + '</b> · 今日 ' + td + ' · 累计 <b>' + tt + '</b><br>💛 你稳住的每一次情绪，都算数';
 }
 
 
 function openSharePage() {
-  let url = getSiteUrl() + '%E6%90%AD%E5%AD%90-%E9%A2%86%E5%AF%BC%E5%8A%9B%E7%AE%A1%E7%90%86.html';
+  let url = getSiteUrl() + '%E6%90%AD%E5%AD%90-%E5%BF%83%E6%80%81%E4%BF%A1%E5%BF%B5.html';
   window.open(url, '_blank');
 }
 
@@ -3337,7 +3337,7 @@ function copyMainLink() {
 function renderPartnerPage() {
   var selected = localStorage.getItem(STORAGE.PARTNER) || 'gentle';
   var p = PARTNERS.find(function(x) { return x.id === selected; }) || PARTNERS[0];
-  var styleMap = { gentle: '🧭 教练型领导', passion: '🔥 将领型', rational: '📐 体系型', tsundere: '🌿 园丁型' };
+  var styleMap = { gentle: '🌸 清醒型', passion: '🔥 点火型', rational: '🪞 诚实型', tsundere: '⭐ 自信型' };
   document.getElementById('partnerAvatarB').textContent = p.emoji;
   document.getElementById('partnerNameB').textContent = p.name;
   document.getElementById('partnerStyleB').textContent = styleMap[p.style] || p.name;
@@ -3365,7 +3365,7 @@ startApp();
     <div style="font-size:20px;font-weight:700;margin-bottom:4px;" data-page-node-id="NN2KcZYTfKo0NidHfVnL7F">💬 换个搭子</div>
     <div style="font-size:13px;color:#888;margin-bottom:20px;" data-page-node-id="Ii3oUh8THbaIuycsdjyTUJ">随时切换，搭子风格由你定</div>
     <div class="partner-grid" id="partnerGrid2" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;" data-page-node-id="cOKssdWUh0eBomgWRecYGS"></div>
-    <button onclick="closePartnerOverlay()" style="width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#9db8dd,#4a74ba);color:white;font-size:15px;font-weight:600;cursor:pointer;" data-page-node-id="ZtXpp0jdoP8DItTgJ3dkqG">✨ 确认搭子 ✨</button>
+    <button onclick="closePartnerOverlay()" style="width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#f0b3c9,#d96e97);color:white;font-size:15px;font-weight:600;cursor:pointer;" data-page-node-id="ZtXpp0jdoP8DItTgJ3dkqG">✨ 确认搭子 ✨</button>
   </div>
 </div>
 
@@ -3387,85 +3387,85 @@ startApp();
 .coach-prompt { text-align:center; color:#d97706; font-size:13px; font-weight:600; padding:8px; animation:pulse 2s infinite; }
 .chat-input-area { display:flex; gap:8px; align-items:flex-end; margin-top:10px; }
 .chat-input-area textarea { flex:1; padding:12px 16px; border-radius:16px; border:1.5px solid #f2edde; font-size:14px; resize:none; outline:none; font-family:inherit; min-height:44px; }
-.chat-send-btn { padding:12px 20px; border-radius:16px; border:none; background:linear-gradient(135deg,#9db8dd,#3f6db5); color:white; font-size:14px; font-weight:700; cursor:pointer; flex-shrink:0; }
+.chat-send-btn { padding:12px 20px; border-radius:16px; border:none; background:linear-gradient(135deg,#f0b3c9,#d4537e); color:white; font-size:14px; font-weight:700; cursor:pointer; flex-shrink:0; }
 .chat-send-btn:active { transform:scale(0.97); }
 @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
 .generating-report { text-align:center; color:#0891b2; font-size:14px; font-weight:600; padding:16px; animation:blink 1.5s infinite; }
 @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
 .msg { max-width:85%; padding:10px 14px; border-radius:16px; margin-bottom:8px; line-height:1.6; font-size:14px; word-break:break-all; }
 .msg-coach { background:#fff; color:#333; border:1.5px solid #e0e0e0; border-bottom-left-radius:4px; align-self:flex-start; }
-.msg-user { background:#9db8dd; color:#fff; border-bottom-right-radius:4px; align-self:flex-end; }
+.msg-user { background:#f0b3c9; color:#fff; border-bottom-right-radius:4px; align-self:flex-end; }
 #coachMessages { display:flex; flex-direction:column; gap:8px; }
-.coach-btn { display:block; width:100%; text-align:left; padding:10px 14px; background:#fdfeff; border:1.5px solid #9db8dd; border-radius:12px; font-size:13px; color:#333; cursor:pointer; margin-bottom:6px; transition:all 0.2s; }
-.coach-btn:hover { background:#9db8dd; color:#fff; }
+.coach-btn { display:block; width:100%; text-align:left; padding:10px 14px; background:#fffdfe; border:1.5px solid #f0b3c9; border-radius:12px; font-size:13px; color:#333; cursor:pointer; margin-bottom:6px; transition:all 0.2s; }
+.coach-btn:hover { background:#f0b3c9; color:#fff; }
 .coach-report-section { background:#fff; border-radius:16px; padding:16px; margin-bottom:12px; border:1.5px solid #e8e8e8; }
-.coach-report-title { font-size:15px; font-weight:700; color:#0d2f66; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.coach-report-title { font-size:15px; font-weight:700; color:#5c1e3c; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
 .coach-report-content { font-size:13px; color:#555; line-height:1.7; }
-.coach-diagnosis-tag { display:inline-block; background:#ecf2fb; color:#3f6db5; border-radius:20px; padding:2px 10px; font-size:12px; font-weight:600; margin:2px; }
-.coach-action-tag { display:inline-block; background:#edf3fb; color:#173e7e; border-radius:20px; padding:2px 10px; font-size:12px; font-weight:600; margin:2px; }
+.coach-diagnosis-tag { display:inline-block; background:#f9edf2; color:#d4537e; border-radius:20px; padding:2px 10px; font-size:12px; font-weight:600; margin:2px; }
+.coach-action-tag { display:inline-block; background:#fbeaf0; color:#8f2757; border-radius:20px; padding:2px 10px; font-size:12px; font-weight:600; margin:2px; }
     /* ===== 教练介绍卡 (McKinsey风格) ===== */
     .coach-intro { background: white; border-radius: 32px; padding: 32px 24px; margin-bottom: 16px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .coach-intro-icon { font-size: 56px; margin-bottom: 16px; }
-    .coach-intro-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #9db8dd, #3f6db5); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
-    .coach-intro-sub { font-size: 14px; color: #2c5a9e; margin-bottom: 24px; }
+    .coach-intro-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #f0b3c9, #d4537e); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+    .coach-intro-sub { font-size: 14px; color: #9c3163; margin-bottom: 24px; }
     .method-steps { display: flex; gap: 8px; margin-bottom: 24px; }
-    .method-step { flex: 1; background: #f1f5fc; border-radius: 16px; padding: 14px 8px; font-size: 13px; font-weight: 700; color: #173e7e; line-height: 1.5; }
+    .method-step { flex: 1; background: #fcf4f7; border-radius: 16px; padding: 14px 8px; font-size: 13px; font-weight: 700; color: #8f2757; line-height: 1.5; }
     .step-num { font-size: 18px; display: block; margin-bottom: 4px; }
     .step-desc { font-size: 11px; font-weight: 500; color: #888; margin-top: 2px; display: block; }
-    .coach-intro-note { font-size: 11px; color: #b7cbe8; margin-top: 16px; }
-    .coach-start-btn { margin-top: 18px; width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #9db8dd, #3f6db5); color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.15s; }
+    .coach-intro-note { font-size: 11px; color: #f6cddc; margin-top: 16px; }
+    .coach-start-btn { margin-top: 18px; width: 100%; padding: 14px; border-radius: 60px; border: none; background: linear-gradient(135deg, #f0b3c9, #d4537e); color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.15s; }
     .coach-start-btn:active { transform: scale(0.97); }
     /* ===== McKinsey教练对话样式 ===== */
     .coach-progress-bar { display: flex; gap: 6px; padding: 12px 16px 0; }
     .progress-step { flex: 1; text-align: center; padding: 6px 4px; border-radius: 10px; font-size: 11px; font-weight: 600; color: #aaa; background: #f0f0f0; transition: all 0.3s; }
-    .progress-step.active { background: #9db8dd; color: #fff; }
+    .progress-step.active { background: #f0b3c9; color: #fff; }
     .chat-messages { padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; max-height: calc(100vh - 340px); overflow-y: auto; }
     .chat-msg { display: flex; gap: 8px; align-items: flex-start; }
     .chat-msg.coach { align-self: flex-start; }
     .chat-msg.user { align-self: flex-end; flex-direction: row-reverse; }
     .chat-avatar { width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
     .chat-bubble { max-width: 75%; padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.6; }
-    .chat-msg.coach .chat-bubble { background: #f1f5fc; color: #333; border-bottom-left-radius: 4px; }
-    .chat-msg.user .chat-bubble { background: #9db8dd; color: white; border-bottom-right-radius: 4px; }
-    .chat-send-btn { background: #9db8dd; color: white; border: none; border-radius: 14px; padding: 10px 16px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; }
-    .chat-send-btn:active { background: #3f6db5; }
+    .chat-msg.coach .chat-bubble { background: #fcf4f7; color: #333; border-bottom-left-radius: 4px; }
+    .chat-msg.user .chat-bubble { background: #f0b3c9; color: white; border-bottom-right-radius: 4px; }
+    .chat-send-btn { background: #f0b3c9; color: white; border: none; border-radius: 14px; padding: 10px 16px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .chat-send-btn:active { background: #d4537e; }
     .coach-buttons { padding: 0 16px 8px; }
     .coach-btn-prompt { font-size: 12px; color: #888; margin-bottom: 8px; font-weight: 600; }
     .coach-btn-list { display: flex; flex-direction: column; gap: 6px; }
-    .coach-choice-btn { display: block; width: 100%; text-align: left; padding: 10px 14px; background: #fdfeff; border: 1.5px solid #9db8dd; border-radius: 12px; font-size: 13px; color: #333; cursor: pointer; transition: all 0.2s; }
-    .coach-choice-btn:hover { background: #9db8dd; color: #fff; }
-    .coach-choice-btn.yes { background: #9db8dd; color: white; border-color: #9db8dd; }
+    .coach-choice-btn { display: block; width: 100%; text-align: left; padding: 10px 14px; background: #fffdfe; border: 1.5px solid #f0b3c9; border-radius: 12px; font-size: 13px; color: #333; cursor: pointer; transition: all 0.2s; }
+    .coach-choice-btn:hover { background: #f0b3c9; color: #fff; }
+    .coach-choice-btn.yes { background: #f0b3c9; color: white; border-color: #f0b3c9; }
     .coach-choice-btn.no { background: #fff; color: #999; border-color: #ddd; }
     .generating-report { text-align: center; color: #888; font-size: 13px; padding: 16px; animation: pulse 2s infinite; }
     .coach-report-mckinsey { padding: 16px 16px 80px; max-width: 420px; margin: 0 auto; }
     .report-header { background: white; border-radius: 24px; padding: 24px 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; text-align: center; }
     .report-icon { font-size: 40px; margin-bottom: 8px; }
-    .report-title { font-size: 18px; font-weight: 800; color: #173e7e; margin-bottom: 4px; }
+    .report-title { font-size: 18px; font-weight: 800; color: #8f2757; margin-bottom: 4px; }
     .report-subtitle { font-size: 11px; color: #aaa; }
     .report-core-conclusion { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
-    .report-core-conclusion h3 { font-size: 15px; font-weight: 700; color: #173e7e; margin-bottom: 10px; }
+    .report-core-conclusion h3 { font-size: 15px; font-weight: 700; color: #8f2757; margin-bottom: 10px; }
     .report-core-conclusion p { font-size: 14px; color: #333; line-height: 1.6; }
     .report-mece-analysis { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
-    .report-mece-analysis h3 { font-size: 15px; font-weight: 700; color: #173e7e; margin-bottom: 12px; }
-    .mece-dimension { background: #fdfeff; border-radius: 14px; padding: 12px 14px; margin-bottom: 8px; }
+    .report-mece-analysis h3 { font-size: 15px; font-weight: 700; color: #8f2757; margin-bottom: 12px; }
+    .mece-dimension { background: #fffdfe; border-radius: 14px; padding: 12px 14px; margin-bottom: 8px; }
     .mece-dim-title { font-size: 13px; font-weight: 700; color: #333; margin-bottom: 4px; }
     .mece-dim-desc { font-size: 12px; color: #666; line-height: 1.5; }
     .report-impact-effort { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
-    .report-impact-effort h3 { font-size: 15px; font-weight: 700; color: #173e7e; margin-bottom: 10px; }
+    .report-impact-effort h3 { font-size: 15px; font-weight: 700; color: #8f2757; margin-bottom: 10px; }
     .ie-item { font-size: 12px; color: #666; margin-bottom: 6px; display: flex; gap: 6px; }
     .ie-tag { display: inline-block; border-radius: 8px; padding: 2px 8px; font-weight: 700; font-size: 11px; }
-    .ie-tag.ie-p0 { background: #edf3fb; color: #173e7e; }
-    .ie-tag.ie-p1 { background: #ecf2fb; color: #3f6db5; }
+    .ie-tag.ie-p0 { background: #fbeaf0; color: #8f2757; }
+    .ie-tag.ie-p1 { background: #f9edf2; color: #d4537e; }
     .ie-tag.ie-p2 { background: #f3e5f5; color: #7b1fa2; }
     .report-priority-actions { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
-    .report-priority-actions h3 { font-size: 15px; font-weight: 700; color: #173e7e; margin-bottom: 12px; }
+    .report-priority-actions h3 { font-size: 15px; font-weight: 700; color: #8f2757; margin-bottom: 12px; }
     .action-item { display: flex; gap: 10px; margin-bottom: 10px; }
-    .action-priority { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 8px; background: #edf3fb; color: #173e7e; white-space: nowrap; }
+    .action-priority { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 8px; background: #fbeaf0; color: #8f2757; white-space: nowrap; }
     .action-text { font-size: 13px; color: #333; line-height: 1.5; }
     .report-next-step { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin-bottom: 16px; }
-    .report-next-step h3 { font-size: 15px; font-weight: 700; color: #173e7e; margin-bottom: 10px; }
+    .report-next-step h3 { font-size: 15px; font-weight: 700; color: #8f2757; margin-bottom: 10px; }
     .report-next-step p { font-size: 13px; color: #666; line-height: 1.6; }
-    .coach-restart-btn { width: 100%; padding: 14px; border-radius: 14px; border: none; background: linear-gradient(135deg, #9db8dd, #3f6db5); color: white; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+    .coach-restart-btn { width: 100%; padding: 14px; border-radius: 14px; border: none; background: linear-gradient(135deg, #f0b3c9, #d4537e); color: white; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 8px; }
 </style>
 
 <!-- McKinsey教练外部脚本 -->
@@ -3505,7 +3505,7 @@ startApp();
 
 <script>
 (function(){
-    var TIPS = ['先听懂，再带路','管理的本质是管事理人','自我觉察是领导力的第一特质','没有标准的期待就是埋雷','要求别人的，自己先做到','表扬要具体：行为+影响','授权不是放羊，交事守标准','把功劳归给做事的人','抢一次功，寒一片心','情绪失控一次，信任透支一大笔','打断是最廉价的否定','聚焦问题，创造价值','砍掉伪议题，议程越短思考越深','当老好人是最贵的奢侈','归因于流程，而不是人','复盘是对经验征税','你带出多少强人，你就有多强','有人能接你的班，你才自由','向上同步，让信任不断供','领导者的功劳簿上写的是团队','标准在，人心就不散','你稳了，团队才稳'];
+    var TIPS = ['我是自己的第一个信徒','降低期待，提高行动','拖延是恐惧的外衣','属于我的，会找到我','先开始，再准备好','逃避的不是任务，是任务带来的感觉','把「必须完美」改成「先完成」','拖延的事，先做5分钟','焦虑时问：一年后还重要吗','内耗的时间上限是10分钟','情绪上头先停10秒','不拿别人的高光量自己的日常','比较的坐标系选错，怎么算都是输','运气是准备遇上了机会','每朵花有自己的花期','翻篇能力是下半场最贵的资产','做好最坏打算，再全力去做','deadline是假的，今天是唯一真的','睡前只记今天做好的小事','恐惧一旦具体，就小了一半','把评价权拿回自己手里','心力不是不慌，是慌的时候有办法'];
   window.nextDailyTip = function() {
     var el = document.getElementById("dailyTipText");
     if (!el) return;
@@ -3515,15 +3515,15 @@ startApp();
 
 // ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
 const SCENE_DATA = {"pos": [
-  {"icon": "👂", "tag": "倾听", "title": "今天完整听完了一个人说话", "text": "先听懂，再带路", "quote": "🧭 搭子：你听懂的不只是话，还有人心"},
-  {"icon": "🤲", "tag": "授权", "title": "放手让下属独立干了一件事", "text": "授权是信任的放大器", "quote": "🧭 搭子：你的忍住，是他的成长"},
-  {"icon": "📏", "tag": "标准", "title": "守住了一次标准，没和稀泥", "text": "标准在，人心就不散", "quote": "🧭 搭子：认真的人会感谢你"},
-  {"icon": "🪞", "tag": "觉察", "title": "高压之下稳住了情绪", "text": "你是团队的减压阀", "quote": "🧭 搭子：你稳了，团队才稳"},
-  {"icon": "🎁", "tag": "反馈", "title": "给了一条具体的表扬或纠偏", "text": "反馈是成本最低的管理动作", "quote": "🧭 搭子：具体，是反馈的生命"}
+  {"icon": "🪞", "tag": "诚实", "title": "问了自己一个诚实的问题", "text": "回避的清单就是真实的排序", "quote": "🌸 搭子：敢面对的人，已经赢了一半"},
+  {"icon": "🚀", "tag": "行动", "title": "拖了很久的事动了5分钟", "text": "启动是最难的", "quote": "🌸 搭子：最难的一关你已经过了"},
+  {"icon": "🎯", "tag": "期待", "title": "把「必须完美」改成了「先完成」", "text": "完成是完美的前提", "quote": "🌸 搭子：60分的完成胜过100分的空想"},
+  {"icon": "🧘", "tag": "情绪", "title": "情绪上头，停了10秒", "text": "10秒后再开口", "quote": "🌸 搭子：少说一半后悔的话"},
+  {"icon": "💪", "tag": "相信", "title": "自我怀疑时回看了进步清单", "text": "事实是最好的回应", "quote": "🌸 搭子：评价权在你自己手里"}
 ], "neg": [
-  {"icon": "🌋", "tag": "失控", "title": "情绪上头，对团队发了火", "text": "信任账户透支了一大笔", "quote": "🧭 搭子：明天先修复，再复盘触发点"},
-  {"icon": "🦺", "tag": "抢活", "title": "又把下属的活抢过来干了", "text": "你干得越欢，他成长越慢", "quote": "🧭 搭子：忍住，教他干"},
-  {"icon": "🤝", "tag": "和稀泥", "title": "为了和气，放过了一次问题", "text": "不纠正就是在奖励", "quote": "🧭 搭子：明天当面补上，还来得及"}
+  {"icon": "🌀", "tag": "拖延", "title": "最重要的事又拖了一天", "text": "以后再做=永远不做", "quote": "🌸 搭子：现在，5分钟，就现在"},
+  {"icon": "♾️", "tag": "内耗", "title": "一句话反刍了一整天", "text": "内耗上限10分钟", "quote": "🌸 搭子：写下来，结案，翻篇"},
+  {"icon": "🪞", "tag": "比较", "title": "拿别人的高光攻击了自己", "text": "你看到的是封面不是书", "quote": "🌸 搭子：合上他那本，读你自己的"}
 ]}
 
 function openSceneSheet() {
@@ -3553,7 +3553,7 @@ function openSceneSheet() {
       scroll.appendChild(card);
     });
   };
-  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#3f6db5');
+  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#d4537e');
   mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
   document.getElementById('qaOverlay').classList.add('show');
   document.getElementById('qaOverlay').onclick = function(e) {
@@ -3581,7 +3581,7 @@ function openSceneFB(idx, type) {
 <script>/* cc-enhance-v1 教练卡逐条确认 */
 (function(){
   if (window.__ccEnhanced) return; window.__ccEnhanced = 1;
-  var PREFIX = '搭子-领导力';
+  var PREFIX = '搭子-心态信念';
   var STORE = 'cc_' + PREFIX;
   var state = {};
   try { state = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch(e) { state = {}; }
