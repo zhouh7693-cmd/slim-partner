@@ -517,13 +517,7 @@
     .fb-partner-label { font-size: 11px; color: #8f9eae; margin-bottom: 6px; font-style: normal; font-weight: 600; }
     .fb-btn { background: #3a7ca5; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
-  
-    /* 弹层右上角 X 关闭按钮（2026-09-08） */
-    .qa-panel { position: relative; }
-    .qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; }
-    .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#1f2937; }
-    .qa-close-x:active { background:rgba(0,0,0,0.18); }
-</style>
+  </style>
 <style>
     /* ── 教练Tab（财务财富主题） ── */
     .coach-page { max-width: 420px; margin: 0 auto; }
@@ -717,18 +711,140 @@
         <button class="talk-btn" data-type="report">📣 汇报进展</button>
         <button class="talk-btn" data-type="question">🤔 有问题想问</button>
       </div>
-    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene">💭 今天发生了什么</button></div>
-    </div>
+    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" id="stdSceneBtn" onclick="stdSceneOpen()">💭 今天发生了什么</button></div></div>
+<!-- std-buddy-tab-v1: 关键动作 + 提醒自己 + 场景弹窗 -->
+<div id="stdKey3" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+    <span style="font-size:18px;">🎯</span>
+    <span style="font-weight:700;font-size:14px;color:#333;">🎯 今日 3 个财务关键动作</span>
+  </div>
+  <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
+  <div id="stdKey3List"></div>
+</div>
+<div id="stdDailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#fff3e0,#ffe9d6);border-radius:18px;padding:14px 16px;font-size:13px;color:#b3541e;line-height:1.7;box-shadow:0 4px 14px rgba(0,0,0,0.04);">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+    <span style="font-size:18px;">📌</span>
+    <span style="font-weight:700;">今天提醒自己</span>
+    <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="stdTipNext()">换一条</span>
+  </div>
+  <div id="stdTipText"></div>
+</div>
+<div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
+<div id="stdSceneSheet" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:301;background:#fff;border-radius:24px 24px 0 0;max-height:72vh;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
+  <div onclick="stdSceneClose()" style="position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
+  <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
+  <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
+  <div id="stdSceneList"></div>
+  <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
+</div>
+<script>
+/* std-buddy-tab-v1 */
+(function(){
+  if (window.__stdTab) return; window.__stdTab = 1;
+  var SLUG='fin', ACCENT='#059669', EMOJI='💰';
+  var ACTIONS=[["💰", "记录每一笔支出", "记账是自由的起点"], ["📈", "确认定投/储蓄执行", "先支付自己"], ["🚫", "拒绝一次冲动消费", "72小时法则用起来"]], TIPS=["记账是财务自由的起点", "先支付自己：收入先存后花", "复利是世界第八大奇迹", "别为面子买单", "收入翻倍前先管好欲望", "应急金是家庭安全气囊", "不懂的不投", "定投最大的优点是纪律", "消费主义是精心设计的陷阱", "资产放钱进口袋，负债掏钱", "时间是最好的朋友", "财务自由的本质是选择权", "保险保不能承受的风险", "赚钱能力比钱本身重要", "通胀是隐形小偷", "投资自己回报率最高", "家族财富传的是财商", "不和邻居比消费，和过去的自己比资产", "市场恐慌时是买家的朋友", "预算不是限制，是路线图"], SCENES=[["🛍️", "想买贵重物品", "等72小时，还想要再买。大部分冲动会自己蒸发。"], ["📉", "投资亏了", "检查是逻辑错了还是市场波动。前者改策略，后者拿住。"], ["😰", "月光族焦虑", "设自动转账，发薪日先存30%。剩下的才是可花的。"], ["📈", "朋友荐股", "不懂不碰。赚了是运气，亏了是必然。"], ["🎉", "涨工资了", "先上调储蓄率，再上调生活标准。顺序反了就永远月光。"], ["✨", "被消费主义种草", "问自己：不买会怎样。多数答案是：毫无影响。"]];
+  var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
+  function today(){ return new Date().toISOString().slice(0,10); }
+  function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
+  function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  function toast(m){
+    var t=document.getElementById('stdToast');
+    if(!t){ t=document.createElement('div'); t.id='stdToast';
+      t.style.cssText='position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:100000;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      document.body.appendChild(t); }
+    t.textContent=m; t.style.opacity='1';
+    clearTimeout(t._tm); t._tm=setTimeout(function(){ t.style.opacity='0'; },1900);
+  }
+  function chat(m){ try{ if(typeof appendMsg==='function'){ appendMsg(m,'partner'); } }catch(e){} }
+  window.stdK3Toggle=function(i){
+    var d=jget(K3); if(d.date!==today()) d={date:today(),checked:{}};
+    var was=!!d.checked[i];
+    d.checked[i]=!d.checked[i]; jset(K3,d); stdK3Render();
+    if(!was&&d.checked[i]){
+      var tails=['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
+      toast(EMOJI+' 收到！「'+ACTIONS[i][1]+'」'+tails[Math.floor(Math.random()*tails.length)]);
+      chat('✅ '+ACTIONS[i][1]);
+    }
+  };
+  window.stdK3Render=function(){
+    var box=document.getElementById('stdKey3List'); if(!box) return;
+    var d=jget(K3); if(d.date!==today()) d={date:today(),checked:{}};
+    var h='';
+    for(var i=0;i<ACTIONS.length;i++){
+      var on=!!d.checked[i];
+      var circ=on?'background:'+ACCENT+';color:#fff;text-align:center;line-height:26px;font-size:14px;font-weight:700;':'border:2px solid #d1d5db;background:#fff;';
+      h+='<div onclick="stdK3Toggle('+i+')" style="display:flex;align-items:center;gap:10px;background:#f6f8fa;border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;">'
+        +'<div style="font-size:22px;flex-shrink:0;">'+ACTIONS[i][0]+'</div>'
+        +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;color:#333;">'+ACTIONS[i][1]+'</div>'
+        +'<div style="font-size:11px;color:#999;margin-top:2px;">'+ACTIONS[i][2]+'</div></div>'
+        +'<div style="width:26px;height:26px;border-radius:50%;flex-shrink:0;'+circ+'">'+(on?'✓':'')+'</div></div>';
+    }
+    box.innerHTML=h;
+  };
+  window.stdTipNext=function(){
+    var d=jget(TK); var idx=Math.floor(Math.random()*TIPS.length);
+    if(d.date===today()&&idx===d.idx&&TIPS.length>1) idx=(idx+1)%TIPS.length;
+    d={date:today(),idx:idx}; jset(TK,d);
+    var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[idx];
+  };
+  function tipInit(){
+    var d=jget(TK); if(d.date!==today()||d.idx==null){ d={date:today(),idx:Math.floor(Math.random()*TIPS.length)}; jset(TK,d); }
+    var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[d.idx];
+  }
+  window.stdSceneOpen=function(){
+    if(!SCENES||!SCENES.length) return;
+    var box=document.getElementById('stdSceneList');
+    if(box){
+      var h='';
+      for(var i=0;i<SCENES.length;i++){
+        h+='<div onclick="stdScenePick('+i+')" style="display:flex;align-items:center;gap:10px;background:#f6f8fa;border-radius:12px;padding:11px 12px;margin-bottom:8px;cursor:pointer;">'
+          +'<div style="font-size:20px;flex-shrink:0;">'+SCENES[i][0]+'</div>'
+          +'<div style="flex:1;font-size:13px;color:#333;font-weight:600;">'+SCENES[i][1]+'</div>'
+          +'<div style="color:#c0c4cc;font-size:16px;flex-shrink:0;">›</div></div>';
+      }
+      box.innerHTML=h;
+    }
+    var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
+    if(m) m.style.display='block'; if(sh) sh.style.display='block';
+  };
+  window.stdSceneClose=function(){
+    var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
+    if(m) m.style.display='none'; if(sh) sh.style.display='none';
+  };
+  window.stdScenePick=function(i){
+    stdSceneClose();
+    toast(EMOJI+' '+SCENES[i][2]);
+    chat(SCENES[i][0]+' '+SCENES[i][1]+' —— 我在，一起拆。');
+  };
+  function ensureSceneBtn(){
+    try{
+      if(!document.getElementById('stdSceneBtn')){
+        var panel=document.querySelector('.interaction-panel');
+        if(panel){
+          var row=document.createElement('div');
+          row.className='talk-btn-row'; row.style.marginTop='8px';
+          row.innerHTML='<button class="talk-btn" id="stdSceneBtn" onclick="stdSceneOpen()">\u{1F4AD} 今天发生了什么</button>';
+          panel.appendChild(row);
+        }
+      }
+    }catch(e){}
+  }
+  setTimeout(function(){ try{ stdK3Render(); }catch(e){} },0);
+  setTimeout(function(){ try{ if(TIPS){ tipInit(); } else { var t=document.getElementById('stdDailyTip'); if(t) t.style.display='none'; } }catch(e){} },0);
+})();
+</script>
+
 
     <!-- 分享入口 -->
-    <!-- 📌 今天提醒自己 -->
-    <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#e8f5e9,#dcede6);border-radius:18px;padding:14px 16px;font-size:13px;color:#2e7d52;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-        <span style="font-size:18px;">📌</span>
-        <span style="font-weight:700;">今天提醒自己</span>
-        <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
+    <div class="share-inline-card">
+      <div class="share-inline-label">📣 推荐给一起变富的朋友</div>
+      <div class="share-inline-preview">
+        💰 财务财富搭子 · 4种性格陪你变富
       </div>
-      <div id="dailyTipText">先支付自己：收入到手先存一笔</div>
+      <div class="share-copy-row">
+        <button class="share-copy-btn" onclick="copyShareLink()">📋 复制邀请链接</button>
+        <button class="share-link-btn" onclick="previewShareCard()">👀 预览卡片</button>
+      </div>
     </div>
 
     <footer>每天一次签到 · 你的搭子会给你力量</footer>
@@ -900,7 +1016,7 @@
     </div>
 
     <!-- 我的状态 -->
-    <div class="sop-card" style="margin-bottom:12px;;border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);">
+    <div class="sop-card" style="margin-bottom:12px;">
       <div class="chart-title">🏠 我的状态</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;">
         <div style="background:#fff8e1;border-radius:12px;padding:12px 6px;">
@@ -915,11 +1031,11 @@
           <div style="font-size:20px;font-weight:700;color:#bf360c;" id="shareTotal">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div>
         </div>
-      </div><div style="margin-top:12px;background:linear-gradient(135deg,#fff8e1,#fffde7);border-radius:14px;padding:16px;"><div style="font-size:13px;color:#a67c00;line-height:1.8;font-weight:600;" id="sharePnLSummary">还在积累中。开始打卡后这里会出现你的财富账本摘要。</div></div>
+      </div>
     </div>
 
     <!-- 分享邀请卡片 -->
-    <div class="sop-card" style="border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);">
+    <div class="sop-card">
       <div class="chart-title">💰 财务财富搭子</div>
       <div style="margin-top:12px;background:linear-gradient(135deg,#fff8e1,#fff3e0);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;">
         <div style="font-size:48px;margin-bottom:8px;">💰</div>
@@ -990,8 +1106,7 @@
 
 <!-- ===== 问答/进展选择面板 ===== -->
 <div class="qa-overlay" id="qaOverlay">
-  <div class="qa-panel"><button class="qa-close-x" onclick="try{if(typeof closeQAPanel==='function')closeQAPanel();else this.closest('.qa-overlay').classList.remove('show');}catch(e){this.closest('.qa-overlay').classList.remove('show');}" aria-label="关闭">✕</button>
-    
+  <div class="qa-panel">
     <div class="qa-handle"></div>
     <div class="qa-header">
       <div class="qa-title" id="qaTitle">🤔 有问题想问</div>
@@ -1064,30 +1179,7 @@ function getToday() { return new Date().toISOString().slice(0,10); }
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
 
-function getSOPData() { var d = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); return _sopDailyReset(d, STORAGE.SOP); }
-// 新的一天自动归零（2026-09-06）：读取入口校验日期，昨日未提交成绩补归档后重置，不再依赖切换 tab 触发
-function _sopDailyReset(d, sopKey, extra) {
-  try {
-    var today = new Date().toISOString().slice(0,10);
-    if (d && d.date && d.date !== today) {
-      var hasData = (d.score > 0) || (d.selected && Object.keys(d.selected).length > 0) || d.done;
-      if (hasData && (typeof getSOPHistory === 'function') && (typeof saveSOPToHistory === 'function')) {
-        try {
-          var _hist = getSOPHistory();
-          if (!_hist.some(function(h){ return h && h.date === d.date; })) {
-            saveSOPToHistory({ date: d.date, score: d.score || 0 });
-          }
-        } catch(e) {}
-      }
-      var _reset = { score: 0, selected: {}, done: false, date: today, submittedCats: [] };
-      if (extra) { for (var k in extra) { _reset[k] = extra[k]; } }
-      try { localStorage.setItem(sopKey, JSON.stringify(_reset)); } catch(e) {}
-      return _reset;
-    }
-  } catch(e) {}
-  return d;
-}
-setTimeout(function(){ try { getSOPData(); } catch(e) {} }, 0);
+function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); }
 function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); if(window.saveSOPToFirebase) saveSOPToFirebase(d); }
 function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
 function saveSOPStreaks(d) { localStorage.setItem(STORAGE.SOP_STREAKS, JSON.stringify(d)); if(window.saveSOPStreaksToFirebase) saveSOPStreaksToFirebase(d); }
@@ -1529,7 +1621,6 @@ const TYPE_SCENES_FIN = {
 let currentQAType = null;
 let currentQADir = 'result';
 function askPartner(type) {
-  if (type === 'scene') { openSceneSheet(); return; }
   const partner = currentPartner || PARTNERS[0];
   const style = partner.style || 'gentle';
   const emoji = partner.emoji;
@@ -2008,15 +2099,7 @@ function showToast(msg, duration = 2000) {
 function copyShareLink() {
   let url = getSiteUrl() + '搭子-财务财富.html';
   navigator.clipboard.writeText(url).then(() => showToast('✅ 邀请链接已复制，快发给朋友吧！'));
-}function updateShareSummary() {
-  var el = document.getElementById('sharePnLSummary');
-  if (!el) return;
-  var st = (document.getElementById('shareStreak') || {}).textContent || '-';
-  var td = (document.getElementById('shareToday') || {}).textContent || '';
-  var tt = (document.getElementById('shareTotal') || {}).textContent || '-';
-  el.innerHTML = '💰 连续打卡 <b>' + st + '</b> · 今日 ' + td + ' · 累计 <b>' + tt + '</b><br>🪙 先支付自己，再消费世界';
 }
-
 function copyShareText() {
   let history = getHistory();
   let continuous = history.length > 0 ? computeContinuous(history, getToday()) : 0;
@@ -2932,7 +3015,6 @@ function renderSharePage() {
   if (totalEl) totalEl.textContent = totalDays;
   let url = getSiteUrl() + '搭子-财务财富.html';
   if (urlEl) urlEl.textContent = url;
-  updateShareSummary();
 }
 
 function getStreak() {
@@ -3223,7 +3305,7 @@ window.startApp = startApp;   // startApp 也暴露，防止作用域问题
       });
     });
     var items=wrap.querySelectorAll('.crp-item');
-    var state={}; try{var _sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(_sv&&_sv._d===new Date().toISOString().slice(0,10)){state=_sv.s||{}}}catch(e){}
+    var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
     function render(){
       var d=0;
       items.forEach(function(it,i){
@@ -3236,7 +3318,7 @@ window.startApp = startApp;   // startApp 也暴露，防止作用域问题
     items.forEach(function(it,i){
       it.addEventListener('click',function(){
         state[i]=!state[i];
-        try{localStorage.setItem(KEY,JSON.stringify({_d:new Date().toISOString().slice(0,10),s:state}))}catch(e){}
+        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
         render();
       });
     });
@@ -3315,68 +3397,83 @@ window.startApp = startApp;   // startApp 也暴露，防止作用域问题
 </script>
 
 
-<script>
+<script>/* cc-enhance-v1 教练卡逐条确认 */
 (function(){
-  var TIPS = ['先支付自己：收入到手先存一笔', '记账不是为了省，是为了看清钱去哪了', '复利需要时间，别打断它', '买之前问：这是需要，还是想要？', '收入 - 储蓄 = 支出，顺序不能反', '不懂的东西不投，懂了再下注', '应急金是底气：6个月生活费备好了吗？', '让钱为你工作，别只为你工作钱'];
-  window.nextDailyTip = function() {
-    var el = document.getElementById("dailyTipText");
+  if (window.__ccEnhanced) return; window.__ccEnhanced = 1;
+  var PREFIX = '搭子-财务财富';
+  var STORE = 'cc_' + PREFIX;
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch(e) { state = {}; }
+  function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){} }
+  function hash(t){ var h = 0; for (var i = 0; i < t.length; i++) { h = (h * 31 + t.charCodeAt(i)) | 0; } return 'h' + (h >>> 0).toString(36); }
+  window.ccToast = function(msg){
+    var t = document.getElementById('ccToast');
+    if (!t) {
+      t = document.createElement('div'); t.id = 'ccToast';
+      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg; t.style.opacity = '1';
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+  };
+  function apply(body){
+    if (body.getAttribute('data-cc-done')) return;
+    var html = body.innerHTML;
+    if (!/<br/i.test(html) && html.replace(/<[^>]*>/g, '').trim().length < 2) return;
+    var card = body.closest ? body.closest('.crp-card') : null;
+    var title = '';
+    if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
+    var parts = html.split(/<br\s*\/?>/i);
+    var out = '', n = 0;
+    for (var k = 0; k < parts.length; k++) {
+      var seg = parts[k].trim();
+      var txt = seg.replace(/<[^>]*>/g, '').trim();
+      if (!txt) continue;
+      var id = hash(PREFIX + '|' + title + '|' + txt.slice(0, 48));
+      var on = !!state[id];
+      out += '<div class="cc-row' + (on ? ' done' : '') + '"><div class="cc-txt">' + seg + '</div>'
+           + '<span class="cc-chip' + (on ? ' on' : '') + '" data-ccid="' + id + '">' + (on ? '\u2713 已记住' : '标记记住') + '</span></div>';
+      n++;
+    }
+    if (!n) return;
+    body.innerHTML = out;
+    body.setAttribute('data-cc-done', '1');
+  }
+  function process(){
+    var bodies = document.querySelectorAll('.crp-card .crp-stage-body');
+    for (var i = 0; i < bodies.length; i++) { try { apply(bodies[i]); } catch(e) {} }
+  }
+  document.addEventListener('click', function(ev){
+    var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
     if (!el) return;
-    el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
-  };
+    ev.preventDefault();
+    var id = el.getAttribute('data-ccid');
+    if (state[id]) { delete state[id]; } else { state[id] = 1; }
+    save();
+    var on = !!state[id];
+    var row = el.closest('.cc-row');
+    if (row) row.classList.toggle('done', on);
+    el.classList.toggle('on', on);
+    el.innerHTML = on ? '\u2713 已记住' : '标记记住';
+    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+  });
+  var css = document.createElement('style');
+  css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
+    + '.cc-row:last-child{border-bottom:none;}'
+    + '.cc-txt{flex:1;min-width:0;font-size:13px;line-height:1.7;color:#37474f;}'
+    + '.cc-row.done .cc-txt{color:#b6b6b6;text-decoration:line-through;}'
+    + '.cc-chip{flex-shrink:0;font-size:11px;padding:3px 9px;border-radius:12px;border:1.5px solid #dcdcdc;color:#909090;cursor:pointer;user-select:none;white-space:nowrap;margin-top:2px;transition:all .15s;}'
+    + '.cc-chip:active{transform:scale(.94);}'
+    + '.cc-chip.on{background:#eaf7ea;border-color:#54b26a;color:#2e7d32;font-weight:700;}';
+  document.head.appendChild(css);
+  function boot(){ try { process(); } catch(e) {} }
+  setTimeout(boot, 300);
+  setTimeout(boot, 1500);
+  try {
+    var mo = new MutationObserver(function(){ setTimeout(boot, 80); });
+    mo.observe(document.body, { childList: true, subtree: true });
+  } catch(e) {}
 })();
-
-// ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
-const SCENE_DATA = {"pos": [{"icon": "📓", "tag": "记账", "title": "今天把支出记了账", "text": "记账是财务自由的起点", "quote": "💰 搭子：看得见的钱，才管得住"}, {"icon": "🏦", "tag": "自动储蓄", "title": "储蓄自动转出了一笔", "text": "先储蓄后消费，是富人的顺序", "quote": "💰 搭子：存下的才是真正赚到的"}, {"icon": "🛑", "tag": "止冲动", "title": "刹住了一次冲动消费", "text": "想买的东西，等24小时再决定", "quote": "💰 搭子：你战胜的不是商品，是冲动"}, {"icon": "🔍", "tag": "比价", "title": "下单前比了价/等了促销", "text": "同样的东西，花更少的钱", "quote": "💰 搭子：省下的就是纯赚的"}, {"icon": "📖", "tag": "学理财", "title": "学了 10 分钟理财知识", "text": "认知边界决定财富边界", "quote": "💰 搭子：你赚不到认知外的钱，但可以学"}, {"icon": "📊", "tag": "复盘支出", "title": "复盘了这个月的支出", "text": "钱去哪了，比赚了多少更值得看", "quote": "💰 搭子：看清流向，才能改变流向"}, {"icon": "📈", "tag": "被动收入", "title": "被动收入进账了", "text": "睡后收入是自由的基石", "quote": "💰 搭子：钱在替你工作，恭喜"}, {"icon": "⏳", "tag": "延迟满足", "title": "推迟了一次即时享受", "text": "能等的人，配得上更大的果子", "quote": "💰 搭子：忍住的那一刻，未来在增值"}], "neg": [{"icon": "🛒", "tag": "冲动下单", "title": "又冲动下单了", "text": "购物的快感只有3分钟", "quote": "💰 搭子：下次先加购物车，睡一觉再说"}, {"icon": "💳", "tag": "分期消费", "title": "又用了分期买消耗品", "text": "分期的是消费，透支的是未来", "quote": "💰 搭子：付不起全额的东西，先别买"}, {"icon": "🤷", "tag": "没记账", "title": "今天又没记账", "text": "不记账的钱像断了线的风筝", "quote": "💰 搭子：30秒记一笔，明天补上"}, {"icon": "😎", "tag": "面子消费", "title": "为面子多花了钱", "text": "里子比面子值钱", "quote": "💰 搭子：真正的体面，是账户有底气"}, {"icon": "🎲", "tag": "跟风投资", "title": "没研究就跟着投了", "text": "听消息亏的钱，最冤", "quote": "💰 搭子：不懂的不要投，这是铁律"}, {"icon": "🕳️", "tag": "月光", "title": "这个月又没存下钱", "text": "收入高不高，看结余才知道", "quote": "💰 搭子：从存下10%开始，一点点来"}, {"icon": "🧟", "tag": "僵尸订阅", "title": "还在为没用的订阅付费", "text": "忘掉的订阅是最安静的漏财", "quote": "💰 搭子：今晚翻一下账单，砍掉它们"}, {"icon": "🏦", "tag": "借贷消费", "title": "用借贷买了想买的", "text": "借来的消费，利息都是双倍焦虑", "quote": "💰 搭子：先攒后买，睡得安稳"}]};
-function openSceneSheet() {
-  document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
-  document.getElementById('qaSub').innerText = '点一下 · 让搭子回应你 · 不计入打卡';
-  const scroll = document.getElementById('qaScroll');
-  scroll.innerHTML = '';
-  const mk = (type, label, color) => {
-    const list = SCENE_DATA[type] || [];
-    if (!list.length) return;
-    const lbl = document.createElement('div');
-    lbl.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;';
-    lbl.innerText = label;
-    scroll.appendChild(lbl);
-    list.forEach((item, i) => {
-      const card = document.createElement('div');
-      card.className = 'qa-card ' + type;
-      const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
-        (type === 'pos' ? 'background:#7c7fea;color:white;' : 'background:#b07cd6;color:white;');
-      card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>' +
-        '<div class="qa-card-text">' + item.title + '</div>' +
-        '<span style="' + tagStyle + '">' + item.tag + '</span>';
-      card.onclick = () => {
-        closeQAPanelSafe();
-        setTimeout(() => openSceneFB(i, type), 300);
-      };
-      scroll.appendChild(card);
-    });
-  };
-  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#43a047');
-  mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
-  document.getElementById('qaOverlay').classList.add('show');
-  document.getElementById('qaOverlay').onclick = function(e) {
-    if (e.target === document.getElementById('qaOverlay')) closeQAPanelSafe();
-  };
-}
-function closeQAPanelSafe() {
-  if (typeof closeQAPanel === 'function') { closeQAPanel(); return; }
-  document.getElementById('qaOverlay').classList.remove('show');
-}
-function openSceneFB(idx, type) {
-  const item = SCENE_DATA[type] && SCENE_DATA[type][idx];
-  if (!item) return;
-  const card = document.getElementById('fbCard');
-  if (card) card.className = 'fb-card ' + type;
-  const em = document.getElementById('fbEmoji'); if (em) em.innerText = item.icon;
-  const lb = document.getElementById('fbLabel'); if (lb) lb.innerText = (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag;
-  const tt = document.getElementById('fbTitle'); if (tt) tt.innerText = item.title;
-  const tx = document.getElementById('fbText'); if (tx) tx.innerText = item.text;
-  const qt = document.getElementById('fbQuote'); if (qt) qt.innerText = item.quote;
-  document.getElementById('fbOverlay').classList.add('show');
-}
 </script>
 
 </body>

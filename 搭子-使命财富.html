@@ -478,13 +478,7 @@
     .fb-partner-label { font-size: 11px; color: #8f9eae; margin-bottom: 6px; font-style: normal; font-weight: 600; }
     .fb-btn { background: #3a7ca5; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
-  
-    /* 弹层右上角 X 关闭按钮（2026-09-08） */
-    .qa-panel { position: relative; }
-    .qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; }
-    .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#1f2937; }
-    .qa-close-x:active { background:rgba(0,0,0,0.18); }
-</style>
+  </style>
 </head>
 <body data-page-node-id="0eerS2IGHHdoxWgooB6LRx">
 
@@ -602,18 +596,140 @@
         <button class="talk-btn" data-type="report" data-page-node-id="ru0PoY3ACzNAC39xQlcSJb">📣 汇报进展</button>
         <button class="talk-btn" data-type="question" data-page-node-id="rTQL8ZoaC9i2lCfBvvOA81">🤔 有问题想问</button>
       </div>
-    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene">💭 今天发生了什么</button></div>
-    </div>
+    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" id="stdSceneBtn" onclick="stdSceneOpen()">💭 今天发生了什么</button></div></div>
+<!-- std-buddy-tab-v1: 关键动作 + 提醒自己 + 场景弹窗 -->
+<div id="stdKey3" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+    <span style="font-size:18px;">🎯</span>
+    <span style="font-weight:700;font-size:14px;color:#333;">🎯 今日 3 个使命关键动作</span>
+  </div>
+  <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
+  <div id="stdKey3List"></div>
+</div>
+<div id="stdDailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#fff3e0,#ffe9d6);border-radius:18px;padding:14px 16px;font-size:13px;color:#b3541e;line-height:1.7;box-shadow:0 4px 14px rgba(0,0,0,0.04);">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+    <span style="font-size:18px;">📌</span>
+    <span style="font-weight:700;">今天提醒自己</span>
+    <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="stdTipNext()">换一条</span>
+  </div>
+  <div id="stdTipText"></div>
+</div>
+<div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
+<div id="stdSceneSheet" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:301;background:#fff;border-radius:24px 24px 0 0;max-height:72vh;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
+  <div onclick="stdSceneClose()" style="position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
+  <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
+  <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
+  <div id="stdSceneList"></div>
+  <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
+</div>
+<script>
+/* std-buddy-tab-v1 */
+(function(){
+  if (window.__stdTab) return; window.__stdTab = 1;
+  var SLUG='mission', ACCENT='#b45309', EMOJI='🧭';
+  var ACTIONS=[["🧭", "记录一件有意义的小事", "意义银行每天存"], ["🎯", "推进热爱的事 30 分钟", "热爱需要时间浇灌"], ["🙋", "帮助一个人", "利他是最持久的燃料"]], TIPS=["使命感是最持久的燃料", "意义感来自利他", "找calling：擅长×热爱×价值", "别用忙碌逃避意义追问", "小事持续做就是大意义", "人生下半场拼的是使命", "工作可以是使命的载体", "帮助他人是最高级的快乐", "写下墓志铭，倒推活法", "每天问：今天为谁创造了价值", "使命不用宏大，具体就好", "平凡的坚持就是不凡", "意义感治好精神内耗", "把热爱变成专业，把专业变成贡献", "价值观是人生导航", "别等退休才活出自己", "影响一个人就是改变世界", "时间花在使命上，焦虑自然少", "记录意义时刻，建意义银行", "意义是活出来的，不是想出来的"], SCENES=[["🌫️", "感觉工作没意义", "找到工作背后的受益者，重新连接价值链。"], ["🧭", "迷茫不知道方向", "做减法：留下让你眼里有光的那件事，先做100天。"], ["🎁", "帮了人没回报", "意义本身就是回报。宇宙记账，从不漏单。"], ["🤹", "想做的事太多", "选一个先做100天。做深一件事胜过浅尝十件。"], ["😤", "被说理想主义", "理想主义+执行力=改变世界。继续走。"], ["😔", "今天虚度了", "明早第一件事：做最重要的事。每天的日出都是重启键。"]];
+  var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
+  function today(){ return new Date().toISOString().slice(0,10); }
+  function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
+  function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  function toast(m){
+    var t=document.getElementById('stdToast');
+    if(!t){ t=document.createElement('div'); t.id='stdToast';
+      t.style.cssText='position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:100000;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      document.body.appendChild(t); }
+    t.textContent=m; t.style.opacity='1';
+    clearTimeout(t._tm); t._tm=setTimeout(function(){ t.style.opacity='0'; },1900);
+  }
+  function chat(m){ try{ if(typeof appendMsg==='function'){ appendMsg(m,'partner'); } }catch(e){} }
+  window.stdK3Toggle=function(i){
+    var d=jget(K3); if(d.date!==today()) d={date:today(),checked:{}};
+    var was=!!d.checked[i];
+    d.checked[i]=!d.checked[i]; jset(K3,d); stdK3Render();
+    if(!was&&d.checked[i]){
+      var tails=['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
+      toast(EMOJI+' 收到！「'+ACTIONS[i][1]+'」'+tails[Math.floor(Math.random()*tails.length)]);
+      chat('✅ '+ACTIONS[i][1]);
+    }
+  };
+  window.stdK3Render=function(){
+    var box=document.getElementById('stdKey3List'); if(!box) return;
+    var d=jget(K3); if(d.date!==today()) d={date:today(),checked:{}};
+    var h='';
+    for(var i=0;i<ACTIONS.length;i++){
+      var on=!!d.checked[i];
+      var circ=on?'background:'+ACCENT+';color:#fff;text-align:center;line-height:26px;font-size:14px;font-weight:700;':'border:2px solid #d1d5db;background:#fff;';
+      h+='<div onclick="stdK3Toggle('+i+')" style="display:flex;align-items:center;gap:10px;background:#f6f8fa;border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;">'
+        +'<div style="font-size:22px;flex-shrink:0;">'+ACTIONS[i][0]+'</div>'
+        +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;color:#333;">'+ACTIONS[i][1]+'</div>'
+        +'<div style="font-size:11px;color:#999;margin-top:2px;">'+ACTIONS[i][2]+'</div></div>'
+        +'<div style="width:26px;height:26px;border-radius:50%;flex-shrink:0;'+circ+'">'+(on?'✓':'')+'</div></div>';
+    }
+    box.innerHTML=h;
+  };
+  window.stdTipNext=function(){
+    var d=jget(TK); var idx=Math.floor(Math.random()*TIPS.length);
+    if(d.date===today()&&idx===d.idx&&TIPS.length>1) idx=(idx+1)%TIPS.length;
+    d={date:today(),idx:idx}; jset(TK,d);
+    var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[idx];
+  };
+  function tipInit(){
+    var d=jget(TK); if(d.date!==today()||d.idx==null){ d={date:today(),idx:Math.floor(Math.random()*TIPS.length)}; jset(TK,d); }
+    var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[d.idx];
+  }
+  window.stdSceneOpen=function(){
+    if(!SCENES||!SCENES.length) return;
+    var box=document.getElementById('stdSceneList');
+    if(box){
+      var h='';
+      for(var i=0;i<SCENES.length;i++){
+        h+='<div onclick="stdScenePick('+i+')" style="display:flex;align-items:center;gap:10px;background:#f6f8fa;border-radius:12px;padding:11px 12px;margin-bottom:8px;cursor:pointer;">'
+          +'<div style="font-size:20px;flex-shrink:0;">'+SCENES[i][0]+'</div>'
+          +'<div style="flex:1;font-size:13px;color:#333;font-weight:600;">'+SCENES[i][1]+'</div>'
+          +'<div style="color:#c0c4cc;font-size:16px;flex-shrink:0;">›</div></div>';
+      }
+      box.innerHTML=h;
+    }
+    var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
+    if(m) m.style.display='block'; if(sh) sh.style.display='block';
+  };
+  window.stdSceneClose=function(){
+    var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
+    if(m) m.style.display='none'; if(sh) sh.style.display='none';
+  };
+  window.stdScenePick=function(i){
+    stdSceneClose();
+    toast(EMOJI+' '+SCENES[i][2]);
+    chat(SCENES[i][0]+' '+SCENES[i][1]+' —— 我在，一起拆。');
+  };
+  function ensureSceneBtn(){
+    try{
+      if(!document.getElementById('stdSceneBtn')){
+        var panel=document.querySelector('.interaction-panel');
+        if(panel){
+          var row=document.createElement('div');
+          row.className='talk-btn-row'; row.style.marginTop='8px';
+          row.innerHTML='<button class="talk-btn" id="stdSceneBtn" onclick="stdSceneOpen()">\u{1F4AD} 今天发生了什么</button>';
+          panel.appendChild(row);
+        }
+      }
+    }catch(e){}
+  }
+  setTimeout(function(){ try{ stdK3Render(); }catch(e){} },0);
+  setTimeout(function(){ try{ if(TIPS){ tipInit(); } else { var t=document.getElementById('stdDailyTip'); if(t) t.style.display='none'; } }catch(e){} },0);
+})();
+</script>
+
 
     <!-- 分享入口 -->
-    <!-- 📌 今天提醒自己 -->
-    <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#efe8fd,#e8defa);border-radius:18px;padding:14px 16px;font-size:13px;color:#5e35b1;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-        <span style="font-size:18px;">📌</span>
-        <span style="font-weight:700;">今天提醒自己</span>
-        <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
+    <div class="share-inline-card" data-page-node-id="wCMbnkXI2cu9HIfLYMmPqv">
+      <div class="share-inline-label" data-page-node-id="QJT5j253yX9BhpMFBefASf">📣 推荐给想一起追寻使命的朋友</div>
+      <div class="share-inline-preview" data-page-node-id="YX6uEFH3qdYCmTMHskz8xJ">
+        🎯 使命财富搭子 · 4种性格陪你成长
       </div>
-      <div id="dailyTipText">使命不是口号，是你愿意重复十年的小事</div>
+      <div class="share-copy-row" data-page-node-id="UMnVB7obvI1qM6rrDUkskM">
+        <button class="share-copy-btn" onclick="copyShareLink()" data-page-node-id="hDY351jQoeXldJj3gm7Z5L">📋 复制邀请链接</button>
+        <button class="share-link-btn" onclick="previewShareCard()" data-page-node-id="w2GWbgcybihwzAwJhKExuq">👀 预览卡片</button>
+      </div>
     </div>
 
     <footer data-page-node-id="j0Xn9G4AHwcBuoGFapZKJ9">每天一次签到 · 你的搭子会给你力量</footer>
@@ -782,7 +898,7 @@
     </div>
 
     <!-- 我的状态 -->
-    <div class="sop-card" style="margin-bottom:12px;;border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="bIy7QxZSZRNTCAtMLX9HMZ">
+    <div class="sop-card" style="margin-bottom:12px;" data-page-node-id="bIy7QxZSZRNTCAtMLX9HMZ">
       <div class="chart-title" data-page-node-id="gfHzmSE2YviX6wPKhm2f0r">🏠 我的状态</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;" data-page-node-id="DxJxofIJ7yJJMGkyILVAi0">
         <div style="background:#e8eaf6;border-radius:12px;padding:12px 6px;" data-page-node-id="qd71RxTebrFiNh3BlmSmmD">
@@ -797,11 +913,11 @@
           <div style="font-size:20px;font-weight:700;color:#1a237e;" id="shareTotal" data-page-node-id="QiE7TWGwCyLAxrmu1MA7oO">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="zHDdqDlXEK8DgWttWtmDU8">累计天数</div>
         </div>
-      </div><div style="margin-top:12px;background:linear-gradient(135deg,#e0f2f1,#e8f5e9);border-radius:14px;padding:16px;"><div style="font-size:13px;color:#00695c;line-height:1.8;font-weight:600;" id="sharePnLSummary">还在积累中。开始打卡后这里会出现你的使命账本摘要。</div></div>
+      </div>
     </div>
 
     <!-- 分享邀请卡片 -->
-    <div class="sop-card" style="border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="Z5plwRAeMQqF8YmoBG8iBp">
+    <div class="sop-card" data-page-node-id="Z5plwRAeMQqF8YmoBG8iBp">
       <div class="chart-title" data-page-node-id="TtWCCEFkOFDwVaUJz8GP7v">🌟 使命财富搭子</div>
       <div style="margin-top:12px;background:linear-gradient(135deg,#e8eaf6,#e3f2fd);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;" data-page-node-id="EpYPfRlvNiDX9kfDA2Vj5L">
         <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="EkZhLHhcY4jj3tpWFS6zD5">🌟</div>
@@ -872,8 +988,7 @@
 
 <!-- ===== 问答/进展选择面板 ===== -->
 <div class="qa-overlay" id="qaOverlay" data-page-node-id="V1rEvBj7kmrCNpSXwryUXS">
-  <div class="qa-panel" data-page-node-id="8Z0n1F69ZsKuP9qz4CrU3F"><button class="qa-close-x" onclick="try{if(typeof closeQAPanel==='function')closeQAPanel();else this.closest('.qa-overlay').classList.remove('show');}catch(e){this.closest('.qa-overlay').classList.remove('show');}" aria-label="关闭">✕</button>
-    
+  <div class="qa-panel" data-page-node-id="8Z0n1F69ZsKuP9qz4CrU3F">
     <div class="qa-handle" data-page-node-id="CsUQRoSNxpp7wcu88cuh7p"></div>
     <div class="qa-header" data-page-node-id="EJJwH7JLkudSYzqfF4HhTr">
       <div class="qa-title" id="qaTitle" data-page-node-id="DuaHnAGBf5FvQ7nGEeKEiG">🤔 有问题想问</div>
@@ -1018,30 +1133,7 @@ function getToday() { return new Date().toISOString().slice(0,10); }
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
 
-function getSOPData() { var d = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); return _sopDailyReset(d, STORAGE.SOP); }
-// 新的一天自动归零（2026-09-06）：读取入口校验日期，昨日未提交成绩补归档后重置，不再依赖切换 tab 触发
-function _sopDailyReset(d, sopKey, extra) {
-  try {
-    var today = new Date().toISOString().slice(0,10);
-    if (d && d.date && d.date !== today) {
-      var hasData = (d.score > 0) || (d.selected && Object.keys(d.selected).length > 0) || d.done;
-      if (hasData && (typeof getSOPHistory === 'function') && (typeof saveSOPToHistory === 'function')) {
-        try {
-          var _hist = getSOPHistory();
-          if (!_hist.some(function(h){ return h && h.date === d.date; })) {
-            saveSOPToHistory({ date: d.date, score: d.score || 0 });
-          }
-        } catch(e) {}
-      }
-      var _reset = { score: 0, selected: {}, done: false, date: today, submittedCats: [] };
-      if (extra) { for (var k in extra) { _reset[k] = extra[k]; } }
-      try { localStorage.setItem(sopKey, JSON.stringify(_reset)); } catch(e) {}
-      return _reset;
-    }
-  } catch(e) {}
-  return d;
-}
-setTimeout(function(){ try { getSOPData(); } catch(e) {} }, 0);
+function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); }
 function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); if(window.saveSOPToFirebase) saveSOPToFirebase(d); }
 function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
 function saveSOPStreaks(d) { localStorage.setItem(STORAGE.SOP_STREAKS, JSON.stringify(d)); if(window.saveSOPStreaksToFirebase) saveSOPStreaksToFirebase(d); }
@@ -1574,7 +1666,6 @@ const TYPE_SCENES_MIS = {
 let currentQAType = null;
 let currentQADir = 'result';
 function askPartner(type) {
-  if (type === 'scene') { openSceneSheet(); return; }
   const partner = currentPartner || PARTNERS[0];
   const style = partner.style || 'gentle';
   const emoji = partner.emoji;
@@ -1920,15 +2011,7 @@ function copyShareLink() {
   if (partner) params.set('partner', partner);
   let fullUrl = url + (params.toString() ? '?' + params.toString() : '');
   navigator.clipboard.writeText(fullUrl).then(() => showToast('✅ 邀请链接已复制，快发给朋友吧'));
-}function updateShareSummary() {
-  var el = document.getElementById('sharePnLSummary');
-  if (!el) return;
-  var st = (document.getElementById('shareStreak') || {}).textContent || '-';
-  var td = (document.getElementById('shareToday') || {}).textContent || '';
-  var tt = (document.getElementById('shareTotal') || {}).textContent || '-';
-  el.innerHTML = '🧭 连续打卡 <b>' + st + '</b> · 今日 ' + td + ' · 累计 <b>' + tt + '</b><br>🌟 做难而正确的事';
 }
-
 function previewShareCard() {
   let url = getSiteUrl() + 'share.html';
   let history = getHistory();
@@ -2877,7 +2960,6 @@ function renderSharePage() {
   if (totalEl) totalEl.textContent = totalDays;
   let url = getSiteUrl() + '搭子-使命财富.html';
   if (urlEl) urlEl.textContent = url;
-  updateShareSummary();
 }
 
 function getStreak() {
@@ -3210,7 +3292,7 @@ startApp();
       });
     });
     var items=wrap.querySelectorAll('.crp-item');
-    var state={}; try{var _sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(_sv&&_sv._d===new Date().toISOString().slice(0,10)){state=_sv.s||{}}}catch(e){}
+    var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
     function render(){
       var d=0;
       items.forEach(function(it,i){
@@ -3223,7 +3305,7 @@ startApp();
     items.forEach(function(it,i){
       it.addEventListener('click',function(){
         state[i]=!state[i];
-        try{localStorage.setItem(KEY,JSON.stringify({_d:new Date().toISOString().slice(0,10),s:state}))}catch(e){}
+        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
         render();
       });
     });
@@ -3303,68 +3385,83 @@ startApp();
 </script>
 
 
-<script>
+<script>/* cc-enhance-v1 教练卡逐条确认 */
 (function(){
-  var TIPS = ['使命不是口号，是你愿意重复十年的小事', '每天留30分钟给“重要不紧急”的事', '帮助别人时，自己的意义感最强', '十年视角：这件事还重要吗？', '你的天赋在哪里，责任就在哪里', '定期问自己：我在为什么而积累？', '慢就是快，长期主义者不怕今天没结果', '写下你希望10年后的自己在做什么'];
-  window.nextDailyTip = function() {
-    var el = document.getElementById("dailyTipText");
+  if (window.__ccEnhanced) return; window.__ccEnhanced = 1;
+  var PREFIX = '搭子-使命财富';
+  var STORE = 'cc_' + PREFIX;
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch(e) { state = {}; }
+  function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){} }
+  function hash(t){ var h = 0; for (var i = 0; i < t.length; i++) { h = (h * 31 + t.charCodeAt(i)) | 0; } return 'h' + (h >>> 0).toString(36); }
+  window.ccToast = function(msg){
+    var t = document.getElementById('ccToast');
+    if (!t) {
+      t = document.createElement('div'); t.id = 'ccToast';
+      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg; t.style.opacity = '1';
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+  };
+  function apply(body){
+    if (body.getAttribute('data-cc-done')) return;
+    var html = body.innerHTML;
+    if (!/<br/i.test(html) && html.replace(/<[^>]*>/g, '').trim().length < 2) return;
+    var card = body.closest ? body.closest('.crp-card') : null;
+    var title = '';
+    if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
+    var parts = html.split(/<br\s*\/?>/i);
+    var out = '', n = 0;
+    for (var k = 0; k < parts.length; k++) {
+      var seg = parts[k].trim();
+      var txt = seg.replace(/<[^>]*>/g, '').trim();
+      if (!txt) continue;
+      var id = hash(PREFIX + '|' + title + '|' + txt.slice(0, 48));
+      var on = !!state[id];
+      out += '<div class="cc-row' + (on ? ' done' : '') + '"><div class="cc-txt">' + seg + '</div>'
+           + '<span class="cc-chip' + (on ? ' on' : '') + '" data-ccid="' + id + '">' + (on ? '\u2713 已记住' : '标记记住') + '</span></div>';
+      n++;
+    }
+    if (!n) return;
+    body.innerHTML = out;
+    body.setAttribute('data-cc-done', '1');
+  }
+  function process(){
+    var bodies = document.querySelectorAll('.crp-card .crp-stage-body');
+    for (var i = 0; i < bodies.length; i++) { try { apply(bodies[i]); } catch(e) {} }
+  }
+  document.addEventListener('click', function(ev){
+    var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
     if (!el) return;
-    el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
-  };
+    ev.preventDefault();
+    var id = el.getAttribute('data-ccid');
+    if (state[id]) { delete state[id]; } else { state[id] = 1; }
+    save();
+    var on = !!state[id];
+    var row = el.closest('.cc-row');
+    if (row) row.classList.toggle('done', on);
+    el.classList.toggle('on', on);
+    el.innerHTML = on ? '\u2713 已记住' : '标记记住';
+    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+  });
+  var css = document.createElement('style');
+  css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
+    + '.cc-row:last-child{border-bottom:none;}'
+    + '.cc-txt{flex:1;min-width:0;font-size:13px;line-height:1.7;color:#37474f;}'
+    + '.cc-row.done .cc-txt{color:#b6b6b6;text-decoration:line-through;}'
+    + '.cc-chip{flex-shrink:0;font-size:11px;padding:3px 9px;border-radius:12px;border:1.5px solid #dcdcdc;color:#909090;cursor:pointer;user-select:none;white-space:nowrap;margin-top:2px;transition:all .15s;}'
+    + '.cc-chip:active{transform:scale(.94);}'
+    + '.cc-chip.on{background:#eaf7ea;border-color:#54b26a;color:#2e7d32;font-weight:700;}';
+  document.head.appendChild(css);
+  function boot(){ try { process(); } catch(e) {} }
+  setTimeout(boot, 300);
+  setTimeout(boot, 1500);
+  try {
+    var mo = new MutationObserver(function(){ setTimeout(boot, 80); });
+    mo.observe(document.body, { childList: true, subtree: true });
+  } catch(e) {}
 })();
-
-// ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
-const SCENE_DATA = {"pos": [{"icon": "🎯", "tag": "推进目标", "title": "向年度目标推进了一步", "text": "目标不怕慢，怕停", "quote": "🧭 搭子：这一步，离你要的人生更近了"}, {"icon": "🌳", "tag": "做长期的事", "title": "做了件长期才有回报的事", "text": "长期主义者赢在别人放弃的地方", "quote": "🧭 搭子：种树最好的时间是十年前，其次是现在"}, {"icon": "🤲", "tag": "帮人", "title": "今天帮了一个人", "text": "利他是使命最朴素的形态", "quote": "🧭 搭子：你照亮别人的时候，自己也亮了"}, {"icon": "🗣️", "tag": "说清why", "title": "又想清楚了一点自己的why", "text": "知道为什么而活的人，能扛住任何一种活法", "quote": "🧭 搭子：想清楚一次，迷茫就少一分"}, {"icon": "📊", "tag": "复盘目标", "title": "复盘了季度目标进度", "text": "目标不回头看，就只是许愿", "quote": "🧭 搭子：校准方向，比加速更重要"}, {"icon": "⚖️", "tag": "取舍", "title": "为愿景做了一次取舍", "text": "使命是用放弃定义的", "quote": "🧭 搭子：你放弃的，正在成全你"}, {"icon": "✨", "tag": "记灵感", "title": "记下了一个灵感", "text": "灵感易逝，记录是尊重", "quote": "🧭 搭子：你的想法值得被留住"}, {"icon": "📥", "tag": "高质量输入", "title": "输入了一次高质量内容", "text": "输入的深度决定输出的高度", "quote": "🧭 搭子：喂给大脑好东西，它还你好想法"}], "neg": [{"icon": "🌫️", "tag": "随波逐流", "title": "随波逐流过了一天", "text": "没有方向的船，什么风都是逆风", "quote": "🧭 搭子：明早花5分钟，定个今天的主线"}, {"icon": "🧯", "tag": "只救急", "title": "又只在救急不谋远", "text": "急事挤掉要事，是最贵的浪费", "quote": "🧭 搭子：每天给要事留1小时，雷打不动"}, {"icon": "🌁", "tag": "目标模糊", "title": "目标又模糊了", "text": "模糊的目标带来模糊的行动", "quote": "🧭 搭子：把它写具体，写下来就清晰一半"}, {"icon": "⏭️", "tag": "拖要事", "title": "拖着要事不做", "text": "拖延偷走的不是时间，是可能性", "quote": "🧭 搭子：拆到15分钟的第一步，现在做"}, {"icon": "🌀", "tag": "假忙", "title": "用忙碌回避了思考", "text": "忙是思考的麻醉剂", "quote": "🧭 搭子：停下来10分钟，比再跑10公里有用"}, {"icon": "🌧️", "tag": "自我怀疑", "title": "自我怀疑到停摆", "text": "怀疑是使命路上的雾，走着走着就散", "quote": "🧭 搭子：怀疑时也行动，行动治怀疑"}, {"icon": "👀", "tag": "羡慕别人", "title": "又羡慕别人的路径了", "text": "别人的地图，走不了你的路", "quote": "🧭 搭子：你的路，值得你自己走完"}, {"icon": "🕯️", "tag": "忘了初心", "title": "忙到忘了为什么出发", "text": "走太远，别忘了为什么出发", "quote": "🧭 搭子：今晚睡前，重读一次你的初心"}]};
-function openSceneSheet() {
-  document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
-  document.getElementById('qaSub').innerText = '点一下 · 让搭子回应你 · 不计入打卡';
-  const scroll = document.getElementById('qaScroll');
-  scroll.innerHTML = '';
-  const mk = (type, label, color) => {
-    const list = SCENE_DATA[type] || [];
-    if (!list.length) return;
-    const lbl = document.createElement('div');
-    lbl.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;';
-    lbl.innerText = label;
-    scroll.appendChild(lbl);
-    list.forEach((item, i) => {
-      const card = document.createElement('div');
-      card.className = 'qa-card ' + type;
-      const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
-        (type === 'pos' ? 'background:#7c7fea;color:white;' : 'background:#b07cd6;color:white;');
-      card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>' +
-        '<div class="qa-card-text">' + item.title + '</div>' +
-        '<span style="' + tagStyle + '">' + item.tag + '</span>';
-      card.onclick = () => {
-        closeQAPanelSafe();
-        setTimeout(() => openSceneFB(i, type), 300);
-      };
-      scroll.appendChild(card);
-    });
-  };
-  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#43a047');
-  mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
-  document.getElementById('qaOverlay').classList.add('show');
-  document.getElementById('qaOverlay').onclick = function(e) {
-    if (e.target === document.getElementById('qaOverlay')) closeQAPanelSafe();
-  };
-}
-function closeQAPanelSafe() {
-  if (typeof closeQAPanel === 'function') { closeQAPanel(); return; }
-  document.getElementById('qaOverlay').classList.remove('show');
-}
-function openSceneFB(idx, type) {
-  const item = SCENE_DATA[type] && SCENE_DATA[type][idx];
-  if (!item) return;
-  const card = document.getElementById('fbCard');
-  if (card) card.className = 'fb-card ' + type;
-  const em = document.getElementById('fbEmoji'); if (em) em.innerText = item.icon;
-  const lb = document.getElementById('fbLabel'); if (lb) lb.innerText = (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag;
-  const tt = document.getElementById('fbTitle'); if (tt) tt.innerText = item.title;
-  const tx = document.getElementById('fbText'); if (tx) tx.innerText = item.text;
-  const qt = document.getElementById('fbQuote'); if (qt) qt.innerText = item.quote;
-  document.getElementById('fbOverlay').classList.add('show');
-}
 </script>
 
 </body>

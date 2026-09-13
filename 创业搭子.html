@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
-<html lang="zh-CN" data-page-node-id="owqwIpuH42jWaG2k09Lgjk">
-<head data-page-node-id="FoWIHXpz0Uldy2Fqszli0D">
-  <meta charset="UTF-8" data-page-node-id="YYFrju6EjrO4FlgI5zmx6b">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" data-page-node-id="6ao36hHwqtIMsIY5DDaT8X">
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>创业搭子 · 每日复盘</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
@@ -415,7 +415,7 @@
     }
     .share-title { font-size: 22px; font-weight: 800; color: #1a237e; margin-bottom: 4px; text-align: center; }
     .share-sub { font-size: 13px; color: #8f9eae; text-align: center; margin-bottom: 24px; }
-    .share-stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+    .share-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
     .share-stat { background: #f0f4ff; border-radius: 20px; padding: 16px 12px; text-align: center; }
     .share-stat-num { font-size: 28px; font-weight: 900; color: #3949ab; }
     .share-stat-label { font-size: 12px; color: #8f9eae; margin-top: 4px; }
@@ -466,14 +466,13 @@
       background: none; border: none; font-size: 20px; cursor: pointer;
     }
     .qa-scroll {
-      flex: 1; overflow-y: auto; padding: 16px; display: flex;
-      flex-direction: column; gap: 10px;
+      flex: 1; overflow-y: auto; padding: 16px; display: grid;
+      grid-template-columns: 1fr 1fr; gap: 12px;
     }
     .qa-card {
-      background: #f5f5f5; border-radius: 16px; padding: 12px 14px;
-      cursor: pointer; transition: all 0.2s; text-align: left;
-      display: flex; flex-direction: row; align-items: center; gap: 10px;
-      width: 100%;
+      background: #f5f5f5; border-radius: 16px; padding: 14px 12px;
+      cursor: pointer; transition: all 0.2s; text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
     }
     .qa-card:active { background: #eef2ff; transform: scale(0.97); }
     .qa-card-icon { font-size: 26px; line-height: 1; }
@@ -605,59 +604,59 @@
     @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
-<body data-page-node-id="PjB00rZnvPkU1A34NCBbku">
+<body>
 
 <!-- 页面容器 -->
-<div id="page-checkin" class="page active" data-page-node-id="eVkwnXhMXm3dtAuYcMdzKr"></div>
-<div id="page-chat" class="page" data-page-node-id="e9N9UG2CNcoJEKfYj8KcA4"></div>
-<div id="page-sop" class="page" data-page-node-id="IkS3pnYMxx30ugnQ7UQErB">
-  <div class="sop-page" data-page-node-id="uKekjzDylIAaTAEmjW3McC">
-    <div class="sop-header" data-page-node-id="K5vDg64fjFvUopCDVfKX8W">
-      <div class="sop-title" data-page-node-id="B0F4cMGNhywUiaJjslICEh">🚀 创业 SOP 复盘</div>
-      <div class="sop-sub" data-page-node-id="Hszh4xGw3LDSHAlZbCGnoy">每天 5 维度 · 看清创业全局</div>
-      <div class="sop-score-row" data-page-node-id="5n5YEm6aw6yyqPS6aNebss">
-        <div class="sop-score" data-page-node-id="DzhyKwbOF5lT1nm78Jripi">
-          <div class="sop-score-num" id="sopScore" data-page-node-id="yQ0rBORdcKPG56mFWvDkDI">0</div>
-          <div class="sop-score-label" data-page-node-id="gpizwRzRo2C7DVMfiWQaeA">今日得分</div>
+<div id="page-checkin" class="page active"></div>
+<div id="page-chat" class="page"></div>
+<div id="page-sop" class="page">
+  <div class="sop-page">
+    <div class="sop-header">
+      <div class="sop-title">🚀 创业 SOP 复盘</div>
+      <div class="sop-sub">每天 5 维度 · 看清创业全局</div>
+      <div class="sop-score-row">
+        <div class="sop-score">
+          <div class="sop-score-num" id="sopScore">0</div>
+          <div class="sop-score-label">今日得分</div>
         </div>
-        <div class="sop-score" data-page-node-id="AyyEBnYE2Mb7acJb5I4umZ">
-          <div class="sop-score-num" id="sopPosCount" data-page-node-id="ZyrdSNpeWGRddZ4rM6IVGD">0</div>
-          <div class="sop-score-label" data-page-node-id="csegEzWTIhvxyoRIZt8wO6">做到了</div>
+        <div class="sop-score">
+          <div class="sop-score-num" id="sopPosCount">0</div>
+          <div class="sop-score-label">做到了</div>
         </div>
-        <div class="sop-score" data-page-node-id="ocbBcCmPgWjplRnqoJoxUG">
-          <div class="sop-score-num" id="sopNegCount" data-page-node-id="zLUBt7HCc6fZHkexyxVswD">0</div>
-          <div class="sop-score-label" data-page-node-id="QjWu6hHhKI2LfLFZSmQn65">需注意</div>
+        <div class="sop-score">
+          <div class="sop-score-num" id="sopNegCount">0</div>
+          <div class="sop-score-label">需注意</div>
         </div>
       </div>
-      <div class="sop-progress-wrap" data-page-node-id="LQSXtKOCeXBJjzdfyeLUOL">
-        <div class="sop-progress-bg" data-page-node-id="zUPxDHpQ7Ouv3U4lEOYdgw"><div class="sop-progress-bar" id="sopScoreBar" data-page-node-id="mi7RBnARfl2c57diUNmhCI"></div></div>
-        <div class="sop-progress-text" id="sopProgressText" data-page-node-id="xRwAzzggpGQWznYPmwF1J5">0 / 100</div>
+      <div class="sop-progress-wrap">
+        <div class="sop-progress-bg"><div class="sop-progress-bar" id="sopScoreBar"></div></div>
+        <div class="sop-progress-text" id="sopProgressText">0 / 100</div>
       </div>
     </div>
 
-    <div class="sop-category-tabs" id="sopCatTabs" data-page-node-id="drTTZm1B59xUTlDJPEXEbe"></div>
+    <div class="sop-category-tabs" id="sopCatTabs"></div>
 
-    <div class="sop-game-card" id="sopGameCard" data-page-node-id="7Zs4SQHhae9yEEDoEGDSN8">
+    <div class="sop-game-card" id="sopGameCard">
       <!-- SOP 自检清单 -->
     </div>
 
-    <div class="sop-tip" data-page-node-id="j1onELqLoH7COTp6Svknu6">
-      <div class="sop-tip-title" data-page-node-id="VSyhPQ3T8GvDAZm2cJFKhF">💡 本维度第一性原理</div>
-      <div class="sop-tip-item" id="sopTipText" data-page-node-id="E2MEtpValAnG6orFOg2azf"></div>
+    <div class="sop-tip">
+      <div class="sop-tip-title">💡 本维度第一性原理</div>
+      <div class="sop-tip-item" id="sopTipText"></div>
     </div>
   </div>
 
 </div>
-<div id="page-progress" class="page" data-page-node-id="4LV6gEVxty4UCYxgiYhCZZ"></div>
-<div id="page-share" class="page" data-page-node-id="opQI1Dm8f4b94FejIHHvim"></div>
+<div id="page-progress" class="page"></div>
+<div id="page-share" class="page"></div>
 
 <!-- 教练页 · 麦肯锡风格深度对话教练 -->
-<div class="page" id="coachPage" data-page-node-id="RkiEaFksxEydYWhz4o1RoO">
-  <div class="coach-page" id="coachPageContent" data-page-node-id="FKC0Aann6mT7uFXIZIcFyy">
+<div class="page" id="coachPage">
+  <div class="coach-page" id="coachPageContent">
     <!-- 教练介绍页 -->
     
 <!-- ===== 成长路线 & 基本功 Checklist（参照AI搭子优化 · 可点击互动）===== -->
-<div id="crpWrap_startup" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;" data-page-node-id="FLRiuFODbEjB5gG4hOYIAO">
+<div id="crpWrap_startup" class="crp-wrap" style="max-width:420px;margin:0 auto 4px;">
   <style>
     #crpWrap_startup .crp-card { background:#fff; border-radius:24px; padding:18px 16px; margin-bottom:14px; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
     #crpWrap_startup .crp-title { font-size:15px; font-weight:800; color:#2b3a4a; margin-bottom:12px; }
@@ -673,31 +672,31 @@
     #crpWrap_startup .crp-item.done { color:#8f9eae; text-decoration:line-through; }
     #crpWrap_startup .crp-box { margin-right:8px; }
   </style>
-  <div class="crp-card" data-page-node-id="l0dKaB81GLiB0f5yhsbESH">
-    <div class="crp-title" data-page-node-id="a1WnBNFj1FgoOk1SZg4eMw">🗺️ 创业三阶段成长路线<span class="crp-tip" data-page-node-id="0YuWRo7pHpyPo7lBvjUsVC">👆 点击阶段展开/收起</span></div>
-    <div class="crp-stage" style="background:#e8f5e9;" data-page-node-id="ymrj1KhGjjsk4MKQDN5GEg">
-      <div class="crp-stage-head" style="color:#2e7d32;" data-page-node-id="E1uj5WI449WhXiNaXqrk7f">📌 第1阶段 · 第1个月 · 验证方向 <span class="crp-arrow" data-page-node-id="dQ0F1vZ3weAu2ygbo3LUgV">▾</span></div>
-      <div class="crp-stage-body" data-page-node-id="NURyZJmVjak5rUkELIYh31">深度访谈10个目标用户，只问不推<br data-page-node-id="VzR3zfMuuNMNDlj1MnjnDM">• 一句话讲清价值主张（给谁解决什么痛）<br data-page-node-id="lROpWGMMqpydKTaGXRvBRA">• 定义最小可行产品MVP范围，砍到不能再砍</div>
+  <div class="crp-card">
+    <div class="crp-title">🗺️ 创业三阶段成长路线<span class="crp-tip">👆 点击阶段展开/收起</span></div>
+    <div class="crp-stage" style="background:#e8f5e9;">
+      <div class="crp-stage-head" style="color:#2e7d32;">📌 第1阶段 · 第1个月 · 验证方向 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">深度访谈10个目标用户，只问不推<br>• 一句话讲清价值主张（给谁解决什么痛）<br>• 定义最小可行产品MVP范围，砍到不能再砍</div>
     </div>
-    <div class="crp-stage" style="background:#fff3e0;" data-page-node-id="P286a8KxCVy5iyuP5OWyZG">
-      <div class="crp-stage-head" style="color:#e65100;" data-page-node-id="v1R6FpTOQd5cLvFcvIbpad">📌 第2阶段 · 第2-3个月 · 跑通闭环 <span class="crp-arrow" data-page-node-id="jsEIgMAElg69GjXItyh74z">▾</span></div>
-      <div class="crp-stage-body" data-page-node-id="rMcxFbuBVyUFppNtSi5g2R">MVP上线，快速收集真实反馈<br data-page-node-id="qFvj1ekgYuW0dgZKksR36C">• 找到第一批愿意付费的用户<br data-page-node-id="nMB9TJ5u7pzFTX2IC19fS7">• 建立关键指标看板（留存/转化/复购）</div>
+    <div class="crp-stage" style="background:#fff3e0;">
+      <div class="crp-stage-head" style="color:#e65100;">📌 第2阶段 · 第2-3个月 · 跑通闭环 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">MVP上线，快速收集真实反馈<br>• 找到第一批愿意付费的用户<br>• 建立关键指标看板（留存/转化/复购）</div>
     </div>
-    <div class="crp-stage" style="background:#e8eaf6;" data-page-node-id="JrvU3hhHQQGLS9vnnz6Dmt">
-      <div class="crp-stage-head" style="color:#3949ab;" data-page-node-id="hrOsPdD9KNweTies2kMh4H">📌 第3阶段 · 第4-6个月 · 复制增长 <span class="crp-arrow" data-page-node-id="XY2Z7wjoHsnozkBavSrmoX">▾</span></div>
-      <div class="crp-stage-body" data-page-node-id="1GFeHEsYc4TBrCfh3tbSz1">验证至少一条可复制的获客渠道<br data-page-node-id="HV2TmUTN6FaH5mF22cWf1N">• 搭建最小团队，明确分工与节奏<br data-page-node-id="ppBz7lbPYddeA3WyXWvBvn">• 规划现金流转正路径，留足安全垫</div>
+    <div class="crp-stage" style="background:#e8eaf6;">
+      <div class="crp-stage-head" style="color:#3949ab;">📌 第3阶段 · 第4-6个月 · 复制增长 <span class="crp-arrow">▾</span></div>
+      <div class="crp-stage-body">验证至少一条可复制的获客渠道<br>• 搭建最小团队，明确分工与节奏<br>• 规划现金流转正路径，留足安全垫</div>
     </div>
   </div>
-  <div class="crp-card" data-page-node-id="yQFeBT0MinopKKZpXXHFWa">
-    <div class="crp-title" data-page-node-id="YB9EkBEuCYuvFDrBNH2sda">📋 创业基本功 Checklist<span class="crp-tip" data-page-node-id="5h0k6Nrl1u0EEeWhRWABSd">👆 点击勾选 · 已达成 <b id="crpCnt_startup" style="color:#f97316;" data-page-node-id="j6AlBhFuLdGu1fQK5blWAD">0</b>/7 · 自动保存</span></div>
-    <div data-page-node-id="GkjlbKxivRa6AT64W9cs3w">
-      <div class="crp-item" data-page-node-id="FhUCp3RQWPe2b4ka8KVRDW"><span class="crp-box" data-page-node-id="TqdMdMOZgMpfpWo7kAOwwl">☐</span>访谈过10个目标用户</div>
-      <div class="crp-item" data-page-node-id="Dz23GYiQHz3Fu1dlmKddSa"><span class="crp-box" data-page-node-id="DshEIGPtRtA9RTMy0Kdcfz">☐</span>能一句话讲清产品价值</div>
-      <div class="crp-item" data-page-node-id="94h7Am9FaPX7AQnPTYGi4E"><span class="crp-box" data-page-node-id="Eo4ZCDvTF6QYBqD5PAPSNJ">☐</span>有用户愿意付费</div>
-      <div class="crp-item" data-page-node-id="F953uoc3Fyy4g5ECcrztpn"><span class="crp-box" data-page-node-id="NnkT39R6NYrN6jjtCnz3aq">☐</span>每周看一次核心数据</div>
-      <div class="crp-item" data-page-node-id="0Ulq8Hg0Yg6eve4VKlMG7H"><span class="crp-box" data-page-node-id="1paKky1gmhMws7HZLAQSAA">☐</span>有明确的北极星指标</div>
-      <div class="crp-item" data-page-node-id="JLTfyfi0V8AMCiy5cRx9ty"><span class="crp-box" data-page-node-id="4BSagUAib4QGkgSEN6oE7V">☐</span>现金流能支撑12个月</div>
-      <div class="crp-item" data-page-node-id="GhSH2MLJ6Uti0EG1V11Ny9"><span class="crp-box" data-page-node-id="oi83aYZPDW3dUk4lAngJnx">☐</span>团队分工清晰不重叠</div>
+  <div class="crp-card">
+    <div class="crp-title">📋 创业基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="crpCnt_startup" style="color:#f97316;">0</b>/7 · 自动保存</span></div>
+    <div>
+      <div class="crp-item"><span class="crp-box">☐</span>访谈过10个目标用户</div>
+      <div class="crp-item"><span class="crp-box">☐</span>能一句话讲清产品价值</div>
+      <div class="crp-item"><span class="crp-box">☐</span>有用户愿意付费</div>
+      <div class="crp-item"><span class="crp-box">☐</span>每周看一次核心数据</div>
+      <div class="crp-item"><span class="crp-box">☐</span>有明确的北极星指标</div>
+      <div class="crp-item"><span class="crp-box">☐</span>现金流能支撑12个月</div>
+      <div class="crp-item"><span class="crp-box">☐</span>团队分工清晰不重叠</div>
     </div>
   </div>
   <script>
@@ -711,7 +710,7 @@
       });
     });
     var items=wrap.querySelectorAll('.crp-item');
-    var state={}; try{var _sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(_sv&&_sv._d===new Date().toISOString().slice(0,10)){state=_sv.s||{}}}catch(e){}
+    var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
     function render(){
       var d=0;
       items.forEach(function(it,i){
@@ -724,7 +723,7 @@
     items.forEach(function(it,i){
       it.addEventListener('click',function(){
         state[i]=!state[i];
-        try{localStorage.setItem(KEY,JSON.stringify({_d:new Date().toISOString().slice(0,10),s:state}))}catch(e){}
+        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
         render();
       });
     });
@@ -733,79 +732,79 @@
   </script>
 </div>
 
-    <div class="coach-intro" id="coachIntro" data-page-node-id="hHNWM1EswyuJJJjaQTWfKc">
-      <div class="coach-intro-icon" data-page-node-id="nyFD3xExt3LWpICsLpN4qT">🎓</div>
-      <div class="coach-intro-title" data-page-node-id="qllQuJRuQgbdCi7aTxB5I3">麦肯锡风格创业教练</div>
-      <div class="coach-intro-sub" data-page-node-id="zrgb79NRpdPUauP7c7AiQB">用结构化思维，3步搞定创业难题</div>
-      <div class="coach-method-steps" data-page-node-id="CajHqanPhPqCHb92cgMxdC">
-        <div class="method-step" data-page-node-id="FEo6b9tH078d8RyRDrvECG"><span class="step-num" data-page-node-id="HqQHkZ51zvz0Hz97LMtr3a">①</span> 界定问题<br data-page-node-id="dtQcUuh73o3jXaUwfzod9I"><span class="step-desc" data-page-node-id="Q5xJXgFLuTJ4ys24VAYA7F">明确核心冲突</span></div>
-        <div class="method-step" data-page-node-id="01DSScn8gRrbuUAXgVlACx"><span class="step-num" data-page-node-id="UAV0lxel3Bp7BNTczDmFqB">②</span> 结构化分析<br data-page-node-id="uV7FodEW4sJGp6RLEXHVWB"><span class="step-desc" data-page-node-id="nSAcYXmGZJM36wcSxvYXEW">MECE拆解根因</span></div>
-        <div class="method-step" data-page-node-id="Iz7bDYGCRiIgWDJCyAglJz"><span class="step-num" data-page-node-id="gL9OK7puz8GH43CSkSvmfx">③</span> 优先级行动<br data-page-node-id="fl4wudHnomud6yaHqs5iwg"><span class="step-desc" data-page-node-id="mgLP7kr0vgfbNU4sNADlyw">可执行的下一步</span></div>
+    <div class="coach-intro" id="coachIntro">
+      <div class="coach-intro-icon">🎓</div>
+      <div class="coach-intro-title">麦肯锡风格创业教练</div>
+      <div class="coach-intro-sub">用结构化思维，3步搞定创业难题</div>
+      <div class="coach-method-steps">
+        <div class="method-step"><span class="step-num">①</span> 界定问题<br><span class="step-desc">明确核心冲突</span></div>
+        <div class="method-step"><span class="step-num">②</span> 结构化分析<br><span class="step-desc">MECE拆解根因</span></div>
+        <div class="method-step"><span class="step-num">③</span> 优先级行动<br><span class="step-desc">可执行的下一步</span></div>
       </div>
-      <button class="coach-start-btn" onclick="startCoach()" data-page-node-id="e4tNHDMPth3ulsnsZrOiZi">开始深度对话 →</button>
-      <div class="coach-intro-note" data-page-node-id="1kgRFCZJqBdqsrCEHS70Zz">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
+      <button class="coach-start-btn" onclick="startCoach()">开始深度对话 →</button>
+      <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
     </div>
 
     <!-- 对话界面 -->
-    <div class="coach-chat" id="coachChat" style="display:none;" data-page-node-id="i2O1FGpAQfa4GhhHG19TtV">
-      <div class="coach-progress-bar" data-page-node-id="l8lpsjEq2EtUAtIvrIB6Lw">
-        <div class="progress-step active" id="progressStep1" data-page-node-id="rtmKIaTwNA709npkBQRvdE">① 界定问题</div>
-        <div class="progress-step" id="progressStep2" data-page-node-id="fSe2mxwjCloNg8krWANlMs">② 结构化分析</div>
-        <div class="progress-step" id="progressStep3" data-page-node-id="eztAhfqWbAWTX4txBVsrss">③ 优先级行动</div>
+    <div class="coach-chat" id="coachChat" style="display:none;">
+      <div class="coach-progress-bar">
+        <div class="progress-step active" id="progressStep1">① 界定问题</div>
+        <div class="progress-step" id="progressStep2">② 结构化分析</div>
+        <div class="progress-step" id="progressStep3">③ 优先级行动</div>
       </div>
-      <div class="chat-messages" id="chatMessages" data-page-node-id="NZh6JKhf9TJkiif61rRny7"></div>
-      <div class="coach-prompt" id="coachPrompt" style="display:none;" data-page-node-id="vdqG7OCmy8GT9xb0pCCzrN">
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="coach-prompt" id="coachPrompt" style="display:none;">
         💡 请在下方输入框中回复...
       </div>
-      <div class="chat-input-area" id="chatInputArea" data-page-node-id="q94gmXrEhuhne2E2Hq8agW">
+      <div class="chat-input-area" id="chatInputArea">
         <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
-        <button class="chat-send-btn" onclick="sendCoachMsg()" data-page-node-id="7Fn8RIwSr0I2oujiPDP6Fc">发送</button>
+        <button class="chat-send-btn" onclick="sendCoachMsg()">发送</button>
       </div>
       <!-- 按钮式问答容器 -->
-      <div class="coach-buttons" id="coachButtons" style="display:none;" data-page-node-id="6AhLnDCw7PwVtgACjbn1YQ">
-        <div class="coach-btn-prompt" id="coachBtnPrompt" data-page-node-id="TZY8o72xDnXcUyMpkdW5Et"></div>
-        <div class="coach-btn-list" id="coachBtnList" data-page-node-id="OiSl9CyksItNEhgXZAH3S8"></div>
+      <div class="coach-buttons" id="coachButtons" style="display:none;">
+        <div class="coach-btn-prompt" id="coachBtnPrompt"></div>
+        <div class="coach-btn-list" id="coachBtnList"></div>
       </div>
     </div>
 
     <!-- 诊断报告页 -->
-    <div class="coach-report-mckinsey" id="coachReport" style="display:none;" data-page-node-id="iFqse4Egil8TvmeNu0qHtd">
-      <div class="report-header" data-page-node-id="ctwumK24XGofHyHbnE5jrA">
-        <div class="report-icon" data-page-node-id="blwkCSiH4M9PC5Or5qo73J">📊</div>
-        <div class="report-title" data-page-node-id="nVhV7k9OEMdkKgyOkxElTH">麦肯锡风格创业诊断报告</div>
-        <div class="report-subtitle" data-page-node-id="G5BqxhYw9W9LKTN97rkJZ6">基于结构化分析框架 · MECE原则 · 行动导向</div>
+    <div class="coach-report-mckinsey" id="coachReport" style="display:none;">
+      <div class="report-header">
+        <div class="report-icon">📊</div>
+        <div class="report-title">麦肯锡风格创业诊断报告</div>
+        <div class="report-subtitle">基于结构化分析框架 · MECE原则 · 行动导向</div>
       </div>
-      <div class="report-core-conclusion" id="reportCoreConclusion" data-page-node-id="N4wcC4TLBeaOvThbs41Li8"></div>
-      <div class="report-mece-analysis" id="reportMECE" data-page-node-id="TPsjOXA5S3BHv9YGrzJL19"></div>
-      <div class="report-priority-actions" id="reportActions" data-page-node-id="Sp28Mr9vc6IYJZ2hxNM4oh"></div>
-      <div class="report-next-step" id="reportNextStep" data-page-node-id="yYEb0ittRF9hDvNXQ2ywbU"></div>
-      <button class="coach-restart-btn" onclick="restartCoach()" data-page-node-id="MwrEwHfwbx8Ev8tK64Ksgq">🔄 重新对话</button>
+      <div class="report-core-conclusion" id="reportCoreConclusion"></div>
+      <div class="report-mece-analysis" id="reportMECE"></div>
+      <div class="report-priority-actions" id="reportActions"></div>
+      <div class="report-next-step" id="reportNextStep"></div>
+      <button class="coach-restart-btn" onclick="restartCoach()">🔄 重新对话</button>
     </div>
   </div>
 </div>
 
 <!-- 底部 Tab Bar -->
-<div class="tab-bar" data-page-node-id="V1qysn1JjXrMNMH5MTwFYi">
-  <div class="tab-item active" onclick="switchTab('chat', event)" data-page-node-id="53U9C3gwX7jjDGt9DKGwfN">
-    <div class="tab-icon" data-page-node-id="xxbeIjiE14wnjNhgmeHBLX">🏠</div><div class="tab-label" data-page-node-id="xMn7WeReJa3NvcDlMI5DW1">搭子</div>
+<div class="tab-bar">
+  <div class="tab-item active" onclick="switchTab('chat', event)">
+    <div class="tab-icon">🏠</div><div class="tab-label">搭子</div>
   </div>
-  <div class="tab-item" onclick="switchTab('coach', event)" data-page-node-id="LC9mRcIvyMoiVtcOUfIPea">
-    <div class="tab-icon" data-page-node-id="4MzlIGLm4quGRNLcHVAitB">🎓</div><div class="tab-label" data-page-node-id="ZgMqIiTbCjSRSeHuNbwDVV">教练</div>
+  <div class="tab-item" onclick="switchTab('coach', event)">
+    <div class="tab-icon">🎓</div><div class="tab-label">教练</div>
   </div>
-  <div class="tab-item" onclick="switchTab('sop', event)" data-page-node-id="H4CS13k3OaXEC939CuAxgB">
-    <div class="tab-icon" data-page-node-id="UrScNBfEZY0f9uGIvmOouy">📋</div><div class="tab-label" data-page-node-id="fZNOsOvVZq5ticma6avV9J">自检</div>
+  <div class="tab-item" onclick="switchTab('sop', event)">
+    <div class="tab-icon">📋</div><div class="tab-label">自检</div>
   </div>
-  <div class="tab-item" onclick="switchTab('checkin', event)" data-page-node-id="VPaXxOlfeCwavvNjBZhMUH">
-    <div class="tab-icon" data-page-node-id="ohy6sOaJMQz4Ryu21L2X9E">✅</div><div class="tab-label" data-page-node-id="4L3r28BehGd5QDmDdiqEhc">打卡</div>
+  <div class="tab-item" onclick="switchTab('checkin', event)">
+    <div class="tab-icon">✅</div><div class="tab-label">打卡</div>
   </div>
-  <div class="tab-item" onclick="switchTab('data', event)" data-page-node-id="ZX0T52nhCE8F4DRoJUo22S">
-    <div class="tab-icon" data-page-node-id="Oqo2z8JCocfwCZQpnHGuN4">📊</div><div class="tab-label" data-page-node-id="dgO2VahvKgCaQpqUpgSGap">毛利</div>
+  <div class="tab-item" onclick="switchTab('data', event)">
+    <div class="tab-icon">📊</div><div class="tab-label">毛利</div>
   </div>
-  <div class="tab-item" onclick="switchTab('progress', event)" data-page-node-id="r07z2XT6qrbmA18jcFcnGV">
-    <div class="tab-icon" data-page-node-id="lJvJZChisIfc6cm28IwaMs">📈</div><div class="tab-label" data-page-node-id="0yCNsRU2H2ScYlUDNNfCeG">进展</div>
+  <div class="tab-item" onclick="switchTab('progress', event)">
+    <div class="tab-icon">📈</div><div class="tab-label">进展</div>
   </div>
-  <div class="tab-item" onclick="switchTab('share', event)" data-page-node-id="oUGunBYOhCDqkgvdJehdFg">
-    <div class="tab-icon" data-page-node-id="PjEeLgAAUpzZxOrOG95t7w">🚀</div><div class="tab-label" data-page-node-id="r4VXk9lF55YNQqeah0xoO2">出发</div>
+  <div class="tab-item" onclick="switchTab('share', event)">
+    <div class="tab-icon">🚀</div><div class="tab-label">出发</div>
   </div>
 </div>
 
@@ -994,30 +993,7 @@ function getContinuousDays() {
 }
 
 // ===== 黄金标准辅助函数 =====
-function getSOPData() { var d = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); return _sopDailyReset(d, STORAGE.SOP); }
-// 新的一天自动归零（2026-09-06）：读取入口校验日期，昨日未提交成绩补归档后重置，不再依赖切换 tab 触发
-function _sopDailyReset(d, sopKey, extra) {
-  try {
-    var today = new Date().toISOString().slice(0,10);
-    if (d && d.date && d.date !== today) {
-      var hasData = (d.score > 0) || (d.selected && Object.keys(d.selected).length > 0) || d.done;
-      if (hasData && (typeof getSOPHistory === 'function') && (typeof saveSOPToHistory === 'function')) {
-        try {
-          var _hist = getSOPHistory();
-          if (!_hist.some(function(h){ return h && h.date === d.date; })) {
-            saveSOPToHistory({ date: d.date, score: d.score || 0 });
-          }
-        } catch(e) {}
-      }
-      var _reset = { score: 0, selected: {}, done: false, date: today, submittedCats: [] };
-      if (extra) { for (var k in extra) { _reset[k] = extra[k]; } }
-      try { localStorage.setItem(sopKey, JSON.stringify(_reset)); } catch(e) {}
-      return _reset;
-    }
-  } catch(e) {}
-  return d;
-}
-setTimeout(function(){ try { getSOPData(); } catch(e) {} }, 0);
+function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); }
 function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); }
 function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
 function saveSOPStreaks(d) { localStorage.setItem(STORAGE.SOP_STREAKS, JSON.stringify(d)); }
@@ -1105,12 +1081,7 @@ function renderCheckinPage() {
   </div>`;
   html += `<div class="interaction-panel" id="interactionPanel" style="display:none">
     <div class="panel-label">💬 告诉搭子你现在的状态</div>
-    <div class="mood-row" id="moodRow">
-      <div class="mood-btn" data-mood="happy" title="干劲满满" onclick="sendMood('happy')">😄</div>
-      <div class="mood-btn" data-mood="neutral" title="平稳推进" onclick="sendMood('neutral')">😌</div>
-      <div class="mood-btn" data-mood="sad" title="有点受挫" onclick="sendMood('sad')">😔</div>
-      <div class="mood-btn" data-mood="tired" title="累但值得" onclick="sendMood('tired')">😫</div>
-    </div>
+    <div class="mood-row" id="moodRow"></div>
     <div class="panel-label" style="margin-top:10px">🚀 想聊点什么？</div>
     <div class="talk-btn-row">
       <button class="talk-btn" data-type="progress">📈 进展</button>
@@ -1122,19 +1093,17 @@ function renderCheckinPage() {
       <button class="talk-btn" data-type="report">📣 汇报进展</button>
       <button class="talk-btn" data-type="question">🤔 有问题想问</button>
     </div>
-    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene">💭 今天发生了什么</button></div>
   </div>`;
 
   // 分享入口
-  html += `<!-- 📌 今天提醒自己 -->
-    <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#fff3e8,#ffe9d6);border-radius:18px;padding:14px 16px;font-size:13px;color:#c04a00;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-        <span style="font-size:18px;">📌</span>
-        <span style="font-weight:700;">今天提醒自己</span>
-        <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
-      </div>
-      <div id="dailyTipText">毛利是尊严，现金流是生命线</div>
-    </div>`;
+  html += `<div class="share-inline-card" id="shareInline" style="display:none">
+    <div class="share-inline-label">🚀 邀请更多创业者一起同行</div>
+    <div class="share-inline-preview">🔥 创业搭子 · 每日复盘 · 已坚持 ${streak} 天</div>
+    <div class="share-copy-row">
+      <button class="share-copy-btn" onclick="copyShareLink()">📋 复制链接</button>
+      <button class="share-link-btn" onclick="switchTab('share')">🚀 分享页</button>
+    </div>
+  </div>`;
 
   // 历史趋势
   const recentHist = hist.slice(-7);
@@ -1159,7 +1128,7 @@ function renderCheckinPage() {
     document.getElementById('mainCheckin').style.display = 'block';
     document.getElementById('chatArea').style.display = 'block';
     document.getElementById('interactionPanel').style.display = 'block';
-    var dtEl = document.getElementById('dailyTip'); if (dtEl) dtEl.style.display = 'block';
+    document.getElementById('shareInline').style.display = 'block';
     if (recentHist.length > 1) document.getElementById('historySection').style.display = 'block';
     const p = PARTNER_STYLES[selectedPartner];
     document.getElementById('partnerBadge').textContent = `🤝 ${p.emoji} ${p.name}`;
@@ -1193,7 +1162,7 @@ function confirmPartner() {
   document.getElementById('mainCheckin').style.display = 'block';
   document.getElementById('chatArea').style.display = 'block';
   document.getElementById('interactionPanel').style.display = 'block';
-  var dtEl = document.getElementById('dailyTip'); if (dtEl) dtEl.style.display = 'block';
+  document.getElementById('shareInline').style.display = 'block';
   const p = PARTNER_STYLES[selectedPartner];
   document.getElementById('partnerBadge').textContent = `🤝 ${p.emoji} ${p.name}`;
   if (!todayChecked) showPartnerGreeting();
@@ -1405,7 +1374,6 @@ let currentQAType = '';
 let currentQADir = '';
 
 function askPartner(type) {
-  if (type === 'scene') { openSceneSheet(); return; }
   const p = PARTNER_STYLES[selectedPartner];
   const style = p ? p.style : '战友';
   const emoji = p ? p.emoji : '🚀';
@@ -1823,7 +1791,7 @@ function renderSOPCats() {
       : doneCount > 0
       ? '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff9800;margin-left:4px;vertical-align:middle;"></span>'
       : '';
-    return '<button class="sop-cat-tab' + (i === sopCatIdx ? ' active' : '') + '" onclick="switchSOPCat(' + i + ')">' + c.name + dot + '</button>';
+    return '<button class="sop-cat-tab' + (i === sopCatIdx ? ' active' : '') + '" onclick="switchSOPCat(' + i + ')">' + c.icon + ' ' + c.name + dot + '</button>';
   }).join('');
 }
 
@@ -2435,32 +2403,24 @@ function renderShare() {
 
   document.getElementById('page-share').innerHTML = `
     <div class="share-page">
-      <div class="share-card" style="border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);">
-        <div class="share-title">🚀 我的创业复盘</div>
+      <div class="share-card">
+        <div class="share-title">🚀 创业搭子 · 每日复盘</div>
+        <div class="share-sub">分享你的进展，邀请更多创业者同行</div>
         <div class="share-stat-grid">
-          <div class="share-stat" style="background:#fff8f0;border-radius:12px;padding:10px 6px;"><div class="share-stat-num" style="color:#f97316;">${streak}</div><div class="share-stat-label">连续天数</div></div>
-          <div class="share-stat" style="background:#fff8f0;border-radius:12px;padding:10px 6px;"><div class="share-stat-num" style="color:#f97316;">${totalDays}</div><div class="share-stat-label">累计天数</div></div>
-          <div class="share-stat" style="background:#fff8f0;border-radius:12px;padding:10px 6px;"><div class="share-stat-num" style="color:#f97316;">${pct}%</div><div class="share-stat-label">平均得分</div></div>
+          <div class="share-stat"><div class="share-stat-num">${streak}</div><div class="share-stat-label">连续天数</div></div>
+          <div class="share-stat"><div class="share-stat-num">${totalDays}</div><div class="share-stat-label">累计天数</div></div>
+          <div class="share-stat"><div class="share-stat-num">${pct}%</div><div class="share-stat-label">平均得分</div></div>
+          <div class="share-stat"><div class="share-stat-num">${SOP_CATEGORIES.length}</div><div class="share-stat-label">复盘维度</div></div>
         </div>
-        <div style="margin-top:12px;background:linear-gradient(135deg,#fff3e0,#ffe0b2);border-radius:14px;padding:16px;">
-          <div style="font-size:13px;color:#e65100;line-height:1.8;font-weight:600;">${shareMsg}</div>
+        <div class="share-msg-box">
+          <div class="share-msg-text">"${shareMsg}"</div>
         </div>
+        <a class="share-cta" href="${shareLink}">🚀 立即开始创业复盘</a>
       </div>
-      <div class="share-card" style="border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);">
-        <div class="share-title">🚀 创业搭子 · 邀请同行</div>
-        <div style="margin-top:12px;background:linear-gradient(135deg,#fff3e0,#ffe0b2);border-radius:14px;padding:18px 14px;text-align:center;margin-bottom:14px;">
-          <div style="font-size:42px;margin-bottom:6px;">🚀</div>
-          <div style="font-size:15px;font-weight:700;color:#e65100;margin-bottom:4px;">创业搭子</div>
-          <div style="font-size:13px;color:#8d6e63;line-height:1.6;margin-bottom:6px;">5 个维度看清创业全局<br>每天 5 分钟复盘，坚持比灵感更重要</div>
-          <div style="font-size:11px;color:#f97316;">验证 · 闭环 · 增长 · 团队 · 现金流</div>
-        </div>
-        <div style="font-size:14px;font-weight:700;color:#2b3a4a;margin-bottom:10px;">📋 自检覆盖维度</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
-          ${SOP_CATEGORIES.map(function(c){ return '<div style="background:#fff8f0;border-radius:12px;padding:10px 6px;text-align:center;"><div style="font-size:12px;font-weight:600;color:#e65100;">' + c.name + '</div></div>'; }).join('')}
-        </div>
-        <div style="font-size:14px;font-weight:700;color:#2b3a4a;margin-bottom:10px;">🔗 邀请链接</div>
-        <div style="background:#fff8f0;border-radius:12px;padding:12px 14px;font-size:13px;color:#e65100;word-break:break-all;margin-bottom:12px;">${shareLink}</div>
-        <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#f97316,#ea580c);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(249,115,22,0.3);">📋 复制邀请链接</button>
+      <div class="share-card">
+        <div style="font-size:14px;font-weight:700;color:#1a237e;margin-bottom:10px">📎 分享创业搭子给朋友</div>
+        <div class="share-url-box">${shareLink}</div>
+        <button class="share-copy-url-btn" onclick="copyShareLink()">📋 复制链接</button>
       </div>
     </div>`;
 }
@@ -2474,52 +2434,52 @@ document.addEventListener('DOMContentLoaded', function() {
   <script src="coach.js"></script>
 
 <!-- ===== QA面板 ===== -->
-<div class="qa-overlay" id="qaOverlay" onclick="if(event.target===this)closeQAPanel()" data-page-node-id="0Z6YoPso75cOH1rx6nI3La">
-  <div class="qa-panel" data-page-node-id="hOoajrMIDRm53booHqNgiC">
-    <div class="qa-header" data-page-node-id="d2ypMOOTexvPckFXIVTzFQ">
-      <div class="qa-title" id="qaTitle" data-page-node-id="PHMReT0g3I6OLCFX4ACXkU">🤔 有问题想问</div>
-      <div class="qa-sub" id="qaSub" data-page-node-id="AyOvtwGtrGKKJLPdoQzkAs">选择你最想了解的方面</div>
-      <button class="qa-close" onclick="closeQAPanel()" data-page-node-id="00lHeRVTv0msn5KeDIgZ4x">✕</button>
+<div class="qa-overlay" id="qaOverlay" onclick="if(event.target===this)closeQAPanel()">
+  <div class="qa-panel">
+    <div class="qa-header">
+      <div class="qa-title" id="qaTitle">🤔 有问题想问</div>
+      <div class="qa-sub" id="qaSub">选择你最想了解的方面</div>
+      <button class="qa-close" onclick="closeQAPanel()">✕</button>
     </div>
-    <div class="qa-scroll" id="qaScroll" data-page-node-id="RFSYOQ3Vmf00vc6tQ8IwNv"></div>
+    <div class="qa-scroll" id="qaScroll"></div>
   </div>
 </div>
 
 <!-- ===== 反馈弹窗 ===== -->
-<div class="fb-overlay" id="fbOverlay" onclick="if(event.target===this)closeFeedback()" data-page-node-id="WyUnlRH0voZksAkbJDXIDi">
-  <div class="fb-card" id="fbCard" data-page-node-id="vam3wuAWXWcRBKu5h0U95U">
-    <div class="fb-emoji" id="fbEmoji" data-page-node-id="OD08kgK5ZKjMAAVdqwZffk">✨</div>
-    <div class="fb-label" id="fbLabel" data-page-node-id="xR6kEjUc72UZvCbNL8ANe5">正向</div>
-    <div class="fb-title" id="fbTitle" data-page-node-id="658DyiRGKA4huLjb49lHJy"></div>
-    <div class="fb-text" id="fbText" data-page-node-id="Gr4Q0mIYX08W2tv0gbxsif"></div>
-    <div class="fb-partner-quote" id="fbQuote" data-page-node-id="GtEcNQ3s0d1Bg2m1emstYq"></div>
-    <button class="fb-btn" onclick="closeFeedback()" data-page-node-id="DO5ZlGhmr9mlH6DVElkV0U">✅ 知道了</button>
+<div class="fb-overlay" id="fbOverlay" onclick="if(event.target===this)closeFeedback()">
+  <div class="fb-card" id="fbCard">
+    <div class="fb-emoji" id="fbEmoji">✨</div>
+    <div class="fb-label" id="fbLabel">正向</div>
+    <div class="fb-title" id="fbTitle"></div>
+    <div class="fb-text" id="fbText"></div>
+    <div class="fb-partner-quote" id="fbQuote"></div>
+    <button class="fb-btn" onclick="closeFeedback()">✅ 知道了</button>
   </div>
 <!-- ===== SOP 单维度小结弹窗 ===== -->
-<div class="sop-finish-overlay" id="catSummaryOverlay" data-page-node-id="2oUP6rLMJcreO5GwrG0zlk"></div>
+<div class="sop-finish-overlay" id="catSummaryOverlay"></div>
 
 <!-- ===== SOP 全部完成弹窗 ===== -->
-<div class="sop-finish-overlay" id="sopFinishOverlay" data-page-node-id="znfEPzh2jusLk8Y0M8R8Lv"></div>
+<div class="sop-finish-overlay" id="sopFinishOverlay"></div>
 
 <!-- ===== 负向行为批评弹窗 ===== -->
-<div class="neg-critic-overlay" id="negCriticOverlay" data-page-node-id="DfVs1JgSEe2Qg4Zm5u3t6y">
-  <div class="neg-critic-card" data-page-node-id="RRcTPUoT97H2yNdPS2XIlg">
-    <div class="neg-critic-emoji" id="negEmoji" data-page-node-id="G8rEmdE3R8yWceXdqvhdUA">⚠️</div>
-    <div class="neg-critic-title" id="negTitle" data-page-node-id="w25XiawJJ7bzGKHFTNe8Mw">这个习惯需要注意</div>
-    <div class="neg-critic-desc" id="negDesc" data-page-node-id="HxJ8teO6c5bVihfFLQqsxd"></div>
-    <div class="neg-critic-reply" id="negReply" data-page-node-id="ZhIDLIFPQ9k7lz8pkTBAXn"></div>
-    <div class="neg-critic-row" data-page-node-id="P4TipOPjDfLdCiLqlSeJzs">
-      <button class="neg-btn yes" onclick="negYes()" data-page-node-id="x7iyd4W1Vc4xO74Y9WvDG9">✅ 知道了</button>
+<div class="neg-critic-overlay" id="negCriticOverlay">
+  <div class="neg-critic-card">
+    <div class="neg-critic-emoji" id="negEmoji">⚠️</div>
+    <div class="neg-critic-title" id="negTitle">这个习惯需要注意</div>
+    <div class="neg-critic-desc" id="negDesc"></div>
+    <div class="neg-critic-reply" id="negReply"></div>
+    <div class="neg-critic-row">
+      <button class="neg-btn yes" onclick="negYes()">✅ 知道了</button>
     </div>
   </div>
 </div>
 
 <!-- ===== 正向奖励弹窗 ===== -->
-<div class="pos-reward-overlay" id="posRewardOverlay" data-page-node-id="XIDCN1ym9Y2DKtKEqBlJJB">
-  <div class="pos-reward-card" id="posRewardCard" data-page-node-id="CHYzBI8UstC4VI025OjKFU">
-    <div class="pos-reward-emoji" id="posRewardEmoji" data-page-node-id="zcC6JVORDHpnNRCXHEQgO2">✨</div>
-    <div class="pos-reward-msg" id="posRewardMsg" data-page-node-id="xABbVtfCiliX4EpXxCMxeC"></div>
-    <div class="pos-reward-pts" id="posRewardPts" data-page-node-id="Cokp5XAGtJ2a8uX9FrTiBB">+0</div>
+<div class="pos-reward-overlay" id="posRewardOverlay">
+  <div class="pos-reward-card" id="posRewardCard">
+    <div class="pos-reward-emoji" id="posRewardEmoji">✨</div>
+    <div class="pos-reward-msg" id="posRewardMsg"></div>
+    <div class="pos-reward-pts" id="posRewardPts">+0</div>
   </div>
 </div>
 
@@ -2527,36 +2487,36 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- ===== Page: 进展 ===== -->
 
 <!-- ===== Page: 毛利 ===== -->
-<div id="page-data" class="page" data-page-node-id="MmK4llkDN7Ec00Slb2mSNc">
-  <div class="weight-page" data-page-node-id="wydLmXDINwhWebMVEHqYTZ">
-    <div class="weight-header" data-page-node-id="xDgU6dDswgTQpX8NCrFd1N">
-      <div class="weight-title" data-page-node-id="4GkvTGiwaOKC2Y0qKGTo1w">💰 毛利记录</div>
-      <div class="weight-sub" id="weightSummary" data-page-node-id="oAw50j11JVVUPXeFeMcXph">记录你的每一次变化</div>
-      <div class="weight-input-row" data-page-node-id="UhmXPVx8m3MH31B5tjUkxE">
-        <input class="weight-input" id="weightInput" type="number" step="0.01" min="0" max="9999999" placeholder="--" data-page-node-id="081n0Ozr9CJw730bgA3dha">
-        <span class="weight-unit" data-page-node-id="XNDc3pOh7BySDk0FdjVkWZ">¥</span>
-        <button class="weight-add-btn" onclick="addWeight()" data-page-node-id="zjnEimTU5rCmOUE1kFwUjJ">记录</button>
+<div id="page-data" class="page">
+  <div class="weight-page">
+    <div class="weight-header">
+      <div class="weight-title">💰 毛利记录</div>
+      <div class="weight-sub" id="weightSummary">记录你的每一次变化</div>
+      <div class="weight-input-row">
+        <input class="weight-input" id="weightInput" type="number" step="0.01" min="0" max="9999999" placeholder="--">
+        <span class="weight-unit">¥</span>
+        <button class="weight-add-btn" onclick="addWeight()">记录</button>
       </div>
     </div>
 
-    <div class="weight-chart-card" data-page-node-id="RMag8YR6N9kCEKZjFKdLsz">
-      <div class="chart-title" data-page-node-id="r8LcwFdVf6xS23MfWIU7Dw">📈 毛利曲线</div>
-      <div class="chart-sub" id="chartSub" data-page-node-id="C35i6bCb1MtNwF4Xr34pvI">坚持记录，趋势一目了然</div>
-      <canvas id="chartCanvas" width="380" height="200" data-page-node-id="XpRSoqM02fXMDI5P17hVdV"></canvas>
+    <div class="weight-chart-card">
+      <div class="chart-title">📈 毛利曲线</div>
+      <div class="chart-sub" id="chartSub">坚持记录，趋势一目了然</div>
+      <canvas id="chartCanvas" width="380" height="200"></canvas>
     </div>
 
     <!-- 每周进步报告 -->
-    <div class="weight-chart-card" id="weeklyReportCard" data-page-node-id="OgsU4X1UuBW1dHHBVBuFO1">
-      <div class="chart-title" data-page-node-id="nvt7kJT7AZKZxIvaWiSnj8">📊 本周进展</div>
-      <div id="weeklyReportContent" data-page-node-id="QTLAWqohoiZA45rzprkJBK">
-        <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;" data-page-node-id="GtpnTxlb3nvGw0CUGtdAPi">本周打卡后再来看进展报告 📝</div>
+    <div class="weight-chart-card" id="weeklyReportCard">
+      <div class="chart-title">📊 本周进展</div>
+      <div id="weeklyReportContent">
+        <div style="text-align:center;padding:16px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展报告 📝</div>
       </div>
-      <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b35,#ff9500);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareWeeklyReport()" data-page-node-id="wTIM7RBq9CWxy8tNLW8eGE">📤 分享本周进展</button>
+      <button id="shareWeeklyBtn" style="display:none;width:100%;margin-top:12px;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#ff6b35,#ff9500);color:white;font-size:14px;font-weight:600;cursor:pointer;" onclick="shareWeeklyReport()">📤 分享本周进展</button>
     </div>
 
-    <div class="weight-records" data-page-node-id="ZjNWqMCqgJbwMLAC2ezDFE">
-      <div class="records-title" data-page-node-id="B7HXPRHRncr8wPA1R5BWqM">📝 历史记录</div>
-      <div id="weightRecords" data-page-node-id="ZW4TfbHxamVSbuQk7sXFIr"></div>
+    <div class="weight-records">
+      <div class="records-title">📝 历史记录</div>
+      <div id="weightRecords"></div>
     </div>
   </div>
 </div>
@@ -2699,70 +2659,205 @@ function renderWeeklyReport() {
 </script>
 
 
-<script>
+<script>/* cc-enhance-v1 教练卡逐条确认 */
 (function(){
-  var TIPS = ['毛利是尊严，现金流是生命线', '先想清楚谁买单，再想产品做多好', '今天最重要的一件事是什么？先做它', '复盘不是追责，是找可复用的打法', '客户拒绝的话术，就是你下一版话术的素材', '别用战术勤奋掩盖战略懒惰', '今天上线一版丑的，好过明天完美的', '账要记到每一天，不是每个月'];
-  window.nextDailyTip = function() {
-    var el = document.getElementById("dailyTipText");
+  if (window.__ccEnhanced) return; window.__ccEnhanced = 1;
+  var PREFIX = '创业搭子';
+  var STORE = 'cc_' + PREFIX;
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch(e) { state = {}; }
+  function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){} }
+  function hash(t){ var h = 0; for (var i = 0; i < t.length; i++) { h = (h * 31 + t.charCodeAt(i)) | 0; } return 'h' + (h >>> 0).toString(36); }
+  window.ccToast = function(msg){
+    var t = document.getElementById('ccToast');
+    if (!t) {
+      t = document.createElement('div'); t.id = 'ccToast';
+      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg; t.style.opacity = '1';
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+  };
+  function apply(body){
+    if (body.getAttribute('data-cc-done')) return;
+    var html = body.innerHTML;
+    if (!/<br/i.test(html) && html.replace(/<[^>]*>/g, '').trim().length < 2) return;
+    var card = body.closest ? body.closest('.crp-card') : null;
+    var title = '';
+    if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
+    var parts = html.split(/<br\s*\/?>/i);
+    var out = '', n = 0;
+    for (var k = 0; k < parts.length; k++) {
+      var seg = parts[k].trim();
+      var txt = seg.replace(/<[^>]*>/g, '').trim();
+      if (!txt) continue;
+      var id = hash(PREFIX + '|' + title + '|' + txt.slice(0, 48));
+      var on = !!state[id];
+      out += '<div class="cc-row' + (on ? ' done' : '') + '"><div class="cc-txt">' + seg + '</div>'
+           + '<span class="cc-chip' + (on ? ' on' : '') + '" data-ccid="' + id + '">' + (on ? '\u2713 已记住' : '标记记住') + '</span></div>';
+      n++;
+    }
+    if (!n) return;
+    body.innerHTML = out;
+    body.setAttribute('data-cc-done', '1');
+  }
+  function process(){
+    var bodies = document.querySelectorAll('.crp-card .crp-stage-body');
+    for (var i = 0; i < bodies.length; i++) { try { apply(bodies[i]); } catch(e) {} }
+  }
+  document.addEventListener('click', function(ev){
+    var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
     if (!el) return;
-    el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
-  };
+    ev.preventDefault();
+    var id = el.getAttribute('data-ccid');
+    if (state[id]) { delete state[id]; } else { state[id] = 1; }
+    save();
+    var on = !!state[id];
+    var row = el.closest('.cc-row');
+    if (row) row.classList.toggle('done', on);
+    el.classList.toggle('on', on);
+    el.innerHTML = on ? '\u2713 已记住' : '标记记住';
+    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+  });
+  var css = document.createElement('style');
+  css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
+    + '.cc-row:last-child{border-bottom:none;}'
+    + '.cc-txt{flex:1;min-width:0;font-size:13px;line-height:1.7;color:#37474f;}'
+    + '.cc-row.done .cc-txt{color:#b6b6b6;text-decoration:line-through;}'
+    + '.cc-chip{flex-shrink:0;font-size:11px;padding:3px 9px;border-radius:12px;border:1.5px solid #dcdcdc;color:#909090;cursor:pointer;user-select:none;white-space:nowrap;margin-top:2px;transition:all .15s;}'
+    + '.cc-chip:active{transform:scale(.94);}'
+    + '.cc-chip.on{background:#eaf7ea;border-color:#54b26a;color:#2e7d32;font-weight:700;}';
+  document.head.appendChild(css);
+  function boot(){ try { process(); } catch(e) {} }
+  setTimeout(boot, 300);
+  setTimeout(boot, 1500);
+  try {
+    var mo = new MutationObserver(function(){ setTimeout(boot, 80); });
+    mo.observe(document.body, { childList: true, subtree: true });
+  } catch(e) {}
 })();
-
-// ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
-const SCENE_DATA = {"pos": [{"icon": "💰", "tag": "算毛利", "title": "今天算清了渠道毛利", "text": "毛利是尊严，不算账就是盲飞", "quote": "🚀 搭子：算得清账的老板，才配谈增长"}, {"icon": "🤝", "tag": "见客户", "title": "主动拜访/联系了一个客户", "text": "关系是跑出来的，不是等出来的", "quote": "🚀 搭子：客户记得的是主动出现的人"}, {"icon": "💵", "tag": "回款", "title": "推进了一笔应收回款", "text": "现金流断了，利润再高也是纸", "quote": "🚀 搭子：回款到账，睡得踏实"}, {"icon": "✂️", "tag": "砍成本", "title": "砍掉了一个亏损SKU/投放", "text": "止损是最高级的盈利", "quote": "🚀 搭子：敢砍，才是真经营"}, {"icon": "📊", "tag": "复盘投放", "title": "复盘了一次投放ROI", "text": "数据不复盘，预算打水漂", "quote": "🚀 搭子：每次复盘都在给下次省预算"}, {"icon": "🧭", "tag": "授权", "title": "把一件执行小事授权出去了", "text": "老板的时间该花在杠杆上", "quote": "🚀 搭子：你从执行里抽身1小时，就多1小时思考"}, {"icon": "🔍", "tag": "看对手", "title": "研究了一个竞品的动作", "text": "知己知彼，定价才有底气", "quote": "🚀 搭子：对手是最好的免费教材"}, {"icon": "🧯", "tag": "防风险", "title": "提前核对了一次平台规则/合同", "text": "一次合规，省掉十次救火", "quote": "🚀 搭子：稳住，才能活得久"}], "neg": [{"icon": "📉", "tag": "只看收入", "title": "只盯GMV没算利润", "text": "流水的幻觉会掏空账户", "quote": "🚀 搭子：收入是面子，利润是里子"}, {"icon": "🕳️", "tag": "亏本单", "title": "接了个不赚钱还累的活", "text": "廉价的忙碌填不满现金流", "quote": "🚀 搭子：学会说不，是经营的成人礼"}, {"icon": "📦", "tag": "压库存", "title": "库存又压多了", "text": "库存是冻结的现金", "quote": "🚀 搭子：备货按最小可行来，卖动再加"}, {"icon": "🧾", "tag": "账混乱", "title": "今天的账又没对上", "text": "账乱一个月，年底两行泪", "quote": "🚀 搭子：每天十分钟对账，省年底十天"}, {"icon": "🔥", "tag": "烧钱", "title": "投放烧了钱没转化", "text": "没有归因的投放是赌博", "quote": "🚀 搭子：先小预算试，跑通再加"}, {"icon": "😮‍💨", "tag": "瞎忙", "title": "全天救火没干正事", "text": "天天救火说明系统有洞", "quote": "🚀 搭子：灭火之外，留30分钟修漏洞"}, {"icon": "🤐", "tag": "不敢谈", "title": "该涨价/该谈判的没敢谈", "text": "你不涨价，成本替你涨价", "quote": "🚀 搭子：谈钱不伤感情，不谈才伤生意"}, {"icon": "🛌", "tag": "拖延", "title": "重要的事又拖了一天", "text": "拖延的利息比贷款还高", "quote": "🚀 搭子：拆成15分钟的第一步，现在就做"}]};
-function openSceneSheet() {
-  document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
-  document.getElementById('qaSub').innerText = '点一下 · 让搭子回应你 · 不计入打卡';
-  const scroll = document.getElementById('qaScroll');
-  scroll.innerHTML = '';
-  const mk = (type, label, color) => {
-    const list = SCENE_DATA[type] || [];
-    if (!list.length) return;
-    const lbl = document.createElement('div');
-    lbl.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;';
-    lbl.innerText = label;
-    scroll.appendChild(lbl);
-    list.forEach((item, i) => {
-      const card = document.createElement('div');
-      card.className = 'qa-card ' + type;
-      card.style.cssText = 'flex-direction:row;align-items:center;justify-content:flex-start;gap:10px;text-align:left;grid-column:1 / -1;width:100%;';
-      const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
-        (type === 'pos' ? 'background:#7c7fea;color:white;' : 'background:#b07cd6;color:white;');
-      card.innerHTML = '<div style="font-size:22px;flex-shrink:0;line-height:1;">' + item.icon + '</div>' +
-        '<div style="font-size:14px;font-weight:600;color:#37474f;flex:1;line-height:1.5;">' + item.title + '</div>' +
-        '<span style="' + tagStyle + '">' + item.tag + '</span>';
-      card.onclick = () => {
-        closeQAPanelSafe();
-        setTimeout(() => openSceneFB(i, type), 300);
-      };
-      scroll.appendChild(card);
-    });
-  };
-  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#43a047');
-  mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
-  document.getElementById('qaOverlay').classList.add('show');
-  document.getElementById('qaOverlay').onclick = function(e) {
-    if (e.target === document.getElementById('qaOverlay')) closeQAPanelSafe();
-  };
-}
-function closeQAPanelSafe() {
-  if (typeof closeQAPanel === 'function') { closeQAPanel(); return; }
-  document.getElementById('qaOverlay').classList.remove('show');
-}
-function openSceneFB(idx, type) {
-  const item = SCENE_DATA[type] && SCENE_DATA[type][idx];
-  if (!item) return;
-  const card = document.getElementById('fbCard');
-  if (card) card.className = 'fb-card ' + type;
-  const em = document.getElementById('fbEmoji'); if (em) em.innerText = item.icon;
-  const lb = document.getElementById('fbLabel'); if (lb) lb.innerText = (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag;
-  const tt = document.getElementById('fbTitle'); if (tt) tt.innerText = item.title;
-  const tx = document.getElementById('fbText'); if (tx) tx.innerText = item.text;
-  const qt = document.getElementById('fbQuote'); if (qt) qt.innerText = item.quote;
-  document.getElementById('fbOverlay').classList.add('show');
-}
 </script>
 
+<!-- std-buddy-tab-v1: 关键动作 + 提醒自己 + 场景弹窗 -->
+<div id="stdKey3" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+    <span style="font-size:18px;">🎯</span>
+    <span style="font-weight:700;font-size:14px;color:#333;">🎯 今日 3 个创业关键动作</span>
+  </div>
+  <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
+  <div id="stdKey3List"></div>
+</div>
+<div id="stdDailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#fff3e0,#ffe9d6);border-radius:18px;padding:14px 16px;font-size:13px;color:#b3541e;line-height:1.7;box-shadow:0 4px 14px rgba(0,0,0,0.04);">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+    <span style="font-size:18px;">📌</span>
+    <span style="font-weight:700;">今天提醒自己</span>
+    <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="stdTipNext()">换一条</span>
+  </div>
+  <div id="stdTipText"></div>
+</div>
+<div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
+<div id="stdSceneSheet" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:301;background:#fff;border-radius:24px 24px 0 0;max-height:72vh;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
+  <div onclick="stdSceneClose()" style="position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
+  <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
+  <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
+  <div id="stdSceneList"></div>
+  <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
+</div>
+<script>
+/* std-buddy-tab-v1 */
+(function(){
+  if (window.__stdTab) return; window.__stdTab = 1;
+  var SLUG='startup', ACCENT='#ea580c', EMOJI='🚀';
+  var ACTIONS=[["📞", "联系 1 个客户或渠道", "销售是最好的日常"], ["📊", "盯一遍现金流数字", "氧气表每天看"], ["🧪", "做一次小成本验证", "先卖出去再完美"]], TIPS=null, SCENES=[["💼", "今天见了个投资人", "讲增长讲数据，别只讲故事。数字比情怀有说服力。"], ["😤", "产品被用户吐槽", "吐槽是免费的顾问。记下来，分类，排优先级。"], ["💸", "现金流紧张", "列支出清单，砍掉一切不产生收入的开销，先活下来。"], ["😢", "核心成员想走", "先听原因。钱留不住价值观不合的人，强留是双输。"], ["⚔️", "竞品降价了", "别跟价格战，回到你的独特价值。差异化才是护城河。"], ["🌫️", "今天太忙没进展", "忙≠有效。明天第一件事：做最重要不紧急的那件事。"]];
+  var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
+  function today(){ return new Date().toISOString().slice(0,10); }
+  function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
+  function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  function toast(m){
+    var t=document.getElementById('stdToast');
+    if(!t){ t=document.createElement('div'); t.id='stdToast';
+      t.style.cssText='position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:100000;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      document.body.appendChild(t); }
+    t.textContent=m; t.style.opacity='1';
+    clearTimeout(t._tm); t._tm=setTimeout(function(){ t.style.opacity='0'; },1900);
+  }
+  function chat(m){ try{ if(typeof appendMsg==='function'){ appendMsg(m,'partner'); } }catch(e){} }
+  window.stdK3Toggle=function(i){
+    var d=jget(K3); if(d.date!==today()) d={date:today(),checked:{}};
+    var was=!!d.checked[i];
+    d.checked[i]=!d.checked[i]; jset(K3,d); stdK3Render();
+    if(!was&&d.checked[i]){
+      var tails=['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
+      toast(EMOJI+' 收到！「'+ACTIONS[i][1]+'」'+tails[Math.floor(Math.random()*tails.length)]);
+      chat('✅ '+ACTIONS[i][1]);
+    }
+  };
+  window.stdK3Render=function(){
+    var box=document.getElementById('stdKey3List'); if(!box) return;
+    var d=jget(K3); if(d.date!==today()) d={date:today(),checked:{}};
+    var h='';
+    for(var i=0;i<ACTIONS.length;i++){
+      var on=!!d.checked[i];
+      var circ=on?'background:'+ACCENT+';color:#fff;text-align:center;line-height:26px;font-size:14px;font-weight:700;':'border:2px solid #d1d5db;background:#fff;';
+      h+='<div onclick="stdK3Toggle('+i+')" style="display:flex;align-items:center;gap:10px;background:#f6f8fa;border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;">'
+        +'<div style="font-size:22px;flex-shrink:0;">'+ACTIONS[i][0]+'</div>'
+        +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;color:#333;">'+ACTIONS[i][1]+'</div>'
+        +'<div style="font-size:11px;color:#999;margin-top:2px;">'+ACTIONS[i][2]+'</div></div>'
+        +'<div style="width:26px;height:26px;border-radius:50%;flex-shrink:0;'+circ+'">'+(on?'✓':'')+'</div></div>';
+    }
+    box.innerHTML=h;
+  };
+  window.stdTipNext=function(){
+    var d=jget(TK); var idx=Math.floor(Math.random()*TIPS.length);
+    if(d.date===today()&&idx===d.idx&&TIPS.length>1) idx=(idx+1)%TIPS.length;
+    d={date:today(),idx:idx}; jset(TK,d);
+    var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[idx];
+  };
+  function tipInit(){
+    var d=jget(TK); if(d.date!==today()||d.idx==null){ d={date:today(),idx:Math.floor(Math.random()*TIPS.length)}; jset(TK,d); }
+    var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[d.idx];
+  }
+  window.stdSceneOpen=function(){
+    if(!SCENES||!SCENES.length) return;
+    var box=document.getElementById('stdSceneList');
+    if(box){
+      var h='';
+      for(var i=0;i<SCENES.length;i++){
+        h+='<div onclick="stdScenePick('+i+')" style="display:flex;align-items:center;gap:10px;background:#f6f8fa;border-radius:12px;padding:11px 12px;margin-bottom:8px;cursor:pointer;">'
+          +'<div style="font-size:20px;flex-shrink:0;">'+SCENES[i][0]+'</div>'
+          +'<div style="flex:1;font-size:13px;color:#333;font-weight:600;">'+SCENES[i][1]+'</div>'
+          +'<div style="color:#c0c4cc;font-size:16px;flex-shrink:0;">›</div></div>';
+      }
+      box.innerHTML=h;
+    }
+    var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
+    if(m) m.style.display='block'; if(sh) sh.style.display='block';
+  };
+  window.stdSceneClose=function(){
+    var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
+    if(m) m.style.display='none'; if(sh) sh.style.display='none';
+  };
+  window.stdScenePick=function(i){
+    stdSceneClose();
+    toast(EMOJI+' '+SCENES[i][2]);
+    chat(SCENES[i][0]+' '+SCENES[i][1]+' —— 我在，一起拆。');
+  };
+  function ensureSceneBtn(){
+    try{
+      if(!document.getElementById('stdSceneBtn')){
+        var panel=document.querySelector('.interaction-panel');
+        if(panel){
+          var row=document.createElement('div');
+          row.className='talk-btn-row'; row.style.marginTop='8px';
+          row.innerHTML='<button class="talk-btn" id="stdSceneBtn" onclick="stdSceneOpen()">\u{1F4AD} 今天发生了什么</button>';
+          panel.appendChild(row);
+        }
+      }
+    }catch(e){}
+  }
+  setTimeout(function(){ try{ stdK3Render(); }catch(e){} },0);
+  setTimeout(function(){ try{ if(TIPS){ tipInit(); } else { var t=document.getElementById('stdDailyTip'); if(t) t.style.display='none'; } }catch(e){} },0);
+})();
+</script>
 </body>
 </html>

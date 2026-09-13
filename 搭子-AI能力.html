@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-page-node-id="MI564gVa1QJdbVnrrXKPUV">
-<head data-page-node-id="tilyN3eRgBRCzGMbvSR4iT">
-<meta charset="UTF-8" data-page-node-id="PqkJozX5rEXCzm538QxNpc">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" data-page-node-id="nHDgscgQOf8xi1pdKHswS3">
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
 <title>AI能力搭子 · 每日AI技能复盘</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;}
@@ -228,304 +228,414 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
   .ai-clk-item:hover { background: #f5f5f7; }
   .ai-clk-item.done { color: #8f9eae; text-decoration: line-through; }
   .ai-clk-item .ai-clk-box { margin-right: 8px; }
-
-    /* 弹层右上角 X 关闭按钮（2026-09-08） */
-    .qa-panel { position: relative; }
-    .qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; }
-    .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#1f2937; }
-    .qa-close-x:active { background:rgba(0,0,0,0.18); }
 </style>
 </head>
-<body data-page-node-id="wZyORxs7FXgMpVHylEZuIK">
+<body>
 
-<div style="position:fixed;bottom:88px;right:16px;z-index:200;" data-page-node-id="FzEBSPc1ZZCDMc1NYiiGT0">
-  <div id="avatarBtn" onclick="showPartnerSelector()" style="width:48px;height:48px;background:white;border:2.5px solid #6c5ce7;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:26px;transition:transform 0.2s;" data-page-node-id="awVTPQ3Aks6F8OSofbwJgm">🤖</div>
+<div style="position:fixed;bottom:88px;right:16px;z-index:200;">
+  <div id="avatarBtn" onclick="showPartnerSelector()" style="width:48px;height:48px;background:white;border:2.5px solid #6c5ce7;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:26px;transition:transform 0.2s;">🤖</div>
 </div>
 
-<div class="tab-bar" data-page-node-id="hsf4cU8m9OJBCOUuMEJe04">
-  <div class="tab-item active" onclick="switchTab('chat')" data-page-node-id="E6p3Cl5tYGP5FwtvtzQ4L8"><div class="tab-icon" data-page-node-id="NSvG9pWjzID2awLmkxvIy8">💬</div><div class="tab-label" data-page-node-id="vgioQOl8WjtjOh31uC31Pw">搭子</div></div>
-  <div class="tab-item" onclick="switchTab('coach')" data-page-node-id="SaFQS6ZHmoWKHFJ2PgEtyc"><div class="tab-icon" data-page-node-id="zHWwxcw4e1bH5I4XEsd1kq">🎓</div><div class="tab-label" data-page-node-id="f4AQDezP58nOlUvsAhvCA3">教练</div></div>
-  <div class="tab-item" onclick="switchTab('sop')" data-page-node-id="6QHD6Zzs2NCDekadHTbBh2"><div class="tab-icon" data-page-node-id="8nFvttEBjf5hUzCOwFtJ5F">🎯</div><div class="tab-label" data-page-node-id="UunbY4vL6mgIrakXkHwZqk">自检</div></div>
-  <div class="tab-item" onclick="switchTab('checkin')" data-page-node-id="Z23HIcZG9tHHlWos2K8zuM"><div class="tab-icon" data-page-node-id="XMbg29D9lUl02MPVMCUWDd">✅</div><div class="tab-label" data-page-node-id="5zz3Ahb3Ff3rAjDfk0Htft">打卡</div></div>
-  <div class="tab-item" onclick="switchTab('skill')" data-page-node-id="7lv3mkBka643DNjJPLWzJB"><div class="tab-icon" data-page-node-id="39zpzsJqLWBaF4xtgHii58">📊</div><div class="tab-label" data-page-node-id="kG3Spfa1VQ8YXt1fXXiDLs">技能</div></div>
-  <div class="tab-item" onclick="switchTab('progress')" data-page-node-id="fjWwfHNgE1dG1VmM31oCbu"><div class="tab-icon" data-page-node-id="7UAxx5FxpMQeCAAhGDANOi">📈</div><div class="tab-label" data-page-node-id="3up8OGwFqts2QiFcbQKkyR">进展</div></div>
-  <div class="tab-item" onclick="switchTab('share')" data-page-node-id="7yaIarEgUtXpbKfVccgXug"><div class="tab-icon" data-page-node-id="U6FBjKfFGgz5MM3tERlIH9">📣</div><div class="tab-label" data-page-node-id="mOLuiK5MALud9JPOYHRmWh">分享</div></div>
+<div class="tab-bar">
+  <div class="tab-item active" onclick="switchTab('chat')"><div class="tab-icon">💬</div><div class="tab-label">搭子</div></div>
+  <div class="tab-item" onclick="switchTab('coach')"><div class="tab-icon">🎓</div><div class="tab-label">教练</div></div>
+  <div class="tab-item" onclick="switchTab('sop')"><div class="tab-icon">🎯</div><div class="tab-label">自检</div></div>
+  <div class="tab-item" onclick="switchTab('checkin')"><div class="tab-icon">✅</div><div class="tab-label">打卡</div></div>
+  <div class="tab-item" onclick="switchTab('skill')"><div class="tab-icon">📊</div><div class="tab-label">技能</div></div>
+  <div class="tab-item" onclick="switchTab('progress')"><div class="tab-icon">📈</div><div class="tab-label">进展</div></div>
+  <div class="tab-item" onclick="switchTab('share')"><div class="tab-icon">📣</div><div class="tab-label">分享</div></div>
 </div>
 
 <!-- Page: 打卡 -->
-<div id="page-checkin" class="page active" data-page-node-id="ZxAAzs8i36asbkA2AfNMx0">
-  <div id="partnerSelector" class="partner-selector" data-page-node-id="F8Sijp55vjdA48jqD1b99C">
-    <div class="selector-title" data-page-node-id="k7Xsufif2PEc4UEnddoydB">选个AI搭子</div>
-    <div class="selector-sub" data-page-node-id="LjGh11UuNjQ80OlJttjBKj">陪你掌握AI，效率翻倍</div>
-    <div class="partner-grid" id="partnerGrid" data-page-node-id="hc8ORpAtvBRGALDif3sWA4">
-      <div class="partner-card selected" id="pc-mentor" onclick="selectPartner('mentor')" data-page-node-id="ARhK6Zmm03bCA9UFxETn03">
-        <div class="partner-emoji" data-page-node-id="68nPMKbYkTyCdFRH13gLWQ">🌸</div><div class="partner-name" data-page-node-id="TDpe90TsQEslYwmOB9aHmb">温柔导师型</div><div class="partner-desc" data-page-node-id="CGBECVYGOB4agTN8SVaBQz">耐心引导，循序渐进</div>
+<div id="page-checkin" class="page active">
+  <div id="partnerSelector" class="partner-selector">
+    <div class="selector-title">选个AI搭子</div>
+    <div class="selector-sub">陪你掌握AI，效率翻倍</div>
+    <div class="partner-grid" id="partnerGrid">
+      <div class="partner-card selected" id="pc-mentor" onclick="selectPartner('mentor')">
+        <div class="partner-emoji">🌸</div><div class="partner-name">温柔导师型</div><div class="partner-desc">耐心引导，循序渐进</div>
       </div>
-      <div class="partner-card" id="pc-action" onclick="selectPartner('action')" data-page-node-id="629638SBr9Qx2n1AMG9NpH">
-        <div class="partner-emoji" data-page-node-id="WETsBwmhyJ7FLGe1MJ0SOb">⚡</div><div class="partner-name" data-page-node-id="EbSznW4lTNYRXY9RQysiPP">实战驱动型</div><div class="partner-desc" data-page-node-id="xeMfkAYgrHXCe2DlJrYjrK">直接上手，边做边学</div>
+      <div class="partner-card" id="pc-action" onclick="selectPartner('action')">
+        <div class="partner-emoji">⚡</div><div class="partner-name">实战驱动型</div><div class="partner-desc">直接上手，边做边学</div>
       </div>
-      <div class="partner-card" id="pc-analyst" onclick="selectPartner('analyst')" data-page-node-id="CjJ7ayNxjByXYveptzIyEv">
-        <div class="partner-emoji" data-page-node-id="3rb9ofJO2AnqgnqeoqVZlV">📊</div><div class="partner-name" data-page-node-id="iOUhVb6EEDJCkDJxyEGBwT">理性分析师型</div><div class="partner-desc" data-page-node-id="3uiXuMUebksMNUbcZFArWx">逻辑清晰，数据驱动</div>
+      <div class="partner-card" id="pc-analyst" onclick="selectPartner('analyst')">
+        <div class="partner-emoji">📊</div><div class="partner-name">理性分析师型</div><div class="partner-desc">逻辑清晰，数据驱动</div>
       </div>
-      <div class="partner-card" id="pc-coach" onclick="selectPartner('coach')" data-page-node-id="hPK7NO4OKKRH9gU9EFDsGN">
-        <div class="partner-emoji" data-page-node-id="7Z4vijYfWSBOQuNyvsOtx9">😏</div><div class="partner-name" data-page-node-id="0aooICxFodce2heaY1GmDH">毒舌教练型</div><div class="partner-desc" data-page-node-id="dE9alK7bpmhrwva2DFVrJD">犀利点评，一针见血</div>
+      <div class="partner-card" id="pc-coach" onclick="selectPartner('coach')">
+        <div class="partner-emoji">😏</div><div class="partner-name">毒舌教练型</div><div class="partner-desc">犀利点评，一针见血</div>
       </div>
     </div>
-    <button class="confirm-btn" onclick="confirmPartner()" data-page-node-id="ZCPTnx8xp2auz3ZIGlvICj">✨ 开始应用 ✨</button>
+    <button class="confirm-btn" onclick="confirmPartner()">✨ 开始应用 ✨</button>
   </div>
 
-  <div id="dashboard" style="display:none;padding-bottom:84px;" data-page-node-id="ENfHAtXAlECHjNFaPFbQdj">
-    <div class="card" data-page-node-id="7sckgKkkSupEt0Uu7QQLTn">
-      <div id="currentPartnerBadge" class="partner-badge" data-page-node-id="VS8gd2k3mjDvBsCrvAK9Sm">🌸 温柔导师型</div>
-      <div class="question" data-page-node-id="1JJtmzKB3caZSlDhJxUY0e">今天，你用AI了吗？</div>
-      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="K5TZBqKJE6RGLXIFD3GMDt">
-        <div class="checkin-status" id="checkinStatusText" data-page-node-id="Bd1SNDVME13FETe2TWPWzI">签到</div>
-        <div class="checkin-sub" data-page-node-id="xnU2wRx4HawFir1H2hTCO4">点击打卡</div>
+  <div id="dashboard" style="display:none;">
+    <div class="card">
+      <div id="currentPartnerBadge" class="partner-badge">🌸 温柔导师型</div>
+      <div class="question">今天，你用AI了吗？</div>
+      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()">
+        <div class="checkin-status" id="checkinStatusText">签到</div>
+        <div class="checkin-sub">点击打卡</div>
       </div>
-      <div class="continuous" id="continuousDays" data-page-node-id="9IFMeYABzRi8iwMHVC7Pvj">0</div>
-      <div class="continuous-label" data-page-node-id="ZtyhlR8Sg2DDq87NbrivVM">连续打卡天数</div>
+      <div class="continuous" id="continuousDays">0</div>
+      <div class="continuous-label">连续打卡天数</div>
     </div>
-    <div class="chat-area" id="chatArea" data-page-node-id="yAAtC2CJa9dQn5SbPJBh1r"></div>
-    <div class="week-progress" data-page-node-id="Sst037IsFC47vgG5UvGn75">
-      <div class="week-title" data-page-node-id="tgyygpLIHvTcYOJO7PkrMm"><span data-page-node-id="939o9Ho4OBnJlNVgiziLGd">📅 本周进度</span><span id="weekRange" data-page-node-id="OvG8XcShslWXx8yEIVVwlD"></span></div>
-      <div class="week-dots" id="weekDots" data-page-node-id="Lwmio28Qusa1uRmIiZkBiT"></div>
+    <div class="chat-area" id="chatArea"></div>
+    <div class="week-progress">
+      <div class="week-title"><span>📅 本周进度</span><span id="weekRange"></span></div>
+      <div class="week-dots" id="weekDots"></div>
     </div>
-    <div class="interaction-panel" data-page-node-id="HuExOepgJ9AX3D0278ojkD">
-      <div class="panel-label" data-page-node-id="houQYjAW6RNrJEvf9LvkTY">💬 和AI搭子聊聊</div>
-      <div class="mood-row" data-page-node-id="RadHFRfBqrmYRDbQCwRXwM">
-        <div class="mood-btn" data-mood="happy" onclick="sendMood('happy')" data-page-node-id="Sb5VDvRG64FS1snHP9daHd">😄</div>
-        <div class="mood-btn" data-mood="neutral" onclick="sendMood('neutral')" data-page-node-id="EGkx3HpA0hGylQ8RbpPNpi">😌</div>
-        <div class="mood-btn" data-mood="sad" onclick="sendMood('sad')" data-page-node-id="cx0gv8UA8WErhY18uEkwNX">😔</div>
-        <div class="mood-btn" data-mood="tired" onclick="sendMood('tired')" data-page-node-id="FlHdLchopdr1o5Bf5iJGGS">😫</div>
+    <div class="interaction-panel">
+      <div class="panel-label">💬 和AI搭子聊聊</div>
+      <div class="mood-row">
+        <div class="mood-btn" data-mood="happy">😄</div>
+        <div class="mood-btn" data-mood="neutral">😌</div>
+        <div class="mood-btn" data-mood="sad">😔</div>
+        <div class="mood-btn" data-mood="tired">😫</div>
       </div>
-      <div class="talk-btn-row" data-page-node-id="ElWLqA378GnE2wIA8vx1QR">
-        <button class="talk-btn" data-type="progress" onclick="askPartner('progress')" data-page-node-id="F5x5DAegPy8cKHYaWTRn6w">📈 进展</button>
-        <button class="talk-btn" data-type="struggle" onclick="askPartner('struggle')" data-page-node-id="kMrVvRXVAPLyWcH4B1eZ0Y">😣 困难</button>
-        <button class="talk-btn" data-type="idea" onclick="askPartner('idea')" data-page-node-id="5LlAK1xBb27qtWm9oApzKp">💡 想法</button>
-        <button class="talk-btn" data-type="cheer" onclick="askPartner('cheer')" data-page-node-id="2hCiOMN4iAkq3gwjwmzBMG">🎉 喜事</button>
+      <div class="talk-btn-row">
+        <button class="talk-btn" data-type="progress">📈 进展</button>
+        <button class="talk-btn" data-type="struggle">😣 困难</button>
+        <button class="talk-btn" data-type="idea">💡 想法</button>
+        <button class="talk-btn" data-type="cheer">🎉 喜事</button>
       </div>
-      <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="gukcUjIpVOThnAORqSUQ49">
-        <button class="talk-btn" data-type="report" onclick="askPartner('report')" data-page-node-id="K2NVsjD6paX31gD2PEESpL">📣 汇报进展</button>
-        <button class="talk-btn" data-type="question" onclick="askPartner('question')" data-page-node-id="KQIwjMaUwMFGSBvKfTCS5L">🤔 有问题想问</button>
+      <div class="talk-btn-row" style="margin-top:8px;">
+        <button class="talk-btn" data-type="report">📣 汇报进展</button>
+        <button class="talk-btn" data-type="question">🤔 有问题想问</button>
       </div>
-    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene" onclick="askPartner('scene')">💭 今天发生了什么</button></div>
+    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" id="stdSceneBtn" onclick="stdSceneOpen()">💭 今天发生了什么</button></div></div>
+<!-- std-buddy-tab-v1: 关键动作 + 提醒自己 + 场景弹窗 -->
+<div id="stdKey3" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+    <span style="font-size:18px;">🎯</span>
+    <span style="font-weight:700;font-size:14px;color:#333;">🎯 今日 3 个AI关键动作</span>
+  </div>
+  <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
+  <div id="stdKey3List"></div>
+</div>
+<div id="stdDailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#fff3e0,#ffe9d6);border-radius:18px;padding:14px 16px;font-size:13px;color:#b3541e;line-height:1.7;box-shadow:0 4px 14px rgba(0,0,0,0.04);">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+    <span style="font-size:18px;">📌</span>
+    <span style="font-weight:700;">今天提醒自己</span>
+    <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="stdTipNext()">换一条</span>
+  </div>
+  <div id="stdTipText"></div>
+</div>
+<div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
+<div id="stdSceneSheet" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:301;background:#fff;border-radius:24px 24px 0 0;max-height:72vh;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
+  <div onclick="stdSceneClose()" style="position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
+  <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
+  <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
+  <div id="stdSceneList"></div>
+  <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
+</div>
+<script>
+/* std-buddy-tab-v1 */
+(function(){
+  if (window.__stdTab) return; window.__stdTab = 1;
+  var SLUG='ai', ACCENT='#0891b2', EMOJI='🤖';
+  var ACTIONS=[["🤖", "用AI解决一个真实任务", "真实任务驱动学习"], ["📚", "学一个新提示词技巧", "提示词是新的编程"], ["🗂️", "沉淀一个可复用模板", "模板是最快的复利"]], TIPS=["AI不会取代你，会用AI的人会", "提示词写得好，AI就是资深助手", "重复工作给AI，判断留给自己", "模板是最快的复利", "先明确目标，再写提示词", "让AI当面试官，逼你深度思考", "AI输出要人工把关，责任在你", "学AI最快的方式：真实任务驱动", "别收藏教程，打开对话框", "工具在精不在多，吃透一个", "AI擅长初稿，你擅长终稿", "把AI用法写成团队SOP", "数据隐私是底线，敏感信息别喂", "每周固定1小时AI实验时间", "好问题比好答案值钱", "让AI复盘你的方案找漏洞", "提问能力=核心竞争力", "跨界知识让AI用出花来", "别神化也别低估，当能力放大器", "今天不用，明天就落后半步"], SCENES=[["🌀", "AI输出不理想", "补上下文，给例子，分段问。垃圾进垃圾出，喂饱它。"], ["🌫️", "不知道AI能干啥", "从今天最烦的重复工作开始，列清单逐个试。"], ["😰", "担心AI出错", "关键结论交叉验证。AI起草，你定稿，你负责。"], ["👨‍👩‍👧", "团队不会用", "做一个10分钟内训，从真实案例讲起，别讲理论。"], ["📝", "用AI写的被质疑", "署自己的名，负自己的责。AI是工具，判断是你的。"], ["✍️", "提示词总是瞎写", "套模板：角色+任务+要求+例子。存成模板复用。"]];
+  var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
+  function today(){ return new Date().toISOString().slice(0,10); }
+  function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
+  function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  function toast(m){
+    var t=document.getElementById('stdToast');
+    if(!t){ t=document.createElement('div'); t.id='stdToast';
+      t.style.cssText='position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:100000;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      document.body.appendChild(t); }
+    t.textContent=m; t.style.opacity='1';
+    clearTimeout(t._tm); t._tm=setTimeout(function(){ t.style.opacity='0'; },1900);
+  }
+  function chat(m){ try{ if(typeof appendMsg==='function'){ appendMsg(m,'partner'); } }catch(e){} }
+  window.stdK3Toggle=function(i){
+    var d=jget(K3); if(d.date!==today()) d={date:today(),checked:{}};
+    var was=!!d.checked[i];
+    d.checked[i]=!d.checked[i]; jset(K3,d); stdK3Render();
+    if(!was&&d.checked[i]){
+      var tails=['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
+      toast(EMOJI+' 收到！「'+ACTIONS[i][1]+'」'+tails[Math.floor(Math.random()*tails.length)]);
+      chat('✅ '+ACTIONS[i][1]);
+    }
+  };
+  window.stdK3Render=function(){
+    var box=document.getElementById('stdKey3List'); if(!box) return;
+    var d=jget(K3); if(d.date!==today()) d={date:today(),checked:{}};
+    var h='';
+    for(var i=0;i<ACTIONS.length;i++){
+      var on=!!d.checked[i];
+      var circ=on?'background:'+ACCENT+';color:#fff;text-align:center;line-height:26px;font-size:14px;font-weight:700;':'border:2px solid #d1d5db;background:#fff;';
+      h+='<div onclick="stdK3Toggle('+i+')" style="display:flex;align-items:center;gap:10px;background:#f6f8fa;border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;">'
+        +'<div style="font-size:22px;flex-shrink:0;">'+ACTIONS[i][0]+'</div>'
+        +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;color:#333;">'+ACTIONS[i][1]+'</div>'
+        +'<div style="font-size:11px;color:#999;margin-top:2px;">'+ACTIONS[i][2]+'</div></div>'
+        +'<div style="width:26px;height:26px;border-radius:50%;flex-shrink:0;'+circ+'">'+(on?'✓':'')+'</div></div>';
+    }
+    box.innerHTML=h;
+  };
+  window.stdTipNext=function(){
+    var d=jget(TK); var idx=Math.floor(Math.random()*TIPS.length);
+    if(d.date===today()&&idx===d.idx&&TIPS.length>1) idx=(idx+1)%TIPS.length;
+    d={date:today(),idx:idx}; jset(TK,d);
+    var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[idx];
+  };
+  function tipInit(){
+    var d=jget(TK); if(d.date!==today()||d.idx==null){ d={date:today(),idx:Math.floor(Math.random()*TIPS.length)}; jset(TK,d); }
+    var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[d.idx];
+  }
+  window.stdSceneOpen=function(){
+    if(!SCENES||!SCENES.length) return;
+    var box=document.getElementById('stdSceneList');
+    if(box){
+      var h='';
+      for(var i=0;i<SCENES.length;i++){
+        h+='<div onclick="stdScenePick('+i+')" style="display:flex;align-items:center;gap:10px;background:#f6f8fa;border-radius:12px;padding:11px 12px;margin-bottom:8px;cursor:pointer;">'
+          +'<div style="font-size:20px;flex-shrink:0;">'+SCENES[i][0]+'</div>'
+          +'<div style="flex:1;font-size:13px;color:#333;font-weight:600;">'+SCENES[i][1]+'</div>'
+          +'<div style="color:#c0c4cc;font-size:16px;flex-shrink:0;">›</div></div>';
+      }
+      box.innerHTML=h;
+    }
+    var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
+    if(m) m.style.display='block'; if(sh) sh.style.display='block';
+  };
+  window.stdSceneClose=function(){
+    var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
+    if(m) m.style.display='none'; if(sh) sh.style.display='none';
+  };
+  window.stdScenePick=function(i){
+    stdSceneClose();
+    toast(EMOJI+' '+SCENES[i][2]);
+    chat(SCENES[i][0]+' '+SCENES[i][1]+' —— 我在，一起拆。');
+  };
+  function ensureSceneBtn(){
+    try{
+      if(!document.getElementById('stdSceneBtn')){
+        var panel=document.querySelector('.interaction-panel');
+        if(panel){
+          var row=document.createElement('div');
+          row.className='talk-btn-row'; row.style.marginTop='8px';
+          row.innerHTML='<button class="talk-btn" id="stdSceneBtn" onclick="stdSceneOpen()">\u{1F4AD} 今天发生了什么</button>';
+          panel.appendChild(row);
+        }
+      }
+    }catch(e){}
+  }
+  setTimeout(function(){ try{ stdK3Render(); }catch(e){} },0);
+  setTimeout(function(){ try{ if(TIPS){ tipInit(); } else { var t=document.getElementById('stdDailyTip'); if(t) t.style.display='none'; } }catch(e){} },0);
+})();
+</script>
+
+    <div class="share-inline-card">
+      <div class="share-inline-label">📣 推荐给想学AI的朋友</div>
+      <div class="share-inline-preview">🤖 AI能力搭子 · 4种性格陪你学AI</div>
+      <div class="share-copy-row">
+        <button class="share-copy-btn" onclick="copyShareLink()">📋 复制邀请链接</button>
+        <button class="share-link-btn" onclick="previewShareCard()">👀 预览卡片</button>
+      </div>
     </div>
-    <!-- 📌 今天提醒自己 -->
-    <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#ecedfe,#e6e9fd);border-radius:18px;padding:14px 16px;font-size:13px;color:#3f3fbf;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-        <span style="font-size:18px;">📌</span>
-        <span style="font-weight:700;">今天提醒自己</span>
-        <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
-      </div>
-      <div id="dailyTipText">每天15分钟真用AI，比看10篇教程有用</div>
-    </div>
-    <footer data-page-node-id="3DC7SRjEXR8MphV4BH5IlG">每天一次签到 · AI搭子陪你持续成长</footer>
+    <footer>每天一次签到 · AI搭子陪你持续成长</footer>
   </div>
 </div>
 
 <!-- Page: SOP 自检 -->
-<div id="page-sop" class="page" data-page-node-id="8DaHwnsdpx6h5vf34nCMTE">
-  <div class="sop-page" data-page-node-id="ifGCxivMFODd3cKemPoPoq">
-    <div class="sop-header" data-page-node-id="qZRTqI6WnDeAg9aOwxLMU7">
-      <div class="sop-title" data-page-node-id="69z71q5KVxlSynwZgWKk89">🎯 今日AI技能复盘</div>
-      <div class="sop-sub" data-page-node-id="94zg91E8VASUG1Kub3EWHN">检查今天的AI应用 · 满分100分</div>
-      <div class="sop-score-row" data-page-node-id="AZIAxg6OpDG6sVbw3HuGiD">
-        <div class="sop-score" data-page-node-id="AR3p8Y0W2BomWDahCfQ4sJ"><div class="sop-score-num" id="sopScore" data-page-node-id="UlhbVHQXVHMvxHa1EMEdGY">0</div><div class="sop-score-label" data-page-node-id="FcCQAqMzjFrZxyfMaTiq88">今日得分</div></div>
-        <div class="sop-score" data-page-node-id="efrYjBfd3LfqoMgEyEYMcc"><div class="sop-score-num" id="sopPosCount" data-page-node-id="qImgtBVbydOdJa5Ej7GVRe">0</div><div class="sop-score-label" data-page-node-id="aeg2DtFvupICDj8pwQVkMZ">做到了</div></div>
-        <div class="sop-score" data-page-node-id="mF7ZXkFeQnnuUxSOVq2RPj"><div class="sop-score-num" id="sopNegCount" data-page-node-id="QSmi5gaU7glrNEDB6nTnFk">0</div><div class="sop-score-label" data-page-node-id="00TVoqu2t29nDGlKlVIhQ8">需注意</div></div>
+<div id="page-sop" class="page">
+  <div class="sop-page">
+    <div class="sop-header">
+      <div class="sop-title">🎯 今日AI技能复盘</div>
+      <div class="sop-sub">检查今天的AI应用 · 满分100分</div>
+      <div class="sop-score-row">
+        <div class="sop-score"><div class="sop-score-num" id="sopScore">0</div><div class="sop-score-label">今日得分</div></div>
+        <div class="sop-score"><div class="sop-score-num" id="sopPosCount">0</div><div class="sop-score-label">做到了</div></div>
+        <div class="sop-score"><div class="sop-score-num" id="sopNegCount">0</div><div class="sop-score-label">需注意</div></div>
       </div>
-      <div class="sop-progress-wrap" data-page-node-id="8ACaE7uHusFRvDhiBEZEF6">
-        <div class="sop-progress-bg" data-page-node-id="XDRTp5LO0efxZlUAgpzjrG"><div class="sop-progress-bar" id="sopScoreBar" data-page-node-id="lcFH7Vz0BO2fHn456eD2d0"></div></div>
-        <div class="sop-progress-text" id="sopProgressText" data-page-node-id="XLk9LiUqnfcUtCRYBPe9yA">0/100</div>
+      <div class="sop-progress-wrap">
+        <div class="sop-progress-bg"><div class="sop-progress-bar" id="sopScoreBar"></div></div>
+        <div class="sop-progress-text" id="sopProgressText">0/100</div>
       </div>
     </div>
-    <div class="sop-category-tabs" id="sopCatTabs" data-page-node-id="XdYOWlGrFW5RuTACEyVBrr"></div>
-    <div class="sop-game-card" id="sopGameCard" data-page-node-id="amFvvSmEFlrK5sTYTvan3Q"></div>
-    <div class="sop-tip" data-page-node-id="ibP9ZcgDKIqESgodnPNYtg"><div class="sop-tip-title" data-page-node-id="OwMaFZzEID7IGit0PNaMZw">💡 第一性原理提示</div><div class="sop-tip-item" id="sopTipText" data-page-node-id="RdbtMv2FqaYRAnq2tQqp80"></div></div>
+    <div class="sop-category-tabs" id="sopCatTabs"></div>
+    <div class="sop-game-card" id="sopGameCard"></div>
+    <div class="sop-tip"><div class="sop-tip-title">💡 第一性原理提示</div><div class="sop-tip-item" id="sopTipText"></div></div>
   </div>
 </div>
 
-<!-- 分类确认卡弹窗（参照睡眠搭子） -->
-<div class="sop-finish-overlay" id="catSummaryOverlay" style="z-index:320;"></div>
-
 <!-- SOP 完成弹窗 -->
-<div class="sop-finish-overlay" id="sopFinishOverlay" data-page-node-id="CaoFYXdvpXEOLVCZgAeiuH">
-  <div class="sop-finish-card" data-page-node-id="RcjYMMc9YSwtItTKkst93x">
-    <div class="sf-header" data-page-node-id="3IMSm7jiGoXWOLiLVke8XL">
-      <span class="sf-emoji" id="sfEmoji" data-page-node-id="X3L9LE885yocPnfp1O7Wot">🌟</span>
-      <div class="sf-title" id="sfTitle" data-page-node-id="EIau7Z0QuPBMChtGfa6gvY">太棒了！</div>
+<div class="sop-finish-overlay" id="sopFinishOverlay">
+  <div class="sop-finish-card">
+    <div class="sf-header">
+      <span class="sf-emoji" id="sfEmoji">🌟</span>
+      <div class="sf-title" id="sfTitle">太棒了！</div>
     </div>
-    <div class="sf-stats" data-page-node-id="EOjaaRy5KNY24ytdfYXdkQ">
-      <div class="sf-stat" data-page-node-id="KZaqLk1cJ0mi6O0ffvAeF0"><div class="sf-stat-num" id="sfScore" data-page-node-id="5U8vlH4wNCYqViUOX8XJE3">0</div><div class="sf-stat-label" data-page-node-id="BYGzPKgcFeDkHJzXM9wKZ0">今日得分</div></div>
-      <div class="sf-stat" data-page-node-id="jPE9iO0pycpxLNC2pS1oAd"><div class="sf-stat-num" id="sfPos" data-page-node-id="OpYDx8UFMY54iDwAp1mf9I">0</div><div class="sf-stat-label" data-page-node-id="AMc885dskQVHbhkaUOtnkT">做到了</div></div>
-      <div class="sf-stat" data-page-node-id="tzqjSSTMfurTHP4B4eRQoX"><div class="sf-stat-num" id="sfNeg" data-page-node-id="efiJ4CVayncwZBQ1kpvzgJ">0</div><div class="sf-stat-label" data-page-node-id="SF2iqp81T0jbOSSsS11HIs">需加强</div></div>
+    <div class="sf-stats">
+      <div class="sf-stat"><div class="sf-stat-num" id="sfScore">0</div><div class="sf-stat-label">今日得分</div></div>
+      <div class="sf-stat"><div class="sf-stat-num" id="sfPos">0</div><div class="sf-stat-label">做到了</div></div>
+      <div class="sf-stat"><div class="sf-stat-num" id="sfNeg">0</div><div class="sf-stat-label">需加强</div></div>
     </div>
-    <div class="sf-cats" id="sfCats" data-page-node-id="Gpxf80n6QBMMN7Lwif48As"></div>
-    <button class="sf-btn" onclick="closeSOPFinish()" data-page-node-id="cvKnan8E2ifkWCdkStCdVy">继续加油 🚀</button>
+    <div class="sf-cats" id="sfCats"></div>
+    <button class="sf-btn" onclick="closeSOPFinish()">继续加油 🚀</button>
   </div>
 </div>
 
 <!-- QA Overlay -->
-<div class="qa-overlay" id="qaOverlay" data-page-node-id="zhSPbaVFdkEVqF4IFTMfUV">
-  <div class="qa-panel" data-page-node-id="G96aVrCLaN2ANdjnv1qRea"><button class="qa-close-x" onclick="try{if(typeof closeQAPanel==='function')closeQAPanel();else this.closest('.qa-overlay').classList.remove('show');}catch(e){this.closest('.qa-overlay').classList.remove('show');}" aria-label="关闭">✕</button>
-    
-    <div class="qa-header" data-page-node-id="9E5QS87nidUE5l88vWdGCI">
-      <div class="qa-title" id="qaTitle" data-page-node-id="94aGkz0fI1EOkesd7ZAhDw"></div>
-      <div class="qa-sub" id="qaSub" style="font-size:12px;color:#8f9eae;margin-top:4px;" data-page-node-id="X1RiHS0zHbl8bF1hDI48ic">点击选择一个话题，AI搭子将给你反馈</div>
+<div class="qa-overlay" id="qaOverlay">
+  <div class="qa-panel">
+    <div class="qa-header">
+      <div class="qa-title" id="qaTitle"></div>
+      <div class="qa-sub" style="font-size:12px;color:#8f9eae;margin-top:4px;">点击选择一个话题，AI搭子将给你反馈</div>
     </div>
-    <div class="qa-scroll" id="qaScroll" data-page-node-id="cyKP1Lu698PkHXA6b6j9gK"></div>
+    <div class="qa-scroll" id="qaScroll"></div>
   </div>
 </div>
 
 <!-- Feedback Overlay -->
-<div class="fb-overlay" id="fbOverlay" data-page-node-id="dB35HViqnQBKoYz5B5rwFR">
-  <div class="fb-card" id="fbCard" data-page-node-id="kTO6Ltqv3QSH8haQg5JS8J"></div>
+<div class="fb-overlay" id="fbOverlay">
+  <div class="fb-card" id="fbCard"></div>
 </div>
 
 <!-- Toast -->
-<div class="toast" id="toast" data-page-node-id="wUzhIdDQILW9k3l21G7B81"></div>
+<div class="toast" id="toast"></div>
 
 <!-- Page: 技能 -->
-<div id="page-skill" class="page" data-page-node-id="gUUjIJgJwswouOUSnNbmfH">
-  <div class="skill-page" data-page-node-id="IRqsnkPXoK1lZuUwEYDAHM">
-    <div class="skill-header" data-page-node-id="El7vIySDRWlrpsvDFqLVeT">
-      <div class="chart-title" data-page-node-id="aSfrGyL69zrTQlZYNUdFgl">📊 技能追踪</div>
-      <div class="chart-sub" data-page-node-id="56VpoRDLDaObU4sBPCcOXn">记录你掌握AI的每一步</div>
-      <div class="skill-stats" data-page-node-id="fuixximGQBjhD3Mq6r8yiU">
-        <div class="skill-stat" data-page-node-id="EkKg6xeHPoCtXoa7BZ1Vhr"><div class="skill-stat-num" id="skillToolCount" data-page-node-id="dTpzFmoDw9jf5ApkOY1azf">0</div><div class="skill-stat-label" data-page-node-id="5VCUey9ne4iW1iy1loPf1U">常用工具</div></div>
-        <div class="skill-stat" data-page-node-id="7JDS9Ssos9RazXn9egVmos"><div class="skill-stat-num" id="skillSOPDays" data-page-node-id="DRCqRcZ2cOATtKc9l3BDWD">0</div><div class="skill-stat-label" data-page-node-id="KOXG0i1q8GNJ9e9dsXfAR0">自检天数</div></div>
-        <div class="skill-stat" data-page-node-id="tTMwT41Cw1Yx6fqSZDjrCD"><div class="skill-stat-num" id="skillAvgScore" data-page-node-id="kBLnUgjNyTn0L30d0rHsg9">0</div><div class="skill-stat-label" data-page-node-id="46Yvznu93f30Y8YyUjQH6d">平均得分</div></div>
+<div id="page-skill" class="page">
+  <div class="skill-page">
+    <div class="skill-header">
+      <div class="chart-title">📊 技能追踪</div>
+      <div class="chart-sub">记录你掌握AI的每一步</div>
+      <div class="skill-stats">
+        <div class="skill-stat"><div class="skill-stat-num" id="skillToolCount">0</div><div class="skill-stat-label">常用工具</div></div>
+        <div class="skill-stat"><div class="skill-stat-num" id="skillSOPDays">0</div><div class="skill-stat-label">自检天数</div></div>
+        <div class="skill-stat"><div class="skill-stat-num" id="skillAvgScore">0</div><div class="skill-stat-label">平均得分</div></div>
       </div>
     </div>
-    <div class="skill-chart-card" data-page-node-id="WVmzHrQ2uI9erTIv0ERNPH">
-      <div class="chart-title" data-page-node-id="67GAJ3ZgS5FdoUMJFzTLd3">📈 各维度平均得分</div>
-      <div id="skillDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;" data-page-node-id="9T5VrbtEEW7Nw0rEAL75h1"></div>
+    <div class="skill-chart-card">
+      <div class="chart-title">📈 各维度平均得分</div>
+      <div id="skillDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;"></div>
     </div>
-    <div class="skill-chart-card" id="skillHistoryCard" data-page-node-id="ivbOKsxfU3538okRRDAGco">
-      <div class="chart-title" data-page-node-id="uFy3tAiDfEe0PFg3Au9BCW">📝 最近7天记录</div>
-      <div id="skillHistory" data-page-node-id="7TdvzGYqmlrISukZlMoeSR"></div>
+    <div class="skill-chart-card" id="skillHistoryCard">
+      <div class="chart-title">📝 最近7天记录</div>
+      <div id="skillHistory"></div>
     </div>
   </div>
 </div>
 
 <!-- Page: 进展 -->
-<div id="page-progress" class="page" data-page-node-id="IwxonxR5DsZWYLVD61YaQn">
-  <div class="skill-page" data-page-node-id="AMibuIZgLIasRL7UZXWgNS">
-    <div class="skill-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;" data-page-node-id="ckXJhD6i1BXvGQqlXfqza8">
-      <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="PXC8kJKrQBPWCPX2YoOALA">🏆</div>
-      <div class="chart-title" style="font-size:18px;margin-bottom:4px;" data-page-node-id="EXivaajpUD3GDM783C7JtF">AI能力成长</div>
-      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;" data-page-node-id="rtY08i26yevMa792igPeiB">你的AI技能全景视图</div>
-      <div style="display:flex;gap:12px;justify-content:center;" data-page-node-id="ZqzlwBvjZYAS1I3KCLdmFr">
-        <div style="background:#e8f5e9;border-radius:16px;padding:10px 16px;text-align:center;" data-page-node-id="TlBh80B1kJPd2yZM7RGtk5"><div style="font-size:18px;font-weight:800;color:#2e7d32;" id="progStreak" data-page-node-id="AMhI5WQG3ZL1PTWSbagqAo">0</div><div style="font-size:11px;color:#8f9eae;" data-page-node-id="vPD9y7Ievp7EwHoKNm6knZ">连续天数</div></div>
-        <div style="background:#eef2ff;border-radius:16px;padding:10px 16px;text-align:center;" data-page-node-id="kEBbrjcv7Bpm3VBxn8Sx7M"><div style="font-size:18px;font-weight:800;color:#5b6abf;" id="progTotal" data-page-node-id="kXnM9GAAq3kUhuMB3zAxkC">0</div><div style="font-size:11px;color:#8f9eae;" data-page-node-id="i0SgYqVoTKLcf2DxbdsFyr">累计天数</div></div>
-        <div style="background:#fff8e1;border-radius:16px;padding:10px 16px;text-align:center;" data-page-node-id="fDUKcUBwSvuGhkLOfFnc1q"><div style="font-size:18px;font-weight:800;color:#ff8f00;" id="progToday" data-page-node-id="K0qS8HQIH9lhuSK1plTXK9">-</div><div style="font-size:11px;color:#8f9eae;" data-page-node-id="yUHw0homKNGiXeCGFBwYF7">今日得分</div></div>
+<div id="page-progress" class="page">
+  <div class="skill-page">
+    <div class="skill-chart-card" style="text-align:center;padding:28px 20px;margin-bottom:16px;">
+      <div style="font-size:48px;margin-bottom:8px;">🏆</div>
+      <div class="chart-title" style="font-size:18px;margin-bottom:4px;">AI能力成长</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">你的AI技能全景视图</div>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <div style="background:#e8f5e9;border-radius:16px;padding:10px 16px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#2e7d32;" id="progStreak">0</div><div style="font-size:11px;color:#8f9eae;">连续天数</div></div>
+        <div style="background:#eef2ff;border-radius:16px;padding:10px 16px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#5b6abf;" id="progTotal">0</div><div style="font-size:11px;color:#8f9eae;">累计天数</div></div>
+        <div style="background:#fff8e1;border-radius:16px;padding:10px 16px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#ff8f00;" id="progToday">-</div><div style="font-size:11px;color:#8f9eae;">今日得分</div></div>
       </div>
     </div>
-    <div class="skill-chart-card" data-page-node-id="Cxfc01Qowm1tcM7raOkeTm"><div class="chart-title" data-page-node-id="Jpa2lgoHNjPA2AhslB78o4">📊 各维度平均得分</div><div id="progDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;" data-page-node-id="CcbJGQ73wOxUqYW3UKKoSg"></div></div>
-    <div class="skill-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#f0edff,#e8f5e9);border:1px solid #d0d8f0;margin-bottom:16px;" data-page-node-id="1R5KoaDu93LrpyAELuq7Bz">
-      <div style="font-size:36px;margin-bottom:8px;" id="progPartnerEmoji" data-page-node-id="RgNAgerCV0CwTgIgEtKyBz">🌸</div>
-      <div style="font-size:14px;font-weight:700;color:#2b5a7a;margin-bottom:4px;" id="progPartnerName" data-page-node-id="1mKPe1CVjupUkwEBOzG6zU">温柔导师型</div>
-      <div style="font-size:13px;color:#5b6abf;line-height:1.6;" id="progPartnerMsg" data-page-node-id="XuzfY8h8MveWwfbywbkb4W">每天学一点AI，能力在不知不觉中增长！</div>
+    <div class="skill-chart-card"><div class="chart-title">📊 各维度平均得分</div><div id="progDims" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;"></div></div>
+    <div class="skill-chart-card" style="text-align:center;padding:20px 16px;background:linear-gradient(135deg,#f0edff,#e8f5e9);border:1px solid #d0d8f0;margin-bottom:16px;">
+      <div style="font-size:36px;margin-bottom:8px;" id="progPartnerEmoji">🌸</div>
+      <div style="font-size:14px;font-weight:700;color:#2b5a7a;margin-bottom:4px;" id="progPartnerName">温柔导师型</div>
+      <div style="font-size:13px;color:#5b6abf;line-height:1.6;" id="progPartnerMsg">每天学一点AI，能力在不知不觉中增长！</div>
     </div>
   </div>
 </div>
 
 <!-- Page: 分享 -->
-<div id="page-share" class="page" data-page-node-id="5IZASoklAqiOJxqjnS0tdC">
-  <div class="skill-page" data-page-node-id="djxQ6pulnoKYjEKiV8ZGS0">
-    <div class="skill-header" style="text-align:center;" data-page-node-id="hIZstXHLTLwIAtYOV2heET"><div class="chart-title" style="font-size:20px;margin-bottom:4px;" data-page-node-id="bxmu0ct8IraAG3S9BrHLaF">📣 分享</div><div class="chart-sub" data-page-node-id="I3VUqdLZFF6ObhKvrrblJv">邀请朋友一起学AI</div></div>
-    <div class="skill-chart-card" style="text-align:center;;border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="6N1k1ji6J2AtIsVPl4sG88">
-      <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="2RbC0zBgoEPg1sfzfDVQQT">🤖</div>
-      <div style="font-size:16px;font-weight:700;color:#4834d4;margin-bottom:4px;" data-page-node-id="IqX9DJzIQWRGoklVbg6g9j">AI能力搭子</div>
-      <div style="font-size:13px;color:#5b6abf;line-height:1.6;margin-bottom:12px;" data-page-node-id="p6yNGr7xUEfXYQkjIKAlRk">4种性格陪你掌握AI<br data-page-node-id="NLpyuGcMVkMImpaSupcFds">每天5分钟复盘，AI能力稳步提升</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;" data-page-node-id="sITeAcrW86hTWeLFXjlqwn">
-        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;" data-page-node-id="mb7EqSkNTqqz6zWxwtegXn"><div style="font-size:24px;" data-page-node-id="eSK790DHBRQbHS0c7u3g5R">🔧</div><div style="font-size:12px;font-weight:600;color:#5c6bc0;" data-page-node-id="sgb9lq6iC1lfsnmz9gFOtX">工具使用</div></div>
-        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;" data-page-node-id="ZWNHAJLcprLmgSX7Y3F35k"><div style="font-size:24px;" data-page-node-id="vIYHFQKcShxahS1YY6BUkE">✍️</div><div style="font-size:12px;font-weight:600;color:#26a69a;" data-page-node-id="124xJmNTla6DCwvvqZS24J">Prompt工程</div></div>
-        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;" data-page-node-id="HtJ2YuzE4esOgPHPxhDsGg"><div style="font-size:24px;" data-page-node-id="F7vI4R88x5zBpZvx8gJcRS">🤖</div><div style="font-size:12px;font-weight:600;color:#66bb6a;" data-page-node-id="B0L68ATPD7VAkJsjK54iCh">自动化</div></div>
-        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;" data-page-node-id="7NrGMHcjdS93aYqdfF1Ny3"><div style="font-size:24px;" data-page-node-id="GPagPHuHTNidqap1UjhBuX">📚</div><div style="font-size:12px;font-weight:600;color:#ffa726;" data-page-node-id="Dwc02RjaQPNNU5NJm5rAUd">学习成长</div></div>
-        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;grid-column:span 2;" data-page-node-id="DLPD6eAQDK6jelef7Ziumf"><div style="font-size:24px;" data-page-node-id="I4YJ9BkYHsLqLNvEyKFplX">🚀</div><div style="font-size:12px;font-weight:600;color:#8d6e63;" data-page-node-id="6BTjMzQAkEBFg3rjcpU9hu">应用实践</div></div>
+<div id="page-share" class="page">
+  <div class="skill-page">
+    <div class="skill-header" style="text-align:center;"><div class="chart-title" style="font-size:20px;margin-bottom:4px;">📣 分享</div><div class="chart-sub">邀请朋友一起学AI</div></div>
+    <div class="skill-chart-card" style="text-align:center;">
+      <div style="font-size:48px;margin-bottom:8px;">🤖</div>
+      <div style="font-size:16px;font-weight:700;color:#4834d4;margin-bottom:4px;">AI能力搭子</div>
+      <div style="font-size:13px;color:#5b6abf;line-height:1.6;margin-bottom:12px;">4种性格陪你掌握AI<br>每天5分钟复盘，AI能力稳步提升</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">🔧</div><div style="font-size:12px;font-weight:600;color:#5c6bc0;">工具使用</div></div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">✍️</div><div style="font-size:12px;font-weight:600;color:#26a69a;">Prompt工程</div></div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">🤖</div><div style="font-size:12px;font-weight:600;color:#66bb6a;">自动化</div></div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;"><div style="font-size:24px;">📚</div><div style="font-size:12px;font-weight:600;color:#ffa726;">学习成长</div></div>
+        <div style="background:#f7f4fb;border-radius:12px;padding:12px;text-align:center;grid-column:span 2;"><div style="font-size:24px;">🚀</div><div style="font-size:12px;font-weight:600;color:#8d6e63;">应用实践</div></div>
       </div>
-      <div style="margin-top:12px;background:linear-gradient(135deg,#f0f0ff,#e8eaf6);border-radius:14px;padding:16px;text-align:left;"><div style="font-size:13px;color:#4834d4;line-height:1.8;font-weight:600;" id="sharePnLSummary">还在积累中。完成今日自检后，这里会出现你的 AI 能力 摘要。</div></div><div style="font-size:12px;font-weight:600;color:#6c7a89;margin-bottom:8px;" data-page-node-id="CwkclXvHBUxzZZA6JBo6P2">🔗 邀请链接</div>
-      <div style="background:#f0f0ff;border-radius:12px;padding:12px 14px;font-size:13px;color:#4834d4;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay" data-page-node-id="pJ00fkgrjsmVcjiEzNMsvw"></div>
-      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#6c5ce7,#4834d4);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;" data-page-node-id="NtFi3TAGlFpo0aBGI9KTCd">📋 复制邀请链接</button>
+      <div style="font-size:12px;font-weight:600;color:#6c7a89;margin-bottom:8px;">🔗 邀请链接</div>
+      <div style="background:#f0f0ff;border-radius:12px;padding:12px 14px;font-size:13px;color:#4834d4;word-break:break-all;margin-bottom:12px;" id="shareUrlDisplay"></div>
+      <button onclick="copyShareLink()" style="width:100%;padding:14px;border-radius:50px;background:linear-gradient(135deg,#6c5ce7,#4834d4);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;">📋 复制邀请链接</button>
     </div>
   </div>
 </div>
 
 <!-- Page: 教练 -->
-<div id="page-coach" class="page" data-page-node-id="NGVOFfWeKuHGYfjbZMcekN">
+<div id="page-coach" class="page">
 
     <!-- ===== 互动教练（麦肯锡式三步对话 · 点击开始）===== -->
-    <div class="coach-intro" id="coachIntro" data-page-node-id="EVDntYkEEjfk3yFVSGSF76">
-      <div class="coach-intro-icon" data-page-node-id="hXelf8R0RD40YXnHwEtqMO">🎓</div>
-      <div class="coach-intro-title" data-page-node-id="pf0hc9TngT2JchYjOaeBOR">麦肯锡风格AI能力教练</div>
-      <div class="coach-intro-sub" data-page-node-id="i7cf07F575oqWdvlAbtlG4">用结构化思维，3步拆解AI学习卡点</div>
-      <div class="coach-method-steps" data-page-node-id="19paXdTCe35SvCGBP4OjYY">
-        <div class="method-step" data-page-node-id="7RiO1uUyBjTaNpn4h3bOMz"><span class="step-num" data-page-node-id="sRe5VIjvzYR0L3bepAhV8Z">①</span> 界定问题<br data-page-node-id="igZw1jEjQ2k1kiE0XRt7bt"><span class="step-desc" data-page-node-id="IoHhnP06sOD3ZLBcuN68LV">明确核心卡点</span></div>
-        <div class="method-step" data-page-node-id="3kgoUcbVdEZCnK9mV6aUeY"><span class="step-num" data-page-node-id="Dylq6nkU0B4NJ86ZCkunDR">②</span> 结构化分析<br data-page-node-id="FRfuYuVSNowwmtFI3ugS4c"><span class="step-desc" data-page-node-id="LmWiU4YaqHDQgzbmCUAhEP">MECE拆解根因</span></div>
-        <div class="method-step" data-page-node-id="wfrT7tLO6oCaOxgCYGD5AC"><span class="step-num" data-page-node-id="lOxAZkCGjUxpZu9qPkNbTA">③</span> 优先级行动<br data-page-node-id="YgxqoYiP63cNEF3w7iLOie"><span class="step-desc" data-page-node-id="u1Q4TIx7b5dPzWpaKvf5M3">可执行的下一步</span></div>
+    <div class="coach-intro" id="coachIntro">
+      <div class="coach-intro-icon">🎓</div>
+      <div class="coach-intro-title">麦肯锡风格AI能力教练</div>
+      <div class="coach-intro-sub">用结构化思维，3步拆解AI学习卡点</div>
+      <div class="coach-method-steps">
+        <div class="method-step"><span class="step-num">①</span> 界定问题<br><span class="step-desc">明确核心卡点</span></div>
+        <div class="method-step"><span class="step-num">②</span> 结构化分析<br><span class="step-desc">MECE拆解根因</span></div>
+        <div class="method-step"><span class="step-num">③</span> 优先级行动<br><span class="step-desc">可执行的下一步</span></div>
       </div>
-      <button class="coach-start-btn" onclick="startCoach()" data-page-node-id="BaXlWF3C1SU0AqpTCjS1sW">开始深度对话 →</button>
-      <div class="coach-intro-note" data-page-node-id="nWNr4h1JaOVsDbTWamfWrn">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
+      <button class="coach-start-btn" onclick="startCoach()">开始深度对话 →</button>
+      <div class="coach-intro-note">💡 免费版 · 纯前端模拟 · 麦肯锡方法论</div>
     </div>
 
-    <div class="coach-chat" id="coachChat" style="display:none;" data-page-node-id="zOhIcNKlFFJQt6kn6KBR22">
-      <div class="coach-progress-bar" data-page-node-id="2TZnzmXp7yXEPUadP2CW0j">
-        <div class="progress-step active" id="progressStep1" data-page-node-id="ixFEuNuf1DRlL1dHDuTDmX">① 界定问题</div>
-        <div class="progress-step" id="progressStep2" data-page-node-id="ClXAiPMYoEaprCIYM3gGQD">② 结构化分析</div>
-        <div class="progress-step" id="progressStep3" data-page-node-id="ogmHJ1ObQXNUQ6lcMaF0DB">③ 优先级行动</div>
+    <div class="coach-chat" id="coachChat" style="display:none;">
+      <div class="coach-progress-bar">
+        <div class="progress-step active" id="progressStep1">① 界定问题</div>
+        <div class="progress-step" id="progressStep2">② 结构化分析</div>
+        <div class="progress-step" id="progressStep3">③ 优先级行动</div>
       </div>
-      <div class="chat-messages" id="chatMessages" data-page-node-id="FVEGQfIMxOLoFBR7WUTtl8"></div>
-      <div class="coach-prompt" id="coachPrompt" style="display:none;" data-page-node-id="c4ehZ36FsbTBCFoNh5t3P3">
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="coach-prompt" id="coachPrompt" style="display:none;">
         💡 请在下方输入框中回复...
       </div>
-      <div class="chat-input-area" id="chatInputArea" style="display:none;" data-page-node-id="nsVTFSAmWUYbN5BHU7VHBB">
+      <div class="chat-input-area" id="chatInputArea" style="display:none;">
         <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
-        <button class="chat-send-btn" onclick="sendCoachMsg()" data-page-node-id="VNLhZh6jirNjntfBxZ4Reh">发送</button>
+        <button class="chat-send-btn" onclick="sendCoachMsg()">发送</button>
       </div>
-      <div class="coach-buttons" id="coachButtons" style="display:none;" data-page-node-id="GJzQ01AZEaDmG1ADcDCvu0">
-        <div class="coach-btn-prompt" id="coachBtnPrompt" data-page-node-id="NNA8GUZvtK5ohSwCY1ZNks"></div>
-        <div class="coach-btn-list" id="coachBtnList" data-page-node-id="A4qtreFqM3weQ2jTosrE7T"></div>
+      <div class="coach-buttons" id="coachButtons" style="display:none;">
+        <div class="coach-btn-prompt" id="coachBtnPrompt"></div>
+        <div class="coach-btn-list" id="coachBtnList"></div>
       </div>
     </div>
 
-    <div class="coach-report-mckinsey" id="coachReport" style="display:none;" data-page-node-id="tqboDRFrdXvfD4rVRtkBhF"></div>
+    <div class="coach-report-mckinsey" id="coachReport" style="display:none;"></div>
 
     <!-- 下方为成长路线参考（点击各阶段可展开/收起，Checklist可勾选） -->
 
-  <div class="skill-page" data-page-node-id="RgsaVzjg4fQ7AUKgUa6JO2">
-    <div class="skill-header" style="text-align:center;" data-page-node-id="IA1VWyWVTeG1aKVX0Km0DB">
-      <div style="font-size:48px;margin-bottom:12px;" data-page-node-id="Fi2PN9fRRSxpdvxYLOnN7K">🎓</div>
-      <div class="chart-title" style="font-size:20px;margin-bottom:4px;" data-page-node-id="QeZVoAoV2mwFgVg4yAcu2W">AI学习路线</div>
-      <div class="chart-sub" data-page-node-id="rnDG2CdxJi1TYPNFvOLgRt">从入门到进阶的三步路径</div>
+  <div class="skill-page">
+    <div class="skill-header" style="text-align:center;">
+      <div style="font-size:48px;margin-bottom:12px;">🎓</div>
+      <div class="chart-title" style="font-size:20px;margin-bottom:4px;">AI学习路线</div>
+      <div class="chart-sub">从入门到进阶的三步路径</div>
     </div>
-    <div class="skill-chart-card" style="margin-bottom:12px;;border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="RWO4qpnQ832gom7MG4jBph">
-      <div style="font-size:14px;font-weight:700;color:#2b5a7a;margin-bottom:10px;" data-page-node-id="dJ43tgFXXXSFYN7eDAYM5m">🗺️ 三阶段学习路线图</div>
-      <div class="ai-stage" style="background:#e8f5e9;border-radius:12px;padding:14px;margin-bottom:8px;" data-page-node-id="SYkZ6JMhCqIscLk9Gwe3aD">
-        <div class="ai-stage-head" style="font-weight:700;color:#2e7d32;margin-bottom:4px;" data-page-node-id="8E0RWtVzrX77Ppv7MFaGfa">📌 第一阶段（1个月） <span class="ai-stage-arrow" data-page-node-id="mydZ1pH5atysHMh4qja7Kb">▾</span></div>
-        <div class="ai-stage-body" style="font-size:13px;color:#37474f;line-height:1.6;" data-page-node-id="AhpAk38bDDu5UoK7iStWGT">熟练使用3个核心AI工具解决日常问题<br data-page-node-id="kx5py1BvEBbjDwYPyNkbKU">• Kimi：文档处理、写作辅助<br data-page-node-id="rk3Rr92dt37c0AbJpXVpDh">• DeepSeek：深度推理、复杂分析<br data-page-node-id="0ZgfJf2k73jw8ygzGAMbkV">• 秘塔AI：精准搜索、信息获取</div>
+    <div class="skill-chart-card" style="margin-bottom:12px;">
+      <div style="font-size:14px;font-weight:700;color:#2b5a7a;margin-bottom:10px;">🗺️ 三阶段学习路线图</div>
+      <div class="ai-stage" style="background:#e8f5e9;border-radius:12px;padding:14px;margin-bottom:8px;">
+        <div class="ai-stage-head" style="font-weight:700;color:#2e7d32;margin-bottom:4px;">📌 第一阶段（1个月） <span class="ai-stage-arrow">▾</span></div>
+        <div class="ai-stage-body" style="font-size:13px;color:#37474f;line-height:1.6;">熟练使用3个核心AI工具解决日常问题<br>• Kimi：文档处理、写作辅助<br>• DeepSeek：深度推理、复杂分析<br>• 秘塔AI：精准搜索、信息获取</div>
       </div>
-      <div class="ai-stage" style="background:#fff3e0;border-radius:12px;padding:14px;margin-bottom:8px;" data-page-node-id="o8et8E7i5tLRYXA5HGBgME">
-        <div class="ai-stage-head" style="font-weight:700;color:#e65100;margin-bottom:4px;" data-page-node-id="6PfWlYYgYULktz30O2vq06">📌 第二阶段（2-3个月） <span class="ai-stage-arrow" data-page-node-id="Br9Plo3ViNbtJzgRDSpsiT">▾</span></div>
-        <div class="ai-stage-body" style="font-size:13px;color:#37474f;line-height:1.6;" data-page-node-id="XqSb8m83csTnDAtgW58ALa">掌握Prompt工程+搭建AI工作流<br data-page-node-id="D2ykslvRYAyn5f3JioODEQ">• 结构化Prompt：角色+任务+背景+格式<br data-page-node-id="nqkxnl1TyRIRzy4bcYwQ1Y">• AI Agent入门：Coze/Dify搭建第一个Bot<br data-page-node-id="z0tq8EoMHU0lzpUUHfaUnt">• AI辅助创作：文字/图片/视频内容生成</div>
+      <div class="ai-stage" style="background:#fff3e0;border-radius:12px;padding:14px;margin-bottom:8px;">
+        <div class="ai-stage-head" style="font-weight:700;color:#e65100;margin-bottom:4px;">📌 第二阶段（2-3个月） <span class="ai-stage-arrow">▾</span></div>
+        <div class="ai-stage-body" style="font-size:13px;color:#37474f;line-height:1.6;">掌握Prompt工程+搭建AI工作流<br>• 结构化Prompt：角色+任务+背景+格式<br>• AI Agent入门：Coze/Dify搭建第一个Bot<br>• AI辅助创作：文字/图片/视频内容生成</div>
       </div>
-      <div class="ai-stage" style="background:#e8eaf6;border-radius:12px;padding:14px;" data-page-node-id="v2cTzMzWLQUmgYUcx3ZsqC">
-        <div class="ai-stage-head" style="font-weight:700;color:#3949ab;margin-bottom:4px;" data-page-node-id="jRajmUAdAnAHtT8FJBrCtx">📌 第三阶段（3-6个月） <span class="ai-stage-arrow" data-page-node-id="RklVbqHsLTVXsrEEsPa4C5">▾</span></div>
-        <div class="ai-stage-body" style="font-size:13px;color:#37474f;line-height:1.6;" data-page-node-id="w4HcCQkMvylwIcV2RHC5Aw">把AI深度融入专业领域创造价值<br data-page-node-id="GjWYT59tUz0TDCwX0MtYFJ">• AI+你的专业：个性化AI应用<br data-page-node-id="wewrfhAEF8V9a7nSvq2dny">• 自动化工作流：串联多个AI工具<br data-page-node-id="w5qszPz8Qo3AFzbEkUswaL">• AI变现：用AI技能创造收入</div>
+      <div class="ai-stage" style="background:#e8eaf6;border-radius:12px;padding:14px;">
+        <div class="ai-stage-head" style="font-weight:700;color:#3949ab;margin-bottom:4px;">📌 第三阶段（3-6个月） <span class="ai-stage-arrow">▾</span></div>
+        <div class="ai-stage-body" style="font-size:13px;color:#37474f;line-height:1.6;">把AI深度融入专业领域创造价值<br>• AI+你的专业：个性化AI应用<br>• 自动化工作流：串联多个AI工具<br>• AI变现：用AI技能创造收入</div>
       </div>
     </div>
-    <div class="skill-chart-card" style="border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="KZgi4ndq8l1RslYDHNKDRH">
-      <div style="font-size:14px;font-weight:700;color:#2b5a7a;margin-bottom:10px;" data-page-node-id="ev8OskFJgX2RVSXQ2HLAHP">📋 基本功 Checklist</div>
-      <div id="aiClkList" data-page-node-id="YFs7b3CiFimGFhP7MzKM6x">
-        <div class="ai-clk-item" data-page-node-id="X1hHKGNp21aPQedzhx8m9U"><span class="ai-clk-box" data-page-node-id="irW0H5nMS6t2zAibHDCvyP">☐</span>会用至少3个AI对话工具</div>
-        <div class="ai-clk-item" data-page-node-id="JJ5gvjVn1PnNB9httNHeiG"><span class="ai-clk-box" data-page-node-id="PEhsAQcLBGHUDI4CnNVk75">☐</span>能写出结构化的Prompt</div>
-        <div class="ai-clk-item" data-page-node-id="0sFtSjqCIWOyaj067gjRA1"><span class="ai-clk-box" data-page-node-id="dgpzTTORf9f8WHFAP3KRQW">☐</span>会用AI进行信息搜索和分析</div>
-        <div class="ai-clk-item" data-page-node-id="5XrXdFUqMsHLnjOsp7ondL"><span class="ai-clk-box" data-page-node-id="yQTV2f5rP5d2LILeeGsRUb">☐</span>了解AI Agent的基本概念</div>
-        <div class="ai-clk-item" data-page-node-id="MKwqSGrqvL0D1GoDVxG9xv"><span class="ai-clk-box" data-page-node-id="WUlNPrzW82luPL97WmA4XD">☐</span>至少搭建过一个AI工作流</div>
-        <div class="ai-clk-item" data-page-node-id="E1TH7FdespWuy1GxdVzPAd"><span class="ai-clk-box" data-page-node-id="QyeMtKqRJHke8vFtrhxTqS">☐</span>能把AI融入日常工作/学习</div>
-        <div class="ai-clk-item" data-page-node-id="6JEiOPh60DSXJyVBrlHLYH"><span class="ai-clk-box" data-page-node-id="veMVbV82MxxLGcB6XshgYl">☐</span>持续关注AI领域动态</div>
+    <div class="skill-chart-card">
+      <div style="font-size:14px;font-weight:700;color:#2b5a7a;margin-bottom:10px;">📋 基本功 Checklist</div>
+      <div id="aiClkList">
+        <div class="ai-clk-item"><span class="ai-clk-box">☐</span>会用至少3个AI对话工具</div>
+        <div class="ai-clk-item"><span class="ai-clk-box">☐</span>能写出结构化的Prompt</div>
+        <div class="ai-clk-item"><span class="ai-clk-box">☐</span>会用AI进行信息搜索和分析</div>
+        <div class="ai-clk-item"><span class="ai-clk-box">☐</span>了解AI Agent的基本概念</div>
+        <div class="ai-clk-item"><span class="ai-clk-box">☐</span>至少搭建过一个AI工作流</div>
+        <div class="ai-clk-item"><span class="ai-clk-box">☐</span>能把AI融入日常工作/学习</div>
+        <div class="ai-clk-item"><span class="ai-clk-box">☐</span>持续关注AI领域动态</div>
       </div>
-      <div style="font-size:12px;color:#8f9eae;margin-top:8px;" data-page-node-id="wL7588f1PB03K4QP3hHNqT">👆 点击条目勾选 · 已达成 <b id="aiClkCount" style="color:#6366f1;" data-page-node-id="YuDOwvhcnfbCQhwKbfUmXl">0</b>/7 · 自动保存</div>
+      <div style="font-size:12px;color:#8f9eae;margin-top:8px;">👆 点击条目勾选 · 已达成 <b id="aiClkCount" style="color:#6366f1;">0</b>/7 · 自动保存</div>
     </div>
   </div>
 </div>
@@ -554,30 +664,7 @@ const STORAGE = {
 // ==================== 本地存储 ====================
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); }
-function getSOPData() { var d = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); return _sopDailyReset(d, STORAGE.SOP); }
-// 新的一天自动归零（2026-09-06）：读取入口校验日期，昨日未提交成绩补归档后重置，不再依赖切换 tab 触发
-function _sopDailyReset(d, sopKey, extra) {
-  try {
-    var today = new Date().toISOString().slice(0,10);
-    if (d && d.date && d.date !== today) {
-      var hasData = (d.score > 0) || (d.selected && Object.keys(d.selected).length > 0) || d.done;
-      if (hasData && (typeof getSOPHistory === 'function') && (typeof saveSOPToHistory === 'function')) {
-        try {
-          var _hist = getSOPHistory();
-          if (!_hist.some(function(h){ return h && h.date === d.date; })) {
-            saveSOPToHistory({ date: d.date, score: d.score || 0 });
-          }
-        } catch(e) {}
-      }
-      var _reset = { score: 0, selected: {}, done: false, date: today, submittedCats: [] };
-      if (extra) { for (var k in extra) { _reset[k] = extra[k]; } }
-      try { localStorage.setItem(sopKey, JSON.stringify(_reset)); } catch(e) {}
-      return _reset;
-    }
-  } catch(e) {}
-  return d;
-}
-setTimeout(function(){ try { getSOPData(); } catch(e) {} }, 0);
+function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); }
 function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); }
 function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
 function saveSOPStreaks(d) { localStorage.setItem(STORAGE.SOP_STREAKS, JSON.stringify(d)); }
@@ -1043,7 +1130,6 @@ function sendMood(mood) {
 }
 
 function askPartner(type) {
-  if (type === 'scene') { openSceneSheet(); return; }
   if (type === 'question') {
     var qa = QA_DATA.pos.concat(QA_DATA.neg);
     showQAPanel('🤔 有问题想问', qa);
@@ -1063,9 +1149,7 @@ function showQAPanel(title, items) {
   items.forEach(function(item){
     var cls = item.type === 'pos' ? 'pos' : 'neg';
     var tagCls = item.type === 'pos' ? 'pos' : 'neg';
-    var scen = item.scenario || item.question || '';
-    var fb = item.feedback || item.answer || '';
-    html += '<div class="qa-card '+cls+'" onclick="selectQACard(this)" data-feedback="'+fb.replace(/"/g,'&quot;')+'" data-icon="'+item.icon+'"><span class="qa-card-icon">'+item.icon+'</span><span class="qa-card-text">'+scen+'</span></div>';
+    html += '<div class="qa-card '+cls+'" onclick="selectQACard(this)" data-feedback="'+item.feedback.replace(/"/g,'&quot;')+'" data-icon="'+item.icon+'"><span class="qa-card-icon">'+item.icon+'</span><span class="qa-card-text">'+item.scenario+'</span></div>';
   });
   scroll.innerHTML = html;
   document.getElementById('qaOverlay').classList.add('show');
@@ -1099,11 +1183,11 @@ function initSOP() {
     sopDone = false;
     sopSubmittedCats = [];
   } else {
+    sopScore = d.score || 0;
     sopSelected = d.selected || {};
     sopDone = d.done || false;
     sopSubmittedCats = d.submittedCats || [];
   }
-  recalcSOPScore();
   updateSOPDisplay();
   renderSOPCats();
   renderSOPTips();
@@ -1115,7 +1199,7 @@ function updateSOPDisplay() {
   var pos = 0, neg = 0;
   for (var k in sopSelected) {
     var sel = sopSelected[k] || [];
-    sel.forEach(function(s){ if (s>=0) pos++; else if (s<0) neg++; });
+    sel.forEach(function(s){ if (s>0) pos++; else if (s<0) neg++; });
   }
   document.getElementById('sopPosCount').textContent = pos;
   document.getElementById('sopNegCount').textContent = neg;
@@ -1153,7 +1237,7 @@ function renderSOPList() {
     var html = '<div class="sop-list-container">';
     cat.items.forEach(function(item, i){
       var state = sel.indexOf(i) !== -1 ? 'yes' : (sel.indexOf(-i-1) !== -1 ? 'no' : '');
-      html += '<div class="sop-item'+(state==='yes'?' sop-item-yes':'')+(state==='no'?' sop-item-no':'')+'"><span class="sop-item-text">'+item.text+'</span><div class="sop-item-btns"><button class="sop-check-btn'+(state==='yes'?' yes-checked':'')+'" onclick="sopCheck('+i+',\'yes\')">✅ '+item.pts+'分</button><button class="sop-check-btn'+(state==='no'?' no-checked':'')+'" onclick="sopCheck('+i+',\'no\')">❌</button></div></div>';
+      html += '<div class="sop-item'+(state==='yes'?' sop-item-yes':'')+(state==='no'?' sop-item-no':'')+'"><span class="sop-item-text">'+item.text+'</span><div class="sop-item-btns"><button class="sop-check-btn'+(state==='yes'?' yes-checked':'')+'" onclick="sopCheck('+i+','+'yes'+')">✅ '+item.pts+'分</button><button class="sop-check-btn'+(state==='no'?' no-checked':'')+'" onclick="sopCheck('+i+','+'no'+')">❌</button></div></div>';
     });
     html += '</div>';
     if (sopSubmittedCats.indexOf(cat.id) === -1) {
@@ -1174,8 +1258,10 @@ function sopCheck(idx, type) {
     if (posIdx === -1) {
       if (negIdx !== -1) sel.splice(negIdx, 1);
       sel.push(idx);
+      sopScore += cat.items[idx].pts;
     } else {
       sel.splice(posIdx, 1);
+      sopScore -= cat.items[idx].pts;
     }
   } else {
     if (negIdx === -1) {
@@ -1186,87 +1272,25 @@ function sopCheck(idx, type) {
     }
   }
   sopSelected[cat.id] = sel;
-  recalcSOPScore();
+  sopScore = Math.max(0, Math.min(100, sopScore));
   updateSOPDisplay();
   renderSOPList();
   saveCurrentSOPState();
 }
 
 function submitSOPCat() {
-  var cat = SOP_CATEGORIES[sopCatIdx];
-  var sel = sopSelected[cat.id] || [];
-  var yesCount = sel.filter(function(x){ return x >= 0; }).length;
-  var catPct = Math.round(yesCount / cat.items.length * 100);
-  if (sopSubmittedCats.indexOf(cat.id) === -1) {
-    sopSubmittedCats.push(cat.id);
-    updateSOPCatStreak(cat.id, catPct);
+  if (sopSubmittedCats.indexOf(SOP_CATEGORIES[sopCatIdx].id) === -1) {
+    sopSubmittedCats.push(SOP_CATEGORIES[sopCatIdx].id);
+    saveCurrentSOPState();
+    updateSOPCatStreak(SOP_CATEGORIES[sopCatIdx].id, sopScore);
   }
-  recalcSOPScore();
-  saveCurrentSOPState();
   renderSOPCats();
-  updateSOPDisplay();
-  var allDone = sopSubmittedCats.length >= SOP_CATEGORIES.length;
-  if (allDone) {
-    if (!sopDone) {
-      sopDone = true;
-      saveCurrentSOPState();
-      saveCurrentSOPToHistory();
-      setTimeout(function(){ showSOPFinish(); }, 200);
-    }
-  } else {
-    setTimeout(function(){ showCatSummary(cat, yesCount, catPct); }, 200);
-  }
-}
-
-/* 自动计算统计总数：按所有维度 完成项/总项数×100 */
-function recalcSOPScore() {
-  var totalYes = 0, totalItems = 0;
-  SOP_CATEGORIES.forEach(function(c){
-    var sel = sopSelected[c.id] || [];
-    totalItems += c.items.length;
-    sel.forEach(function(x){ if (x >= 0) totalYes++; });
-  });
-  sopScore = totalItems ? Math.round(totalYes / totalItems * 100) : 0;
-}
-
-/* 分类确认卡（参照睡眠搭子） */
-function showCatSummary(cat, yesCount, catPct) {
-  var overlay = document.getElementById('catSummaryOverlay');
-  if (!overlay) return;
-  var total = cat.items.length;
-  var streak = (getSOPStreaks()[cat.id] || {}).streak || 0;
-  var emoji = catPct >= 80 ? '🌟' : catPct >= 50 ? '💪' : '🌱';
-  var msg = catPct >= 80 ? '这个维度完成得很扎实，保持！'
-          : catPct >= 50 ? '不错的基础，明天再补齐几项！'
-          : '先有个开始就赢了一半，明天继续！';
-  var isLast = sopSubmittedCats.length >= SOP_CATEGORIES.length;
-  overlay.innerHTML = '<div class="sop-finish-card">' +
-    '<div style="font-size:54px;margin-bottom:4px;">' + emoji + '</div>' +
-    '<div style="font-size:16px;font-weight:900;color:#1a2535;margin-bottom:2px;">' + cat.icon + ' ' + cat.name + '</div>' +
-    '<div style="font-size:34px;font-weight:900;color:' + cat.color + ';margin:6px 0;">' + catPct + '%</div>' +
-    '<div style="font-size:13px;color:#78909c;margin-bottom:10px;">' + yesCount + ' / ' + total + ' 项完成' + (streak > 0 ? ' · 🔥 已连续' + streak + '天' : '') + '</div>' +
-    '<div style="font-size:13px;color:#37474f;background:#f8fafc;border-radius:12px;padding:10px 12px;margin-bottom:14px;">' + msg + '</div>' +
-    '<button onclick="closeCatSummary()" class="sf-btn">✅ ' + (isLast ? '查看今日总结' : '继续下一个维度') + '</button>' +
-    '</div>';
-  overlay.classList.add('show');
-}
-
-function closeCatSummary() {
-  var overlay = document.getElementById('catSummaryOverlay');
-  if (overlay) overlay.classList.remove('show');
+  renderSOPList();
   if (sopSubmittedCats.length >= SOP_CATEGORIES.length) {
-    setTimeout(function(){ showSOPFinish(); }, 400);
-  } else {
-    var nextCat = -1;
-    for (var i = 0; i < SOP_CATEGORIES.length; i++) {
-      if (sopSubmittedCats.indexOf(SOP_CATEGORIES[i].id) === -1) { nextCat = i; break; }
-    }
-    if (nextCat >= 0) {
-      sopCatIdx = nextCat;
-      renderSOPCats();
-      renderSOPTips();
-      renderSOPList();
-    }
+    sopDone = true;
+    saveCurrentSOPState();
+    saveCurrentSOPToHistory();
+    showSOPFinish();
   }
 }
 
@@ -1314,14 +1338,11 @@ function showSOPFinish() {
   var title = sopScore >= 80 ? 'AI技能拉满！' : sopScore >= 60 ? '稳步成长中！' : '继续加油！';
   document.getElementById('sfEmoji').textContent = emoji;
   document.getElementById('sfTitle').textContent = title;
-  var streaksAll = getSOPStreaks();
   var catsHtml = '';
   SOP_CATEGORIES.forEach(function(cat){
     var sel = sopSelected[cat.id] || [];
     var yes = sel.filter(function(s){ return s>=0; }).length;
-    var pct = Math.round(yes / cat.items.length * 100);
-    var st = (streaksAll[cat.id] || {}).streak || 0;
-    catsHtml += '<div class="sf-cat-row"><span class="sf-cat-icon">'+cat.icon+'</span><span class="sf-cat-name">'+cat.name+' <b style="color:'+cat.color+';">'+pct+'%</b></span><span class="sf-cat-yes">'+yes+'/'+cat.items.length+'</span>'+(st>0?'<span style="font-size:11px;font-weight:800;color:#e65100;flex-shrink:0;">🔥'+st+'天</span>':'')+'</div>';
+    catsHtml += '<div class="sf-cat-row"><span class="sf-cat-icon">'+cat.icon+'</span><span class="sf-cat-name">'+cat.name+'</span><span class="sf-cat-yes">'+yes+'/'+cat.items.length+'</span></div>';
   });
   document.getElementById('sfCats').innerHTML = catsHtml;
   document.getElementById('sopFinishOverlay').classList.add('show');
@@ -1374,7 +1395,6 @@ function renderProgress() {
 
 function renderSharePage() {
   document.getElementById('shareUrlDisplay').textContent = getSiteUrl();
-  updateShareSummary();
 }
 
 function copyShareLink() {
@@ -1384,16 +1404,7 @@ function copyShareLink() {
   }).catch(function(){
     showToast('复制失败，请手动复制链接');
   });
-}function updateShareSummary() {
-  var el = document.getElementById('sharePnLSummary'); if (!el) return;
-  try {
-    var d = getSOPData();
-    var hist = (typeof getHistory === 'function') ? getHistory() : [];
-    var done = d && d.done;
-    el.innerHTML = '🤖 今日自检 ' + (done ? '✅ 已完成' : '⬜ 待完成') + ' · 累计复盘 <b>' + hist.length + '</b> 天<br>⚡ AI 不会取代你，会用 AI 的人会';
-  } catch (e) {}
 }
-
 
 function previewShareCard() {
   showToast('🤖 AI能力搭子 · 4种性格陪你学AI · 每天5分钟复盘');
@@ -1430,18 +1441,6 @@ document.getElementById('qaOverlay').addEventListener('click', function(e){
   if (currentPartner) {
     selectPartner(currentPartner.id);
   }
-
-function bindAIInteractionFallback() {
-  var panel = document.querySelector('.interaction-panel');
-  if (!panel) return;
-  panel.addEventListener('click', function(e) {
-    var m = e.target.closest ? e.target.closest('.mood-btn') : null;
-    if (m) { var k = m.getAttribute('data-mood'); if (k) sendMood(k); return; }
-    var t = e.target.closest ? e.target.closest('.talk-btn') : null;
-    if (t) { var k2 = t.getAttribute('data-type'); if (k2) askPartner(k2); }
-  }, true);
-}
-
   bindAIInteractionFallback();
 })();
 </script>
@@ -1478,104 +1477,5 @@ function bindAIInteractionFallback() {
 </script>
 
 
-<script>
-(function(){
-  var TIPS = ['每天15分钟真用AI，比看10篇教程有用', '结构化Prompt：角色+任务+背景+格式', '把AI当同事，先给它足够的上下文', '学一个工具最好的方式：拿真活儿练', 'AI的答案要交叉验证，它是助手不是权威', '重复第三遍的流程，就该让AI接管了', '先把AI融入一件日常小事，再谈工作流', '多问“能怎么用”，不止“是什么”'];
-  window.nextDailyTip = function() {
-    var el = document.getElementById("dailyTipText");
-    if (!el) return;
-    el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
-  };
-})();
-</script>
-
-<script>
-/* === 基本功 Checklist 交互（点击勾选 · 自动保存） === */
-(function(){
-  var KEY = 'ai_clk_checklist';
-  var list = document.getElementById('aiClkList');
-  if (!list) return;
-  var items = list.querySelectorAll('.ai-clk-item');
-  var state = {};
-  try { var _sv = JSON.parse(localStorage.getItem(KEY) || 'null'); if (_sv && _sv._d === new Date().toISOString().slice(0,10)) { state = _sv.s || {}; } } catch(e) {}
-  function render() {
-    var d = 0;
-    items.forEach(function(it, i) {
-      var b = it.querySelector('.ai-clk-box');
-      if (state[i]) { it.classList.add('done'); if (b) b.textContent = '☑'; d++; }
-      else { it.classList.remove('done'); if (b) b.textContent = '☐'; }
-    });
-    var c = document.getElementById('aiClkCount'); if (c) c.textContent = d;
-  }
-  items.forEach(function(it, i) {
-    it.addEventListener('click', function() {
-      state[i] = !state[i];
-      try { localStorage.setItem(KEY, JSON.stringify({_d: new Date().toISOString().slice(0,10), s: state})); } catch(e) {}
-      render();
-    });
-  });
-  render();
-})();
-
-// ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
-const SCENE_DATA = {"pos": [{"icon": "✍️", "tag": "好提示词", "title": "写了一个结构清晰的 prompt", "text": "角色+任务+约束，输出质量翻倍", "quote": "🤖 搭子：你多写一句要求，AI少跑十次偏"}, {"icon": "🛠️", "tag": "真干活", "title": "用AI正经完成了一件工作", "text": "用起来才有手感，看一百篇不如跑一次", "quote": "🤖 搭子：今天AI又替你省了多少分钟？"}, {"icon": "🧠", "tag": "防幻觉", "title": "核实了AI给的答案再使用", "text": "AI会一本正经地胡说，你是最后一道关", "quote": "🤖 搭子：核实一次，信任就扎实一分"}, {"icon": "📚", "tag": "沉淀", "title": "把好用的 prompt 存进了模板库", "text": "沉淀下来的是资产，留在对话里的流水", "quote": "🤖 搭子：复用开始那天，效率才真起飞"}, {"icon": "🔗", "tag": "自动化", "title": "用AI搭了一个小流程/脚本", "text": "重复的事交给流程，脑子留给判断", "quote": "🤖 搭子：你自动化的每一步都在给未来放假"}, {"icon": "🎓", "tag": "教别人", "title": "教了一个同事用AI", "text": "教是最好的学，还攒下影响力", "quote": "🤖 搭子：你教会的人，都是你的杠杆"}, {"icon": "🔍", "tag": "拆任务", "title": "把大任务拆成了AI能接的小步骤", "text": "AI接不住模糊，拆解是人的价值", "quote": "🤖 搭子：拆得越清楚，AI干得越漂亮"}, {"icon": "⚖️", "tag": "知边界", "title": "知道AI不擅长什么并绕开了", "text": "知道边界比知道功能更专业", "quote": "🤖 搭子：该人干的干，该AI干的放心交"}], "neg": [{"icon": "📋", "tag": "复读机", "title": "只是复制粘贴没过脑子", "text": "不过脑的AI只是昂贵的复读机", "quote": "🤖 搭子：下次先想清楚再问它"}, {"icon": "🌫️", "tag": "模糊提问", "title": "提示词含糊导致来回返工", "text": "模糊的问题只能换来模糊的答案", "quote": "🤖 搭子：背景+目标+格式，三件套齐了再问"}, {"icon": "👻", "tag": "全信AI", "title": "把AI输出没验证就交了差", "text": "它答错的语气和答对时一样自信", "quote": "🤖 搭子：交出去的每一页，责任都是你的"}, {"icon": "🗂️", "tag": "收藏吃灰", "title": "又收藏了教程没打开", "text": "收藏不等于学会，收藏夹不是能力", "quote": "🤖 搭子：与其收藏10篇，不如练会1个"}, {"icon": "🔁", "tag": "重复问", "title": "重复问了AI已经答过的问题", "text": "没有记录，效率就归零重启", "quote": "🤖 搭子：把答案存下来，下次直接用"}, {"icon": "🕸️", "tag": "被带跑", "title": "被AI的花活带跑了注意力", "text": "工具是为你服务的，别反过来", "quote": "🤖 搭子：先定任务，再开工具"}, {"icon": "🔒", "tag": "大意泄密", "title": "把敏感信息直接贴给了AI", "text": "数据出去就收不回来", "quote": "🤖 搭子：脱敏是AI时代的基本素养"}, {"icon": "👀", "tag": "只看不练", "title": "看了一堆AI资讯没动手", "text": "焦虑来自围观，能力来自练习", "quote": "🤖 搭子：关掉资讯，打开对话框练10分钟"}]};
-function openSceneSheet() {
-  document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
-  var qaSubEl = document.getElementById('qaSub');
-  if (qaSubEl) qaSubEl.innerText = '点一下 · 让搭子回应你 · 不计入打卡';
-  const scroll = document.getElementById('qaScroll');
-  scroll.innerHTML = '';
-  const mk = (type, label, color) => {
-    const list = SCENE_DATA[type] || [];
-    if (!list.length) return;
-    const lbl = document.createElement('div');
-    lbl.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;';
-    lbl.innerText = label;
-    scroll.appendChild(lbl);
-    list.forEach((item, i) => {
-      const card = document.createElement('div');
-      card.className = 'qa-card ' + type;
-      const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
-        (type === 'pos' ? 'background:#7c7fea;color:white;' : 'background:#b07cd6;color:white;');
-      card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>' +
-        '<div class="qa-card-text">' + item.title + '</div>' +
-        '<span style="' + tagStyle + '">' + item.tag + '</span>';
-      card.onclick = () => {
-        closeQAPanelSafe();
-        setTimeout(() => openSceneFB(i, type), 300);
-      };
-      scroll.appendChild(card);
-    });
-  };
-  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#43a047');
-  mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
-  document.getElementById('qaOverlay').classList.add('show');
-  document.getElementById('qaOverlay').onclick = function(e) {
-    if (e.target === document.getElementById('qaOverlay')) closeQAPanelSafe();
-  };
-}
-function closeQAPanelSafe() {
-  if (typeof closeQAPanel === 'function') { closeQAPanel(); return; }
-  document.getElementById('qaOverlay').classList.remove('show');
-}
-function openSceneFB(idx, type) {
-  const item = SCENE_DATA[type] && SCENE_DATA[type][idx];
-  if (!item) return;
-  const card = document.getElementById('fbCard');
-  const em = document.getElementById('fbEmoji'); if (em) em.innerText = item.icon;
-  const lb = document.getElementById('fbLabel'); if (lb) lb.innerText = (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag;
-  const tt = document.getElementById('fbTitle'); if (tt) tt.innerText = item.title;
-  const tx = document.getElementById('fbText'); if (tx) tx.innerText = item.text;
-  const qt = document.getElementById('fbQuote'); if (qt) qt.innerText = item.quote;
-  if (card && !tx) {
-    card.className = 'fb-card';
-    card.innerHTML = '<div class="fb-emoji">' + item.icon + '</div>' +
-      '<div class="fb-title">' + (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag + '</div>' +
-      '<div class="fb-text"><b>' + item.title + '</b><br>' + item.text + '<br><br>' + item.quote + '</div>' +
-      '<button class="fb-btn" onclick="closeFB()">好的 ✨</button>';
-  }
-  document.getElementById('fbOverlay').classList.add('show');
-}
-</script>
 </body>
 </html>
