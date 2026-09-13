@@ -582,7 +582,52 @@
     </div>
 
 
-    <!-- 📌 今天提醒自己 -->
+    
+    <!-- 🎯 今日 3 个关键小动作 -->
+    <div id="key3Card" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+        <span style="font-size:18px;">🎯</span>
+        <span style="font-weight:700;font-size:14px;color:#333;">🎯 今日 3 个增肌关键动作</span>
+      </div>
+      <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
+      <div id="key3List"></div>
+    </div>
+    <script>
+    (function(){
+      var KEY3_ACTIONS = [
+        { icon: '🥩', title: '蛋白质吃够 1.6g/kg', sub: '分 4~5 餐，每餐都有' },
+        { icon: '🏋️', title: '训练日练完，休息日散步 20 分钟', sub: '恢复也是训练的一部分' },
+        { icon: '😴', title: '睡够 7~8 小时', sub: '肌肉是睡出来的' }
+      ];
+      var KEY3_STORE = 'buddy_key3_muscle';
+      var K3_COLOR = '#f97316';
+      function k3today(){ return new Date().toISOString().slice(0,10); }
+      function k3data(){ try { var d = JSON.parse(localStorage.getItem(KEY3_STORE) || '{}'); if (d.date !== k3today()) d = { date: k3today(), checked: {} }; return d; } catch(e) { return { date: k3today(), checked: {} }; } }
+      window.toggleKey3 = function(i){
+        var d = k3data();
+        d.checked[i] = !d.checked[i];
+        try { localStorage.setItem(KEY3_STORE, JSON.stringify(d)); } catch(e) {}
+        renderKey3();
+      };
+      window.renderKey3 = function(){
+        var box = document.getElementById('key3List');
+        if (!box) return;
+        var d = k3data();
+        box.innerHTML = KEY3_ACTIONS.map(function(a, i){
+          var on = !!d.checked[i];
+          var circle = on ? 'background:' + K3_COLOR + ';color:#fff;text-align:center;line-height:26px;font-size:14px;font-weight:700;' : 'border:2px solid #d1d5db;background:#fff;';
+          return '<div onclick="toggleKey3(' + i + ')" style="display:flex;align-items:center;gap:10px;background:#f6f8fa;border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;">'
+            + '<div style="font-size:22px;flex-shrink:0;">' + a.icon + '</div>'
+            + '<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;color:#333;">' + a.title + '</div>'
+            + '<div style="font-size:11px;color:#999;margin-top:2px;">' + a.sub + '</div></div>'
+            + '<div style="width:26px;height:26px;border-radius:50%;flex-shrink:0;' + circle + '">' + (on ? '✓' : '') + '</div>'
+            + '</div>';
+        }).join('');
+      };
+      setTimeout(function(){ try { renderKey3(); } catch(e) {} }, 0);
+    })();
+    </script>
+<!-- 📌 今天提醒自己 -->
     <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#fff3e0,#ffe9d6);border-radius:18px;padding:14px 16px;font-size:13px;color:#b3541e;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
         <span style="font-size:18px;">📌</span>
@@ -816,7 +861,37 @@
       <button class="talk-btn" onclick="askPartner('question')">🤔 提问</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" onclick="askPartner('scene')">💭 今天发生了什么</button></div>
-  </div>
+  
+    <div id="partnerDailyTip" style="max-width:420px;margin:14px auto 0;background:linear-gradient(135deg,#fff3e0,#ffe9d6);border-radius:18px;padding:14px 16px;font-size:13px;color:#b3541e;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <span style="font-size:18px;">📌</span>
+        <span style="font-weight:700;">今天提醒自己</span>
+        <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
+      </div>
+      <div id="partnerTipText"></div>
+    </div>
+    <script>
+    (function(){
+      window.nextDailyTip = function(){
+        try {
+          var t = TIPS[Math.floor(Math.random() * TIPS.length)];
+          var a = document.getElementById('dailyTipText'); if (a) a.innerText = t;
+          var b = document.getElementById('partnerTipText'); if (b) b.innerText = t;
+          var c = document.getElementById('checkinTipText'); if (c) c.innerText = t;
+        } catch(e) {}
+      };
+      setTimeout(function(){
+        try {
+          var b = document.getElementById('partnerTipText');
+          if (b && !b.innerText) {
+            var a = document.getElementById('dailyTipText');
+            b.innerText = (a && a.innerText) ? a.innerText : TIPS[Math.floor(Math.random() * TIPS.length)];
+          }
+        } catch(e) {}
+      }, 0);
+    })();
+    </script>
+</div>
 </div>
 
 <!-- ===== Page: 教练 (McKinsey风格) ===== -->
@@ -1981,7 +2056,19 @@ function openSceneFB(idx, type) {
 }
 
 // ==================== 「今天提醒自己」每日提示 ====================
-var TIPS = ['渐进超负荷：每次比上次多一点，只多一点', '蛋白质 1.6g/kg 是底线，分 4~5 餐吃', '训练日睡够 8 小时，肌肉是睡出来的', '练腿不逃，全身都在感谢你', '动作质量先于重量，加重要慢', '日志不断更，趋势比单次数值重要', '体脂率每月一测，同一时间同一状态', '热身 10 分钟，省下养伤一个月'];
+var TIPS = ['渐进超负荷：每次比上次多一点，只多一点', '蛋白质 1.6g/kg 是底线，分 4~5 餐吃', '训练日睡够 8 小时，肌肉是睡出来的', '练腿不逃，全身都在感谢你', '动作质量先于重量，加重要慢', '日志不断更，趋势比单次数值重要', '体脂率每月一测，同一时间同一状态', '热身 10 分钟，省下养伤一个月',
+  '练后 30 分钟内补蛋白+碳水',
+  '同一肌群休息 48 小时再练',
+  '加重每次只加 2.5kg',
+  '离心阶段慢放，增肌效率翻倍',
+  '复合动作优先：蹲、拉、推、划',
+  '一周 3 练起步，别跟五练的比',
+  '酸痛不是唯一标准，进步才是',
+  '每天每公斤体重 30ml 水',
+  '练腿日前后别排重要日程',
+  '照镜子不如拍照对比，月度一组',
+  '全程控制，不做半程借力',
+  '练前 1 小时补点碳水，别空腹'];
 window.nextDailyTip = function() {
   var el = document.getElementById('dailyTipText');
   if (!el) return;
