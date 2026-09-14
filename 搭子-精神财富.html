@@ -3380,7 +3380,7 @@ if(_ci && !_ci.dataset.ceuEnter){ _ci.dataset.ceuEnter='1'; _ci.addEventListener
 <script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
 (function(){
 if(window.__uxpV1) return; window.__uxpV1=true;
-var CFG={"accent": "#7c3aed", "mood": {"happy": {"tag": "高能时刻", "t": "趁状态好，读最难的那 30 页", "d": "精神财富的积累也讲「趁热打铁」。心情好、脑子快的时候，去啃那本一直想读又怕读不懂的书——今天 30 页就够。难书读进去的满足感，是刷一百条短视频换不来的高级快乐。"}, "neutral": {"tag": "平稳时刻", "t": "写 100 字，把想法变成资产", "d": "没写下来的想法会蒸发，写下来的想法会复利。今天把脑子里最近的一个想法写成 100 字：是什么、为什么、怎么做。不用文采，不用发表。坚持一年，你会拥有一座自己的思想银行。"}, "sad": {"tag": "低落时刻", "t": "让美来救你", "d": "情绪低的时候，讲道理没用，但美可以直通内心。今天给自己 10 分钟「审美急救」：听一首真正喜欢的曲子、看一张摄人心魄的照片、读一首短诗。审美是精神财富里最被低估的疗愈力。"}, "tired": {"tag": "疲惫时刻", "t": "累了就做「低耗高值」的精神活动", "d": "疲惫时读不进硬书很正常，别因此放弃精神生活。换一种低耗方式：听 15 分钟播客、看一段纪录片、翻几页散文。精神财富不要求你天天冲刺，只要求不断流。"}}, "k3store": "buddy_key3_spirit", "k3": [{"icon": "📚", "title": "深度阅读 30 分钟", "sub": "读书是最便宜的高级享受", "why": "深度阅读是成本最低的精神升级。今天的 30 分钟，是给内心世界添的一块砖——它会在某个你需要的时候顶上来。"}, {"icon": "✍️", "title": "写 100 字思考", "sub": "写作是最低成本的思考", "why": "写作是思考的显影液。今天这 100 字，把模糊的感觉变成清晰的想法——这本身就是精神资产的增值。"}, {"icon": "🌄", "title": "感受一次美", "sub": "审美是可修炼的能力", "why": "感受美是一种可修炼的能力。今天这次「看见美」，是在扩大你精神世界的版图——审美在，生活就不会贫瘠。"}], "scenes": [["😰", "焦虑静不下来", "关手机，读20分钟纸质书。专注是最好的镇静剂。"], ["🕳️", "感觉精神空虚", "今天做一件纯粹取悦自己的事，不为展示给谁看。"], ["📱", "信息过载了", "退订一半信息源。做减法是成年人的奢侈。"], ["🎓", "想学新东西", "从最经典的入门书开始，别从碎片信息开始。"], ["🛑", "半途而废了", "把目标缩到最小：每天5分钟。先续上，再加量。"], ["🌧️", "情绪低落", "出门看一场展览或一次日落。美是最快的疗愈。"]]};
+var CFG={"accent":"#7c3aed","mood":{"happy":{"tag":"高能时刻","t":"趁状态好，读最难的那 30 页","d":"精神财富的积累也讲「趁热打铁」。心情好、脑子快的时候，去啃那本一直想读又怕读不懂的书——今天 30 页就够。难书读进去的满足感，是刷一百条短视频换不来的高级快乐。"},"neutral":{"tag":"平稳时刻","t":"写 100 字，把想法变成资产","d":"没写下来的想法会蒸发，写下来的想法会复利。今天把脑子里最近的一个想法写成 100 字：是什么、为什么、怎么做。不用文采，不用发表。坚持一年，你会拥有一座自己的思想银行。"},"sad":{"tag":"低落时刻","t":"让美来救你","d":"情绪低的时候，讲道理没用，但美可以直通内心。今天给自己 10 分钟「审美急救」：听一首真正喜欢的曲子、看一张摄人心魄的照片、读一首短诗。审美是精神财富里最被低估的疗愈力。"},"tired":{"tag":"疲惫时刻","t":"累了就做「低耗高值」的精神活动","d":"疲惫时读不进硬书很正常，别因此放弃精神生活。换一种低耗方式：听 15 分钟播客、看一段纪录片、翻几页散文。精神财富不要求你天天冲刺，只要求不断流。"}},"k3store":"buddy_key3_spirit","k3":[{"icon":"📚","title":"深度阅读 30 分钟","sub":"读书是最便宜的高级享受","why":"深度阅读是成本最低的精神升级。今天的 30 分钟，是给内心世界添的一块砖——它会在某个你需要的时候顶上来。"},{"icon":"✍️","title":"写 100 字思考","sub":"写作是最低成本的思考","why":"写作是思考的显影液。今天这 100 字，把模糊的感觉变成清晰的想法——这本身就是精神资产的增值。"},{"icon":"🌄","title":"感受一次美","sub":"审美是可修炼的能力","why":"感受美是一种可修炼的能力。今天这次「看见美」，是在扩大你精神世界的版图——审美在，生活就不会贫瘠。"}],"scenes":[["😰","焦虑静不下来","专注是最好的镇静剂","关手机，读20分钟纸质书。专注是最好的镇静剂。"],["🕳️","感觉精神空虚","取悦自己不展示","今天做一件纯粹取悦自己的事，不为展示给谁看。"],["📱","信息过载了","做减法是奢侈","退订一半信息源。做减法是成年人的奢侈。"],["🎓","想学新东西","从经典入门书开始","从最经典的入门书开始，别从碎片信息开始。"],["🛑","半途而废了","先续上，再加量","把目标缩到最小：每天5分钟。先续上，再加量。"],["🌧️","情绪低落","美是最快的疗愈","出门看一场展览或一次日落。美是最快的疗愈。"]]};
 var ACC=CFG.accent||'#e05a7a';
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 var ov=null;
@@ -3460,13 +3460,14 @@ wrapKey3('stdK3Toggle',CFG.k3store);
 if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
   window.stdScenePick=function(i){
     var sc=CFG.scenes[i]; if(!sc) return;
-    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    var emo=sc[0],ttl=sc[1],sub=(sc.length>3?sc[2]:''),why=(sc.length>3?sc[3]:(sc[2]||''));
     showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
-      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
-      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
-      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
-      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
-    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">💬 今天发生了什么</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:6px;">'+esc(ttl)+'</div>'
+      +(sub?'<div style="font-size:12px;color:#8a8f99;margin-bottom:12px;">'+esc(sub)+'</div>':'')
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(why)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">好的，记住了 📝</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— 我在，一起拆。','partner'); }catch(e){}
   };
 }
 })();

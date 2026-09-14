@@ -3863,7 +3863,7 @@ if(_ci && !_ci.dataset.ceuEnter){ _ci.dataset.ceuEnter='1'; _ci.addEventListener
 <script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
 (function(){
 if(window.__uxpV1) return; window.__uxpV1=true;
-var CFG={"accent": "#dc2626", "mood": {"happy": {"tag": "高能时刻", "t": "把好状态存进「身体银行」", "d": "身体是唯一陪你走完全程的资产。趁今天有劲，完成 30 分钟运动——快走、力量、拉伸都算。每次运动都是一笔存款，存进的是十年后还能爬山、旅行、陪孩子跑的资格。"}, "neutral": {"tag": "平稳时刻", "t": "平稳日，把「吃」校准一次", "d": "身体的日常表现 70% 由吃决定。今天做一次小校准：每餐有一掌心蛋白质、半盘蔬菜、喝水够量。不用完美，先做到今天。身体的复利，就是由这样的「普通一天」堆出来的。"}, "sad": {"tag": "低落时刻", "t": "情绪的出口，放在身体上", "d": "难过时别闷着——身体是最安全的出口。今天做 20 分钟中低强度运动：快走、骑车、跳操都行。运动时身体分泌的内啡肽，是天然的情绪解药。练完那口顺气，就是转机的开始。"}, "tired": {"tag": "疲惫时刻", "t": "累是信号，不是敌人", "d": "疲惫时最不该做的是硬撑和自责。今晚只有一个任务：睡够 7 小时。睡眠是身体最深度的一次「系统维护」，免疫、代谢、情绪修复全在里面。会休息的人，才养得住身体这笔终身财富。"}}, "k3store": "buddy_key3_body", "k3": [{"icon": "🏋️", "title": "运动 30 分钟", "sub": "每周150分钟是底线", "why": "每周 150 分钟是WHO给出的健康底线。今天的 30 分钟，正在实打实地降低你的慢病风险——身体银行从不亏待存款人。"}, {"icon": "🥗", "title": "蛋白质吃够每餐", "sub": "蛋白质是身体的砖块", "why": "蛋白质是身体的砖块，修复和免疫全靠它。今天每餐那一份，就是在给全身的「施工队」供料。"}, {"icon": "😴", "title": "睡够 7 小时", "sub": "睡眠是最好的恢复", "why": "睡眠是最好的恢复，没有之一。今晚的 7 小时，抵得上任何昂贵的保健品——身体的复利从今晚开始。"}], "scenes": [["⏰", "今天没时间运动", "拆成3个10分钟。走楼梯也算数。"], ["🍻", "应酬吃多了", "第二天清淡一天就好，别自责。自责比多吃更伤。"], ["💻", "肩颈酸痛", "每小时起身活动，今晚热敷10分钟。"], ["📋", "体检有异常项", "记录趋势，遵医嘱复查。数据只记录不焦虑。"], ["😫", "想放弃锻炼", "只要求自己换上运动鞋。换上了就会练。"], ["🌙", "熬夜了", "中午补20分钟午休，今晚早睡。别连环熬夜。"]]};
+var CFG={"accent":"#dc2626","mood":{"happy":{"tag":"高能时刻","t":"把好状态存进「身体银行」","d":"身体是唯一陪你走完全程的资产。趁今天有劲，完成 30 分钟运动——快走、力量、拉伸都算。每次运动都是一笔存款，存进的是十年后还能爬山、旅行、陪孩子跑的资格。"},"neutral":{"tag":"平稳时刻","t":"平稳日，把「吃」校准一次","d":"身体的日常表现 70% 由吃决定。今天做一次小校准：每餐有一掌心蛋白质、半盘蔬菜、喝水够量。不用完美，先做到今天。身体的复利，就是由这样的「普通一天」堆出来的。"},"sad":{"tag":"低落时刻","t":"情绪的出口，放在身体上","d":"难过时别闷着——身体是最安全的出口。今天做 20 分钟中低强度运动：快走、骑车、跳操都行。运动时身体分泌的内啡肽，是天然的情绪解药。练完那口顺气，就是转机的开始。"},"tired":{"tag":"疲惫时刻","t":"累是信号，不是敌人","d":"疲惫时最不该做的是硬撑和自责。今晚只有一个任务：睡够 7 小时。睡眠是身体最深度的一次「系统维护」，免疫、代谢、情绪修复全在里面。会休息的人，才养得住身体这笔终身财富。"}},"k3store":"buddy_key3_body","k3":[{"icon":"🏋️","title":"运动 30 分钟","sub":"每周150分钟是底线","why":"每周 150 分钟是WHO给出的健康底线。今天的 30 分钟，正在实打实地降低你的慢病风险——身体银行从不亏待存款人。"},{"icon":"🥗","title":"蛋白质吃够每餐","sub":"蛋白质是身体的砖块","why":"蛋白质是身体的砖块，修复和免疫全靠它。今天每餐那一份，就是在给全身的「施工队」供料。"},{"icon":"😴","title":"睡够 7 小时","sub":"睡眠是最好的恢复","why":"睡眠是最好的恢复，没有之一。今晚的 7 小时，抵得上任何昂贵的保健品——身体的复利从今晚开始。"}],"scenes":[["⏰","今天没时间运动","3个10分钟也算数","拆成3个10分钟。走楼梯也算数。"],["🍻","应酬吃多了","自责比多吃更伤","第二天清淡一天就好，别自责。自责比多吃更伤。"],["💻","肩颈酸痛","每小时起身一次","每小时起身活动，今晚热敷10分钟。"],["📋","体检有异常项","记录趋势不焦虑","记录趋势，遵医嘱复查。数据只记录不焦虑。"],["😫","想放弃锻炼","先换上运动鞋","只要求自己换上运动鞋。换上了就会练。"],["🌙","熬夜了","别连环熬夜","中午补20分钟午休，今晚早睡。别连环熬夜。"]]};
 var ACC=CFG.accent||'#e05a7a';
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 var ov=null;
@@ -3943,13 +3943,14 @@ wrapKey3('stdK3Toggle',CFG.k3store);
 if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
   window.stdScenePick=function(i){
     var sc=CFG.scenes[i]; if(!sc) return;
-    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    var emo=sc[0],ttl=sc[1],sub=(sc.length>3?sc[2]:''),why=(sc.length>3?sc[3]:(sc[2]||''));
     showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
-      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
-      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
-      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
-      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
-    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">💬 今天发生了什么</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:6px;">'+esc(ttl)+'</div>'
+      +(sub?'<div style="font-size:12px;color:#8a8f99;margin-bottom:12px;">'+esc(sub)+'</div>':'')
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(why)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">好的，记住了 📝</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— 我在，一起拆。','partner'); }catch(e){}
   };
 }
 })();

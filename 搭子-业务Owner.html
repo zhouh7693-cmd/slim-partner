@@ -2172,7 +2172,7 @@ function initProgressPage() {
 <script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
 (function(){
 if(window.__uxpV1) return; window.__uxpV1=true;
-var CFG={"accent": "#7c3aed", "mood": {"happy": {"tag": "高能时刻", "t": "状态好，去啃最难的客户", "d": "Owner 和执行者的区别：把好状态投给高价值动作。今天去跟进那个最重要、也最难搞的客户——亲自打电话，而不是发消息。拿下一个大客户的信心，会溢价到你整个季度的状态里。"}, "neutral": {"tag": "平稳时刻", "t": "先看数，再开工", "d": "Owner 每天的第一个动作是看核心指标，不是回消息。今天多问一层：这个数字为什么是这么——是渠道变了、转化变了，还是客单变了？数字背后的原因，才是你的判断力，也是你不可替代的部分。"}, "sad": {"tag": "低落时刻", "t": "业务受挫时，回到「你帮谁解决了什么」", "d": "被业绩、汇报、比较压得喘不过气时，回到原点问自己：我的客户今天因为什么而需要我。然后去做一件具体的事：帮一个客户解决一个小问题。价值感回来了，判断力就回来了。"}, "tired": {"tag": "疲惫时刻", "t": "累了就复盘，别硬冲", "d": "疲劳时冲业务容易做错承诺、看错数据。做一件低耗高值的事：写下今天流程里最卡的一个环节和你的改进想法。Owner 的利润藏在流程里——今天记下的这个卡点，可能就是下个月的效率提升。"}}, "k3store": "buddy_key3_owner", "k3": [{"icon": "📊", "title": "盯一次核心指标", "sub": "Owner每天先看数", "why": "Owner 和执行者的第一区别：先看数再干活。今天盯一次核心指标并追问原因，你的商业判断力就涨了一格。"}, {"icon": "🤝", "title": "跟进一个关键客户", "sub": "大客户要亲自维护", "why": "大客户要亲自维护——关系是你的资产负债表上最容易被低估的资产。今天这个跟进，就是在给未来的大单铺路。"}, {"icon": "🧩", "title": "复盘一个流程卡点", "sub": "流程里藏着利润", "why": "流程里的每个卡点都是隐形利润漏斗。今天复盘一个卡点，可能就是下个月效率提升和成本下降的来源。"}], "scenes": [["📉", "指标下滑了", "先拆维度找根因，别急着加人加班。数据会说话。"], ["💰", "客户要砍预算", "帮客户算ROI，价值先行。共渡难关的客户最忠诚。"], ["😔", "团队士气低", "一对一聊，听比说重要。士气问题多是管理问题。"], ["🙏", "上级不给资源", "用数据和案例证明投入产出。小范围试点再要资源。"], ["🤷", "跨部门不配合", "找到对方的KPI，做利益交换。平时多存款。"], ["⚡", "被临时插需求", "排进队列评估优先级，别直接压给团队。"]]};
+var CFG={"accent":"#7c3aed","mood":{"happy":{"tag":"高能时刻","t":"状态好，去啃最难的客户","d":"Owner 和执行者的区别：把好状态投给高价值动作。今天去跟进那个最重要、也最难搞的客户——亲自打电话，而不是发消息。拿下一个大客户的信心，会溢价到你整个季度的状态里。"},"neutral":{"tag":"平稳时刻","t":"先看数，再开工","d":"Owner 每天的第一个动作是看核心指标，不是回消息。今天多问一层：这个数字为什么是这么——是渠道变了、转化变了，还是客单变了？数字背后的原因，才是你的判断力，也是你不可替代的部分。"},"sad":{"tag":"低落时刻","t":"业务受挫时，回到「你帮谁解决了什么」","d":"被业绩、汇报、比较压得喘不过气时，回到原点问自己：我的客户今天因为什么而需要我。然后去做一件具体的事：帮一个客户解决一个小问题。价值感回来了，判断力就回来了。"},"tired":{"tag":"疲惫时刻","t":"累了就复盘，别硬冲","d":"疲劳时冲业务容易做错承诺、看错数据。做一件低耗高值的事：写下今天流程里最卡的一个环节和你的改进想法。Owner 的利润藏在流程里——今天记下的这个卡点，可能就是下个月的效率提升。"}},"k3store":"buddy_key3_owner","k3":[{"icon":"📊","title":"盯一次核心指标","sub":"Owner每天先看数","why":"Owner 和执行者的第一区别：先看数再干活。今天盯一次核心指标并追问原因，你的商业判断力就涨了一格。"},{"icon":"🤝","title":"跟进一个关键客户","sub":"大客户要亲自维护","why":"大客户要亲自维护——关系是你的资产负债表上最容易被低估的资产。今天这个跟进，就是在给未来的大单铺路。"},{"icon":"🧩","title":"复盘一个流程卡点","sub":"流程里藏着利润","why":"流程里的每个卡点都是隐形利润漏斗。今天复盘一个卡点，可能就是下个月效率提升和成本下降的来源。"}],"scenes":[["📉","指标下滑了","先拆维度找根因","先拆维度找根因，别急着加人加班。数据会说话。"],["💰","客户要砍预算","价值先行","帮客户算ROI，价值先行。共渡难关的客户最忠诚。"],["😔","团队士气低","士气问题多是管理问题","一对一聊，听比说重要。士气问题多是管理问题。"],["🙏","上级不给资源","用数据说话","用数据和案例证明投入产出。小范围试点再要资源。"],["🤷","跨部门不配合","找到对方KPI","找到对方的KPI，做利益交换。平时多存款。"],["⚡","被临时插需求","排进队列，别压给团队","排进队列评估优先级，别直接压给团队。"]]};
 var ACC=CFG.accent||'#e05a7a';
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 var ov=null;
@@ -2252,13 +2252,14 @@ wrapKey3('stdK3Toggle',CFG.k3store);
 if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
   window.stdScenePick=function(i){
     var sc=CFG.scenes[i]; if(!sc) return;
-    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    var emo=sc[0],ttl=sc[1],sub=(sc.length>3?sc[2]:''),why=(sc.length>3?sc[3]:(sc[2]||''));
     showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
-      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
-      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
-      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
-      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
-    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">💬 今天发生了什么</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:6px;">'+esc(ttl)+'</div>'
+      +(sub?'<div style="font-size:12px;color:#8a8f99;margin-bottom:12px;">'+esc(sub)+'</div>':'')
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(why)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">好的，记住了 📝</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— 我在，一起拆。','partner'); }catch(e){}
   };
 }
 })();

@@ -3840,7 +3840,7 @@ function initCoach(){
 <script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
 (function(){
 if(window.__uxpV1) return; window.__uxpV1=true;
-var CFG={"accent": "#db2777", "mood": {"happy": {"tag": "高能时刻", "t": "把好情绪存进关系账户", "d": "关系里的好感是靠「好时刻的浓度」攒出来的。趁今天心情好，主动发起一次轻松的聊天或一个小惊喜——不带任何目的那种。关系账户里的每一笔存款，都会在未来某次摩擦时兜底。"}, "neutral": {"tag": "平稳时刻", "t": "练习一次「不打断的倾听」", "d": "关系修复的基本功不是会说话，是能听完。今天挑一次对话，练习全程不打断、不急着给建议，最后只问一句「你想让我出主意，还是就想说说」。被完整听见的感觉，本身就是修复。"}, "sad": {"tag": "低落时刻", "t": "委屈时，用「我希望」开头", "d": "低落时的指责只会把人推远，而压抑又会憋坏自己。试试这个句式：「当……的时候，我感到……，我希望……」。真实但不攻击的表达，是关系里最稀缺也最珍贵的能力。说出来，就是修复的开始。"}, "tired": {"tag": "疲惫时刻", "t": "累的时候，翻篇比讲理更重要", "d": "疲惫时的争执最容易升级成翻旧账。今天给自己一条铁律：觉察到火气上来，先离开现场 10 分钟。旧账翻一次，信任就少一分——能为关系按下暂停键的人，才是真正的强者。"}}, "k3store": "buddy_key3_guanxi", "k3": [{"icon": "💬", "title": "一次不打断的倾听", "sub": "听完再说，是基本功", "why": "不打断的倾听是关系修复的第一基本功。今天这次「听完再说」，对方能明显感觉到被尊重——这就是修复在发生。"}, {"icon": "❤️", "title": "表达一次真实感受", "sub": "用\"我希望\"开头", "why": "用「我希望」开头表达感受，既真实又不伤人。今天的这次表达，是给关系账户的一笔大额存款。"}, {"icon": "🕊️", "title": "翻篇一次旧账", "sub": "旧账翻一次信任少一分", "why": "旧账每翻一次，信任就薄一分。今天翻篇的这次，就是在给这段关系止血——放下比赢了对错更重要。"}], "scenes": [["🔥", "今天吵架了", "先冷静20分钟，回来只说感受不指责。赢了架输了爱不值。"], ["🧊", "对方冷淡了", "直接问：你最近好像有心事，我想听。别猜，猜必猜错。"], ["💔", "说了伤人的话", "当天道歉，别过夜。伤口越早处理越好愈合。"], ["📜", "对方翻旧账", "先接住情绪，再约定以后就事论事。翻旧账是求关注。"], ["😨", "想提需求怕吵架", "用\"我希望\"开头，不用\"你总是\"。前者是邀请，后者是审判。"], ["🤐", "今天没话说", "分享一件今天的小事。连接是靠日常小事重建的。"]]};
+var CFG={"accent":"#db2777","mood":{"happy":{"tag":"高能时刻","t":"把好情绪存进关系账户","d":"关系里的好感是靠「好时刻的浓度」攒出来的。趁今天心情好，主动发起一次轻松的聊天或一个小惊喜——不带任何目的那种。关系账户里的每一笔存款，都会在未来某次摩擦时兜底。"},"neutral":{"tag":"平稳时刻","t":"练习一次「不打断的倾听」","d":"关系修复的基本功不是会说话，是能听完。今天挑一次对话，练习全程不打断、不急着给建议，最后只问一句「你想让我出主意，还是就想说说」。被完整听见的感觉，本身就是修复。"},"sad":{"tag":"低落时刻","t":"委屈时，用「我希望」开头","d":"低落时的指责只会把人推远，而压抑又会憋坏自己。试试这个句式：「当……的时候，我感到……，我希望……」。真实但不攻击的表达，是关系里最稀缺也最珍贵的能力。说出来，就是修复的开始。"},"tired":{"tag":"疲惫时刻","t":"累的时候，翻篇比讲理更重要","d":"疲惫时的争执最容易升级成翻旧账。今天给自己一条铁律：觉察到火气上来，先离开现场 10 分钟。旧账翻一次，信任就少一分——能为关系按下暂停键的人，才是真正的强者。"}},"k3store":"buddy_key3_guanxi","k3":[{"icon":"💬","title":"一次不打断的倾听","sub":"听完再说，是基本功","why":"不打断的倾听是关系修复的第一基本功。今天这次「听完再说」，对方能明显感觉到被尊重——这就是修复在发生。"},{"icon":"❤️","title":"表达一次真实感受","sub":"用\"我希望\"开头","why":"用「我希望」开头表达感受，既真实又不伤人。今天的这次表达，是给关系账户的一笔大额存款。"},{"icon":"🕊️","title":"翻篇一次旧账","sub":"旧账翻一次信任少一分","why":"旧账每翻一次，信任就薄一分。今天翻篇的这次，就是在给这段关系止血——放下比赢了对错更重要。"}],"scenes":[["🔥","今天吵架了","赢了架输了爱不值","先冷静20分钟，回来只说感受不指责。赢了架输了爱不值。"],["🧊","对方冷淡了","别猜，直接问","直接问：你最近好像有心事，我想听。别猜，猜必猜错。"],["💔","说了伤人的话","道歉不过夜","当天道歉，别过夜。伤口越早处理越好愈合。"],["📜","对方翻旧账","翻旧账是求关注","先接住情绪，再约定以后就事论事。翻旧账是求关注。"],["😨","想提需求怕吵架","用「我希望」开头","用\"我希望\"开头，不用\"你总是\"。前者是邀请，后者是审判。"],["🤐","今天没话说","小事重建连接","分享一件今天的小事。连接是靠日常小事重建的。"]]};
 var ACC=CFG.accent||'#e05a7a';
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 var ov=null;
@@ -3920,13 +3920,14 @@ wrapKey3('stdK3Toggle',CFG.k3store);
 if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
   window.stdScenePick=function(i){
     var sc=CFG.scenes[i]; if(!sc) return;
-    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    var emo=sc[0],ttl=sc[1],sub=(sc.length>3?sc[2]:''),why=(sc.length>3?sc[3]:(sc[2]||''));
     showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
-      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
-      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
-      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
-      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
-    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">💬 今天发生了什么</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:6px;">'+esc(ttl)+'</div>'
+      +(sub?'<div style="font-size:12px;color:#8a8f99;margin-bottom:12px;">'+esc(sub)+'</div>':'')
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(why)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">好的，记住了 📝</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— 我在，一起拆。','partner'); }catch(e){}
   };
 }
 })();

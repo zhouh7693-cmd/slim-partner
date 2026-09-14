@@ -3703,7 +3703,7 @@ if(_ci && !_ci.dataset.ceuEnter){ _ci.dataset.ceuEnter='1'; _ci.addEventListener
 <script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
 (function(){
 if(window.__uxpV1) return; window.__uxpV1=true;
-var CFG={"accent": "#059669", "mood": {"happy": {"tag": "高能时刻", "t": "好心情别变成好借口", "d": "开心时最容易冲动消费——「犒劳自己」是钱包最常见的漏洞。今天做一个双保险：想买的东西先放购物车 72 小时，然后把今天想花的那笔钱转进储蓄。快乐照常，钱也留下了，这才叫双赢。"}, "neutral": {"tag": "平稳时刻", "t": "花 5 分钟记账，看清钱的去向", "d": "财务自由的起点不是赚更多，是知道钱去哪了。今天把最近的支出过一遍，标出一笔「其实可以不花」的钱。记账不是抠门，是把每一块钱都安排到它最该去的地方——这就是钱的纪律。"}, "sad": {"tag": "低落时刻", "t": "情绪低落时，管住「报复性消费」的手", "d": "「买了就开心」的保质期只有几个小时，账单的保质期是一个月。今天难过归难过，但不下单——把想买的东西记下来，约定三天后再看。撑过情绪峰值再做决定，你会感谢今天的自己。"}, "tired": {"tag": "疲惫时刻", "t": "累了就做一件自动化的小事", "d": "意志力见底的时候，靠系统不靠自律。今天花 5 分钟设置一个自动转账：发薪日自动把 10% 转进储蓄账户。「先支付自己」一旦自动化，攒钱就不再需要你每天做决定。"}}, "k3store": "buddy_key3_fin", "k3": [{"icon": "💰", "title": "记录每一笔支出", "sub": "记账是自由的起点", "why": "记账是财务自由的起点——看不见的钱管不住。今天记下的每一笔，都是在夺回对钱的知情权和控制权。"}, {"icon": "📈", "title": "确认定投/储蓄执行", "sub": "先支付自己", "why": "先支付自己是理财第一铁律。今天确认的这笔定投/储蓄，就是发给未来自己的工资。"}, {"icon": "🚫", "title": "拒绝一次冲动消费", "sub": "72小时法则用起来", "why": "72 小时法则是冲动消费的灭火器。今天拒绝的这一次，省下的不只是钱，更是「我管得住自己」的底气。"}], "scenes": [["🛍️", "想买贵重物品", "等72小时，还想要再买。大部分冲动会自己蒸发。"], ["📉", "投资亏了", "检查是逻辑错了还是市场波动。前者改策略，后者拿住。"], ["😰", "月光族焦虑", "设自动转账，发薪日先存30%。剩下的才是可花的。"], ["📈", "朋友荐股", "不懂不碰。赚了是运气，亏了是必然。"], ["🎉", "涨工资了", "先上调储蓄率，再上调生活标准。顺序反了就永远月光。"], ["✨", "被消费主义种草", "问自己：不买会怎样。多数答案是：毫无影响。"]]};
+var CFG={"accent":"#059669","mood":{"happy":{"tag":"高能时刻","t":"好心情别变成好借口","d":"开心时最容易冲动消费——「犒劳自己」是钱包最常见的漏洞。今天做一个双保险：想买的东西先放购物车 72 小时，然后把今天想花的那笔钱转进储蓄。快乐照常，钱也留下了，这才叫双赢。"},"neutral":{"tag":"平稳时刻","t":"花 5 分钟记账，看清钱的去向","d":"财务自由的起点不是赚更多，是知道钱去哪了。今天把最近的支出过一遍，标出一笔「其实可以不花」的钱。记账不是抠门，是把每一块钱都安排到它最该去的地方——这就是钱的纪律。"},"sad":{"tag":"低落时刻","t":"情绪低落时，管住「报复性消费」的手","d":"「买了就开心」的保质期只有几个小时，账单的保质期是一个月。今天难过归难过，但不下单——把想买的东西记下来，约定三天后再看。撑过情绪峰值再做决定，你会感谢今天的自己。"},"tired":{"tag":"疲惫时刻","t":"累了就做一件自动化的小事","d":"意志力见底的时候，靠系统不靠自律。今天花 5 分钟设置一个自动转账：发薪日自动把 10% 转进储蓄账户。「先支付自己」一旦自动化，攒钱就不再需要你每天做决定。"}},"k3store":"buddy_key3_fin","k3":[{"icon":"💰","title":"记录每一笔支出","sub":"记账是自由的起点","why":"记账是财务自由的起点——看不见的钱管不住。今天记下的每一笔，都是在夺回对钱的知情权和控制权。"},{"icon":"📈","title":"确认定投/储蓄执行","sub":"先支付自己","why":"先支付自己是理财第一铁律。今天确认的这笔定投/储蓄，就是发给未来自己的工资。"},{"icon":"🚫","title":"拒绝一次冲动消费","sub":"72小时法则用起来","why":"72 小时法则是冲动消费的灭火器。今天拒绝的这一次，省下的不只是钱，更是「我管得住自己」的底气。"}],"scenes":[["🛍️","想买贵重物品","72小时后再决定","等72小时，还想要再买。大部分冲动会自己蒸发。"],["📉","投资亏了","分清逻辑与波动","检查是逻辑错了还是市场波动。前者改策略，后者拿住。"],["😰","月光族焦虑","先存30%再花","设自动转账，发薪日先存30%。剩下的才是可花的。"],["📈","朋友荐股","不懂不碰","不懂不碰。赚了是运气，亏了是必然。"],["🎉","涨工资了","先调储蓄率","先上调储蓄率，再上调生活标准。顺序反了就永远月光。"],["✨","被消费主义种草","问：不买会怎样","问自己：不买会怎样。多数答案是：毫无影响。"]]};
 var ACC=CFG.accent||'#e05a7a';
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 var ov=null;
@@ -3783,13 +3783,14 @@ wrapKey3('stdK3Toggle',CFG.k3store);
 if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
   window.stdScenePick=function(i){
     var sc=CFG.scenes[i]; if(!sc) return;
-    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    var emo=sc[0],ttl=sc[1],sub=(sc.length>3?sc[2]:''),why=(sc.length>3?sc[3]:(sc[2]||''));
     showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
-      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
-      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
-      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
-      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
-    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">💬 今天发生了什么</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:6px;">'+esc(ttl)+'</div>'
+      +(sub?'<div style="font-size:12px;color:#8a8f99;margin-bottom:12px;">'+esc(sub)+'</div>':'')
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(why)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">好的，记住了 📝</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— 我在，一起拆。','partner'); }catch(e){}
   };
 }
 })();

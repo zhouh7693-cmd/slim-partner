@@ -3343,7 +3343,7 @@ if (!localStorage.getItem(OB_KEY) && !localStorage.getItem(STORAGE.PARTNER)) {
 <script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
 (function(){
 if(window.__uxpV1) return; window.__uxpV1=true;
-var CFG={"accent": "#92400e", "mood": {"happy": {"tag": "高能时刻", "t": "给未来的自己转一笔账", "d": "长期主义的本质：现在的行为，十年后兑现。趁状态好，做一件今天看不到回报的事——30 分钟深度阅读、写一篇复盘、健身一次。别人在收割今天的满足，你在给十年后的自己发工资。"}, "neutral": {"tag": "平稳时刻", "t": "投资 30 分钟自由时间", "d": "算一笔账：每天 30 分钟，一年就是 180 小时——足够精通一项新技能。今天把这 30 分钟从刷手机里抢回来，投给那件「重要不紧急」的事。自由时间是你唯一完全自主的资产，别让它白白蒸发。"}, "sad": {"tag": "低落时刻", "t": "短期波动，吓不出长期主义者", "d": "难过的、搞砸的、停滞的日子——放在十年的尺度上都是小波动。今天只做一件事：把这次挫折写下来，标注「十年后这重要吗」。能拉长时间看问题的人，情绪和决策都会稳得多。"}, "tired": {"tag": "疲惫时刻", "t": "累了就拒绝一次短期诱惑，然后睡觉", "d": "疲惫时的「再刷一会儿」是复利最大的敌人。今天做两个动作：拒绝一次睡前刷手机的诱惑，然后早点睡。延迟满足练的就是这种时刻——赢下今晚，明天的时间质量完全不同。"}}, "k3store": "buddy_key3_longterm", "k3": [{"icon": "⏳", "title": "自由时间投资 30 分钟", "sub": "给未来的自己打工", "why": "自由时间投资 30 分钟，一年就是 180 小时的复利本金。今天这半小时，是给十年后自己的转账。"}, {"icon": "📖", "title": "深度阅读 30 分钟", "sub": "复利从今天开始", "why": "深度阅读是复利率最高的自我投资。今天读的 30 页，会在未来某个决策时刻，变成你的关键优势。"}, {"icon": "🚫", "title": "拒绝一次短期诱惑", "sub": "延迟满足在练肌肉", "why": "拒绝短期诱惑是延迟满足的实操训练。今天赢下的这一次，「延迟满足」这块肌肉就壮了一圈。"}], "scenes": [["📱", "又刷了1小时短视频", "⏳ 时间是最公平的资产，花在哪长成什么样。设个25分钟番茄钟，先拿回30分钟。"], ["🎮", "忍不住又熬夜了", "深夜的自由是假自由。长期主义者的自由，是白天攒出来的。"], ["📚", "学习坚持不下去", "别靠意志力，靠系统：固定时间、固定地点、最小目标5分钟。"], ["💸", "冲动消费了", "问自己：一年后它还值多少？把同样金额定投，才是给未来的礼物。"], ["😰", "焦虑未来怎么办", "焦虑是用了昨天的精力担心明天。把注意力拉回今天能做的一件事。"], ["🐢", "觉得进步太慢", "慢即是快。每年进步5%，十年后你甩开99%的人。"]]};
+var CFG={"accent":"#92400e","mood":{"happy":{"tag":"高能时刻","t":"给未来的自己转一笔账","d":"长期主义的本质：现在的行为，十年后兑现。趁状态好，做一件今天看不到回报的事——30 分钟深度阅读、写一篇复盘、健身一次。别人在收割今天的满足，你在给十年后的自己发工资。"},"neutral":{"tag":"平稳时刻","t":"投资 30 分钟自由时间","d":"算一笔账：每天 30 分钟，一年就是 180 小时——足够精通一项新技能。今天把这 30 分钟从刷手机里抢回来，投给那件「重要不紧急」的事。自由时间是你唯一完全自主的资产，别让它白白蒸发。"},"sad":{"tag":"低落时刻","t":"短期波动，吓不出长期主义者","d":"难过的、搞砸的、停滞的日子——放在十年的尺度上都是小波动。今天只做一件事：把这次挫折写下来，标注「十年后这重要吗」。能拉长时间看问题的人，情绪和决策都会稳得多。"},"tired":{"tag":"疲惫时刻","t":"累了就拒绝一次短期诱惑，然后睡觉","d":"疲惫时的「再刷一会儿」是复利最大的敌人。今天做两个动作：拒绝一次睡前刷手机的诱惑，然后早点睡。延迟满足练的就是这种时刻——赢下今晚，明天的时间质量完全不同。"}},"k3store":"buddy_key3_longterm","k3":[{"icon":"⏳","title":"自由时间投资 30 分钟","sub":"给未来的自己打工","why":"自由时间投资 30 分钟，一年就是 180 小时的复利本金。今天这半小时，是给十年后自己的转账。"},{"icon":"📖","title":"深度阅读 30 分钟","sub":"复利从今天开始","why":"深度阅读是复利率最高的自我投资。今天读的 30 页，会在未来某个决策时刻，变成你的关键优势。"},{"icon":"🚫","title":"拒绝一次短期诱惑","sub":"延迟满足在练肌肉","why":"拒绝短期诱惑是延迟满足的实操训练。今天赢下的这一次，「延迟满足」这块肌肉就壮了一圈。"}],"scenes":[["📱","又刷了1小时短视频","先拿回30分钟","⏳ 时间是最公平的资产，花在哪长成什么样。设个25分钟番茄钟，先拿回30分钟。"],["🎮","忍不住又熬夜了","自由是白天攒的","深夜的自由是假自由。长期主义者的自由，是白天攒出来的。"],["📚","学习坚持不下去","靠系统不靠意志力","别靠意志力，靠系统：固定时间、固定地点、最小目标5分钟。"],["💸","冲动消费了","一年后它值多少","问自己：一年后它还值多少？把同样金额定投，才是给未来的礼物。"],["😰","焦虑未来怎么办","拉回今天一件事","焦虑是用了昨天的精力担心明天。把注意力拉回今天能做的一件事。"],["🐢","觉得进步太慢","每年5%甩开99%","慢即是快。每年进步5%，十年后你甩开99%的人。"]]};
 var ACC=CFG.accent||'#e05a7a';
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 var ov=null;
@@ -3423,13 +3423,14 @@ wrapKey3('stdK3Toggle',CFG.k3store);
 if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
   window.stdScenePick=function(i){
     var sc=CFG.scenes[i]; if(!sc) return;
-    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    var emo=sc[0],ttl=sc[1],sub=(sc.length>3?sc[2]:''),why=(sc.length>3?sc[3]:(sc[2]||''));
     showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
-      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
-      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
-      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
-      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
-    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">💬 今天发生了什么</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:6px;">'+esc(ttl)+'</div>'
+      +(sub?'<div style="font-size:12px;color:#8a8f99;margin-bottom:12px;">'+esc(sub)+'</div>':'')
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(why)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">好的，记住了 📝</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— 我在，一起拆。','partner'); }catch(e){}
   };
 }
 })();

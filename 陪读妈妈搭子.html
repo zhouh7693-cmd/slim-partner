@@ -3053,7 +3053,7 @@ if(_ci && !_ci.dataset.ceuEnter){ _ci.dataset.ceuEnter='1'; _ci.addEventListener
 <script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
 (function(){
 if(window.__uxpV1) return; window.__uxpV1=true;
-var CFG={"accent": "#e11d48", "mood": {"happy": {"tag": "高能时刻", "t": "把好心情变成一次「优势反馈」", "d": "被具体看见的孩子，自信是有根的。趁今天心情好，告诉她一个你观察到的具体闪光点——不是「你真棒」，是「你今天主动改了错题，这个习惯特别珍贵」。你的描述，正在写她的人生剧本。"}, "neutral": {"tag": "平稳时刻", "t": "在场，但不打扰", "d": "平稳的日子最适合练习「陪伴但不控制」：在她学习时你就在旁边看书或做自己的事，不盯、不催、不叹气。孩子需要的不是监工，是一个安静在场的同伴。这种安全感，会变成她专注的地基。"}, "sad": {"tag": "低落时刻", "t": "先安抚自己，再面对孩子", "d": "妈妈的情绪是家的底色，但妈妈也是人。低落时先给自己 10 分钟：出门走走、深呼吸、或者就安静坐会儿。告诉自己：我不需要完美妈妈，孩子需要的是一个真实的、会恢复的妈妈。"}, "tired": {"tag": "疲惫时刻", "t": "你的电量，是全家的氧气", "d": "陪读是马拉松，妈妈先倒下全家缺氧。今晚只做一件事：给自己 10 分钟完全属于你的时间——泡脚、听歌、什么都不干。这不是偷懒，这是维持整个系统运转的必要检修。"}, "有挑战": {"tag": "挑战时刻", "t": "有挑战，说明她正在长大", "d": "孩子带来的挑战，恰恰是她能力边界的扩张信号。今天别急着解决，先问一句「你是怎么想的」——她的答案会告诉你该搭手还是该放手。能陪她面对挑战的妈妈，比替她扫清挑战的妈妈更了不起。"}, "有点急": {"tag": "着急时刻", "t": "着急的时候，先按 10 秒暂停键", "d": "着急时说出口的话，往往是孩子一天情绪的底色。先深呼吸 10 秒，把「你怎么又」换成「我们来看看」。你稳住的这 10 秒，就是给孩子的情绪示范——比一百句道理都管用。"}}, "k3store": "buddy_key3_mom", "k3": [{"icon": "👧", "title": "一次不打扰的陪伴", "sub": "在场不催促", "why": "不打扰的陪伴是最高级的信任——「妈妈在，但不盯着我」。今天这份安静在场，就是孩子专注力的安全感地基。"}, {"icon": "🌸", "title": "优势反馈一次", "sub": "看见比纠正更有用", "why": "优势反馈比纠正有效十倍。今天你看见的这个闪光点，会写进她的自我认知——被具体夸过的孩子，眼睛里有光。"}, {"icon": "🧘", "title": "给自己 10 分钟", "sub": "妈妈的电量要先保住", "why": "妈妈的电量是全家的氧气。今天这 10 分钟的自我时间，不是自私，是让整个系统能继续运转的必要检修。"}], "scenes": [["🔥", "辅导作业要炸了", "先离开5分钟，回来只看进步。情绪上头时教的都白教。"], ["📉", "孩子成绩下滑", "先问感受再谈分数。情绪被接住了，问题才解决得了。"], ["⚖️", "忍不住比较别人家孩子", "停下，回看孩子本周的进步。比较是毒药。"], ["😤", "孩子顶嘴了", "顶嘴是独立的信号。先接住情绪，再谈表达方式。"], ["😔", "内疚没陪够", "质量补时长：今晚全身心陪伴30分钟，手机放另一个房间。"], ["⚔️", "家人教育理念冲突", "私下沟通，别当孩子面争执。统一战线孩子才有安全感。"]]};
+var CFG={"accent":"#e11d48","mood":{"happy":{"tag":"高能时刻","t":"把好心情变成一次「优势反馈」","d":"被具体看见的孩子，自信是有根的。趁今天心情好，告诉她一个你观察到的具体闪光点——不是「你真棒」，是「你今天主动改了错题，这个习惯特别珍贵」。你的描述，正在写她的人生剧本。"},"neutral":{"tag":"平稳时刻","t":"在场，但不打扰","d":"平稳的日子最适合练习「陪伴但不控制」：在她学习时你就在旁边看书或做自己的事，不盯、不催、不叹气。孩子需要的不是监工，是一个安静在场的同伴。这种安全感，会变成她专注的地基。"},"sad":{"tag":"低落时刻","t":"先安抚自己，再面对孩子","d":"妈妈的情绪是家的底色，但妈妈也是人。低落时先给自己 10 分钟：出门走走、深呼吸、或者就安静坐会儿。告诉自己：我不需要完美妈妈，孩子需要的是一个真实的、会恢复的妈妈。"},"tired":{"tag":"疲惫时刻","t":"你的电量，是全家的氧气","d":"陪读是马拉松，妈妈先倒下全家缺氧。今晚只做一件事：给自己 10 分钟完全属于你的时间——泡脚、听歌、什么都不干。这不是偷懒，这是维持整个系统运转的必要检修。"},"有挑战":{"tag":"挑战时刻","t":"有挑战，说明她正在长大","d":"孩子带来的挑战，恰恰是她能力边界的扩张信号。今天别急着解决，先问一句「你是怎么想的」——她的答案会告诉你该搭手还是该放手。能陪她面对挑战的妈妈，比替她扫清挑战的妈妈更了不起。"},"有点急":{"tag":"着急时刻","t":"着急的时候，先按 10 秒暂停键","d":"着急时说出口的话，往往是孩子一天情绪的底色。先深呼吸 10 秒，把「你怎么又」换成「我们来看看」。你稳住的这 10 秒，就是给孩子的情绪示范——比一百句道理都管用。"}},"k3store":"buddy_key3_mom","k3":[{"icon":"👧","title":"一次不打扰的陪伴","sub":"在场不催促","why":"不打扰的陪伴是最高级的信任——「妈妈在，但不盯着我」。今天这份安静在场，就是孩子专注力的安全感地基。"},{"icon":"🌸","title":"优势反馈一次","sub":"看见比纠正更有用","why":"优势反馈比纠正有效十倍。今天你看见的这个闪光点，会写进她的自我认知——被具体夸过的孩子，眼睛里有光。"},{"icon":"🧘","title":"给自己 10 分钟","sub":"妈妈的电量要先保住","why":"妈妈的电量是全家的氧气。今天这 10 分钟的自我时间，不是自私，是让整个系统能继续运转的必要检修。"}],"scenes":[["🔥","辅导作业要炸了","情绪上头教都白教","先离开5分钟，回来只看进步。情绪上头时教的都白教。"],["📉","孩子成绩下滑","先问感受再谈分数","先问感受再谈分数。情绪被接住了，问题才解决得了。"],["⚖️","忍不住比较别人家孩子","比较是毒药","停下，回看孩子本周的进步。比较是毒药。"],["😤","孩子顶嘴了","顶嘴是独立的信号","顶嘴是独立的信号。先接住情绪，再谈表达方式。"],["😔","内疚没陪够","质量>时长","质量补时长：今晚全身心陪伴30分钟，手机放另一个房间。"],["⚔️","家人教育理念冲突","统一战线给安全感","私下沟通，别当孩子面争执。统一战线孩子才有安全感。"]]};
 var ACC=CFG.accent||'#e05a7a';
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 var ov=null;
@@ -3133,13 +3133,14 @@ wrapKey3('stdK3Toggle',CFG.k3store);
 if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
   window.stdScenePick=function(i){
     var sc=CFG.scenes[i]; if(!sc) return;
-    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    var emo=sc[0],ttl=sc[1],sub=(sc.length>3?sc[2]:''),why=(sc.length>3?sc[3]:(sc[2]||''));
     showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
-      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
-      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
-      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
-      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
-    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">💬 今天发生了什么</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:6px;">'+esc(ttl)+'</div>'
+      +(sub?'<div style="font-size:12px;color:#8a8f99;margin-bottom:12px;">'+esc(sub)+'</div>':'')
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(why)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">好的，记住了 📝</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— 我在，一起拆。','partner'); }catch(e){}
   };
 }
 })();
