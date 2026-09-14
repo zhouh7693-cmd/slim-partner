@@ -663,13 +663,13 @@
 <div class="crp-card">
   <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
   <div class="crp-stage-body" style="margin-top:0;">
-<b>Fact 事实底座</b>：穷睡眠挤时间硬熬；富睡眠把睡眠当生产力投资。<br>
-<b>Core 核心结论</b>：睡眠不是关机，是身体最忙的修复时段。<br>
-<b>Insight 洞察</b>：三禁忌：不睡前刷手机、不用酒助眠、不硬躺。<br>
-<b>So What</b>：把睡眠变成每晚的固定流程，而不是困了就倒的随机事件。<br>
-<b>How To Do</b>：每晚三个动作——睡前一小时离手机、调暗灯光、写三行明日清单清空大脑。<br>
-<b>Know How</b>：关键不是睡够时长，而是别漏「规律」：固定时间比睡满八小时更重要，生物钟讨厌惊喜。<br>
-<b>验收口径</b>：早上醒来能否记得昨晚几点放下手机——记不得的，多半是刷过去了。<br>
+<b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：穷睡眠挤时间硬熬；富睡眠把睡眠当生产力投资。<br>
+<b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：睡眠不是关机，是身体最忙的修复时段。<br>
+<b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：三禁忌：不睡前刷手机、不用酒助眠、不硬躺。<br>
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：把睡眠变成每晚的固定流程，而不是困了就倒的随机事件。<br>
+<b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每晚三个动作——睡前一小时离手机、调暗灯光、写三行明日清单清空大脑。<br>
+<b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是睡够时长，而是别漏「规律」：固定时间比睡满八小时更重要，生物钟讨厌惊喜。<br>
+<b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：早上醒来能否记得昨晚几点放下手机——记不得的，多半是刷过去了。<br>
 
   </div>
 </div>
@@ -702,7 +702,7 @@
 <b>① 按暂停键</b>：躺下20分钟没睡着就起来，去暗光房间坐坐<br>
 <b>② 用身体扫描代替数羊</b>：从脚趾到头顶逐个放松——注意力放在身体上<br>
 <b>③ 提供安全感</b>：告诉自己「闭眼休息也是在恢复」，放下「必须睡着」的执念<br>
-<b>So What</b>：睡眠管理的目标不是每晚完美，而是打破「越怕越醒」的循环。
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：睡眠管理的目标不是每晚完美，而是打破「越怕越醒」的循环。
   </div>
 </div>
 
@@ -902,8 +902,8 @@
     var was=!!d.checked[i];
     d.checked[i]=!d.checked[i]; jset(K3,d); stdK3Render();
     if(!was&&d.checked[i]){
-      var tails=['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
-      toast(EMOJI+' 收到！「'+ACTIONS[i][1]+'」'+tails[Math.floor(Math.random()*tails.length)]);
+      
+      
       chat('✅ '+ACTIONS[i][1]);
     }
   };
@@ -2649,7 +2649,7 @@ function chatSend() {
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -2690,7 +2690,9 @@ function chatSend() {
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'

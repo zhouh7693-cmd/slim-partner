@@ -688,13 +688,13 @@
 <div class="crp-card">
   <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
   <div class="crp-stage-body" style="margin-top:0;">
-<b>Fact 事实底座</b>：穷陪读盯错题、比排名、吼作业；富陪读给方法、给信任、给情绪价值。<br>
-<b>Core 核心结论</b>：陪读陪的不是作业，是孩子的学习人格。<br>
-<b>Insight 洞察</b>：三禁忌：不盯作业、不比别人家孩子、不传递焦虑。<br>
-<b>So What</b>：把陪读变成每天的习惯养成和情绪滋养，而不是每晚的鸡飞狗跳。<br>
-<b>How To Do</b>：每天三个动作——让孩子自己列计划、问一次「需要帮忙吗」、睡前聊五分钟闲话。<br>
-<b>Know How</b>：关键不是辅导多专业，而是别漏「自主感」：被安排的孩子不会长出内驱力。<br>
-<b>验收口径</b>：孩子出错时，能否先问「你自己发现哪里错了吗」而不是直接指出——忍住，是本事。<br>
+<b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：穷陪读盯错题、比排名、吼作业；富陪读给方法、给信任、给情绪价值。<br>
+<b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：陪读陪的不是作业，是孩子的学习人格。<br>
+<b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：三禁忌：不盯作业、不比别人家孩子、不传递焦虑。<br>
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：把陪读变成每天的习惯养成和情绪滋养，而不是每晚的鸡飞狗跳。<br>
+<b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每天三个动作——让孩子自己列计划、问一次「需要帮忙吗」、睡前聊五分钟闲话。<br>
+<b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是辅导多专业，而是别漏「自主感」：被安排的孩子不会长出内驱力。<br>
+<b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：孩子出错时，能否先问「你自己发现哪里错了吗」而不是直接指出——忍住，是本事。<br>
 
   </div>
 </div>
@@ -727,7 +727,7 @@
 <b>① 按暂停键</b>：情绪上来先离开，深呼吸，问自己到底在焦虑什么<br>
 <b>② 用观察代替指责</b>：陈述事实并问困难——不说「你怎么又磨蹭」<br>
 <b>③ 提供安全感</b>：孩子不想说就不追问，告诉她「我随时在」<br>
-<b>So What</b>：沟通的目标不是管住孩子，而是让她把能量用在成长上——这就是不内耗。
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：沟通的目标不是管住孩子，而是让她把能量用在成长上——这就是不内耗。
   </div>
 </div>
 
@@ -1020,8 +1020,8 @@
     var was=!!d.checked[i];
     d.checked[i]=!d.checked[i]; jset(K3,d); stdK3Render();
     if(!was&&d.checked[i]){
-      var tails=['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
-      toast(EMOJI+' 收到！「'+ACTIONS[i][1]+'」'+tails[Math.floor(Math.random()*tails.length)]);
+      
+      
       chat('✅ '+ACTIONS[i][1]);
     }
   };
@@ -2895,7 +2895,7 @@ function renderWeeklyReport() {
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -2936,7 +2936,9 @@ function renderWeeklyReport() {
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'

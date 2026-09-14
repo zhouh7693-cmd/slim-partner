@@ -445,13 +445,13 @@
 <div class="crp-card">
   <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
   <div class="crp-stage-body" style="margin-top:0;">
-<b>Fact 事实底座</b>：穷执行等指令；富Owner主动定义问题、拉齐资源、对结果负全责。<br>
-<b>Core 核心结论</b>：Owner的价值不是干活最多，是对结果负责。<br>
-<b>Insight 洞察</b>：三禁忌：不做传声筒、不让救火常态化、不抢团队的活。<br>
-<b>So What</b>：把Owner能力变成每天的判断和闭环，而不是年度的汇报材料。<br>
-<b>How To Do</b>：每天三个动作——看一次核心数据、做一次明确判断、闭环一件事。<br>
-<b>Know How</b>：关键不是负责任的态度，而是负责的机制：每件事都有唯一责任人、明确时限、验收标准。<br>
-<b>验收口径</b>：项目出问题时，第一反应是否为「我的机制哪里有洞」而不是「谁的错」。<br>
+<b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：穷执行等指令；富Owner主动定义问题、拉齐资源、对结果负全责。<br>
+<b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：Owner的价值不是干活最多，是对结果负责。<br>
+<b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：三禁忌：不做传声筒、不让救火常态化、不抢团队的活。<br>
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：把Owner能力变成每天的判断和闭环，而不是年度的汇报材料。<br>
+<b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每天三个动作——看一次核心数据、做一次明确判断、闭环一件事。<br>
+<b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是负责任的态度，而是负责的机制：每件事都有唯一责任人、明确时限、验收标准。<br>
+<b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：项目出问题时，第一反应是否为「我的机制哪里有洞」而不是「谁的错」。<br>
 
   </div>
 </div>
@@ -484,7 +484,7 @@
 <b>① 按暂停键</b>：先止血，再追因——两件事分开做<br>
 <b>② 用数据定位</b>：不靠感觉猜凶手，看数据找洞在哪<br>
 <b>③ 补机制</b>：同一坑不摔两次——每次救火必须产出一条新规则<br>
-<b>So What</b>：Owner的目标不是灭火最快，而是让火烧不起来。
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：Owner的目标不是灭火最快，而是让火烧不起来。
   </div>
 </div>
 
@@ -680,8 +680,8 @@
     var was=!!d.checked[i];
     d.checked[i]=!d.checked[i]; jset(K3,d); stdK3Render();
     if(!was&&d.checked[i]){
-      var tails=['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
-      toast(EMOJI+' 收到！「'+ACTIONS[i][1]+'」'+tails[Math.floor(Math.random()*tails.length)]);
+      
+      
       chat('✅ '+ACTIONS[i][1]);
     }
   };
@@ -1357,11 +1357,11 @@ function closeQA() { document.getElementById('qaOverlay').classList.remove('show
 
 // ===== SOP自检 =====
 var SOP_CATEGORIES = [
-  {id:'cat1', name:'Owner思维', icon:'🧭', desc:'视角、判断力、主动权', color:'#16a34a'},
-  {id:'cat2', name:'数据财务', icon:'📊', desc:'ROI、毛利、利润逻辑', color:'#0284c7'},
-  {id:'cat3', name:'品牌关系', icon:'🤝', desc:'信任、谈判、长期经营', color:'#d97706'},
-  {id:'cat4', name:'汇报表达', icon:'💬', desc:'结论先行、判断输出', color:'#7c3aed'},
-  {id:'cat5', name:'自我管理', icon:'🌿', desc:'节奏、边界、持续成长', color:'#dc2626'}
+  {id:'biz_mindset', name:'Owner思维', icon:'🧭', desc:'视角、判断力、主动权', color:'#16a34a'},
+  {id:'data_finance', name:'数据财务', icon:'📊', desc:'ROI、毛利、利润逻辑', color:'#0284c7'},
+  {id:'brand_rel', name:'品牌关系', icon:'🤝', desc:'信任、谈判、长期经营', color:'#d97706'},
+  {id:'report_comm', name:'汇报表达', icon:'💬', desc:'结论先行、判断输出', color:'#7c3aed'},
+  {id:'self_mgmt', name:'自我管理', icon:'🌿', desc:'节奏、边界、持续成长', color:'#dc2626'}
 ];
 
 var SOP_HABITS = [
@@ -1776,6 +1776,7 @@ function switchTab(tab) {
   } else {
     var pe = document.getElementById(tab + 'Page');
     if (pe) pe.classList.add('active');
+    if (tab === 'sop' && typeof renderSOP === 'function') { try { renderSOP(); } catch(e) {} }
   }
   // 精确高亮当前tab按钮
   document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
@@ -2279,7 +2280,7 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -2320,7 +2321,9 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'

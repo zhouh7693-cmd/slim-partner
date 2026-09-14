@@ -647,8 +647,8 @@
     var was=!!d.checked[i];
     d.checked[i]=!d.checked[i]; jset(K3,d); stdK3Render();
     if(!was&&d.checked[i]){
-      var tails=['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
-      toast(EMOJI+' 收到！「'+ACTIONS[i][1]+'」'+tails[Math.floor(Math.random()*tails.length)]);
+      
+      
       chat('✅ '+ACTIONS[i][1]);
     }
   };
@@ -3328,13 +3328,13 @@ startApp();
 <div class="crp-card">
   <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
   <div class="crp-stage-body" style="margin-top:0;">
-<b>Fact 事实底座</b>：穷忙碌用加班填充焦虑；富探索用价值筛选行动。<br>
-<b>Core 核心结论</b>：使命不在远方，在你愿意持续投入的事里。<br>
-<b>Insight 洞察</b>：三禁忌：不用忙碌代替思考、不用别人标准定义成功、不想清楚再出发。<br>
-<b>So What</b>：把使命探索变成每天的微小验证，而不是一次性的顿悟等待。<br>
-<b>How To Do</b>：每天三个动作——记录一件有成就感的事、帮一个人、问一次「这和十年后有关吗」。<br>
-<b>Know How</b>：关键不是找到宏大答案，而是别被伪命题困住：等激情、等天赋、等完美时机，都是拖延的外衣。<br>
-<b>验收口径</b>：面对选择时，能否问「十年后的我会感谢今天这个决定吗」并据此行动。<br>
+<b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：穷忙碌用加班填充焦虑；富探索用价值筛选行动。<br>
+<b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：使命不在远方，在你愿意持续投入的事里。<br>
+<b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：三禁忌：不用忙碌代替思考、不用别人标准定义成功、不想清楚再出发。<br>
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：把使命探索变成每天的微小验证，而不是一次性的顿悟等待。<br>
+<b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每天三个动作——记录一件有成就感的事、帮一个人、问一次「这和十年后有关吗」。<br>
+<b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是找到宏大答案，而是别被伪命题困住：等激情、等天赋、等完美时机，都是拖延的外衣。<br>
+<b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：面对选择时，能否问「十年后的我会感谢今天这个决定吗」并据此行动。<br>
 
   </div>
 </div>
@@ -3367,7 +3367,7 @@ startApp();
 <b>① 按暂停键</b>：停止收集更多选项，先写下三条筛选标准<br>
 <b>② 用实验代替空想</b>：给每个方向一个月的小成本试点<br>
 <b>③ 提供安全感</b>：告诉自己「迷茫是探索期，不是失败期」<br>
-<b>So What</b>：使命探索的目标不是一次想通人生，而是让每天的行动自带方向。
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：使命探索的目标不是一次想通人生，而是让每天的行动自带方向。
   </div>
 </div>
 
@@ -3533,7 +3533,7 @@ startApp();
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -3574,7 +3574,9 @@ startApp();
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'

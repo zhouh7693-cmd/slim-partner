@@ -952,7 +952,7 @@
   <div class="crp-card">
     <div class="crp-title">📐 40岁重启方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
     <div class="crp-stage-body" style="margin-top:0;">
-      <b>Fact 事实底座</b>：40-50岁是体力与智慧两条曲线的交叉点。真正拉开差距的，不是跟年轻人拼体力，而是用深度换高度、用整合换机会。<br><b>Core 核心结论</b>：中年危机的本质不是年龄困境，而是旧人生操作系统的失效。破局靠系统重构：价值哲学、专业能力、资源整合、商业化、影响力五大子系统。<br><b>Insight 洞察</b>：127位35-55岁实现关键跃迁的普通职场人样本显示：92%完成了系统层面重构，79%收入超越历史峰值，95%主观幸福感显著提升。<br><b>So What</b>：40岁后的真正优势：认知成熟度、行业洞察、人脉原始积累、抗风险能力——把经验变成「不可替代性」，把人脉变成「资源连接器」。<br><b>How To Do</b>：每天三个动作：问一次初衷（我想成为什么样的人）、盘一项资产（写进资产负债表）、做一次小实验（最小成本试新可能）。<br><b>Know How</b>：关键不是立刻辞职创业，而是不做禁忌：不拿年龄吓自己、不用旧地图找新大陆、不拿健康换转型。<br><b>验收口径</b>：每月问三个问题：我的资产负债表变厚了吗？我做了一次什么新实验？体能和情绪还在正常区间吗？
+      <b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：40-50岁是体力与智慧两条曲线的交叉点。真正拉开差距的，不是跟年轻人拼体力，而是用深度换高度、用整合换机会。<br><b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：中年危机的本质不是年龄困境，而是旧人生操作系统的失效。破局靠系统重构：价值哲学、专业能力、资源整合、商业化、影响力五大子系统。<br><b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：127位35-55岁实现关键跃迁的普通职场人样本显示：92%完成了系统层面重构，79%收入超越历史峰值，95%主观幸福感显著提升。<br><b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：40岁后的真正优势：认知成熟度、行业洞察、人脉原始积累、抗风险能力——把经验变成「不可替代性」，把人脉变成「资源连接器」。<br><b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每天三个动作：问一次初衷（我想成为什么样的人）、盘一项资产（写进资产负债表）、做一次小实验（最小成本试新可能）。<br><b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是立刻辞职创业，而是不做禁忌：不拿年龄吓自己、不用旧地图找新大陆、不拿健康换转型。<br><b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：每月问三个问题：我的资产负债表变厚了吗？我做了一次什么新实验？体能和情绪还在正常区间吗？
     </div>
   </div>
   <div class="crp-card">
@@ -3594,7 +3594,7 @@ function openSceneFB(idx, type) {
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -3635,7 +3635,9 @@ function openSceneFB(idx, type) {
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'

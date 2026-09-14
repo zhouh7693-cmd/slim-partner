@@ -756,13 +756,13 @@
 <div class="crp-card">
   <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
   <div class="crp-stage-body" style="margin-top:0;">
-<b>Fact 事实底座</b>：穷创业拼胆量和加班；富创业拼验证速度和单位经济模型。<br>
-<b>Core 核心结论</b>：活着比伟大重要，现金流比故事重要。<br>
-<b>Insight 洞察</b>：三禁忌：不烧钱换增长、不招人补懒、不押全部身家。<br>
-<b>So What</b>：把创业变成每周的验证循环，而不是一场豪赌。<br>
-<b>How To Do</b>：每周三个动作——访谈三个用户、迭代一次产品、看一次现金流表。<br>
-<b>Know How</b>：关键不是跑多快，而是别跑错方向：伪需求、假增长、债务式增长都是慢性毒药。<br>
-<b>验收口径</b>：面对新机会时，能否先问「单位经济模型算得过来吗」而不是「规模能多大」。<br>
+<b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：穷创业拼胆量和加班；富创业拼验证速度和单位经济模型。<br>
+<b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：活着比伟大重要，现金流比故事重要。<br>
+<b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：三禁忌：不烧钱换增长、不招人补懒、不押全部身家。<br>
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：把创业变成每周的验证循环，而不是一场豪赌。<br>
+<b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每周三个动作——访谈三个用户、迭代一次产品、看一次现金流表。<br>
+<b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是跑多快，而是别跑错方向：伪需求、假增长、债务式增长都是慢性毒药。<br>
+<b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：面对新机会时，能否先问「单位经济模型算得过来吗」而不是「规模能多大」。<br>
 
   </div>
 </div>
@@ -795,7 +795,7 @@
 <b>① 按暂停键</b>：焦虑上来先写下来——写出来的恐惧会缩水一半<br>
 <b>② 用事实代替想象</b>：问自己「最坏结果是什么，能承受吗」<br>
 <b>③ 缩小行动颗粒</b>：把大问题拆成今天能做的一小步<br>
-<b>So What</b>：创业的目标不是消灭焦虑，而是让焦虑变成信息输入，而不是决策噪音。
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：创业的目标不是消灭焦虑，而是让焦虑变成信息输入，而不是决策噪音。
   </div>
 </div>
 
@@ -2809,7 +2809,7 @@ function renderWeeklyReport() {
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -2850,7 +2850,9 @@ function renderWeeklyReport() {
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
@@ -2920,8 +2922,8 @@ function renderWeeklyReport() {
     var was=!!d.checked[i];
     d.checked[i]=!d.checked[i]; jset(K3,d); stdK3Render();
     if(!was&&d.checked[i]){
-      var tails=['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
-      toast(EMOJI+' 收到！「'+ACTIONS[i][1]+'」'+tails[Math.floor(Math.random()*tails.length)]);
+      
+      
       chat('✅ '+ACTIONS[i][1]);
     }
   };

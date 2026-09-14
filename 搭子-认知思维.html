@@ -952,7 +952,7 @@
   <div class="crp-card">
     <div class="crp-title">📐 认知升级 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
     <div class="crp-stage-body" style="margin-top:0;">
-      <b>Fact 事实底座</b>：「高认知穷人」：懂得越多、做得越少——认知过载而行动瘫痪，是这个时代最普遍的病。<br><b>Core 核心结论</b>：认知升级的唯一路径：知道 → 做到 → 教会别人。跳过任何一步都是自欺。<br><b>Insight 洞察</b>：网状思维 vs 单点思维：联结产生洞察——两个不相关领域的交叉点，就是创新的高发地。<br><b>So What</b>：一个让你效率翻10倍的方法：学任何东西时先问「这条我今天用在哪」，用不上就不学。<br><b>How To Do</b>：每天三个动作：挖三层为什么、连一条新旧知识的线、为一条认知绑定一个动作。<br><b>Know How</b>：关键不是学了多少课，而是不做禁忌：收藏当学会、输入代输出、单点思考。<br><b>验收口径</b>：每晚问三个问题：今天哪条认知落地成了动作？挖穿了几个为什么？教会了谁？
+      <b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：「高认知穷人」：懂得越多、做得越少——认知过载而行动瘫痪，是这个时代最普遍的病。<br><b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：认知升级的唯一路径：知道 → 做到 → 教会别人。跳过任何一步都是自欺。<br><b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：网状思维 vs 单点思维：联结产生洞察——两个不相关领域的交叉点，就是创新的高发地。<br><b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：一个让你效率翻10倍的方法：学任何东西时先问「这条我今天用在哪」，用不上就不学。<br><b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每天三个动作：挖三层为什么、连一条新旧知识的线、为一条认知绑定一个动作。<br><b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是学了多少课，而是不做禁忌：收藏当学会、输入代输出、单点思考。<br><b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：每晚问三个问题：今天哪条认知落地成了动作？挖穿了几个为什么？教会了谁？
     </div>
   </div>
   <div class="crp-card">
@@ -3594,7 +3594,7 @@ function openSceneFB(idx, type) {
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -3635,7 +3635,9 @@ function openSceneFB(idx, type) {
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'

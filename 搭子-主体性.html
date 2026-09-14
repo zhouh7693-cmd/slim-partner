@@ -1014,13 +1014,13 @@
 <div class="crp-card">
   <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
   <div class="crp-stage-body" style="margin-top:0;">
-<b>Fact 事实底座</b>：穷主体性等认可、怕冲突、随大流；富主体性先问自己想要什么，再决定怎么活。<br>
-<b>Core 核心结论</b>：你不是谁的反应，你是自己的源头。<br>
-<b>Insight 洞察</b>：三禁忌：不等批准、不拿评价当判决、不在关系里弄丢自己。<br>
-<b>So What</b>：把主体性变成每天的小决定，而不是人生的宏大宣言。<br>
-<b>How To Do</b>：每天三个动作——表达一次真实想法、拒绝一件不想做的事、为自己做一个决定。<br>
-<b>Know How</b>：关键不是强势，而是别把能量漏掉：讨好、解释、证明自己，都是主体性的出血点。<br>
-<b>验收口径</b>：被质疑时，能否先说「我的想法是」而不是立刻道歉或反驳——稳住，再回应。<br>
+<b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：穷主体性等认可、怕冲突、随大流；富主体性先问自己想要什么，再决定怎么活。<br>
+<b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：你不是谁的反应，你是自己的源头。<br>
+<b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：三禁忌：不等批准、不拿评价当判决、不在关系里弄丢自己。<br>
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：把主体性变成每天的小决定，而不是人生的宏大宣言。<br>
+<b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每天三个动作——表达一次真实想法、拒绝一件不想做的事、为自己做一个决定。<br>
+<b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是强势，而是别把能量漏掉：讨好、解释、证明自己，都是主体性的出血点。<br>
+<b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：被质疑时，能否先说「我的想法是」而不是立刻道歉或反驳——稳住，再回应。<br>
 
   </div>
 </div>
@@ -1053,7 +1053,7 @@
 <b>① 按暂停键</b>：情绪上来先离开现场，问「我在怕什么」<br>
 <b>② 用观察代替脑补</b>：事实是什么、剧本是什么——分开写下来<br>
 <b>③ 提供安全感</b>：告诉自己「说错也没关系」，然后去做具体的事<br>
-<b>So What</b>：主体性的目标不是不再敏感，而是让敏感变成信息，而不是刑具。
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：主体性的目标不是不再敏感，而是让敏感变成信息，而不是刑具。
   </div>
 </div>
 
@@ -3682,7 +3682,7 @@ function openSceneFB(idx, type) {
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -3723,7 +3723,9 @@ function openSceneFB(idx, type) {
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'

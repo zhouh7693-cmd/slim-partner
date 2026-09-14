@@ -952,7 +952,7 @@
   <div class="crp-card">
     <div class="crp-title">📐 AI OPC 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
     <div class="crp-stage-body" style="margin-top:0;">
-      <b>Fact 事实底座</b>：2025年上半年全国新注册企业中一人公司占比同比增长47%；独立创始人公司占比从2019年23.7%升至2025年36.3%。截至2026年5月，全国OPC社区已达426处、覆盖65城。<br><b>Core 核心结论</b>：一人一AI，就是一家公司。过去创业要团队、要资金、要时间；现在一个人加上AI智能体，就具备一家公司的核心能力。<br><b>Insight 洞察</b>：AI智能体已从「听指令的辅助工具」进化为「自己琢磨着干活的自主执行者」——一个人调度多个智能体，就是一个虚拟的多智能体协同网络。<br><b>So What</b>：超级个体敢干、能长、能赚：启动靠最小成本试错，成长靠AI放大专业，赚钱靠真实交付与复购。<br><b>How To Do</b>：五步启动SOP：审计护城河→注册主体→组建3-5个AI数字员工→跑MVP→用自动化扩张，全程不盲目加人。<br><b>Know How</b>：关键不是会多少工具，而是不做禁忌：不护城河乱跟风、公私不分、沉迷工具不交付。<br><b>验收口径</b>：每周问三个问题：这周AI替我干了多少活？我见到了几个真实用户？收了多少钱、留住了谁？
+      <b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：2025年上半年全国新注册企业中一人公司占比同比增长47%；独立创始人公司占比从2019年23.7%升至2025年36.3%。截至2026年5月，全国OPC社区已达426处、覆盖65城。<br><b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：一人一AI，就是一家公司。过去创业要团队、要资金、要时间；现在一个人加上AI智能体，就具备一家公司的核心能力。<br><b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：AI智能体已从「听指令的辅助工具」进化为「自己琢磨着干活的自主执行者」——一个人调度多个智能体，就是一个虚拟的多智能体协同网络。<br><b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：超级个体敢干、能长、能赚：启动靠最小成本试错，成长靠AI放大专业，赚钱靠真实交付与复购。<br><b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：五步启动SOP：审计护城河→注册主体→组建3-5个AI数字员工→跑MVP→用自动化扩张，全程不盲目加人。<br><b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是会多少工具，而是不做禁忌：不护城河乱跟风、公私不分、沉迷工具不交付。<br><b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：每周问三个问题：这周AI替我干了多少活？我见到了几个真实用户？收了多少钱、留住了谁？
     </div>
   </div>
   <div class="crp-card">
@@ -3594,7 +3594,7 @@ function openSceneFB(idx, type) {
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -3635,7 +3635,9 @@ function openSceneFB(idx, type) {
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'

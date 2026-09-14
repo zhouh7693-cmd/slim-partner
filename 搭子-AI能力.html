@@ -334,7 +334,25 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
 (function(){
   if (window.__stdTab) return; window.__stdTab = 1;
   var SLUG='ai', ACCENT='#0891b2', EMOJI='🤖';
-  var ACTIONS=[["🤖", "用AI解决一个真实任务", "真实任务驱动学习"], ["📚", "学一个新提示词技巧", "提示词是新的编程"], ["🗂️", "沉淀一个可复用模板", "模板是最快的复利"]], TIPS=["AI不会取代你，会用AI的人会", "提示词写得好，AI就是资深助手", "重复工作给AI，判断留给自己", "模板是最快的复利", "先明确目标，再写提示词", "让AI当面试官，逼你深度思考", "AI输出要人工把关，责任在你", "学AI最快的方式：真实任务驱动", "别收藏教程，打开对话框", "工具在精不在多，吃透一个", "AI擅长初稿，你擅长终稿", "把AI用法写成团队SOP", "数据隐私是底线，敏感信息别喂", "每周固定1小时AI实验时间", "好问题比好答案值钱", "让AI复盘你的方案找漏洞", "提问能力=核心竞争力", "跨界知识让AI用出花来", "别神化也别低估，当能力放大器", "今天不用，明天就落后半步"], SCENES=[["🌀", "AI输出不理想", "补上下文，给例子，分段问。垃圾进垃圾出，喂饱它。"], ["🌫️", "不知道AI能干啥", "从今天最烦的重复工作开始，列清单逐个试。"], ["😰", "担心AI出错", "关键结论交叉验证。AI起草，你定稿，你负责。"], ["👨‍👩‍👧", "团队不会用", "做一个10分钟内训，从真实案例讲起，别讲理论。"], ["📝", "用AI写的被质疑", "署自己的名，负自己的责。AI是工具，判断是你的。"], ["✍️", "提示词总是瞎写", "套模板：角色+任务+要求+例子。存成模板复用。"]];
+  var ACTIONS=[["🤖", "用AI解决一个真实任务", "真实任务驱动学习"], ["📚", "学一个新提示词技巧", "提示词是新的编程"], ["🗂️", "沉淀一个可复用模板", "模板是最快的复利"]], TIPS=["AI不会取代你，会用AI的人会", "提示词写得好，AI就是资深助手", "重复工作给AI，判断留给自己", "模板是最快的复利", "先明确目标，再写提示词", "让AI当面试官，逼你深度思考", "AI输出要人工把关，责任在你", "学AI最快的方式：真实任务驱动", "别收藏教程，打开对话框", "工具在精不在多，吃透一个", "AI擅长初稿，你擅长终稿", "把AI用法写成团队SOP", "数据隐私是底线，敏感信息别喂", "每周固定1小时AI实验时间", "好问题比好答案值钱", "让AI复盘你的方案找漏洞", "提问能力=核心竞争力", "跨界知识让AI用出花来", "别神化也别低估，当能力放大器", "今天不用，明天就落后半步"], SCENES=[
+ ["🌀","AI输出不理想","补上下文、给例子、分段问。垃圾进垃圾出，喂饱它——AI 不是不行，是你还没说清楚。"],
+ ["🌫️","不知道AI能干啥","从今天最烦的一件重复工作开始，让 AI 试一次。能力边界是试出来的，不是想出来的。"],
+ ["😰","担心AI出错","关键结论交叉验证，AI 起草、你定稿。责任在你手里，AI 只是加速器——这样用就出不了大事。"],
+ ["👨‍👩‍👧","团队不会用","别讲理论，开一场 10 分钟内训，拿一个大家本周真实的案例演示。看见效果，比看见PPT有用一百倍。"],
+ ["📝","用AI写的被质疑","署自己的名，就负自己的责：AI 出初稿，你逐句核对、补充判断。你的专业判断才是护城河。"],
+ ["✍️","提示词总是瞎写","套四件套模板：角色+任务+背景+要求。写完存进模板库，下次直接改两处就能用。"],
+ ["🔥","今天用AI省了时间","省下来的时间别填进新杂活——留 15 分钟做只有人能做的事：判断、关系、创意。这才是复利的起点。"],
+ ["🧱","AI回答太笼统","追问三连：给我一个例子/分步骤讲/用我行业的场景重说。笼统是提示词的镜子，追问是你的权利。"],
+ ["📚","教程太多学不动","关掉收藏夹，今天只学一个技巧并立刻用在工作里。用过的才叫学会，收藏的只是心理安慰。"],
+ ["🤖","想把流程交给AI","挑一个你重复做过 10 次以上的流程，写成步骤清单，逐步让 AI 接管。能被写清楚的，就能被自动化。"],
+ ["💰","担心被AI替代","替代你的不是AI，是会用AI的人。你今天每学会一招，就是往「不可替代」那一栏存了一笔钱。"],
+ ["🔮","AI幻觉一本正经胡说","事实类的答案强制它给来源，或者你自己查证一次。把它当聪明但需要核对的实习生，而不是权威。"],
+ ["🧩","多个AI工具不知道选哪个","别追新，先用熟一个主力工具到熟练，再考虑加第二个。工具的深度比数量值钱。"],
+ ["📉","今天完全没用AI","没关系，记录一次「今天为什么没用」：是任务不适合，还是你忘了？觉察一次，明天就多一次机会。"],
+ ["🗂️","AI文件整理一团乱","让 AI 帮你建目录、写摘要、贴标签——整理资料是它最擅长的体力活，别自己扛。"],
+ ["🎯","想做个AI小工具","从一个最小的场景开始：输入什么、输出什么，10 行提示词就是第一版。今天跑通，比想完美更重要。"],
+ ["😴","学AI太累想放弃","降低标准：今天只看一个 3 分钟技巧。曲线是波动的，但只要没下牌桌，你就在涨。"],
+ ["🏆","AI帮了大忙想分享","把这次用法写成 5 步教程发给同事。教是最好的学，分享还会让你的模板库越滚越大。"]];
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
   function today(){ return new Date().toISOString().slice(0,10); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
@@ -353,8 +371,8 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
     var was=!!d.checked[i];
     d.checked[i]=!d.checked[i]; jset(K3,d); stdK3Render();
     if(!was&&d.checked[i]){
-      var tails=['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
-      toast(EMOJI+' 收到！「'+ACTIONS[i][1]+'」'+tails[Math.floor(Math.random()*tails.length)]);
+      
+      
       chat('✅ '+ACTIONS[i][1]);
     }
   };
@@ -658,13 +676,13 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
 <div class="crp-card">
   <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
   <div class="crp-stage-body" style="margin-top:0;">
-<b>Fact 事实底座</b>：穷学习收藏教程；富学习把AI嵌进真实工作流，每天产出。<br>
-<b>Core 核心结论</b>：AI不淘汰人，先用好AI的人淘汰后用的人。<br>
-<b>Insight 洞察</b>：三禁忌：不收藏吃灰、不做工具搬运工、不脱离真实任务。<br>
-<b>So What</b>：把AI能力变成每周可复用的流程，而不是零散的技巧。<br>
-<b>How To Do</b>：每周三个动作——用AI解决一个真实任务、沉淀一条优质提示词、教一个人用。<br>
-<b>Know How</b>：关键不是学多少工具，而是别停在浅层：聊天问答是入门，工作流自动化才是护城河。<br>
-<b>验收口径</b>：接到新任务时，第一反应是否为「这件事AI能不能帮我完成一部分」。<br>
+<b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：穷学习收藏教程；富学习把AI嵌进真实工作流，每天产出。<br>
+<b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：AI不淘汰人，先用好AI的人淘汰后用的人。<br>
+<b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：三禁忌：不收藏吃灰、不做工具搬运工、不脱离真实任务。<br>
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：把AI能力变成每周可复用的流程，而不是零散的技巧。<br>
+<b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每周三个动作——用AI解决一个真实任务、沉淀一条优质提示词、教一个人用。<br>
+<b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是学多少工具，而是别停在浅层：聊天问答是入门，工作流自动化才是护城河。<br>
+<b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：接到新任务时，第一反应是否为「这件事AI能不能帮我完成一部分」。<br>
 
   </div>
 </div>
@@ -697,7 +715,7 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
 <b>① 按暂停键</b>：新工具先问「它解决我的哪个问题」，答不上就跳过<br>
 <b>② 用场景代替清单</b>：围绕自己的工作流选工具，不围着工具改工作流<br>
 <b>③ 小步验证</b>：给新工具一周试用期，没用起来就删<br>
-<b>So What</b>：AI学习的目标不是追平所有工具，而是让你的产出能力指数级放大。
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：AI学习的目标不是追平所有工具，而是让你的产出能力指数级放大。
   </div>
 </div>
 
@@ -1359,7 +1377,7 @@ function showQAPanel(title, items) {
   items.forEach(function(item){
     var cls = item.type === 'pos' ? 'pos' : 'neg';
     var tagCls = item.type === 'pos' ? 'pos' : 'neg';
-    html += '<div class="qa-card '+cls+'" onclick="selectQACard(this)" data-feedback="'+item.feedback.replace(/"/g,'&quot;')+'" data-icon="'+item.icon+'"><span class="qa-card-icon">'+item.icon+'</span><span class="qa-card-text">'+item.scenario+'</span></div>';
+    html += '<div class="qa-card '+cls+'" onclick="selectQACard(this)" data-feedback="'+(item.feedback||item.answer||item.scenario||'').replace(/"/g,'&quot;')+'" data-icon="'+item.icon+'"><span class="qa-card-icon">'+item.icon+'</span><span class="qa-card-text">'+(item.scenario||item.question||'')+'</span></div>';
   });
   scroll.innerHTML = html;
   document.getElementById('qaOverlay').classList.add('show');
@@ -1895,7 +1913,7 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -1936,7 +1954,9 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'

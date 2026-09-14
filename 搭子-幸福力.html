@@ -958,13 +958,13 @@
 <div class="crp-card">
     <div class="crp-title">📐 养育方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
     <div class="crp-stage-body" style="margin-top:0;">
-      <b>Fact 事实底座</b>：孩子的「懒散、不听话」多是关系信号，不是态度问题。<br>
-      <b>Core 核心结论</b>：内心强大的孩子不是夸出来的，是被「看见」和「授权」出来的。<br>
-      <b>Insight 洞察</b>：伤害她的是父母无意识的挑剔；价值感来自无条件的确认，而非外部评价。<br>
-      <b>So What</b>：把养育从「凭感觉」变成「可执行的标准动作」，每个家庭都能复制。<br>
-      <b>How To Do</b>：每天三个动作——看见一个亮点、归还一个决定、陪一段专注时光。<br>
-      <b>Know How</b>：关键不在做什么，而在抽离指责、归还权利。父母越克制，孩子越有力量。<br>
-      <b>验收口径</b>：她遇到具体问题时，能否自发说出对应的话并照着做——「我自己来」「我试试」「没关系，再来一次」。
+      <b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：孩子的「懒散、不听话」多是关系信号，不是态度问题。<br>
+      <b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：内心强大的孩子不是夸出来的，是被「看见」和「授权」出来的。<br>
+      <b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：伤害她的是父母无意识的挑剔；价值感来自无条件的确认，而非外部评价。<br>
+      <b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：把养育从「凭感觉」变成「可执行的标准动作」，每个家庭都能复制。<br>
+      <b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每天三个动作——看见一个亮点、归还一个决定、陪一段专注时光。<br>
+      <b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不在做什么，而在抽离指责、归还权利。父母越克制，孩子越有力量。<br>
+      <b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：她遇到具体问题时，能否自发说出对应的话并照着做——「我自己来」「我试试」「没关系，再来一次」。
     </div>
   </div>
   <div class="crp-card">
@@ -993,7 +993,7 @@
       <b>① 按暂停键</b>：情绪上来先离开，深呼吸，问自己到底在焦虑什么。<br>
       <b>② 用观察代替指责</b>：陈述事实并问困难——不说「你怎么又磨蹭」。<br>
       <b>③ 提供安全感</b>：她不想说就不追问，告诉她「我随时在」，然后去做自己的事。<br>
-      <b>So What</b>：沟通的目标不是管住她，而是让她把能量用在成长上，而不是用在对抗你、消化你的情绪上——这就是不内耗。
+      <b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：沟通的目标不是管住她，而是让她把能量用在成长上，而不是用在对抗你、消化你的情绪上——这就是不内耗。
     </div>
   </div>
   <div class="crp-card">
@@ -3651,7 +3651,7 @@ function openSceneFB(idx, type) {
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -3692,7 +3692,9 @@ function openSceneFB(idx, type) {
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'

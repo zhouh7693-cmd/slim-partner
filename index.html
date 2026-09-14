@@ -911,13 +911,13 @@
 <div class="crp-card">
   <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
   <div class="crp-stage-body" style="margin-top:0;">
-<b>Fact 事实底座</b>：穷减肥拼意志力饿肚子；富减肥改环境和习惯，让对的选择变容易。<br>
-<b>Core 核心结论</b>：减肥减的不是体重，是生活方式。<br>
-<b>Insight 洞察</b>：三禁忌：不用食物奖励自己、不喝含糖饮料、不熬夜透支。<br>
-<b>So What</b>：把减脂变成每天的标准动作，而不是一次性的豪赌。<br>
-<b>How To Do</b>：每天三个动作——记录饮食、走够步数、按时上床。<br>
-<b>Know How</b>：关键不是少吃一顿，而是不吃「隐形热量」：奶茶、酱料、夜宵都是脂肪的糖衣。<br>
-<b>验收口径</b>：面对零食时，能否自己说出「我不饿，只是嘴馋」并放下——「七分饱」「明天再吃」「我说了算」。<br>
+<b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：穷减肥拼意志力饿肚子；富减肥改环境和习惯，让对的选择变容易。<br>
+<b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：减肥减的不是体重，是生活方式。<br>
+<b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：三禁忌：不用食物奖励自己、不喝含糖饮料、不熬夜透支。<br>
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：把减脂变成每天的标准动作，而不是一次性的豪赌。<br>
+<b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每天三个动作——记录饮食、走够步数、按时上床。<br>
+<b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是少吃一顿，而是不吃「隐形热量」：奶茶、酱料、夜宵都是脂肪的糖衣。<br>
+<b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：面对零食时，能否自己说出「我不饿，只是嘴馋」并放下——「七分饱」「明天再吃」「我说了算」。<br>
 
   </div>
 </div>
@@ -950,7 +950,7 @@
 <b>① 按暂停键</b>：想吃先喝一杯水，等10分钟——多数「饿」会自己走<br>
 <b>② 用观察代替自责</b>：问自己「我在焦虑什么」，不说「我怎么又馋了」<br>
 <b>③ 提供安全感</b>：真吃多了，下一餐正常吃——不补救不禁食，翻篇要快<br>
-<b>So What</b>：减脂的目标不是管住嘴，而是让能量用在生活上，而不是用在和食物的内耗上。
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：减脂的目标不是管住嘴，而是让能量用在生活上，而不是用在和食物的内耗上。
   </div>
 </div>
 
@@ -3861,7 +3861,7 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -3902,7 +3902,9 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'

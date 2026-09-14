@@ -449,7 +449,7 @@
           <span class="tag-emoji" data-page-node-id="Ib8uCmVHpvtipJZVPFefGl">🛑</span><span data-page-node-id="RDqgQrQRcHQdOFrZg8br3W">不做了</span>
         </div>
         <div class="tag-btn" data-tag="skill" onclick="pickTag('skill', this)" data-page-node-id="fT3xHv1dPtEa4b5FL1VNY8">
-          <span class="tag-emoji" data-page-node-id="99Qitn388yF2S34YmClLG9">🧩</span><span data-page-node-id="GrzZQeug1JySIc53r2h7cE">已做成 SOP</span>
+          <span class="tag-emoji" data-page-node-id="99Qitn388yF2S34YmClLG9">🧩</span><span data-page-node-id="GrzZQeug1JySIc53r2h7cE">已做成 SOP（固定成套路的标准流程）</span>
         </div>
       </div>
       <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="WAbxQCriGFO0kKmuh9t0SB">
@@ -539,8 +539,8 @@
     var was=!!d.checked[i];
     d.checked[i]=!d.checked[i]; jset(K3,d); stdK3Render();
     if(!was&&d.checked[i]){
-      var tails=['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
-      toast(EMOJI+' 收到！「'+ACTIONS[i][1]+'」'+tails[Math.floor(Math.random()*tails.length)]);
+      
+      
       chat('✅ '+ACTIONS[i][1]);
     }
   };
@@ -950,7 +950,7 @@
 <script>
 (function(){
   var KEY='crp_ltc_lt';
-  var items=['今天做了一件有长期价值的事','时间花在了 KEEP 清单上','拒绝了一件短期诱惑','完成了一次深度工作（90分钟）','记录了一条经验或教训','没有为焦虑刷无意义的信息','睡够且运动了——身体的复利在续费'];
+  var items=['今天做了一件有长期价值的事','时间花在了 KEEP（继续做）清单上','拒绝了一件短期诱惑','完成了一次深度工作（90分钟）','记录了一条经验或教训','没有为焦虑刷无意义的信息','睡够且运动了——身体的复利在续费'];
   var wrap=document.getElementById('ltWrap_lt'); if(!wrap) return;
   function today(){ return new Date().toISOString().slice(0,10); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
@@ -979,7 +979,7 @@
   <div class="crp-title">💬 每天必说的四句话<span class="crp-tip">👆 每天挑一句说出口</span></div>
   <div class="crp-stage-body" style="margin-top:0;">
 <b>1️⃣ 「今天做的事有长期价值吗」</b>——用十年尺度过滤今天的忙碌<br>
-<b>2️⃣ 「我的时间花在KEEP清单了吗」</b>——时间账本比钱账本更重要<br>
+<b>2️⃣ 「我的时间花在KEEP（继续做）清单了吗」</b>——时间账本比钱账本更重要<br>
 <b>3️⃣ 「十年后看今天重要吗」</b>——多数焦虑十年后是笑话<br>
 <b>4️⃣ 「慢即是快」</b>——不折腾就是最大的加速<br>
 <span style="color:#a3721c;">这四句话每天挑一句说出口，形成长期自觉。</span>
@@ -989,13 +989,13 @@
 <div class="crp-card">
   <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
   <div class="crp-stage-body" style="margin-top:0;">
-<b>Fact 事实底座</b>：穷忙碌追短期回报来回换赛道；富长期押注有复利的少数字。<br>
-<b>Core 核心结论</b>：慢慢来，比较快——时间是最公平的杠杆。<br>
-<b>Insight 洞察</b>：三禁忌：不频繁换赛道、不用忙碌回避思考、不为短期出卖长期。<br>
-<b>So What</b>：把长期主义变成每天的时间分配，而不是口头的人生观。<br>
-<b>How To Do</b>：每天三个动作——做一件有长期价值的事、砍掉一件短期诱惑、记录一条经验。<br>
-<b>Know How</b>：关键不是坚持多苦，而是别漏「方向复利」：在错的方向坚持，是精致的浪费。<br>
-<b>验收口径</b>：做选择时能否先问「这件事十年后还值钱吗」——「我缓缓」「这不值得」。<br>
+<b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：穷忙碌追短期回报来回换赛道；富长期押注有复利的少数字。<br>
+<b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：慢慢来，比较快——时间是最公平的杠杆。<br>
+<b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：三禁忌：不频繁换赛道、不用忙碌回避思考、不为短期出卖长期。<br>
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：把长期主义变成每天的时间分配，而不是口头的人生观。<br>
+<b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每天三个动作——做一件有长期价值的事、砍掉一件短期诱惑、记录一条经验。<br>
+<b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是坚持多苦，而是别漏「方向复利」：在错的方向坚持，是精致的浪费。<br>
+<b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：做选择时能否先问「这件事十年后还值钱吗」——「我缓缓」「这不值得」。<br>
 
   </div>
 </div>
@@ -1027,8 +1027,8 @@
 <b>为什么</b>：看到别人暴富，定力最容易被击穿。动摇不可怕，可怕的是没有流程地跟风。<br>
 <b>① 按暂停键</b>：先问「他的前提我有吗」——运气和底牌都看不见<br>
 <b>② 用十年检验</b>：「这件事十年后还成立吗」，多数诱惑过不了这关<br>
-<b>③ 提供安全感</b>：把冲动写进「三个月后 revisit」清单，到期还想要再小成本试<br>
-<b>So What</b>：长期主义的目标不是错过机会，而是不错过属于你的复利。
+<b>③ 提供安全感</b>：把冲动写进「三个月后回看（revisit）」清单，到期还想要再小成本试<br>
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：长期主义的目标不是错过机会，而是不错过属于你的复利。
   </div>
 </div>
 
@@ -1163,7 +1163,7 @@
     <div class="ltc-coach-intro-sub">5 个问题看清你的时间去哪了，把时间搬回长线价值</div>
     <div class="ltc-method-steps">
         <div class="ltc-method-step"><span class="ltc-step-num">①</span> 时间盘点<br><span class="ltc-step-desc">看清去向</span></div>
-        <div class="ltc-method-step"><span class="ltc-step-num">②</span> 四张清单<br><span class="ltc-step-desc">KEEP / STOP</span></div>
+        <div class="ltc-method-step"><span class="ltc-step-num">②</span> 四张清单<br><span class="ltc-step-desc">KEEP 继续做 / STOP 停止做</span></div>
         <div class="ltc-method-step"><span class="ltc-step-num">③</span> 本周一砍<br><span class="ltc-step-desc">立刻落地</span></div>
     </div>
     <button class="ltc-coach-start-btn" onclick="ltStartCoach()">开始深度对话 →</button>
@@ -3276,7 +3276,7 @@ if (!localStorage.getItem(OB_KEY) && !localStorage.getItem(STORAGE.PARTNER)) {
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -3317,7 +3317,9 @@ if (!localStorage.getItem(OB_KEY) && !localStorage.getItem(STORAGE.PARTNER)) {
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'

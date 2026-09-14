@@ -683,13 +683,13 @@
 <div class="crp-card">
   <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
   <div class="crp-stage-body" style="margin-top:0;">
-<b>Fact 事实底座</b>：穷晋升拼工时和技能清单；富晋升拼影响力和不可替代性。<br>
-<b>Core 核心结论</b>：P7靠专业赢，P8靠让别人赢。<br>
-<b>Insight 洞察</b>：三禁忌：不用战术勤奋掩盖战略懒惰、不抢功、不报喜不报忧。<br>
-<b>So What</b>：把晋升变成每天的判断力训练，而不是年底的述职冲刺。<br>
-<b>How To Do</b>：每天三个动作——授权一件事、对齐一次方向、辅导一个人。<br>
-<b>Know How</b>：关键不是活干得多，而是别干错层：P8还亲自动手核心活，就是占着P7的位置。<br>
-<b>验收口径</b>：遇到大事时，能否先说「我的判断是」并给出依据，而不是「我做了」。<br>
+<b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：穷晋升拼工时和技能清单；富晋升拼影响力和不可替代性。<br>
+<b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：P7靠专业赢，P8靠让别人赢。<br>
+<b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：三禁忌：不用战术勤奋掩盖战略懒惰、不抢功、不报喜不报忧。<br>
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：把晋升变成每天的判断力训练，而不是年底的述职冲刺。<br>
+<b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每天三个动作——授权一件事、对齐一次方向、辅导一个人。<br>
+<b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是活干得多，而是别干错层：P8还亲自动手核心活，就是占着P7的位置。<br>
+<b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：遇到大事时，能否先说「我的判断是」并给出依据，而不是「我做了」。<br>
 
   </div>
 </div>
@@ -722,7 +722,7 @@
 <b>① 按暂停键</b>：先把「我的情绪」和「事情本身」分开写下来<br>
 <b>② 用问题代替抱怨</b>：问「资源差在哪、缺口多大、谁能补」<br>
 <b>③ 向上坦诚</b>：带着方案谈困难，求助不是软弱<br>
-<b>So What</b>：管理的目标不是消灭压力，而是把压力转化为团队的清晰度。
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：管理的目标不是消灭压力，而是把压力转化为团队的清晰度。
   </div>
 </div>
 
@@ -939,8 +939,8 @@
     var was=!!d.checked[i];
     d.checked[i]=!d.checked[i]; jset(K3,d); stdK3Render();
     if(!was&&d.checked[i]){
-      var tails=['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
-      toast(EMOJI+' 收到！「'+ACTIONS[i][1]+'」'+tails[Math.floor(Math.random()*tails.length)]);
+      
+      
       chat('✅ '+ACTIONS[i][1]);
     }
   };
@@ -3302,7 +3302,7 @@ function copyP7Share() {
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -3343,7 +3343,9 @@ function copyP7Share() {
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'

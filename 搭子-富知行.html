@@ -957,13 +957,13 @@
   <div class="crp-card">
     <div class="crp-title">📐 富知行方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
     <div class="crp-stage-body" style="margin-top:0;">
-      <b>Fact 事实底座</b>：顶级女人与普通女人的区别，不在挣钱多少，而在注意力放哪里、思考问题的起点和高度在哪里。穷知行研究八卦攀比琐碎；富知行研究与智慧、规律、世界大道相关的事。<br>
-      <b>Core 核心结论</b>：人生下半场最大的财富，拼的不是豪宅名车或显赫人脉，而是健康的身体、稳定的情绪和翻篇的能力。<br>
-      <b>Insight 洞察</b>：成为富人一定先去模仿富人——早起、锻炼、寻求反馈、多位导师、阅读、独立思考、多重收入、积极的人生态度。<br>
-      <b>So What</b>：女性若不想走向庸俗，就试着把起点放到更长远、更有价值的事情上，把富知行变成每天的标准动作，作为日常修炼。<br>
-      <b>How To Do</b>：每天三个动作——管一次注意力、靠近一个对的人、先干一件小事。<br>
-      <b>Know How</b>：关键不是知道多少，而是不做「穷动作」：刷八卦、爱面子、等准备、耗在错的人身上。<br>
-      <b>验收口径</b>：遇到事情时，能否先问「这件事的规律是什么、我最小的一步是什么」——「我先干了再说」「当天就翻篇」「我的圈子在升级」。
+      <b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：顶级女人与普通女人的区别，不在挣钱多少，而在注意力放哪里、思考问题的起点和高度在哪里。穷知行研究八卦攀比琐碎；富知行研究与智慧、规律、世界大道相关的事。<br>
+      <b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：人生下半场最大的财富，拼的不是豪宅名车或显赫人脉，而是健康的身体、稳定的情绪和翻篇的能力。<br>
+      <b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：成为富人一定先去模仿富人——早起、锻炼、寻求反馈、多位导师、阅读、独立思考、多重收入、积极的人生态度。<br>
+      <b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：女性若不想走向庸俗，就试着把起点放到更长远、更有价值的事情上，把富知行变成每天的标准动作，作为日常修炼。<br>
+      <b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每天三个动作——管一次注意力、靠近一个对的人、先干一件小事。<br>
+      <b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是知道多少，而是不做「穷动作」：刷八卦、爱面子、等准备、耗在错的人身上。<br>
+      <b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：遇到事情时，能否先问「这件事的规律是什么、我最小的一步是什么」——「我先干了再说」「当天就翻篇」「我的圈子在升级」。
     </div>
   </div>
   <div class="crp-card">
@@ -3630,7 +3630,7 @@ function openSceneFB(idx, type) {
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -3671,7 +3671,9 @@ function openSceneFB(idx, type) {
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'

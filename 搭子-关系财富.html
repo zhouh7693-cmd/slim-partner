@@ -649,8 +649,8 @@
     var was=!!d.checked[i];
     d.checked[i]=!d.checked[i]; jset(K3,d); stdK3Render();
     if(!was&&d.checked[i]){
-      var tails=['做到就是赢！','稳了，就是这条。','又进一步，记住这个感觉。','好状态，明天继续。'];
-      toast(EMOJI+' 收到！「'+ACTIONS[i][1]+'」'+tails[Math.floor(Math.random()*tails.length)]);
+      
+      
       chat('✅ '+ACTIONS[i][1]);
     }
   };
@@ -3280,13 +3280,13 @@ startApp();
 <div class="crp-card">
   <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
   <div class="crp-stage-body" style="margin-top:0;">
-<b>Fact 事实底座</b>：穷人脉等到用时才找人；富关系平时定投，用时自然有余额。<br>
-<b>Core 核心结论</b>：人脉不是你认识谁，是谁愿意帮你。<br>
-<b>Insight 洞察</b>：三禁忌：不临时抱佛脚、不只求助时联系、不算计回报。<br>
-<b>So What</b>：把关系经营变成每周的微小存款，而不是需要时的大额提款。<br>
-<b>How To Do</b>：每周三个动作——联系一位老朋友、帮一个人、约一次见面。<br>
-<b>Know How</b>：关键不是认识多少人，而是别漏「深度」：500个点赞好友不如5个雪中送炭的。<br>
-<b>验收口径</b>：遇到困难时，能不能立刻想起三个可以开口求助的人——能，说明平时存够了。<br>
+<b>Fact 事实底座</b><span style="font-size:11px;color:#94a3b8;">（=先摆事实）</span>：穷人脉等到用时才找人；富关系平时定投，用时自然有余额。<br>
+<b>Core 核心结论</b><span style="font-size:11px;color:#94a3b8;">（=一句话结论）</span>：人脉不是你认识谁，是谁愿意帮你。<br>
+<b>Insight 洞察</b><span style="font-size:11px;color:#94a3b8;">（=看穿背后的规律）</span>：三禁忌：不临时抱佛脚、不只求助时联系、不算计回报。<br>
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：把关系经营变成每周的微小存款，而不是需要时的大额提款。<br>
+<b>How To Do</b><span style="font-size:11px;color:#94a3b8;">（=具体怎么做）</span>：每周三个动作——联系一位老朋友、帮一个人、约一次见面。<br>
+<b>Know How</b><span style="font-size:11px;color:#94a3b8;">（=实操诀窍）</span>：关键不是认识多少人，而是别漏「深度」：500个点赞好友不如5个雪中送炭的。<br>
+<b>验收口径</b><span style="font-size:11px;color:#94a3b8;">（=怎么算过关）</span>：遇到困难时，能不能立刻想起三个可以开口求助的人——能，说明平时存够了。<br>
 
   </div>
 </div>
@@ -3319,7 +3319,7 @@ startApp();
 <b>① 按暂停键</b>：被请求时先别急着答应：「我看一下安排，晚点答复你」<br>
 <b>② 用能力圈筛选</b>：能帮的痛快帮，帮不了的诚实说<br>
 <b>③ 提供替代方案</b>：拒绝请求时，补一个你能做到的帮法<br>
-<b>So What</b>：关系经营的目标不是有求必应，而是可持续地彼此成就。
+<b>So What</b><span style="font-size:11px;color:#94a3b8;">（=所以该怎么做）</span>：关系经营的目标不是有求必应，而是可持续地彼此成就。
   </div>
 </div>
 
@@ -3485,7 +3485,7 @@ startApp();
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -3526,7 +3526,9 @@ startApp();
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
+    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
+    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
   });
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
