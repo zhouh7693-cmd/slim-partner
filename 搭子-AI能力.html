@@ -229,6 +229,7 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
   .ai-clk-item.done { color: #8f9eae; text-decoration: line-through; }
   .ai-clk-item .ai-clk-box { margin-right: 8px; }
 </style>
+<style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body>
 
@@ -321,7 +322,7 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
   <div id="stdTipText"></div>
 </div>
 <div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
-<div id="stdSceneSheet" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:301;background:#fff;border-radius:24px 24px 0 0;max-height:72vh;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
+<div id="stdSceneSheet" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:301;background:#fff;border-radius:24px;max-height:76vh;width:calc(100% - 40px);max-width:400px;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
   <div onclick="stdSceneClose()" style="position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
   <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
   <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
@@ -425,14 +426,6 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
 })();
 </script>
 
-    <div class="share-inline-card">
-      <div class="share-inline-label">📣 推荐给想学AI的朋友</div>
-      <div class="share-inline-preview">🤖 AI能力搭子 · 4种性格陪你学AI</div>
-      <div class="share-copy-row">
-        <button class="share-copy-btn" onclick="copyShareLink()">📋 复制邀请链接</button>
-        <button class="share-link-btn" onclick="previewShareCard()">👀 预览卡片</button>
-      </div>
-    </div>
     <footer>每天一次签到 · AI搭子陪你持续成长</footer>
   </div>
 </div>
@@ -640,7 +633,146 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
       render();
     })();
     </script>
+  
+<div class="crp-card">
+  <div class="crp-title">📜 AI学习三禁忌<span class="crp-tip">👆 底线动作 · 一条都不能破</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不收藏吃灰</b>：收藏≠学会，教程在收藏夹里不会自动长进脑子<br>
+<b>2️⃣ 不做工具搬运工</b>：会用十个工具，不如跑通一个自动化流程<br>
+<b>3️⃣ 不脱离真实任务学</b>：没有场景的练习，全部是纸面功夫<br>
+<span style="color:#3949ab;">AI不淘汰人，先用好AI的人淘汰后用的人。</span>
   </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">💬 每天必问的四句话<span class="crp-tip">👆 每天挑一句说出口</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 「今天哪件事可以让AI代劳」</b>——从重复劳动开始，尝到甜头才有动力<br>
+<b>2️⃣ 「我给它的指令够清楚吗」</b>——模糊的提问换不来精准的回答<br>
+<b>3️⃣ 「结果我验证过了吗」</b>——AI会一本正经地胡说，把关永远是人的活<br>
+<b>4️⃣ 「今天沉淀提示词了吗」</b>——好提示词是你的数字资产<br>
+<span style="color:#3949ab;">这四问每天挑一问问自己，形成AI使用纪律。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>Fact 事实底座</b>：穷学习收藏教程；富学习把AI嵌进真实工作流，每天产出。<br>
+<b>Core 核心结论</b>：AI不淘汰人，先用好AI的人淘汰后用的人。<br>
+<b>Insight 洞察</b>：三禁忌：不收藏吃灰、不做工具搬运工、不脱离真实任务。<br>
+<b>So What</b>：把AI能力变成每周可复用的流程，而不是零散的技巧。<br>
+<b>How To Do</b>：每周三个动作——用AI解决一个真实任务、沉淀一条优质提示词、教一个人用。<br>
+<b>Know How</b>：关键不是学多少工具，而是别停在浅层：聊天问答是入门，工作流自动化才是护城河。<br>
+<b>验收口径</b>：接到新任务时，第一反应是否为「这件事AI能不能帮我完成一部分」。<br>
+
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🐾 不跑偏 · 四条守则<span class="crp-tip">👆 不妥协 · 不退让</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不为学而学</b>：每学一个能力，都对着一个真实痛点<br>
+<b>2️⃣ 不迷信AI输出</b>：AI是副驾驶，方向盘必须在你手里<br>
+<b>3️⃣ 不忽视基本功</b>：AI放大的是你的专业底子，底子为零放大的是错误<br>
+<b>4️⃣ 不闭门造车</b>：每周看一次别人的最佳实践<br>
+<span style="color:#3949ab;">工具会过时，但「用工具解决问题」的能力不会。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🎯 AI能力终极目标 · 三个独立<span class="crp-tip">👆 每个日常动作都在为它铺路</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 效率独立</b>：重复劳动全部交给流程，时间花在判断上<br>
+<b>2️⃣ 学习独立</b>：用AI当全天候导师，新领域入门速度十倍<br>
+<b>3️⃣ 创造独立</b>：从执行者变成指挥者——一个人指挥一支AI队伍<br>
+<span style="color:#3949ab;">会用工具是副产品，一人成军才是目标。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🧘 工具焦虑三步法 · 不盲从<span class="crp-tip">👆 先处理情绪，再处理事</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>为什么</b>：新工具每天冒出来，全学必焦虑。焦虑的本质是把「知道」当成了「会的」。<br>
+<b>① 按暂停键</b>：新工具先问「它解决我的哪个问题」，答不上就跳过<br>
+<b>② 用场景代替清单</b>：围绕自己的工作流选工具，不围着工具改工作流<br>
+<b>③ 小步验证</b>：给新工具一周试用期，没用起来就删<br>
+<b>So What</b>：AI学习的目标不是追平所有工具，而是让你的产出能力指数级放大。
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">👑 我的六条人生规则<span class="crp-tip">👆 活出来 · 你是自己的模板</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+1 每天至少一次用AI解决真实任务<br>
+2 戒掉无目的刷教程<br>
+3 稳定的每周输出节奏<br>
+4 清理收藏夹，只留用得上的<br>
+5 把好提示词当资产管理<br>
+6 深耕一个垂直场景不贪多<br>
+<span style="color:#3949ab;">说一百句不如做到一句——你指挥AI的样子，就是未来职场的样子。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🗣️ 今天要跟自己说的话 · 30 条<span class="crp-tip">👆 每天挑几条 · 当天自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">六组忠告，做完勾一条，形成肌肉记忆：已完成 <b id="sayCnt_ai">0</b> / 30</div>
+  <div id="sayWrap_ai"></div>
+</div>
+<script>
+(function(){
+  var KEY='crp_say_ai';
+  var G=[
+      {t:'🎯 定位', items:[['AI是我的杠杆，不是我的对手','杠杆放大力量'],['先有专业，再有AI','AI放大底子，也放大空洞'],['我的价值在上游：判断和审美','执行层最先被替代'],['垂直深耕一个场景','广度不值钱，深度才值钱'],['把自己当一人公司经营','能力组合就是产品']]},
+      {t:'🛠️ 技能', items:[['提示词写清楚角色、任务、约束','模糊提问=模糊回答'],['复杂任务先拆解再交给AI','分步可控，结果可查'],['重要输出必须人工把关','AI会一本正经地胡说'],['每天沉淀一条好提示词','提示词是数字资产'],['工作流跑通后再追求自动化','先手动跑通，再交机器']]},
+      {t:'📚 学习', items:[['用AI当全天候私教','不懂就问，问到懂为止'],['学概念不如做项目','做出来的才算学会'],['每周拆解一个高手案例','抄作业是最快的成长'],['输出倒逼输入','教是最好的学'],['接受工具会过时','学习能力不会']]},
+      {t:'⚡ 效率', items:[['重复的事交给流程','人的时间留给判断'],['今天最省时的一件事是什么','每天优化一点点'],['砍掉低价值的自动化','不是所有事都值得自动化'],['模板复用是效率之母','第二次别从零开始'],['留白比填满更重要','效率是为了自由']]},
+      {t:'🛡️ 风控', items:[['敏感数据不喂给AI','边界意识是职业素养'],['重要决策保留人的签字权','AI建议，人负责'],['核实AI给的事实和引用','幻觉是常态不是例外'],['了解工具的数据政策','用了什么，去了哪里'],['保留自己的备份和记录','平台会变，资产要留']]},
+      {t:'🚀 进阶', items:[['从用户变成搭建者','会用是及格，会搭是优秀'],['教别人是最高效的学习','教会一个人，巩固一层认知'],['关注能力层，别只看产品层','产品会死，能力保值'],['想象十年后的工作方式','提前住在未来'],['行动治好一切焦虑','做了才知道哪里错']]}
+  ];
+  var wrap=document.getElementById('sayWrap_ai'); if(!wrap) return;
+  function today(){ return new Date().toISOString().slice(0,10); }
+  var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
+  var refs=[];
+  G.forEach(function(g){
+    var h=document.createElement('div');
+    h.style.cssText='font-size:12px;font-weight:700;color:#3949ab;margin:10px 0 4px;';
+    h.textContent=g.t; wrap.appendChild(h);
+    g.items.forEach(function(it){
+      var d=document.createElement('div'); d.className='crp-item';
+      d.innerHTML='<span class="crp-box">☐</span><div style="flex:1;"><b style="font-size:13px;">「'+it[0]+'」</b><br><span style="font-size:11px;color:#999;">'+it[1]+'</span></div>';
+      wrap.appendChild(d); refs.push({el:d, k:it[0]});
+    });
+  });
+  function render(){
+    var n=0;
+    refs.forEach(function(r){ var on=!!st[r.k]; r.el.classList.toggle('done',on); r.el.querySelector('.crp-box').textContent=on?'☑':'☐'; if(on)n++; });
+    var cc=document.getElementById('sayCnt_ai'); if(cc)cc.textContent=n;
+  }
+  refs.forEach(function(r){ r.el.addEventListener('click',function(){ st[r.k]=!st[r.k]; try{localStorage.setItem(KEY,JSON.stringify({d:today(),s:st}))}catch(e){} render(); }); });
+  render();
+})();
+</script>
+
+<div class="crp-card">
+  <div class="crp-title">🌈 我的AI能力信号 · 每周观察<span class="crp-tip">👆 点亮自己的样子 · 每周自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">验收不看表现看状态：这周出现了几个信号？</div>
+  <div id="fxWrap_ai2"></div>
+  <div style="font-size:12px;color:#3949ab;margin-top:8px;">本周点亮 <b id="fxCnt_ai2">0</b> / 12</div>
+</div>
+<script>
+(function(){
+  var KEY='crp_fx_ai2';
+  var items=['🤖 今天用AI解决了一个真实任务','📝 沉淀了一条优质提示词','🔍 对AI输出做了人工把关','⚡ 一个重复流程被自动化了','📚 用AI学会了一个新概念','🧩 把工作流拆解成了步骤','🛡️ 敏感数据没有喂给AI','🎓 教会了一个人用AI','🗂️ 提示词库更新了','🧠 保留了人的最终判断','🚀 产出效率肉眼可见提升','🔭 关注了一个能力层趋势'];
+  var wrap=document.getElementById('fxWrap_ai2'); if(!wrap) return;
+  function weekKey(){var d=new Date();var o=new Date(d.getFullYear(),0,1);var w=Math.ceil((((d-o)/86400000)+o.getDay()+1)/7);return d.getFullYear()+'-W'+w;}
+  var st={};try{var sv=JSON.parse(localStorage.getItem(KEY)||'null');if(sv&&sv.w===weekKey())st=sv.s||{}}catch(e){}
+  function render(){items.forEach(function(t,i){var el=wrap.querySelector('[data-i="'+i+'"]');if(!el)return;var on=!!st[i];el.classList.toggle('done',on);el.querySelector('.crp-box').textContent=on?'☑':'☐';});var n=0;for(var k in st)if(st[k])n++;var cc=document.getElementById('fxCnt_ai2');if(cc)cc.textContent=n;}
+  items.forEach(function(t,i){var div=document.createElement('div');div.className='crp-item';div.setAttribute('data-i',String(i));div.innerHTML='<span class="crp-box">☐</span>'+t;div.addEventListener('click',function(){st[i]=!st[i];try{localStorage.setItem(KEY,JSON.stringify({w:weekKey(),s:st}))}catch(e){}render();});wrap.appendChild(div);});
+  render();
+})();
+</script>
+</div>
     <!-- ===== 互动教练（麦肯锡式三步对话 · 点击开始）===== -->
     <div class="coach-intro" id="coachIntro">
       <div class="coach-intro-icon">🎓</div>
@@ -665,7 +797,8 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
       <div class="coach-prompt" id="coachPrompt" style="display:none;">
         💡 请在下方输入框中回复...
       </div>
-      <div class="chat-input-area" id="chatInputArea" style="display:none;">
+      <div class="generating-report" id="generatingReport" style="display:none;padding:14px;text-align:center;font-size:13px;font-weight:700;color:#8f9eae;">⏳ 正在生成MECE诊断报告，请稍候...</div>
+    <div class="chat-input-area" id="chatInputArea" style="display:none;">
         <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
         <button class="chat-send-btn" onclick="sendCoachMsg()">发送</button>
       </div>
@@ -1206,6 +1339,7 @@ function sendMood(mood) {
 }
 
 function askPartner(type) {
+  if (!currentPartner) { try { currentPartner = PARTNERS[0]; } catch(e) {} }
   if (type === 'question') {
     var qa = QA_DATA.pos.concat(QA_DATA.neg);
     showQAPanel('🤔 有问题想问', qa);
@@ -1232,9 +1366,9 @@ function showQAPanel(title, items) {
 }
 
 function selectQACard(el) {
+  if (!currentPartner) { try { currentPartner = PARTNERS[0]; } catch(e) {} }
   var feedback = el.getAttribute('data-feedback');
   var icon = el.getAttribute('data-icon');
-  document.getElementById('qaOverlay').classList.remove('show');
   sendPartnerMsg(feedback);
   setTimeout(function(){ showFBCard(icon, feedback); }, 600);
 }
@@ -1650,5 +1784,177 @@ function aiCoachShowReport() {
 </script>
 
 
+<script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
+(function(){
+if(window.__uxpV1) return; window.__uxpV1=true;
+var CFG={"accent": "#0891b2", "mood": {"happy": {"tag": "高能时刻", "t": "顺手解决一个拖了很久的任务", "d": "学 AI 最快的路径就是「状态好时打硬仗」。挑一件你一直拖着、其实可以用 AI 拆解的任务，现在就动手：拆步骤、写提示词、跑第一版。成就感会滚雪球——今天这个硬仗，就是你能力曲线的拐点。"}, "neutral": {"tag": "平稳时刻", "t": "平稳期最适合沉淀模板", "d": "会用是及格，能沉淀才是复利。把最近用得最顺的一个提示词整理成模板：补上场景说明、变量占位、输出要求。下次遇到同类任务，你比昨天快 10 倍。高手和新手的差距，就是模板库的厚度。"}, "sad": {"tag": "低落时刻", "t": "AI 时代最不该内耗的就是学习", "d": "觉得「学不完、追不上」是所有人的共同感受，不是你的问题。缩小战场：今天只研究一个小技巧，比如让 AI 帮你把长文总结成三句话。掌控感是一点一点攒回来的，做完这个小练习你会感觉好很多。"}, "tired": {"tag": "疲惫时刻", "t": "累了就让 AI 替你值会班", "d": "疲惫时学新东西效率极低，但用已有技能「偷懒」刚刚好。把机械的活儿丢给 AI：整理笔记、写初稿、查资料。省下来的精力早点休息——会用工具的人，本来就该比不用工具的人先休息。"}}, "k3store": "buddy_key3_ai", "k3": [{"icon": "🤖", "title": "用AI解决一个真实任务", "sub": "真实任务驱动学习", "why": "真实任务是学 AI 唯一的高效路径——用一次，胜过看十篇教程。今天这个任务，就是你能力增长的实锤。"}, {"icon": "📚", "title": "学一个新提示词技巧", "sub": "提示词是新的编程", "why": "提示词是这个时代的编程语言。每天多会一招，你就在悄悄甩开不会用 AI 的人。"}, {"icon": "🗂️", "title": "沉淀一个可复用模板", "sub": "模板是最快的复利", "why": "模板是可复用的资产。今天沉淀一个模板，未来每次同类任务你都比别人快十倍——这就是普通人的 AI 复利。"}], "scenes": [["🌀", "AI输出不理想", "补上下文，给例子，分段问。垃圾进垃圾出，喂饱它。"], ["🌫️", "不知道AI能干啥", "从今天最烦的重复工作开始，列清单逐个试。"], ["😰", "担心AI出错", "关键结论交叉验证。AI起草，你定稿，你负责。"], ["👨‍👩‍👧", "团队不会用", "做一个10分钟内训，从真实案例讲起，别讲理论。"], ["📝", "用AI写的被质疑", "署自己的名，负自己的责。AI是工具，判断是你的。"], ["✍️", "提示词总是瞎写", "套模板：角色+任务+要求+例子。存成模板复用。"]]};
+var ACC=CFG.accent||'#e05a7a';
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+var ov=null;
+function ensureOv(){
+  if(ov) return ov;
+  ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100500;display:none;align-items:center;justify-content:center;padding:24px;';
+  ov.addEventListener('click',function(e){ if(e.target===ov) window.__uxpClose(); });
+  document.body.appendChild(ov);
+  return ov;
+}
+function showUxp(html){
+  var o=ensureOv();
+  o.innerHTML='<div style="background:#fff;border-radius:28px;max-width:340px;width:100%;max-height:78vh;overflow-y:auto;padding:26px 22px;text-align:center;animation:uxpPop .35s cubic-bezier(.175,.885,.32,1.275);">'+html+'</div>';
+  o.style.display='flex';
+}
+window.__uxpClose=function(){ if(ov) ov.style.display='none'; };
+window.__uxpOpen=showUxp;
+var st=document.createElement('style');
+st.textContent='@keyframes uxpPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}';
+document.head.appendChild(st);
+/* ---- 情绪 emoji：拦截并弹出居中弹窗 ---- */
+window.addEventListener('click',function(e){
+  try{
+    var t=e.target; if(!t||!t.closest) return;
+    var m=t.closest('.mood-btn'); if(!m) return;
+    var k=m.getAttribute('data-mood');
+    if(!k){ var oc=m.getAttribute('onclick')||''; var mm=oc.match(/sendMood\('([\w]+)'\)/); if(mm) k=mm[1]; }
+    if(!k) k=m.getAttribute('title')||'';
+    if(!(CFG.mood||{})[k]){
+      var sk=k||'';
+      try{ for(var mk in CFG.mood){ if(mk.length>1 && sk.indexOf(mk)>=0){ k=mk; break; } } }catch(e){}
+      var kmap=[['happy','很好|开心|不错|超棒|愉快|高兴'],['neutral','还行|平静|一般|平稳|还好'],['sad','低落|难过|不开心|委屈|烦躁|压力|焦虑|丧'],['tired','累|疲惫|困|倦|没劲']];
+      for(var ki=0;ki<kmap.length;ki++){ try{ if(new RegExp(kmap[ki][1]).test(sk)){ k=kmap[ki][0]; break; } }catch(e){} }
+    }
+    var c=(CFG.mood||{})[k]; if(!c) return;
+    if(e.preventDefault)e.preventDefault();
+    if(e.stopImmediatePropagation)e.stopImmediatePropagation(); else if(e.stopPropagation)e.stopPropagation();
+    var emo=(m.textContent||'').trim()||'\ud83d\ude42';
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+esc(c.tag)+'</div>'
+      +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(c.t)+'</div>'
+      +'<div style="font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(c.d)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u6536\u5230\uff0c\u5c31\u8fd9\u4e48\u505a \ud83d\udcaa</button>');
+  }catch(err){}
+},true);
+/* ---- 关键小动作勾选：包装原函数，勾选时弹居中弹窗 ---- */
+function wrapKey3(fnName, storeKey){
+  var orig=window[fnName];
+  if(typeof orig!=='function'||orig.__uxp) return;
+  var wrapped=function(i){
+    var before=null;
+    try{ var d=JSON.parse(localStorage.getItem(storeKey)||'{}'); before=!!(d&&d.checked&&d.checked[i]); }catch(e){}
+    var r=orig.apply(this,arguments);
+    try{
+      var d2=JSON.parse(localStorage.getItem(storeKey)||'{}');
+      var after=!!(d2&&d2.checked&&d2.checked[i]);
+      var acts=CFG.k3||[];
+      if(!before&&after&&acts[i]){
+        var a=acts[i];
+        showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(a.icon||'\u2705')+'</div>'
+          +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u2713 \u4eca\u65e5\u5173\u952e\u52a8\u4f5c</div>'
+          +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:4px;">'+esc(a.title||'')+'</div>'
+          +(a.sub?'<div style="font-size:12px;color:#888;margin-bottom:10px;">'+esc(a.sub)+'</div>':'')
+          +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(a.why||'')+'</div>'
+          +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u8bb0\u4e0a\u4e86 \u2705</button>');
+      }
+    }catch(e){}
+    return r;
+  };
+  wrapped.__uxp=true;
+  try{ window[fnName]=wrapped; }catch(e){}
+}
+wrapKey3('toggleKey3',CFG.k3store);
+wrapKey3('stdK3Toggle',CFG.k3store);
+/* ---- std 场景卡：改为居中弹窗反馈（不关选择面板） ---- */
+if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
+  window.stdScenePick=function(i){
+    var sc=CFG.scenes[i]; if(!sc) return;
+    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+  };
+}
+})();
+</script>
+<script>/* uxp-confirm-chip *//* cc-enhance-v1 教练卡逐条确认 */
+(function(){
+  if (window.__ccEnhanced) return; window.__ccEnhanced = 1;
+  var PREFIX = '搭子-AI能力';
+  var STORE = 'cc_' + PREFIX;
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch(e) { state = {}; }
+  function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){} }
+  function hash(t){ var h = 0; for (var i = 0; i < t.length; i++) { h = (h * 31 + t.charCodeAt(i)) | 0; } return 'h' + (h >>> 0).toString(36); }
+  window.ccToast = function(msg){
+    var t = document.getElementById('ccToast');
+    if (!t) {
+      t = document.createElement('div'); t.id = 'ccToast';
+      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg; t.style.opacity = '1';
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+  };
+  function apply(body){
+    if (body.getAttribute('data-cc-done')) return;
+    var html = body.innerHTML;
+    if (!/<br/i.test(html) && html.replace(/<[^>]*>/g, '').trim().length < 2) return;
+    var card = body.closest ? body.closest('.crp-card') : null;
+    var title = '';
+    if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
+    var parts = html.split(/<br\s*\/?>/i);
+    var out = '', n = 0;
+    for (var k = 0; k < parts.length; k++) {
+      var seg = parts[k].trim();
+      var txt = seg.replace(/<[^>]*>/g, '').trim();
+      if (!txt) continue;
+      var id = hash(PREFIX + '|' + title + '|' + txt.slice(0, 48));
+      var on = !!state[id];
+      out += '<div class="cc-row' + (on ? ' done' : '') + '"><div class="cc-txt">' + seg + '</div>'
+           + '<span class="cc-chip' + (on ? ' on' : '') + '" data-ccid="' + id + '">' + (on ? '\u2713 已记住' : '标记记住') + '</span></div>';
+      n++;
+    }
+    if (!n) return;
+    body.innerHTML = out;
+    body.setAttribute('data-cc-done', '1');
+  }
+  function process(){
+    var bodies = document.querySelectorAll('.crp-card .crp-stage-body');
+    for (var i = 0; i < bodies.length; i++) { try { apply(bodies[i]); } catch(e) {} }
+  }
+  document.addEventListener('click', function(ev){
+    var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
+    if (!el) return;
+    ev.preventDefault();
+    var id = el.getAttribute('data-ccid');
+    if (state[id]) { delete state[id]; } else { state[id] = 1; }
+    save();
+    var on = !!state[id];
+    var row = el.closest('.cc-row');
+    if (row) row.classList.toggle('done', on);
+    el.classList.toggle('on', on);
+    el.innerHTML = on ? '\u2713 已记住' : '标记记住';
+    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+  });
+  var css = document.createElement('style');
+  css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
+    + '.cc-row:last-child{border-bottom:none;}'
+    + '.cc-txt{flex:1;min-width:0;font-size:13px;line-height:1.7;color:#37474f;}'
+    + '.cc-row.done .cc-txt{color:#b6b6b6;text-decoration:line-through;}'
+    + '.cc-chip{flex-shrink:0;font-size:11px;padding:3px 9px;border-radius:12px;border:1.5px solid #dcdcdc;color:#909090;cursor:pointer;user-select:none;white-space:nowrap;margin-top:2px;transition:all .15s;}'
+    + '.cc-chip:active{transform:scale(.94);}'
+    + '.cc-chip.on{background:#eaf7ea;border-color:#54b26a;color:#2e7d32;font-weight:700;}';
+  document.head.appendChild(css);
+  function boot(){ try { process(); } catch(e) {} }
+  setTimeout(boot, 300);
+  setTimeout(boot, 1500);
+  try {
+    var mo = new MutationObserver(function(){ setTimeout(boot, 80); });
+    mo.observe(document.body, { childList: true, subtree: true });
+  } catch(e) {}
+})();
+</script>
 </body>
 </html>

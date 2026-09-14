@@ -468,6 +468,7 @@
     .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#1f2937; }
     .qa-close-x:active { background:rgba(0,0,0,0.18); }
 </style>
+<style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body data-page-node-id="3eJ08NGTBYeqqZSC7p6VMQ">
 
@@ -1691,7 +1692,6 @@ function makeTypeCard(panel, dir, item, index) {
     <div class="qa-card-tag ${item.type}">${item.tag}</div>
   `;
   card._qaClick = () => {
-    closeQAPanel();
     setTimeout(() => showTypeFeedback(panel, dir, item, index), 300);
   };
   card.onclick = card._qaClick;
@@ -3547,7 +3547,6 @@ function openSceneSheet() {
         '<div class="qa-card-text">' + item.title + '</div>' +
         '<span style="' + tagStyle + '">' + item.tag + '</span>';
       card.onclick = () => {
-        closeQAPanelSafe();
         setTimeout(() => openSceneFB(i, type), 300);
       };
       scroll.appendChild(card);
@@ -3657,5 +3656,190 @@ function openSceneFB(idx, type) {
 })();
 </script>
 
+<script>/* coach-engine-uni-v1 */
+(function(){
+if(window.__ceuV1) return; window.__ceuV1=true;
+var CFG={"coach": "麦肯锡风格AI-OPC创业教练", "fallback": ["#00838f", "#004d40"], "qs": ["你现在的业务里，哪一环每周花你最多时间但产出最低？", "这一环如果交给一个 AI 员工，需要给它什么样的指令和检查标准？", "你的客户到底为什么付钱？用一句话说清，再问：AI 能强化这句话的哪一环？", "如果三个月内只能做一个 MVP 实验，你会做什么？怎么判断它算成功？", "未来两周，你能上线的最小自动化/最小产品切口是什么？"], "acts": ["本周把你重复最多的工作写成一份 AI 员工 SOP（输入/指令/验收），跑通一次", "列出你手上的活，按「AI可替代/人必须做」分两栏，砍掉一栏的一半", "定义一个 MVP 验收指标（如 10 个真实付费意向），两周内只盯这一个数"], "acks": ["收到。说得越具体，后面的拆解就越准——我们继续往下走。", "明白，这个信息很关键。我们再挖一层。", "嗯，这个回答里藏着你的真实卡点。继续。", "好，最后一个问题——把它落到行动上。"], "accent": "#00838f", "accent2": "#004d40", "tint": "#00838f1f"};
+var st={q:0,ans:[],busy:false};
+function el(id){return document.getElementById(id);}
+function show(e,d){if(e)e.style.display=d;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function bubble(text,who){
+  var box=el('chatMessages'); if(!box)return;
+  var wrap=document.createElement('div');
+  wrap.style.cssText='display:flex;margin-bottom:10px;justify-content:'+(who==='user'?'flex-end':'flex-start')+';';
+  var b=document.createElement('div');
+  b.style.cssText='max-width:82%;padding:10px 14px;border-radius:16px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word;'+(who==='user'
+    ?'background:'+CFG.accent+';color:#fff;border-bottom-right-radius:4px;'
+    :'background:#f4f5f7;color:#333;border-bottom-left-radius:4px;');
+  b.textContent=text; wrap.appendChild(b); box.appendChild(wrap);
+  box.scrollTop=box.scrollHeight;
+}
+function setStep(n){
+  ['progressStep1','progressStep2','progressStep3'].forEach(function(id,i){
+    var s=el(id); if(!s)return;
+    var need=(i===0?1:i===1?3:5);
+    if(n>=need){ s.classList.add('active'); s.style.background=CFG.accent; s.style.color='#fff'; }
+  });
+}
+function inputArea(){ var ia=el('chatInputArea'); if(ia) return ia; var inp=el('coachInput'); return inp?inp.parentElement:null; }
+function startCoach(){
+  var intro=el('coachIntro'), chat=el('coachChat'), rep=el('coachReport');
+  show(intro,'none'); show(rep,'none'); show(chat,'block');
+  var box=el('chatMessages'); if(box) box.innerHTML='';
+  st={q:0,ans:[],busy:false};
+  var p=el('coachPrompt'); if(p) p.style.display='block';
+  show(inputArea(),'');
+  var gen=el('generatingReport'); show(gen,'none');
+  setStep(1);
+  setTimeout(function(){
+    bubble('你好，我是'+CFG.coach+'。','coach');
+    bubble(CFG.qs[0],'coach'); st.q=1;
+  },200);
+}
+function sendCoachMsg(){
+  if(st.busy) return;
+  var inp=el('coachInput'); if(!inp) return;
+  var v=(inp.value||'').trim();
+  if(!v){ inp.placeholder='请先输入你的回答...'; return; }
+  bubble(v,'user'); st.ans.push(v); inp.value='';
+  st.busy=true;
+  setTimeout(function(){
+    if(st.q < CFG.qs.length){
+      bubble(CFG.acks[(st.q-1)%CFG.acks.length],'coach');
+      st.q++; setStep(st.q);
+      bubble(CFG.qs[st.q-1],'coach');
+      st.busy=false;
+    } else {
+      var gen=el('generatingReport'); if(gen) show(gen,'block');
+      show(inputArea(),'none');
+      var p=el('coachPrompt'); show(p,'none');
+      setTimeout(function(){ show(gen,'none'); buildReport(); st.busy=false; },1600);
+    }
+  },500);
+}
+function buildReport(){
+  var rep=el('coachReport'); if(!rep) return;
+  var h='<div style="font-size:17px;font-weight:800;margin-bottom:6px;">📋 '+CFG.coach+' · MECE 诊断报告</div>';
+  h+='<div style="font-size:11px;color:#8f9eae;margin-bottom:14px;">基于你 '+st.ans.length+' 轮回答生成 · 纯前端模拟</div>';
+  var names=['📌 问题界定','🔍 结构化分析','🔍 深层拆解','🔍 资源盘点','🎯 优先级行动'];
+  for(var i=0;i<CFG.qs.length;i++){
+    h+='<div style="background:#f8f9fb;border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+      +'<div style="font-size:13px;font-weight:800;color:'+CFG.accent+';margin-bottom:6px;">'+names[i]+'</div>'
+      +'<div style="font-size:11.5px;color:#8f9eae;margin-bottom:4px;">'+esc(CFG.qs[i])+'</div>'
+      +'<div style="font-size:13px;color:#333;line-height:1.6;">你的回答：'+esc(st.ans[i]||'（未回答）')+'</div></div>';
+  }
+  h+='<div style="background:'+CFG.tint+';border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+    +'<div style="font-size:13px;font-weight:800;color:'+CFG.accent+';margin-bottom:6px;">✅ 本周行动清单</div>';
+  for(var j=0;j<CFG.acts.length;j++){ h+='<div style="font-size:13px;color:#333;line-height:1.7;">'+(j+1)+'. '+esc(CFG.acts[j])+'</div>'; }
+  h+='</div>';
+  h+='<div style="font-size:12px;color:#8f9eae;line-height:1.6;margin-bottom:12px;">💡 先从行动清单里挑一件本周就做，其他写进日历。对话每周都可以重来，答案会随你的状态变化。</div>';
+  h+='<button onclick="restartCoach()" style="width:100%;padding:14px;border:none;border-radius:50px;background:linear-gradient(135deg,'+CFG.accent+','+CFG.accent2+');color:#fff;font-size:15px;font-weight:700;cursor:pointer;">🔄 重新对话</button>';
+  rep.innerHTML=h; show(rep,'block');
+  show(el('coachChat'),'none');
+}
+function restartCoach(){
+  show(el('coachReport'),'none'); show(el('coachChat'),'none'); show(el('coachIntro'),'block');
+  st={q:0,ans:[],busy:false};
+}
+window.startCoach=startCoach; window.sendCoachMsg=sendCoachMsg; window.restartCoach=restartCoach;
+var _ci=el('coachInput');
+if(_ci && !_ci.dataset.ceuEnter){ _ci.dataset.ceuEnter='1'; _ci.addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendCoachMsg(); } }); }
+})();
+</script>
+<script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
+(function(){
+if(window.__uxpV1) return; window.__uxpV1=true;
+var CFG={"accent": "#00838f", "mood": {"happy": {"tag": "高能时刻", "t": "把今天的劲头交给 AI 员工", "d": "状态好的时候最适合「定标准」：把一件你重复做过的事写成 SOP，交给智能体独立跑一遍。你的一次高标准示范，会变成 AI 员工的长期产能。一人公司做大的秘密，就是把好状态沉淀成系统。"}, "neutral": {"tag": "平稳时刻", "t": "平稳期盯紧你的护城河", "d": "AI 迭代以周为单位，你的定位可能已经在悄悄失效。花 15 分钟回答三个问题：客户为什么找我、AI 能不能替代这件事、细分痛点有没有变化。定期校准方向的人，永远不会被时代甩下车。"}, "sad": {"tag": "低落时刻", "t": "被 AI 冲击的焦虑，是转型的路标", "d": "感到被追赶，说明你还在场上。别硬扛，做一件确定性强的小事：挑一个你最熟的流程，用 AI 重跑一遍，亲手量一量它到底替代了多少。恐惧来自模糊，数据会让你重新拿回主动权。"}, "tired": {"tag": "疲惫时刻", "t": "指挥官也需要休整", "d": "一人公司最大的风险是老板宕机。累的时候别硬撑着「指挥」，让 AI 员工值今天这一班：把待办丢给智能体跑常规任务，你只做验收。系统建得越好，你越有资格休息——这正是 OPC 的意义。"}}, "k3store": "buddy_key3_opc", "k3": [{"icon": "🧭", "title": "盘一次定位", "sub": "我的护城河是什么 / 细分痛点有没有变尖", "why": "定位是一人公司的护城河。每天盘一次，确保你的细分优势没被 AI 或对手悄悄削平。"}, {"icon": "🤖", "title": "指挥一次AI员工", "sub": "让智能体独立交付一件事", "why": "AI 员工的产能=你给的信任度。让它独立交付一件事，你就多了一份额外的杠杆收入能力。"}, {"icon": "🧪", "title": "推一步MVP", "sub": "见一个用户 / 上线一个功能 / 收一块钱", "why": "MVP 推进的本质是花小钱买真相。见一个用户、收一块钱，都是市场给你的真反馈。"}]};
+var ACC=CFG.accent||'#e05a7a';
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+var ov=null;
+function ensureOv(){
+  if(ov) return ov;
+  ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100500;display:none;align-items:center;justify-content:center;padding:24px;';
+  ov.addEventListener('click',function(e){ if(e.target===ov) window.__uxpClose(); });
+  document.body.appendChild(ov);
+  return ov;
+}
+function showUxp(html){
+  var o=ensureOv();
+  o.innerHTML='<div style="background:#fff;border-radius:28px;max-width:340px;width:100%;max-height:78vh;overflow-y:auto;padding:26px 22px;text-align:center;animation:uxpPop .35s cubic-bezier(.175,.885,.32,1.275);">'+html+'</div>';
+  o.style.display='flex';
+}
+window.__uxpClose=function(){ if(ov) ov.style.display='none'; };
+window.__uxpOpen=showUxp;
+var st=document.createElement('style');
+st.textContent='@keyframes uxpPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}';
+document.head.appendChild(st);
+/* ---- 情绪 emoji：拦截并弹出居中弹窗 ---- */
+window.addEventListener('click',function(e){
+  try{
+    var t=e.target; if(!t||!t.closest) return;
+    var m=t.closest('.mood-btn'); if(!m) return;
+    var k=m.getAttribute('data-mood');
+    if(!k){ var oc=m.getAttribute('onclick')||''; var mm=oc.match(/sendMood\('([\w]+)'\)/); if(mm) k=mm[1]; }
+    if(!k) k=m.getAttribute('title')||'';
+    if(!(CFG.mood||{})[k]){
+      var sk=k||'';
+      try{ for(var mk in CFG.mood){ if(mk.length>1 && sk.indexOf(mk)>=0){ k=mk; break; } } }catch(e){}
+      var kmap=[['happy','很好|开心|不错|超棒|愉快|高兴'],['neutral','还行|平静|一般|平稳|还好'],['sad','低落|难过|不开心|委屈|烦躁|压力|焦虑|丧'],['tired','累|疲惫|困|倦|没劲']];
+      for(var ki=0;ki<kmap.length;ki++){ try{ if(new RegExp(kmap[ki][1]).test(sk)){ k=kmap[ki][0]; break; } }catch(e){} }
+    }
+    var c=(CFG.mood||{})[k]; if(!c) return;
+    if(e.preventDefault)e.preventDefault();
+    if(e.stopImmediatePropagation)e.stopImmediatePropagation(); else if(e.stopPropagation)e.stopPropagation();
+    var emo=(m.textContent||'').trim()||'\ud83d\ude42';
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+esc(c.tag)+'</div>'
+      +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(c.t)+'</div>'
+      +'<div style="font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(c.d)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u6536\u5230\uff0c\u5c31\u8fd9\u4e48\u505a \ud83d\udcaa</button>');
+  }catch(err){}
+},true);
+/* ---- 关键小动作勾选：包装原函数，勾选时弹居中弹窗 ---- */
+function wrapKey3(fnName, storeKey){
+  var orig=window[fnName];
+  if(typeof orig!=='function'||orig.__uxp) return;
+  var wrapped=function(i){
+    var before=null;
+    try{ var d=JSON.parse(localStorage.getItem(storeKey)||'{}'); before=!!(d&&d.checked&&d.checked[i]); }catch(e){}
+    var r=orig.apply(this,arguments);
+    try{
+      var d2=JSON.parse(localStorage.getItem(storeKey)||'{}');
+      var after=!!(d2&&d2.checked&&d2.checked[i]);
+      var acts=CFG.k3||[];
+      if(!before&&after&&acts[i]){
+        var a=acts[i];
+        showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(a.icon||'\u2705')+'</div>'
+          +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u2713 \u4eca\u65e5\u5173\u952e\u52a8\u4f5c</div>'
+          +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:4px;">'+esc(a.title||'')+'</div>'
+          +(a.sub?'<div style="font-size:12px;color:#888;margin-bottom:10px;">'+esc(a.sub)+'</div>':'')
+          +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(a.why||'')+'</div>'
+          +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u8bb0\u4e0a\u4e86 \u2705</button>');
+      }
+    }catch(e){}
+    return r;
+  };
+  wrapped.__uxp=true;
+  try{ window[fnName]=wrapped; }catch(e){}
+}
+wrapKey3('toggleKey3',CFG.k3store);
+wrapKey3('stdK3Toggle',CFG.k3store);
+/* ---- std 场景卡：改为居中弹窗反馈（不关选择面板） ---- */
+if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
+  window.stdScenePick=function(i){
+    var sc=CFG.scenes[i]; if(!sc) return;
+    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+  };
+}
+})();
+</script>
 </body>
 </html>

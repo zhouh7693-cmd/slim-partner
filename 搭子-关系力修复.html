@@ -460,6 +460,7 @@
     .fb-btn { background: #3a7ca5; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
   </style>
+<style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body data-page-node-id="aWTHlKNAz3l3ITTCL3mBx1">
 
@@ -588,7 +589,7 @@
   <div id="stdTipText"></div>
 </div>
 <div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
-<div id="stdSceneSheet" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:301;background:#fff;border-radius:24px 24px 0 0;max-height:72vh;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
+<div id="stdSceneSheet" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:301;background:#fff;border-radius:24px;max-height:76vh;width:calc(100% - 40px);max-width:400px;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
   <div onclick="stdSceneClose()" style="position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
   <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
   <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
@@ -694,16 +695,6 @@
 
 
     <!-- 分享入口 -->
-    <div class="share-inline-card" data-page-node-id="z88CNlteHAg9jOb7iSsJu5">
-      <div class="share-inline-label" data-page-node-id="mDF9JGs78pjkzPMZlyg4Yg">📣 推荐给想一起修炼关系力的朋友</div>
-        <div class="share-inline-preview" data-page-node-id="myaWUEyIgPFCCeUG4D7ogc">
-          🌸 关系力修炼搭子 · 4种陪伴陪你修
-        </div>
-      <div class="share-copy-row" data-page-node-id="cAMiUpH0spmYK4WJwmg7fP">
-        <button class="share-copy-btn" onclick="copyShareLink()" data-page-node-id="YypiuWgMhEk9kwgpMh28wl">📋 复制邀请链接</button>
-        <button class="share-link-btn" onclick="previewShareCard()" data-page-node-id="zBsGuHYJd531otsN3MFzVu">👀 预览卡片</button>
-      </div>
-    </div>
 
     <footer data-page-node-id="X9CrH7cII7GawmobQsA3Ud">每天一次签到 · 你的搭子会给你力量</footer>
   </div>
@@ -1010,6 +1001,145 @@
     render();
   })();
   </script>
+
+<div class="crp-card">
+  <div class="crp-title">📜 关系修复三禁忌<span class="crp-tip">👆 底线动作 · 一条都不能破</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不翻旧账</b>：翻账是清算不是沟通，赢了架输了人<br>
+<b>2️⃣ 不冷暴力</b>：沉默是慢刀子，割的是两个人的信任<br>
+<b>3️⃣ 不替对方猜心思</b>：你以为的「他肯定这么想」，多半是误会<br>
+<span style="color:#ad1457;">修复关系不是分对错，是重建连接。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">💬 每天必说的四句话<span class="crp-tip">👆 每天挑一句说出口</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 「我刚才的话有点重，抱歉」</b>——先递台阶，门才开<br>
+<b>2️⃣ 「你当时的感受是什么」</b>——先听懂，再说话<br>
+<b>3️⃣ 「我需要的是…不是…」</b>——把期待说出口，别让人猜<br>
+<b>4️⃣ 「谢谢你说真话」</b>——奖励诚实，才有诚实的下一回合<br>
+<span style="color:#ad1457;">这四句话每天挑一句说出口，形成关系资产。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>Fact 事实底座</b>：穷关系争对错、攒怨气；富关系先接情绪、再谈事情。<br>
+<b>Core 核心结论</b>：修复关系不是分对错，是重建连接。<br>
+<b>Insight 洞察</b>：三禁忌：不翻旧账、不冷暴力、不替对方猜心思。<br>
+<b>So What</b>：把关系修复变成每天的微沟通，而不是爆发后的大工程。<br>
+<b>How To Do</b>：每天三个动作——表达一次 appreciation、确认一次对方感受、说清一个期待。<br>
+<b>Know How</b>：关键不是话术多漂亮，而是别漏「情绪优先」：道理再对，情绪没接住就是白说。<br>
+<b>验收口径</b>：冲突后，能否在24小时内主动开口——「我刚才急了」「你的感受呢」「我们谈谈」。<br>
+
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🐾 不耗尽 · 四条守则<span class="crp-tip">👆 不妥协 · 不退让</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不过度付出</b>：感动的只有自己，压力给了对方<br>
+<b>2️⃣ 不以爱你为名控制</b>：「为你好」是最常见的越界<br>
+<b>3️⃣ 别在情绪顶峰谈重要的事</b>：情绪的风暴里听不见真话<br>
+<b>4️⃣ 自我修复+及时和好</b>：先安顿自己，再修复关系——和好要快<br>
+<span style="color:#ad1457;">消耗和硬撑，都是在掏空关系。你要做的是往里面存钱。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🎯 关系终极目标 · 三个独立<span class="crp-tip">👆 每个日常动作都在为它铺路</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 表达独立</b>：离开话术模板也能真诚沟通——真实大于技巧<br>
+<b>2️⃣ 情绪独立</b>：离开对方回应也能自我安放——不把幸福外包<br>
+<b>3️⃣ 关系独立</b>：离开谁也不失去自己——联结而不依附<br>
+<span style="color:#ad1457;">被爱是副产品，会爱人才是目标。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🧘 冲突三步法 · 不升级<span class="crp-tip">👆 先处理情绪，再处理事</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>为什么</b>：冲突时大脑进入防御模式，讲道理等于对牛弹琴——两边都是牛。<br>
+<b>① 按暂停键</b>：情绪超过6分就暂停：「我们都冷静一下，晚上再聊」<br>
+<b>② 用「我」开头代替「你」开头</b>：说「我感到受伤」，不说「你总是这样」<br>
+<b>③ 提供安全感</b>：重申关系：「我们是一伙的，问题才是对手」<br>
+<b>So What</b>：冲突的目标不是分胜负，而是借冲突看见彼此的真实需求。
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">👑 我的六条人生规则<span class="crp-tip">👆 活出来 · 你是自己的模板</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+1 先接情绪再讲道理<br>
+2 戒掉翻旧账和冷暴力<br>
+3 稳定的每周深度交流<br>
+4 清理消耗性关系<br>
+5 自己的情绪自己负责<br>
+6 持续练习倾听不抢话<br>
+<span style="color:#ad1457;">说一百句不如做到一句——你说话的方式，就是关系的温度。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🗣️ 今天要跟自己说的话 · 30 条<span class="crp-tip">👆 每天挑几条 · 当天自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">六组忠告，做完勾一条，形成肌肉记忆：已完成 <b id="sayCnt_guanxi">0</b> / 30</div>
+  <div id="sayWrap_guanxi"></div>
+</div>
+<script>
+(function(){
+  var KEY='crp_say_guanxi';
+  var G=[
+      {t:'👂 倾听', items:[['先听完，再回应','抢话是关系的加速器'],['复述一遍对方的话','确认听懂是最大的尊重'],['听情绪，不只听内容','情绪才是真信息'],['不急着给建议','有时只要陪着'],['沉默也是一种回应','允许停顿存在']]},
+      {t:'💬 表达', items:[['用「我」开头说话','「你总是」是开战宣言'],['说事实，不贴标签','行为可以描述，人格不能审判'],['期待要说出口','猜出来的都是误会'],['赞美要具体','「谢谢你今天…」胜过「你真棒」'],['道歉认行为，不认人格','「我话说重了」不是「我这个人真差」']]},
+      {t:'🔥 冲突', items:[['情绪6分以上就暂停','冷静不是冷战，是约定时间再谈'],['问题是对手，人不是','我们vs问题，不是我vs你'],['赢了对错输了关系，双输','关系的账本更大'],['就事论事不翻旧账','旧账一翻前功尽弃'],['和好要快，翻篇要快','别让隔夜气发酵']]},
+      {t:'🌱 修复', items:[['主动开口的人更强大','先伸手不丢人'],['小的修复动作每天做','一杯水也是橄榄枝'],['原谅是为了自己自由','恨是自建的牢'],['关系需要仪式感','固定的专属时间'],['修复模式：倾听→共情→期待','三步走，别跳步']]},
+      {t:'🛡️ 边界', items:[['爱不是无限责任','说「不」也是爱'],['尊重彼此的空间','黏得越紧，逃得越远'],['不做情绪垃圾桶','可以陪伴，不被吞噬'],['付出要有度','过度付出是隐性控制'],['先照顾自己，再照顾关系','氧气面罩先给自己']]},
+      {t:'❤️ 滋养', items:[['每天一句感谢','感谢是最便宜的存款'],['记住对方的好','注意力在哪里，爱就在哪里'],['共同创造新回忆','关系需要新鲜血液'],['身体语言也是语言','一个拥抱胜过十句道理'],['把关系当植物养','定期浇水，偶尔晒太阳']]}
+  ];
+  var wrap=document.getElementById('sayWrap_guanxi'); if(!wrap) return;
+  function today(){ return new Date().toISOString().slice(0,10); }
+  var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
+  var refs=[];
+  G.forEach(function(g){
+    var h=document.createElement('div');
+    h.style.cssText='font-size:12px;font-weight:700;color:#ad1457;margin:10px 0 4px;';
+    h.textContent=g.t; wrap.appendChild(h);
+    g.items.forEach(function(it){
+      var d=document.createElement('div'); d.className='crp-item';
+      d.innerHTML='<span class="crp-box">☐</span><div style="flex:1;"><b style="font-size:13px;">「'+it[0]+'」</b><br><span style="font-size:11px;color:#999;">'+it[1]+'</span></div>';
+      wrap.appendChild(d); refs.push({el:d, k:it[0]});
+    });
+  });
+  function render(){
+    var n=0;
+    refs.forEach(function(r){ var on=!!st[r.k]; r.el.classList.toggle('done',on); r.el.querySelector('.crp-box').textContent=on?'☑':'☐'; if(on)n++; });
+    var cc=document.getElementById('sayCnt_guanxi'); if(cc)cc.textContent=n;
+  }
+  refs.forEach(function(r){ r.el.addEventListener('click',function(){ st[r.k]=!st[r.k]; try{localStorage.setItem(KEY,JSON.stringify({d:today(),s:st}))}catch(e){} render(); }); });
+  render();
+})();
+</script>
+
+<div class="crp-card">
+  <div class="crp-title">🌈 我的关系修复信号 · 每周观察<span class="crp-tip">👆 点亮自己的样子 · 每周自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">验收不看表现看状态：这周出现了几个信号？</div>
+  <div id="fxWrap_gx2"></div>
+  <div style="font-size:12px;color:#ad1457;margin-top:8px;">本周点亮 <b id="fxCnt_gx2">0</b> / 12</div>
+</div>
+<script>
+(function(){
+  var KEY='crp_fx_gx2';
+  var items=['👂 今天完整听完了一段话','🗣️ 用「我」开头表达了一次','🙏 真诚道歉了一次','❤️ 主动开口和好了','🚫 没有翻旧账','⏸️ 情绪6分以上喊了暂停','💬 说清了一个期待','🤐 没有冷暴力','🌟 具体地赞美了一个人','🤝 确认了对方的感受','🛡️ 守住了边界没有愧疚','24H 冲突24小时内修复了'];
+  var wrap=document.getElementById('fxWrap_gx2'); if(!wrap) return;
+  function weekKey(){var d=new Date();var o=new Date(d.getFullYear(),0,1);var w=Math.ceil((((d-o)/86400000)+o.getDay()+1)/7);return d.getFullYear()+'-W'+w;}
+  var st={};try{var sv=JSON.parse(localStorage.getItem(KEY)||'null');if(sv&&sv.w===weekKey())st=sv.s||{}}catch(e){}
+  function render(){items.forEach(function(t,i){var el=wrap.querySelector('[data-i="'+i+'"]');if(!el)return;var on=!!st[i];el.classList.toggle('done',on);el.querySelector('.crp-box').textContent=on?'☑':'☐';});var n=0;for(var k in st)if(st[k])n++;var cc=document.getElementById('fxCnt_gx2');if(cc)cc.textContent=n;}
+  items.forEach(function(t,i){var div=document.createElement('div');div.className='crp-item';div.setAttribute('data-i',String(i));div.innerHTML='<span class="crp-box">☐</span>'+t;div.addEventListener('click',function(){st[i]=!st[i];try{localStorage.setItem(KEY,JSON.stringify({w:weekKey(),s:st}))}catch(e){}render();});wrap.appendChild(div);});
+  render();
+})();
+</script>
 </div>
 
     <div class="coach-intro" id="coachIntro" data-page-node-id="73zmaAQGvgGYigG2Od7PK9">
@@ -1728,7 +1858,6 @@ function makeTypeCard(panel, dir, item, index) {
     <div class="qa-card-tag ${item.type}">${item.tag}</div>
   `;
   card.onclick = () => {
-    closeQAPanel();
     setTimeout(() => showTypeFeedback(panel, dir, item, index), 300);
   };
   return card;
@@ -3604,5 +3733,201 @@ startApp();
 })();
 </script>
 
+<script>/* coach-engine-uni-v1 */
+(function(){
+if(window.__ceuV1) return; window.__ceuV1=true;
+var CFG={"coach": "关系力修复教练", "fallback": ["#ec407a", "#ad1457"], "qs": ["最近一段让你不舒服的关系互动——具体发生了什么？", "那次互动里，你在倾听还是在急着表达？对方真正想要的是什么？", "你的边界感在哪段关系里最容易被突破？代价是什么？", "你希望这段关系变成什么样？对方知道你的期待吗？", "本周你能主动做的一个修复动作是什么？"], "acts": ["练习「复述式倾听」：回应前先用自己的话重复对方的意思", "把一次抱怨改成一次请求（具体、可执行、当下）", "给消耗你的关系设一个明确的边界并温和告知"], "acks": ["收到。说得越具体，后面的拆解就越准——我们继续往下走。", "明白，这个信息很关键。我们再挖一层。", "嗯，这个回答里藏着你的真实卡点。继续。", "好，最后一个问题——把它落到行动上。"], "accent": "#3a7ca5", "accent2": "#2b5a7a", "tint": "#3a7ca51f"};
+var st={q:0,ans:[],busy:false};
+function el(id){return document.getElementById(id);}
+function show(e,d){if(e)e.style.display=d;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function bubble(text,who){
+  var box=el('chatMessages'); if(!box)return;
+  var wrap=document.createElement('div');
+  wrap.style.cssText='display:flex;margin-bottom:10px;justify-content:'+(who==='user'?'flex-end':'flex-start')+';';
+  var b=document.createElement('div');
+  b.style.cssText='max-width:82%;padding:10px 14px;border-radius:16px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word;'+(who==='user'
+    ?'background:'+CFG.accent+';color:#fff;border-bottom-right-radius:4px;'
+    :'background:#f4f5f7;color:#333;border-bottom-left-radius:4px;');
+  b.textContent=text; wrap.appendChild(b); box.appendChild(wrap);
+  box.scrollTop=box.scrollHeight;
+}
+function setStep(n){
+  ['progressStep1','progressStep2','progressStep3'].forEach(function(id,i){
+    var s=el(id); if(!s)return;
+    var need=(i===0?1:i===1?3:5);
+    if(n>=need){ s.classList.add('active'); s.style.background=CFG.accent; s.style.color='#fff'; }
+  });
+}
+function inputArea(){ var ia=el('chatInputArea'); if(ia) return ia; var inp=el('coachInput'); return inp?inp.parentElement:null; }
+function startCoach(){
+  var intro=el('coachIntro'), chat=el('coachChat'), rep=el('coachReport');
+  show(intro,'none'); show(rep,'none'); show(chat,'block');
+  var box=el('chatMessages'); if(box) box.innerHTML='';
+  st={q:0,ans:[],busy:false};
+  var p=el('coachPrompt'); if(p) p.style.display='block';
+  show(inputArea(),'');
+  var gen=el('generatingReport'); show(gen,'none');
+  setStep(1);
+  setTimeout(function(){
+    bubble('你好，我是'+CFG.coach+'。','coach');
+    bubble(CFG.qs[0],'coach'); st.q=1;
+  },200);
+}
+function sendCoachMsg(){
+  if(st.busy) return;
+  var inp=el('coachInput'); if(!inp) return;
+  var v=(inp.value||'').trim();
+  if(!v){ inp.placeholder='请先输入你的回答...'; return; }
+  bubble(v,'user'); st.ans.push(v); inp.value='';
+  st.busy=true;
+  setTimeout(function(){
+    if(st.q < CFG.qs.length){
+      bubble(CFG.acks[(st.q-1)%CFG.acks.length],'coach');
+      st.q++; setStep(st.q);
+      bubble(CFG.qs[st.q-1],'coach');
+      st.busy=false;
+    } else {
+      var gen=el('generatingReport'); if(gen) show(gen,'block');
+      show(inputArea(),'none');
+      var p=el('coachPrompt'); show(p,'none');
+      setTimeout(function(){ show(gen,'none'); buildReport(); st.busy=false; },1600);
+    }
+  },500);
+}
+function buildReport(){
+  var rep=el('coachReport'); if(!rep) return;
+  var h='<div style="font-size:17px;font-weight:800;margin-bottom:6px;">📋 '+CFG.coach+' · MECE 诊断报告</div>';
+  h+='<div style="font-size:11px;color:#8f9eae;margin-bottom:14px;">基于你 '+st.ans.length+' 轮回答生成 · 纯前端模拟</div>';
+  var names=['📌 问题界定','🔍 结构化分析','🔍 深层拆解','🔍 资源盘点','🎯 优先级行动'];
+  for(var i=0;i<CFG.qs.length;i++){
+    h+='<div style="background:#f8f9fb;border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+      +'<div style="font-size:13px;font-weight:800;color:'+CFG.accent+';margin-bottom:6px;">'+names[i]+'</div>'
+      +'<div style="font-size:11.5px;color:#8f9eae;margin-bottom:4px;">'+esc(CFG.qs[i])+'</div>'
+      +'<div style="font-size:13px;color:#333;line-height:1.6;">你的回答：'+esc(st.ans[i]||'（未回答）')+'</div></div>';
+  }
+  h+='<div style="background:'+CFG.tint+';border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+    +'<div style="font-size:13px;font-weight:800;color:'+CFG.accent+';margin-bottom:6px;">✅ 本周行动清单</div>';
+  for(var j=0;j<CFG.acts.length;j++){ h+='<div style="font-size:13px;color:#333;line-height:1.7;">'+(j+1)+'. '+esc(CFG.acts[j])+'</div>'; }
+  h+='</div>';
+  h+='<div style="font-size:12px;color:#8f9eae;line-height:1.6;margin-bottom:12px;">💡 先从行动清单里挑一件本周就做，其他写进日历。对话每周都可以重来，答案会随你的状态变化。</div>';
+  h+='<button onclick="restartCoach()" style="width:100%;padding:14px;border:none;border-radius:50px;background:linear-gradient(135deg,'+CFG.accent+','+CFG.accent2+');color:#fff;font-size:15px;font-weight:700;cursor:pointer;">🔄 重新对话</button>';
+  rep.innerHTML=h; show(rep,'block');
+  show(el('coachChat'),'none');
+}
+function restartCoach(){
+  show(el('coachReport'),'none'); show(el('coachChat'),'none'); show(el('coachIntro'),'block');
+  st={q:0,ans:[],busy:false};
+}
+window.startCoach=startCoach; window.sendCoachMsg=sendCoachMsg; window.restartCoach=restartCoach;
+var _ci=el('coachInput');
+if(_ci && !_ci.dataset.ceuEnter){ _ci.dataset.ceuEnter='1'; _ci.addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendCoachMsg(); } }); }
+})();
+</script>
+<script>/* fix-initcoach-v1 */
+function initCoach(){
+  try{
+    var ci=document.getElementById('coachIntro'), cc=document.getElementById('coachChat'), cr=document.getElementById('coachReport');
+    if(ci && cc && cr){
+      if((cc.style.display && cc.style.display!=='none') || (cr.style.display && cr.style.display!=='none')) return;
+      ci.style.display='block';
+    }
+  }catch(e){}
+}
+</script>
+<script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
+(function(){
+if(window.__uxpV1) return; window.__uxpV1=true;
+var CFG={"accent": "#db2777", "mood": {"happy": {"tag": "高能时刻", "t": "把好情绪存进关系账户", "d": "关系里的好感是靠「好时刻的浓度」攒出来的。趁今天心情好，主动发起一次轻松的聊天或一个小惊喜——不带任何目的那种。关系账户里的每一笔存款，都会在未来某次摩擦时兜底。"}, "neutral": {"tag": "平稳时刻", "t": "练习一次「不打断的倾听」", "d": "关系修复的基本功不是会说话，是能听完。今天挑一次对话，练习全程不打断、不急着给建议，最后只问一句「你想让我出主意，还是就想说说」。被完整听见的感觉，本身就是修复。"}, "sad": {"tag": "低落时刻", "t": "委屈时，用「我希望」开头", "d": "低落时的指责只会把人推远，而压抑又会憋坏自己。试试这个句式：「当……的时候，我感到……，我希望……」。真实但不攻击的表达，是关系里最稀缺也最珍贵的能力。说出来，就是修复的开始。"}, "tired": {"tag": "疲惫时刻", "t": "累的时候，翻篇比讲理更重要", "d": "疲惫时的争执最容易升级成翻旧账。今天给自己一条铁律：觉察到火气上来，先离开现场 10 分钟。旧账翻一次，信任就少一分——能为关系按下暂停键的人，才是真正的强者。"}}, "k3store": "buddy_key3_guanxi", "k3": [{"icon": "💬", "title": "一次不打断的倾听", "sub": "听完再说，是基本功", "why": "不打断的倾听是关系修复的第一基本功。今天这次「听完再说」，对方能明显感觉到被尊重——这就是修复在发生。"}, {"icon": "❤️", "title": "表达一次真实感受", "sub": "用\"我希望\"开头", "why": "用「我希望」开头表达感受，既真实又不伤人。今天的这次表达，是给关系账户的一笔大额存款。"}, {"icon": "🕊️", "title": "翻篇一次旧账", "sub": "旧账翻一次信任少一分", "why": "旧账每翻一次，信任就薄一分。今天翻篇的这次，就是在给这段关系止血——放下比赢了对错更重要。"}], "scenes": [["🔥", "今天吵架了", "先冷静20分钟，回来只说感受不指责。赢了架输了爱不值。"], ["🧊", "对方冷淡了", "直接问：你最近好像有心事，我想听。别猜，猜必猜错。"], ["💔", "说了伤人的话", "当天道歉，别过夜。伤口越早处理越好愈合。"], ["📜", "对方翻旧账", "先接住情绪，再约定以后就事论事。翻旧账是求关注。"], ["😨", "想提需求怕吵架", "用\"我希望\"开头，不用\"你总是\"。前者是邀请，后者是审判。"], ["🤐", "今天没话说", "分享一件今天的小事。连接是靠日常小事重建的。"]]};
+var ACC=CFG.accent||'#e05a7a';
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+var ov=null;
+function ensureOv(){
+  if(ov) return ov;
+  ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100500;display:none;align-items:center;justify-content:center;padding:24px;';
+  ov.addEventListener('click',function(e){ if(e.target===ov) window.__uxpClose(); });
+  document.body.appendChild(ov);
+  return ov;
+}
+function showUxp(html){
+  var o=ensureOv();
+  o.innerHTML='<div style="background:#fff;border-radius:28px;max-width:340px;width:100%;max-height:78vh;overflow-y:auto;padding:26px 22px;text-align:center;animation:uxpPop .35s cubic-bezier(.175,.885,.32,1.275);">'+html+'</div>';
+  o.style.display='flex';
+}
+window.__uxpClose=function(){ if(ov) ov.style.display='none'; };
+window.__uxpOpen=showUxp;
+var st=document.createElement('style');
+st.textContent='@keyframes uxpPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}';
+document.head.appendChild(st);
+/* ---- 情绪 emoji：拦截并弹出居中弹窗 ---- */
+window.addEventListener('click',function(e){
+  try{
+    var t=e.target; if(!t||!t.closest) return;
+    var m=t.closest('.mood-btn'); if(!m) return;
+    var k=m.getAttribute('data-mood');
+    if(!k){ var oc=m.getAttribute('onclick')||''; var mm=oc.match(/sendMood\('([\w]+)'\)/); if(mm) k=mm[1]; }
+    if(!k) k=m.getAttribute('title')||'';
+    if(!(CFG.mood||{})[k]){
+      var sk=k||'';
+      try{ for(var mk in CFG.mood){ if(mk.length>1 && sk.indexOf(mk)>=0){ k=mk; break; } } }catch(e){}
+      var kmap=[['happy','很好|开心|不错|超棒|愉快|高兴'],['neutral','还行|平静|一般|平稳|还好'],['sad','低落|难过|不开心|委屈|烦躁|压力|焦虑|丧'],['tired','累|疲惫|困|倦|没劲']];
+      for(var ki=0;ki<kmap.length;ki++){ try{ if(new RegExp(kmap[ki][1]).test(sk)){ k=kmap[ki][0]; break; } }catch(e){} }
+    }
+    var c=(CFG.mood||{})[k]; if(!c) return;
+    if(e.preventDefault)e.preventDefault();
+    if(e.stopImmediatePropagation)e.stopImmediatePropagation(); else if(e.stopPropagation)e.stopPropagation();
+    var emo=(m.textContent||'').trim()||'\ud83d\ude42';
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+esc(c.tag)+'</div>'
+      +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(c.t)+'</div>'
+      +'<div style="font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(c.d)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u6536\u5230\uff0c\u5c31\u8fd9\u4e48\u505a \ud83d\udcaa</button>');
+  }catch(err){}
+},true);
+/* ---- 关键小动作勾选：包装原函数，勾选时弹居中弹窗 ---- */
+function wrapKey3(fnName, storeKey){
+  var orig=window[fnName];
+  if(typeof orig!=='function'||orig.__uxp) return;
+  var wrapped=function(i){
+    var before=null;
+    try{ var d=JSON.parse(localStorage.getItem(storeKey)||'{}'); before=!!(d&&d.checked&&d.checked[i]); }catch(e){}
+    var r=orig.apply(this,arguments);
+    try{
+      var d2=JSON.parse(localStorage.getItem(storeKey)||'{}');
+      var after=!!(d2&&d2.checked&&d2.checked[i]);
+      var acts=CFG.k3||[];
+      if(!before&&after&&acts[i]){
+        var a=acts[i];
+        showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(a.icon||'\u2705')+'</div>'
+          +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u2713 \u4eca\u65e5\u5173\u952e\u52a8\u4f5c</div>'
+          +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:4px;">'+esc(a.title||'')+'</div>'
+          +(a.sub?'<div style="font-size:12px;color:#888;margin-bottom:10px;">'+esc(a.sub)+'</div>':'')
+          +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(a.why||'')+'</div>'
+          +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u8bb0\u4e0a\u4e86 \u2705</button>');
+      }
+    }catch(e){}
+    return r;
+  };
+  wrapped.__uxp=true;
+  try{ window[fnName]=wrapped; }catch(e){}
+}
+wrapKey3('toggleKey3',CFG.k3store);
+wrapKey3('stdK3Toggle',CFG.k3store);
+/* ---- std 场景卡：改为居中弹窗反馈（不关选择面板） ---- */
+if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
+  window.stdScenePick=function(i){
+    var sc=CFG.scenes[i]; if(!sc) return;
+    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+  };
+}
+})();
+</script>
 </body>
 </html>

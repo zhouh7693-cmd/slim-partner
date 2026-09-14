@@ -368,6 +368,7 @@
     .fb-btn { background: linear-gradient(135deg,#c9a227,#8b6914); color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
   </style>
+<style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body data-page-node-id="nRGAFaHbEloA7FfRXncM07">
 
@@ -507,7 +508,7 @@
   <div id="stdTipText"></div>
 </div>
 <div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
-<div id="stdSceneSheet" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:301;background:#fff;border-radius:24px 24px 0 0;max-height:72vh;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
+<div id="stdSceneSheet" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:301;background:#fff;border-radius:24px;max-height:76vh;width:calc(100% - 40px);max-width:400px;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
   <div onclick="stdSceneClose()" style="position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
   <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
   <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
@@ -519,7 +520,7 @@
 (function(){
   if (window.__stdTab) return; window.__stdTab = 1;
   var SLUG='longterm', ACCENT='#92400e', EMOJI='⏳';
-  var ACTIONS=[["⏳", "自由时间投资 30 分钟", "给未来的自己打工"], ["📖", "深度阅读 30 分钟", "复利从今天开始"], ["🚫", "拒绝一次短期诱惑", "延迟满足在练肌肉"]], TIPS=null, SCENES=[["📱", "又刷了1小时短视频", "⏳ 时间是最公平的资产，花在哪长成什么样。设个25分钟番茄钟，先拿回30分钟。"], ["🎮", "忍不住又熬夜了", "深夜的自由是假自由。长期主义者的自由，是白天攒出来的。"], ["📚", "学习坚持不下去", "别靠意志力，靠系统：固定时间、固定地点、最小目标5分钟。"], ["💸", "冲动消费了", "问自己：一年后它还值多少？把同样金额定投，才是给未来的礼物。"], ["😰", "焦虑未来怎么办", "焦虑是用了昨天的精力担心明天。把注意力拉回今天能做的一件事。"], ["🐢", "觉得进步太慢", "慢即是快。每年进步5%，十年后你甩开99%的人。"]];
+  var ACTIONS=[["⏳", "自由时间投资 30 分钟", "给未来的自己打工"], ["📖", "深度阅读 30 分钟", "复利从今天开始"], ["🚫", "拒绝一次短期诱惑", "延迟满足在练肌肉"]], TIPS=["时间是最公平的资产，花在哪，长成什么样", "每天 30 分钟，一年就是 180 小时——够精通一件事", "延迟满足不是忍，是把奖励换个更大的兑现期", "复利的敌人只有两个：中断和着急", "种一棵树最好的时间是十年前，其次是现在", "短期波动吓不出长期主义者——十年后这还重要吗？", "刷不完的短视频是注意力的收割机，你才是资产", "读书是最便宜的「请教牛人」方式", "给未来的自己打工：今天的每个选择都是转账", "慢就是快——不返工的路才是最快的路", "别用战术上的忙碌，掩盖战略上的懒惰", "健康、认知、关系、信用：四样只涨不跌的资产", "急于兑现的人拿走小钱，等得起的人拿走大钱", "真正的护城河是十年如一日做同一件事", "少即是多：同时追两只兔子的人两手空空", "今天的舒适是预支，今天的坚持是存款", "长期主义者的崩溃次数不比别人少，只是恢复得快", "把大目标拆成「今天能做的最小一步」", "拒绝一次短期诱惑，就给未来的自己加了一次薪", "你不需要很厉害才能开始，但需要开始才能很厉害"], SCENES=[["📱", "又刷了1小时短视频", "⏳ 时间是最公平的资产，花在哪长成什么样。设个25分钟番茄钟，先拿回30分钟。"], ["🎮", "忍不住又熬夜了", "深夜的自由是假自由。长期主义者的自由，是白天攒出来的。"], ["📚", "学习坚持不下去", "别靠意志力，靠系统：固定时间、固定地点、最小目标5分钟。"], ["💸", "冲动消费了", "问自己：一年后它还值多少？把同样金额定投，才是给未来的礼物。"], ["😰", "焦虑未来怎么办", "焦虑是用了昨天的精力担心明天。把注意力拉回今天能做的一件事。"], ["🐢", "觉得进步太慢", "慢即是快。每年进步5%，十年后你甩开99%的人。"]];
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
   function today(){ return new Date().toISOString().slice(0,10); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
@@ -613,16 +614,6 @@
 
 
     <!-- 分享入口 -->
-    <div class="share-inline-card" data-page-node-id="6IT5jUyXEp8n6E3W5DNNAY">
-<div class="share-inline-label" data-page-node-id="SY51DHJr0oUZ3N3nlOG1ZB">📣 推荐给想把时间花在重要事上的朋友</div>
-        <div class="share-inline-preview" data-page-node-id="JAevPevb6GG24eHAKaOM4F">
-          ⏳ 长期主义搭子 · 每天 5 分钟，把时间搬到长线
-        </div>
-        <div class="share-copy-row" data-page-node-id="62HBG1KoKE9lVO6HaZQh0G">
-          <button class="share-copy-btn" onclick="copyShareLink()" data-page-node-id="4mjD4sChJr8sq9IoGVHA1B">📋 复制邀请链接</button>
-          <button class="share-link-btn" onclick="previewShareCard()" data-page-node-id="2aP7dLvC7ymYMueFmCvRCk">👀 预览我的时间账本卡</button>
-        </div>
-      </div>
 
       <footer data-page-node-id="lQGxjJdqx975YOywkhnLwy">每天一次 · 你的时间账本正在被记录</footer>
   </div>
@@ -950,7 +941,183 @@
       <div class="crp-title" data-page-node-id="gopfoA5jIaFbZdonZLfYDk">📋 我选择遵守的 10 条原则<span class="crp-tip" data-page-node-id="FE8bajR6V493yHl8eAxEGE">👆 点击勾选 · 自动保存</span></div>
       <div id="hrList" data-page-node-id="rvrT5RaWU5TONsELFgqdek"></div>
     </div>
+  
+<div class="crp-card">
+  <style>.ltc-item{font-size:13px;color:#3d3112;line-height:1.6;padding:9px 10px;border-radius:12px;cursor:pointer;transition:background .15s;}.ltc-item:hover{background:#f5f5f7;} .ltc-item.done{color:#c2ad7e;text-decoration:line-through;} .ltc-item .crp-box{margin-right:8px;}</style>
+  <div class="crp-title">📋 长期主义基本功 Checklist<span class="crp-tip">👆 点击勾选 · 已达成 <b id="ltCnt_lt" style="color:#a3721c;">0</b>/7 · 自动保存</span></div>
+  <div id="ltWrap_lt"></div>
+</div>
+<script>
+(function(){
+  var KEY='crp_ltc_lt';
+  var items=['今天做了一件有长期价值的事','时间花在了 KEEP 清单上','拒绝了一件短期诱惑','完成了一次深度工作（90分钟）','记录了一条经验或教训','没有为焦虑刷无意义的信息','睡够且运动了——身体的复利在续费'];
+  var wrap=document.getElementById('ltWrap_lt'); if(!wrap) return;
+  function today(){ return new Date().toISOString().slice(0,10); }
+  var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
+  var refs=[];
+  items.forEach(function(t,i){
+    var d=document.createElement('div'); d.className='ltc-item';
+    d.innerHTML='<span class="crp-box">☐</span>'+t; wrap.appendChild(d); refs.push({el:d,i:i});
+  });
+  function render(){ var n=0; refs.forEach(function(r){ var on=!!st[r.i]; r.el.classList.toggle('done',on); r.el.querySelector('.crp-box').textContent=on?'☑':'☐'; if(on)n++; }); var cc=document.getElementById('ltCnt_lt'); if(cc)cc.textContent=n; }
+  refs.forEach(function(r){ r.el.addEventListener('click',function(){ st[r.i]=!st[r.i]; try{localStorage.setItem(KEY,JSON.stringify({d:today(),s:st}))}catch(e){} render(); }); });
+  render();
+})();
+</script>
+
+<div class="crp-card">
+  <div class="crp-title">📜 长期主义三禁忌<span class="crp-tip">👆 底线动作 · 一条都不能破</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不频繁换赛道</b>：复利需要时间发酵，换一次清零一次<br>
+<b>2️⃣ 不用战术忙碌回避战略思考</b>：瞎忙是逃避选择的最体面方式<br>
+<b>3️⃣ 不为短期诱惑出卖长期</b>：贵的东西，标价都在后面<br>
+<span style="color:#a3721c;">慢慢来，比较快——时间是最公平的杠杆。</span>
   </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">💬 每天必说的四句话<span class="crp-tip">👆 每天挑一句说出口</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 「今天做的事有长期价值吗」</b>——用十年尺度过滤今天的忙碌<br>
+<b>2️⃣ 「我的时间花在KEEP清单了吗」</b>——时间账本比钱账本更重要<br>
+<b>3️⃣ 「十年后看今天重要吗」</b>——多数焦虑十年后是笑话<br>
+<b>4️⃣ 「慢即是快」</b>——不折腾就是最大的加速<br>
+<span style="color:#a3721c;">这四句话每天挑一句说出口，形成长期自觉。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>Fact 事实底座</b>：穷忙碌追短期回报来回换赛道；富长期押注有复利的少数字。<br>
+<b>Core 核心结论</b>：慢慢来，比较快——时间是最公平的杠杆。<br>
+<b>Insight 洞察</b>：三禁忌：不频繁换赛道、不用忙碌回避思考、不为短期出卖长期。<br>
+<b>So What</b>：把长期主义变成每天的时间分配，而不是口头的人生观。<br>
+<b>How To Do</b>：每天三个动作——做一件有长期价值的事、砍掉一件短期诱惑、记录一条经验。<br>
+<b>Know How</b>：关键不是坚持多苦，而是别漏「方向复利」：在错的方向坚持，是精致的浪费。<br>
+<b>验收口径</b>：做选择时能否先问「这件事十年后还值钱吗」——「我缓缓」「这不值得」。<br>
+
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🐾 不折腾 · 四条守则<span class="crp-tip">👆 不妥协 · 不退让</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不做没有积累的忙碌</b>：重复十年的经验≠十年经验<br>
+<b>2️⃣ 不羡慕别人的快</b>：每朵花有自己的花期<br>
+<b>3️⃣ 别在低谷否定长线</b>：天气不是气候，回撤不是失败<br>
+<b>4️⃣ 定期复盘+敢于调整</b>：长期主义不是死扛，是方向对的前提下慢慢来<br>
+<span style="color:#a3721c;">折腾的人不是不聪明，是被别人的速度带乱了自己的节奏。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🎯 长期终极目标 · 三个独立<span class="crp-tip">👆 每个日常动作都在为它铺路</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 时间独立</b>：离开卖时间换钱——资产和复利在工作<br>
+<b>2️⃣ 心态独立</b>：离开短期波动也能淡定——有十年尺度的定力<br>
+<b>3️⃣ 方向独立</b>：离开流行风口也有主航道——知道自己要去哪<br>
+<span style="color:#a3721c;">财务自由是副产品，时间自由才是目标。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🧘 速成诱惑三步法 · 不动摇<span class="crp-tip">👆 先处理情绪，再处理事</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>为什么</b>：看到别人暴富，定力最容易被击穿。动摇不可怕，可怕的是没有流程地跟风。<br>
+<b>① 按暂停键</b>：先问「他的前提我有吗」——运气和底牌都看不见<br>
+<b>② 用十年检验</b>：「这件事十年后还成立吗」，多数诱惑过不了这关<br>
+<b>③ 提供安全感</b>：把冲动写进「三个月后 revisit」清单，到期还想要再小成本试<br>
+<b>So What</b>：长期主义的目标不是错过机会，而是不错过属于你的复利。
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">👑 我的六条人生规则<span class="crp-tip">👆 活出来 · 你是自己的模板</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+1 每天做一件有长期价值的事<br>
+2 戒掉频繁换赛道的冲动<br>
+3 稳定的时间账本复盘<br>
+4 清理无积累的忙碌<br>
+5 身体是长期的本钱——睡够练够<br>
+6 深耕一个方向十年<br>
+<span style="color:#a3721c;">说一百句不如做到一句——你的时间流向，就是你人生的流向。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🗣️ 今天要跟自己说的话 · 30 条<span class="crp-tip">👆 每天挑几条 · 当天自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">六组忠告，做完勾一条，形成肌肉记忆：已完成 <b id="sayCnt_longterm">0</b> / 30</div>
+  <div id="sayWrap_longterm"></div>
+</div>
+<script>
+(function(){
+  var KEY='crp_say_longterm';
+  var G=[
+      {t:'⏳ 时间', items:[['时间花在哪人生就在哪','时间账本最诚实'],['今天为十年后存了什么','健康/认知/关系/资产'],['砍掉一件无积累的忙','减法是加法的妈'],['不卖时间换一次性收入','要造会下蛋的鸡'],['耐心是最稀缺的能力','复利需要时间发酵']]},
+      {t:'🌱 复利', items:[['每天1%一年37倍','微小持续的威力'],['阅读的复利','每天二十分钟十年千本'],['健康的复利','今天的作息是十年后的体检单'],['关系的复利','老朋友是时间存的款'],['技能的复利','深耕十年无可替代']]},
+      {t:'🎯 聚焦', items:[['一次只深挖一个方向','广度不值钱深度才值钱'],['少即是多','做减法是高手之路'],['不追风口','风停了摔死的是猪'],['主线之外都是支线','警惕伪重要'],['十年目标倒推今年','从终点往回看']]},
+      {t:'🧘 定力', items:[['别人快是别人的事','每朵花有自己的花期'],['回撤不是失败','天气不是气候'],['不被暴富故事击穿','他的前提你没有'],['慢慢地变富变强','急是最大的敌人'],['享受过程','路本身就是奖赏']]},
+      {t:'🛡️ 防折腾', items:[['换赛道前过三关','沉淀过吗/验证过吗/十年后成立吗'],['三个月清单','冲动放三个月还想要再试'],['不折腾已验证的系统','好系统怕手痒'],['定期复盘敢于调整','长期不是死扛'],['留安全垫','活下来才有长期']]},
+      {t:'💎 沉淀', items:[['每天记录一条经验','写下来的才是资产'],['把经验做成SOP','你走了经验还在'],['作品思维','留下可积累的东西'],['教出去','教会别人巩固一层'],['和时间做朋友','十年后见']]}
+  ];
+  var wrap=document.getElementById('sayWrap_longterm'); if(!wrap) return;
+  function today(){ return new Date().toISOString().slice(0,10); }
+  var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
+  var refs=[];
+  G.forEach(function(g){
+    var h=document.createElement('div');
+    h.style.cssText='font-size:12px;font-weight:700;color:#a3721c;margin:10px 0 4px;';
+    h.textContent=g.t; wrap.appendChild(h);
+    g.items.forEach(function(it){
+      var d=document.createElement('div'); d.className='crp-item';
+      d.innerHTML='<span class="crp-box">☐</span><div style="flex:1;"><b style="font-size:13px;">「'+it[0]+'」</b><br><span style="font-size:11px;color:#999;">'+it[1]+'</span></div>';
+      wrap.appendChild(d); refs.push({el:d, k:it[0]});
+    });
+  });
+  function render(){
+    var n=0;
+    refs.forEach(function(r){ var on=!!st[r.k]; r.el.classList.toggle('done',on); r.el.querySelector('.crp-box').textContent=on?'☑':'☐'; if(on)n++; });
+    var cc=document.getElementById('sayCnt_longterm'); if(cc)cc.textContent=n;
+  }
+  refs.forEach(function(r){ r.el.addEventListener('click',function(){ st[r.k]=!st[r.k]; try{localStorage.setItem(KEY,JSON.stringify({d:today(),s:st}))}catch(e){} render(); }); });
+  render();
+})();
+</script>
+
+<div class="crp-card">
+  <div class="crp-title">🌈 我的长期主义信号 · 每周观察<span class="crp-tip">👆 点亮自己的样子 · 每周自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">验收不看表现看状态：这周出现了几个信号？</div>
+  <div id="fxWrap_lt9"></div>
+  <div style="font-size:12px;color:#a3721c;margin-top:8px;">本周点亮 <b id="fxCnt_lt9">0</b> / 12</div>
+</div>
+<script>
+(function(){
+  var KEY='crp_fx_lt9';
+  var items=['⏳ 今天做了一件有长期价值的事','📝 记录了一条经验教训','🚫 拒绝了一个短期诱惑','📖 为十年后的自己投入了学习','💪 身体的复利在续费','🎯 时间花在了KEEP清单','🧘 看到别人快也没慌','🔄 复盘了时间账本','💎 沉淀了一个可复用的SOP','🛡️ 没有为焦虑刷无意义信息','🌱 方向没有漂移','⏰ 用十年尺度做了一个决定'];
+  var wrap=document.getElementById('fxWrap_lt9'); if(!wrap) return;
+  function weekKey(){var d=new Date();var o=new Date(d.getFullYear(),0,1);var w=Math.ceil((((d-o)/86400000)+o.getDay()+1)/7);return d.getFullYear()+'-W'+w;}
+  var st={};try{var sv=JSON.parse(localStorage.getItem(KEY)||'null');if(sv&&sv.w===weekKey())st=sv.s||{}}catch(e){}
+  function render(){items.forEach(function(t,i){var el=wrap.querySelector('[data-i="'+i+'"]');if(!el)return;var on=!!st[i];el.classList.toggle('done',on);el.querySelector('.crp-box').textContent=on?'☑':'☐';});var n=0;for(var k in st)if(st[k])n++;var cc=document.getElementById('fxCnt_lt9');if(cc)cc.textContent=n;}
+  items.forEach(function(t,i){var div=document.createElement('div');div.className='crp-item';div.setAttribute('data-i',String(i));div.innerHTML='<span class="crp-box">☐</span>'+t;div.addEventListener('click',function(){st[i]=!st[i];try{localStorage.setItem(KEY,JSON.stringify({w:weekKey(),s:st}))}catch(e){}render();});wrap.appendChild(div);});
+  render();
+})();
+</script>
+
+<script>/* ltStageToggleV1 */
+(function(){
+  var w=document.getElementById('crpWrap_hr'); if(!w){var ws=document.querySelectorAll('[id^=crpWrap]'); if(ws.length) w=ws[0];}
+  if(!w) return;
+  w.querySelectorAll('.crp-stage').forEach(function(st){
+    if(st.dataset.ltBound) return; st.dataset.ltBound='1';
+    st.addEventListener('click',function(){
+      st.classList.toggle('collapsed');
+      var a=st.querySelector('.crp-arrow'); if(a) a.textContent=st.classList.contains('collapsed')?'\u25B8':'\u25BE';
+    });
+  });
+})();
+</script>
+</div>
 
 <!-- ===== 教练介绍卡 + 5问对话 + 报告（与富教育搭子同构） ===== -->
   <style>
@@ -2592,7 +2759,6 @@ function makeTypeCard(panel, dir, item) {
   card.className = `qa-card ${item.type}`;
   card.innerHTML = `<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`;
   card.onclick = () => {
-    closeQAPanel();
     setTimeout(() => showTypeFeedback(panel, dir, item), 300);
   };
   return card;
@@ -3172,5 +3338,99 @@ if (!localStorage.getItem(OB_KEY) && !localStorage.getItem(STORAGE.PARTNER)) {
 })();
 </script>
 
+<script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
+(function(){
+if(window.__uxpV1) return; window.__uxpV1=true;
+var CFG={"accent": "#92400e", "mood": {"happy": {"tag": "高能时刻", "t": "给未来的自己转一笔账", "d": "长期主义的本质：现在的行为，十年后兑现。趁状态好，做一件今天看不到回报的事——30 分钟深度阅读、写一篇复盘、健身一次。别人在收割今天的满足，你在给十年后的自己发工资。"}, "neutral": {"tag": "平稳时刻", "t": "投资 30 分钟自由时间", "d": "算一笔账：每天 30 分钟，一年就是 180 小时——足够精通一项新技能。今天把这 30 分钟从刷手机里抢回来，投给那件「重要不紧急」的事。自由时间是你唯一完全自主的资产，别让它白白蒸发。"}, "sad": {"tag": "低落时刻", "t": "短期波动，吓不出长期主义者", "d": "难过的、搞砸的、停滞的日子——放在十年的尺度上都是小波动。今天只做一件事：把这次挫折写下来，标注「十年后这重要吗」。能拉长时间看问题的人，情绪和决策都会稳得多。"}, "tired": {"tag": "疲惫时刻", "t": "累了就拒绝一次短期诱惑，然后睡觉", "d": "疲惫时的「再刷一会儿」是复利最大的敌人。今天做两个动作：拒绝一次睡前刷手机的诱惑，然后早点睡。延迟满足练的就是这种时刻——赢下今晚，明天的时间质量完全不同。"}}, "k3store": "buddy_key3_longterm", "k3": [{"icon": "⏳", "title": "自由时间投资 30 分钟", "sub": "给未来的自己打工", "why": "自由时间投资 30 分钟，一年就是 180 小时的复利本金。今天这半小时，是给十年后自己的转账。"}, {"icon": "📖", "title": "深度阅读 30 分钟", "sub": "复利从今天开始", "why": "深度阅读是复利率最高的自我投资。今天读的 30 页，会在未来某个决策时刻，变成你的关键优势。"}, {"icon": "🚫", "title": "拒绝一次短期诱惑", "sub": "延迟满足在练肌肉", "why": "拒绝短期诱惑是延迟满足的实操训练。今天赢下的这一次，「延迟满足」这块肌肉就壮了一圈。"}], "scenes": [["📱", "又刷了1小时短视频", "⏳ 时间是最公平的资产，花在哪长成什么样。设个25分钟番茄钟，先拿回30分钟。"], ["🎮", "忍不住又熬夜了", "深夜的自由是假自由。长期主义者的自由，是白天攒出来的。"], ["📚", "学习坚持不下去", "别靠意志力，靠系统：固定时间、固定地点、最小目标5分钟。"], ["💸", "冲动消费了", "问自己：一年后它还值多少？把同样金额定投，才是给未来的礼物。"], ["😰", "焦虑未来怎么办", "焦虑是用了昨天的精力担心明天。把注意力拉回今天能做的一件事。"], ["🐢", "觉得进步太慢", "慢即是快。每年进步5%，十年后你甩开99%的人。"]]};
+var ACC=CFG.accent||'#e05a7a';
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+var ov=null;
+function ensureOv(){
+  if(ov) return ov;
+  ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100500;display:none;align-items:center;justify-content:center;padding:24px;';
+  ov.addEventListener('click',function(e){ if(e.target===ov) window.__uxpClose(); });
+  document.body.appendChild(ov);
+  return ov;
+}
+function showUxp(html){
+  var o=ensureOv();
+  o.innerHTML='<div style="background:#fff;border-radius:28px;max-width:340px;width:100%;max-height:78vh;overflow-y:auto;padding:26px 22px;text-align:center;animation:uxpPop .35s cubic-bezier(.175,.885,.32,1.275);">'+html+'</div>';
+  o.style.display='flex';
+}
+window.__uxpClose=function(){ if(ov) ov.style.display='none'; };
+window.__uxpOpen=showUxp;
+var st=document.createElement('style');
+st.textContent='@keyframes uxpPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}';
+document.head.appendChild(st);
+/* ---- 情绪 emoji：拦截并弹出居中弹窗 ---- */
+window.addEventListener('click',function(e){
+  try{
+    var t=e.target; if(!t||!t.closest) return;
+    var m=t.closest('.mood-btn'); if(!m) return;
+    var k=m.getAttribute('data-mood');
+    if(!k){ var oc=m.getAttribute('onclick')||''; var mm=oc.match(/sendMood\('([\w]+)'\)/); if(mm) k=mm[1]; }
+    if(!k) k=m.getAttribute('title')||'';
+    if(!(CFG.mood||{})[k]){
+      var sk=k||'';
+      try{ for(var mk in CFG.mood){ if(mk.length>1 && sk.indexOf(mk)>=0){ k=mk; break; } } }catch(e){}
+      var kmap=[['happy','很好|开心|不错|超棒|愉快|高兴'],['neutral','还行|平静|一般|平稳|还好'],['sad','低落|难过|不开心|委屈|烦躁|压力|焦虑|丧'],['tired','累|疲惫|困|倦|没劲']];
+      for(var ki=0;ki<kmap.length;ki++){ try{ if(new RegExp(kmap[ki][1]).test(sk)){ k=kmap[ki][0]; break; } }catch(e){} }
+    }
+    var c=(CFG.mood||{})[k]; if(!c) return;
+    if(e.preventDefault)e.preventDefault();
+    if(e.stopImmediatePropagation)e.stopImmediatePropagation(); else if(e.stopPropagation)e.stopPropagation();
+    var emo=(m.textContent||'').trim()||'\ud83d\ude42';
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+esc(c.tag)+'</div>'
+      +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(c.t)+'</div>'
+      +'<div style="font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(c.d)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u6536\u5230\uff0c\u5c31\u8fd9\u4e48\u505a \ud83d\udcaa</button>');
+  }catch(err){}
+},true);
+/* ---- 关键小动作勾选：包装原函数，勾选时弹居中弹窗 ---- */
+function wrapKey3(fnName, storeKey){
+  var orig=window[fnName];
+  if(typeof orig!=='function'||orig.__uxp) return;
+  var wrapped=function(i){
+    var before=null;
+    try{ var d=JSON.parse(localStorage.getItem(storeKey)||'{}'); before=!!(d&&d.checked&&d.checked[i]); }catch(e){}
+    var r=orig.apply(this,arguments);
+    try{
+      var d2=JSON.parse(localStorage.getItem(storeKey)||'{}');
+      var after=!!(d2&&d2.checked&&d2.checked[i]);
+      var acts=CFG.k3||[];
+      if(!before&&after&&acts[i]){
+        var a=acts[i];
+        showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(a.icon||'\u2705')+'</div>'
+          +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u2713 \u4eca\u65e5\u5173\u952e\u52a8\u4f5c</div>'
+          +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:4px;">'+esc(a.title||'')+'</div>'
+          +(a.sub?'<div style="font-size:12px;color:#888;margin-bottom:10px;">'+esc(a.sub)+'</div>':'')
+          +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(a.why||'')+'</div>'
+          +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u8bb0\u4e0a\u4e86 \u2705</button>');
+      }
+    }catch(e){}
+    return r;
+  };
+  wrapped.__uxp=true;
+  try{ window[fnName]=wrapped; }catch(e){}
+}
+wrapKey3('toggleKey3',CFG.k3store);
+wrapKey3('stdK3Toggle',CFG.k3store);
+/* ---- std 场景卡：改为居中弹窗反馈（不关选择面板） ---- */
+if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
+  window.stdScenePick=function(i){
+    var sc=CFG.scenes[i]; if(!sc) return;
+    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+  };
+}
+})();
+</script>
 </body>
 </html>

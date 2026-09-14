@@ -481,6 +481,7 @@
     .fb-btn { background: #3a7ca5; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
   </style>
+<style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body data-page-node-id="kcDGVgWC0GEGIZuqYl0sfZ">
 
@@ -617,7 +618,7 @@
   <div id="stdTipText"></div>
 </div>
 <div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
-<div id="stdSceneSheet" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:301;background:#fff;border-radius:24px 24px 0 0;max-height:72vh;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
+<div id="stdSceneSheet" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:301;background:#fff;border-radius:24px;max-height:76vh;width:calc(100% - 40px);max-width:400px;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
   <div onclick="stdSceneClose()" style="position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
   <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
   <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
@@ -723,16 +724,6 @@
 
 
     <!-- 分享入口 -->
-    <div class="share-inline-card" data-page-node-id="JgMwNzNGkf6RQip1SE5Dcr">
-      <div class="share-inline-label" data-page-node-id="NbKyLKH7tuUpcq5HyfxVr9">📣 推荐给想一起成长的朋友</div>
-      <div class="share-inline-preview" data-page-node-id="4ccQBLZsPsrngJC0dsEwqb">
-        🕊️ 精神财富搭子 · 4种性格陪你成长
-      </div>
-      <div class="share-copy-row" data-page-node-id="7IYioyCC6ld5Jvz2xCOinU">
-        <button class="share-copy-btn" onclick="copyShareLink()" data-page-node-id="64OWCUlYI4ImjAyarD3RHz">📋 复制邀请链接</button>
-        <button class="share-link-btn" onclick="previewShareCard()" data-page-node-id="s4REOYTIJybSCHFtnAsNxI">👀 预览卡片</button>
-      </div>
-    </div>
 
     <footer data-page-node-id="B4M03R3aG5QqmrnJr8777g">每天一次签到 · 你的搭子会给你力量</footer>
   </div>
@@ -2290,9 +2281,9 @@ function openTypePanel(panel, dir) {
   document.getElementById('qaSub').innerText = subMap[dir] || '';
   const scroll = document.getElementById('qaScroll'); scroll.innerHTML = '';
   const posItems = data.filter(i => i.type === 'pos');
-  if (posItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;'; l.innerText='⬆️ 好的进展 / 想得到鼓励'; scroll.appendChild(l); posItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
+  if (posItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;'; l.innerText='⬆️ 好的进展 / 想得到鼓励'; scroll.appendChild(l); posItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
   const negItems = data.filter(i => i.type === 'neg');
-  if (negItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;'; l.innerText='⬇️ 遇到困难 / 需要引导'; scroll.appendChild(l); negItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
+  if (negItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;'; l.innerText='⬇️ 遇到困难 / 需要引导'; scroll.appendChild(l); negItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
   document.getElementById('qaOverlay').classList.add('show');
   document.getElementById('qaOverlay').onclick = function(e) { if (e.target === document.getElementById('qaOverlay')) closeQAPanel(); };
 }
@@ -3008,6 +2999,145 @@ startApp();
     render();
   })();
   </script>
+
+<div class="crp-card">
+  <div class="crp-title">📜 精神生活三禁忌<span class="crp-tip">👆 底线动作 · 一条都不能破</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不让短视频代替阅读</b>：投喂的信息不长脑子，主动啃的书才长认知<br>
+<b>2️⃣ 不用忙碌逃避独处</b>：不会独处的人，热闹都是麻醉剂<br>
+<b>3️⃣ 不停止提问</b>：不提问的大脑，是在给别人的观点免费打工<br>
+<span style="color:#4527a0;">精神财富不保值增值的是书、是思考、是安静的定力。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">💬 每天必问的四句话<span class="crp-tip">👆 每天挑一句说出口</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 「今天读了20分钟书吗」</b>——阅读是最便宜的认知升级<br>
+<b>2️⃣ 「这个观点的反面是什么」</b>——批判性思维从找反面开始<br>
+<b>3️⃣ 「今天安静独处了10分钟吗」</b>——独处是精神充电<br>
+<b>4️⃣ 「我在害怕什么」</b>——看清恐惧，它就缩小一半<br>
+<span style="color:#4527a0;">这四问每天挑一问问自己，形成精神自觉。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>Fact 事实底座</b>：穷精神用娱乐填满时间；富精神用输入+思考+输出循环滋养。<br>
+<b>Core 核心结论</b>：精神财富的复利：每天20分钟，十年换一个丰盈的灵魂。<br>
+<b>Insight 洞察</b>：三禁忌：不让短视频代替阅读、不用忙碌逃避独处、不停止提问。<br>
+<b>So What</b>：把精神生活变成每天的固定投入，而不是心情好时的点缀。<br>
+<b>How To Do</b>：每天三个动作——读20分钟、写三行思考、安静独处10分钟。<br>
+<b>Know How</b>：关键不是读多少本，而是别漏「消化」：读完能讲出来的才算读过，讲不出的都是幻觉。<br>
+<b>验收口径</b>：遇到观点时，能否先问「证据是什么、反面是什么」再表态——「我查查」「让我想想」。<br>
+
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🐾 不空心 · 四条守则<span class="crp-tip">👆 不妥协 · 不退让</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不做信息的囤积者</b>：收藏夹不是认知，读进去的才是<br>
+<b>2️⃣ 不用忙碌麻醉自己</b>：忙是精神空虚的止痛片<br>
+<b>3️⃣ 别放弃深度</b>：长文章和长对话，是深度的 gym<br>
+<b>4️⃣ 输入+输出+及时分享</b>：教是最好的学，写是最深的想<br>
+<span style="color:#4527a0;">空心的头脑不是一天空的，是每天只进不出。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🎯 精神终极目标 · 三个独立<span class="crp-tip">👆 每个日常动作都在为它铺路</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 认知独立</b>：离开专家也能独立判断——有自己的思考框架<br>
+<b>2️⃣ 情绪独立</b>：离开热闹也能自处——独处是享受不是煎熬<br>
+<b>3️⃣ 精神独立</b>：离开掌声也能坚定——意义感由内而生<br>
+<span style="color:#4527a0;">渊博是副产品，精神上站得住才是目标。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🧘 空虚三步法 · 不刷屏<span class="crp-tip">👆 先处理情绪，再处理事</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>为什么</b>：空虚的本质是精神账户余额不足，刷屏只是麻醉，醒来更空。<br>
+<b>① 按暂停键</b>：想刷手机时先问「我在逃避什么」<br>
+<b>② 用微输入代替刷屏</b>：读两页书、听一段播客，门槛低到不可能失败<br>
+<b>③ 提供安全感</b>：允许自己从很低的标准开始，连续比强度重要<br>
+<b>So What</b>：精神生活的目标不是博学，而是任何时候都有安顿自己的能力。
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">👑 我的六条人生规则<span class="crp-tip">👆 活出来 · 你是自己的模板</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+1 每天阅读二十分钟<br>
+2 戒掉无意识刷屏<br>
+3 稳定的每周输出<br>
+4 清理消耗精神的噪音源<br>
+5 每周独处半天<br>
+6 持续构建自己的思考框架<br>
+<span style="color:#4527a0;">说一百句不如做到一句——你头脑里的东西，就是你真正的财富。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🗣️ 今天要跟自己说的话 · 30 条<span class="crp-tip">👆 每天挑几条 · 当天自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">六组忠告，做完勾一条，形成肌肉记忆：已完成 <b id="sayCnt_jingshen">0</b> / 30</div>
+  <div id="sayWrap_jingshen"></div>
+</div>
+<script>
+(function(){
+  var KEY='crp_say_jingshen';
+  var G=[
+      {t:'📖 阅读', items:[['每天二十分钟雷打不动','复利从微小开始'],['读完讲给别人听','讲得出才算读过'],['经典优先，畅销谨慎','经过时间的书更靠谱'],['一个时期一个主题','主题式阅读建立体系'],['不追求读完，追求读懂','半本消化胜过十本翻过']]},
+      {t:'🤔 思考', items:[['观点的反面是什么','批判性思维第一问'],['证据是什么','没有证据的观点是情绪'],['区分事实与解读','混为一谈是思维的坑'],['写下来才叫想清楚','写不出的都是没想'],['和比自己厉害的人聊','对话是最快的思考']]},
+      {t:'🧘 独处', items:[['每天十分钟静坐','安静是精神的深呼吸'],['独自散步不带手机','让思绪飘一会儿'],['享受无所事事的时刻','留白是滋养'],['害怕独处时问为什么','恐惧背后有答案'],['独处是自我对话','认识自己从这里开始']]},
+      {t:'✍️ 输出', items:[['每天写三行','门槛低到不会失败'],['教是最好的学','讲不清楚就是没懂'],['建立自己的素材库','灵感要有个家'],['公开发表接受反馈','反馈是免费的镜子'],['不求完美先求完成','完美主义是输出的天敌']]},
+      {t:'🛡️ 防噪', items:[['取关消耗性账号','注意力是最贵资产'],['新闻看标题即可','世界没那么快崩塌'],['不参与网络骂战','情绪是喂给平台的饲料'],['少看别人的高光','那会偷走你的专注'],['数字断食每周半天','给大脑放个假']]},
+      {t:'🌱 滋养', items:[['学一门无用的爱好','无用之美养灵魂'],['逛博物馆和展览','美是精神的维生素'],['听一场现场音乐','现场是不可替代的'],['和有趣的人吃饭','有趣会传染'],['记录今天的小美好','幸福感是攒出来的']]}
+  ];
+  var wrap=document.getElementById('sayWrap_jingshen'); if(!wrap) return;
+  function today(){ return new Date().toISOString().slice(0,10); }
+  var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
+  var refs=[];
+  G.forEach(function(g){
+    var h=document.createElement('div');
+    h.style.cssText='font-size:12px;font-weight:700;color:#4527a0;margin:10px 0 4px;';
+    h.textContent=g.t; wrap.appendChild(h);
+    g.items.forEach(function(it){
+      var d=document.createElement('div'); d.className='crp-item';
+      d.innerHTML='<span class="crp-box">☐</span><div style="flex:1;"><b style="font-size:13px;">「'+it[0]+'」</b><br><span style="font-size:11px;color:#999;">'+it[1]+'</span></div>';
+      wrap.appendChild(d); refs.push({el:d, k:it[0]});
+    });
+  });
+  function render(){
+    var n=0;
+    refs.forEach(function(r){ var on=!!st[r.k]; r.el.classList.toggle('done',on); r.el.querySelector('.crp-box').textContent=on?'☑':'☐'; if(on)n++; });
+    var cc=document.getElementById('sayCnt_jingshen'); if(cc)cc.textContent=n;
+  }
+  refs.forEach(function(r){ r.el.addEventListener('click',function(){ st[r.k]=!st[r.k]; try{localStorage.setItem(KEY,JSON.stringify({d:today(),s:st}))}catch(e){} render(); }); });
+  render();
+})();
+</script>
+
+<div class="crp-card">
+  <div class="crp-title">🌈 我的精神信号 · 每周观察<span class="crp-tip">👆 点亮自己的样子 · 每周自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">验收不看表现看状态：这周出现了几个信号？</div>
+  <div id="fxWrap_spirit2"></div>
+  <div style="font-size:12px;color:#4527a0;margin-top:8px;">本周点亮 <b id="fxCnt_spirit2">0</b> / 12</div>
+</div>
+<script>
+(function(){
+  var KEY='crp_fx_spirit2';
+  var items=['📖 今天读了二十分钟','✍️ 写下了三行思考','🤔 对一个观点找了反面','🧘 安静独处了十分钟','🗣️ 把一个想法讲给了别人','📚 读完的东西能复述','🔕 数字断食了半天','🎯 取关了一个消耗账号','💡 更新了一个旧认知','🌱 学了点无用的美','🙏 记录了一个今天的小美好','🔍 对世界保持了一个提问'];
+  var wrap=document.getElementById('fxWrap_spirit2'); if(!wrap) return;
+  function weekKey(){var d=new Date();var o=new Date(d.getFullYear(),0,1);var w=Math.ceil((((d-o)/86400000)+o.getDay()+1)/7);return d.getFullYear()+'-W'+w;}
+  var st={};try{var sv=JSON.parse(localStorage.getItem(KEY)||'null');if(sv&&sv.w===weekKey())st=sv.s||{}}catch(e){}
+  function render(){items.forEach(function(t,i){var el=wrap.querySelector('[data-i="'+i+'"]');if(!el)return;var on=!!st[i];el.classList.toggle('done',on);el.querySelector('.crp-box').textContent=on?'☑':'☐';});var n=0;for(var k in st)if(st[k])n++;var cc=document.getElementById('fxCnt_spirit2');if(cc)cc.textContent=n;}
+  items.forEach(function(t,i){var div=document.createElement('div');div.className='crp-item';div.setAttribute('data-i',String(i));div.innerHTML='<span class="crp-box">☐</span>'+t;div.addEventListener('click',function(){st[i]=!st[i];try{localStorage.setItem(KEY,JSON.stringify({w:weekKey(),s:st}))}catch(e){}render();});wrap.appendChild(div);});
+  render();
+})();
+</script>
 </div>
 
     <div class="coach-intro" id="coachIntro" data-page-node-id="GCV9G5hmiH3yiCSUWk0SQ1">
@@ -3039,8 +3169,8 @@ startApp();
       <div class="coach-prompt" id="coachPrompt" style="display:none;" data-page-node-id="aeexjA2kRR6QgHoIRzzNSi"></div>
       <div class="coach-buttons" id="coachButtons" style="display:none;" data-page-node-id="m31XXx6YxAGhwBsWIdIqf7"></div>
       <div class="generating-report" id="generatingReport" style="display:none;" data-page-node-id="mBDEDTmCZsjUiF69nLflfV">📊 正在生成麦肯锡式行动报告…</div>
-      <div class="coach-report-mckinsey" id="coachReport" style="display:none;" data-page-node-id="tMgdtbSkXRS0wUdXQjp0rF"></div>
     </div>
+    <div class="coach-report-mckinsey" id="coachReport" style="display:none;" data-page-node-id="tMgdtbSkXRS0wUdXQjp0rF"></div>
   </div>
 <script>
 /* === emoji/tag 统一事件委托兜底 v3 === */
@@ -3154,5 +3284,190 @@ startApp();
 })();
 </script>
 
+<script>/* coach-engine-uni-v1 */
+(function(){
+if(window.__ceuV1) return; window.__ceuV1=true;
+var CFG={"coach": "精神财富教练", "fallback": ["#5c6bc0", "#3949ab"], "qs": ["最近一个月，你完整读完的一本书或一个课程是什么？收获是什么？", "你每天有属于自己的安静时间吗？一般在做什么？", "什么活动会让你进入心流、忘记时间？多久没做了？", "你的精神能量最近被什么消耗最多？", "未来一个月，你想为自己的精神世界做的第一个投资是什么？"], "acts": ["每天固定20分钟阅读，本周先读完一本书的第一章", "每天睡前5分钟复盘式写日记或冥想", "每周安排一次「心流时间」（爱好/创作/深度学习）"], "acks": ["收到。说得越具体，后面的拆解就越准——我们继续往下走。", "明白，这个信息很关键。我们再挖一层。", "嗯，这个回答里藏着你的真实卡点。继续。", "好，最后一个问题——把它落到行动上。"], "accent": "#3a7ca5", "accent2": "#2b5a7a", "tint": "#3a7ca51f"};
+var st={q:0,ans:[],busy:false};
+function el(id){return document.getElementById(id);}
+function show(e,d){if(e)e.style.display=d;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function bubble(text,who){
+  var box=el('chatMessages'); if(!box)return;
+  var wrap=document.createElement('div');
+  wrap.style.cssText='display:flex;margin-bottom:10px;justify-content:'+(who==='user'?'flex-end':'flex-start')+';';
+  var b=document.createElement('div');
+  b.style.cssText='max-width:82%;padding:10px 14px;border-radius:16px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word;'+(who==='user'
+    ?'background:'+CFG.accent+';color:#fff;border-bottom-right-radius:4px;'
+    :'background:#f4f5f7;color:#333;border-bottom-left-radius:4px;');
+  b.textContent=text; wrap.appendChild(b); box.appendChild(wrap);
+  box.scrollTop=box.scrollHeight;
+}
+function setStep(n){
+  ['progressStep1','progressStep2','progressStep3'].forEach(function(id,i){
+    var s=el(id); if(!s)return;
+    var need=(i===0?1:i===1?3:5);
+    if(n>=need){ s.classList.add('active'); s.style.background=CFG.accent; s.style.color='#fff'; }
+  });
+}
+function inputArea(){ var ia=el('chatInputArea'); if(ia) return ia; var inp=el('coachInput'); return inp?inp.parentElement:null; }
+function startCoach(){
+  var intro=el('coachIntro'), chat=el('coachChat'), rep=el('coachReport');
+  show(intro,'none'); show(rep,'none'); show(chat,'block');
+  var box=el('chatMessages'); if(box) box.innerHTML='';
+  st={q:0,ans:[],busy:false};
+  var p=el('coachPrompt'); if(p) p.style.display='block';
+  show(inputArea(),'');
+  var gen=el('generatingReport'); show(gen,'none');
+  setStep(1);
+  setTimeout(function(){
+    bubble('你好，我是'+CFG.coach+'。','coach');
+    bubble(CFG.qs[0],'coach'); st.q=1;
+  },200);
+}
+function sendCoachMsg(){
+  if(st.busy) return;
+  var inp=el('coachInput'); if(!inp) return;
+  var v=(inp.value||'').trim();
+  if(!v){ inp.placeholder='请先输入你的回答...'; return; }
+  bubble(v,'user'); st.ans.push(v); inp.value='';
+  st.busy=true;
+  setTimeout(function(){
+    if(st.q < CFG.qs.length){
+      bubble(CFG.acks[(st.q-1)%CFG.acks.length],'coach');
+      st.q++; setStep(st.q);
+      bubble(CFG.qs[st.q-1],'coach');
+      st.busy=false;
+    } else {
+      var gen=el('generatingReport'); if(gen) show(gen,'block');
+      show(inputArea(),'none');
+      var p=el('coachPrompt'); show(p,'none');
+      setTimeout(function(){ show(gen,'none'); buildReport(); st.busy=false; },1600);
+    }
+  },500);
+}
+function buildReport(){
+  var rep=el('coachReport'); if(!rep) return;
+  var h='<div style="font-size:17px;font-weight:800;margin-bottom:6px;">📋 '+CFG.coach+' · MECE 诊断报告</div>';
+  h+='<div style="font-size:11px;color:#8f9eae;margin-bottom:14px;">基于你 '+st.ans.length+' 轮回答生成 · 纯前端模拟</div>';
+  var names=['📌 问题界定','🔍 结构化分析','🔍 深层拆解','🔍 资源盘点','🎯 优先级行动'];
+  for(var i=0;i<CFG.qs.length;i++){
+    h+='<div style="background:#f8f9fb;border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+      +'<div style="font-size:13px;font-weight:800;color:'+CFG.accent+';margin-bottom:6px;">'+names[i]+'</div>'
+      +'<div style="font-size:11.5px;color:#8f9eae;margin-bottom:4px;">'+esc(CFG.qs[i])+'</div>'
+      +'<div style="font-size:13px;color:#333;line-height:1.6;">你的回答：'+esc(st.ans[i]||'（未回答）')+'</div></div>';
+  }
+  h+='<div style="background:'+CFG.tint+';border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+    +'<div style="font-size:13px;font-weight:800;color:'+CFG.accent+';margin-bottom:6px;">✅ 本周行动清单</div>';
+  for(var j=0;j<CFG.acts.length;j++){ h+='<div style="font-size:13px;color:#333;line-height:1.7;">'+(j+1)+'. '+esc(CFG.acts[j])+'</div>'; }
+  h+='</div>';
+  h+='<div style="font-size:12px;color:#8f9eae;line-height:1.6;margin-bottom:12px;">💡 先从行动清单里挑一件本周就做，其他写进日历。对话每周都可以重来，答案会随你的状态变化。</div>';
+  h+='<button onclick="restartCoach()" style="width:100%;padding:14px;border:none;border-radius:50px;background:linear-gradient(135deg,'+CFG.accent+','+CFG.accent2+');color:#fff;font-size:15px;font-weight:700;cursor:pointer;">🔄 重新对话</button>';
+  rep.innerHTML=h; show(rep,'block');
+  show(el('coachChat'),'none');
+}
+function restartCoach(){
+  show(el('coachReport'),'none'); show(el('coachChat'),'none'); show(el('coachIntro'),'block');
+  st={q:0,ans:[],busy:false};
+}
+window.startCoach=startCoach; window.sendCoachMsg=sendCoachMsg; window.restartCoach=restartCoach;
+var _ci=el('coachInput');
+if(_ci && !_ci.dataset.ceuEnter){ _ci.dataset.ceuEnter='1'; _ci.addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendCoachMsg(); } }); }
+})();
+</script>
+<script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
+(function(){
+if(window.__uxpV1) return; window.__uxpV1=true;
+var CFG={"accent": "#7c3aed", "mood": {"happy": {"tag": "高能时刻", "t": "趁状态好，读最难的那 30 页", "d": "精神财富的积累也讲「趁热打铁」。心情好、脑子快的时候，去啃那本一直想读又怕读不懂的书——今天 30 页就够。难书读进去的满足感，是刷一百条短视频换不来的高级快乐。"}, "neutral": {"tag": "平稳时刻", "t": "写 100 字，把想法变成资产", "d": "没写下来的想法会蒸发，写下来的想法会复利。今天把脑子里最近的一个想法写成 100 字：是什么、为什么、怎么做。不用文采，不用发表。坚持一年，你会拥有一座自己的思想银行。"}, "sad": {"tag": "低落时刻", "t": "让美来救你", "d": "情绪低的时候，讲道理没用，但美可以直通内心。今天给自己 10 分钟「审美急救」：听一首真正喜欢的曲子、看一张摄人心魄的照片、读一首短诗。审美是精神财富里最被低估的疗愈力。"}, "tired": {"tag": "疲惫时刻", "t": "累了就做「低耗高值」的精神活动", "d": "疲惫时读不进硬书很正常，别因此放弃精神生活。换一种低耗方式：听 15 分钟播客、看一段纪录片、翻几页散文。精神财富不要求你天天冲刺，只要求不断流。"}}, "k3store": "buddy_key3_spirit", "k3": [{"icon": "📚", "title": "深度阅读 30 分钟", "sub": "读书是最便宜的高级享受", "why": "深度阅读是成本最低的精神升级。今天的 30 分钟，是给内心世界添的一块砖——它会在某个你需要的时候顶上来。"}, {"icon": "✍️", "title": "写 100 字思考", "sub": "写作是最低成本的思考", "why": "写作是思考的显影液。今天这 100 字，把模糊的感觉变成清晰的想法——这本身就是精神资产的增值。"}, {"icon": "🌄", "title": "感受一次美", "sub": "审美是可修炼的能力", "why": "感受美是一种可修炼的能力。今天这次「看见美」，是在扩大你精神世界的版图——审美在，生活就不会贫瘠。"}], "scenes": [["😰", "焦虑静不下来", "关手机，读20分钟纸质书。专注是最好的镇静剂。"], ["🕳️", "感觉精神空虚", "今天做一件纯粹取悦自己的事，不为展示给谁看。"], ["📱", "信息过载了", "退订一半信息源。做减法是成年人的奢侈。"], ["🎓", "想学新东西", "从最经典的入门书开始，别从碎片信息开始。"], ["🛑", "半途而废了", "把目标缩到最小：每天5分钟。先续上，再加量。"], ["🌧️", "情绪低落", "出门看一场展览或一次日落。美是最快的疗愈。"]]};
+var ACC=CFG.accent||'#e05a7a';
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+var ov=null;
+function ensureOv(){
+  if(ov) return ov;
+  ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100500;display:none;align-items:center;justify-content:center;padding:24px;';
+  ov.addEventListener('click',function(e){ if(e.target===ov) window.__uxpClose(); });
+  document.body.appendChild(ov);
+  return ov;
+}
+function showUxp(html){
+  var o=ensureOv();
+  o.innerHTML='<div style="background:#fff;border-radius:28px;max-width:340px;width:100%;max-height:78vh;overflow-y:auto;padding:26px 22px;text-align:center;animation:uxpPop .35s cubic-bezier(.175,.885,.32,1.275);">'+html+'</div>';
+  o.style.display='flex';
+}
+window.__uxpClose=function(){ if(ov) ov.style.display='none'; };
+window.__uxpOpen=showUxp;
+var st=document.createElement('style');
+st.textContent='@keyframes uxpPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}';
+document.head.appendChild(st);
+/* ---- 情绪 emoji：拦截并弹出居中弹窗 ---- */
+window.addEventListener('click',function(e){
+  try{
+    var t=e.target; if(!t||!t.closest) return;
+    var m=t.closest('.mood-btn'); if(!m) return;
+    var k=m.getAttribute('data-mood');
+    if(!k){ var oc=m.getAttribute('onclick')||''; var mm=oc.match(/sendMood\('([\w]+)'\)/); if(mm) k=mm[1]; }
+    if(!k) k=m.getAttribute('title')||'';
+    if(!(CFG.mood||{})[k]){
+      var sk=k||'';
+      try{ for(var mk in CFG.mood){ if(mk.length>1 && sk.indexOf(mk)>=0){ k=mk; break; } } }catch(e){}
+      var kmap=[['happy','很好|开心|不错|超棒|愉快|高兴'],['neutral','还行|平静|一般|平稳|还好'],['sad','低落|难过|不开心|委屈|烦躁|压力|焦虑|丧'],['tired','累|疲惫|困|倦|没劲']];
+      for(var ki=0;ki<kmap.length;ki++){ try{ if(new RegExp(kmap[ki][1]).test(sk)){ k=kmap[ki][0]; break; } }catch(e){} }
+    }
+    var c=(CFG.mood||{})[k]; if(!c) return;
+    if(e.preventDefault)e.preventDefault();
+    if(e.stopImmediatePropagation)e.stopImmediatePropagation(); else if(e.stopPropagation)e.stopPropagation();
+    var emo=(m.textContent||'').trim()||'\ud83d\ude42';
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+esc(c.tag)+'</div>'
+      +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(c.t)+'</div>'
+      +'<div style="font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(c.d)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u6536\u5230\uff0c\u5c31\u8fd9\u4e48\u505a \ud83d\udcaa</button>');
+  }catch(err){}
+},true);
+/* ---- 关键小动作勾选：包装原函数，勾选时弹居中弹窗 ---- */
+function wrapKey3(fnName, storeKey){
+  var orig=window[fnName];
+  if(typeof orig!=='function'||orig.__uxp) return;
+  var wrapped=function(i){
+    var before=null;
+    try{ var d=JSON.parse(localStorage.getItem(storeKey)||'{}'); before=!!(d&&d.checked&&d.checked[i]); }catch(e){}
+    var r=orig.apply(this,arguments);
+    try{
+      var d2=JSON.parse(localStorage.getItem(storeKey)||'{}');
+      var after=!!(d2&&d2.checked&&d2.checked[i]);
+      var acts=CFG.k3||[];
+      if(!before&&after&&acts[i]){
+        var a=acts[i];
+        showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(a.icon||'\u2705')+'</div>'
+          +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u2713 \u4eca\u65e5\u5173\u952e\u52a8\u4f5c</div>'
+          +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:4px;">'+esc(a.title||'')+'</div>'
+          +(a.sub?'<div style="font-size:12px;color:#888;margin-bottom:10px;">'+esc(a.sub)+'</div>':'')
+          +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(a.why||'')+'</div>'
+          +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u8bb0\u4e0a\u4e86 \u2705</button>');
+      }
+    }catch(e){}
+    return r;
+  };
+  wrapped.__uxp=true;
+  try{ window[fnName]=wrapped; }catch(e){}
+}
+wrapKey3('toggleKey3',CFG.k3store);
+wrapKey3('stdK3Toggle',CFG.k3store);
+/* ---- std 场景卡：改为居中弹窗反馈（不关选择面板） ---- */
+if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
+  window.stdScenePick=function(i){
+    var sc=CFG.scenes[i]; if(!sc) return;
+    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+  };
+}
+})();
+</script>
 </body>
 </html>

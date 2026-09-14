@@ -468,6 +468,7 @@
     .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#1f2937; }
     .qa-close-x:active { background:rgba(0,0,0,0.18); }
 </style>
+<style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body data-page-node-id="3eJ08NGTBYeqqZSC7p6VMQ">
 
@@ -1691,7 +1692,6 @@ function makeTypeCard(panel, dir, item, index) {
     <div class="qa-card-tag ${item.type}">${item.tag}</div>
   `;
   card._qaClick = () => {
-    closeQAPanel();
     setTimeout(() => showTypeFeedback(panel, dir, item, index), 300);
   };
   card.onclick = card._qaClick;
@@ -3547,7 +3547,6 @@ function openSceneSheet() {
         '<div class="qa-card-text">' + item.title + '</div>' +
         '<span style="' + tagStyle + '">' + item.tag + '</span>';
       card.onclick = () => {
-        closeQAPanelSafe();
         setTimeout(() => openSceneFB(i, type), 300);
       };
       scroll.appendChild(card);
@@ -3657,5 +3656,190 @@ function openSceneFB(idx, type) {
 })();
 </script>
 
+<script>/* coach-engine-uni-v1 */
+(function(){
+if(window.__ceuV1) return; window.__ceuV1=true;
+var CFG={"coach": "麦肯锡风格心态信念教练", "fallback": ["#ad3b6e", "#5c1e3c"], "qs": ["最近一次让你自我怀疑的场景是什么？当时你脑子里冒出的第一句话是什么？", "这句自我对话是事实，还是你的解读？如果朋友对自己说这句话，你会怎么回应他？", "你目前最想相信但还不敢完全相信的一件事是什么？是什么证据在拦着你？", "回想一次你原本以为做不到、最后做到了的事——那次靠的是什么？", "未来两周，你能做的一个「用行动投票给新信念」的小实验是什么？"], "acts": ["把今天出现的每一句自我否定写下来，旁边写一句你会对好朋友说的话", "每天睡前记一条「今天做到的小证据」，连续 7 天，攒给自己的信念账户", "挑一个回避已久的小行动，本周做一次——行动是信念最快的证据"], "acks": ["收到。说得越具体，后面的拆解就越准——我们继续往下走。", "明白，这个信息很关键。我们再挖一层。", "嗯，这个回答里藏着你的真实卡点。继续。", "好，最后一个问题——把它落到行动上。"], "accent": "#ad3b6e", "accent2": "#5c1e3c", "tint": "#ad3b6e1f"};
+var st={q:0,ans:[],busy:false};
+function el(id){return document.getElementById(id);}
+function show(e,d){if(e)e.style.display=d;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function bubble(text,who){
+  var box=el('chatMessages'); if(!box)return;
+  var wrap=document.createElement('div');
+  wrap.style.cssText='display:flex;margin-bottom:10px;justify-content:'+(who==='user'?'flex-end':'flex-start')+';';
+  var b=document.createElement('div');
+  b.style.cssText='max-width:82%;padding:10px 14px;border-radius:16px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word;'+(who==='user'
+    ?'background:'+CFG.accent+';color:#fff;border-bottom-right-radius:4px;'
+    :'background:#f4f5f7;color:#333;border-bottom-left-radius:4px;');
+  b.textContent=text; wrap.appendChild(b); box.appendChild(wrap);
+  box.scrollTop=box.scrollHeight;
+}
+function setStep(n){
+  ['progressStep1','progressStep2','progressStep3'].forEach(function(id,i){
+    var s=el(id); if(!s)return;
+    var need=(i===0?1:i===1?3:5);
+    if(n>=need){ s.classList.add('active'); s.style.background=CFG.accent; s.style.color='#fff'; }
+  });
+}
+function inputArea(){ var ia=el('chatInputArea'); if(ia) return ia; var inp=el('coachInput'); return inp?inp.parentElement:null; }
+function startCoach(){
+  var intro=el('coachIntro'), chat=el('coachChat'), rep=el('coachReport');
+  show(intro,'none'); show(rep,'none'); show(chat,'block');
+  var box=el('chatMessages'); if(box) box.innerHTML='';
+  st={q:0,ans:[],busy:false};
+  var p=el('coachPrompt'); if(p) p.style.display='block';
+  show(inputArea(),'');
+  var gen=el('generatingReport'); show(gen,'none');
+  setStep(1);
+  setTimeout(function(){
+    bubble('你好，我是'+CFG.coach+'。','coach');
+    bubble(CFG.qs[0],'coach'); st.q=1;
+  },200);
+}
+function sendCoachMsg(){
+  if(st.busy) return;
+  var inp=el('coachInput'); if(!inp) return;
+  var v=(inp.value||'').trim();
+  if(!v){ inp.placeholder='请先输入你的回答...'; return; }
+  bubble(v,'user'); st.ans.push(v); inp.value='';
+  st.busy=true;
+  setTimeout(function(){
+    if(st.q < CFG.qs.length){
+      bubble(CFG.acks[(st.q-1)%CFG.acks.length],'coach');
+      st.q++; setStep(st.q);
+      bubble(CFG.qs[st.q-1],'coach');
+      st.busy=false;
+    } else {
+      var gen=el('generatingReport'); if(gen) show(gen,'block');
+      show(inputArea(),'none');
+      var p=el('coachPrompt'); show(p,'none');
+      setTimeout(function(){ show(gen,'none'); buildReport(); st.busy=false; },1600);
+    }
+  },500);
+}
+function buildReport(){
+  var rep=el('coachReport'); if(!rep) return;
+  var h='<div style="font-size:17px;font-weight:800;margin-bottom:6px;">📋 '+CFG.coach+' · MECE 诊断报告</div>';
+  h+='<div style="font-size:11px;color:#8f9eae;margin-bottom:14px;">基于你 '+st.ans.length+' 轮回答生成 · 纯前端模拟</div>';
+  var names=['📌 问题界定','🔍 结构化分析','🔍 深层拆解','🔍 资源盘点','🎯 优先级行动'];
+  for(var i=0;i<CFG.qs.length;i++){
+    h+='<div style="background:#f8f9fb;border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+      +'<div style="font-size:13px;font-weight:800;color:'+CFG.accent+';margin-bottom:6px;">'+names[i]+'</div>'
+      +'<div style="font-size:11.5px;color:#8f9eae;margin-bottom:4px;">'+esc(CFG.qs[i])+'</div>'
+      +'<div style="font-size:13px;color:#333;line-height:1.6;">你的回答：'+esc(st.ans[i]||'（未回答）')+'</div></div>';
+  }
+  h+='<div style="background:'+CFG.tint+';border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+    +'<div style="font-size:13px;font-weight:800;color:'+CFG.accent+';margin-bottom:6px;">✅ 本周行动清单</div>';
+  for(var j=0;j<CFG.acts.length;j++){ h+='<div style="font-size:13px;color:#333;line-height:1.7;">'+(j+1)+'. '+esc(CFG.acts[j])+'</div>'; }
+  h+='</div>';
+  h+='<div style="font-size:12px;color:#8f9eae;line-height:1.6;margin-bottom:12px;">💡 先从行动清单里挑一件本周就做，其他写进日历。对话每周都可以重来，答案会随你的状态变化。</div>';
+  h+='<button onclick="restartCoach()" style="width:100%;padding:14px;border:none;border-radius:50px;background:linear-gradient(135deg,'+CFG.accent+','+CFG.accent2+');color:#fff;font-size:15px;font-weight:700;cursor:pointer;">🔄 重新对话</button>';
+  rep.innerHTML=h; show(rep,'block');
+  show(el('coachChat'),'none');
+}
+function restartCoach(){
+  show(el('coachReport'),'none'); show(el('coachChat'),'none'); show(el('coachIntro'),'block');
+  st={q:0,ans:[],busy:false};
+}
+window.startCoach=startCoach; window.sendCoachMsg=sendCoachMsg; window.restartCoach=restartCoach;
+var _ci=el('coachInput');
+if(_ci && !_ci.dataset.ceuEnter){ _ci.dataset.ceuEnter='1'; _ci.addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendCoachMsg(); } }); }
+})();
+</script>
+<script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
+(function(){
+if(window.__uxpV1) return; window.__uxpV1=true;
+var CFG={"accent": "#ad3b6e", "mood": {"happy": {"tag": "高能时刻", "t": "把好状态的原因写下来", "d": "开心不是运气，是可分析的事件。花 2 分钟写下：今天什么让你状态好——是睡够了、做成了什么、还是和谁聊了天。找到自己的「能量配方」，以后就能主动复制它。管理状态，从理解状态开始。"}, "neutral": {"tag": "平稳时刻", "t": "问自己一个诚实的问题", "d": "平静的日子最适合照镜子。今天问自己：「我现在在回避什么？」不评判，只诚实。回避的东西一旦被看见，它的力量就少一半。心态成长从来不是加法，是先看清自己手里有什么。"}, "sad": {"tag": "低落时刻", "t": "把「必须」换成「可以」", "d": "低落常常来自脑内那些「我必须做好」「不能出错」的绝对化命令。今天做一个语言练习：把每句「必须」改成「可以」，把「不能失败」改成「允许先完成」。语言变了，压力的形状就变了。"}, "tired": {"tag": "疲惫时刻", "t": "先干 5 分钟，就 5 分钟", "d": "累的时候，大脑会把所有任务都放大三倍。别信它，只承诺 5 分钟：定个 timer，做那件拖了很久的事的第一小步。5 分钟后你可以合法停——但大概率你会继续，因为启动才是最难的部分。"}}, "k3store": "buddy_key3_mindset", "k3": [{"icon": "🪞", "title": "问一个诚实问题", "sub": "我今天在回避什么？", "why": "诚实问题是心态升级的入口。「我在回避什么」问出口的那一刻，回避的力量就少了一半。"}, {"icon": "🎯", "title": "降低一次期待", "sub": "把「必须完美」改成「先完成」", "why": "降低期待不是认输，是把「必须完美」的枷锁换成「先完成」的引擎。今天的这次改写，压力会小很多，产出反而更多。"}, {"icon": "🚀", "title": "先干5分钟", "sub": "拖了很久的事，立刻做5分钟", "why": "5 分钟启动法专治拖延——启动是唯一难题，之后惯性会接管。今天这 5 分钟，就是拖延链条上的第一次断电。"}]};
+var ACC=CFG.accent||'#e05a7a';
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+var ov=null;
+function ensureOv(){
+  if(ov) return ov;
+  ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100500;display:none;align-items:center;justify-content:center;padding:24px;';
+  ov.addEventListener('click',function(e){ if(e.target===ov) window.__uxpClose(); });
+  document.body.appendChild(ov);
+  return ov;
+}
+function showUxp(html){
+  var o=ensureOv();
+  o.innerHTML='<div style="background:#fff;border-radius:28px;max-width:340px;width:100%;max-height:78vh;overflow-y:auto;padding:26px 22px;text-align:center;animation:uxpPop .35s cubic-bezier(.175,.885,.32,1.275);">'+html+'</div>';
+  o.style.display='flex';
+}
+window.__uxpClose=function(){ if(ov) ov.style.display='none'; };
+window.__uxpOpen=showUxp;
+var st=document.createElement('style');
+st.textContent='@keyframes uxpPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}';
+document.head.appendChild(st);
+/* ---- 情绪 emoji：拦截并弹出居中弹窗 ---- */
+window.addEventListener('click',function(e){
+  try{
+    var t=e.target; if(!t||!t.closest) return;
+    var m=t.closest('.mood-btn'); if(!m) return;
+    var k=m.getAttribute('data-mood');
+    if(!k){ var oc=m.getAttribute('onclick')||''; var mm=oc.match(/sendMood\('([\w]+)'\)/); if(mm) k=mm[1]; }
+    if(!k) k=m.getAttribute('title')||'';
+    if(!(CFG.mood||{})[k]){
+      var sk=k||'';
+      try{ for(var mk in CFG.mood){ if(mk.length>1 && sk.indexOf(mk)>=0){ k=mk; break; } } }catch(e){}
+      var kmap=[['happy','很好|开心|不错|超棒|愉快|高兴'],['neutral','还行|平静|一般|平稳|还好'],['sad','低落|难过|不开心|委屈|烦躁|压力|焦虑|丧'],['tired','累|疲惫|困|倦|没劲']];
+      for(var ki=0;ki<kmap.length;ki++){ try{ if(new RegExp(kmap[ki][1]).test(sk)){ k=kmap[ki][0]; break; } }catch(e){} }
+    }
+    var c=(CFG.mood||{})[k]; if(!c) return;
+    if(e.preventDefault)e.preventDefault();
+    if(e.stopImmediatePropagation)e.stopImmediatePropagation(); else if(e.stopPropagation)e.stopPropagation();
+    var emo=(m.textContent||'').trim()||'\ud83d\ude42';
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+esc(c.tag)+'</div>'
+      +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(c.t)+'</div>'
+      +'<div style="font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(c.d)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u6536\u5230\uff0c\u5c31\u8fd9\u4e48\u505a \ud83d\udcaa</button>');
+  }catch(err){}
+},true);
+/* ---- 关键小动作勾选：包装原函数，勾选时弹居中弹窗 ---- */
+function wrapKey3(fnName, storeKey){
+  var orig=window[fnName];
+  if(typeof orig!=='function'||orig.__uxp) return;
+  var wrapped=function(i){
+    var before=null;
+    try{ var d=JSON.parse(localStorage.getItem(storeKey)||'{}'); before=!!(d&&d.checked&&d.checked[i]); }catch(e){}
+    var r=orig.apply(this,arguments);
+    try{
+      var d2=JSON.parse(localStorage.getItem(storeKey)||'{}');
+      var after=!!(d2&&d2.checked&&d2.checked[i]);
+      var acts=CFG.k3||[];
+      if(!before&&after&&acts[i]){
+        var a=acts[i];
+        showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(a.icon||'\u2705')+'</div>'
+          +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u2713 \u4eca\u65e5\u5173\u952e\u52a8\u4f5c</div>'
+          +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:4px;">'+esc(a.title||'')+'</div>'
+          +(a.sub?'<div style="font-size:12px;color:#888;margin-bottom:10px;">'+esc(a.sub)+'</div>':'')
+          +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(a.why||'')+'</div>'
+          +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u8bb0\u4e0a\u4e86 \u2705</button>');
+      }
+    }catch(e){}
+    return r;
+  };
+  wrapped.__uxp=true;
+  try{ window[fnName]=wrapped; }catch(e){}
+}
+wrapKey3('toggleKey3',CFG.k3store);
+wrapKey3('stdK3Toggle',CFG.k3store);
+/* ---- std 场景卡：改为居中弹窗反馈（不关选择面板） ---- */
+if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
+  window.stdScenePick=function(i){
+    var sc=CFG.scenes[i]; if(!sc) return;
+    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+  };
+}
+})();
+</script>
 </body>
 </html>

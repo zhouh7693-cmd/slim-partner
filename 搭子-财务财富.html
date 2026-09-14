@@ -594,6 +594,7 @@
     .ie-p2 { background: #ede9fe; color: #6b21a8; }
     @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
+<style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body>
 
@@ -730,7 +731,7 @@
   <div id="stdTipText"></div>
 </div>
 <div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
-<div id="stdSceneSheet" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:301;background:#fff;border-radius:24px 24px 0 0;max-height:72vh;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
+<div id="stdSceneSheet" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:301;background:#fff;border-radius:24px;max-height:76vh;width:calc(100% - 40px);max-width:400px;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
   <div onclick="stdSceneClose()" style="position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
   <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
   <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
@@ -836,16 +837,6 @@
 
 
     <!-- 分享入口 -->
-    <div class="share-inline-card">
-      <div class="share-inline-label">📣 推荐给一起变富的朋友</div>
-      <div class="share-inline-preview">
-        💰 财务财富搭子 · 4种性格陪你变富
-      </div>
-      <div class="share-copy-row">
-        <button class="share-copy-btn" onclick="copyShareLink()">📋 复制邀请链接</button>
-        <button class="share-link-btn" onclick="previewShareCard()">👀 预览卡片</button>
-      </div>
-    </div>
 
     <footer>每天一次签到 · 你的搭子会给你力量</footer>
   </div>
@@ -1647,9 +1638,9 @@ function openTypePanel(panel, dir) {
   document.getElementById('qaSub').innerText = subMap[dir] || '';
   const scroll = document.getElementById('qaScroll'); scroll.innerHTML = '';
   const posItems = data.filter(i => i.type === 'pos');
-  if (posItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;'; l.innerText='⬆️ 好的进展 / 想得到鼓励'; scroll.appendChild(l); posItems.forEach((item, i) => { const realIdx = data.indexOf(item); const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item,realIdx),300);}; scroll.appendChild(card); }); }
+  if (posItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;'; l.innerText='⬆️ 好的进展 / 想得到鼓励'; scroll.appendChild(l); posItems.forEach((item, i) => { const realIdx = data.indexOf(item); const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{setTimeout(()=>showTypeFeedback(panel,dir,item,realIdx),300);}; scroll.appendChild(card); }); }
   const negItems = data.filter(i => i.type === 'neg');
-  if (negItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;'; l.innerText='⬇️ 遇到困难 / 需要引导'; scroll.appendChild(l); negItems.forEach((item, i) => { const realIdx = data.indexOf(item); const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item,realIdx),300);}; scroll.appendChild(card); }); }
+  if (negItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;'; l.innerText='⬇️ 遇到困难 / 需要引导'; scroll.appendChild(l); negItems.forEach((item, i) => { const realIdx = data.indexOf(item); const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{setTimeout(()=>showTypeFeedback(panel,dir,item,realIdx),300);}; scroll.appendChild(card); }); }
   document.getElementById('qaOverlay').classList.add('show');
   document.getElementById('qaOverlay').onclick = function(e) { if (e.target === document.getElementById('qaOverlay')) closeQAPanel(); };
 }
@@ -3325,6 +3316,145 @@ window.startApp = startApp;   // startApp 也暴露，防止作用域问题
     render();
   })();
   </script>
+
+<div class="crp-card">
+  <div class="crp-title">📜 理财三禁忌<span class="crp-tip">👆 底线动作 · 一条都不能破</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不加杠杆赌单一资产</b>：杠杆放大贪婪也放大毁灭，一次爆仓清零十年<br>
+<b>2️⃣ 不追涨杀跌</b>：追热点进场的人，就是热点要收割的燃料<br>
+<b>3️⃣ 不月光</b>：先支付自己——工资到账先存后花<br>
+<span style="color:#1b5e20;">理财理的不是钱，是自己的人性和纪律。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">💬 每天必问的四句话<span class="crp-tip">👆 每天挑一句说出口</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 「这个月储蓄率多少」</b>——储蓄率是财务健康的第一指标<br>
+<b>2️⃣ 「这笔是资产还是消费」</b>——资产往口袋放钱，消费往外掏钱<br>
+<b>3️⃣ 「我看得懂这个投资吗」</b>——看不懂的钱不赚——不懂不投<br>
+<b>4️⃣ 「紧急备用金够六个月吗」</b>——备用金是财务的气囊<br>
+<span style="color:#1b5e20;">这四问每天挑一问问自己，形成财务纪律。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>Fact 事实底座</b>：穷理财靠消息和运气；富理财靠纪律、复利和认知圈。<br>
+<b>Core 核心结论</b>：你永远赚不到认知以外的钱，凭运气赚的会凭实力亏掉。<br>
+<b>Insight 洞察</b>：三禁忌：不加杠杆赌单一资产、不追涨杀跌、不月光。<br>
+<b>So What</b>：把理财变成每月的自动化纪律，而不是每天盯盘的焦虑。<br>
+<b>How To Do</b>：每月三个动作——先存后花、定投一次、记账复盘一次。<br>
+<b>Know How</b>：关键不是收益率多高，而是别漏「不下牌桌」：活下来，复利才有时间发酵。<br>
+<b>验收口径</b>：面对「稳赚」机会时，能否先问「我亏得起吗、我看得懂吗」——答不上就跳过。<br>
+
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🐾 不踩坑 · 四条守则<span class="crp-tip">👆 不妥协 · 不退让</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不做看不懂的投资</b>：听不懂的商业模式，都是收割话术<br>
+<b>2️⃣ 不把应急钱投入市场</b>：股市会等，账单不会<br>
+<b>3️⃣ 别迷信大师带飞</b>：真稳赚的路子没人拉你入伙<br>
+<b>4️⃣ 分散+长期</b>：资产配置是唯一免费的午餐<br>
+<span style="color:#1b5e20;">踩坑的人不是不聪明，是贪婪穿了自信的外衣。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🎯 理财终极目标 · 三个独立<span class="crp-tip">👆 每个日常动作都在为它铺路</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 现金流独立</b>：被动收入覆盖基本开支——工作变成选择而非被迫<br>
+<b>2️⃣ 抗风险独立</b>：疾病失业都不击穿生活——保险+备用金双气囊<br>
+<b>3️⃣ 选择独立</b>：有权说不——钱买不来自由，但买得动选择<br>
+<span style="color:#1b5e20;">暴富是副产品，随时能说不的底气才是目标。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🧘 冲动消费三步法 · 不剁手<span class="crp-tip">👆 先处理情绪，再处理事</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>为什么</b>：冲动消费的本质是多巴胺在找出口，付款的快感三秒就消失。<br>
+<b>① 按暂停键</b>：加入购物车放24小时——第二天还想要再买<br>
+<b>② 用代价换算法</b>：「这等于我几天的工资/几次定投」<br>
+<b>③ 提供替代满足</b>：想花钱时去运动或读书——快感可以换来源<br>
+<b>So What</b>：理财的目标不是抠门，而是让每一块钱都花在真正在乎的地方。
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">👑 我的六条人生规则<span class="crp-tip">👆 活出来 · 你是自己的模板</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+1 工资到账先存30%<br>
+2 每月定投雷打不动<br>
+3 记账并每月复盘<br>
+4 戒掉杠杆和追热点<br>
+5 每年自查一次保险配置<br>
+6 持续学习财商知识<br>
+<span style="color:#1b5e20;">说一百句不如做到一句——你的资产负债表，就是你理财能力的成绩单。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🗣️ 今天要跟自己说的话 · 30 条<span class="crp-tip">👆 每天挑几条 · 当天自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">六组忠告，做完勾一条，形成肌肉记忆：已完成 <b id="sayCnt_caiwu">0</b> / 30</div>
+  <div id="sayWrap_caiwu"></div>
+</div>
+<script>
+(function(){
+  var KEY='crp_say_caiwu';
+  var G=[
+      {t:'💰 储蓄', items:[['先支付自己再支付账单','先存后花是铁律'],['储蓄率30%起步','存不下来一切都是空谈'],['备用金够六个月开支','这是财务的气囊'],['区分想要和需要','想要的等等再说'],['自动化转账','不靠意志力靠机制']]},
+      {t:'📈 投资', items:[['不懂的不投','看不懂的钱是陷阱'],['定投指数，不猜涨跌','时间的朋友最可靠'],['分散配置','别把鸡蛋放一个篮子'],['长期持有不折腾','频繁交易是手续费在赚钱'],['市场恐慌时多买一点','别人恐惧我贪婪']]},
+      {t:'🛡️ 防坑', items:[['年化超10%就要警惕','高收益必然高风险'],['拉人头的都是传销','静态收益+动态奖励=庞氏'],['不借信用贷投资','借钱投资是自爆'],['大额支出隔夜再定','冲动是大额消费的爹'],['查资质再签字','牌照是底线']]},
+      {t:'🧾 记账', items:[['每天三十秒记账','记账是财务的体检'],['每月复盘一次','钱去哪了要心里有数'],['大额支出记原因','情绪消费要现形'],['年度净资产盘点','资产减负债才是真数字'],['预算给快乐留额度','抠门理不了长久的财']]},
+      {t:'🏦 负债', items:[['只留良性负债','房贷是杠杆，消费贷是窟窿'],['信用卡全额还款','最低还款是18%的坑'],['不超前消费','分期免息也是负债'],['负债率不超40%','越线就刹车'],['先还高息的','雪球从大的滚起']]},
+      {t:'🎓 认知', items:[['每年读两本财商书','认知圈就是财富圈'],['和会理财的人聊','耳濡目染最有效'],['复盘自己的投资错题','学费不能白交'],['远离荐股群','真赚钱的方法没人卖'],['慢慢变富','急，是理财最大的敌人']]}
+  ];
+  var wrap=document.getElementById('sayWrap_caiwu'); if(!wrap) return;
+  function today(){ return new Date().toISOString().slice(0,10); }
+  var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
+  var refs=[];
+  G.forEach(function(g){
+    var h=document.createElement('div');
+    h.style.cssText='font-size:12px;font-weight:700;color:#1b5e20;margin:10px 0 4px;';
+    h.textContent=g.t; wrap.appendChild(h);
+    g.items.forEach(function(it){
+      var d=document.createElement('div'); d.className='crp-item';
+      d.innerHTML='<span class="crp-box">☐</span><div style="flex:1;"><b style="font-size:13px;">「'+it[0]+'」</b><br><span style="font-size:11px;color:#999;">'+it[1]+'</span></div>';
+      wrap.appendChild(d); refs.push({el:d, k:it[0]});
+    });
+  });
+  function render(){
+    var n=0;
+    refs.forEach(function(r){ var on=!!st[r.k]; r.el.classList.toggle('done',on); r.el.querySelector('.crp-box').textContent=on?'☑':'☐'; if(on)n++; });
+    var cc=document.getElementById('sayCnt_caiwu'); if(cc)cc.textContent=n;
+  }
+  refs.forEach(function(r){ r.el.addEventListener('click',function(){ st[r.k]=!st[r.k]; try{localStorage.setItem(KEY,JSON.stringify({d:today(),s:st}))}catch(e){} render(); }); });
+  render();
+})();
+</script>
+
+<div class="crp-card">
+  <div class="crp-title">🌈 我的理财信号 · 每周观察<span class="crp-tip">👆 点亮自己的样子 · 每周自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">验收不看表现看状态：这周出现了几个信号？</div>
+  <div id="fxWrap_fin2"></div>
+  <div style="font-size:12px;color:#1b5e20;margin-top:8px;">本周点亮 <b id="fxCnt_fin2">0</b> / 12</div>
+</div>
+<script>
+(function(){
+  var KEY='crp_fx_fin2';
+  var items=['💰 工资到账先存了','📈 定投执行了没断','🧾 每天记账三十秒','🛒 大额消费隔夜再定','🛡️ 备用金在六个月线上','🚫 没碰看不懂的投资','📊 月度复盘做了','💳 信用卡全额还了','🎯 储蓄率达标了','📚 学了一条财商知识','🧯 冲动消费被拦住了','🔮 投资决策没被情绪带跑'];
+  var wrap=document.getElementById('fxWrap_fin2'); if(!wrap) return;
+  function weekKey(){var d=new Date();var o=new Date(d.getFullYear(),0,1);var w=Math.ceil((((d-o)/86400000)+o.getDay()+1)/7);return d.getFullYear()+'-W'+w;}
+  var st={};try{var sv=JSON.parse(localStorage.getItem(KEY)||'null');if(sv&&sv.w===weekKey())st=sv.s||{}}catch(e){}
+  function render(){items.forEach(function(t,i){var el=wrap.querySelector('[data-i="'+i+'"]');if(!el)return;var on=!!st[i];el.classList.toggle('done',on);el.querySelector('.crp-box').textContent=on?'☑':'☐';});var n=0;for(var k in st)if(st[k])n++;var cc=document.getElementById('fxCnt_fin2');if(cc)cc.textContent=n;}
+  items.forEach(function(t,i){var div=document.createElement('div');div.className='crp-item';div.setAttribute('data-i',String(i));div.innerHTML='<span class="crp-box">☐</span>'+t;div.addEventListener('click',function(){st[i]=!st[i];try{localStorage.setItem(KEY,JSON.stringify({w:weekKey(),s:st}))}catch(e){}render();});wrap.appendChild(div);});
+  render();
+})();
+</script>
 </div>
 
     <div class="coach-intro" id="coachIntro">
@@ -3351,7 +3481,8 @@ window.startApp = startApp;   // startApp 也暴露，防止作用域问题
       <div class="coach-prompt" id="coachPrompt" style="display:none;">
         💡 请在下方输入框中回复...
       </div>
-      <div class="chat-input-area" id="chatInputArea">
+      <div class="generating-report" id="generatingReport" style="display:none;padding:14px;text-align:center;font-size:13px;font-weight:700;color:#8f9eae;">⏳ 正在生成MECE诊断报告，请稍候...</div>
+    <div class="chat-input-area" id="chatInputArea">
         <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
         <button class="chat-send-btn" onclick="sendCoachMsg()">发送</button>
       </div>
@@ -3476,5 +3607,190 @@ window.startApp = startApp;   // startApp 也暴露，防止作用域问题
 })();
 </script>
 
+<script>/* coach-engine-uni-v1 */
+(function(){
+if(window.__ceuV1) return; window.__ceuV1=true;
+var CFG={"coach": "财务财富教练", "fallback": ["#66bb6a", "#2e7d32"], "qs": ["你现在每月的收支结余率大概是多少？钱主要花在哪里？", "你上一次记账或复盘消费是什么时候？发现了什么？", "你的收入来源有几条？哪一条最脆弱？", "储蓄和投资上，你现在最大的卡点是知识、纪律还是本金？", "未来一个月，你能落地的一个存钱或理财小动作是什么？"], "acts": ["先存后花：发薪日自动转出10%到独立账户", "记录30天全部支出，月底做一次MECE分类复盘", "用1小时梳理所有订阅和固定扣费，砍掉不用的一项"], "acks": ["收到。说得越具体，后面的拆解就越准——我们继续往下走。", "明白，这个信息很关键。我们再挖一层。", "嗯，这个回答里藏着你的真实卡点。继续。", "好，最后一个问题——把它落到行动上。"], "accent": "#2e7d52", "accent2": "#43a047", "tint": "#2e7d521f"};
+var st={q:0,ans:[],busy:false};
+function el(id){return document.getElementById(id);}
+function show(e,d){if(e)e.style.display=d;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function bubble(text,who){
+  var box=el('chatMessages'); if(!box)return;
+  var wrap=document.createElement('div');
+  wrap.style.cssText='display:flex;margin-bottom:10px;justify-content:'+(who==='user'?'flex-end':'flex-start')+';';
+  var b=document.createElement('div');
+  b.style.cssText='max-width:82%;padding:10px 14px;border-radius:16px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word;'+(who==='user'
+    ?'background:'+CFG.accent+';color:#fff;border-bottom-right-radius:4px;'
+    :'background:#f4f5f7;color:#333;border-bottom-left-radius:4px;');
+  b.textContent=text; wrap.appendChild(b); box.appendChild(wrap);
+  box.scrollTop=box.scrollHeight;
+}
+function setStep(n){
+  ['progressStep1','progressStep2','progressStep3'].forEach(function(id,i){
+    var s=el(id); if(!s)return;
+    var need=(i===0?1:i===1?3:5);
+    if(n>=need){ s.classList.add('active'); s.style.background=CFG.accent; s.style.color='#fff'; }
+  });
+}
+function inputArea(){ var ia=el('chatInputArea'); if(ia) return ia; var inp=el('coachInput'); return inp?inp.parentElement:null; }
+function startCoach(){
+  var intro=el('coachIntro'), chat=el('coachChat'), rep=el('coachReport');
+  show(intro,'none'); show(rep,'none'); show(chat,'block');
+  var box=el('chatMessages'); if(box) box.innerHTML='';
+  st={q:0,ans:[],busy:false};
+  var p=el('coachPrompt'); if(p) p.style.display='block';
+  show(inputArea(),'');
+  var gen=el('generatingReport'); show(gen,'none');
+  setStep(1);
+  setTimeout(function(){
+    bubble('你好，我是'+CFG.coach+'。','coach');
+    bubble(CFG.qs[0],'coach'); st.q=1;
+  },200);
+}
+function sendCoachMsg(){
+  if(st.busy) return;
+  var inp=el('coachInput'); if(!inp) return;
+  var v=(inp.value||'').trim();
+  if(!v){ inp.placeholder='请先输入你的回答...'; return; }
+  bubble(v,'user'); st.ans.push(v); inp.value='';
+  st.busy=true;
+  setTimeout(function(){
+    if(st.q < CFG.qs.length){
+      bubble(CFG.acks[(st.q-1)%CFG.acks.length],'coach');
+      st.q++; setStep(st.q);
+      bubble(CFG.qs[st.q-1],'coach');
+      st.busy=false;
+    } else {
+      var gen=el('generatingReport'); if(gen) show(gen,'block');
+      show(inputArea(),'none');
+      var p=el('coachPrompt'); show(p,'none');
+      setTimeout(function(){ show(gen,'none'); buildReport(); st.busy=false; },1600);
+    }
+  },500);
+}
+function buildReport(){
+  var rep=el('coachReport'); if(!rep) return;
+  var h='<div style="font-size:17px;font-weight:800;margin-bottom:6px;">📋 '+CFG.coach+' · MECE 诊断报告</div>';
+  h+='<div style="font-size:11px;color:#8f9eae;margin-bottom:14px;">基于你 '+st.ans.length+' 轮回答生成 · 纯前端模拟</div>';
+  var names=['📌 问题界定','🔍 结构化分析','🔍 深层拆解','🔍 资源盘点','🎯 优先级行动'];
+  for(var i=0;i<CFG.qs.length;i++){
+    h+='<div style="background:#f8f9fb;border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+      +'<div style="font-size:13px;font-weight:800;color:'+CFG.accent+';margin-bottom:6px;">'+names[i]+'</div>'
+      +'<div style="font-size:11.5px;color:#8f9eae;margin-bottom:4px;">'+esc(CFG.qs[i])+'</div>'
+      +'<div style="font-size:13px;color:#333;line-height:1.6;">你的回答：'+esc(st.ans[i]||'（未回答）')+'</div></div>';
+  }
+  h+='<div style="background:'+CFG.tint+';border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+    +'<div style="font-size:13px;font-weight:800;color:'+CFG.accent+';margin-bottom:6px;">✅ 本周行动清单</div>';
+  for(var j=0;j<CFG.acts.length;j++){ h+='<div style="font-size:13px;color:#333;line-height:1.7;">'+(j+1)+'. '+esc(CFG.acts[j])+'</div>'; }
+  h+='</div>';
+  h+='<div style="font-size:12px;color:#8f9eae;line-height:1.6;margin-bottom:12px;">💡 先从行动清单里挑一件本周就做，其他写进日历。对话每周都可以重来，答案会随你的状态变化。</div>';
+  h+='<button onclick="restartCoach()" style="width:100%;padding:14px;border:none;border-radius:50px;background:linear-gradient(135deg,'+CFG.accent+','+CFG.accent2+');color:#fff;font-size:15px;font-weight:700;cursor:pointer;">🔄 重新对话</button>';
+  rep.innerHTML=h; show(rep,'block');
+  show(el('coachChat'),'none');
+}
+function restartCoach(){
+  show(el('coachReport'),'none'); show(el('coachChat'),'none'); show(el('coachIntro'),'block');
+  st={q:0,ans:[],busy:false};
+}
+window.startCoach=startCoach; window.sendCoachMsg=sendCoachMsg; window.restartCoach=restartCoach;
+var _ci=el('coachInput');
+if(_ci && !_ci.dataset.ceuEnter){ _ci.dataset.ceuEnter='1'; _ci.addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendCoachMsg(); } }); }
+})();
+</script>
+<script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
+(function(){
+if(window.__uxpV1) return; window.__uxpV1=true;
+var CFG={"accent": "#059669", "mood": {"happy": {"tag": "高能时刻", "t": "好心情别变成好借口", "d": "开心时最容易冲动消费——「犒劳自己」是钱包最常见的漏洞。今天做一个双保险：想买的东西先放购物车 72 小时，然后把今天想花的那笔钱转进储蓄。快乐照常，钱也留下了，这才叫双赢。"}, "neutral": {"tag": "平稳时刻", "t": "花 5 分钟记账，看清钱的去向", "d": "财务自由的起点不是赚更多，是知道钱去哪了。今天把最近的支出过一遍，标出一笔「其实可以不花」的钱。记账不是抠门，是把每一块钱都安排到它最该去的地方——这就是钱的纪律。"}, "sad": {"tag": "低落时刻", "t": "情绪低落时，管住「报复性消费」的手", "d": "「买了就开心」的保质期只有几个小时，账单的保质期是一个月。今天难过归难过，但不下单——把想买的东西记下来，约定三天后再看。撑过情绪峰值再做决定，你会感谢今天的自己。"}, "tired": {"tag": "疲惫时刻", "t": "累了就做一件自动化的小事", "d": "意志力见底的时候，靠系统不靠自律。今天花 5 分钟设置一个自动转账：发薪日自动把 10% 转进储蓄账户。「先支付自己」一旦自动化，攒钱就不再需要你每天做决定。"}}, "k3store": "buddy_key3_fin", "k3": [{"icon": "💰", "title": "记录每一笔支出", "sub": "记账是自由的起点", "why": "记账是财务自由的起点——看不见的钱管不住。今天记下的每一笔，都是在夺回对钱的知情权和控制权。"}, {"icon": "📈", "title": "确认定投/储蓄执行", "sub": "先支付自己", "why": "先支付自己是理财第一铁律。今天确认的这笔定投/储蓄，就是发给未来自己的工资。"}, {"icon": "🚫", "title": "拒绝一次冲动消费", "sub": "72小时法则用起来", "why": "72 小时法则是冲动消费的灭火器。今天拒绝的这一次，省下的不只是钱，更是「我管得住自己」的底气。"}], "scenes": [["🛍️", "想买贵重物品", "等72小时，还想要再买。大部分冲动会自己蒸发。"], ["📉", "投资亏了", "检查是逻辑错了还是市场波动。前者改策略，后者拿住。"], ["😰", "月光族焦虑", "设自动转账，发薪日先存30%。剩下的才是可花的。"], ["📈", "朋友荐股", "不懂不碰。赚了是运气，亏了是必然。"], ["🎉", "涨工资了", "先上调储蓄率，再上调生活标准。顺序反了就永远月光。"], ["✨", "被消费主义种草", "问自己：不买会怎样。多数答案是：毫无影响。"]]};
+var ACC=CFG.accent||'#e05a7a';
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+var ov=null;
+function ensureOv(){
+  if(ov) return ov;
+  ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100500;display:none;align-items:center;justify-content:center;padding:24px;';
+  ov.addEventListener('click',function(e){ if(e.target===ov) window.__uxpClose(); });
+  document.body.appendChild(ov);
+  return ov;
+}
+function showUxp(html){
+  var o=ensureOv();
+  o.innerHTML='<div style="background:#fff;border-radius:28px;max-width:340px;width:100%;max-height:78vh;overflow-y:auto;padding:26px 22px;text-align:center;animation:uxpPop .35s cubic-bezier(.175,.885,.32,1.275);">'+html+'</div>';
+  o.style.display='flex';
+}
+window.__uxpClose=function(){ if(ov) ov.style.display='none'; };
+window.__uxpOpen=showUxp;
+var st=document.createElement('style');
+st.textContent='@keyframes uxpPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}';
+document.head.appendChild(st);
+/* ---- 情绪 emoji：拦截并弹出居中弹窗 ---- */
+window.addEventListener('click',function(e){
+  try{
+    var t=e.target; if(!t||!t.closest) return;
+    var m=t.closest('.mood-btn'); if(!m) return;
+    var k=m.getAttribute('data-mood');
+    if(!k){ var oc=m.getAttribute('onclick')||''; var mm=oc.match(/sendMood\('([\w]+)'\)/); if(mm) k=mm[1]; }
+    if(!k) k=m.getAttribute('title')||'';
+    if(!(CFG.mood||{})[k]){
+      var sk=k||'';
+      try{ for(var mk in CFG.mood){ if(mk.length>1 && sk.indexOf(mk)>=0){ k=mk; break; } } }catch(e){}
+      var kmap=[['happy','很好|开心|不错|超棒|愉快|高兴'],['neutral','还行|平静|一般|平稳|还好'],['sad','低落|难过|不开心|委屈|烦躁|压力|焦虑|丧'],['tired','累|疲惫|困|倦|没劲']];
+      for(var ki=0;ki<kmap.length;ki++){ try{ if(new RegExp(kmap[ki][1]).test(sk)){ k=kmap[ki][0]; break; } }catch(e){} }
+    }
+    var c=(CFG.mood||{})[k]; if(!c) return;
+    if(e.preventDefault)e.preventDefault();
+    if(e.stopImmediatePropagation)e.stopImmediatePropagation(); else if(e.stopPropagation)e.stopPropagation();
+    var emo=(m.textContent||'').trim()||'\ud83d\ude42';
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+esc(c.tag)+'</div>'
+      +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(c.t)+'</div>'
+      +'<div style="font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(c.d)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u6536\u5230\uff0c\u5c31\u8fd9\u4e48\u505a \ud83d\udcaa</button>');
+  }catch(err){}
+},true);
+/* ---- 关键小动作勾选：包装原函数，勾选时弹居中弹窗 ---- */
+function wrapKey3(fnName, storeKey){
+  var orig=window[fnName];
+  if(typeof orig!=='function'||orig.__uxp) return;
+  var wrapped=function(i){
+    var before=null;
+    try{ var d=JSON.parse(localStorage.getItem(storeKey)||'{}'); before=!!(d&&d.checked&&d.checked[i]); }catch(e){}
+    var r=orig.apply(this,arguments);
+    try{
+      var d2=JSON.parse(localStorage.getItem(storeKey)||'{}');
+      var after=!!(d2&&d2.checked&&d2.checked[i]);
+      var acts=CFG.k3||[];
+      if(!before&&after&&acts[i]){
+        var a=acts[i];
+        showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(a.icon||'\u2705')+'</div>'
+          +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u2713 \u4eca\u65e5\u5173\u952e\u52a8\u4f5c</div>'
+          +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:4px;">'+esc(a.title||'')+'</div>'
+          +(a.sub?'<div style="font-size:12px;color:#888;margin-bottom:10px;">'+esc(a.sub)+'</div>':'')
+          +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(a.why||'')+'</div>'
+          +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u8bb0\u4e0a\u4e86 \u2705</button>');
+      }
+    }catch(e){}
+    return r;
+  };
+  wrapped.__uxp=true;
+  try{ window[fnName]=wrapped; }catch(e){}
+}
+wrapKey3('toggleKey3',CFG.k3store);
+wrapKey3('stdK3Toggle',CFG.k3store);
+/* ---- std 场景卡：改为居中弹窗反馈（不关选择面板） ---- */
+if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
+  window.stdScenePick=function(i){
+    var sc=CFG.scenes[i]; if(!sc) return;
+    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+  };
+}
+})();
+</script>
 </body>
 </html>

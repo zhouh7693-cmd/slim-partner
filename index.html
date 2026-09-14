@@ -461,13 +461,8 @@
     .fb-partner-label { font-size: 11px; color: #8f9eae; margin-bottom: 6px; font-style: normal; font-weight: 600; }
     .fb-btn { background: #3a7ca5; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
-  
-    /* 弹层右上角 X 关闭按钮（2026-09-08） */
-    .qa-panel { position: relative; }
-    .qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; }
-    .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#1f2937; }
-    .qa-close-x:active { background:rgba(0,0,0,0.18); }
-</style>
+  </style>
+<style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body data-page-node-id="3eJ08NGTBYeqqZSC7p6VMQ">
 
@@ -582,19 +577,9 @@
         <button class="talk-btn" data-type="report" data-page-node-id="rqvxCAxL64P54LdREmJCUk">📣 汇报进展</button>
         <button class="talk-btn" data-type="question" data-page-node-id="5MHlCrCf6dtkLfMIu7vRim">🤔 有问题想问</button>
       </div>
-    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene">💭 今天发生了什么</button></div>
     </div>
 
     <!-- 分享入口 -->
-    <!-- 📌 今天提醒自己 -->
-    <div id="dailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#e6f9ee,#dff3e3);border-radius:18px;padding:14px 16px;font-size:13px;color:#1b7a3d;line-height:1.7;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-        <span style="font-size:18px;">📌</span>
-        <span style="font-weight:700;">今天提醒自己</span>
-        <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="nextDailyTip()">换一条</span>
-      </div>
-      <div id="dailyTipText">七八分饱就停筷，不饿才是吃饭的终点</div>
-    </div>
 
     <footer data-page-node-id="f8BK3JzUPvY9OncVl93jwC">每天一次签到 · 你的搭子会给你力量</footer>
   </div>
@@ -731,7 +716,7 @@
     </div>
 
     <!-- 我的状态 -->
-    <div class="sop-card" style="margin-bottom:12px;;border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="8YGfvMubtD4tRAA02qkDbo">
+    <div class="sop-card" style="margin-bottom:12px;" data-page-node-id="8YGfvMubtD4tRAA02qkDbo">
       <div class="chart-title" data-page-node-id="z3SBBx0U4NvPOgtaQk2dL2">🏃 我的状态</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;text-align:center;" data-page-node-id="ahRahxmuMNHn405xOhGZt8">
         <div style="background:#f0f9f4;border-radius:12px;padding:12px 6px;" data-page-node-id="L2twJxSCQ2EufQCEDbNwgG">
@@ -746,11 +731,11 @@
           <div style="font-size:20px;font-weight:700;color:#3de882;" id="shareTotal" data-page-node-id="zWgKweVuFIxAzCbwBJPqyK">-</div>
           <div style="font-size:11px;color:#888;margin-top:2px;" data-page-node-id="TDjZBX6hwoiGiiV4XTyQwB">累计天数</div>
         </div>
-      </div><div style="margin-top:12px;background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border-radius:14px;padding:16px;"><div style="font-size:13px;color:#2e7d32;line-height:1.8;font-weight:600;" id="sharePnLSummary">还在积累中。开始打卡后这里会出现你的体重管理摘要。</div></div>
+      </div>
     </div>
 
     <!-- 减肥搭子介绍卡片 -->
-    <div class="sop-card" style="border-radius:24px;box-shadow:0 6px 18px rgba(0,0,0,0.04);" data-page-node-id="YFkooFtoUSGehtV0DyCsGG">
+    <div class="sop-card" data-page-node-id="YFkooFtoUSGehtV0DyCsGG">
       <div class="chart-title" data-page-node-id="h1GmY7bQGXqSnvmPjVEm03">🏃‍♀️ 减肥搭子</div>
       <div style="margin-top:12px;background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;" data-page-node-id="5jlGT9C35Nt8CCH9tgHbSX">
         <div style="font-size:48px;margin-bottom:8px;" data-page-node-id="fGYZhaPybrwfDH1GDGZG0k">🏃‍♀️</div>
@@ -881,7 +866,7 @@
       });
     });
     var items=wrap.querySelectorAll('.crp-item');
-    var state={}; try{var _sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(_sv&&_sv._d===new Date().toISOString().slice(0,10)){state=_sv.s||{}}}catch(e){}
+    var state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
     function render(){
       var d=0;
       items.forEach(function(it,i){
@@ -894,13 +879,152 @@
     items.forEach(function(it,i){
       it.addEventListener('click',function(){
         state[i]=!state[i];
-        try{localStorage.setItem(KEY,JSON.stringify({_d:new Date().toISOString().slice(0,10),s:state}))}catch(e){}
+        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
         render();
       });
     });
     render();
   })();
   </script>
+
+<div class="crp-card">
+  <div class="crp-title">📜 科学减脂三禁忌<span class="crp-tip">👆 底线动作 · 一条都不能破</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不用食物奖励自己</b>：情绪化进食是减脂第一杀手，奖励换成了甜品店<br>
+<b>2️⃣ 不喝含糖饮料</b>：液态热量最容易被忽略，一杯奶茶=慢跑一小时<br>
+<b>3️⃣ 不熬夜透支</b>：睡不够，瘦素掉、饥饿素涨，意志力再强也白搭<br>
+<span style="color:#1565c0;">减肥不是跟食欲打仗，是跟习惯谈判。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">💬 每天必说的四句话<span class="crp-tip">👆 每天挑一句说出口</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 「我吃的是七分饱」</b>——给大脑留出饱腹信号的延迟时间<br>
+<b>2️⃣ 「今天多走两千步」</b>——碎步累积，比一次暴走更可持续<br>
+<b>3️⃣ 「明早上称，不逃避」</b>——称重不是审判，是仪表盘<br>
+<b>4️⃣ 「慢慢减，不着急」</b>——每周0.5公斤，一年就是全新的自己<br>
+<span style="color:#1565c0;">这四句话每天挑一句说出口，形成身体记忆。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>Fact 事实底座</b>：穷减肥拼意志力饿肚子；富减肥改环境和习惯，让对的选择变容易。<br>
+<b>Core 核心结论</b>：减肥减的不是体重，是生活方式。<br>
+<b>Insight 洞察</b>：三禁忌：不用食物奖励自己、不喝含糖饮料、不熬夜透支。<br>
+<b>So What</b>：把减脂变成每天的标准动作，而不是一次性的豪赌。<br>
+<b>How To Do</b>：每天三个动作——记录饮食、走够步数、按时上床。<br>
+<b>Know How</b>：关键不是少吃一顿，而是不吃「隐形热量」：奶茶、酱料、夜宵都是脂肪的糖衣。<br>
+<b>验收口径</b>：面对零食时，能否自己说出「我不饿，只是嘴馋」并放下——「七分饱」「明天再吃」「我说了算」。<br>
+
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🐾 不反弹 · 四条守则<span class="crp-tip">👆 不妥协 · 不退让</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不节食只调整</b>：节食掉的是水和肌肉，调整掉的是脂肪<br>
+<b>2️⃣ 不追求速成</b>：减得越快，弹得越猛——身体记仇<br>
+<b>3️⃣ 不因一顿吃多而放弃</b>：一顿饭毁不掉减肥，放弃的念头才会<br>
+<b>4️⃣ 不孤立作战</b>：告诉家人朋友，让环境托住你<br>
+<span style="color:#1565c0;">反弹不是失败，是旧习惯在敲门。你要做的是换锁，不是堵门。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🎯 减脂终极目标 · 三个独立<span class="crp-tip">👆 每个日常动作都在为它铺路</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 饮食独立</b>：离开外卖也能好好吃饭——会做三个健康菜<br>
+<b>2️⃣ 情绪独立</b>：离开食物也能消化压力——用运动代替暴食<br>
+<b>3️⃣ 节奏独立</b>：离开监督也能持续推进——称重和运动是自己的事<br>
+<span style="color:#1565c0;">瘦只是副产品，对身体的掌控感才是目标。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🧘 馋瘾三步法 · 不暴食<span class="crp-tip">👆 先处理情绪，再处理事</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>为什么</b>：馋不是饿，是情绪在找出口。硬忍必反弹，因为对抗的是自己的情绪。<br>
+<b>① 按暂停键</b>：想吃先喝一杯水，等10分钟——多数「饿」会自己走<br>
+<b>② 用观察代替自责</b>：问自己「我在焦虑什么」，不说「我怎么又馋了」<br>
+<b>③ 提供安全感</b>：真吃多了，下一餐正常吃——不补救不禁食，翻篇要快<br>
+<b>So What</b>：减脂的目标不是管住嘴，而是让能量用在生活上，而不是用在和食物的内耗上。
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">👑 我的六条人生规则<span class="crp-tip">👆 活出来 · 你是自己的模板</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+1 七分饱，饭前一杯水<br>
+2 每天走够六千步<br>
+3 晚上十一点前睡觉<br>
+4 戒掉含糖饮料<br>
+5 每周称重三次，只看趋势<br>
+6 持续学习营养学常识<br>
+<span style="color:#1565c0;">说一百句不如做到一句——你活出来的样子，就是身体的答案。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🗣️ 今天要跟自己说的话 · 30 条<span class="crp-tip">👆 每天挑几条 · 当天自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">六组忠告，做完勾一条，形成肌肉记忆：已完成 <b id="sayCnt_jianfei">0</b> / 30</div>
+  <div id="sayWrap_jianfei"></div>
+</div>
+<script>
+(function(){
+  var KEY='crp_say_jianfei';
+  var G=[
+      {t:'🍜 饮食', items:[['七分饱就停筷','饱腹感会迟到'],['先吃菜再吃肉最后吃主食','血糖稳了才不馋'],['细嚼慢咽，每口嚼二十下','给大脑反应时间'],['睡前三小时不进食','夜宵是脂肪的加班费'],['嘴馋先喝一杯水','多数「饿」是渴或无聊']]},
+      {t:'🏃 运动', items:[['能走楼梯不坐电梯','碎步也是步'],['饭后散步十分钟','餐后血糖的救星'],['今天完成最小运动量','五分钟也算赢'],['力量训练保住肌肉','肌肉是燃脂发动机'],['久坐一小时起来活动','比运动更重要的是别一直坐']]},
+      {t:'😴 睡眠', items:[['十一点前放下手机','蓝光偷走褪黑素'],['卧室黑一点凉一点','深度睡眠的环境开关'],['睡够七小时再谈减肥','缺觉=激素紊乱'],['白天困了不靠咖啡硬顶','困是身体在报警'],['周末不报复性熬夜','生物钟不认周末']]},
+      {t:'🧠 心态', items:[['体重波动是正常的','水分在跳舞，脂肪在下降'],['称重看周趋势不看单日','单日数字是噪音'],['吃多了一餐，翻篇','内耗比热量更可怕'],['不跟别人比速度','你只跟上周的自己比'],['允许自己慢慢变好','快是慢的敌人']]},
+      {t:'🔁 习惯', items:[['零食不进家门','环境设计大于意志力'],['大碗换小碗','视觉饱腹是真实饱腹'],['固定时间运动','习惯靠锚点不靠心情'],['记录每天吃了什么','记录本身就是控制'],['每周复盘一次','不看数据就是盲飞']]},
+      {t:'🛡️ 防反弹', items:[['平台期是身体在适应','坚持两周必突破'],['旅行聚餐回来立即回归','偏三天不偏三周'],['衣服合身比数字重要','体围是第二仪表盘'],['不庆祝性大吃','奖励换个方式：新衣服、按摩'],['把习惯当身份','我不是在减肥，我就是个自律的人']]}
+  ];
+  var wrap=document.getElementById('sayWrap_jianfei'); if(!wrap) return;
+  function today(){ return new Date().toISOString().slice(0,10); }
+  var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
+  var refs=[];
+  G.forEach(function(g){
+    var h=document.createElement('div');
+    h.style.cssText='font-size:12px;font-weight:700;color:#1565c0;margin:10px 0 4px;';
+    h.textContent=g.t; wrap.appendChild(h);
+    g.items.forEach(function(it){
+      var d=document.createElement('div'); d.className='crp-item';
+      d.innerHTML='<span class="crp-box">☐</span><div style="flex:1;"><b style="font-size:13px;">「'+it[0]+'」</b><br><span style="font-size:11px;color:#999;">'+it[1]+'</span></div>';
+      wrap.appendChild(d); refs.push({el:d, k:it[0]});
+    });
+  });
+  function render(){
+    var n=0;
+    refs.forEach(function(r){ var on=!!st[r.k]; r.el.classList.toggle('done',on); r.el.querySelector('.crp-box').textContent=on?'☑':'☐'; if(on)n++; });
+    var cc=document.getElementById('sayCnt_jianfei'); if(cc)cc.textContent=n;
+  }
+  refs.forEach(function(r){ r.el.addEventListener('click',function(){ st[r.k]=!st[r.k]; try{localStorage.setItem(KEY,JSON.stringify({d:today(),s:st}))}catch(e){} render(); }); });
+  render();
+})();
+</script>
+
+<div class="crp-card">
+  <div class="crp-title">🌈 她的减脂信号 · 每周观察<span class="crp-tip">👆 点亮自己的样子 · 每周自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">验收不看表现看状态：这周出现了几个信号？</div>
+  <div id="fxWrap_jf"></div>
+  <div style="font-size:12px;color:#1565c0;margin-top:8px;">本周点亮 <b id="fxCnt_jf">0</b> / 12</div>
+</div>
+<script>
+(function(){
+  var KEY='crp_fx_jf';
+  var items=['🍽️ 一顿饭吃到七分饱就自然停筷','🚶 主动走了今天的步数目标','😴 十一点前放下了手机','🥤 面对奶茶说「不了，喝水的我更酷」','⚖️ 称完体重没有情绪崩溃','🥗 主动选了清淡的那道菜','💪 完成了一次力量或拉伸','🧘 馋了但等了十分钟，馋走了','📉 这周体重趋势在下降','😌 吃多了没有自责，下餐正常','👟 能走楼梯不坐电梯','💬 说出「我在好好吃饭，不是在减肥」'];
+  var wrap=document.getElementById('fxWrap_jf'); if(!wrap) return;
+  function weekKey(){var d=new Date();var o=new Date(d.getFullYear(),0,1);var w=Math.ceil((((d-o)/86400000)+o.getDay()+1)/7);return d.getFullYear()+'-W'+w;}
+  var st={};try{var sv=JSON.parse(localStorage.getItem(KEY)||'null');if(sv&&sv.w===weekKey())st=sv.s||{}}catch(e){}
+  function render(){items.forEach(function(t,i){var el=wrap.querySelector('[data-i="'+i+'"]');if(!el)return;var on=!!st[i];el.classList.toggle('done',on);el.querySelector('.crp-box').textContent=on?'☑':'☐';});var n=0;for(var k in st)if(st[k])n++;var cc=document.getElementById('fxCnt_jf');if(cc)cc.textContent=n;}
+  items.forEach(function(t,i){var div=document.createElement('div');div.className='crp-item';div.setAttribute('data-i',String(i));div.innerHTML='<span class="crp-box">☐</span>'+t;div.addEventListener('click',function(){st[i]=!st[i];try{localStorage.setItem(KEY,JSON.stringify({w:weekKey(),s:st}))}catch(e){}render();});wrap.appendChild(div);});
+  render();
+})();
+</script>
 </div>
 
     <div class="coach-intro" id="coachIntro" data-page-node-id="23HxbGX7q3TkKn3BLw5cZc">
@@ -973,8 +1097,7 @@
 
 <!-- ===== 问答/进展选择面板 ===== -->
 <div class="qa-overlay" id="qaOverlay" data-page-node-id="FuzWz6VpAzP2PSCFwbrOov">
-  <div class="qa-panel" data-page-node-id="Y3MPCOlrmy7F5DjUmuPyO0"><button class="qa-close-x" onclick="try{if(typeof closeQAPanel==='function')closeQAPanel();else this.closest('.qa-overlay').classList.remove('show');}catch(e){this.closest('.qa-overlay').classList.remove('show');}" aria-label="关闭">✕</button>
-    
+  <div class="qa-panel" data-page-node-id="Y3MPCOlrmy7F5DjUmuPyO0">
     <div class="qa-handle" data-page-node-id="sG5osJ87iDVRXpMkgCHOnS"></div>
     <div class="qa-header" data-page-node-id="rS2sBaaz31mgWAoTgQTzF2">
       <div class="qa-title" id="qaTitle" data-page-node-id="OXAwqTKttLywNaBSOl8xbK">🤔 有问题想问</div>
@@ -1019,30 +1142,7 @@ function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) 
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
 function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
 function saveWeightData(d) { localStorage.setItem(STORAGE.WEIGHT, JSON.stringify(d)); if(window.saveWeightToFirebase) saveWeightToFirebase(d); }
-function getSOPData() { var d = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null}'); return _sopDailyReset(d, STORAGE.SOP); }
-// 新的一天自动归零（2026-09-06）：读取入口校验日期，昨日未提交成绩补归档后重置，不再依赖切换 tab 触发
-function _sopDailyReset(d, sopKey, extra) {
-  try {
-    var today = new Date().toISOString().slice(0,10);
-    if (d && d.date && d.date !== today) {
-      var hasData = (d.score > 0) || (d.selected && Object.keys(d.selected).length > 0) || d.done;
-      if (hasData && (typeof getSOPHistory === 'function') && (typeof saveSOPToHistory === 'function')) {
-        try {
-          var _hist = getSOPHistory();
-          if (!_hist.some(function(h){ return h && h.date === d.date; })) {
-            saveSOPToHistory({ date: d.date, score: d.score || 0 });
-          }
-        } catch(e) {}
-      }
-      var _reset = { score: 0, selected: {}, done: false, date: today, submittedCats: [] };
-      if (extra) { for (var k in extra) { _reset[k] = extra[k]; } }
-      try { localStorage.setItem(sopKey, JSON.stringify(_reset)); } catch(e) {}
-      return _reset;
-    }
-  } catch(e) {}
-  return d;
-}
-setTimeout(function(){ try { getSOPData(); } catch(e) {} }, 0);
+function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null}'); }
 function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); if(window.saveSOPToFirebase) saveSOPToFirebase(d); }
 function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
 function saveSOPStreaks(d) { localStorage.setItem(STORAGE.SOP_STREAKS, JSON.stringify(d)); if(window.saveSOPStreaksToFirebase) saveSOPStreaksToFirebase(d); }
@@ -1658,7 +1758,6 @@ function sendMood(mood) {
 
 // ===== 搭子tag交互（6类入口） =====
 function askPartner(type) {
-  if (type === 'scene') { openSceneSheet(); return; }
   const partner = currentPartner || PARTNERS[0];
   const style = partner.style || 'gentle';
   const emoji = partner.emoji;
@@ -1747,7 +1846,6 @@ function makeTypeCard(panel, dir, item, index) {
     <div class="qa-card-tag ${item.type}">${item.tag}</div>
   `;
   card._qaClick = () => {
-    closeQAPanel();
     setTimeout(() => showTypeFeedback(panel, dir, item, index), 300);
   };
   card.onclick = card._qaClick;
@@ -3198,7 +3296,6 @@ function renderSharePage() {
   document.getElementById('shareTotal').textContent = history.length;
   let url = getSiteUrl() + 'index.html';
   document.getElementById('shareUrlDisplay').textContent = url;
-  updateShareSummary();
 }
 
 function copyShareLink() {
@@ -3208,15 +3305,7 @@ function copyShareLink() {
   } else {
     prompt('复制以下链接：', url);
   }
-}function updateShareSummary() {
-  var el = document.getElementById('sharePnLSummary');
-  if (!el) return;
-  var st = (document.getElementById('shareStreak') || {}).textContent || '-';
-  var td = (document.getElementById('shareToday') || {}).textContent || '';
-  var tt = (document.getElementById('shareTotal') || {}).textContent || '-';
-  el.innerHTML = '🔥 连续打卡 <b>' + st + '</b> · 今日 ' + td + ' · 累计 <b>' + tt + '</b><br>💪 你流的每一滴汗，身体都记得';
 }
-
 
 function openSharePage() {
   let url = getSiteUrl() + 'index.html';
@@ -3559,69 +3648,279 @@ startApp();
 
 
 
-<script>
+<script>/* coach-engine-uni-v1 */
 (function(){
-  var TIPS = ['七八分饱就停筷，不饿才是吃饭的终点', '先喝一口水，再动第一筷', '含糖饮料是隐形热量第一名', '称重是记录，不是审判：一周两次就够', '睡够7小时，饿激素才不会失控', '大餐后别自责，下一餐回归正常就行', '肌肉是燃脂引擎，每周两次力量训练', '步数不够的日子，就少吃一口，多走一站'];
-  window.nextDailyTip = function() {
-    var el = document.getElementById("dailyTipText");
-    if (!el) return;
-    el.innerText = TIPS[Math.floor(Math.random() * TIPS.length)];
-  };
+if(window.__ceuV1) return; window.__ceuV1=true;
+var CFG={"coach": "麦肯锡风格减脂教练", "fallback": ["#1e88e5", "#1565c0"], "qs": ["说说今天三餐实际吃了什么——不用美化，照实说。", "最近一周，哪一顿饭或哪个时刻最容易失控？当时发生了什么？", "你的体重目标是多少？上一次达标是什么时候，后来发生了什么？", "运动、饮食、睡眠三件事，哪件是你现在最愿意先改的？为什么？", "未来7天，你能承诺做到的一个最小动作是什么（比如每天走6000步）？"], "acts": ["把大目标切成周目标：本周只盯一个数字（步数或晚餐主食量）", "给「失控时刻」设一个替换动作：想吃夜宵时先喝一杯水等10分钟", "每天固定时间称重记录，让数据代替感觉"], "acks": ["收到。说得越具体，后面的拆解就越准——我们继续往下走。", "明白，这个信息很关键。我们再挖一层。", "嗯，这个回答里藏着你的真实卡点。继续。", "好，最后一个问题——把它落到行动上。"], "accent": "#3a7ca5", "accent2": "#2b5a7a", "tint": "#3a7ca51f"};
+var st={q:0,ans:[],busy:false};
+function el(id){return document.getElementById(id);}
+function show(e,d){if(e)e.style.display=d;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function bubble(text,who){
+  var box=el('chatMessages'); if(!box)return;
+  var wrap=document.createElement('div');
+  wrap.style.cssText='display:flex;margin-bottom:10px;justify-content:'+(who==='user'?'flex-end':'flex-start')+';';
+  var b=document.createElement('div');
+  b.style.cssText='max-width:82%;padding:10px 14px;border-radius:16px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word;'+(who==='user'
+    ?'background:'+CFG.accent+';color:#fff;border-bottom-right-radius:4px;'
+    :'background:#f4f5f7;color:#333;border-bottom-left-radius:4px;');
+  b.textContent=text; wrap.appendChild(b); box.appendChild(wrap);
+  box.scrollTop=box.scrollHeight;
+}
+function setStep(n){
+  ['progressStep1','progressStep2','progressStep3'].forEach(function(id,i){
+    var s=el(id); if(!s)return;
+    var need=(i===0?1:i===1?3:5);
+    if(n>=need){ s.classList.add('active'); s.style.background=CFG.accent; s.style.color='#fff'; }
+  });
+}
+function inputArea(){ var ia=el('chatInputArea'); if(ia) return ia; var inp=el('coachInput'); return inp?inp.parentElement:null; }
+function startCoach(){
+  var intro=el('coachIntro'), chat=el('coachChat'), rep=el('coachReport');
+  show(intro,'none'); show(rep,'none'); show(chat,'block');
+  var box=el('chatMessages'); if(box) box.innerHTML='';
+  st={q:0,ans:[],busy:false};
+  var p=el('coachPrompt'); if(p) p.style.display='block';
+  show(inputArea(),'');
+  var gen=el('generatingReport'); show(gen,'none');
+  setStep(1);
+  setTimeout(function(){
+    bubble('你好，我是'+CFG.coach+'。','coach');
+    bubble(CFG.qs[0],'coach'); st.q=1;
+  },200);
+}
+function sendCoachMsg(){
+  if(st.busy) return;
+  var inp=el('coachInput'); if(!inp) return;
+  var v=(inp.value||'').trim();
+  if(!v){ inp.placeholder='请先输入你的回答...'; return; }
+  bubble(v,'user'); st.ans.push(v); inp.value='';
+  st.busy=true;
+  setTimeout(function(){
+    if(st.q < CFG.qs.length){
+      bubble(CFG.acks[(st.q-1)%CFG.acks.length],'coach');
+      st.q++; setStep(st.q);
+      bubble(CFG.qs[st.q-1],'coach');
+      st.busy=false;
+    } else {
+      var gen=el('generatingReport'); if(gen) show(gen,'block');
+      show(inputArea(),'none');
+      var p=el('coachPrompt'); show(p,'none');
+      setTimeout(function(){ show(gen,'none'); buildReport(); st.busy=false; },1600);
+    }
+  },500);
+}
+function buildReport(){
+  var rep=el('coachReport'); if(!rep) return;
+  var h='<div style="font-size:17px;font-weight:800;margin-bottom:6px;">📋 '+CFG.coach+' · MECE 诊断报告</div>';
+  h+='<div style="font-size:11px;color:#8f9eae;margin-bottom:14px;">基于你 '+st.ans.length+' 轮回答生成 · 纯前端模拟</div>';
+  var names=['📌 问题界定','🔍 结构化分析','🔍 深层拆解','🔍 资源盘点','🎯 优先级行动'];
+  for(var i=0;i<CFG.qs.length;i++){
+    h+='<div style="background:#f8f9fb;border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+      +'<div style="font-size:13px;font-weight:800;color:'+CFG.accent+';margin-bottom:6px;">'+names[i]+'</div>'
+      +'<div style="font-size:11.5px;color:#8f9eae;margin-bottom:4px;">'+esc(CFG.qs[i])+'</div>'
+      +'<div style="font-size:13px;color:#333;line-height:1.6;">你的回答：'+esc(st.ans[i]||'（未回答）')+'</div></div>';
+  }
+  h+='<div style="background:'+CFG.tint+';border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+    +'<div style="font-size:13px;font-weight:800;color:'+CFG.accent+';margin-bottom:6px;">✅ 本周行动清单</div>';
+  for(var j=0;j<CFG.acts.length;j++){ h+='<div style="font-size:13px;color:#333;line-height:1.7;">'+(j+1)+'. '+esc(CFG.acts[j])+'</div>'; }
+  h+='</div>';
+  h+='<div style="font-size:12px;color:#8f9eae;line-height:1.6;margin-bottom:12px;">💡 先从行动清单里挑一件本周就做，其他写进日历。对话每周都可以重来，答案会随你的状态变化。</div>';
+  h+='<button onclick="restartCoach()" style="width:100%;padding:14px;border:none;border-radius:50px;background:linear-gradient(135deg,'+CFG.accent+','+CFG.accent2+');color:#fff;font-size:15px;font-weight:700;cursor:pointer;">🔄 重新对话</button>';
+  rep.innerHTML=h; show(rep,'block');
+  show(el('coachChat'),'none');
+}
+function restartCoach(){
+  show(el('coachReport'),'none'); show(el('coachChat'),'none'); show(el('coachIntro'),'block');
+  st={q:0,ans:[],busy:false};
+}
+window.startCoach=startCoach; window.sendCoachMsg=sendCoachMsg; window.restartCoach=restartCoach;
+var _ci=el('coachInput');
+if(_ci && !_ci.dataset.ceuEnter){ _ci.dataset.ceuEnter='1'; _ci.addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendCoachMsg(); } }); }
 })();
-
-// ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
-const SCENE_DATA = {"pos": [{"icon": "🥗", "tag": "七分饱", "title": "每餐吃到七分饱就停筷", "text": "少吃的那两口，就是热量缺口的开始", "quote": "🏃 搭子：每一餐的自控，都在给秤上的数字投票"}, {"icon": "🚶", "tag": "步数", "title": "今天走够 8000 步了", "text": "走路是最被低估的燃脂方式", "quote": "🏃 搭子：迈出去的每一步都算数"}, {"icon": "🥤", "tag": "拒奶茶", "title": "今天没喝奶茶 / 含糖饮料", "text": "一杯奶茶等于1小时慢跑白费", "quote": "🏃 搭子：省下的糖，身体都会感谢你"}, {"icon": "🏋️", "tag": "力量", "title": "做了 20 分钟力量训练", "text": "肌肉多一分，静息代谢高一分", "quote": "🏃 搭子：练过的身体不会骗你"}, {"icon": "🥬", "tag": "蔬菜", "title": "每餐蔬菜占了半盘", "text": "膳食纤维稳血糖、抗饿", "quote": "🏃 搭子：盘子一半是绿色，减脂就成功一半"}, {"icon": "💧", "tag": "喝水", "title": "今天喝够 1500ml 水", "text": "有时候\"饿\"其实是渴", "quote": "🏃 搭子：水喝够，代谢才转得动"}, {"icon": "😴", "tag": "早睡", "title": "23 点前就上床了", "text": "睡够7.5小时，瘦素才正常分泌", "quote": "🏃 搭子：早睡是最便宜的减肥药"}, {"icon": "🍎", "tag": "替换", "title": "馋的时候用水果替代了零食", "text": "换食材比硬忍更可持续", "quote": "🏃 搭子：聪明的替换，胜过痛苦的忍耐"}], "neg": [{"icon": "🧋", "tag": "奶茶", "title": "没忍住喝了一杯奶茶", "text": "500大卡要跑1小时才消耗得掉", "quote": "🏃 搭子：一杯而已，明天从头再来就好"}, {"icon": "🍻", "tag": "聚餐", "title": "聚餐没控制吃多了", "text": "一顿吃多不会胖，连着七天才会", "quote": "🏃 搭子：别自责，下一餐回归正轨就行"}, {"icon": "🛋️", "tag": "久坐", "title": "坐了一整天没怎么动", "text": "久坐时脂肪酶几乎停工", "quote": "🏃 搭子：每小时站起来2分钟也是胜利"}, {"icon": "🌙", "tag": "熬夜", "title": "又熬到凌晨才睡", "text": "睡不够会让食欲激素失控", "quote": "🏃 搭子：今晚早点躺下，就是最好的重启"}, {"icon": "🍰", "tag": "情绪进食", "title": "心情不好吃了一堆零食", "text": "吃解决不了情绪，只会加上愧疚", "quote": "🏃 搭子：下次难受先找我聊，别找零食"}, {"icon": "🍜", "tag": "夜宵", "title": "睡前又吃了夜宵", "text": "晚上代谢慢，热量更容易存下来", "quote": "🏃 搭子：饿一点入睡，轻一点醒来"}, {"icon": "📉", "tag": "怕上秤", "title": "一周没敢上秤了", "text": "逃避数字不会让它变小", "quote": "🏃 搭子：数字只是反馈，不是审判"}, {"icon": "⚡", "tag": "没执行", "title": "计划定了但没执行", "text": "完美计划不如粗糙的开始", "quote": "🏃 搭子：今天做个5分钟版，就算赢"}]};
-function openSceneSheet() {
-  document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
-  document.getElementById('qaSub').innerText = '点一下 · 让搭子回应你 · 不计入打卡';
-  const scroll = document.getElementById('qaScroll');
-  scroll.innerHTML = '';
-  const mk = (type, label, color) => {
-    const list = SCENE_DATA[type] || [];
-    if (!list.length) return;
-    const lbl = document.createElement('div');
-    lbl.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;';
-    lbl.innerText = label;
-    scroll.appendChild(lbl);
-    list.forEach((item, i) => {
-      const card = document.createElement('div');
-      card.className = 'qa-card ' + type;
-      const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
-        (type === 'pos' ? 'background:#7c7fea;color:white;' : 'background:#b07cd6;color:white;');
-      card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>' +
-        '<div class="qa-card-text">' + item.title + '</div>' +
-        '<span style="' + tagStyle + '">' + item.tag + '</span>';
-      card.onclick = () => {
-        closeQAPanelSafe();
-        setTimeout(() => openSceneFB(i, type), 300);
-      };
-      scroll.appendChild(card);
-    });
-  };
-  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#43a047');
-  mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
-  document.getElementById('qaOverlay').classList.add('show');
-  document.getElementById('qaOverlay').onclick = function(e) {
-    if (e.target === document.getElementById('qaOverlay')) closeQAPanelSafe();
-  };
-}
-function closeQAPanelSafe() {
-  if (typeof closeQAPanel === 'function') { closeQAPanel(); return; }
-  document.getElementById('qaOverlay').classList.remove('show');
-}
-function openSceneFB(idx, type) {
-  const item = SCENE_DATA[type] && SCENE_DATA[type][idx];
-  if (!item) return;
-  const card = document.getElementById('fbCard');
-  if (card) card.className = 'fb-card ' + type;
-  const em = document.getElementById('fbEmoji'); if (em) em.innerText = item.icon;
-  const lb = document.getElementById('fbLabel'); if (lb) lb.innerText = (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag;
-  const tt = document.getElementById('fbTitle'); if (tt) tt.innerText = item.title;
-  const tx = document.getElementById('fbText'); if (tx) tx.innerText = item.text;
-  const qt = document.getElementById('fbQuote'); if (qt) qt.innerText = item.quote;
-  document.getElementById('fbOverlay').classList.add('show');
+</script>
+<script>/* fix-initcoach-v1 */
+function initCoach(){
+  try{
+    var ci=document.getElementById('coachIntro'), cc=document.getElementById('coachChat'), cr=document.getElementById('coachReport');
+    if(ci && cc && cr){
+      if((cc.style.display && cc.style.display!=='none') || (cr.style.display && cr.style.display!=='none')) return;
+      ci.style.display='block';
+    }
+  }catch(e){}
 }
 </script>
-
+<script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
+(function(){
+if(window.__uxpV1) return; window.__uxpV1=true;
+var CFG={"accent": "#3a7ca5", "mood": {"happy": {"tag": "高能时刻", "t": "今天代谢引擎全速运转", "d": "开心的时候皮质醇更低，身体更愿意燃烧脂肪——好情绪本身就是减脂助攻。趁状态好，今晚安排 20 分钟快走或力量训练，把这股劲儿花在刀刃上。好状态+好行为，才是真正的复利。"}, "neutral": {"tag": "平稳时刻", "t": "平稳是瘦下来的隐形地基", "d": "减脂 80% 靠日常节奏，而平稳的情绪最能守住节奏。趁今天不饿不馋，把明天的三餐提前想好：早餐有蛋白质、午餐半盘蔬菜。平稳的日子做的准备，会在体重秤上兑现。"}, "sad": {"tag": "低落时刻", "t": "先接住情绪，再谈热量缺口", "d": "情绪性进食几乎都发生在低落时——不是你饿，是心需要安抚。先做一件不花力气的小事：出门走 10 分钟、给朋友发条消息、洗个热水澡。跳过「用吃安慰自己」这一步，今天就已经赢了大半。"}, "tired": {"tag": "疲惫时刻", "t": "累的时候，睡眠比自律更有效", "d": "熬夜会让饥饿素飙升、瘦素下降——第二天格外想吃高热量，不是意志力差，是激素在闹。今晚比平时提前 30 分钟放下手机上床。睡好这一觉，明天的食欲和训练状态都会回来。"}}};
+var ACC=CFG.accent||'#e05a7a';
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+var ov=null;
+function ensureOv(){
+  if(ov) return ov;
+  ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100500;display:none;align-items:center;justify-content:center;padding:24px;';
+  ov.addEventListener('click',function(e){ if(e.target===ov) window.__uxpClose(); });
+  document.body.appendChild(ov);
+  return ov;
+}
+function showUxp(html){
+  var o=ensureOv();
+  o.innerHTML='<div style="background:#fff;border-radius:28px;max-width:340px;width:100%;max-height:78vh;overflow-y:auto;padding:26px 22px;text-align:center;animation:uxpPop .35s cubic-bezier(.175,.885,.32,1.275);">'+html+'</div>';
+  o.style.display='flex';
+}
+window.__uxpClose=function(){ if(ov) ov.style.display='none'; };
+window.__uxpOpen=showUxp;
+var st=document.createElement('style');
+st.textContent='@keyframes uxpPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}';
+document.head.appendChild(st);
+/* ---- 情绪 emoji：拦截并弹出居中弹窗 ---- */
+window.addEventListener('click',function(e){
+  try{
+    var t=e.target; if(!t||!t.closest) return;
+    var m=t.closest('.mood-btn'); if(!m) return;
+    var k=m.getAttribute('data-mood');
+    if(!k){ var oc=m.getAttribute('onclick')||''; var mm=oc.match(/sendMood\('([\w]+)'\)/); if(mm) k=mm[1]; }
+    if(!k) k=m.getAttribute('title')||'';
+    if(!(CFG.mood||{})[k]){
+      var sk=k||'';
+      try{ for(var mk in CFG.mood){ if(mk.length>1 && sk.indexOf(mk)>=0){ k=mk; break; } } }catch(e){}
+      var kmap=[['happy','很好|开心|不错|超棒|愉快|高兴'],['neutral','还行|平静|一般|平稳|还好'],['sad','低落|难过|不开心|委屈|烦躁|压力|焦虑|丧'],['tired','累|疲惫|困|倦|没劲']];
+      for(var ki=0;ki<kmap.length;ki++){ try{ if(new RegExp(kmap[ki][1]).test(sk)){ k=kmap[ki][0]; break; } }catch(e){} }
+    }
+    var c=(CFG.mood||{})[k]; if(!c) return;
+    if(e.preventDefault)e.preventDefault();
+    if(e.stopImmediatePropagation)e.stopImmediatePropagation(); else if(e.stopPropagation)e.stopPropagation();
+    var emo=(m.textContent||'').trim()||'\ud83d\ude42';
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+esc(c.tag)+'</div>'
+      +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(c.t)+'</div>'
+      +'<div style="font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(c.d)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u6536\u5230\uff0c\u5c31\u8fd9\u4e48\u505a \ud83d\udcaa</button>');
+  }catch(err){}
+},true);
+/* ---- 关键小动作勾选：包装原函数，勾选时弹居中弹窗 ---- */
+function wrapKey3(fnName, storeKey){
+  var orig=window[fnName];
+  if(typeof orig!=='function'||orig.__uxp) return;
+  var wrapped=function(i){
+    var before=null;
+    try{ var d=JSON.parse(localStorage.getItem(storeKey)||'{}'); before=!!(d&&d.checked&&d.checked[i]); }catch(e){}
+    var r=orig.apply(this,arguments);
+    try{
+      var d2=JSON.parse(localStorage.getItem(storeKey)||'{}');
+      var after=!!(d2&&d2.checked&&d2.checked[i]);
+      var acts=CFG.k3||[];
+      if(!before&&after&&acts[i]){
+        var a=acts[i];
+        showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(a.icon||'\u2705')+'</div>'
+          +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u2713 \u4eca\u65e5\u5173\u952e\u52a8\u4f5c</div>'
+          +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:4px;">'+esc(a.title||'')+'</div>'
+          +(a.sub?'<div style="font-size:12px;color:#888;margin-bottom:10px;">'+esc(a.sub)+'</div>':'')
+          +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(a.why||'')+'</div>'
+          +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u8bb0\u4e0a\u4e86 \u2705</button>');
+      }
+    }catch(e){}
+    return r;
+  };
+  wrapped.__uxp=true;
+  try{ window[fnName]=wrapped; }catch(e){}
+}
+wrapKey3('toggleKey3',CFG.k3store);
+wrapKey3('stdK3Toggle',CFG.k3store);
+/* ---- std 场景卡：改为居中弹窗反馈（不关选择面板） ---- */
+if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
+  window.stdScenePick=function(i){
+    var sc=CFG.scenes[i]; if(!sc) return;
+    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+  };
+}
+})();
+</script>
+<script>/* uxp-confirm-chip *//* cc-enhance-v1 教练卡逐条确认 */
+(function(){
+  if (window.__ccEnhanced) return; window.__ccEnhanced = 1;
+  var PREFIX = 'index';
+  var STORE = 'cc_' + PREFIX;
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch(e) { state = {}; }
+  function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){} }
+  function hash(t){ var h = 0; for (var i = 0; i < t.length; i++) { h = (h * 31 + t.charCodeAt(i)) | 0; } return 'h' + (h >>> 0).toString(36); }
+  window.ccToast = function(msg){
+    var t = document.getElementById('ccToast');
+    if (!t) {
+      t = document.createElement('div'); t.id = 'ccToast';
+      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg; t.style.opacity = '1';
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1800);
+  };
+  function apply(body){
+    if (body.getAttribute('data-cc-done')) return;
+    var html = body.innerHTML;
+    if (!/<br/i.test(html) && html.replace(/<[^>]*>/g, '').trim().length < 2) return;
+    var card = body.closest ? body.closest('.crp-card') : null;
+    var title = '';
+    if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
+    var parts = html.split(/<br\s*\/?>/i);
+    var out = '', n = 0;
+    for (var k = 0; k < parts.length; k++) {
+      var seg = parts[k].trim();
+      var txt = seg.replace(/<[^>]*>/g, '').trim();
+      if (!txt) continue;
+      var id = hash(PREFIX + '|' + title + '|' + txt.slice(0, 48));
+      var on = !!state[id];
+      out += '<div class="cc-row' + (on ? ' done' : '') + '"><div class="cc-txt">' + seg + '</div>'
+           + '<span class="cc-chip' + (on ? ' on' : '') + '" data-ccid="' + id + '">' + (on ? '\u2713 已记住' : '标记记住') + '</span></div>';
+      n++;
+    }
+    if (!n) return;
+    body.innerHTML = out;
+    body.setAttribute('data-cc-done', '1');
+  }
+  function process(){
+    var bodies = document.querySelectorAll('.crp-card .crp-stage-body');
+    for (var i = 0; i < bodies.length; i++) { try { apply(bodies[i]); } catch(e) {} }
+  }
+  document.addEventListener('click', function(ev){
+    var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
+    if (!el) return;
+    ev.preventDefault();
+    var id = el.getAttribute('data-ccid');
+    if (state[id]) { delete state[id]; } else { state[id] = 1; }
+    save();
+    var on = !!state[id];
+    var row = el.closest('.cc-row');
+    if (row) row.classList.toggle('done', on);
+    el.classList.toggle('on', on);
+    el.innerHTML = on ? '\u2713 已记住' : '标记记住';
+    ccToast(on ? '\u{1F44D} 已确认记住这条，说得出才算真的懂' : '已取消确认');
+  });
+  var css = document.createElement('style');
+  css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
+    + '.cc-row:last-child{border-bottom:none;}'
+    + '.cc-txt{flex:1;min-width:0;font-size:13px;line-height:1.7;color:#37474f;}'
+    + '.cc-row.done .cc-txt{color:#b6b6b6;text-decoration:line-through;}'
+    + '.cc-chip{flex-shrink:0;font-size:11px;padding:3px 9px;border-radius:12px;border:1.5px solid #dcdcdc;color:#909090;cursor:pointer;user-select:none;white-space:nowrap;margin-top:2px;transition:all .15s;}'
+    + '.cc-chip:active{transform:scale(.94);}'
+    + '.cc-chip.on{background:#eaf7ea;border-color:#54b26a;color:#2e7d32;font-weight:700;}';
+  document.head.appendChild(css);
+  function boot(){ try { process(); } catch(e) {} }
+  setTimeout(boot, 300);
+  setTimeout(boot, 1500);
+  try {
+    var mo = new MutationObserver(function(){ setTimeout(boot, 80); });
+    mo.observe(document.body, { childList: true, subtree: true });
+  } catch(e) {}
+})();
+</script>
 </body>
 </html>

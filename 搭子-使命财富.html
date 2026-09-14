@@ -479,6 +479,7 @@
     .fb-btn { background: #3a7ca5; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
   </style>
+<style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body data-page-node-id="0eerS2IGHHdoxWgooB6LRx">
 
@@ -615,7 +616,7 @@
   <div id="stdTipText"></div>
 </div>
 <div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
-<div id="stdSceneSheet" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:301;background:#fff;border-radius:24px 24px 0 0;max-height:72vh;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
+<div id="stdSceneSheet" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:301;background:#fff;border-radius:24px;max-height:76vh;width:calc(100% - 40px);max-width:400px;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
   <div onclick="stdSceneClose()" style="position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
   <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
   <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
@@ -721,16 +722,6 @@
 
 
     <!-- 分享入口 -->
-    <div class="share-inline-card" data-page-node-id="wCMbnkXI2cu9HIfLYMmPqv">
-      <div class="share-inline-label" data-page-node-id="QJT5j253yX9BhpMFBefASf">📣 推荐给想一起追寻使命的朋友</div>
-      <div class="share-inline-preview" data-page-node-id="YX6uEFH3qdYCmTMHskz8xJ">
-        🎯 使命财富搭子 · 4种性格陪你成长
-      </div>
-      <div class="share-copy-row" data-page-node-id="UMnVB7obvI1qM6rrDUkskM">
-        <button class="share-copy-btn" onclick="copyShareLink()" data-page-node-id="hDY351jQoeXldJj3gm7Z5L">📋 复制邀请链接</button>
-        <button class="share-link-btn" onclick="previewShareCard()" data-page-node-id="w2GWbgcybihwzAwJhKExuq">👀 预览卡片</button>
-      </div>
-    </div>
 
     <footer data-page-node-id="j0Xn9G4AHwcBuoGFapZKJ9">每天一次签到 · 你的搭子会给你力量</footer>
   </div>
@@ -1692,9 +1683,9 @@ function openTypePanel(panel, dir) {
   document.getElementById('qaSub').innerText = subMap[dir] || '';
   const scroll = document.getElementById('qaScroll'); scroll.innerHTML = '';
   const posItems = data.filter(i => i.type === 'pos');
-  if (posItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;'; l.innerText='⬆️ 好的进展 / 想得到鼓励'; scroll.appendChild(l); posItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
+  if (posItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#43a047;letter-spacing:1px;margin:8px 2px 6px;'; l.innerText='⬆️ 好的进展 / 想得到鼓励'; scroll.appendChild(l); posItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
   const negItems = data.filter(i => i.type === 'neg');
-  if (negItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;'; l.innerText='⬇️ 遇到困难 / 需要引导'; scroll.appendChild(l); negItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{closeQAPanel();setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
+  if (negItems.length) { const l = document.createElement('div'); l.style.cssText='font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:12px 2px 6px;'; l.innerText='⬇️ 遇到困难 / 需要引导'; scroll.appendChild(l); negItems.forEach((item) => { const card = document.createElement('div'); card.className=`qa-card ${item.type}`; card.innerHTML=`<div class="qa-card-icon">${item.icon}</div><div class="qa-card-text">${item.scenario}</div><div class="qa-card-tag ${item.type}">${item.tag}</div>`; card.onclick=()=>{setTimeout(()=>showTypeFeedback(panel,dir,item),300);}; scroll.appendChild(card); }); }
   document.getElementById('qaOverlay').classList.add('show');
   document.getElementById('qaOverlay').onclick = function(e) { if (e.target === document.getElementById('qaOverlay')) closeQAPanel(); };
 }
@@ -3312,6 +3303,145 @@ startApp();
     render();
   })();
   </script>
+
+<div class="crp-card">
+  <div class="crp-title">📜 使命探索三禁忌<span class="crp-tip">👆 底线动作 · 一条都不能破</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不用忙碌代替思考</b>：瞎忙是逃避意义的最体面方式<br>
+<b>2️⃣ 不用别人的标准定义成功</b>：别人的奖杯挂不到你的墙上<br>
+<b>3️⃣ 不等「想清楚了」再出发</b>：使命是走出来的，不是想出来的<br>
+<span style="color:#6a1b9a;">使命不在远方，在你愿意持续投入的事里。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">💬 每天必问的四句话<span class="crp-tip">👆 每天挑一句说出口</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 「今天做的事和十年后有关吗」</b>——过滤掉纯消耗性忙碌<br>
+<b>2️⃣ 「我在为谁创造价值」</b>——使命感来自具体的被需要<br>
+<b>3️⃣ 「什么是我愿意做十年的事」</b>——长期主义的选择题<br>
+<b>4️⃣ 「今天离使命近了一步吗」</b>——每天一小步，十年就是路<br>
+<span style="color:#6a1b9a;">这四问每天挑一问问自己，形成意义锚点。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>Fact 事实底座</b>：穷忙碌用加班填充焦虑；富探索用价值筛选行动。<br>
+<b>Core 核心结论</b>：使命不在远方，在你愿意持续投入的事里。<br>
+<b>Insight 洞察</b>：三禁忌：不用忙碌代替思考、不用别人标准定义成功、不想清楚再出发。<br>
+<b>So What</b>：把使命探索变成每天的微小验证，而不是一次性的顿悟等待。<br>
+<b>How To Do</b>：每天三个动作——记录一件有成就感的事、帮一个人、问一次「这和十年后有关吗」。<br>
+<b>Know How</b>：关键不是找到宏大答案，而是别被伪命题困住：等激情、等天赋、等完美时机，都是拖延的外衣。<br>
+<b>验收口径</b>：面对选择时，能否问「十年后的我会感谢今天这个决定吗」并据此行动。<br>
+
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🐾 不迷失 · 四条守则<span class="crp-tip">👆 不妥协 · 不退让</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不做没有价值观的忙碌</b>：方向错了，效率是帮凶<br>
+<b>2️⃣ 不拿短期收益交换长期意义</b>：贵的东西，标价都在后面<br>
+<b>3️⃣ 不在低谷否定一生的方向</b>：天气不是气候<br>
+<b>4️⃣ 不独自摸索</b>：找同行者，使命需要回声<br>
+<span style="color:#6a1b9a;">迷失的人不是走错了路，是忘了为什么出发。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🎯 使命终极目标 · 三个独立<span class="crp-tip">👆 每个日常动作都在为它铺路</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 价值独立</b>：离开组织头衔也知道自己是谁——身份不外包<br>
+<b>2️⃣ 动力独立</b>：离开外部奖励也有内驱——热爱是永动机<br>
+<b>3️⃣ 意义独立</b>：离开掌声也能坚持——意义由自己定义<br>
+<span style="color:#6a1b9a;">成功是副产品，活得有意义才是目标。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🧘 迷茫三步法 · 不空转<span class="crp-tip">👆 先处理情绪，再处理事</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>为什么</b>：迷茫的本质是选项太多而筛选标准缺失。硬想会越想越乱。<br>
+<b>① 按暂停键</b>：停止收集更多选项，先写下三条筛选标准<br>
+<b>② 用实验代替空想</b>：给每个方向一个月的小成本试点<br>
+<b>③ 提供安全感</b>：告诉自己「迷茫是探索期，不是失败期」<br>
+<b>So What</b>：使命探索的目标不是一次想通人生，而是让每天的行动自带方向。
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">👑 我的六条人生规则<span class="crp-tip">👆 活出来 · 你是自己的模板</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+1 坚信利他是最长的利己<br>
+2 戒掉无意义的忙碌<br>
+3 稳定的独处思考时间<br>
+4 清理价值观不合的纠缠<br>
+5 身体是使命的载体<br>
+6 深耕热爱的领域十年<br>
+<span style="color:#6a1b9a;">说一百句不如做到一句——你日复一日在做的事，就是你的使命宣言。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🗣️ 今天要跟自己说的话 · 30 条<span class="crp-tip">👆 每天挑几条 · 当天自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">六组忠告，做完勾一条，形成肌肉记忆：已完成 <b id="sayCnt_mission">0</b> / 30</div>
+  <div id="sayWrap_mission"></div>
+</div>
+<script>
+(function(){
+  var KEY='crp_say_mission';
+  var G=[
+      {t:'🧭 方向', items:[['使命是走出来的不是想出来的','行动会给出答案'],['利他是最长的利己','价值创造是意义之源'],['选愿意做十年的事','十年门槛过滤浮躁'],['小处着手，大处着眼','从一件小事开始改变'],['不拿别人的地图找自己的路','你的路要自己画']]},
+      {t:'🔥 热爱', items:[['注意让你忘记时间的事','心流是热爱的地址'],['热情衰减时看价值不看感觉','感觉会波动，价值恒定'],['把喜欢的事做成擅长的事','热爱×练习=无可替代'],['不把爱好变成KPI前先养活它','让热爱保持纯粹'],['每天为热爱留三十分钟','复利从每天开始']]},
+      {t:'💎 价值', items:[['被需要是意义的来源','找到你的具体受众'],['解决真问题，创造真价值','伪需求养不活使命'],['定价即定位','免费的事难长久'],['先做好一件事，再谈情怀','生存是理想的底盘'],['记录你的影响','帮助过的人是意义清单']]},
+      {t:'⚖️ 取舍', items:[['对不重要的事说不','每个「是」都有一千个「不」在排队'],['不追热点，追内心','热点会退，内心不会'],['减掉一件事再谈增加','带宽是稀缺资源'],['长期主义是慢慢变富变好','急事都是小事'],['低谷不做人生判决','天气不是气候']]},
+      {t:'🧘 修行', items:[['使命感是养出来的不是找出来的','像养一株植物'],['允许自己有过渡期','探索期的迷茫是学费'],['独处是与使命对话的时间','安静才听得见内心'],['感恩当下拥有的','意义感从知足开始'],['身体是使命的载体','先睡好，再谈理想']]},
+      {t:'🚀 行动', items:[['今天为使命做一件具体的事','使命感活在行动里'],['帮助一个人，意义+1','微小的善是最实的意义'],['发布出来，接受反馈','作品是使命的镜子'],['和同路人同行','使命需要回声'],['不完美也要出发','完美主义是使命杀手']]}
+  ];
+  var wrap=document.getElementById('sayWrap_mission'); if(!wrap) return;
+  function today(){ return new Date().toISOString().slice(0,10); }
+  var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
+  var refs=[];
+  G.forEach(function(g){
+    var h=document.createElement('div');
+    h.style.cssText='font-size:12px;font-weight:700;color:#6a1b9a;margin:10px 0 4px;';
+    h.textContent=g.t; wrap.appendChild(h);
+    g.items.forEach(function(it){
+      var d=document.createElement('div'); d.className='crp-item';
+      d.innerHTML='<span class="crp-box">☐</span><div style="flex:1;"><b style="font-size:13px;">「'+it[0]+'」</b><br><span style="font-size:11px;color:#999;">'+it[1]+'</span></div>';
+      wrap.appendChild(d); refs.push({el:d, k:it[0]});
+    });
+  });
+  function render(){
+    var n=0;
+    refs.forEach(function(r){ var on=!!st[r.k]; r.el.classList.toggle('done',on); r.el.querySelector('.crp-box').textContent=on?'☑':'☐'; if(on)n++; });
+    var cc=document.getElementById('sayCnt_mission'); if(cc)cc.textContent=n;
+  }
+  refs.forEach(function(r){ r.el.addEventListener('click',function(){ st[r.k]=!st[r.k]; try{localStorage.setItem(KEY,JSON.stringify({d:today(),s:st}))}catch(e){} render(); }); });
+  render();
+})();
+</script>
+
+<div class="crp-card">
+  <div class="crp-title">🌈 我的使命信号 · 每周观察<span class="crp-tip">👆 点亮自己的样子 · 每周自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">验收不看表现看状态：这周出现了几个信号？</div>
+  <div id="fxWrap_mission2"></div>
+  <div style="font-size:12px;color:#6a1b9a;margin-top:8px;">本周点亮 <b id="fxCnt_mission2">0</b> / 12</div>
+</div>
+<script>
+(function(){
+  var KEY='crp_fx_mission2';
+  var items=['🧭 今天做的事和十年后有关','🤝 帮助了一个人','📝 记录了一件有成就感的事','⏸️ 独处思考了二十分钟','❓ 问了「我在为谁创造价值」','🔥 做热爱的事进入了心流','🚫 拒绝了一个偏离方向的机会','📖 为长期认知投入了时间','🌈 低谷没有否定方向','🤗 找到了同路人','💸 没有拿意义换快钱','🌻 感恩了当下拥有的'];
+  var wrap=document.getElementById('fxWrap_mission2'); if(!wrap) return;
+  function weekKey(){var d=new Date();var o=new Date(d.getFullYear(),0,1);var w=Math.ceil((((d-o)/86400000)+o.getDay()+1)/7);return d.getFullYear()+'-W'+w;}
+  var st={};try{var sv=JSON.parse(localStorage.getItem(KEY)||'null');if(sv&&sv.w===weekKey())st=sv.s||{}}catch(e){}
+  function render(){items.forEach(function(t,i){var el=wrap.querySelector('[data-i="'+i+'"]');if(!el)return;var on=!!st[i];el.classList.toggle('done',on);el.querySelector('.crp-box').textContent=on?'☑':'☐';});var n=0;for(var k in st)if(st[k])n++;var cc=document.getElementById('fxCnt_mission2');if(cc)cc.textContent=n;}
+  items.forEach(function(t,i){var div=document.createElement('div');div.className='crp-item';div.setAttribute('data-i',String(i));div.innerHTML='<span class="crp-box">☐</span>'+t;div.addEventListener('click',function(){st[i]=!st[i];try{localStorage.setItem(KEY,JSON.stringify({w:weekKey(),s:st}))}catch(e){}render();});wrap.appendChild(div);});
+  render();
+})();
+</script>
 </div>
 
     <div class="coach-intro" id="coachIntro" data-page-node-id="2EHIrXw6Kf3D9r5zhTPnld">
@@ -3338,7 +3468,8 @@ startApp();
       <div class="coach-prompt" id="coachPrompt" style="display:none;" data-page-node-id="pMu20wdkCoEqibWoyuRFN5">
         💡 请在下方输入框中回复...
       </div>
-      <div class="chat-input-area" id="chatInputArea" data-page-node-id="ANpG5GbXGiqy5GFXDjhyzs">
+      <div class="generating-report" id="generatingReport" style="display:none;padding:14px;text-align:center;font-size:13px;font-weight:700;color:#8f9eae;">⏳ 正在生成MECE诊断报告，请稍候...</div>
+    <div class="chat-input-area" id="chatInputArea" data-page-node-id="ANpG5GbXGiqy5GFXDjhyzs">
         <textarea id="coachInput" placeholder="在这里输入你的回复..." rows="2"></textarea>
         <button class="chat-send-btn" onclick="sendCoachMsg()" data-page-node-id="hntjl0fVaSlUuu4Y75GYaN">发送</button>
       </div>
@@ -3464,5 +3595,190 @@ startApp();
 })();
 </script>
 
+<script>/* coach-engine-uni-v1 */
+(function(){
+if(window.__ceuV1) return; window.__ceuV1=true;
+var CFG={"coach": "使命财富教练", "fallback": ["#8d6e63", "#5d4037"], "qs": ["如果用一句话说你想留给世界的东西，那会是什么？", "你现在的工作/事业和你的人生使命距离多远？差在哪？", "做什么事的时候你觉得「这就是我该干的」？多久没有这种感觉了？", "10年后的你，会感谢现在的你做的什么决定？", "未来一个月，你能迈出的第一个与使命相关的小行动是什么？"], "acts": ["写下你的「人生使命一句话」，贴在每天能看到的地方", "每周花2小时做与使命相关但与收入无关的事", "找一位走在你想走的路上的人深聊一次"], "acks": ["收到。说得越具体，后面的拆解就越准——我们继续往下走。", "明白，这个信息很关键。我们再挖一层。", "嗯，这个回答里藏着你的真实卡点。继续。", "好，最后一个问题——把它落到行动上。"], "accent": "#3a7ca5", "accent2": "#2b5a7a", "tint": "#3a7ca51f"};
+var st={q:0,ans:[],busy:false};
+function el(id){return document.getElementById(id);}
+function show(e,d){if(e)e.style.display=d;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function bubble(text,who){
+  var box=el('chatMessages'); if(!box)return;
+  var wrap=document.createElement('div');
+  wrap.style.cssText='display:flex;margin-bottom:10px;justify-content:'+(who==='user'?'flex-end':'flex-start')+';';
+  var b=document.createElement('div');
+  b.style.cssText='max-width:82%;padding:10px 14px;border-radius:16px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word;'+(who==='user'
+    ?'background:'+CFG.accent+';color:#fff;border-bottom-right-radius:4px;'
+    :'background:#f4f5f7;color:#333;border-bottom-left-radius:4px;');
+  b.textContent=text; wrap.appendChild(b); box.appendChild(wrap);
+  box.scrollTop=box.scrollHeight;
+}
+function setStep(n){
+  ['progressStep1','progressStep2','progressStep3'].forEach(function(id,i){
+    var s=el(id); if(!s)return;
+    var need=(i===0?1:i===1?3:5);
+    if(n>=need){ s.classList.add('active'); s.style.background=CFG.accent; s.style.color='#fff'; }
+  });
+}
+function inputArea(){ var ia=el('chatInputArea'); if(ia) return ia; var inp=el('coachInput'); return inp?inp.parentElement:null; }
+function startCoach(){
+  var intro=el('coachIntro'), chat=el('coachChat'), rep=el('coachReport');
+  show(intro,'none'); show(rep,'none'); show(chat,'block');
+  var box=el('chatMessages'); if(box) box.innerHTML='';
+  st={q:0,ans:[],busy:false};
+  var p=el('coachPrompt'); if(p) p.style.display='block';
+  show(inputArea(),'');
+  var gen=el('generatingReport'); show(gen,'none');
+  setStep(1);
+  setTimeout(function(){
+    bubble('你好，我是'+CFG.coach+'。','coach');
+    bubble(CFG.qs[0],'coach'); st.q=1;
+  },200);
+}
+function sendCoachMsg(){
+  if(st.busy) return;
+  var inp=el('coachInput'); if(!inp) return;
+  var v=(inp.value||'').trim();
+  if(!v){ inp.placeholder='请先输入你的回答...'; return; }
+  bubble(v,'user'); st.ans.push(v); inp.value='';
+  st.busy=true;
+  setTimeout(function(){
+    if(st.q < CFG.qs.length){
+      bubble(CFG.acks[(st.q-1)%CFG.acks.length],'coach');
+      st.q++; setStep(st.q);
+      bubble(CFG.qs[st.q-1],'coach');
+      st.busy=false;
+    } else {
+      var gen=el('generatingReport'); if(gen) show(gen,'block');
+      show(inputArea(),'none');
+      var p=el('coachPrompt'); show(p,'none');
+      setTimeout(function(){ show(gen,'none'); buildReport(); st.busy=false; },1600);
+    }
+  },500);
+}
+function buildReport(){
+  var rep=el('coachReport'); if(!rep) return;
+  var h='<div style="font-size:17px;font-weight:800;margin-bottom:6px;">📋 '+CFG.coach+' · MECE 诊断报告</div>';
+  h+='<div style="font-size:11px;color:#8f9eae;margin-bottom:14px;">基于你 '+st.ans.length+' 轮回答生成 · 纯前端模拟</div>';
+  var names=['📌 问题界定','🔍 结构化分析','🔍 深层拆解','🔍 资源盘点','🎯 优先级行动'];
+  for(var i=0;i<CFG.qs.length;i++){
+    h+='<div style="background:#f8f9fb;border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+      +'<div style="font-size:13px;font-weight:800;color:'+CFG.accent+';margin-bottom:6px;">'+names[i]+'</div>'
+      +'<div style="font-size:11.5px;color:#8f9eae;margin-bottom:4px;">'+esc(CFG.qs[i])+'</div>'
+      +'<div style="font-size:13px;color:#333;line-height:1.6;">你的回答：'+esc(st.ans[i]||'（未回答）')+'</div></div>';
+  }
+  h+='<div style="background:'+CFG.tint+';border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+    +'<div style="font-size:13px;font-weight:800;color:'+CFG.accent+';margin-bottom:6px;">✅ 本周行动清单</div>';
+  for(var j=0;j<CFG.acts.length;j++){ h+='<div style="font-size:13px;color:#333;line-height:1.7;">'+(j+1)+'. '+esc(CFG.acts[j])+'</div>'; }
+  h+='</div>';
+  h+='<div style="font-size:12px;color:#8f9eae;line-height:1.6;margin-bottom:12px;">💡 先从行动清单里挑一件本周就做，其他写进日历。对话每周都可以重来，答案会随你的状态变化。</div>';
+  h+='<button onclick="restartCoach()" style="width:100%;padding:14px;border:none;border-radius:50px;background:linear-gradient(135deg,'+CFG.accent+','+CFG.accent2+');color:#fff;font-size:15px;font-weight:700;cursor:pointer;">🔄 重新对话</button>';
+  rep.innerHTML=h; show(rep,'block');
+  show(el('coachChat'),'none');
+}
+function restartCoach(){
+  show(el('coachReport'),'none'); show(el('coachChat'),'none'); show(el('coachIntro'),'block');
+  st={q:0,ans:[],busy:false};
+}
+window.startCoach=startCoach; window.sendCoachMsg=sendCoachMsg; window.restartCoach=restartCoach;
+var _ci=el('coachInput');
+if(_ci && !_ci.dataset.ceuEnter){ _ci.dataset.ceuEnter='1'; _ci.addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendCoachMsg(); } }); }
+})();
+</script>
+<script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
+(function(){
+if(window.__uxpV1) return; window.__uxpV1=true;
+var CFG={"accent": "#b45309", "mood": {"happy": {"tag": "高能时刻", "t": "把高能时刻存进意义银行", "d": "状态好的时候，人对「为什么活着」特别有感觉。趁现在记下一件今天让你觉得「没白活」的小事，一句话就够。意义感不是想出来的，是攒出来的——这条记录会在你低谷时救你。"}, "neutral": {"tag": "平稳时刻", "t": "给热爱的事浇 30 分钟水", "d": "热爱不浇水会枯，而浇水不需要激情，只需要日历。今天固定 30 分钟给那件「重要但没人逼你做」的事：写、画、学、练。使命不是宏大的宣言，是日历上 protected 的这 30 分钟。"}, "sad": {"tag": "低落时刻", "t": "低谷时，去帮一个具体的人", "d": "意义感最快的找回方式是利他——不是大道理，是神经科学：助人会实时提升价值感。今天就帮一个具体的人：认真回答一个问题、顺手带一杯咖啡、听 someone 说十分钟。照亮别人的时候，自己也在光里。"}, "tired": {"tag": "疲惫时刻", "t": "累的时候，允许自己只做「有意义的最小版本」", "d": "使命不是鞭子，是锚。今天太累的话，把计划缩到最小：读 5 页书、写 3 行日记。保持「我在乎这件事」的信号不断，比某一天爆发式投入更重要。细水长流的人，最后都走得很远。"}}, "k3store": "buddy_key3_mission", "k3": [{"icon": "🧭", "title": "记录一件有意义的小事", "sub": "意义银行每天存", "why": "意义感不是想出来的，是攒出来的。今天记录的这件小事，就是意义银行里的一笔存款，低谷时能取出来救你。"}, {"icon": "🎯", "title": "推进热爱的事 30 分钟", "sub": "热爱需要时间浇灌", "why": "热爱不浇水会枯。今天的 30 分钟，是给灵魂交的房租——长期主义者都懂这笔账。"}, {"icon": "🙋", "title": "帮助一个人", "sub": "利他是最持久的燃料", "why": "利他是意义感最快的来源。今天帮的这个人，会让你睡前觉得「今天没白过」——这就是使命的燃料。"}], "scenes": [["🌫️", "感觉工作没意义", "找到工作背后的受益者，重新连接价值链。"], ["🧭", "迷茫不知道方向", "做减法：留下让你眼里有光的那件事，先做100天。"], ["🎁", "帮了人没回报", "意义本身就是回报。宇宙记账，从不漏单。"], ["🤹", "想做的事太多", "选一个先做100天。做深一件事胜过浅尝十件。"], ["😤", "被说理想主义", "理想主义+执行力=改变世界。继续走。"], ["😔", "今天虚度了", "明早第一件事：做最重要的事。每天的日出都是重启键。"]]};
+var ACC=CFG.accent||'#e05a7a';
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+var ov=null;
+function ensureOv(){
+  if(ov) return ov;
+  ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100500;display:none;align-items:center;justify-content:center;padding:24px;';
+  ov.addEventListener('click',function(e){ if(e.target===ov) window.__uxpClose(); });
+  document.body.appendChild(ov);
+  return ov;
+}
+function showUxp(html){
+  var o=ensureOv();
+  o.innerHTML='<div style="background:#fff;border-radius:28px;max-width:340px;width:100%;max-height:78vh;overflow-y:auto;padding:26px 22px;text-align:center;animation:uxpPop .35s cubic-bezier(.175,.885,.32,1.275);">'+html+'</div>';
+  o.style.display='flex';
+}
+window.__uxpClose=function(){ if(ov) ov.style.display='none'; };
+window.__uxpOpen=showUxp;
+var st=document.createElement('style');
+st.textContent='@keyframes uxpPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}';
+document.head.appendChild(st);
+/* ---- 情绪 emoji：拦截并弹出居中弹窗 ---- */
+window.addEventListener('click',function(e){
+  try{
+    var t=e.target; if(!t||!t.closest) return;
+    var m=t.closest('.mood-btn'); if(!m) return;
+    var k=m.getAttribute('data-mood');
+    if(!k){ var oc=m.getAttribute('onclick')||''; var mm=oc.match(/sendMood\('([\w]+)'\)/); if(mm) k=mm[1]; }
+    if(!k) k=m.getAttribute('title')||'';
+    if(!(CFG.mood||{})[k]){
+      var sk=k||'';
+      try{ for(var mk in CFG.mood){ if(mk.length>1 && sk.indexOf(mk)>=0){ k=mk; break; } } }catch(e){}
+      var kmap=[['happy','很好|开心|不错|超棒|愉快|高兴'],['neutral','还行|平静|一般|平稳|还好'],['sad','低落|难过|不开心|委屈|烦躁|压力|焦虑|丧'],['tired','累|疲惫|困|倦|没劲']];
+      for(var ki=0;ki<kmap.length;ki++){ try{ if(new RegExp(kmap[ki][1]).test(sk)){ k=kmap[ki][0]; break; } }catch(e){} }
+    }
+    var c=(CFG.mood||{})[k]; if(!c) return;
+    if(e.preventDefault)e.preventDefault();
+    if(e.stopImmediatePropagation)e.stopImmediatePropagation(); else if(e.stopPropagation)e.stopPropagation();
+    var emo=(m.textContent||'').trim()||'\ud83d\ude42';
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+esc(c.tag)+'</div>'
+      +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(c.t)+'</div>'
+      +'<div style="font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(c.d)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u6536\u5230\uff0c\u5c31\u8fd9\u4e48\u505a \ud83d\udcaa</button>');
+  }catch(err){}
+},true);
+/* ---- 关键小动作勾选：包装原函数，勾选时弹居中弹窗 ---- */
+function wrapKey3(fnName, storeKey){
+  var orig=window[fnName];
+  if(typeof orig!=='function'||orig.__uxp) return;
+  var wrapped=function(i){
+    var before=null;
+    try{ var d=JSON.parse(localStorage.getItem(storeKey)||'{}'); before=!!(d&&d.checked&&d.checked[i]); }catch(e){}
+    var r=orig.apply(this,arguments);
+    try{
+      var d2=JSON.parse(localStorage.getItem(storeKey)||'{}');
+      var after=!!(d2&&d2.checked&&d2.checked[i]);
+      var acts=CFG.k3||[];
+      if(!before&&after&&acts[i]){
+        var a=acts[i];
+        showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(a.icon||'\u2705')+'</div>'
+          +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u2713 \u4eca\u65e5\u5173\u952e\u52a8\u4f5c</div>'
+          +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:4px;">'+esc(a.title||'')+'</div>'
+          +(a.sub?'<div style="font-size:12px;color:#888;margin-bottom:10px;">'+esc(a.sub)+'</div>':'')
+          +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(a.why||'')+'</div>'
+          +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u8bb0\u4e0a\u4e86 \u2705</button>');
+      }
+    }catch(e){}
+    return r;
+  };
+  wrapped.__uxp=true;
+  try{ window[fnName]=wrapped; }catch(e){}
+}
+wrapKey3('toggleKey3',CFG.k3store);
+wrapKey3('stdK3Toggle',CFG.k3store);
+/* ---- std 场景卡：改为居中弹窗反馈（不关选择面板） ---- */
+if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
+  window.stdScenePick=function(i){
+    var sc=CFG.scenes[i]; if(!sc) return;
+    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+  };
+}
+})();
+</script>
 </body>
 </html>

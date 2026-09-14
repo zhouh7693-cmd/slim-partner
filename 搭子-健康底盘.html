@@ -209,6 +209,7 @@ body {
     /* === 时段徽章 === */
     .time-badge { display: inline-block; margin-top: 8px; padding: 4px 10px; background: rgba(255,255,255,0.7); border-radius: 12px; font-size: 12px; color: #0f766e; font-weight: 600; backdrop-filter: blur(4px); }
 </style>
+<style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body data-page-node-id="ccLpZuYZt47e4q8xESSLQM"><div id="page-chat" class="page active" data-page-node-id="vKIRsMv0MH2JD17r3ix1iV"><div class="wrap" data-page-node-id="e2U1bBnRqcCsVUyCGthhp8"><div id="dashboard" style="display:none;" data-page-node-id="lr92pBb5y4WyfCAJ5JEZQj"><div class="card" style="text-align:center;" data-page-node-id="gN3Fz0U1FxDHFypA2tGHJz"><div id="currentPartnerBadge" class="partner-badge" data-page-node-id="CwcUdLigo35u3AkKoUbJze">🌿 温和提醒型</div><div class="question" style="font-size:17px;font-weight:700;color:#0f172a;margin-top:4px;" data-page-node-id="IDmHUQsvvOY0Qz7BYzUhDc">今天，做一件对自己身体好的小事</div><div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="VndnssmuVyusxqZzCzGSzf"><div class="checkin-status" id="checkinStatusText" data-page-node-id="uDB9IxH7bdELQcD0fgm2kb">已打卡</div><div class="checkin-sub" id="checkinSubText" data-page-node-id="UWWUV2AyBWkfMmLnyRcTLh">点击完成</div></div><div class="streak-num" id="streakNum" data-page-node-id="mCwhbOoCaJXcUHFapaUl2E">0</div><div class="streak-label" data-page-node-id="Lz881awcNcWXam2rrklS2s">连续天数 · 断签不清零</div></div><div class="chat-area" id="chatArea" data-page-node-id="CCakN0w8FP9LRSzGFH26fY"></div><div class="week-progress" data-page-node-id="ky0AHQyoTfvuIgZVs0LD05"><div class="week-title" data-page-node-id="WEdjBiJ4MNGkwN1DWBcCUk"><span data-page-node-id="5bdWeAWm7cPVrAwPfemjVQ">📅 本周</span><span id="weekRange" data-page-node-id="xjsEB1uyn7FRx8MEBgKJNa"></span></div><div class="week-dots" id="weekDots" data-page-node-id="Zsg05NhUndO2DiP2HhF3RS"></div></div><button class="copy-btn" onclick="copyStats()" data-page-node-id="4rx8VtAyW8qJaXNI3WJZKx">📋 复制今日战绩</button></div><!-- 今天提醒自己（按时段区分） -->
 
@@ -256,7 +257,7 @@ body {
   <div id="stdTipText"></div>
 </div>
 <div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
-<div id="stdSceneSheet" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:301;background:#fff;border-radius:24px 24px 0 0;max-height:72vh;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
+<div id="stdSceneSheet" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:301;background:#fff;border-radius:24px;max-height:76vh;width:calc(100% - 40px);max-width:400px;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
   <div onclick="stdSceneClose()" style="position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
   <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
   <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
@@ -268,7 +269,7 @@ body {
 (function(){
   if (window.__stdTab) return; window.__stdTab = 1;
   var SLUG='health', ACCENT='#0d9488', EMOJI='🌿';
-  var ACTIONS=[["🥗", "吃一份深色蔬菜", "肠道菌群喜欢它们"], ["🚶", "快走/活动累计 30 分钟", "7000 步是底线"], ["😴", "23 点半前放下手机", "睡眠是最强免疫"]], TIPS=null, SCENES=null;
+  var ACTIONS=[["🥗", "吃一份深色蔬菜", "肠道菌群喜欢它们"], ["🚶", "快走/活动累计 30 分钟", "7000 步是底线"], ["😴", "23 点半前放下手机", "睡眠是最强免疫"]], TIPS=["量过的数字才是数据，感觉不是——血压每周固定测", "水喝够 1500ml，代谢和血压都更稳", "每坐 1 小时站起来 2 分钟，血管就谢谢你", "盘子一半是绿色，预防就成功一半", "23 点半前放下手机，睡眠是最强免疫", "走 6000 步是最温和的心肺训练", "外卖重油重盐一顿，血压要缓好几天——下一餐清淡回来", "烟没有「安全剂量」，少一根是一根", "放松不是偷懒，是身体在维修", "体检不是找病，是存健康档案——按计划复诊", "慢性压力是最被低估的健康杀手，每天留 10 分钟放空", "「没精神」很多时候是缺水或缺觉，先补这两个再看", "三顿规律，比任何补品都管用", "爬三层楼喘不喘，是心肺最诚实的体检", "少盐一周，味蕾会自己调整过来", "饭后走 10 分钟，血糖曲线平滑一截", "身体没有「突然」垮，只有「一直」没管", "今天的步数，是给未来的自己存的医药费减免单", "药按时吃比吃贵的更重要", "把健康当成账户：每天存一点，急用时才取得出来"], SCENES=null;
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
   function today(){ return new Date().toISOString().slice(0,10); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
@@ -445,7 +446,146 @@ body {
       render();
     })();
     </script>
+  
+<div class="crp-card">
+  <div class="crp-title">📜 健康底盘三禁忌<span class="crp-tip">👆 底线动作 · 一条都不能破</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不硬扛小症状</b>：身体的信号不是骚扰，是预警<br>
+<b>2️⃣ 不熬夜透支</b>：睡眠是一切健康的底盘，底盘塌了全塌<br>
+<b>3️⃣ 不把体检报告当废纸</b>：异常指标是身体给你写的信<br>
+<span style="color:#00838f;">健康不是不生病，是身体的报警系统还能正常工作。</span>
   </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">💬 每天必说的四句话<span class="crp-tip">👆 每天挑一句说出口</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 「今天血压量了吗」</b>——数据化管理你的底盘<br>
+<b>2️⃣ 「今晚十一点前睡」</b>——睡觉是最便宜的补品<br>
+<b>3️⃣ 「动一动，哪怕十分钟」</b>——碎片运动也是运动<br>
+<b>4️⃣ 「不舒服就去查，不拖」</b>——早查一天，少受十分<br>
+<span style="color:#00838f;">这四句话每天挑一句说出口，形成健康本能。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">📐 方法论 · 七段收口<span class="crp-tip">👆 标准动作 · 推进与验收</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>Fact 事实底座</b>：穷健康靠硬扛和侥幸；富健康靠数据和日常维护。<br>
+<b>Core 核心结论</b>：健康不是不生病，是让身体的报警系统一直好使。<br>
+<b>Insight 洞察</b>：三禁忌：不硬扛症状、不熬夜透支、不忽视体检。<br>
+<b>So What</b>：把健康管理变成每天的标准动作，而不是生病后的临时抱佛脚。<br>
+<b>How To Do</b>：每天三个动作——记录一项体征、动一动、按时睡。<br>
+<b>Know How</b>：关键不是吃多少补品，而是别漏「隐形损耗」：久坐、熬夜、情绪压抑，都是慢性透支。<br>
+<b>验收口径</b>：不舒服时，能否三天内预约检查而不是「再观察观察」——「我去查」「我量了」「我睡了」。<br>
+
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🐾 不塌方 · 四条守则<span class="crp-tip">👆 不妥协 · 不退让</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 不迷信偏方</b>：循证医学是底线，神药都是智商税<br>
+<b>2️⃣ 不用忙碌当借口</b>：没时间健康，就有时间生病<br>
+<b>3️⃣ 不忽视情绪健康</b>：心理压力是生理疾病的上游<br>
+<b>4️⃣ 不孤立管理</b>：让家人知道你的指标和习惯，互相监督<br>
+<span style="color:#00838f;">塌方的身体不是一天垮的，是每天透支一点。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🎯 健康终极目标 · 三个独立<span class="crp-tip">👆 每个日常动作都在为它铺路</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>1️⃣ 体能独立</b>：六十岁还能爬山旅行——肌肉和心肺是养老金<br>
+<b>2️⃣ 认知独立</b>：血管和睡眠护住大脑——不拖累也不失智<br>
+<b>3️⃣ 医疗独立</b>：懂自己的指标和病历——不当被动的病人<br>
+<span style="color:#00838f;">不生病是副产品，健朗到老是目标。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🧘 不适三步法 · 不恐慌<span class="crp-tip">👆 先处理情绪，再处理事</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+<b>为什么</b>：身体信号一来就慌，要么硬扛要么过度检查，两个极端都伤身。<br>
+<b>① 按暂停键</b>：先记录：什么部位、什么感觉、什么时候开始<br>
+<b>② 用观察代替猜测</b>：量一量可自测的指标（血压/体温/体重）<br>
+<b>③ 分级响应</b>：轻微异常观察三天；持续或加重的，直接就医不犹豫<br>
+<b>So What</b>：健康管理的目标不是永不不适，而是让每个信号都被恰当响应。
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">👑 我的六条人生规则<span class="crp-tip">👆 活出来 · 你是自己的模板</span></div>
+  <div class="crp-stage-body" style="margin-top:0;">
+1 每天测量并记录一项体征<br>
+2 十一点前睡觉雷打不动<br>
+3 每天活动三十分钟以上<br>
+4 戒掉熬夜和硬扛<br>
+5 每季度复盘一次体检指标<br>
+6 持续学习循证健康知识<br>
+<span style="color:#00838f;">说一百句不如做到一句——你今天对待身体的方式，就是十年后身体对待你的方式。</span>
+  </div>
+</div>
+
+<div class="crp-card">
+  <div class="crp-title">🗣️ 今天要跟自己说的话 · 30 条<span class="crp-tip">👆 每天挑几条 · 当天自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">六组忠告，做完勾一条，形成肌肉记忆：已完成 <b id="sayCnt_jiankang">0</b> / 30</div>
+  <div id="sayWrap_jiankang"></div>
+</div>
+<script>
+(function(){
+  var KEY='crp_say_jiankang';
+  var G=[
+      {t:'📏 监测', items:[['今天量血压了吗','数据化管理的第一步'],['记录睡眠时长和质量','睡眠是底盘的仪表盘'],['体重腰围每周一测','趋势比单点重要'],['异常指标建立观察档案','看病时它就是证据'],['不适症状记录三天再判断','给医生准确信息']]},
+      {t:'😴 睡眠', items:[['十一点前放下一切','先睡，世界等得起'],['卧室黑、静、凉','环境是睡眠的开关'],['睡前一小时不进食','肠胃休息你才休息'],['白天困了小睡二十分钟','不硬顶不透支'],['周末不报复性熬夜','生物钟不认假期']]},
+      {t:'🏃 运动', items:[['每天快走三十分钟','最便宜的良药'],['每坐一小时起身活动','久坐是新吸烟'],['每周两次力量训练','肌肉是代谢引擎'],['拉伸五分钟再睡觉','给身体一个降速带'],['能站不坐，能走不站','碎片活动也是活动']]},
+      {t:'🍜 饮食', items:[['少油少盐少糖','三减是底线性动作'],['每天半斤绿叶菜','膳食纤维是肠道清道夫'],['喝水一千五起步','渴之前先喝'],['晚餐七分饱','晚上肠胃要下班'],['外食选蒸煮避油炸','点餐是健康管理的一半']]},
+      {t:'🧘 情绪', items:[['情绪是健康的一部分','压力写进血压里'],['焦虑时就出去走走','运动是最快的解药'],['不和烂人烂事纠缠','生气是别人的错自己受罚'],['睡前清空情绪账户','写下来再睡'],['允许自己休息','休息是生产不是偷懒']]},
+      {t:'🛡️ 就医', items:[['小症状观察三天','给身体自愈时间'],['持续加重的立即就医','加重就是升级信号'],['体检异常两周内复查','复查是负责不是恐吓'],['病历检查单归档','健康是有档案的'],['信任医生胜过搜索引擎','百度看病越看越怕']]}
+  ];
+  var wrap=document.getElementById('sayWrap_jiankang'); if(!wrap) return;
+  function today(){ return new Date().toISOString().slice(0,10); }
+  var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
+  var refs=[];
+  G.forEach(function(g){
+    var h=document.createElement('div');
+    h.style.cssText='font-size:12px;font-weight:700;color:#00838f;margin:10px 0 4px;';
+    h.textContent=g.t; wrap.appendChild(h);
+    g.items.forEach(function(it){
+      var d=document.createElement('div'); d.className='crp-item';
+      d.innerHTML='<span class="crp-box">☐</span><div style="flex:1;"><b style="font-size:13px;">「'+it[0]+'」</b><br><span style="font-size:11px;color:#999;">'+it[1]+'</span></div>';
+      wrap.appendChild(d); refs.push({el:d, k:it[0]});
+    });
+  });
+  function render(){
+    var n=0;
+    refs.forEach(function(r){ var on=!!st[r.k]; r.el.classList.toggle('done',on); r.el.querySelector('.crp-box').textContent=on?'☑':'☐'; if(on)n++; });
+    var cc=document.getElementById('sayCnt_jiankang'); if(cc)cc.textContent=n;
+  }
+  refs.forEach(function(r){ r.el.addEventListener('click',function(){ st[r.k]=!st[r.k]; try{localStorage.setItem(KEY,JSON.stringify({d:today(),s:st}))}catch(e){} render(); }); });
+  render();
+})();
+</script>
+
+<div class="crp-card">
+  <div class="crp-title">🌈 我的健康信号 · 每周观察<span class="crp-tip">👆 点亮自己的样子 · 每周自动清零</span></div>
+  <div style="font-size:11px;color:#999;margin:4px 0 8px;">验收不看表现看状态：这周出现了几个信号？</div>
+  <div id="fxWrap_jk2"></div>
+  <div style="font-size:12px;color:#00838f;margin-top:8px;">本周点亮 <b id="fxCnt_jk2">0</b> / 12</div>
+</div>
+<script>
+(function(){
+  var KEY='crp_fx_jk2';
+  var items=['📏 今天测量并记录了体征','😴 连续三天十一点前入睡','🚶 每天走了六千步以上','🩺 不适三天内就去检查了','🥗 一周没有暴饮暴食','💪 完成了两次以上力量训练','😌 情绪平稳没有硬扛','💧 喝水达标了','🩻 体检异常指标安排了复查','📝 建立了自己的健康档案','🍎 饮食少油少盐了','🗣️ 把健康状况告诉了家人'];
+  var wrap=document.getElementById('fxWrap_jk2'); if(!wrap) return;
+  function weekKey(){var d=new Date();var o=new Date(d.getFullYear(),0,1);var w=Math.ceil((((d-o)/86400000)+o.getDay()+1)/7);return d.getFullYear()+'-W'+w;}
+  var st={};try{var sv=JSON.parse(localStorage.getItem(KEY)||'null');if(sv&&sv.w===weekKey())st=sv.s||{}}catch(e){}
+  function render(){items.forEach(function(t,i){var el=wrap.querySelector('[data-i="'+i+'"]');if(!el)return;var on=!!st[i];el.classList.toggle('done',on);el.querySelector('.crp-box').textContent=on?'☑':'☐';});var n=0;for(var k in st)if(st[k])n++;var cc=document.getElementById('fxCnt_jk2');if(cc)cc.textContent=n;}
+  items.forEach(function(t,i){var div=document.createElement('div');div.className='crp-item';div.setAttribute('data-i',String(i));div.innerHTML='<span class="crp-box">☐</span>'+t;div.addEventListener('click',function(){st[i]=!st[i];try{localStorage.setItem(KEY,JSON.stringify({w:weekKey(),s:st}))}catch(e){}render();});wrap.appendChild(div);});
+  render();
+})();
+</script>
+</div>
 <!-- ===== 教练介绍卡 + 5问对话 + 报告（与富教育搭子同构） ===== -->
   <style>
     #hcCoachIntro.hcc-coach-intro { background:#fff; border-radius:32px; padding:32px 24px; margin:16px auto; max-width:420px; text-align:center; box-shadow:0 8px 24px rgba(0,0,0,0.06); }
@@ -735,6 +875,100 @@ body {
 })();
 </script>
 
+<script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
+(function(){
+if(window.__uxpV1) return; window.__uxpV1=true;
+var CFG={"accent": "#0d9488", "mood": {"happy": {"tag": "高能时刻", "t": "好状态是身体的信用分", "d": "今天的轻松感，是过去每个好习惯攒出来的利息。趁状态好，加一个 10 分钟的快走或拉伸，把多巴胺变成血液循环。身体记得你对它的每一分好，也会连本带利地还给你。"}, "neutral": {"tag": "平稳时刻", "t": "平稳期，做一次「身体年检式自查」", "d": "不用等不舒服才关注身体。今天花 3 分钟过一遍：血压记了吗、喝水够 1500ml 了吗、坐了多久没动。慢病管理的本质是「在没有症状时行动」——今天这三件小事，就是最便宜的保险。"}, "sad": {"tag": "低落时刻", "t": "情绪不好时，先照顾身体再想别的", "d": "心情差很多时候是身体在报警：缺水、缺觉、缺阳光。先做最简单的三件套：喝一大杯水、开窗晒 10 分钟太阳、做 5 次深呼吸。身体的底盘稳了，情绪自然跟着回来一大半。"}, "tired": {"tag": "疲惫时刻", "t": "累是身体最诚实的汇报", "d": "别用咖啡硬顶疲劳——那是透支信用卡。今晚最有效的「养生」只有一个动作：23 点半前放下手机。睡眠是身体每晚的免费体检加维修，睡好今晚，明天的免疫力、代谢、情绪都会感谢你。"}}, "k3store": "buddy_key3_health", "k3": [{"icon": "🥗", "title": "吃一份深色蔬菜", "sub": "肠道菌群喜欢它们", "why": "深色蔬菜喂养的是肠道菌群，而菌群影响着免疫和情绪。今天这份蔬菜，是最便宜的「天然保健品」。"}, {"icon": "🚶", "title": "快走/活动累计 30 分钟", "sub": "7000 步是底线", "why": "7000 步是医学界公认的健康底线。今天凑够的每一步，都在实打实降低慢病风险——血管都记得。"}, {"icon": "😴", "title": "23 点半前放下手机", "sub": "睡眠是最强免疫", "why": "23 点半放下手机，是给免疫系统交的作业。睡眠是每晚的免费体检加维修，今晚早睡就是最划算的健康投资。"}]};
+var ACC=CFG.accent||'#e05a7a';
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+var ov=null;
+function ensureOv(){
+  if(ov) return ov;
+  ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100500;display:none;align-items:center;justify-content:center;padding:24px;';
+  ov.addEventListener('click',function(e){ if(e.target===ov) window.__uxpClose(); });
+  document.body.appendChild(ov);
+  return ov;
+}
+function showUxp(html){
+  var o=ensureOv();
+  o.innerHTML='<div style="background:#fff;border-radius:28px;max-width:340px;width:100%;max-height:78vh;overflow-y:auto;padding:26px 22px;text-align:center;animation:uxpPop .35s cubic-bezier(.175,.885,.32,1.275);">'+html+'</div>';
+  o.style.display='flex';
+}
+window.__uxpClose=function(){ if(ov) ov.style.display='none'; };
+window.__uxpOpen=showUxp;
+var st=document.createElement('style');
+st.textContent='@keyframes uxpPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}';
+document.head.appendChild(st);
+/* ---- 情绪 emoji：拦截并弹出居中弹窗 ---- */
+window.addEventListener('click',function(e){
+  try{
+    var t=e.target; if(!t||!t.closest) return;
+    var m=t.closest('.mood-btn'); if(!m) return;
+    var k=m.getAttribute('data-mood');
+    if(!k){ var oc=m.getAttribute('onclick')||''; var mm=oc.match(/sendMood\('([\w]+)'\)/); if(mm) k=mm[1]; }
+    if(!k) k=m.getAttribute('title')||'';
+    if(!(CFG.mood||{})[k]){
+      var sk=k||'';
+      try{ for(var mk in CFG.mood){ if(mk.length>1 && sk.indexOf(mk)>=0){ k=mk; break; } } }catch(e){}
+      var kmap=[['happy','很好|开心|不错|超棒|愉快|高兴'],['neutral','还行|平静|一般|平稳|还好'],['sad','低落|难过|不开心|委屈|烦躁|压力|焦虑|丧'],['tired','累|疲惫|困|倦|没劲']];
+      for(var ki=0;ki<kmap.length;ki++){ try{ if(new RegExp(kmap[ki][1]).test(sk)){ k=kmap[ki][0]; break; } }catch(e){} }
+    }
+    var c=(CFG.mood||{})[k]; if(!c) return;
+    if(e.preventDefault)e.preventDefault();
+    if(e.stopImmediatePropagation)e.stopImmediatePropagation(); else if(e.stopPropagation)e.stopPropagation();
+    var emo=(m.textContent||'').trim()||'\ud83d\ude42';
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+esc(c.tag)+'</div>'
+      +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(c.t)+'</div>'
+      +'<div style="font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(c.d)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u6536\u5230\uff0c\u5c31\u8fd9\u4e48\u505a \ud83d\udcaa</button>');
+  }catch(err){}
+},true);
+/* ---- 关键小动作勾选：包装原函数，勾选时弹居中弹窗 ---- */
+function wrapKey3(fnName, storeKey){
+  var orig=window[fnName];
+  if(typeof orig!=='function'||orig.__uxp) return;
+  var wrapped=function(i){
+    var before=null;
+    try{ var d=JSON.parse(localStorage.getItem(storeKey)||'{}'); before=!!(d&&d.checked&&d.checked[i]); }catch(e){}
+    var r=orig.apply(this,arguments);
+    try{
+      var d2=JSON.parse(localStorage.getItem(storeKey)||'{}');
+      var after=!!(d2&&d2.checked&&d2.checked[i]);
+      var acts=CFG.k3||[];
+      if(!before&&after&&acts[i]){
+        var a=acts[i];
+        showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(a.icon||'\u2705')+'</div>'
+          +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u2713 \u4eca\u65e5\u5173\u952e\u52a8\u4f5c</div>'
+          +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:4px;">'+esc(a.title||'')+'</div>'
+          +(a.sub?'<div style="font-size:12px;color:#888;margin-bottom:10px;">'+esc(a.sub)+'</div>':'')
+          +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(a.why||'')+'</div>'
+          +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u8bb0\u4e0a\u4e86 \u2705</button>');
+      }
+    }catch(e){}
+    return r;
+  };
+  wrapped.__uxp=true;
+  try{ window[fnName]=wrapped; }catch(e){}
+}
+wrapKey3('toggleKey3',CFG.k3store);
+wrapKey3('stdK3Toggle',CFG.k3store);
+/* ---- std 场景卡：改为居中弹窗反馈（不关选择面板） ---- */
+if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
+  window.stdScenePick=function(i){
+    var sc=CFG.scenes[i]; if(!sc) return;
+    var emo=sc[0],ttl=sc[1],msg=sc[2];
+    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u5929\u53d1\u751f\u4e86\u4ec0\u4e48</div>'
+      +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(ttl)+'</div>'
+      +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(msg)+'</div>'
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u597d\u7684\uff0c\u6211\u8bb0\u4f4f\u4e86 \ud83d\udcdd</button>');
+    try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— \u6211\u5728\uff0c\u4e00\u8d77\u62c6\u3002','partner'); }catch(e){}
+  };
+}
+})();
+</script>
 </body><script>const STORAGE = { PARTNER: "slim_partner_health", CHECKIN: "slim_checkin_health", ACTIONS: "slim_health_actions", ACTIONS_DONE: "slim_health_actions_done", SOP: "slim_sop_health", SOP_HIST: "slim_sop_health_hist", SOP_LASTW: "slim_sop_health_lastw", METRICS: "slim_health_metrics", YEARLY: "slim_health_yearly", STREAKS: "slim_health_streaks" };const SOP_CATEGORIES = [{"key": "metab", "icon": "🩸", "name": "代谢", "desc": "血糖、血脂、血压、体重、腰围", "tip": "空腹血糖、腰围、血压，每 3-6 个月看一次趋势，比看单次数值更说明问题。"}, {"key": "gut", "icon": "🌱", "name": "肠道", "desc": "排便规律、菌群多样性、纤维摄入", "tip": "每周 25-30g 膳食纤维 + 多种植物（≥30 种/周），是肠道最稳的两件事。"}, {"key": "immune", "icon": "🛡", "name": "免疫", "desc": "疫苗更新、睡眠、急性病恢复期", "tip": "疫苗不焦虑每年补一次；睡眠连续 5 天低于 6 小时，免疫反应就会下降。"}, {"key": "sleep", "icon": "🌙", "name": "睡眠", "desc": "时长、入睡、深睡、节律", "tip": "固定上床时间比\"睡够\"更重要；连续 3 周规律，节律就稳了。"}, {"key": "stress", "icon": "🧘", "name": "压力", "desc": "心率、HRV、情绪复原、休息能力", "tip": "HRV（心率变异性）比\"心情\"更客观；连续 7 天早晨 5 分钟呼吸引续就能回升。"}, {"key": "move", "icon": "🏃", "name": "运动", "desc": "有氧、力量、柔韧、日常活动量", "tip": "每周 150 分钟中等强度有氧 + 2 次力量，比\"每天 1 万步\"更说明问题。"}];const ACTION_POOL = [{"emoji": "🥬", "title": "吃够 1 份深色蔬菜", "tip": "至少 80g，深绿色最好"}, {"emoji": "🚶", "title": "快走 10 分钟", "tip": "微喘能说话的速度"}, {"emoji": "📵", "title": "23:30 前放下手机", "tip": "屏幕蓝光骗大脑以为是白天"}, {"emoji": "💧", "title": "喝水 1.5L", "tip": "小口慢喝，不是一次灌"}, {"emoji": "🧘", "title": "5 分钟深呼吸", "tip": "4-7-8 节奏，鼻子吸嘴呼"}, {"emoji": "🍎", "title": "今天吃 1 份完整水果", "tip": "带皮吃，纤维更全"}, {"emoji": "🥗", "title": "主食用 1/3 粗粮替换", "tip": "糙米/燕麦/玉米/薯类"}, {"emoji": "🦴", "title": "靠墙静蹲 30 秒 × 3 组", "tip": "膝盖不超脚尖"}, {"emoji": "☀️", "title": "出门晒 10 分钟", "tip": "上午 10 点前最佳"}, {"emoji": "🛏", "title": "22:30 前上床", "tip": "节律比时长更值钱"}, {"emoji": "🚶‍♀️", "title": "饭后走 15 分钟", "tip": "降餐后血糖最有效"}, {"emoji": "📵", "title": "吃饭不看屏幕", "tip": "胃也会\"专注\"消化"}, {"emoji": "🌰", "title": "一小把坚果", "tip": "约 15-20g，原味最好"}, {"emoji": "🧂", "title": "看一眼包装食品盐含量", "tip": "警惕\"低钠\"标签"}, {"emoji": "😴", "title": "中午午休 15-20 分钟", "tip": "超过 30 分钟反而困"}, {"emoji": "🪥", "title": "认真刷牙 2 分钟", "tip": "牙周和心血管是连着的"}, {"emoji": "📝", "title": "写下 1 件让你焦虑的事", "tip": "写下来焦虑值就降一半"}, {"emoji": "🌬", "title": "做 5 次腹式呼吸", "tip": "吸 4 停 4 呼 6"}, {"emoji": "🪟", "title": "开窗通风 10 分钟", "tip": "CO₂ 比 PM2.5 更影响认知"}, {"emoji": "🎯", "title": "为 1 件明天要做的事定时", "tip": "把\"打算\"变成\"约定\""}];const METRICS = [{"key": "fpg", "name": "空腹血糖", "unit": "mmol/L", "ideal": "3.9 - 6.1"}, {"key": "hba1c", "name": "糖化血红蛋白", "unit": "%", "ideal": "< 5.7"}, {"key": "ldl", "name": "低密度脂蛋白", "unit": "mmol/L", "ideal": "< 3.4"}, {"key": "tg", "name": "甘油三酯", "unit": "mmol/L", "ideal": "< 1.7"}, {"key": "hdl", "name": "高密度脂蛋白", "unit": "mmol/L", "ideal": "> 1.0"}, {"key": "waist", "name": "腰围", "unit": "cm", "ideal": "男<90 女<85"}, {"key": "bmi", "name": "BMI", "unit": "kg/m²", "ideal": "18.5 - 24"}, {"key": "uric_acid", "name": "尿酸", "unit": "μmol/L", "ideal": "男<420 女<360"}, {"key": "alt", "name": "ALT（肝功）", "unit": "U/L", "ideal": "< 40"}, {"key": "ast", "name": "AST（肝功）", "unit": "U/L", "ideal": "< 40"}];const YEARLY_ITEMS = [{"key": "physical", "text": "今年做了年度体检", "freq": "年度"}, {"key": "bp_retest", "text": "血压复查", "freq": "建议 3 个月"}, {"key": "glucose_retest", "text": "血糖/糖化复查", "freq": "健康 1 年/有异常 3 月"}, {"key": "lipid_retest", "text": "血脂复查", "freq": "健康 3-5 年/有异常 1 年"}, {"key": "vaccine", "text": "疫苗更新（流感/新冠/带状疱疹等）", "freq": "按品种 1-5 年"}, {"key": "dental", "text": "口腔检查 + 洁牙", "freq": "半年到一年"}, {"key": "vision", "text": "视力 / 眼底检查", "freq": "建议一年"}, {"key": "cancer_screen", "text": "年龄对应癌症筛查咨询", "freq": "按医生建议"}, {"key": "family_history", "text": "家族史更新（父母/兄弟姐妹）", "freq": "每年回顾"}, {"key": "colon", "text": "肠镜（45 岁后或家族史）", "freq": "按医生建议"}, {"key": "breast", "text": "乳腺（女性，40+ 视情况）", "freq": "按医生建议"}, {"key": "cervical", "text": "宫颈（女性，21+ 起）", "freq": "按医生建议"}, {"key": "prostate", "text": "前列腺（男性，50+ 视情况）", "freq": "按医生建议"}];const TYPE_SCENES = {"progress": [{"type": "pos", "feedback": "看到你在认真维持每周记录，这就是最稳的那条路。"}, {"type": "pos", "feedback": "数据在握，未来十年你的身体会感谢今天的你。"}, {"type": "pos", "feedback": "把指标当朋友，不当敌人，趋势比单次更重要。"}], "struggle": [{"type": "neg", "feedback": "今天做不到，不代表明天做不到。先停一停，别硬撑。"}, {"type": "neg", "feedback": "焦虑的时候身体也在听你说话，对它温和一点。"}, {"type": "neg", "feedback": "断签一天不丢任何东西；连轴紧绷才是真正伤身体。"}], "idea": [{"type": "pos", "feedback": "好问题——健康的所有改进都是从这种\"咦\"开始。"}, {"type": "pos", "feedback": "记住这个念头，下次体检前再翻出来问问自己。"}], "cheer": [{"type": "pos", "feedback": "好事情 — 情绪好的时候免疫也好，稳稳的多收一份红利。"}], "question": [{"type": "q", "feedback": "我猜你最在意的是「这样是不是真的有用」。对吗？"}, {"type": "q", "feedback": "你愿意从哪一个最小的一步开始？"}], "report": [{"type": "pos", "feedback": "记下来了。我们看 4 周趋势，比看一周更说明问题。"}]};
 let sopCatIdx = 0;
 let sopScore = 0;
@@ -1342,7 +1576,6 @@ function openQAPanel(type) {
   $('qaOverlay').classList.add('show');
 }
 function pickScene(t, i) {
-  closeQAPanel();
   setTimeout(function() { showSceneFeedback(t, i); }, 100);
 }
 function closeQAPanel() { $('qaOverlay').classList.remove('show'); }
@@ -1568,7 +1801,6 @@ function openHealthPanel(type) {
 
 // ===== 选场景后弹反馈浮窗 =====
 function pickHealthScene(type, i) {
-  closeQAPanel();
   setTimeout(function() { showHealthFeedback(type, i); }, 300);
 }
 
@@ -1647,7 +1879,6 @@ function openHealthSceneSheet() {
         + '<div class="qa-card-text">' + item.title + '</div>'
         + '<div class="qa-card-tag ' + type + '">' + item.tag + '</div>';
       card.onclick = function() {
-        closeQAPanel();
         setTimeout(function() { showHealthSceneFB(i, type); }, 300);
       };
       scroll.appendChild(card);
