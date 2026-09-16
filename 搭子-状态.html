@@ -103,7 +103,7 @@
     .mood-btn,.talk-btn{pointer-events:auto !important;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;}
     .mood-btn:active { background: #d6efec; transform: scale(1.15); }
     .talk-btn-row { display: flex; gap: 8px; }
-    .talk-btn { flex: 1; padding: 10px; border-radius: 16px; border: 1.5px solid #e9edf2; background: white; font-size: 14px; font-weight: 500; color: #0b8a82; cursor: pointer; transition: all .15s; pointer-events: auto !important; touch-action: manipulation; }
+    .talk-btn { flex: 1; min-width: 0; white-space: nowrap; padding: 10px 4px; border-radius: 16px; border: 1.5px solid #e9edf2; background: white; font-size: 14px; font-weight: 500; color: #0b8a82; cursor: pointer; transition: all .15s; pointer-events: auto !important; touch-action: manipulation; }
     .talk-btn:active { background: #d6efec; transform: scale(0.97); }
 
     /* ===== 每日提示 ===== */
@@ -306,37 +306,89 @@
 
 <!-- ===== Tab Bar ===== -->
 <div class="tab-bar" data-page-node-id="UW2ONAYYjRg9h6LQrQjttY">
-  <div class="tab-item active" onclick="switchTab('partner')" data-page-node-id="PQyaKs7IfMxG4fruJQXmXE"><div class="tab-icon" data-page-node-id="kAden7k9ZL9KLdSEfB1RDy">🪷</div><div class="tab-label" data-page-node-id="LRI7CRy46VA1MGxrVfPncD">搭子</div></div>
+  <div class="tab-item active" onclick="switchTab('partner')" data-page-node-id="PQyaKs7IfMxG4fruJQXmXE"><div class="tab-icon" data-page-node-id="kAden7k9ZL9KLdSEfB1RDy">💬</div><div class="tab-label" data-page-node-id="LRI7CRy46VA1MGxrVfPncD">搭子</div></div>
   <div class="tab-item" onclick="switchTab('coach')"><div class="tab-icon">🎓</div><div class="tab-label">教练</div></div>
   <div class="tab-item" onclick="switchTab('sop')" data-page-node-id="Q2NyGKoVcgvgOkBdyVu2w3"><div class="tab-icon" data-page-node-id="YKIYOEYA4jo225uWhmTmBA">🎯</div><div class="tab-label" data-page-node-id="4OL4iTDHKo3W0SFY9uUKYm">自检</div></div>
   <div class="tab-item" onclick="switchTab('checkin')" data-page-node-id="6ZkyBcTg1rSjfqhyVJ4KMm"><div class="tab-icon" data-page-node-id="YVSWWtkpBeUpk8ylVUQGuD">✅</div><div class="tab-label" data-page-node-id="QIguSKO9fFKuC71MunVObB">打卡</div></div>
-  <div class="tab-item" onclick="switchTab('record')" data-page-node-id="tabRecordState"><div class="tab-icon">📊</div><div class="tab-label">记录</div></div>
-  <div class="tab-item" onclick="switchTab('progress')" data-page-node-id="meAFs3hQ5zAcLfHHaQoQtH"><div class="tab-icon" data-page-node-id="RQCoMWf2xyRXqbSmm8Awl2">📈</div><div class="tab-label" data-page-node-id="4GbUulPfp35cp21PjxqC84">进展</div></div>
+  <div class="tab-item" onclick="switchTab('record')" data-page-node-id="tabRecordState"><div class="tab-icon">📈</div><div class="tab-label">状态</div></div>
+  <div class="tab-item" onclick="switchTab('progress')" data-page-node-id="meAFs3hQ5zAcLfHHaQoQtH"><div class="tab-icon" data-page-node-id="RQCoMWf2xyRXqbSmm8Awl2">📊</div><div class="tab-label" data-page-node-id="4GbUulPfp35cp21PjxqC84">进展</div></div>
   <div class="tab-item" onclick="switchTab('share')" data-page-node-id="HGRSwHiznAn4dXRoOZAiJz"><div class="tab-icon" data-page-node-id="xArv4CfZY9gks9szfuQ7dA">📣</div><div class="tab-label" data-page-node-id="OH7x4CanfVBoGfG2IDBo07">分享</div></div>
 </div>
 
 <!-- ===== Page: 搭子 ===== -->
-<div id="page-partner" class="page active" data-page-node-id="MZkN3xCQFnHbXdYeH5DCLm">
-  <div class="card" style="margin-top:20px;" data-page-node-id="izFE7njOauPDhwLrtlLdzP">
-    <div class="selector-title" data-page-node-id="HwxKF18h3UFNsou1C83mP6">选个状态搭子</div>
-    <div class="selector-sub" data-page-node-id="17CkI5J5noC4Hn4AlTDYxR">海浪 · 镜子 · 灯笼<br data-page-node-id="uUholtssMx4THZIA5GOUjx">你的内在状态由谁陪你看见</div>
-    <div class="partner-grid" id="partnerGrid" data-page-node-id="dCr7sLHsfKxYWvCz3PVQlu"></div>
-    <button class="confirm-btn" onclick="confirmPartner()" data-page-node-id="T7Cef0KZzdgd0AOtDYQ0ud">✨ 开始今天的状态觉察 ✨</button>
+<div id="page-partner" class="page active">
+  <div style="padding:16px 12px 80px;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:24px;font-weight:700;color:#333;">💬 搭子</div>
+      <div style="font-size:13px;color:#999;margin-top:4px;">和你的状态搭子聊聊</div>
+    </div>
+    <div id="partnerCardB" style="background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:20px;padding:20px;margin-bottom:16px;">
+      <div id="partnerAvatarB" style="font-size:48px;text-align:center;margin-bottom:8px;"></div>
+      <div id="partnerNameB" style="text-align:center;font-size:16px;font-weight:700;color:#333;"></div>
+      <div id="partnerStyleB" style="text-align:center;font-size:12px;color:#0e7490;margin-top:4px;"></div>
+    </div>
+    <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
+<div class="interaction-panel" data-page-node-id="4CrKmcJEvxo2MklBkwUjh2">
+    <div class="panel-label" data-page-node-id="lz8UPx7GVMEWTaI7FUPuwi">💬 和搭子说说话</div>
+    <div class="mood-row" data-page-node-id="0K8T64TLckQEoxIk3KtEYj">
+      <div class="mood-btn" data-mood="calm" title="平静" data-page-node-id="J4N4WC6EvaYzz9AWE48dNs">🌊</div>
+      <div class="mood-btn" data-mood="tired" title="疲惫" data-page-node-id="WalJBDrNX4CPiXPorgz4Hg">🫠</div>
+      <div class="mood-btn" data-mood="anxious" title="焦虑" data-page-node-id="F5daNvbFsSaBqgL9AxaRgr">😣</div>
+      <div class="mood-btn" data-mood="energetic" title="有劲" data-page-node-id="kNM9zsUQiA0RAxuDhAsavn">⚡</div>
+    </div>
+    <div class="talk-btn-row" data-page-node-id="tPR7XOC280WZzRCqI5rjqt">
+      <button class="talk-btn" data-type="progress" data-page-node-id="S14WQdpqwI3NNxsyOgAhV5">📈 进展</button>
+      <button class="talk-btn" data-type="struggle" data-page-node-id="QnfsVDugL8duVrt8sZDY3F">😣 状态差</button>
+      <button class="talk-btn" data-type="idea" data-page-node-id="LphH8rLTRUXimhcgtvIXKt">💭 想聊聊</button>
+      <button class="talk-btn" data-type="cheer" data-page-node-id="5PAiHvFlaCG76ceQgmg5jW">🎉 好状态</button>
+    </div>
+    <div class="talk-btn-row" style="margin-top:8px;">
+      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
+      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
+    </div>
+    <div class="talk-btn-row" style="margin-top:8px;">
+      <button class="talk-btn" onclick="stdSceneOpen()">💭 今天发生了什么</button>
+    </div>
   </div>
+  </div>
+<div id="stdDailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#fff3e0,#ffe9d6);border-radius:18px;padding:14px 16px;font-size:13px;color:#b3541e;line-height:1.7;box-shadow:0 4px 14px rgba(0,0,0,0.04);">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+    <span style="font-size:18px;">📌</span>
+    <span style="font-weight:700;">今天提醒自己</span>
+    <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="stdTipNext()">换一条</span>
+  </div>
+  <div id="stdTipText"></div>
+</div>
 </div>
 
+
 <!-- ===== Page: 自检 ===== -->
-<div id="page-sop" class="page" data-page-node-id="8rM6aAK5n3FLCFIccAIcig">
-  <div class="sop-page" style="margin-top:20px;" data-page-node-id="GxWWytQSsyusoZfSRMZjEW">
-    <div class="sop-title" data-page-node-id="ZiUpdgJudR61lSKXU8OY9G">🪷 内在状态自检</div>
-    <div class="sop-cat-tabs" id="sopCatTabs" data-page-node-id="QQkB6hALxOPcHo2U3jVcwC"></div>
-    <div id="sopPanel" data-page-node-id="3ID7ciyC9CiMGGlZITp244">
-      <div class="sop-question" id="sopQuestion" data-page-node-id="5ibfHp7nEIVeQc396MM9yp"></div>
-      <div class="sop-options" id="sopOptions" data-page-node-id="7xv6EyDBsC8ZMrpWKIdnVj"></div>
-      <div class="sop-score" id="sopScore" data-page-node-id="WA9KVNJKvwpIFzaH4RKjPL">答完 5 题，看看今天的觉察清晰度</div>
+<div id="page-sop" class="page">
+  <div style="padding:16px 12px 80px;">
+    <div style="background:#fff;border-radius:20px;padding:20px 18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+      <div style="font-size:20px;font-weight:800;color:#333;">🎯 状态自检</div>
+      <div style="font-size:13px;color:#999;margin-top:4px;margin-bottom:14px;">答完今天的题，看看准备度</div>
+      <div style="display:flex;gap:10px;margin-bottom:12px;">
+        <div style="flex:1;background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0e7490;" id="sopNum1">0</div><div style="font-size:11px;color:#8f9eae;">今日已答</div></div>
+        <div style="flex:1;background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0e7490;" id="sopNum2">0</div><div style="font-size:11px;color:#8f9eae;">总题数</div></div>
+        <div style="flex:1;background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0e7490;" id="sopNum3">0%</div><div style="font-size:11px;color:#8f9eae;">完成度</div></div>
+      </div>
+      <div style="background:#eef2f5;border-radius:8px;height:10px;overflow:hidden;"><div id="sopBar" style="height:100%;width:0%;background:#0e7490;border-radius:8px;transition:width .5s;"></div></div>
+      <div style="font-size:11px;color:#8f9eae;text-align:right;margin-top:4px;" id="sopBarText">0 / 0</div>
+    </div>
+    <div class="sop-cat-tabs" id="sopCatTabs" style="margin-bottom:12px;"></div>
+    <div style="background:#fff;border-radius:18px;padding:18px 16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+      <div id="sopQuestion" style="font-size:15px;font-weight:700;color:#333;line-height:1.6;margin-bottom:12px;"></div>
+      <div id="sopOptions" style="display:flex;flex-direction:column;gap:8px;"></div>
+      <div id="sopScore" style="display:none;"></div>
+    </div>
+    <div style="background:#fff;border-radius:18px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+      <div style="font-size:14px;font-weight:800;color:#333;margin-bottom:6px;">💡 状态提示</div>
+      <div id="sopTipText" style="font-size:12.5px;color:#555;line-height:1.7;"></div>
     </div>
   </div>
 </div>
+
 
 <!-- ===== Page: 教练（McKinsey风格 · 青绿主题） ===== -->
 <div id="page-coach" class="page">
@@ -551,7 +603,16 @@
 
 <!-- ===== Page: 打卡 ===== -->
 <div id="page-checkin" class="page" data-page-node-id="9MnM9V0UA984sLA4BG2ZMl">
-  <div class="card" style="margin-top:20px;" data-page-node-id="s7n0fyJbIS8D1akdhgRuJ0">
+  <div id="partnerSelectorWrap" style="margin:0 12px;">
+  <div class="card" style="margin-top:16px;">
+    <div class="selector-title">选个状态搭子</div>
+    <div class="selector-sub">海浪 · 镜子 · 灯笼<br>你的内在状态由谁陪你看见</div>
+    <div class="partner-grid" id="partnerGrid"></div>
+    <button class="confirm-btn" onclick="confirmPartner()">✨ 开始今天的状态觉察 ✨</button>
+  </div>
+</div>
+
+<div class="card" style="margin-top:20px;" data-page-node-id="s7n0fyJbIS8D1akdhgRuJ0">
     <div class="partner-badge" id="currentPartnerBadge" data-page-node-id="bL08K4uSeSpI91z2SUWPEz">🌊 海浪</div>
     <div class="question" id="todaysQ" data-page-node-id="ez0AYCLpkPX3Ne074WjJW2">此刻你的状态，更接近哪一种？</div>
     <div class="question-sub" id="todaysQSub" data-page-node-id="bbppiZWboI3peBX7anjS72">不评判 · 只是看见 · 然后选一个</div>
@@ -585,6 +646,13 @@
       <button class="talk-btn" data-type="idea" data-page-node-id="LphH8rLTRUXimhcgtvIXKt">💭 想聊聊</button>
       <button class="talk-btn" data-type="cheer" data-page-node-id="5PAiHvFlaCG76ceQgmg5jW">🎉 好状态</button>
     </div>
+    <div class="talk-btn-row" style="margin-top:8px;">
+      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
+      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
+    </div>
+    <div class="talk-btn-row" style="margin-top:8px;">
+      <button class="talk-btn" onclick="stdSceneOpen()">💭 今天发生了什么</button>
+    </div>
   </div>
 <!-- std-buddy-tab-v1: 关键动作 + 提醒自己 + 场景弹窗 -->
 <div id="stdKey3" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
@@ -595,28 +663,12 @@
   <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
   <div id="stdKey3List"></div>
 </div>
-<div id="stdDailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#fff3e0,#ffe9d6);border-radius:18px;padding:14px 16px;font-size:13px;color:#b3541e;line-height:1.7;box-shadow:0 4px 14px rgba(0,0,0,0.04);">
-  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-    <span style="font-size:18px;">📌</span>
-    <span style="font-weight:700;">今天提醒自己</span>
-    <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="stdTipNext()">换一条</span>
-  </div>
-  <div id="stdTipText"></div>
-</div>
-<div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
-<div id="stdSceneSheet" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:301;background:#fff;border-radius:24px;max-height:76vh;width:calc(100% - 40px);max-width:400px;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
-  <div onclick="stdSceneClose()" style="position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
-  <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
-  <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
-  <div id="stdSceneList"></div>
-  <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
-</div>
 <script>
 /* std-buddy-tab-v1 */
 (function(){
   if (window.__stdTab) return; window.__stdTab = 1;
   var SLUG='status', ACCENT='#0b8a82', EMOJI='⚡';
-  var ACTIONS=[["🌞", "早上晒 10 分钟太阳", "血清素是情绪的地基"], ["🏃", "完成 20 分钟微运动", "动一动就有多巴胺"], ["🧘", "做 3 次深呼吸练习", "随时可以降压"]], TIPS=null, SCENES=null;
+  var ACTIONS=[["🌞", "早上晒 10 分钟太阳", "血清素是情绪的地基"], ["🏃", "完成 20 分钟微运动", "动一动就有多巴胺"], ["🧘", "做 3 次深呼吸练习", "随时可以降压"]], TIPS=["情绪不是敌人，是信使——先接住，再拆信", "说得出名字的情绪，就已经被驯服了一半", "低落不是退步，是身心在要求充电", "每天 10 分钟晒太阳，血清素是情绪的地基", "动 20 分钟，比想 2 小时更解压", "烦躁时先解决喝水吃饭睡觉，再谈别的", "写下来，情绪就从脑内噪音变成了待办清单", "深呼吸 3 次，给情绪装一个减速带", "不必每天都有好状态，波动本来就是常态", "求助不是软弱，是高配版的解决问题", "把「我必须」换成「我选择」，压力小一半", "今天只做一件小事，完成就是胜利", "跟人说说你的状态，说出来就轻了一半", "刷手机是假休息，起身走动才是真恢复", "焦虑说明你在乎，写下最坏结果往往没那么坏", "状态差的日子，把标准降到能完成的地步", "情绪上头时别做决定，睡一觉再说", "像安慰好朋友那样，安慰一句自己", "记录每天的状态，看见节律就能提前应对", "你不需要时刻元气满满，稳定就已经很了不起"], SCENES=null;
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
   function today(){ return new Date().toISOString().slice(0,10); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
@@ -666,18 +718,6 @@
     var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[d.idx];
   }
   window.stdSceneOpen=function(){
-    if(!SCENES||!SCENES.length) return;
-    var box=document.getElementById('stdSceneList');
-    if(box){
-      var h='';
-      for(var i=0;i<SCENES.length;i++){
-        h+='<div onclick="stdScenePick('+i+')" style="display:flex;align-items:center;gap:10px;background:#f6f8fa;border-radius:12px;padding:11px 12px;margin-bottom:8px;cursor:pointer;">'
-          +'<div style="font-size:20px;flex-shrink:0;">'+SCENES[i][0]+'</div>'
-          +'<div style="flex:1;font-size:13px;color:#333;font-weight:600;">'+SCENES[i][1]+'</div>'
-          +'<div style="color:#c0c4cc;font-size:16px;flex-shrink:0;">›</div></div>';
-      }
-      box.innerHTML=h;
-    }
     var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
     if(m) m.style.display='block'; if(sh) sh.style.display='block';
   };
@@ -691,6 +731,7 @@
     chat(SCENES[i][0]+' '+SCENES[i][1]+' —— 我在，一起拆。');
   };
   function ensureSceneBtn(){
+    return;
     try{
       if(!document.getElementById('stdSceneBtn')){
         var panel=document.querySelector('.interaction-panel');
@@ -717,18 +758,22 @@
     </div>
     <div id="dailyTipText" data-page-node-id="Po81tpFJn7HFEvj2coIRNX"></div>
   </div>
+  <footer data-page-node-id="PcswwXWq4gPtLsPzuALHKa">每天一次 · 看见自己的状态就够了</footer>
+</div>
 
-  <!-- ===== 今天发生了什么 ===== -->
-  <div class="scenes-panel" data-page-node-id="scenesPanel02">
-    <div class="scenes-title" data-page-node-id="scenesTitle02">💭 今天发生了什么？</div>
-    <div class="scenes-sub" data-page-node-id="scenesSub02">点一下 · 让搭子回应你 · 不计入打卡</div>
-    <div class="scenes-group-label pos" data-page-node-id="lblPos02">⬆️ 好的进展 / 想得到鼓励</div>
-    <div id="stateScenesPos" data-page-node-id="stateScenesPos"></div>
-    <div class="scenes-group-label neg" data-page-node-id="lblNeg02">⬇️ 遇到困难 / 需要引导</div>
-    <div id="stateScenesNeg" data-page-node-id="stateScenesNeg"></div>
-  </div>
+<div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
+<div id="stdSceneSheet" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:301;background:#fff;border-radius:24px;max-height:76vh;width:calc(100% - 40px);max-width:400px;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
+  <div onclick="stdSceneClose()" style="position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
+  <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
+  <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
+  <div class="scenes-group-label pos">⬆️ 好的进展 / 想得到鼓励</div>
+  <div id="stdScenesPos"></div>
+  <div class="scenes-group-label neg">⬇️ 遇到困难 / 需要引导</div>
+  <div id="stdScenesNeg"></div>
+  <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
+</div>
 
-  <!-- ===== 反馈弹窗 ===== -->
+<!-- ===== 反馈弹窗 ===== -->
   <div class="fb-overlay" id="fbOverlay" data-page-node-id="fbOverlay02" onclick="closeFBBack()">
     <div class="fb-card" id="fbCard" data-page-node-id="fbCard02" onclick="event.stopPropagation()">
       <div class="fb-emoji" id="fbEmoji" data-page-node-id="fbEmoji02">🪷</div>
@@ -739,9 +784,6 @@
       <button class="fb-close" onclick="closeFBBack()" data-page-node-id="fbClose02">知道了</button>
     </div>
   </div>
-
-  <footer data-page-node-id="PcswwXWq4gPtLsPzuALHKa">每天一次 · 看见自己的状态就够了</footer>
-</div>
 
 <!-- ===== Page: 记录（KPI / 数值） ===== -->
 <div id="page-record" class="page">
@@ -780,7 +822,12 @@
     </div>
 
     <!-- ===== 7 天趋势：能量曲线 ===== -->
-    <div class="record-chart-card">
+    
+    <div id="pgWeeklyCard" style="background:#fff;border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+      <div style="font-size:14px;font-weight:800;color:#333;margin-bottom:10px;">📊 本周进展</div>
+      <div id="pgWeeklyBody"><div style="text-align:center;padding:14px;color:#b0bec5;font-size:13px;">本周打卡后再来看进展 📝</div></div>
+    </div>
+<div class="record-chart-card">
       <div class="chart-title">⚡ 近 7 天能量水平</div>
       <div class="chart-sub">1-10 分 · 曲线反映你近期的「电量」</div>
       <canvas id="stateEnergyCanvas" width="380" height="160"></canvas>
@@ -809,36 +856,90 @@
 </div>
 
 <!-- ===== Page: 进展 ===== -->
-<div id="page-progress" class="page" data-page-node-id="XWOs9ujGmHY6iJK6maVC8w">
-  <div class="progress-page" style="margin-top:20px;" data-page-node-id="nWlQQfQXKqNRRDhaHrg7h5">
-    <div class="progress-title" data-page-node-id="NBGxR1z8kyOQAF2otVG4HP">📊 我的觉察进展</div>
-    <div class="stat-grid" data-page-node-id="rnzK6JgG4xBNoTOgaNBJxn">
-      <div class="stat-cell" data-page-node-id="QixwF7cEzHC9EdEBPGvWYj"><div class="stat-num" id="statTotal" data-page-node-id="CjPPffUzhOgGMOtcjOvkwO">0</div><div class="stat-lbl" data-page-node-id="ytlX8RP5eGLPXzSVMU4lMS">总打卡</div></div>
-      <div class="stat-cell" data-page-node-id="lE0HxTnhGaDymEH4yqRVtJ"><div class="stat-num" id="statStreak" data-page-node-id="Ls1Hn8N9DOf5EarFGq9ZNd">0</div><div class="stat-lbl" data-page-node-id="Htn4DBM3YW9UN8xvr3Jdx0">连续天数</div></div>
-      <div class="stat-cell" data-page-node-id="jAg67FQ4uSMrAERoZglqnM"><div class="stat-num" id="statHigh" data-page-node-id="8bjZkoppDUYOfKyH8lfoTZ">0</div><div class="stat-lbl" data-page-node-id="vhkUpwbG2H3GkXCA7aI1ai">高能量天</div></div>
-      <div class="stat-cell" data-page-node-id="WBlNOZFIAJk5izCQXLatAa"><div class="stat-num" id="statLow" data-page-node-id="rqtz6qohViMqDUu2vGWkIg">0</div><div class="stat-lbl" data-page-node-id="EYdNEqJE2gd2Jiq10Pl8RG">低能量天</div></div>
-    </div>
-    <div class="card" data-page-node-id="r1gtRZ2PBtQS2TuvzbtdV9">
-      <div class="progress-title" style="font-size:16px;margin-bottom:8px;" data-page-node-id="l6akEYKwLNbtQBKJCYr6TI">🗺️ 状态觉察三阶段</div>
-      <div style="font-size:13px;color:#6c7a89;line-height:1.7;text-align:left;" data-page-node-id="IZwYhn03vT9RFVSm6uUEFK">
-        <b data-page-node-id="QBuetmNaYxSqtVQGMXFKst">7 天</b>：每天 1 次觉察，看见自己「能量 · 平静 · 专注」的起伏<br data-page-node-id="kLc30AQHPxD8OcsCaXAdtE">
-        <b data-page-node-id="Bg0NIejCKp69BGUytnr1QZ">30 天</b>：找到 1 个最影响状态的小习惯<br data-page-node-id="PRviNOktNow0fcNQutK9TZ">
-        <b data-page-node-id="jS5X6VIiFA6BeXoGwtOJNE">90 天</b>：把 1 个觉察仪式变成自动习惯
+<div id="page-progress" class="page">
+  <div style="padding:16px 12px 80px;">
+    <div style="background:linear-gradient(135deg,#ecfeff,#f0f9ff);border:1px solid rgba(0,0,0,.04);border-radius:20px;padding:28px 20px;margin-bottom:16px;text-align:center;">
+      <div style="font-size:48px;margin-bottom:8px;">🏆</div>
+      <div style="font-size:18px;font-weight:800;color:#333;margin-bottom:4px;">状态进展</div>
+      <div style="font-size:13px;color:#8f9eae;margin-bottom:20px;">你的全局视图</div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <defs><linearGradient id="pgRingGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#0e7490"/><stop offset="100%" stop-color="#7c8cf8"/></linearGradient></defs>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#ffffff" stroke-width="14"/>
+          <circle id="pgRingFill" cx="70" cy="70" r="54" fill="none" stroke="url(#pgRingGrad)" stroke-width="14" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3" transform="rotate(-90 70 70)" style="transition:stroke-dashoffset .8s;"/>
+          <text x="70" y="65" text-anchor="middle" style="font-size:24px;font-weight:900;fill:#0e7490;" id="pgRingPct">0%</text>
+          <text x="70" y="82" text-anchor="middle" style="font-size:11px;fill:#8f9eae;">近7天平均</text>
+        </svg>
       </div>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <div style="background:#fff;border-radius:16px;padding:10px 16px;"><div style="font-size:18px;font-weight:800;color:#0e7490;" id="pgStreak">0</div><div style="font-size:11px;color:#8f9eae;">连续天数</div></div>
+        <div style="background:#fff;border-radius:16px;padding:10px 16px;"><div style="font-size:18px;font-weight:800;color:#0e7490;" id="pgTotal">0</div><div style="font-size:11px;color:#8f9eae;">累计天数</div></div>
+        <div style="background:#fff;border-radius:16px;padding:10px 16px;"><div style="font-size:18px;font-weight:800;color:#0e7490;" id="pgToday">-</div><div style="font-size:11px;color:#8f9eae;">今日打卡</div></div>
+      </div>
+    </div>
+    <div style="background:#fff;border-radius:20px;padding:18px 16px;margin-bottom:16px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+      <div style="font-size:15px;font-weight:800;color:#333;margin-bottom:14px;">📊 各维度平均得分</div>
+      <div id="pgDims" style="display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+    <div style="background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:20px;padding:20px 16px;text-align:center;">
+      <div style="font-size:36px;margin-bottom:8px;" id="pgPEmoji">🪷</div>
+      <div style="font-size:14px;font-weight:700;color:#333;margin-bottom:4px;" id="pgPName"></div>
+      <div style="font-size:13px;color:#555;line-height:1.6;" id="pgPMsg">状态没有好坏，看见它就是改变的开始</div>
     </div>
   </div>
 </div>
 
+
 <!-- ===== Page: 分享 ===== -->
-<div id="page-share" class="page" data-page-node-id="yPmXCuh5qswgd6rMAJwdfS">
-  <div class="share-card" style="margin-top:20px;" data-page-node-id="Qf3poNspEuMEgXGqYTZHGz">
-    <div style="font-size:11px;color:#0b8a82;letter-spacing:0.5px;margin-bottom:10px;" data-page-node-id="hKGfu4MInvCoCq9fglMMLv">📣 推荐给想看见自己状态的朋友</div>
-    <div class="share-preview" data-page-node-id="NCz5GyfBZX5Aoc39SEovxI">🪷 状态搭子 · 每天一次觉察，看见自己的能量 · 平静 · 专注</div>
-    <div class="share-copy-row" data-page-node-id="kCMTR8Rce33u3UiJwtMp0M">
-      <button class="share-btn share-copy-btn" onclick="copyShareLink()" data-page-node-id="uXZDwquX5TSJOQnaRU1qaM">📋 复制邀请链接</button>
+<div id="page-share" class="page">
+  <div style="padding:16px 12px 80px;">
+    <div style="text-align:center;margin-bottom:16px;">
+      <div style="font-size:24px;font-weight:700;color:#333;">📣 分享</div>
+      <div style="font-size:13px;color:#999;margin-top:4px;">邀请朋友一起状态</div>
+    </div>
+    <div style="background:#fff;border-radius:20px;padding:18px 16px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+      <div style="font-size:15px;font-weight:800;color:#333;margin-bottom:12px;">🏃 我的状态</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center;">
+        <div style="background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:12px;padding:12px 6px;"><div style="font-size:20px;font-weight:700;color:#0e7490;" id="shStreak">-</div><div style="font-size:11px;color:#888;margin-top:2px;">连续打卡</div></div>
+        <div style="background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:12px;padding:12px 6px;"><div style="font-size:20px;font-weight:700;color:#0e7490;" id="shToday">-</div><div style="font-size:11px;color:#888;margin-top:2px;">今日打卡</div></div>
+        <div style="background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:12px;padding:12px 6px;"><div style="font-size:20px;font-weight:700;color:#0e7490;" id="shTotal">-</div><div style="font-size:11px;color:#888;margin-top:2px;">累计天数</div></div>
+      </div>
+    </div>
+    <div style="background:#fff;border-radius:20px;padding:18px 16px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+      <div style="font-size:15px;font-weight:800;color:#333;margin-bottom:12px;">🪷 状态搭子</div>
+      <div style="background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;">
+        <div style="font-size:48px;margin-bottom:8px;">🪷</div>
+        <div style="font-size:16px;font-weight:700;color:#333;margin-bottom:4px;">状态搭子</div>
+        <div style="font-size:13px;color:#555;line-height:1.6;margin-bottom:8px;">4种性格陪你看见内在状态<br>每天3次觉察，情绪来了不迷路</div>
+        <div style="font-size:11px;color:#0e7490;">能量 · 平静 · 专注 · 觉察</div>
+      </div>
+      <div style="font-size:14px;font-weight:800;color:#333;margin-bottom:12px;">📋 复盘维度</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+        <div style="background:#f7f8fc;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">🌙</div>
+          <div style="font-size:12px;font-weight:600;color:#4a4ec0;">入睡节律</div>
+        </div>
+        <div style="background:#f7f8fc;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">📊</div>
+          <div style="font-size:12px;font-weight:600;color:#26a69a;">睡眠时长</div>
+        </div>
+        <div style="background:#f7f8fc;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">😴</div>
+          <div style="font-size:12px;font-weight:600;color:#ef6c00;">睡眠质量</div>
+        </div>
+        <div style="background:#f7f8fc;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:24px;">🧠</div>
+          <div style="font-size:12px;font-weight:600;color:#8d6e63;">睡前心态</div>
+        </div>
+
+      </div>
+      <div style="font-size:14px;font-weight:800;color:#333;margin-bottom:8px;">🔗 邀请链接</div>
+      <div style="background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:12px;padding:12px 14px;font-size:12px;color:#0e7490;word-break:break-all;margin-bottom:12px;">https://zhouh7693-cmd.github.io/slim-partner/搭子-状态.html</div>
+      <button onclick="copyShareLink()" style="width:100%;padding:13px;border:none;border-radius:14px;background:linear-gradient(135deg,#0e7490,#7c8cf8);color:#fff;font-size:14px;font-weight:700;">📋 复制邀请链接</button>
     </div>
   </div>
 </div>
+
 
 <div class="toast" id="toast" data-page-node-id="4sAPSaKPFQCWgrcRrsn5jL"></div>
 
@@ -1328,6 +1429,7 @@ function renderStateReport() {
 renderPartnerGrid();
 setTimeout(function(){ try { renderStateScenes(); } catch(e) {} }, 0);
 updateStateSummary();
+setTimeout(function(){ try { if (window.statePartnerGreet) statePartnerGreet(); } catch(e) {} }, 600);
 
 function renderPartnerGrid() {
   const grid = document.getElementById('partnerGrid');
@@ -1499,8 +1601,13 @@ function askPartner(topic) {
       cheer: '🏮 灯笼：好状态是礼物。今天要不要给它一个仪式？'
     }
   };
+  labels.report = '📣 汇报'; labels.question = '🤔 提问';
+  const exOpen = {
+    report:   { wave:'🌊 海浪：汇报吧，这一周的状态我看得到。', mirror:'🪞 镜子：说吧，我帮你照见这一周。', lamp:'🏮 灯笼：汇报收到，我们只看趋势。' },
+    question: { wave:'🌊 海浪：问吧，状态的事没有傻问题。', mirror:'🪞 镜子：把问题说出来，它就清楚了一半。', lamp:'🏮 灯笼：问，我帮你照亮一点。' }
+  };
   const label = labels[topic] || topic;
-  const opener = (openers[p.id] || openers.wave)[topic] || '🪞 看见你了。';
+  const opener = (openers[p.id] || openers.wave)[topic] || (exOpen[topic] && exOpen[topic][p.id]) || '🪞 看见你了。';
   appendChat('me', label);
   setTimeout(() => {
     appendChat('partner', opener);
@@ -1532,13 +1639,25 @@ const STATE_TYPE_SCENES = {
     { icon:'🥰', text:'刚收到一个好消息 / 别人的认可',       tone:'pos', tag:'被看见',  title:'被看见的感觉' , text_body:'被看见是能量，记下来，下一次你需要时回看。', quote:'🏮 灯笼：被看见，灯会更亮。' },
     { icon:'💪', text:'今天扛住了一个挑战',                  tone:'pos', tag:'扛住了',  title:'扛住了'       , text_body:'扛住了就是成长。明天再扛一点点就够了。',    quote:'🪞 镜子：今天你比昨天强一点。' },
     { icon:'🌱', text:'今天做了 1 件很小但很对的事',         tone:'pos', tag:'小步',    title:'小步前进'     , text_body:'小步前进是大步前进的开始。',                quote:'🌊 海浪：每一小步都是浪的形状。' }
+  ],
+  report: [
+    { icon:'📊', text:'这周专注 / 能量比上周稳了一点', tone:'pos', tag:'变稳', title:'状态变稳了', text_body:'「稳」比「亢奋」更值钱。记下这周做对的 1 件小事，下周照做。', quote:'🌊 海浪：稳定的水面，才能照见东西。' },
+    { icon:'🪞', text:'这周有 3 天以上做了呼吸 / 记录', tone:'pos', tag:'觉察', title:'觉察在积累', text_body:'觉察是状态管理的第一块肌肉，你已经练起来了。', quote:'🪞 镜子：照见的次数越多，镜子越亮。' },
+    { icon:'🫠', text:'这周瘫的日子比想的多', tone:'neg', tag:'耗竭', title:'耗竭的一周', text_body:'先补觉，再谈效率。连续耗竭是身体在要求停机检修。', quote:'🏮 灯笼：灯油快没了，先加油，再赶路。' },
+    { icon:'😤', text:'这周情绪失控的次数变多了', tone:'neg', tag:'情绪', title:'情绪变多了', text_body:'情绪是信号不是敌人。每次爆发前，试着先离场 60 秒。', quote:'🪞 镜子：看见情绪，它就小了一半。' }
+  ],
+  question: [
+    { icon:'🧭', text:'怎么知道自己最近状态好不好？', tone:'pos', tag:'自检', title:'怎么看状态', text_body:'看三件事：睡眠、专注、情绪恢复速度。三项都稳，状态就在线。', quote:'🪞 镜子：数据不会评判你，只会告诉你。' },
+    { icon:'⚡', text:'为什么总是下午就没电了？', tone:'pos', tag:'能量', title:'下午没电', text_body:'先查三件套：昨晚睡了几小时、午饭吃了什么、上午连轴转了多久。', quote:'🏮 灯笼：耗电快，通常是充电出了问题。' },
+    { icon:'🌀', text:'脑子里的杂念太多，怎么清空？', tone:'neg', tag:'杂念', title:'杂念太多', text_body:'把杂念写在纸上，写下来的那一刻大脑就会放下它们。5 分钟就够。', quote:'🌊 海浪：浪来了不用赶，看着它退。' },
+    { icon:'🤝', text:'要不要把我的状态告诉别人？', tone:'neg', tag:'求助', title:'要不要说', text_body:'说出来的瞬间，压力就分掉了一半。选一个安全的人，从一句话开始。', quote:'🏮 灯笼：一盏灯点亮另一盏，不会变暗。' }
   ]
 };
 
 function openStateTypePanel(topic) {
   const data = STATE_TYPE_SCENES[topic] || [];
   if (!data.length) return;
-  const titles = { progress:'📈 进展 · 选一个回应你', struggle:'😣 状态差 · 选一个回应你', idea:'💭 想聊聊 · 选一个回应你', cheer:'🎉 好状态 · 选一个回应你' };
+  const titles = { progress:'📈 进展 · 选一个回应你', struggle:'😣 状态差 · 选一个回应你', idea:'💭 想聊聊 · 选一个回应你', cheer:'🎉 好状态 · 选一个回应你', report:'📣 汇报 · 选一个最像的', question:'🤔 提问 · 选一个最接近的' };
   const html = data.map((s, i) => `
     <div class="scene-card ${s.tone}" data-idx="${i}" data-type="${topic}" onclick="openStateFB(${i}, '${topic}')">
       <div class="scene-icon">${s.icon}</div>
@@ -1613,6 +1732,7 @@ function renderSOPQuestion() {
     <button class="sop-option" onclick="answerSOP(${i}, ${q.scores[i]})">${opt}</button>
   `).join('');
   updateSOPScore();
+  try{ updateSOPStd(); }catch(e){}
 }
 
 function answerSOP(optionIdx, score) {
@@ -1696,15 +1816,15 @@ function renderStateScenes() {
     const c = document.getElementById(containerId);
     if (!c) return;
     c.innerHTML = list.map((s, i) => `
-      <div class="scene-card ${type}" data-idx="${i}" data-type="${type}" onclick="openStateSceneFB(${i}, '${type}')">
+      <div class="scene-card ${type}" data-idx="${i}" data-type="${type}" onclick="stdSceneClose();openStateSceneFB(${i}, '${type}')">
         <div class="scene-icon">${s.icon}</div>
         <div class="scene-text">${s.title}</div>
         <div class="scene-tag ${type}">${s.tag}</div>
       </div>
     `).join('');
   };
-  renderGroup(STATE_SCENES.pos, 'pos', 'stateScenesPos');
-  renderGroup(STATE_SCENES.neg, 'neg', 'stateScenesNeg');
+  renderGroup(STATE_SCENES.pos, 'pos', 'stdScenesPos');
+  renderGroup(STATE_SCENES.neg, 'neg', 'stdScenesNeg');
 }
 
 function openStateSceneFB(idx, type) {
@@ -1940,6 +2060,149 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— 我在，一起拆。','partner'); }catch(e){}
   };
 }
+})();
+</script>
+
+<script>
+/* pg-align-v1 页面结构对齐 */
+
+function pgFmt(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function pgStats(){
+  try{
+    var hist=getLS(STORAGE.history,'[]');
+    var dates=hist.map(function(h){return h.date;});
+    var total=dates.length;
+    var tk=getToday();
+    var todayDone=dates.indexOf(tk)>=0;
+    var streak=0;
+    if(todayDone) streak=1;
+    for(var i=1;i<400;i++){var dd=new Date();dd.setDate(dd.getDate()-i);if(dates.indexOf(pgFmt(dd))>=0){streak++;}else break;}
+    return {hist:hist,dates:dates,total:total,todayDone:todayDone,streak:streak,tk:tk};
+  }catch(e){return {hist:[],dates:[],total:0,todayDone:false,streak:0,tk:''};}
+}
+
+function updateSOPStd(){
+  try{
+    var total=SOP_CATEGORIES.reduce(function(s,c){return s+c.questions.length;},0);
+    var answered=Object.values(sopSelected).reduce(function(s,v){return s+(v||0);},0);
+    var n1=document.getElementById('sopNum1'); if(n1)n1.innerText=answered;
+    var n2=document.getElementById('sopNum2'); if(n2)n2.innerText=total;
+    var n3=document.getElementById('sopNum3'); if(n3)n3.innerText=(total?Math.round(answered/total*100):0)+'%';
+    var bar=document.getElementById('sopBar'); if(bar)bar.style.width=(total?answered/total*100:0)+'%';
+    var bt=document.getElementById('sopBarText'); if(bt)bt.innerText=answered+' / '+total;
+    var tips=['觉察的第一步只是命名：「我现在有点烦」——不评判', '能量低不是懒，是身体在要求恢复，先补觉再补计划', '情绪上头时先深呼吸6秒，前额叶才能重新上线', '每天固定3个觉察时点：早起/午后/睡前，形成锚点', '写下来比想清楚更容易——记录本身就在降低情绪强度'];
+    var t=document.getElementById('sopTipText'); if(t)t.innerText=tips[answered%tips.length];
+  }catch(e){}
+}
+function renderProgressStd(){
+  try{
+    var st=pgStats();
+    var e1=document.getElementById('pgStreak'); if(e1)e1.innerText=st.streak;
+    var e2=document.getElementById('pgTotal'); if(e2)e2.innerText=st.total;
+    var e3=document.getElementById('pgToday'); if(e3)e3.innerText=st.todayDone?'✓':'-';
+    var last7=[];
+    for(var i=0;i<7;i++){var dd=new Date();dd.setDate(dd.getDate()-i);var k=pgFmt(dd);
+      var row=st.hist.find(function(h){return h.date===k;}); if(row&&typeof row.score==='number')last7.push(row.score);}
+    var pct=last7.length?(last7.reduce(function(a,b){return a+b;},0)/last7.length/5*100):0;
+    var ring=document.getElementById('pgRingFill'); if(ring)ring.style.strokeDashoffset=(339.3*(1-pct/100)).toFixed(1);
+    var rp=document.getElementById('pgRingPct'); if(rp)rp.innerText=Math.round(pct)+'%';
+    var dims=document.getElementById('pgDims');
+    if(dims){
+      var html='';
+      (typeof TAGS!=='undefined'?TAGS:[]).forEach(function(t){
+        var arr=st.hist.filter(function(h){return h.tag===t.id&&typeof h.score==='number';}).map(function(h){return h.score;});
+        var a=arr.length?(arr.reduce(function(x,y){return x+y;},0)/arr.length):null;
+        var w=a?(a/5*100):4;
+        html+='<div><div style="display:flex;justify-content:space-between;font-size:12px;color:#555;margin-bottom:4px;"><span>'+t.emoji+' '+t.name+'</span><b style="color:#0e7490;">'+(a?a.toFixed(1):'—')+'</b></div>'
+          +'<div style="background:#eef2f5;border-radius:6px;height:8px;overflow:hidden;"><div style="height:100%;width:'+w+'%;background:#0e7490;border-radius:6px;"></div></div></div>';
+      });
+      dims.innerHTML=html||'<div style="font-size:12px;color:#8f9eae;">先去打卡，数据会出现在这里</div>';
+    }
+    var p=currentPartner||PARTNERS[0];
+    var pe=document.getElementById('pgPEmoji'); if(pe)pe.innerText=p.emoji||'';
+    var pn=document.getElementById('pgPName'); if(pn)pn.innerText=p.name||'';
+  }catch(e){}
+}
+function renderShareStd(){
+  try{
+    var st=pgStats();
+    var e1=document.getElementById('shStreak'); if(e1)e1.innerText=st.streak;
+    var e2=document.getElementById('shToday'); if(e2)e2.innerText=st.todayDone?'✓':'未';
+    var e3=document.getElementById('shTotal'); if(e3)e3.innerText=st.total;
+  }catch(e){}
+}
+function renderRecordWeekly(){
+  try{
+    var el=document.getElementById('pgWeeklyCard'); if(!el)return;
+    var st=pgStats();
+    var wk=0; var scores=[];
+    for(var i=0;i<7;i++){var dd=new Date();dd.setDate(dd.getDate()-i);var k=pgFmt(dd);
+      var row=st.hist.find(function(h){return h.date===k;}); if(row){wk++; if(typeof row.score==='number')scores.push(row.score);}}
+    var body=document.getElementById('pgWeeklyBody'); if(!body)return;
+    if(!wk){ body.innerHTML='<div style="text-align:center;padding:14px;color:#b0bec5;font-size:13px;">本周还没打卡，先去打卡页签一下 📝</div>'; }
+    else { body.innerHTML='<div style="display:flex;gap:10px;justify-content:center;"><div style="background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:12px;padding:10px 16px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0e7490;">'+wk+'</div><div style="font-size:11px;color:#8f9eae;">本周打卡</div></div>'
+      +'<div style="background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:12px;padding:10px 16px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0e7490;">'+(scores.length?(scores.reduce(function(a,b){return a+b;},0)/scores.length).toFixed(1):'—')+'</div><div style="font-size:11px;color:#8f9eae;">平均得分</div></div></div>'; }
+  }catch(e){}
+}
+
+(function(){
+  // —— 人设卡填充 ——
+  function pgFillCard(){
+    try{
+      var p=currentPartner||PARTNERS[0];
+      var a=document.getElementById('partnerAvatarB'),n=document.getElementById('partnerNameB'),st=document.getElementById('partnerStyleB');
+      if(a)a.innerText=p.emoji||'🌙'; if(n)n.innerText=p.name||''; if(st)st.innerText=p.desc||'';
+    }catch(e){}
+  }
+  var __oldCP=window.confirmPartner;
+  window.confirmPartner=function(){
+    try{ var ps=document.getElementById('partnerSelectorWrap'); if(ps)ps.style.display='none'; }catch(e){}
+    var r=__oldCP.apply(this,arguments);
+    pgFillCard();
+    try{ if(typeof updateSOPStd==='function')updateSOPStd(); }catch(e){}
+    return r;
+  };
+  // —— chatArea → partnerChatArea 同步 ——
+  function pgObserve(){
+    var ca=document.getElementById('chatArea'),pa=document.getElementById('partnerChatArea');
+    if(ca&&pa&&!ca.__pgObs){ ca.__pgObs=true; new MutationObserver(function(){ pa.innerHTML=ca.innerHTML; pa.scrollTop=pa.scrollHeight; }).observe(ca,{childList:true,subtree:true,characterData:true}); }
+  }
+  // —— tab hook ——
+  var __oldST=window.switchTab;
+  window.switchTab=function(t){
+    var r;
+    try{ r=__oldST.apply(this,arguments); }catch(e){ if(t&&document.getElementById('page-'+t))document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');}); document.getElementById('page-'+t).classList.add('active'); }
+    if(t==='partner'){ pgFillCard(); pgObserve(); }
+    if(t==='sop'){ try{ if(typeof renderSOP==='function')renderSOP(); if(typeof updateSOPStd==='function')updateSOPStd(); }catch(e){} }
+    if(t==='progress'){ try{ renderProgressStd(); }catch(e){} }
+    if(t==='share'){ try{ renderShareStd(); }catch(e){} }
+    if(t==='record'){ try{ renderRecordWeekly(); }catch(e){} }
+    if(t==='checkin'){ pgObserve(); }
+    return r;
+  };
+  // —— init ——
+  document.addEventListener('DOMContentLoaded',function(){
+    try{
+      if(localStorage.getItem(STORAGE.partner)){ var ps=document.getElementById('partnerSelectorWrap'); if(ps)ps.style.display='none'; }
+    }catch(e){}
+    pgObserve(); pgFillCard();
+  });
+  setTimeout(function(){ try{ pgObserve(); pgFillCard(); }catch(e){} },1200);
+})();
+
+</script>
+<script>
+(function(){
+  window.statePartnerGreet = function(){
+    var area=document.getElementById('partnerChatArea'); if(!area||area.children.length) return;
+    var p=currentPartner||PARTNERS[0];
+    var w=['嗨！今天状态怎么样？说说看 😊', p.emoji+' 已上线。进展、状态差、想聊的，点下面我就懂 💬','今天的状态曲线什么样？和我聊聊 📈'];
+    area.innerHTML='<div class="msg-bubble-wrap"><div class="msg-avatar">'+p.emoji+'</div><div class="msg-bubble ai">'+w[Math.floor(Math.random()*w.length)]+'</div></div>';
+  };
+  var __oldST=window.switchTab;
+  window.switchTab=function(t){ var r; try{ r=__oldST.apply(this,arguments); }catch(e){}
+    if(t==='partner'){ try{ statePartnerGreet(); }catch(e){} }
+    return r; };
 })();
 </script>
 </body>
