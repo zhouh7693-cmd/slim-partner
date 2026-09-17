@@ -376,7 +376,7 @@
     .pos-reward-pts.neg { color: #ef5350; font-size: 32px; }
 
     /* ===== Toast ===== */
-    .toast { position: fixed; bottom: 100px; left: 20px; right: 20px; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
+    .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
     .toast.show { opacity: 1; }
 
     /* ===== 问答/进展选择面板 ===== */
@@ -3514,10 +3514,22 @@ const SCENE_DATA = {"pos": [
   {"icon": "🪨", "tag": "笨功夫", "title": "干了那件枯燥但重要的事", "text": "效率翻10倍的顺序", "quote": "🌅 搭子：肯下笨功夫的人最稀缺"},
   {"icon": "🛡️", "tag": "抗扰", "title": "被打断后接上了", "text": "意外来了有预案", "quote": "🌅 搭子：系统强悍的人都这样"},
   {"icon": "🎯", "tag": "定力", "title": "25分钟专注没切屏", "text": "专注力是肌肉", "quote": "🌅 搭子：坐得住，才配得上想赢"}
+,
+  {"icon":"⏰","tag":"早起","title":"今天按点起床没有赖床","text":"赢下早晨的人，就赢下了半天的主动权","quote":"🌅 搭子：起床这一下你已经赢了"},
+  {"icon":"📵","tag":"专注","title":"深度工作了60分钟没分心","text":"专注力是自律的硬通货，也是稀缺品","quote":"🌅 搭子：这段深度时间最值钱"},
+  {"icon":"🏃","tag":"锻炼","title":"今天锻炼打卡完成","text":"身体的自律会带动大脑的自律","quote":"🌅 搭子：身体听话了，人生才听话"},
+  {"icon":"📝","tag":"计划","title":"睡前写好了明天的三件事","text":"计划放在前面，执行就不需要纠结","quote":"🌅 搭子：睡前想清楚，醒后不内耗"},
+  {"icon":"🚫","tag":"拒诱惑","title":"拒绝了一次即时的诱惑","text":"延迟满足的肌肉，就是这样一点点练壮的","quote":"🌅 搭子：忍过的每一次都算数"}
 ], "neg": [
   {"icon": "🎪", "tag": "换道", "title": "又想换新目标了", "text": "每次换赛道都是清零", "quote": "🌅 搭子：你是累了，不是错了"},
   {"icon": "🛋️", "tag": "赖账", "title": "断了一天想干脆放弃", "text": "断一天不叫失败", "quote": "🌅 搭子：今天接上就行，别加戏"},
   {"icon": "📱", "tag": "分心", "title": "专注10分钟切了5次手机", "text": "切一次屏清零一次", "quote": "🌅 搭子：手机放远，物理隔离"}
+,
+  {"icon":"📱","tag":"刷屏","title":"又不知不觉刷了2小时手机","text":"把手机放到视线之外，比意志力管用一百倍","quote":"🌅 搭子：环境设计胜过自控力"},
+  {"icon":"😴","tag":"赖床","title":"闹钟按掉了三次才起","text":"把闹钟放到下床才够得着的地方，明天试试","quote":"🌅 搭子：起不开就先早睡10分钟"},
+  {"icon":"🍿","tag":"破戒","title":"计划又中断了","text":"中断一次不叫失败，连着中断才是，今天接回来就行","quote":"🌅 搭子：断一天，第二天必须接上"},
+  {"icon":"😤","tag":"内耗","title":"又责怪自己不够自律","text":"自律是养出来的，不是骂出来的","quote":"🌅 搭子：对自己狠没有用，对自己准才有用"},
+  {"icon":"🗓️","tag":"过载","title":"计划排太满，全崩了","text":"把今天的计划砍到3件，完成比完美重要","quote":"🌅 搭子：少而必做，胜过多而全废"}
 ]}
 
 function openSceneSheet() {
@@ -3584,7 +3596,7 @@ function openSceneFB(idx, type) {
     var t = document.getElementById('ccToast');
     if (!t) {
       t = document.createElement('div'); t.id = 'ccToast';
-      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      t.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
@@ -3597,7 +3609,7 @@ function openSceneFB(idx, type) {
     var card = body.closest ? body.closest('.crp-card') : null;
     var title = '';
     if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
-    var parts = html.split(/<br\s*\/?>/i);
+    var parts = html.split(/<br[^>]*>/i);
     var out = '', n = 0;
     for (var k = 0; k < parts.length; k++) {
       var seg = parts[k].trim();
@@ -3611,6 +3623,8 @@ function openSceneFB(idx, type) {
     }
     if (!n) return;
     body.innerHTML = out;
+    var __stg = body.closest ? body.closest('.crp-stage') : null;
+    if (__stg) __stg.classList.remove('collapsed');
     body.setAttribute('data-cc-done', '1');
   }
   function process(){
@@ -3621,6 +3635,7 @@ function openSceneFB(idx, type) {
     var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
     if (!el) return;
     ev.preventDefault();
+    ev.stopPropagation();
     var id = el.getAttribute('data-ccid');
     if (state[id]) { delete state[id]; } else { state[id] = 1; }
     save();
@@ -3632,7 +3647,7 @@ function openSceneFB(idx, type) {
     var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
     if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
     ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
-  });
+  }, true);
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
     + '.cc-row:last-child{border-bottom:none;}'

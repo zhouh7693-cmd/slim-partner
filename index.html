@@ -376,7 +376,7 @@
     .pos-reward-pts.neg { color: #ef5350; font-size: 32px; }
 
     /* ===== Toast ===== */
-    .toast { position: fixed; bottom: 100px; left: 20px; right: 20px; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
+    .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
     .toast.show { opacity: 1; }
 
     /* ===== 问答/进展选择面板 ===== */
@@ -463,6 +463,7 @@
     .fb-btn:active { transform: scale(0.97); }
   </style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
+<style>.qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; } .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#374151; }</style>
 </head>
 <body data-page-node-id="3eJ08NGTBYeqqZSC7p6VMQ">
 
@@ -577,6 +578,18 @@
         <button class="talk-btn" data-type="report" data-page-node-id="rqvxCAxL64P54LdREmJCUk">📣 汇报进展</button>
         <button class="talk-btn" data-type="question" data-page-node-id="5MHlCrCf6dtkLfMIu7vRim">🤔 有问题想问</button>
       </div>
+      <div class="talk-btn-row" style="margin-top:8px;">
+        <button class="talk-btn" onclick="openSceneSheet()">💭 今天发生了什么</button>
+      </div>
+    </div>
+
+    <div id="stdDailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#eef6fb,#e3f0fa);border-radius:18px;padding:14px 16px;font-size:13px;color:#2b5a7a;line-height:1.7;box-shadow:0 4px 14px rgba(0,0,0,0.04);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <span style="font-size:18px;">📌</span>
+        <span style="font-weight:700;">今天提醒自己</span>
+        <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="stdTipNext()">换一条</span>
+      </div>
+      <div id="stdTipText"></div>
     </div>
 
     <!-- 分享入口 -->
@@ -1097,7 +1110,7 @@
 
 <!-- ===== 问答/进展选择面板 ===== -->
 <div class="qa-overlay" id="qaOverlay" data-page-node-id="FuzWz6VpAzP2PSCFwbrOov">
-  <div class="qa-panel" data-page-node-id="Y3MPCOlrmy7F5DjUmuPyO0">
+  <div class="qa-panel" data-page-node-id="Y3MPCOlrmy7F5DjUmuPyO0"><button class="qa-close-x" onclick="closeQAPanel()" aria-label="关闭">✕</button>
     <div class="qa-handle" data-page-node-id="sG5osJ87iDVRXpMkgCHOnS"></div>
     <div class="qa-header" data-page-node-id="rS2sBaaz31mgWAoTgQTzF2">
       <div class="qa-title" id="qaTitle" data-page-node-id="OXAwqTKttLywNaBSOl8xbK">🤔 有问题想问</div>
@@ -3858,7 +3871,7 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     var t = document.getElementById('ccToast');
     if (!t) {
       t = document.createElement('div'); t.id = 'ccToast';
-      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      t.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
@@ -3871,7 +3884,7 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     var card = body.closest ? body.closest('.crp-card') : null;
     var title = '';
     if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
-    var parts = html.split(/<br\s*\/?>/i);
+    var parts = html.split(/<br[^>]*>/i);
     var out = '', n = 0;
     for (var k = 0; k < parts.length; k++) {
       var seg = parts[k].trim();
@@ -3885,6 +3898,8 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     }
     if (!n) return;
     body.innerHTML = out;
+    var __stg = body.closest ? body.closest('.crp-stage') : null;
+    if (__stg) __stg.classList.remove('collapsed');
     body.setAttribute('data-cc-done', '1');
   }
   function process(){
@@ -3895,6 +3910,7 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
     if (!el) return;
     ev.preventDefault();
+    ev.stopPropagation();
     var id = el.getAttribute('data-ccid');
     if (state[id]) { delete state[id]; } else { state[id] = 1; }
     save();
@@ -3906,7 +3922,7 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
     if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
     ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
-  });
+  }, true);
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
     + '.cc-row:last-child{border-bottom:none;}'
@@ -3923,6 +3939,102 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     var mo = new MutationObserver(function(){ setTimeout(boot, 80); });
     mo.observe(document.body, { childList: true, subtree: true });
   } catch(e) {}
+})();
+</script>
+<script>(function(){var q=document.getElementById('qaOverlay');if(q&&q.getAttribute('data-bgclose')!=='1'){
+q.setAttribute('data-bgclose','1');
+q.addEventListener('click',function(e){if(e.target===q){try{closeQAPanel();}catch(err){q.classList.remove('show');}}});
+}})();</script>
+
+<script>
+/* fix9: 「今天发生了什么」场景卡 + 「今天提醒自己」（参照形象/身体朋友搭子） */
+SCENE_DATA = {"pos": [
+  {"icon":"🥗","tag":"轻食","title":"今天三餐都吃得干净","text":"饮食占减肥的七成，今天你拿满了","quote":"🔥 搭子：吃对了，瘦是迟早的事"},
+  {"icon":"🚶","tag":"运动","title":"散步 / 运动够了 30 分钟","text":"动了就赢了一半，强度可以慢慢来","quote":"🔥 搭子：身体开始谢谢你啦"},
+  {"icon":"🥤","tag":"拒糖","title":"拒绝了含糖饮料","text":"一杯奶茶的热量要跑一小时才能消耗","quote":"🔥 搭子：拒绝一次，省下一公里"},
+  {"icon":"😴","tag":"早睡","title":"今天没有熬夜","text":"睡不够会让饥饿素飙升，第二天更想吃","quote":"🔥 搭子：好好睡觉就是在减肥"},
+  {"icon":"🍚","tag":"七分饱","title":"吃到七分饱就停了筷子","text":"胃的容量是可以被温柔训练的","quote":"🔥 搭子：留三分，身体更轻盈"},
+  {"icon":"⚖️","tag":"记录","title":"称了体重并记了下来","text":"看得见的数据，才管得住的方向","quote":"🔥 搭子：记录的人瘦得更快"},
+  {"icon":"💧","tag":"喝水","title":"今天喝够了 8 杯水","text":"有时候你不是饿，只是渴","quote":"🔥 搭子：水是最便宜的减脂餐"},
+  {"icon":"🧘","tag":"抗情绪进食","title":"想吃东西时先等了 10 分钟","text":"嘴馋常常是情绪，不是真的饥饿","quote":"🔥 搭子：你比食欲更强大"},
+  {"icon":"🏋️","tag":"力量","title":"做了一次力量训练","text":"肌肉多了，躺着都在多消耗","quote":"🔥 搭子：你在给身体换发动机"},
+  {"icon":"📅","tag":"连续","title":"这几天都达标，状态回来了","text":"减肥靠的不是猛，是连续","quote":"🔥 搭子：复利正在你身上发生"}
+], "neg": [
+  {"icon":"🍔","tag":"吃多","title":"没忍住吃多了","text":"一顿吃不胖，连着内疚才会","quote":"🔥 搭子：下一餐正常吃就是止损"},
+  {"icon":"🛋️","tag":"没动","title":"今天完全没动","text":"休息日也是计划的一部分","quote":"🔥 搭子：明天从5分钟开始就行"},
+  {"icon":"🌙","tag":"熬夜","title":"又熬夜了，想吃宵夜","text":"先去睡，饿意会在梦里消失","quote":"🔥 搭子：睡觉是最好的宵夜替代"},
+  {"icon":"🧋","tag":"奶茶","title":"没扛住奶茶的诱惑","text":"不用戒断，先从三分糖开始","quote":"🔥 搭子：少一分糖都是进步"},
+  {"icon":"📈","tag":"平台期","title":"体重不动了，有点沮丧","text":"平台期是身体在适应新的你","quote":"🔥 搭子：坚持住，突破就在前面"},
+  {"icon":"😫","tag":"压力进食","title":"压力一大就想吃东西","text":"先安抚情绪，再决定要不要吃","quote":"🔥 搭子：先抱抱自己，再想别的"},
+  {"icon":"🍜","tag":"夜宵","title":"深夜点了外卖","text":"睡前3小时的闸门重新关上就好","quote":"🔥 搭子：明晚我们提前关闸"},
+  {"icon":"🪞","tag":"自责","title":"又对自己失望了","text":"体重是曲线不是直线，别用一天的偏差否定全部","quote":"🔥 搭子：你已经比上周强了"}
+]};
+
+function openSceneSheet() {
+  document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
+  document.getElementById('qaSub').innerText = '点一下 · 让搭子回应你 · 不计入打卡';
+  const scroll = document.getElementById('qaScroll');
+  scroll.innerHTML = '';
+  const mk = (type, label, color) => {
+    const list = SCENE_DATA[type] || [];
+    if (!list.length) return;
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;';
+    lbl.innerText = label;
+    scroll.appendChild(lbl);
+    list.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'qa-card ' + type;
+      const tagStyle = 'font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;white-space:nowrap;' +
+        (type === 'pos' ? 'background:#3a7ca5;color:white;' : 'background:#b07cd6;color:white;');
+      card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>' +
+        '<div class="qa-card-text">' + item.title + '</div>' +
+        '<span style="' + tagStyle + '">' + item.tag + '</span>';
+      card.onclick = () => {
+        setTimeout(() => openSceneFB(i, type), 300);
+      };
+      scroll.appendChild(card);
+    });
+  };
+  mk('pos', '⬆️ 好的进展 / 想得到鼓励', '#43a047');
+  mk('neg', '⬇️ 遇到困难 / 需要引导', '#ef5350');
+  document.getElementById('qaOverlay').classList.add('show');
+  document.getElementById('qaOverlay').onclick = function(e) {
+    if (e.target === document.getElementById('qaOverlay')) closeQAPanelSafe();
+  };
+}
+function closeQAPanelSafe() {
+  if (typeof closeQAPanel === 'function') { closeQAPanel(); return; }
+  document.getElementById('qaOverlay').classList.remove('show');
+}
+function openSceneFB(idx, type) {
+  const item = SCENE_DATA[type] && SCENE_DATA[type][idx];
+  if (!item) return;
+  const card = document.getElementById('fbCard');
+  if (card) card.className = 'fb-card ' + type;
+  const em = document.getElementById('fbEmoji'); if (em) em.innerText = item.icon;
+  const lb = document.getElementById('fbLabel'); if (lb) lb.innerText = (type === 'pos' ? '正向' : '挑战') + ' · ' + item.tag;
+  const tt = document.getElementById('fbTitle'); if (tt) tt.innerText = item.title;
+  const tx = document.getElementById('fbText'); if (tx) tx.innerText = item.text;
+  const qt = document.getElementById('fbQuote'); if (qt) qt.innerText = item.quote;
+  document.getElementById('fbOverlay').classList.add('show');
+}
+
+/* 今天提醒自己 */
+var TIPS = ["减肥是七分吃三分练，别练完补偿性多吃", "今天多喝水，很多时候饿是渴的伪装", "进餐顺序：先喝汤再吃菜，主食放最后", "七分饱就停筷，胃会慢慢缩小", "睡够 7 小时，熬夜会让人更饿", "称重每周固定一次就够，别天天焦虑", "一顿吃多不会胖，连着三天才会", "想吃零食先喝杯水等 10 分钟", "蛋白质吃够，才不容易嘴馋", "走路也是运动，别小看 6000 步", "肌肉是燃脂发动机，每周练两次", "吃饭别刷手机，专心吃更容易饱", "压力肥是真的，先睡觉再减肥", "外卖选轻食，比硬扛更可持续", "记录饮食的那几天最容易瘦", "体重波动是正常的，看周均值", "别饿着肚子逛超市和点外卖", "深色蔬菜随便吃，先把盘子填绿", "每餐有蛋白质+蔬菜，饱腹更久", "瘦下来不是终点，维持才是本事"];
+TK_TIP = 'std_tip_slim';
+function jgetTip(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
+function jsetTip(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+function stdTipNext(){
+  var d = jgetTip(TK_TIP); var idx = Math.floor(Math.random()*TIPS.length);
+  if(d.date===new Date().toISOString().slice(0,10) && idx===d.idx && TIPS.length>1) idx=(idx+1)%TIPS.length;
+  d={date:new Date().toISOString().slice(0,10),idx:idx}; jsetTip(TK_TIP,d);
+  var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[idx];
+}
+(function(){ 
+  var d=jgetTip(TK_TIP); var t=new Date().toISOString().slice(0,10);
+  if(d.date!==t||d.idx==null){ d={date:t,idx:Math.floor(Math.random()*TIPS.length)}; jsetTip(TK_TIP,d); }
+  var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[d.idx];
 })();
 </script>
 </body>

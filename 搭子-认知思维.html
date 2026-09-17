@@ -376,7 +376,7 @@
     .pos-reward-pts.neg { color: #ef5350; font-size: 32px; }
 
     /* ===== Toast ===== */
-    .toast { position: fixed; bottom: 100px; left: 20px; right: 20px; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
+    .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
     .toast.show { opacity: 1; }
 
     /* ===== 问答/进展选择面板 ===== */
@@ -3514,10 +3514,22 @@ const SCENE_DATA = {"pos": [
   {"icon": "🕸️", "tag": "联结", "title": "两个领域的知识连出了洞察", "text": "交叉点是创新高发地", "quote": "🧠 搭子：网状思维开始回报了"},
   {"icon": "✍️", "tag": "输出", "title": "把认知讲给了别人听", "text": "教是最好的学", "quote": "🧠 搭子：讲得清才是真懂"},
   {"icon": "🚫", "tag": "独立", "title": "对爆款观点没跟风", "text": "观点不值钱，论证才值钱", "quote": "🧠 搭子：独立思考注定孤独一阵子"}
+,
+  {"icon":"🧠","tag":"深度","title":"深挖了一个问题的本质","text":"思维的质量，决定人生的质量","quote":"🧠 搭子：想得深，才走得远"},
+  {"icon":"📖","tag":"输入","title":"读完一个硬知识并复述了出来","text":"能用自己的话讲出来，才是真的懂","quote":"🧠 搭子：讲得出来就是你的了"},
+  {"icon":"✍️","tag":"输出","title":"把脑子里的想法写成了文字","text":"写作是最便宜的思考方式","quote":"🧠 搭子：写下来的思考才是思考"},
+  {"icon":"🔄","tag":"反思","title":"复盘了一个决策的漏洞","text":"经验不复盘，就只是经历","quote":"🧠 搭子：今天你多赚了一个教训"},
+  {"icon":"🌐","tag":"多元","title":"认真听进了一个相反的观点","text":"认知升级，从打破确认偏误开始","quote":"🧠 搭子：反方观点是免费的补丁"}
 ], "neg": [
   {"icon": "📥", "tag": "收藏", "title": "又收藏了一堆没看的", "text": "收藏≠学会", "quote": "🧠 搭子：用一条，再收藏下一条"},
   {"icon": "🗣️", "tag": "空谈", "title": "道理聊得深，行动是空白", "text": "知道不做=不知道", "quote": "🧠 搭子：挑一条，今天就绑定动作"},
   {"icon": "🤖", "tag": "外包", "title": "等别人嚼碎了喂答案", "text": "思维肌肉不用则废", "quote": "🧠 搭子：先自己想10分钟"}
+,
+  {"icon":"🧊","tag":"固化","title":"又用老经验下了判断","text":"地图不是疆域，经验会过期","quote":"🧠 搭子：先假设自己错了试试"},
+  {"icon":"📱","tag":"碎片","title":"一整天都被碎片信息喂饱","text":"碎片信息给你知道的错觉，不给认知","quote":"🧠 搭子：明天留30分钟整块阅读"},
+  {"icon":"🙃","tag":"情绪脑","title":"又在情绪上头时做了判断","text":"情绪上线的时候，理智就在下线","quote":"🧠 搭子：重大决定放一晚再说"},
+  {"icon":"🫥","tag":"表层","title":"又停在了「知道」没有追问","text":"每件事多问三层为什么，差别巨大","quote":"🧠 搭子：再多问一层"},
+  {"icon":"👥","tag":"从众","title":"又跟着大多数走了","text":"独立思考，从敢不一样开始","quote":"🧠 搭子：多数人对你的人生不负责"}
 ]}
 
 function openSceneSheet() {
@@ -3584,7 +3596,7 @@ function openSceneFB(idx, type) {
     var t = document.getElementById('ccToast');
     if (!t) {
       t = document.createElement('div'); t.id = 'ccToast';
-      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      t.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
@@ -3597,7 +3609,7 @@ function openSceneFB(idx, type) {
     var card = body.closest ? body.closest('.crp-card') : null;
     var title = '';
     if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
-    var parts = html.split(/<br\s*\/?>/i);
+    var parts = html.split(/<br[^>]*>/i);
     var out = '', n = 0;
     for (var k = 0; k < parts.length; k++) {
       var seg = parts[k].trim();
@@ -3611,6 +3623,8 @@ function openSceneFB(idx, type) {
     }
     if (!n) return;
     body.innerHTML = out;
+    var __stg = body.closest ? body.closest('.crp-stage') : null;
+    if (__stg) __stg.classList.remove('collapsed');
     body.setAttribute('data-cc-done', '1');
   }
   function process(){
@@ -3621,6 +3635,7 @@ function openSceneFB(idx, type) {
     var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
     if (!el) return;
     ev.preventDefault();
+    ev.stopPropagation();
     var id = el.getAttribute('data-ccid');
     if (state[id]) { delete state[id]; } else { state[id] = 1; }
     save();
@@ -3632,7 +3647,7 @@ function openSceneFB(idx, type) {
     var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
     if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
     ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
-  });
+  }, true);
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
     + '.cc-row:last-child{border-bottom:none;}'

@@ -376,7 +376,7 @@
     .pos-reward-pts.neg { color: #ef5350; font-size: 32px; }
 
     /* ===== Toast ===== */
-    .toast { position: fixed; bottom: 100px; left: 20px; right: 20px; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
+    .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
     .toast.show { opacity: 1; }
 
     /* ===== 问答/进展选择面板 ===== */
@@ -3514,10 +3514,22 @@ const SCENE_DATA = {"pos": [
   {"icon": "📏", "tag": "标准", "title": "守住了一次标准，没和稀泥", "text": "标准在，人心就不散", "quote": "🧭 搭子：认真的人会感谢你"},
   {"icon": "🪞", "tag": "觉察", "title": "高压之下稳住了情绪", "text": "你是团队的减压阀", "quote": "🧭 搭子：你稳了，团队才稳"},
   {"icon": "🎁", "tag": "反馈", "title": "给了一条具体的表扬或纠偏", "text": "反馈是成本最低的管理动作", "quote": "🧭 搭子：具体，是反馈的生命"}
+,
+  {"icon":"🪞","tag":"觉察","title":"留意了自己的情绪对团队的影响","text":"领导力从自我觉察开始","quote":"🧭 搭子：你看见自己的那一刻就在成长"},
+  {"icon":"❤️","tag":"同理","title":"认真听完了下属的难处","text":"先处理心情，再处理事情","quote":"🧭 搭子：被听见的人才会全力以赴"},
+  {"icon":"📏","tag":"标准","title":"清晰地说了一次做事标准","text":"标准不清晰，团队全靠猜","quote":"🧭 搭子：说清楚是最便宜的管理"},
+  {"icon":"🤲","tag":"成就","title":"把功劳给到了真正做事的人","text":"成就他人，就是成就自己的领导力","quote":"🧭 搭子：让功的人赢得人心"},
+  {"icon":"🔄","tag":"复盘","title":"带团队做了一次像样的复盘","text":"复盘是最好的团建，也是最快的进步","quote":"🧭 搭子：团队今天又聪明了一点"}
 ], "neg": [
   {"icon": "🌋", "tag": "失控", "title": "情绪上头，对团队发了火", "text": "信任账户透支了一大笔", "quote": "🧭 搭子：明天先修复，再复盘触发点"},
   {"icon": "🦺", "tag": "抢活", "title": "又把下属的活抢过来干了", "text": "你干得越欢，他成长越慢", "quote": "🧭 搭子：忍住，教他干"},
   {"icon": "🤝", "tag": "和稀泥", "title": "为了和气，放过了一次问题", "text": "不纠正就是在奖励", "quote": "🧭 搭子：明天当面补上，还来得及"}
+,
+  {"icon":"🎤","tag":"代劳","title":"又忍不住自己动手干了","text":"你替他做，他就永远学不会","quote":"🧭 搭子：忍住，让他做完"},
+  {"icon":"🌫️","tag":"模糊","title":"布置任务没说清楚标准","text":"返工的根源，十有八九是交待不清","quote":"🧭 搭子：下次让对方复述一遍"},
+  {"icon":"😤","tag":"情绪","title":"对团队发了一通火","text":"发火省了5分钟，可能丢掉5个月攒的信任","quote":"🧭 搭子：先深呼吸再进会议室"},
+  {"icon":"🪞","tag":"揽功","title":"汇报的时候满嘴都是「我」","text":"说「我们」的领导，才有人愿意跟随","quote":"🧭 搭子：把名字让出去"},
+  {"icon":"🙉","tag":"失听","title":"一周没和骨干深聊了","text":"离开的人，都是先从沉默开始的","quote":"🧭 搭子：明天约一个人喝咖啡"}
 ]}
 
 function openSceneSheet() {
@@ -3584,7 +3596,7 @@ function openSceneFB(idx, type) {
     var t = document.getElementById('ccToast');
     if (!t) {
       t = document.createElement('div'); t.id = 'ccToast';
-      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      t.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
@@ -3597,7 +3609,7 @@ function openSceneFB(idx, type) {
     var card = body.closest ? body.closest('.crp-card') : null;
     var title = '';
     if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
-    var parts = html.split(/<br\s*\/?>/i);
+    var parts = html.split(/<br[^>]*>/i);
     var out = '', n = 0;
     for (var k = 0; k < parts.length; k++) {
       var seg = parts[k].trim();
@@ -3611,6 +3623,8 @@ function openSceneFB(idx, type) {
     }
     if (!n) return;
     body.innerHTML = out;
+    var __stg = body.closest ? body.closest('.crp-stage') : null;
+    if (__stg) __stg.classList.remove('collapsed');
     body.setAttribute('data-cc-done', '1');
   }
   function process(){
@@ -3621,6 +3635,7 @@ function openSceneFB(idx, type) {
     var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
     if (!el) return;
     ev.preventDefault();
+    ev.stopPropagation();
     var id = el.getAttribute('data-ccid');
     if (state[id]) { delete state[id]; } else { state[id] = 1; }
     save();
@@ -3632,7 +3647,7 @@ function openSceneFB(idx, type) {
     var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
     if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
     ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
-  });
+  }, true);
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
     + '.cc-row:last-child{border-bottom:none;}'

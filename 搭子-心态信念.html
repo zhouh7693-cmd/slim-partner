@@ -376,7 +376,7 @@
     .pos-reward-pts.neg { color: #ef5350; font-size: 32px; }
 
     /* ===== Toast ===== */
-    .toast { position: fixed; bottom: 100px; left: 20px; right: 20px; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
+    .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
     .toast.show { opacity: 1; }
 
     /* ===== 问答/进展选择面板 ===== */
@@ -3514,10 +3514,22 @@ const SCENE_DATA = {"pos": [
   {"icon": "🎯", "tag": "期待", "title": "把「必须完美」改成了「先完成」", "text": "完成是完美的前提", "quote": "🌸 搭子：60分的完成胜过100分的空想"},
   {"icon": "🧘", "tag": "情绪", "title": "情绪上头，停了10秒", "text": "10秒后再开口", "quote": "🌸 搭子：少说一半后悔的话"},
   {"icon": "💪", "tag": "相信", "title": "自我怀疑时回看了进步清单", "text": "事实是最好的回应", "quote": "🌸 搭子：评价权在你自己手里"}
+,
+  {"icon":"🌱","tag":"转念","title":"把一件坏事解读出了价值","text":"事情不变，解读变了，结果就变了","quote":"🌸 搭子：你的解读力就是超能力"},
+  {"icon":"🧘","tag":"情绪","title":"情绪上头时停了三秒再开口","text":"情绪是信使，不是主人","quote":"🌸 搭子：三秒钟，你就是自己的主人"},
+  {"icon":"💪","tag":"自信","title":"完成了一个对自己的承诺","text":"自信不是喊出来的，是一件件攒出来的","quote":"🌸 搭子：说到做到，自我信任+1"},
+  {"icon":"🙏","tag":"感恩","title":"记录了3件值得感谢的事","text":"把注意力放在拥有上，而不是缺失上","quote":"🌸 搭子：感恩是最快的转念开关"},
+  {"icon":"🛡️","tag":"边界","title":"没有接住别人的负面情绪","text":"课题分离，是心态的第一护城河","quote":"🌸 搭子：你的情绪你自己做主"}
 ], "neg": [
   {"icon": "🌀", "tag": "拖延", "title": "最重要的事又拖了一天", "text": "以后再做=永远不做", "quote": "🌸 搭子：现在，5分钟，就现在"},
   {"icon": "♾️", "tag": "内耗", "title": "一句话反刍了一整天", "text": "内耗上限10分钟", "quote": "🌸 搭子：写下来，结案，翻篇"},
   {"icon": "🪞", "tag": "比较", "title": "拿别人的高光攻击了自己", "text": "你看到的是封面不是书", "quote": "🌸 搭子：合上他那本，读你自己的"}
+,
+  {"icon":"🌧️","tag":"内耗","title":"又反刍了一件小事一整天","text":"想不通的事先写下来，写下来就解决了一半","quote":"🌸 搭子：写在纸上，就不是大事了"},
+  {"icon":"🪞","tag":"比较","title":"又拿自己和别人比了","text":"你唯一的对手，是上个月的自己","quote":"🌸 搭子：比较是偷走快乐的贼"},
+  {"icon":"😨","tag":"恐惧","title":"被「万一」吓住没有行动","text":"先做5%，恐惧会自动缩小一半","quote":"🌸 搭子：怕什么就先碰它一下"},
+  {"icon":"🗑️","tag":"自我否定","title":"又给自己贴了负面标签","text":"是这件事没做好，不是你这个人不行","quote":"🌸 搭子：把事和人分开"},
+  {"icon":"🌀","tag":"动摇","title":"好不容易建立的信念又动摇了","text":"动摇是正常的，重复输入信念才能扎根","quote":"🌸 搭子：动摇时回来看看今天的好"}
 ]}
 
 function openSceneSheet() {
@@ -3584,7 +3596,7 @@ function openSceneFB(idx, type) {
     var t = document.getElementById('ccToast');
     if (!t) {
       t = document.createElement('div'); t.id = 'ccToast';
-      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      t.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
@@ -3597,7 +3609,7 @@ function openSceneFB(idx, type) {
     var card = body.closest ? body.closest('.crp-card') : null;
     var title = '';
     if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
-    var parts = html.split(/<br\s*\/?>/i);
+    var parts = html.split(/<br[^>]*>/i);
     var out = '', n = 0;
     for (var k = 0; k < parts.length; k++) {
       var seg = parts[k].trim();
@@ -3611,6 +3623,8 @@ function openSceneFB(idx, type) {
     }
     if (!n) return;
     body.innerHTML = out;
+    var __stg = body.closest ? body.closest('.crp-stage') : null;
+    if (__stg) __stg.classList.remove('collapsed');
     body.setAttribute('data-cc-done', '1');
   }
   function process(){
@@ -3621,6 +3635,7 @@ function openSceneFB(idx, type) {
     var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
     if (!el) return;
     ev.preventDefault();
+    ev.stopPropagation();
     var id = el.getAttribute('data-ccid');
     if (state[id]) { delete state[id]; } else { state[id] = 1; }
     save();
@@ -3632,7 +3647,7 @@ function openSceneFB(idx, type) {
     var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
     if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
     ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
-  });
+  }, true);
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
     + '.cc-row:last-child{border-bottom:none;}'

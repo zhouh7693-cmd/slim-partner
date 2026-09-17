@@ -376,7 +376,7 @@
     .pos-reward-pts.neg { color: #ef5350; font-size: 32px; }
 
     /* ===== Toast ===== */
-    .toast { position: fixed; bottom: 100px; left: 20px; right: 20px; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
+    .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
     .toast.show { opacity: 1; }
 
     /* ===== 问答/进展选择面板 ===== */
@@ -3554,7 +3554,19 @@ startApp();
 })();
 
 // ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
-const SCENE_DATA = {"pos": [{"icon": "🚀", "tag": "启动", "title": "没人催，你自己先干了起来", "text": "自发性是富知行的第一桶金", "quote": "🦋 搭子：发动机自己会转的人，一辈子不缺动力"}, {"icon": "📚", "tag": "习惯", "title": "今天阅读/运动/早起，全中", "text": "模仿富人八条，你正在长成他们", "quote": "🦋 搭子：习惯是复利的本金"}, {"icon": "🤝", "tag": "同频", "title": "和一个同频的人聊了认知和机会", "text": "富人的圈子互相打气、彼此成就", "quote": "🦋 搭子：往高处走，圈子里全是光"}, {"icon": "⚡", "tag": "稳定", "title": "被放鸽子/被否定，你没上头", "text": "情绪稳定是最高级的自由", "quote": "🦋 搭子：对琐事不上心，是高能量的第一特征"}, {"icon": "🕰️", "tag": "翻篇", "title": "糟心事当天翻篇，没带过夜", "text": "翻篇的能力是人生下半场的硬通货", "quote": "🦋 搭子：背着包袱跑不快，你放下了"}], "neg": [{"icon": "📺", "tag": "失守", "title": "又刷了一晚上八卦和短视频", "text": "注意力被收割的人，只能被别人安排", "quote": "🦋 搭子：明天把手机请出卧室，先干要紧事"}, {"icon": "⏳", "tag": "拖延", "title": "「等准备好了」又赢了一天", "text": "等，是最贵的成本", "quote": "🦋 搭子：先干最丑的一版，再改"}, {"icon": "🎭", "tag": "面子", "title": "为了面子，多花了一笔冤枉钱", "text": "小心翼翼的大方，不如大大方方的小气", "quote": "🦋 搭子：里子比面子值钱"}]}
+const SCENE_DATA = {"pos": [{"icon": "🚀", "tag": "启动", "title": "没人催，你自己先干了起来", "text": "自发性是富知行的第一桶金", "quote": "🦋 搭子：发动机自己会转的人，一辈子不缺动力"}, {"icon": "📚", "tag": "习惯", "title": "今天阅读/运动/早起，全中", "text": "模仿富人八条，你正在长成他们", "quote": "🦋 搭子：习惯是复利的本金"}, {"icon": "🤝", "tag": "同频", "title": "和一个同频的人聊了认知和机会", "text": "富人的圈子互相打气、彼此成就", "quote": "🦋 搭子：往高处走，圈子里全是光"}, {"icon": "⚡", "tag": "稳定", "title": "被放鸽子/被否定，你没上头", "text": "情绪稳定是最高级的自由", "quote": "🦋 搭子：对琐事不上心，是高能量的第一特征"}, {"icon": "🕰️", "tag": "翻篇", "title": "糟心事当天翻篇，没带过夜", "text": "翻篇的能力是人生下半场的硬通货", "quote": "🦋 搭子：背着包袱跑不快，你放下了"},
+  {"icon":"🎯","tag":"注意力","title":"今天的注意力花在最重要的事上","text":"注意力在哪里，人生就在哪里","quote":"🦋 搭子：夺回注意力就是夺回人生"},
+  {"icon":"🤝","tag":"圈子","title":"和一位高能量的人深聊了","text":"圈子决定认知的天花板，也决定行动的下限","quote":"🦋 搭子：和谁同行比去哪更重要"},
+  {"icon":"🚀","tag":"行动","title":"想到的事48小时内就做了","text":"行动是认知的完成式，做了才算真的知道","quote":"🦋 搭子：知行合一，今天合上了"},
+  {"icon":"⚡","tag":"能量","title":"早睡运动，能量满格","text":"能量是1，方法是后面的0","quote":"🦋 搭子：身体是革命的本金"},
+  {"icon":"📚","tag":"习惯","title":"固定习惯坚持没有断","text":"习惯是复利的载体，断一天补一天","quote":"🦋 搭子：系统在替你赚钱"}
+], "neg": [{"icon": "📺", "tag": "失守", "title": "又刷了一晚上八卦和短视频", "text": "注意力被收割的人，只能被别人安排", "quote": "🦋 搭子：明天把手机请出卧室，先干要紧事"}, {"icon": "⏳", "tag": "拖延", "title": "「等准备好了」又赢了一天", "text": "等，是最贵的成本", "quote": "🦋 搭子：先干最丑的一版，再改"}, {"icon": "🎭", "tag": "面子", "title": "为了面子，多花了一笔冤枉钱", "text": "小心翼翼的大方，不如大大方方的小气", "quote": "🦋 搭子：里子比面子值钱"},
+  {"icon":"🛋️","tag":"空想","title":"想了很多，一步没动","text":"知道做不到，等于不知道","quote":"🦋 搭子：先做一个最小动作"},
+  {"icon":"📱","tag":"失焦","title":"注意力被短视频收割了一晚","text":"你刷的是别人的复利，荒的是自己的田","quote":"🦋 搭子：手机放远点，人生近一点"},
+  {"icon":"🙅","tag":"翻篇","title":"还在为昨天的事内耗","text":"翻篇力是人生下半场的核心竞争力","quote":"🦋 搭子：过去的账，让它过去"},
+  {"icon":"🌫️","tag":"惯性","title":"又顺着惯性过了一天","text":"没有复盘的一天，等于白过","quote":"🦋 搭子：今晚花3分钟复盘"},
+  {"icon":"🥤","tag":"即时","title":"又向即时满足投降了","text":"延迟满足的人，才配得上复利","quote":"🦋 搭子：忍10分钟，赢10年"}
+]}
 
 function openSceneSheet() {
   document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
@@ -3620,7 +3632,7 @@ function openSceneFB(idx, type) {
     var t = document.getElementById('ccToast');
     if (!t) {
       t = document.createElement('div'); t.id = 'ccToast';
-      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      t.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
@@ -3633,7 +3645,7 @@ function openSceneFB(idx, type) {
     var card = body.closest ? body.closest('.crp-card') : null;
     var title = '';
     if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
-    var parts = html.split(/<br\s*\/?>/i);
+    var parts = html.split(/<br[^>]*>/i);
     var out = '', n = 0;
     for (var k = 0; k < parts.length; k++) {
       var seg = parts[k].trim();
@@ -3647,6 +3659,8 @@ function openSceneFB(idx, type) {
     }
     if (!n) return;
     body.innerHTML = out;
+    var __stg = body.closest ? body.closest('.crp-stage') : null;
+    if (__stg) __stg.classList.remove('collapsed');
     body.setAttribute('data-cc-done', '1');
   }
   function process(){
@@ -3657,6 +3671,7 @@ function openSceneFB(idx, type) {
     var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
     if (!el) return;
     ev.preventDefault();
+    ev.stopPropagation();
     var id = el.getAttribute('data-ccid');
     if (state[id]) { delete state[id]; } else { state[id] = 1; }
     save();
@@ -3668,7 +3683,7 @@ function openSceneFB(idx, type) {
     var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
     if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
     ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
-  });
+  }, true);
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
     + '.cc-row:last-child{border-bottom:none;}'

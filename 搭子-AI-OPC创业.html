@@ -376,7 +376,7 @@
     .pos-reward-pts.neg { color: #ef5350; font-size: 32px; }
 
     /* ===== Toast ===== */
-    .toast { position: fixed; bottom: 100px; left: 20px; right: 20px; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
+    .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
     .toast.show { opacity: 1; }
 
     /* ===== 问答/进展选择面板 ===== */
@@ -3514,10 +3514,22 @@ const SCENE_DATA = {"pos": [
   {"icon": "👤", "tag": "用户", "title": "和一位真实用户聊了痛点", "text": "痛点长在聊天里", "quote": "🎛️ 搭子：这是最贵的刚需动作"},
   {"icon": "🧪", "tag": "MVP", "title": "最丑的一版上线了", "text": "完成比完美值钱", "quote": "🎛️ 搭子：火车上路了"},
   {"icon": "📣", "tag": "展示", "title": "发了一条展示进展的内容", "text": "机会才会想到你", "quote": "🎛️ 搭子：内容杠杆开始转动"}
+,
+  {"icon":"🤖","tag":"AI员工","title":"让AI替你完成了一项重复工作","text":"一人公司的杠杆，就是把流程交给AI员工","quote":"🎛️ 搭子：一个人活成一支队伍"},
+  {"icon":"🧪","tag":"MVP","title":"上线了一个最小可用产品","text":"先发布再完美，市场反馈比闭门造车值钱","quote":"🎛️ 搭子：发布即胜利"},
+  {"icon":"📣","tag":"获客","title":"测试了一个新的获客渠道","text":"流量不是想出来的，是一个渠道一个渠道试出来的","quote":"🎛️ 搭子：渠道数据开始说话了"},
+  {"icon":"💰","tag":"现金流","title":"认真复盘了本周现金流","text":"一人公司先活下来，再谈做大","quote":"🎛️ 搭子：现金流是创业的心电图"},
+  {"icon":"🧭","tag":"定位","title":"砍掉了一个不赚钱的服务","text":"定位的本质是做减法，舍九取一","quote":"🎛️ 搭子：砍得越准，立得越稳"}
 ], "neg": [
   {"icon": "🛠️", "tag": "磨刀", "title": "又折腾了一天工具", "text": "磨一月刀不如交付一单活", "quote": "🎛️ 搭子：明天先交付再碰工具"},
   {"icon": "🎪", "tag": "跟风", "title": "看别人赚钱又想换赛道", "text": "没有护城河的热闹是别人的", "quote": "🎛️ 搭子：回到你的独特洞察"},
   {"icon": "🏚️", "tag": "账目", "title": "公私账又混了", "text": "合规是一人公司的地基", "quote": "🎛️ 搭子：明天分账，别让信用毁在一次懒上"}
+,
+  {"icon":"🍿","tag":"低效","title":"忙了一天却说不清产出","text":"检查是不是在用战术上的勤奋，掩盖战略上的懒惰","quote":"🎛️ 搭子：先问这件事赚钱吗"},
+  {"icon":"🕸️","tag":"分散","title":"同时推进的线太多了","text":"一人公司一次只打一场仗，聚焦才有胜算","quote":"🎛️ 搭子：先打赢一个再开第二线"},
+  {"icon":"💸","tag":"烧钱","title":"又为工具付费却没产生收入","text":"工具必须为现金流服务，不为焦虑服务","quote":"🎛️ 搭子：先回本，再升级"},
+  {"icon":"😱","tag":"不敢定价","title":"定价一降再降，怕没人买","text":"定价本身就是市场测试，低价吸引来的不是用户","quote":"🎛️ 搭子：敢定价，才配验证"},
+  {"icon":"📉","tag":"失联","title":"一周没看经营数据了","text":"没有反馈的努力，只是自我感动","quote":"🎛️ 搭子：数据周一看，焦虑少一半"}
 ]}
 
 function openSceneSheet() {
@@ -3584,7 +3596,7 @@ function openSceneFB(idx, type) {
     var t = document.getElementById('ccToast');
     if (!t) {
       t = document.createElement('div'); t.id = 'ccToast';
-      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      t.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
@@ -3597,7 +3609,7 @@ function openSceneFB(idx, type) {
     var card = body.closest ? body.closest('.crp-card') : null;
     var title = '';
     if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
-    var parts = html.split(/<br\s*\/?>/i);
+    var parts = html.split(/<br[^>]*>/i);
     var out = '', n = 0;
     for (var k = 0; k < parts.length; k++) {
       var seg = parts[k].trim();
@@ -3611,6 +3623,8 @@ function openSceneFB(idx, type) {
     }
     if (!n) return;
     body.innerHTML = out;
+    var __stg = body.closest ? body.closest('.crp-stage') : null;
+    if (__stg) __stg.classList.remove('collapsed');
     body.setAttribute('data-cc-done', '1');
   }
   function process(){
@@ -3621,6 +3635,7 @@ function openSceneFB(idx, type) {
     var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
     if (!el) return;
     ev.preventDefault();
+    ev.stopPropagation();
     var id = el.getAttribute('data-ccid');
     if (state[id]) { delete state[id]; } else { state[id] = 1; }
     save();
@@ -3632,7 +3647,7 @@ function openSceneFB(idx, type) {
     var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
     if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
     ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
-  });
+  }, true);
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
     + '.cc-row:last-child{border-bottom:none;}'

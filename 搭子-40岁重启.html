@@ -376,7 +376,7 @@
     .pos-reward-pts.neg { color: #ef5350; font-size: 32px; }
 
     /* ===== Toast ===== */
-    .toast { position: fixed; bottom: 100px; left: 20px; right: 20px; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
+    .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
     .toast.show { opacity: 1; }
 
     /* ===== 问答/进展选择面板 ===== */
@@ -3514,10 +3514,22 @@ const SCENE_DATA = {"pos": [
   {"icon": "✍️", "tag": "产品化", "title": "经验第一次变成了作品", "text": "隐性知识显性化", "quote": "⛰️ 搭子：经验开始复利了"},
   {"icon": "🏃", "tag": "体能", "title": "运动30分钟，出了汗", "text": "体能是1，其他都是0", "quote": "⛰️ 搭子：本钱守住了"},
   {"icon": "🤝", "tag": "智囊团", "title": "和一位跨领域朋友深聊了", "text": "别一个人闷头焦虑", "quote": "⛰️ 搭子：跨领域的视角最值钱"}
+,
+  {"icon":"📚","tag":"输入","title":"读完了一章硬核的书","text":"40岁的认知升级，靠的是系统性输入","quote":"⛰️ 搭子：你的认知就是你的天花板"},
+  {"icon":"💰","tag":"现金流","title":"梳理了一次本月现金流","text":"重启的底气，是一张看得很清的资产负债表","quote":"⛰️ 搭子：财务安全垫越厚，越敢试"},
+  {"icon":"🎯","tag":"聚焦","title":"拒绝了一个不相关的机会","text":"40岁最贵的资产是注意力，不是机会","quote":"⛰️ 搭子：说不是重启者的核心能力"},
+  {"icon":"🗣️","tag":"个人品牌","title":"公开输出了自己的观点","text":"你二十年的经验，就是别人愿意付费的认知","quote":"⛰️ 搭子：经验开始为你打工了"},
+  {"icon":"🧘","tag":"和解","title":"花了十分钟和过去和解","text":"重启不是否定过去，是盘活过去的一切积累","quote":"⛰️ 搭子：前半程没有一步白走"}
 ], "neg": [
   {"icon": "👴", "tag": "年龄焦虑", "title": "「来不及了」又缠了你一晚", "text": "40岁是资产不是负债", "quote": "⛰️ 搭子：你的对手是昨天的自己"},
   {"icon": "🛋️", "tag": "空想", "title": "计划完美，实验为零", "text": "重启靠实验不靠计划", "quote": "⛰️ 搭子：本周必须有一次最小动作"},
   {"icon": "😴", "tag": "透支", "title": "又熬夜了，体能报警", "text": "体能是1", "quote": "⛰️ 搭子：先睡觉，明天再重启"}
+,
+  {"icon":"🐢","tag":"拖延","title":"重要的事又拖了一周","text":"把大象切成今天能吃的15分钟，拖延就不成立了","quote":"⛰️ 搭子：今天的最小动作是什么"},
+  {"icon":"💸","tag":"底气","title":"又为面子买了不需要的东西","text":"先攒够6个月的安全垫，重启才有谈判筹码","quote":"⛰️ 搭子：现金流比面子值钱"},
+  {"icon":"👥","tag":"孤军","title":"一个人闷头扛，没借力","text":"重启需要智囊团，别把请教当成示弱","quote":"⛰️ 搭子：跨领域的视角最值钱"},
+  {"icon":"📉","tag":"反复","title":"旧习惯又悄悄回来了","text":"反复是重启的一部分，别因为一次回滑全盘否定自己","quote":"⛰️ 搭子：曲线前进才是常态"},
+  {"icon":"🎭","tag":"面子","title":"怕丢脸，没敢迈出第一步","text":"40岁最大的优势就是不必再装，试错成本反而更低","quote":"⛰️ 搭子：面子是最贵的负债"}
 ]}
 
 function openSceneSheet() {
@@ -3584,7 +3596,7 @@ function openSceneFB(idx, type) {
     var t = document.getElementById('ccToast');
     if (!t) {
       t = document.createElement('div'); t.id = 'ccToast';
-      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      t.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
@@ -3597,7 +3609,7 @@ function openSceneFB(idx, type) {
     var card = body.closest ? body.closest('.crp-card') : null;
     var title = '';
     if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
-    var parts = html.split(/<br\s*\/?>/i);
+    var parts = html.split(/<br[^>]*>/i);
     var out = '', n = 0;
     for (var k = 0; k < parts.length; k++) {
       var seg = parts[k].trim();
@@ -3611,6 +3623,8 @@ function openSceneFB(idx, type) {
     }
     if (!n) return;
     body.innerHTML = out;
+    var __stg = body.closest ? body.closest('.crp-stage') : null;
+    if (__stg) __stg.classList.remove('collapsed');
     body.setAttribute('data-cc-done', '1');
   }
   function process(){
@@ -3621,6 +3635,7 @@ function openSceneFB(idx, type) {
     var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
     if (!el) return;
     ev.preventDefault();
+    ev.stopPropagation();
     var id = el.getAttribute('data-ccid');
     if (state[id]) { delete state[id]; } else { state[id] = 1; }
     save();
@@ -3632,7 +3647,7 @@ function openSceneFB(idx, type) {
     var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
     if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
     ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
-  });
+  }, true);
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
     + '.cc-row:last-child{border-bottom:none;}'

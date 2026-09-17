@@ -376,7 +376,7 @@
     .pos-reward-pts.neg { color: #ef5350; font-size: 32px; }
 
     /* ===== Toast ===== */
-    .toast { position: fixed; bottom: 100px; left: 20px; right: 20px; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
+    .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); color: white; text-align: center; padding: 12px; border-radius: 60px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 300; }
     .toast.show { opacity: 1; }
 
     /* ===== 问答/进展选择面板 ===== */
@@ -3514,10 +3514,22 @@ const SCENE_DATA = {"pos": [
   {"icon": "🔍", "tag": "走访", "title": "从聊天里挖出一个真需求", "text": "需求长在聊天里", "quote": "🌅 搭子：没说出口的需求最值钱"},
   {"icon": "❤️", "tag": "温度", "title": "一个细节让老人特别开心", "text": "温度就是壁垒", "quote": "🌅 搭子：机器替代不了的部分，恰是最贵的"},
   {"icon": "📋", "tag": "资质", "title": "补贴申报推进了一步", "text": "政府托底的现金流要接住", "quote": "🌅 搭子：资质是拿不走的门票"}
+,
+  {"icon":"🔍","tag":"洞察","title":"实地观察了一次银发消费","text":"银发市场的答案，永远在现场不在会议室","quote":"🌅 搭子：你比别人更懂长辈一步"},
+  {"icon":"🤝","tag":"信任","title":"用心服务好了一位长辈","text":"信任是银发生意的硬通货，也是最深的护城河","quote":"🌅 搭子：一次满意就是十次转介绍"},
+  {"icon":"🧭","tag":"赛道","title":"梳理清楚了一个细分需求","text":"养老不是慈善，是被低估的超级市场","quote":"🌅 搭子：切口越小，越容易赢"},
+  {"icon":"📞","tag":"陪伴","title":"给长辈打了一通电话","text":"你服务的每一个人，都是别人惦记的爸妈","quote":"🌅 搭子：这份事业自带温度"},
+  {"icon":"📚","tag":"政策","title":"研究了一个银发政策和案例","text":"看懂政策红利期，就是看懂了时间窗口","quote":"🌅 搭子：借势的人跑得快"}
 ], "neg": [
   {"icon": "💊", "tag": "捷径", "title": "有人拉你做焦虑营销", "text": "银发是信任生意", "quote": "🌅 搭子：一次收割，全盘归零"},
   {"icon": "💨", "tag": "爽约", "title": "答应的事没兑现", "text": "一次爽约要三次补偿", "quote": "🌅 搭子：明天第一时间修"},
   {"icon": "🕳️", "tag": "空想", "title": "计划改了五版，没走进社区", "text": "需求长在聊天里", "quote": "🌅 搭子：本周先走访三位老人"}
+,
+  {"icon":"🫱","tag":"自以为","title":"又用年轻人的视角猜长辈需求","text":"别猜，去问；需求是访谈出来的","quote":"🌅 搭子：去现场待半天"},
+  {"icon":"💸","tag":"急变现","title":"总想赚快钱，忽略了信任积累","text":"银发生意，慢就是快","quote":"🌅 搭子：信任存够了钱自然来"},
+  {"icon":"🌫️","tag":"赛道模糊","title":"什么人群什么场景都想做","text":"先吃透一个细分场景，再横向复制","quote":"🌅 搭子：先赢一个点"},
+  {"icon":"😌","tag":"想当然","title":"把「老龄化」当成了一整个市场","text":"50岁、60岁、80岁是完全不同的客群","quote":"🌅 搭子：给客群画像再细分一层"},
+  {"icon":"🗿","tag":"不得法","title":"推销式沟通又被拒绝了","text":"先给价值再谈生意，长辈最反感被推销","quote":"🌅 搭子：先帮一次，再谈合作"}
 ]}
 
 function openSceneSheet() {
@@ -3584,7 +3596,7 @@ function openSceneFB(idx, type) {
     var t = document.getElementById('ccToast');
     if (!t) {
       t = document.createElement('div'); t.id = 'ccToast';
-      t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
+      t.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
       document.body.appendChild(t);
     }
     t.textContent = msg; t.style.opacity = '1';
@@ -3597,7 +3609,7 @@ function openSceneFB(idx, type) {
     var card = body.closest ? body.closest('.crp-card') : null;
     var title = '';
     if (card) { var tt = card.querySelector('.crp-title'); if (tt) title = tt.textContent.trim(); }
-    var parts = html.split(/<br\s*\/?>/i);
+    var parts = html.split(/<br[^>]*>/i);
     var out = '', n = 0;
     for (var k = 0; k < parts.length; k++) {
       var seg = parts[k].trim();
@@ -3611,6 +3623,8 @@ function openSceneFB(idx, type) {
     }
     if (!n) return;
     body.innerHTML = out;
+    var __stg = body.closest ? body.closest('.crp-stage') : null;
+    if (__stg) __stg.classList.remove('collapsed');
     body.setAttribute('data-cc-done', '1');
   }
   function process(){
@@ -3621,6 +3635,7 @@ function openSceneFB(idx, type) {
     var el = ev.target.closest ? ev.target.closest('.cc-chip') : null;
     if (!el) return;
     ev.preventDefault();
+    ev.stopPropagation();
     var id = el.getAttribute('data-ccid');
     if (state[id]) { delete state[id]; } else { state[id] = 1; }
     save();
@@ -3632,7 +3647,7 @@ function openSceneFB(idx, type) {
     var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
     if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
     ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
-  });
+  }, true);
   var css = document.createElement('style');
   css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
     + '.cc-row:last-child{border-bottom:none;}'
