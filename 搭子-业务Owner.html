@@ -390,6 +390,8 @@
       </div>
     </div>
     <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
     (function(){
       var KEY='crp_checklist_owner';
       var wrap=document.getElementById('crpWrap_owner'); if(!wrap) return;
@@ -518,7 +520,7 @@
       {t:'🚀 成长', items:[['每次项目都要留下资产','沉淀大于完成'],['主动接没人接的活','空白区是机会区'],['向结果好的人偷师','观察是最快的学法'],['定期走出业务看行业','拉开距离才看得清'],['耐心，操盘力是攒出来的','急不来，但停不得']]}
   ];
   var wrap=document.getElementById('sayWrap_owner'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){
@@ -663,7 +665,7 @@
   var SLUG='owner', ACCENT='#7c3aed', EMOJI='📊';
   var ACTIONS=[["📊", "盯一次核心指标", "Owner每天先看数"], ["🤝", "跟进一个关键客户", "大客户要亲自维护"], ["🧩", "复盘一个流程卡点", "流程里藏着利润"]], TIPS=["Owner的标志：事情在你手上闭环", "目标拆到人到天，才叫计划", "汇报三句：亮点、风险、要的支持", "复盘不是追责，是找规律", "客户的客户的痛点才是真痛点", "数据看趋势，别被单点骗", "团队成长速度就是业务天花板", "流程为客户服务，不为老板", "授权不是甩锅，是给成长机会", "关键客户要亲自维护", "别用战术勤奋掩盖战略懒惰", "会议没有结论就是浪费所有人", "风险要提前暴露，别藏雷", "招人慢一点，开人快一点", "资源不够是常态，排序是本事", "先赢小仗，再打大仗", "跨部门借力靠平时存款", "每周留2小时只想不做", "制度管人，文化留人", "业务的结果就是你个人的结果"], SCENES=[["📉", "指标下滑了", "先拆维度找根因，别急着加人加班。数据会说话。"], ["💰", "客户要砍预算", "帮客户算ROI，价值先行。共渡难关的客户最忠诚。"], ["😔", "团队士气低", "一对一聊，听比说重要。士气问题多是管理问题。"], ["🙏", "上级不给资源", "用数据和案例证明投入产出。小范围试点再要资源。"], ["🤷", "跨部门不配合", "找到对方的KPI，做利益交换。平时多存款。"], ["⚡", "被临时插需求", "排进队列评估优先级，别直接压给团队。"]];
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
   function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
   function toast(m){
@@ -1108,14 +1110,14 @@ function initDashboard() {
   document.getElementById('partnerBadge').innerText = currentPartner.emoji + ' ' + currentPartner.name;
   var history = [];
   try { history = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); } catch(e) {}
-  var today = new Date().toLocaleDateString();
+  var today = __ld(new Date());
   hasCheckedToday = history.some(function(d) { return d === today; });
 
   // calculate continuous count
   continuousCount = 0;
   var d = new Date();
   while (true) {
-    var dateStr = d.toLocaleDateString();
+    var dateStr = __ld(d);
     if (history.indexOf(dateStr) >= 0) {
       continuousCount++;
       d.setDate(d.getDate() - 1);
@@ -1137,7 +1139,7 @@ function renderWeek(history) {
   var html = '';
   for (var i = 6; i >= 0; i--) {
     var d = new Date(now); d.setDate(now.getDate() - i);
-    var ds = d.toLocaleDateString();
+    var ds = __ld(d);
     var checked = history.indexOf(ds) >= 0;
     html += '<div class="day-item"><div class="day-name">' + days[d.getDay()] + '</div><div class="dot' + (checked ? ' checked' : '') + '">' + (checked ? '✓' : '') + '</div></div>';
   }
@@ -1148,7 +1150,7 @@ function doCheckin() {
   if (hasCheckedToday) { alert('今天已经打卡了！明天继续加油 💪'); return; }
   var history = [];
   try { history = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); } catch(e) {}
-  var today = new Date().toLocaleDateString();
+  var today = __ld(new Date());
   history.push(today);
   localStorage.setItem(STORAGE.HISTORY, JSON.stringify(history));
   hasCheckedToday = true;
@@ -1624,7 +1626,7 @@ function addBiz() {
   var val = parseFloat(document.getElementById('bizInput').value);
   if (!val || val < 0) { showToast('请输入有效的增长率'); return; }
   var data = getBizData();
-  var today = new Date().toISOString().slice(0, 10);
+  var today = __ld(new Date());
   data = data.filter(function(d) { return d.date !== today; });
   data.push({ date: today, value: val });
   data.sort(function(a, b) { return a.date.localeCompare(b.date); });
@@ -1683,7 +1685,7 @@ function drawBizChart() {
     ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#16a34a'; ctx.lineWidth = 2; ctx.stroke();
   });
 
-  var today = new Date().toISOString().slice(0, 10);
+  var today = __ld(new Date());
   var todayIdx = data.findIndex(function(d) { return d.date === today; });
   if (todayIdx >= 0) {
     var x = toX(todayIdx), y = toY(data[todayIdx].value);
@@ -1745,11 +1747,6 @@ function shareBizWeeklyReport() {
 
 // ===== Tab切换 =====
 function switchTab(tab) {
-  // 打卡前必须先完成SOP
-  if (tab === 'checkin' && !sopCompletedToday) {
-    alert('⏰ 请先完成今日SOP，再来打卡！');
-    return;
-  }
   document.getElementById('qaOverlay').classList.remove('show');
   document.getElementById('fbOverlay').classList.remove('show');
   document.getElementById('sopGuideOverlay').classList.add('hidden');
@@ -1829,7 +1826,7 @@ function renderSharePage() {
   var d = new Date();
   for (var i = 0; i < 60; i++) {
     var dd = new Date(d); dd.setDate(d.getDate() - i);
-    if (history.some(function(h) { return h.date === dd.toISOString().slice(0,10) && h.checkin; })) conDays++;
+    if (history.some(function(h) { return h.date === __ld(dd) && h.checkin; })) conDays++;
     else if (i > 0) break;
   }
   var streakEl = document.getElementById('shareStreak');
@@ -1985,12 +1982,12 @@ function initProgressPage() {
   var history = [];
   try { history = JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); } catch(e) {}
   var total = history.length;
-  var today = history.indexOf(new Date().toLocaleDateString()) >= 0 ? '✅' : '-';
+  var today = history.indexOf(__ld(new Date())) >= 0 ? '✅' : '-';
   // 计算连续天数
   var streak = 0;
   var d = new Date();
   while (true) {
-    if (history.indexOf(d.toLocaleDateString()) >= 0) { streak++; d.setDate(d.getDate() - 1); } else { break; }
+    if (history.indexOf(__ld(d)) >= 0) { streak++; d.setDate(d.getDate() - 1); } else { break; }
   }
   var elStreak = document.getElementById('ownerStreak');
   var elTotal = document.getElementById('ownerTotal');

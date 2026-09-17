@@ -598,13 +598,15 @@
   <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
 </div>
 <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
 /* std-buddy-tab-v1 */
 (function(){
   if (window.__stdTab) return; window.__stdTab = 1;
   var SLUG='guanxi', ACCENT='#db2777', EMOJI='💙';
   var ACTIONS=[["💬", "一次不打断的倾听", "听完再说，是基本功"], ["❤️", "表达一次真实感受", "用\"我希望\"开头"], ["🕊️", "翻篇一次旧账", "旧账翻一次信任少一分"]], TIPS=["赢了道理输了感情就是输", "先处理情绪，再处理事情", "不打断是最基本的尊重", "旧账翻一次，信任少一分", "需求要说出来，猜是猜不到的", "吵架先退一步：道歉不代表输", "每天一个具体的赞美", "语气比内容更重要", "亲密是有话好好谈", "边界感是亲密的地基", "别用沉默惩罚对方", "感激要说出口", "修复比不吵架更重要", "换位思考不是妥协，是智慧", "每周留一段两人时间", "手机放下，眼睛看着对方", "指责引发防御，示弱引发靠近", "原生家庭是课题不是借口", "关系是存款，平时要存", "爱是动词，是每天的选择"], SCENES=[["🔥", "今天吵架了", "先冷静20分钟，回来只说感受不指责。赢了架输了爱不值。"], ["🧊", "对方冷淡了", "直接问：你最近好像有心事，我想听。别猜，猜必猜错。"], ["💔", "说了伤人的话", "当天道歉，别过夜。伤口越早处理越好愈合。"], ["📜", "对方翻旧账", "先接住情绪，再约定以后就事论事。翻旧账是求关注。"], ["😨", "想提需求怕吵架", "用\"我希望\"开头，不用\"你总是\"。前者是邀请，后者是审判。"], ["🤐", "今天没话说", "分享一件今天的小事。连接是靠日常小事重建的。"]];
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
   function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
   function toast(m){
@@ -1100,7 +1102,7 @@
       {t:'❤️ 滋养', items:[['每天一句感谢','感谢是最便宜的存款'],['记住对方的好','注意力在哪里，爱就在哪里'],['共同创造新回忆','关系需要新鲜血液'],['身体语言也是语言','一个拥抱胜过十句道理'],['把关系当植物养','定期浇水，偶尔晒太阳']]}
   ];
   var wrap=document.getElementById('sayWrap_guanxi'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){
@@ -1252,7 +1254,7 @@ function getSiteUrl() {
   return SHARE_URL + '/';
 }
 
-function getToday() { return new Date().toISOString().slice(0,10); }
+function getToday() { return __ld(new Date()); }
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
 function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
@@ -1638,7 +1640,7 @@ function computeContinuous(history, today) {
   let cnt = 1, cur = new Date(today);
   for (let i = 1; i <= 365; i++) {
     let prev = new Date(cur); prev.setDate(cur.getDate() - i);
-    if (history.includes(prev.toISOString().slice(0,10))) cnt++; else break;
+    if (history.includes(__ld(prev))) cnt++; else break;
   }
   return cnt;
 }
@@ -2000,7 +2002,7 @@ function refreshDashboard() {
   let now = new Date(), dow = now.getDay();
   let mon = new Date(now); mon.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1));
   let weekDays = [];
-  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(d.toISOString().slice(0,10)); }
+  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(__ld(d)); }
   document.getElementById('weekRange').innerText = `${weekDays[0].slice(5)}~${weekDays[6].slice(5)}`;
   let dotsHtml = '', dayNames = ['一','二','三','四','五','六','日'];
   for (let i = 0; i < 7; i++) {
@@ -2387,7 +2389,7 @@ function renderWeeklyReport() {
   // 计算本周（最近7天）
   let now = new Date();
   let weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
-  let fmt = d => d.toISOString().slice(0,10);
+  let fmt = d => __ld(d);
 
   let thisWeekHistory = history.filter(h => new Date(h) >= weekAgo);
   let lastWeekStart = new Date(weekAgo); lastWeekStart.setDate(lastWeekStart.getDate() - 7);
@@ -3078,7 +3080,7 @@ function showSOPFinish() {
   for (let i = 6; i >= 0; i--) {
     let d = new Date();
     d.setDate(d.getDate() - i);
-    let dateStr = d.toISOString().slice(0, 10);
+    let dateStr = __ld(d);
     let dayLabel = (i === 0) ? '今天' : (d.getMonth() + 1) + '/' + d.getDate();
     let hRecord = history.find(h => h.date === dateStr);
     recent7.push({ date: dateStr, label: dayLabel, score: hRecord ? hRecord.score : null, isToday: i === 0 });
@@ -3233,7 +3235,7 @@ function renderProgress() {
     : 0;
 
   // 今日得分
-  const today = new Date().toISOString().slice(0, 10);
+  const today = __ld(new Date());
   const todayRecord = history.find(h => h.date === today);
   const todayScore = todayRecord ? todayRecord.score + '%' : '-';
 
@@ -3295,7 +3297,7 @@ function renderSharePage() {
   let d = new Date();
   for (let i = 0; i < 60; i++) {
     let dd = new Date(d); dd.setDate(d.getDate() - i);
-    if (history.some(h => h.date === dd.toISOString().slice(0,10) && h.checkin)) conDays++;
+    if (history.some(h => h.date === __ld(dd) && h.checkin)) conDays++;
     else if (i > 0) break;
   }
   document.getElementById('shareStreak').textContent = conDays + '天';

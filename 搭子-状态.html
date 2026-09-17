@@ -510,6 +510,8 @@
   <div id="sayWrap_zhuangtai"></div>
 </div>
 <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
 (function(){
   var KEY='crp_say_zhuangtai';
   var G=[
@@ -521,7 +523,7 @@
       {t:'🛡️ 防崩', items:[['识别自己的崩盘信号','失眠/易怒/暴食是红灯'],['红灯亮起主动降载','减任务，加睡眠'],['崩了不自责','恢复期的自责是二次伤害'],['建立支持名单','崩盘时知道找谁'],['平时存款，急时取钱','状态账户要日常定投']]}
   ];
   var wrap=document.getElementById('sayWrap_zhuangtai'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){
@@ -670,7 +672,7 @@
   var SLUG='status', ACCENT='#0b8a82', EMOJI='⚡';
   var ACTIONS=[["🌞", "早上晒 10 分钟太阳", "血清素是情绪的地基"], ["🏃", "完成 20 分钟微运动", "动一动就有多巴胺"], ["🧘", "做 3 次深呼吸练习", "随时可以降压"]], TIPS=["情绪不是敌人，是信使——先接住，再拆信", "说得出名字的情绪，就已经被驯服了一半", "低落不是退步，是身心在要求充电", "每天 10 分钟晒太阳，血清素是情绪的地基", "动 20 分钟，比想 2 小时更解压", "烦躁时先解决喝水吃饭睡觉，再谈别的", "写下来，情绪就从脑内噪音变成了待办清单", "深呼吸 3 次，给情绪装一个减速带", "不必每天都有好状态，波动本来就是常态", "求助不是软弱，是高配版的解决问题", "把「我必须」换成「我选择」，压力小一半", "今天只做一件小事，完成就是胜利", "跟人说说你的状态，说出来就轻了一半", "刷手机是假休息，起身走动才是真恢复", "焦虑说明你在乎，写下最坏结果往往没那么坏", "状态差的日子，把标准降到能完成的地步", "情绪上头时别做决定，睡一觉再说", "像安慰好朋友那样，安慰一句自己", "记录每天的状态，看见节律就能提前应对", "你不需要时刻元气满满，稳定就已经很了不起"], SCENES=null;
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
   function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
   function toast(m){
@@ -1022,7 +1024,7 @@ let currentTag = '状态1';
 let sopCatIdx = 0;
 let sopSelected = {};
 
-function getToday() { return new Date().toISOString().slice(0,10); }
+function getToday() { return __ld(new Date()); }
 function getLS(k, def) { try { return JSON.parse(localStorage.getItem(k) || def); } catch(e) { return JSON.parse(def); } }
 function setLS(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
 
@@ -1507,7 +1509,7 @@ function updateContinuousDays() {
   let streak = 0;
   let d = new Date();
   while (true) {
-    const s = d.toISOString().slice(0,10);
+    const s = __ld(d);
     if (history.find(h => h.date === s)) { streak++; d.setDate(d.getDate()-1); }
     else break;
   }
@@ -1521,7 +1523,7 @@ function renderWeekDots() {
   let html = '';
   for (let i = 0; i < 7; i++) {
     const d = new Date(start); d.setDate(start.getDate() + i);
-    const s = d.toISOString().slice(0,10);
+    const s = __ld(d);
     const rec = history.find(h => h.date === s);
     const checked = rec ? 'checked' : '';
     const emoji = rec ? (rec.score >= 2 ? '🪷' : '🌫️') : '';
@@ -1756,7 +1758,7 @@ function renderProgress() {
   const total = history.length;
   let streak = 0, d = new Date();
   while (true) {
-    const s = d.toISOString().slice(0,10);
+    const s = __ld(d);
     if (history.find(h => h.date === s)) { streak++; d.setDate(d.getDate()-1); }
     else break;
   }

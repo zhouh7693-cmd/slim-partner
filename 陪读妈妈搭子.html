@@ -633,6 +633,8 @@
     </div>
   </div>
   <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
   (function(){
     var KEY='crp_checklist_peidu';
     var wrap=document.getElementById('crpWrap_peidu'); if(!wrap) return;
@@ -761,7 +763,7 @@
       {t:'🌷 妈妈自己', items:[['我先照顾好自己的情绪','情绪稳定是最好的家教'],['今天我也学习了一点点','做孩子的榜样'],['吼了你，妈妈道歉','真诚修复关系'],['妈妈的价值不由你的分数决定','不把孩子当KPI'],['我们一起长大','陪伴是双向的']]}
   ];
   var wrap=document.getElementById('sayWrap_peidu'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){
@@ -1003,7 +1005,7 @@
   var SLUG='mom', ACCENT='#e11d48', EMOJI='🌷';
   var ACTIONS=[["👧", "一次不打扰的陪伴", "在场不催促"], ["🌸", "优势反馈一次", "看见比纠正更有用"], ["🧘", "给自己 10 分钟", "妈妈的电量要先保住"]], TIPS=["陪读拼的是稳定，不是强度", "情绪稳定的妈妈是最好的学区房", "先照顾好自己", "孩子不需要完美的妈妈", "陪伴的质量比时长重要", "盯作业会毁掉自驱力", "看见优势比纠正缺点更有用", "内驱力来自胜任感", "少说一句，孩子多想一分", "焦虑会传染，平静也会", "允许孩子犯错", "比较是亲子关系的毒药", "你的松弛感是孩子的安全感", "习惯比分数重要", "青春期的孩子需要空间", "别把自己的梦想压给孩子", "每天一次真诚的欣赏", "夫妻和谐是孩子的定心丸", "成绩起伏是常态，别放大", "你活出自己就是最好的教育"], SCENES=[["🔥", "辅导作业要炸了", "先离开5分钟，回来只看进步。情绪上头时教的都白教。"], ["📉", "孩子成绩下滑", "先问感受再谈分数。情绪被接住了，问题才解决得了。"], ["⚖️", "忍不住比较别人家孩子", "停下，回看孩子本周的进步。比较是毒药。"], ["😤", "孩子顶嘴了", "顶嘴是独立的信号。先接住情绪，再谈表达方式。"], ["😔", "内疚没陪够", "质量补时长：今晚全身心陪伴30分钟，手机放另一个房间。"], ["⚔️", "家人教育理念冲突", "私下沟通，别当孩子面争执。统一战线孩子才有安全感。"]];
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
   function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
   function toast(m){
@@ -1417,7 +1419,7 @@ function getSiteUrl() {
   return SHARE_URL + '/';
 }
 
-function getToday() { return new Date().toISOString().slice(0,10); }
+function getToday() { return __ld(new Date()); }
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
 
@@ -1440,7 +1442,7 @@ function updateSOPCatStreak(catId, score) {
   if (!streaks[catId]) streaks[catId] = { lastDate: null, streak: 0 };
   if (streaks[catId].lastDate !== today) {
     let yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
-    let yStr = yesterday.toISOString().slice(0,10);
+    let yStr = __ld(yesterday);
     if (streaks[catId].lastDate === yStr && score >= 5) {
       streaks[catId].streak = (streaks[catId].streak || 0) + 1;
     } else {
@@ -1832,7 +1834,7 @@ function showSOPFinish() {
   for (let i = 6; i >= 0; i--) {
     let d = new Date();
     d.setDate(d.getDate() - i);
-    let dateStr = d.toISOString().slice(0, 10);
+    let dateStr = __ld(d);
     let dayLabel = (i === 0) ? '今天' : (d.getMonth() + 1) + '/' + d.getDate();
     let hRecord = history.find(h => h.date === dateStr);
     recent7.push({ date: dateStr, label: dayLabel, score: hRecord ? hRecord.score : null, isToday: i === 0 });
@@ -2028,7 +2030,7 @@ function doCheckin() {
   let pid = getSelectedPartnerId();
   let partner = PARTNERS.find(p => p.id === pid) || PARTNERS[0];
   let yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
-  let yStr = yesterday.toISOString().slice(0,10);
+  let yStr = __ld(yesterday);
   let hadY = history.some(h => h.date === yStr);
   // 连续打卡天数：正确计算——昨天有打卡则昨天连续天数+1，否则重置为1
   let yesterdayStreak = getContinuousStreak(history, yStr);
@@ -2049,7 +2051,7 @@ function getContinuousStreak(hist, uptoDate) {
   let cnt = 0;
   for (let i = 1; i <= 60; i++) {
     let d = new Date(uptoDate); d.setDate(d.getDate() - i);
-    let ds = d.toISOString().slice(0,10);
+    let ds = __ld(d);
     if (hist.some(h => h.date === ds)) cnt++;
     else break;
   }
@@ -2062,7 +2064,7 @@ function computeStreakToday(hist, today) {
   let cnt = 1;
   for (let i = 1; i <= 60; i++) {
     let d = new Date(today); d.setDate(d.getDate() - i);
-    let ds = d.toISOString().slice(0,10);
+    let ds = __ld(d);
     if (hist.some(h => h.date === ds)) cnt++;
     else break;
   }
@@ -2078,7 +2080,7 @@ function renderWeekProgress() {
   let weekDays = [];
   for (let i = 0; i < 7; i++) {
     let d = new Date(monday); d.setDate(monday.getDate() + i);
-    weekDays.push({ label: days[i], date: d.toISOString().slice(0,10), checked: history.some(h => h.date === d.toISOString().slice(0,10) && h.checkin) });
+    weekDays.push({ label: days[i], date: __ld(d), checked: history.some(h => h.date === __ld(d) && h.checkin) });
   }
   let checked = weekDays.filter(d => d.checked).length;
   document.getElementById('weekLabel').textContent = `本周陪读（${(monday.getMonth()+1)}/${monday.getDate()}起）`;
@@ -2480,7 +2482,7 @@ function renderProgress() {
   let d = new Date();
   for (let i = 0; i < 60; i++) {
     let dd = new Date(d); dd.setDate(d.getDate() - i);
-    if (checkinHistory.some(h => h.date === dd.toISOString().slice(0,10) && h.checkin)) streak++;
+    if (checkinHistory.some(h => h.date === __ld(dd) && h.checkin)) streak++;
     else if (i > 0) break;
   }
 
@@ -2545,7 +2547,7 @@ function renderSharePage() {
   let d = new Date();
   for (let i = 0; i < 60; i++) {
     let dd = new Date(d); dd.setDate(d.getDate() - i);
-    if (history.some(h => h.date === dd.toISOString().slice(0,10) && h.checkin)) conDays++;
+    if (history.some(h => h.date === __ld(dd) && h.checkin)) conDays++;
     else if (i > 0) break;
   }
   document.getElementById('shareStreak').textContent = conDays + '天';
@@ -2569,11 +2571,6 @@ function openSharePage() {
 
 // ==================== Tab 切换 ====================
 function switchTab(tab) {
-  // 打卡前必须先完成SOP
-  if (tab === 'checkin' && !sopCompletedToday) {
-    alert('⏰ 请先完成今日自检，再来打卡！');
-    return;
-  }
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => {
     p.classList.remove('active');

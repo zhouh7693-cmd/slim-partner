@@ -598,6 +598,8 @@
       <div id="key3List"></div>
     </div>
     <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
     (function(){
       var KEY3_ACTIONS = [
         { icon: '🧭', title: '先独立想 30 秒', sub: '对任何结论，先有自己的答案再看别人的' },
@@ -606,7 +608,7 @@
       ];
       var KEY3_STORE = 'buddy_key3_zhuti';
       var K3_COLOR = '#a67c00';
-      function k3today(){ return new Date().toISOString().slice(0,10); }
+      function k3today(){ return __ld(new Date()); }
       function k3data(){ try { var d = JSON.parse(localStorage.getItem(KEY3_STORE) || '{}'); if (d.date !== k3today()) d = { date: k3today(), checked: {} }; return d; } catch(e) { return { date: k3today(), checked: {} }; } }
       window.toggleKey3 = function(i){
         var d = k3data();
@@ -963,7 +965,7 @@
       });
     });
     var items=wrap.querySelectorAll('.crp-item');
-    var state={}; try{var _sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(_sv&&_sv._d===new Date().toISOString().slice(0,10)){state=_sv.s||{}}}catch(e){}
+    var state={}; try{var _sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(_sv&&_sv._d===__ld(new Date())){state=_sv.s||{}}}catch(e){}
     function render(){
       var d=0;
       items.forEach(function(it,i){
@@ -976,7 +978,7 @@
     items.forEach(function(it,i){
       it.addEventListener('click',function(){
         state[i]=!state[i];
-        try{localStorage.setItem(KEY,JSON.stringify({_d:new Date().toISOString().slice(0,10),s:state}))}catch(e){}
+        try{localStorage.setItem(KEY,JSON.stringify({_d:__ld(new Date()),s:state}))}catch(e){}
         render();
       });
     });
@@ -1081,7 +1083,7 @@
       {t:'🌱 成长', items:[['犯错是学费不是耻辱','交了学费就要学到东西'],['翻篇要快','背着包袱跑不快'],['每天做一件让自己骄傲的小事','自信是攒出来的'],['不停止探索自己','你可能比你以为的更大'],['行动治好一切内耗','做，是想的解药']]}
   ];
   var wrap=document.getElementById('sayWrap_zhuti'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){
@@ -1235,7 +1237,7 @@ function getSiteUrl() {
   return SHARE_URL + '/';
 }
 
-function getToday() { return new Date().toISOString().slice(0,10); }
+function getToday() { return __ld(new Date()); }
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
 function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
@@ -1244,7 +1246,7 @@ function getSOPData() { var d = JSON.parse(localStorage.getItem(STORAGE.SOP) || 
 // 新的一天自动归零（2026-09-06）：读取入口校验日期，昨日未提交成绩补归档后重置，不再依赖切换 tab 触发
 function _sopDailyReset(d, sopKey, extra) {
   try {
-    var today = new Date().toISOString().slice(0,10);
+    var today = __ld(new Date());
     if (d && d.date && d.date !== today) {
       var hasData = (d.score > 0) || (d.selected && Object.keys(d.selected).length > 0) || d.done;
       if (hasData && (typeof getSOPHistory === 'function') && (typeof saveSOPToHistory === 'function')) {
@@ -1560,7 +1562,7 @@ function computeContinuous(history, today) {
   let cnt = 1, cur = new Date(today);
   for (let i = 1; i <= 365; i++) {
     let prev = new Date(cur); prev.setDate(cur.getDate() - i);
-    if (history.includes(prev.toISOString().slice(0,10))) cnt++; else break;
+    if (history.includes(__ld(prev))) cnt++; else break;
   }
   return cnt;
 }
@@ -1886,7 +1888,7 @@ function refreshDashboard() {
   let now = new Date(), dow = now.getDay();
   let mon = new Date(now); mon.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1));
   let weekDays = [];
-  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(d.toISOString().slice(0,10)); }
+  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(__ld(d)); }
   document.getElementById('weekRange').innerText = `${weekDays[0].slice(5)}~${weekDays[6].slice(5)}`;
   let dotsHtml = '', dayNames = ['一','二','三','四','五','六','日'];
   for (let i = 0; i < 7; i++) {
@@ -2305,7 +2307,7 @@ function renderWeeklyReport() {
   // 计算本周（最近7天）
   let now = new Date();
   let weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
-  let fmt = d => d.toISOString().slice(0,10);
+  let fmt = d => __ld(d);
 
   let thisWeekHistory = history.filter(h => new Date(h) >= weekAgo);
   let lastWeekStart = new Date(weekAgo); lastWeekStart.setDate(lastWeekStart.getDate() - 7);
@@ -2998,7 +3000,7 @@ function showSOPFinish() {
   for (let i = 6; i >= 0; i--) {
     let d = new Date();
     d.setDate(d.getDate() - i);
-    let dateStr = d.toISOString().slice(0, 10);
+    let dateStr = __ld(d);
     let dayLabel = (i === 0) ? '今天' : (d.getMonth() + 1) + '/' + d.getDate();
     let hRecord = history.find(h => h.date === dateStr);
     recent7.push({ date: dateStr, label: dayLabel, score: hRecord ? hRecord.score : null, isToday: i === 0 });
@@ -3153,7 +3155,7 @@ function renderProgress() {
     : 0;
 
   // 今日得分
-  const today = new Date().toISOString().slice(0, 10);
+  const today = __ld(new Date());
   const todayRecord = history.find(h => h.date === today);
   const todayScore = todayRecord ? todayRecord.score + '%' : '-';
 
@@ -3215,7 +3217,7 @@ function renderSharePage() {
   let d = new Date();
   for (let i = 0; i < 60; i++) {
     let dd = new Date(d); dd.setDate(d.getDate() - i);
-    if (history.some(h => h.date === dd.toISOString().slice(0,10) && h.checkin)) conDays++;
+    if (history.some(h => h.date === __ld(dd) && h.checkin)) conDays++;
     else if (i > 0) break;
   }
   document.getElementById('shareStreak').textContent = conDays + '天';

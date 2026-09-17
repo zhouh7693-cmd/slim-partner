@@ -517,13 +517,15 @@
   <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
 </div>
 <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
 /* std-buddy-tab-v1 */
 (function(){
   if (window.__stdTab) return; window.__stdTab = 1;
   var SLUG='longterm', ACCENT='#92400e', EMOJI='⏳';
   var ACTIONS=[["⏳", "自由时间投资 30 分钟", "给未来的自己打工"], ["📖", "深度阅读 30 分钟", "复利从今天开始"], ["🚫", "拒绝一次短期诱惑", "延迟满足在练肌肉"]], TIPS=["时间是最公平的资产，花在哪，长成什么样", "每天 30 分钟，一年就是 180 小时——够精通一件事", "延迟满足不是忍，是把奖励换个更大的兑现期", "复利的敌人只有两个：中断和着急", "种一棵树最好的时间是十年前，其次是现在", "短期波动吓不出长期主义者——十年后这还重要吗？", "刷不完的短视频是注意力的收割机，你才是资产", "读书是最便宜的「请教牛人」方式", "给未来的自己打工：今天的每个选择都是转账", "慢就是快——不返工的路才是最快的路", "别用战术上的忙碌，掩盖战略上的懒惰", "健康、认知、关系、信用：四样只涨不跌的资产", "急于兑现的人拿走小钱，等得起的人拿走大钱", "真正的护城河是十年如一日做同一件事", "少即是多：同时追两只兔子的人两手空空", "今天的舒适是预支，今天的坚持是存款", "长期主义者的崩溃次数不比别人少，只是恢复得快", "把大目标拆成「今天能做的最小一步」", "拒绝一次短期诱惑，就给未来的自己加了一次薪", "你不需要很厉害才能开始，但需要开始才能很厉害"], SCENES=[["📱", "又刷了1小时短视频", "⏳ 时间是最公平的资产，花在哪长成什么样。设个25分钟番茄钟，先拿回30分钟。"], ["🎮", "忍不住又熬夜了", "深夜的自由是假自由。长期主义者的自由，是白天攒出来的。"], ["📚", "学习坚持不下去", "别靠意志力，靠系统：固定时间、固定地点、最小目标5分钟。"], ["💸", "冲动消费了", "问自己：一年后它还值多少？把同样金额定投，才是给未来的礼物。"], ["😰", "焦虑未来怎么办", "焦虑是用了昨天的精力担心明天。把注意力拉回今天能做的一件事。"], ["🐢", "觉得进步太慢", "慢即是快。每年进步5%，十年后你甩开99%的人。"]];
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
   function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
   function toast(m){
@@ -953,7 +955,7 @@
   var KEY='crp_ltc_lt';
   var items=['今天做了一件有长期价值的事','时间花在了 KEEP（继续做）清单上','拒绝了一件短期诱惑','完成了一次深度工作（90分钟）','记录了一条经验或教训','没有为焦虑刷无意义的信息','睡够且运动了——身体的复利在续费'];
   var wrap=document.getElementById('ltWrap_lt'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   items.forEach(function(t,i){
@@ -1063,7 +1065,7 @@
       {t:'💎 沉淀', items:[['每天记录一条经验','写下来的才是资产'],['把经验做成SOP','你走了经验还在'],['作品思维','留下可积累的东西'],['教出去','教会别人巩固一层'],['和时间做朋友','十年后见']]}
   ];
   var wrap=document.getElementById('sayWrap_longterm'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){
@@ -1354,7 +1356,7 @@ function getSiteUrl() {
   return SHARE_URL + '/';
 }
 
-function getToday() { return new Date().toISOString().slice(0,10); }
+function getToday() { return __ld(new Date()); }
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); }
 function getTagHistory() { return JSON.parse(localStorage.getItem(STORAGE.TAG_HISTORY) || '{}'); }
@@ -2348,7 +2350,7 @@ function computeContinuous(history, today) {
   let cnt = 1, cur = new Date(today);
   for (let i = 1; i <= 365; i++) {
     let prev = new Date(cur); prev.setDate(cur.getDate() - i);
-    if (history.includes(prev.toISOString().slice(0,10))) cnt++; else break;
+    if (history.includes(__ld(prev))) cnt++; else break;
   }
   return cnt;
 }
@@ -2404,7 +2406,7 @@ function refreshDashboard() {
   const now = new Date(), dow = now.getDay();
   const mon = new Date(now); mon.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1));
   const weekDays = [];
-  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(d.toISOString().slice(0,10)); }
+  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(__ld(d)); }
   const wr = document.getElementById('weekRange');
   if (wr) wr.innerText = `${weekDays[0].slice(5)}~${weekDays[6].slice(5)}`;
   const dayNames = ['一','二','三','四','五','六','日'];

@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>P7升P8成长自检搭子 · 签到神器</title>
   <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
     // 全局错误捕获（静默记录，不弹窗）
     window.onerror = function(msg, src, line, col, err) {
       console.error('[JS错误]', msg, '位置：第' + line + '行', err);
@@ -756,7 +758,7 @@
       {t:'🚀 影响力', items:[['说到做到，建立信用账户','信任是一点一点存的'],['帮助别人成功','成就他人是最高级的营销'],['输出观点，建立专业标签','写下来才有影响力'],['关键时刻在场','危机是信任的放大器'],['耐心，影响力是慢变量','播种和收获不在同一个季节']]}
   ];
   var wrap=document.getElementById('sayWrap_p78'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){
@@ -922,7 +924,7 @@
   var SLUG='p78', ACCENT='#2563eb', EMOJI='🎓';
   var ACTIONS=[["📝", "记录一个晋升级案例", "背景-动作-结果三段式"], ["🎯", "主线项目推进一步", "主线决定评级"], ["🗣️", "向上级主动同步一次", "让贡献被看见"]], TIPS=["晋升靠的是可被看见的影响力", "打工人的产品是你自己", "每个案例要有背景-动作-结果", "向上管理不是拍马屁，是信息对齐", "主线项目决定你的评级", "跨部门协作靠利益共识", "汇报讲结论，细节放附录", "技术深度是底气，业务理解是杠杆", "别闷头干活，让关键人知道", "复盘比执行更值钱", "带人是P8的必答题", "遇到问题先定义问题", "你的时间是最大的筹码，学会说不", "跳槽是手段不是目的", "面试是定期市场定价", "向下沟通要耐心，向上沟通要结构", "每季度更新简历，保持市场敏感", "晋升材料平时就要攒", "情绪稳定是高级职业素养", "能力带走，头衔留下"], SCENES=[["😤", "项目被抢功了", "下次在节点主动同步，让贡献天然可见。复盘这次信息差在哪。"], ["😞", "绩效不达预期", "找上级要具体差距和行为化标准，别自己猜。"], ["🤔", "想跳槽了", "先面试两家试试水温，用市场定价校准自我认知。"], ["⚔️", "和上级意见不合", "私下表达，公开支持，书面留痕。对事不对人。"], ["🧹", "被安排杂活了", "用主线成果换谈判筹码。杂活也要干出方法论。"], ["😖", "带的人不给力", "先给方法，再给期限，最后给结果。过程要留痕。"]];
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
   function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
   function toast(m){
@@ -1359,7 +1361,7 @@ var SOP_CATEGORIES = [
   }
 ];
 
-function getToday() { return new Date().toISOString().slice(0,10); }
+function getToday() { return __ld(new Date()); }
 function getSOPData() { return JSON.parse(localStorage.getItem(STORAGE.SOP) || '{"score":0,"selected":{},"done":false,"date":null,"submittedCats":[]}'); }
 function saveSOPData(d) { localStorage.setItem(STORAGE.SOP, JSON.stringify(d)); }
 function getSOPStreaks() { return JSON.parse(localStorage.getItem(STORAGE.SOP_STREAKS) || '{}'); }
@@ -1539,11 +1541,6 @@ function switchTab(tab) {
   // 保险：无论哪种情况，只要调用了switchTab就确保tab-bar显示
   var tb = document.getElementById('tabBar');
   if (tb) { tb.style.display = 'flex'; tb.classList.add('force-show'); }
-  // 打卡前必须先完成SOP
-  if (tab === 'checkin' && !sopCompletedToday) {
-    alert('⏰ 请先完成今日SOP，再来打卡！');
-    return;
-  }
   // 关闭所有可能遮挡的弹窗
   document.querySelectorAll('.qa-overlay,.fb-overlay,.sop-finish-overlay,.neg-critic-overlay,.pos-reward-overlay').forEach(function(el) { el.classList.remove('show'); });
   var sgOv = document.getElementById('sopGuideOverlay'); if (sgOv) sgOv.remove();
@@ -2172,7 +2169,7 @@ function showSOPFinish() {
   var recent7 = [];
   for (var i = 6; i >= 0; i--) {
     var d = new Date(); d.setDate(d.getDate() - i);
-    var dateStr = d.toISOString().slice(0, 10);
+    var dateStr = __ld(d);
     var dayLabel = (i === 0) ? '今天' : (d.getMonth() + 1) + '/' + d.getDate();
     var hRecord = history.find(function(h) { return h.date === dateStr; });
     recent7.push({ date: dateStr, label: dayLabel, score: hRecord ? hRecord.score : null, isToday: i === 0 });
@@ -2324,7 +2321,7 @@ function initProgressPage() {
   var d = new Date();
   for (var i = 0; i < 60; i++) {
     var dd = new Date(d); dd.setDate(dd.getDate() - i);
-    var ds = dd.toISOString().slice(0,10);
+    var ds = __ld(dd);
     if (history.some(function(h) { return h.date === ds && h.checkin; })) streak++;
     else if (i > 0) break;
   }
@@ -2342,7 +2339,7 @@ function renderSharePage() {
   var d = new Date();
   for (var i = 0; i < 60; i++) {
     var dd = new Date(d); dd.setDate(d.getDate() - i);
-    if (history.some(function(h) { return h.date === dd.toISOString().slice(0,10) && h.checkin; })) conDays++;
+    if (history.some(function(h) { return h.date === __ld(dd) && h.checkin; })) conDays++;
     else if (i > 0) break;
   }
   var streakEl = document.getElementById('shareStreak');
@@ -2898,7 +2895,7 @@ function addPerf() {
   var val = parseFloat(document.getElementById('perfInput').value);
   if (!val || val < 0) { showToast('请输入有效的绩效分数'); return; }
   var data = getPerfData();
-  var today = new Date().toISOString().slice(0, 10);
+  var today = __ld(new Date());
   data = data.filter(function(d) { return d.date !== today; });
   data.push({ date: today, value: val });
   data.sort(function(a, b) { return a.date.localeCompare(b.date); });
@@ -2951,7 +2948,7 @@ function drawPerfChart() {
     ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2);
     ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#3a5fcd'; ctx.lineWidth = 2; ctx.stroke();
   });
-  var today = new Date().toISOString().slice(0, 10);
+  var today = __ld(new Date());
   var todayIdx = data.findIndex(function(d) { return d.date === today; });
   if (todayIdx >= 0) {
     var x = toX(todayIdx), y = toY(data[todayIdx].value);

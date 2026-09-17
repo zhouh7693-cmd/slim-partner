@@ -269,13 +269,15 @@ body {
   <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
 </div>
 <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
 /* std-buddy-tab-v1 */
 (function(){
   if (window.__stdTab) return; window.__stdTab = 1;
   var SLUG='health', ACCENT='#0d9488', EMOJI='🌿';
   var ACTIONS=[["🥗", "吃一份深色蔬菜", "肠道菌群喜欢它们"], ["🚶", "快走/活动累计 30 分钟", "7000 步是底线"], ["😴", "23 点半前放下手机", "睡眠是最强免疫"]], TIPS=["量过的数字才是数据，感觉不是——血压每周固定测", "水喝够 1500ml，代谢和血压都更稳", "每坐 1 小时站起来 2 分钟，血管就谢谢你", "盘子一半是绿色，预防就成功一半", "23 点半前放下手机，睡眠是最强免疫", "走 6000 步是最温和的心肺训练", "外卖重油重盐一顿，血压要缓好几天——下一餐清淡回来", "烟没有「安全剂量」，少一根是一根", "放松不是偷懒，是身体在维修", "体检不是找病，是存健康档案——按计划复诊", "慢性压力是最被低估的健康杀手，每天留 10 分钟放空", "「没精神」很多时候是缺水或缺觉，先补这两个再看", "三顿规律，比任何补品都管用", "爬三层楼喘不喘，是心肺最诚实的体检", "少盐一周，味蕾会自己调整过来", "饭后走 10 分钟，血糖曲线平滑一截", "身体没有「突然」垮，只有「一直」没管", "今天的步数，是给未来的自己存的医药费减免单", "药按时吃比吃贵的更重要", "把健康当成账户：每天存一点，急用时才取得出来"], SCENES=null;
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
   function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
   function toast(m){
@@ -430,7 +432,7 @@ body {
         });
       });
       var items=wrap.querySelectorAll('.crp-item');
-      var state={}; try{var _sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(_sv&&_sv._d===new Date().toISOString().slice(0,10)){state=_sv.s||{}}}catch(e){}
+      var state={}; try{var _sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(_sv&&_sv._d===__ld(new Date())){state=_sv.s||{}}}catch(e){}
       function render(){
         var d=0;
         items.forEach(function(it,i){
@@ -443,7 +445,7 @@ body {
       items.forEach(function(it,i){
         it.addEventListener('click',function(){
           state[i]=!state[i];
-          try{localStorage.setItem(KEY,JSON.stringify({_d:new Date().toISOString().slice(0,10),s:state}))}catch(e){}
+          try{localStorage.setItem(KEY,JSON.stringify({_d:__ld(new Date()),s:state}))}catch(e){}
           render();
         });
       });
@@ -548,7 +550,7 @@ body {
       {t:'🛡️ 就医', items:[['小症状观察三天','给身体自愈时间'],['持续加重的立即就医','加重就是升级信号'],['体检异常两周内复查','复查是负责不是恐吓'],['病历检查单归档','健康是有档案的'],['信任医生胜过搜索引擎','百度看病越看越怕']]}
   ];
   var wrap=document.getElementById('sayWrap_jiankang'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){
@@ -1169,12 +1171,12 @@ let sopSubmitted = {};
 function $(id) { return document.getElementById(id); }
 function safeParse(k, def) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch(e) { return def; } }
 function safeSet(k, v) { try { localStorage.setItem(k, typeof v === 'string' ? v : JSON.stringify(v)); } catch(e) {} }
-function today() { return new Date().toISOString().slice(0, 10); }
+function today() { return __ld(new Date()); }
 function thisMondayISO() {
   var d = new Date();
   var day = d.getDay() || 7;
   if (day !== 1) d.setDate(d.getDate() - day + 1);
-  return d.toISOString().slice(0, 10);
+  return __ld(d);
 }
 
 // === Switch Tab ===
@@ -1267,7 +1269,7 @@ function updateStreak() {
   if (chk) {
     var d = new Date(chk.date);
     var yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
-    var ys = yesterday.toISOString().slice(0, 10);
+    var ys = __ld(yesterday);
     var ts = today();
     if (chk.date === ts) streak = chk.count >= 1 ? (chk.streak || 1) : 0;
   }
@@ -1290,7 +1292,7 @@ function renderWeekDots() {
   start.setDate(start.getDate() - day + 1);
   for (var i = 0; i < 7; i++) {
     var d = new Date(start); d.setDate(start.getDate() + i);
-    var iso = d.toISOString().slice(0, 10);
+    var iso = __ld(d);
     var dot = document.createElement('div');
     dot.className = 'dot';
     var chk = safeParse(STORAGE.CHECKIN, null);
@@ -2341,7 +2343,7 @@ function getCurrentPeriod() {
   return 'night';
 }
 
-var HEALTH_TIP_DAY_KEY = 'slim_health_dailytip_' + new Date().toISOString().slice(0,10);
+var HEALTH_TIP_DAY_KEY = 'slim_health_dailytip_' + __ld(new Date());
 
 function pickDailyTip() {
   var period = getCurrentPeriod();

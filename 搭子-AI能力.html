@@ -330,6 +330,8 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
   <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
 </div>
 <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
 /* std-buddy-tab-v1 */
 (function(){
   if (window.__stdTab) return; window.__stdTab = 1;
@@ -354,7 +356,7 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
  ["😴","学AI太累想放弃","降低标准：今天只看一个 3 分钟技巧。曲线是波动的，但只要没下牌桌，你就在涨。"],
  ["🏆","AI帮了大忙想分享","把这次用法写成 5 步教程发给同事。教是最好的学，分享还会让你的模板库越滚越大。"]];
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
   function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
   function toast(m){
@@ -749,7 +751,7 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
       {t:'🚀 进阶', items:[['从用户变成搭建者','会用是及格，会搭是优秀'],['教别人是最高效的学习','教会一个人，巩固一层认知'],['关注能力层，别只看产品层','产品会死，能力保值'],['想象十年后的工作方式','提前住在未来'],['行动治好一切焦虑','做了才知道哪里错']]}
   ];
   var wrap=document.getElementById('sayWrap_ai'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){
@@ -877,7 +879,7 @@ const PARTNERS = [
 ];
 const SHARE_URL = window.location.origin + window.location.pathname;
 function getSiteUrl() { return SHARE_URL; }
-function getToday() { return new Date().toISOString().slice(0,10); }
+function getToday() { return __ld(new Date()); }
 
 const STORAGE = {
   PARTNER: 'ai_partner',
@@ -1325,7 +1327,7 @@ function renderWeekDots() {
   var html = '';
   for (var i=0; i<7; i++) {
     var d = new Date(monday); d.setDate(monday.getDate()+i);
-    var dateStr = d.toISOString().slice(0,10);
+    var dateStr = __ld(d);
     var checked = histDates.indexOf(dateStr) !== -1;
     html += '<div class="day-item"><div class="day-name">'+weekDays[i]+'</div><div class="dot'+(checked?' checked':'')+'">'+(checked?'✅':'·')+'</div></div>';
   }

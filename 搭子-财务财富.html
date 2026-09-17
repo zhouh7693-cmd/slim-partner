@@ -739,13 +739,15 @@
   <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
 </div>
 <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
 /* std-buddy-tab-v1 */
 (function(){
   if (window.__stdTab) return; window.__stdTab = 1;
   var SLUG='fin', ACCENT='#059669', EMOJI='💰';
   var ACTIONS=[["💰", "记录每一笔支出", "记账是自由的起点"], ["📈", "确认定投/储蓄执行", "先支付自己"], ["🚫", "拒绝一次冲动消费", "72小时法则用起来"]], TIPS=["记账是财务自由的起点", "先支付自己：收入先存后花", "复利是世界第八大奇迹", "别为面子买单", "收入翻倍前先管好欲望", "应急金是家庭安全气囊", "不懂的不投", "定投最大的优点是纪律", "消费主义是精心设计的陷阱", "资产放钱进口袋，负债掏钱", "时间是最好的朋友", "财务自由的本质是选择权", "保险保不能承受的风险", "赚钱能力比钱本身重要", "通胀是隐形小偷", "投资自己回报率最高", "家族财富传的是财商", "不和邻居比消费，和过去的自己比资产", "市场恐慌时是买家的朋友", "预算不是限制，是路线图"], SCENES=[["🛍️", "想买贵重物品", "等72小时，还想要再买。大部分冲动会自己蒸发。"], ["📉", "投资亏了", "检查是逻辑错了还是市场波动。前者改策略，后者拿住。"], ["😰", "月光族焦虑", "设自动转账，发薪日先存30%。剩下的才是可花的。"], ["📈", "朋友荐股", "不懂不碰。赚了是运气，亏了是必然。"], ["🎉", "涨工资了", "先上调储蓄率，再上调生活标准。顺序反了就永远月光。"], ["✨", "被消费主义种草", "问自己：不买会怎样。多数答案是：毫无影响。"]];
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
   function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
   function toast(m){
@@ -1166,7 +1168,7 @@ function saveSOPToHistory(record) {
   if(window.saveSOPHistoryToFirebase) saveSOPHistoryToFirebase(history);
 }
 
-function getToday() { return new Date().toISOString().slice(0,10); }
+function getToday() { return __ld(new Date()); }
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
 
@@ -1246,11 +1248,6 @@ const PROGRESS_DATA = {
 
 // ==================== Tab 导航 ====================
 function switchTab(tab) {
-  // 打卡前必须先完成SOP
-  if (tab === 'checkin' && !sopCompletedToday) {
-    alert('⏰ 请先完成今日自检，再来打卡！');
-    return;
-  }
   // 关闭所有可能遮挡的弹窗
   document.querySelectorAll('.qa-overlay,.fb-overlay,.sop-finish-overlay,.neg-critic-overlay,.pos-reward-overlay').forEach(el => el.classList.remove('show'));
   document.getElementById('partnerOverlay').style.display = 'none';
@@ -1352,7 +1349,7 @@ function computeContinuous(history, today) {
   let cnt = 1, cur = new Date(today);
   for (let i = 1; i <= 365; i++) {
     let prev = new Date(cur); prev.setDate(cur.getDate() - i);
-    if (history.includes(prev.toISOString().slice(0,10))) cnt++; else break;
+    if (history.includes(__ld(prev))) cnt++; else break;
   }
   return cnt;
 }
@@ -1690,7 +1687,7 @@ function refreshDashboard() {
   let now = new Date(), dow = now.getDay();
   let mon = new Date(now); mon.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1));
   let weekDays = [];
-  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(d.toISOString().slice(0,10)); }
+  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(__ld(d)); }
   document.getElementById('weekRange').innerText = `${weekDays[0].slice(5)}~${weekDays[6].slice(5)}`;
   let dotsHtml = '', dayNames = ['一','二','三','四','五','六','日'];
   for (let i = 0; i < 7; i++) {
@@ -2673,7 +2670,7 @@ function showSOPFinish() {
   for (let i = 6; i >= 0; i--) {
     let d = new Date();
     d.setDate(d.getDate() - i);
-    let dateStr = d.toISOString().slice(0, 10);
+    let dateStr = __ld(d);
     let dayLabel = (i === 0) ? '今天' : (d.getMonth() + 1) + '/' + d.getDate();
     let hRecord = history.find(h => h.date === dateStr);
     recent7.push({ date: dateStr, label: dayLabel, score: hRecord ? hRecord.score : null, isToday: i === 0 });
@@ -2947,7 +2944,7 @@ function renderFinProgress() {
   const streak = getStreak();
   const avgScore = history.length > 0
     ? Math.round(history.reduce((s, h) => s + (h.score || 0), 0) / history.length) : 0;
-  const today = new Date().toISOString().slice(0,10);
+  const today = __ld(new Date());
   const todayRecord = history.find(h => h.date === today);
   const todayScore = todayRecord ? todayRecord.score + '%' : '-';
   const circumference = 2 * Math.PI * 54;
@@ -3414,7 +3411,7 @@ window.startApp = startApp;   // startApp 也暴露，防止作用域问题
       {t:'🎓 认知', items:[['每年读两本财商书','认知圈就是财富圈'],['和会理财的人聊','耳濡目染最有效'],['复盘自己的投资错题','学费不能白交'],['远离荐股群','真赚钱的方法没人卖'],['慢慢变富','急，是理财最大的敌人']]}
   ];
   var wrap=document.getElementById('sayWrap_caiwu'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){

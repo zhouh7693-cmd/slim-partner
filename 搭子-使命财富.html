@@ -625,13 +625,15 @@
   <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
 </div>
 <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
 /* std-buddy-tab-v1 */
 (function(){
   if (window.__stdTab) return; window.__stdTab = 1;
   var SLUG='mission', ACCENT='#b45309', EMOJI='🧭';
   var ACTIONS=[["🧭", "记录一件有意义的小事", "意义银行每天存"], ["🎯", "推进热爱的事 30 分钟", "热爱需要时间浇灌"], ["🙋", "帮助一个人", "利他是最持久的燃料"]], TIPS=["使命感是最持久的燃料", "意义感来自利他", "找calling：擅长×热爱×价值", "别用忙碌逃避意义追问", "小事持续做就是大意义", "人生下半场拼的是使命", "工作可以是使命的载体", "帮助他人是最高级的快乐", "写下墓志铭，倒推活法", "每天问：今天为谁创造了价值", "使命不用宏大，具体就好", "平凡的坚持就是不凡", "意义感治好精神内耗", "把热爱变成专业，把专业变成贡献", "价值观是人生导航", "别等退休才活出自己", "影响一个人就是改变世界", "时间花在使命上，焦虑自然少", "记录意义时刻，建意义银行", "意义是活出来的，不是想出来的"], SCENES=[["🌫️", "感觉工作没意义", "找到工作背后的受益者，重新连接价值链。"], ["🧭", "迷茫不知道方向", "做减法：留下让你眼里有光的那件事，先做100天。"], ["🎁", "帮了人没回报", "意义本身就是回报。宇宙记账，从不漏单。"], ["🤹", "想做的事太多", "选一个先做100天。做深一件事胜过浅尝十件。"], ["😤", "被说理想主义", "理想主义+执行力=改变世界。继续走。"], ["😔", "今天虚度了", "明早第一件事：做最重要的事。每天的日出都是重启键。"]];
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
   function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
   function toast(m){
@@ -1121,7 +1123,7 @@ function getSiteUrl() {
   return SHARE_URL + '/';
 }
 
-function getToday() { return new Date().toISOString().slice(0,10); }
+function getToday() { return __ld(new Date()); }
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
 
@@ -1211,11 +1213,6 @@ const PROGRESS_DATA = {
 
 // ==================== Tab 导航 ====================
 function switchTab(tab) {
-  // 打卡前必须先完成SOP
-  if (tab === 'checkin' && !sopCompletedToday) {
-    alert('⏰ 请先完成今日自检，再来打卡！');
-    return;
-  }
   // 关闭所有可能遮挡的弹窗
   document.querySelectorAll('.qa-overlay,.fb-overlay,.sop-finish-overlay,.neg-critic-overlay,.pos-reward-overlay').forEach(el => el.classList.remove('show'));
   document.getElementById('partnerOverlay').style.display = 'none';
@@ -1322,7 +1319,7 @@ function computeContinuous(history, today) {
   let cnt = 1, cur = new Date(today);
   for (let i = 1; i <= 365; i++) {
     let prev = new Date(cur); prev.setDate(cur.getDate() - i);
-    if (history.includes(prev.toISOString().slice(0,10))) cnt++; else break;
+    if (history.includes(__ld(prev))) cnt++; else break;
   }
   return cnt;
 }
@@ -1736,7 +1733,7 @@ function refreshDashboard() {
   let now = new Date(), dow = now.getDay();
   let mon = new Date(now); mon.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1));
   let weekDays = [];
-  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(d.toISOString().slice(0,10)); }
+  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(__ld(d)); }
   document.getElementById('weekRange').innerText = `${weekDays[0].slice(5)}~${weekDays[6].slice(5)}`;
   let dotsHtml = '', dayNames = ['一','二','三','四','五','六','日'];
   for (let i = 0; i < 7; i++) {
@@ -2633,7 +2630,7 @@ function showSOPFinish() {
   for (let i = 6; i >= 0; i--) {
     let d = new Date();
     d.setDate(d.getDate() - i);
-    let dateStr = d.toISOString().slice(0, 10);
+    let dateStr = __ld(d);
     let dayLabel = (i === 0) ? '今天' : (d.getMonth() + 1) + '/' + d.getDate();
     let hRecord = history.find(h => h.date === dateStr);
     recent7.push({ date: dateStr, label: dayLabel, score: hRecord ? hRecord.score : null, isToday: i === 0 });
@@ -2893,7 +2890,7 @@ function renderMissionProgress() {
   const streak = getStreak();
   const avgScore = history.length > 0
     ? Math.round(history.reduce((s, h) => s + (h.score || 0), 0) / history.length) : 0;
-  const today = new Date().toISOString().slice(0,10);
+  const today = __ld(new Date());
   const todayRecord = history.find(h => h.date === today);
   const todayScore = todayRecord ? todayRecord.score + '%' : '-';
   const circumference = 2 * Math.PI * 54;
@@ -3402,7 +3399,7 @@ startApp();
       {t:'🚀 行动', items:[['今天为使命做一件具体的事','使命感活在行动里'],['帮助一个人，意义+1','微小的善是最实的意义'],['发布出来，接受反馈','作品是使命的镜子'],['和同路人同行','使命需要回声'],['不完美也要出发','完美主义是使命杀手']]}
   ];
   var wrap=document.getElementById('sayWrap_mission'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){

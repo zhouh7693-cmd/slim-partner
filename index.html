@@ -869,6 +869,8 @@
     </div>
   </div>
   <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
   (function(){
     var KEY='crp_checklist_weight';
     var wrap=document.getElementById('crpWrap_weight'); if(!wrap) return;
@@ -997,7 +999,7 @@
       {t:'🛡️ 防反弹', items:[['平台期是身体在适应','坚持两周必突破'],['旅行聚餐回来立即回归','偏三天不偏三周'],['衣服合身比数字重要','体围是第二仪表盘'],['不庆祝性大吃','奖励换个方式：新衣服、按摩'],['把习惯当身份','我不是在减肥，我就是个自律的人']]}
   ];
   var wrap=document.getElementById('sayWrap_jianfei'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){
@@ -1150,7 +1152,7 @@ function getSiteUrl() {
   return SHARE_URL + '/';
 }
 
-function getToday() { return new Date().toISOString().slice(0,10); }
+function getToday() { return __ld(new Date()); }
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
 function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
@@ -1650,7 +1652,7 @@ function computeContinuous(history, today) {
   let cnt = 1, cur = new Date(today);
   for (let i = 1; i <= 365; i++) {
     let prev = new Date(cur); prev.setDate(cur.getDate() - i);
-    if (history.includes(prev.toISOString().slice(0,10))) cnt++; else break;
+    if (history.includes(__ld(prev))) cnt++; else break;
   }
   return cnt;
 }
@@ -1975,7 +1977,7 @@ function refreshDashboard() {
   let now = new Date(), dow = now.getDay();
   let mon = new Date(now); mon.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1));
   let weekDays = [];
-  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(d.toISOString().slice(0,10)); }
+  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(__ld(d)); }
   document.getElementById('weekRange').innerText = `${weekDays[0].slice(5)}~${weekDays[6].slice(5)}`;
   let dotsHtml = '', dayNames = ['一','二','三','四','五','六','日'];
   for (let i = 0; i < 7; i++) {
@@ -2393,7 +2395,7 @@ function renderWeeklyReport() {
   // 计算本周（最近7天）
   let now = new Date();
   let weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
-  let fmt = d => d.toISOString().slice(0,10);
+  let fmt = d => __ld(d);
 
   let thisWeekHistory = history.filter(h => new Date(h) >= weekAgo);
   let lastWeekStart = new Date(weekAgo); lastWeekStart.setDate(lastWeekStart.getDate() - 7);
@@ -3084,7 +3086,7 @@ function showSOPFinish() {
   for (let i = 6; i >= 0; i--) {
     let d = new Date();
     d.setDate(d.getDate() - i);
-    let dateStr = d.toISOString().slice(0, 10);
+    let dateStr = __ld(d);
     let dayLabel = (i === 0) ? '今天' : (d.getMonth() + 1) + '/' + d.getDate();
     let hRecord = history.find(h => h.date === dateStr);
     recent7.push({ date: dateStr, label: dayLabel, score: hRecord ? hRecord.score : null, isToday: i === 0 });
@@ -3239,7 +3241,7 @@ function renderProgress() {
     : 0;
 
   // 今日得分
-  const today = new Date().toISOString().slice(0, 10);
+  const today = __ld(new Date());
   const todayRecord = history.find(h => h.date === today);
   const todayScore = todayRecord ? todayRecord.score + '%' : '-';
 
@@ -3301,7 +3303,7 @@ function renderSharePage() {
   let d = new Date();
   for (let i = 0; i < 60; i++) {
     let dd = new Date(d); dd.setDate(d.getDate() - i);
-    if (history.some(h => h.date === dd.toISOString().slice(0,10) && h.checkin)) conDays++;
+    if (history.some(h => h.date === __ld(dd) && h.checkin)) conDays++;
     else if (i > 0) break;
   }
   document.getElementById('shareStreak').textContent = conDays + '天';
@@ -4027,12 +4029,12 @@ function jgetTip(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }cat
 function jsetTip(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
 function stdTipNext(){
   var d = jgetTip(TK_TIP); var idx = Math.floor(Math.random()*TIPS.length);
-  if(d.date===new Date().toISOString().slice(0,10) && idx===d.idx && TIPS.length>1) idx=(idx+1)%TIPS.length;
-  d={date:new Date().toISOString().slice(0,10),idx:idx}; jsetTip(TK_TIP,d);
+  if(d.date===__ld(new Date()) && idx===d.idx && TIPS.length>1) idx=(idx+1)%TIPS.length;
+  d={date:__ld(new Date()),idx:idx}; jsetTip(TK_TIP,d);
   var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[idx];
 }
 (function(){ 
-  var d=jgetTip(TK_TIP); var t=new Date().toISOString().slice(0,10);
+  var d=jgetTip(TK_TIP); var t=__ld(new Date());
   if(d.date!==t||d.idx==null){ d={date:t,idx:Math.floor(Math.random()*TIPS.length)}; jsetTip(TK_TIP,d); }
   var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[d.idx];
 })();

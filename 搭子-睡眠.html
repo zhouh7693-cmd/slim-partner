@@ -778,6 +778,8 @@
   <div style="font-size:12px;color:#37474f;margin-top:8px;">本周点亮 <b id="fxCnt_sleep2">0</b> / 12</div>
 </div>
 <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
 (function(){
   var KEY='crp_fx_sleep2';
   var items=['🌙 睡前一小时放下了手机','⏰ 固定时间醒了没赖床','🛏️ 二十分钟内自然入睡','📵 夜里没爬起来刷手机','☕ 下午两点后没碰咖啡因','🛋️ 床只用来睡觉了','📖 睡不着就起来看书没硬躺','🍷 没有用酒助眠','🌡️ 卧室黑静凉','📝 睡前写清单清空了大脑','🚶 白天有运动量','😌 醒来感觉是恢复过的'];
@@ -807,7 +809,7 @@
       {t:'🛡️ 防坑', items:[['不用酒助眠','酒精毁深睡'],['不依赖褪黑素','长期依赖是假解'],['不熬夜刷剧','剧明天还在觉没了'],['不报复性熬夜','偷来的时间最贵'],['打鼾严重去排查','呼吸暂停要当心']]}
   ];
   var wrap=document.getElementById('sayWrap_sleep2'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){
@@ -881,9 +883,9 @@
 
 <div class="card" style="margin-top:20px;" data-page-node-id="ESC5UaRDQu9RtBgtXQ4qbO">
     <div class="partner-badge" id="currentPartnerBadge" data-page-node-id="5ak8n7W4a6d6Sg4bjXxA7I">🌙 月亮</div>
-    <div class="question" id="todaysQ" data-page-node-id="8hCVxGAqXSZjsvdpf2F8ro">今晚打算几点睡？</div>
-    <div class="question-sub" id="todaysQSub" data-page-node-id="kx8SPaw5rwK75nwrVyhvj2">先选一个时间 · 等真的睡下后再回来打卡</div>
-    <div class="tag-grid" id="tagGrid" data-page-node-id="SbY3NBublAuBwrYCHDRxC2"></div>
+    <div class="question" id="todaysQ" data-page-node-id="8hCVxGAqXSZjsvdpf2F8ro">🌙 22:30 前睡觉打卡</div>
+    <div class="question-sub" id="todaysQSub" data-page-node-id="kx8SPaw5rwK75nwrVyhvj2">做到就是赢 · 点击打卡记录今晚</div>
+    <div class="tag-grid" id="tagGrid" style="display:none" data-page-node-id="SbY3NBublAuBwrYCHDRxC2"></div>
     <div class="checkin-btn" id="checkinBtn" onclick="doCheckin()" data-page-node-id="vBiIsgkXkWwF30Pj8iYozb">
       <div class="checkin-status" id="checkinStatusText" data-page-node-id="fAHeIa7KHBgHstfVV6AICd">🌙 打卡</div>
       <div class="checkin-sub" data-page-node-id="BMT22Fv9fV29ubphQ45BzC">记录今晚</div>
@@ -937,7 +939,7 @@
   var SLUG='sleep', ACCENT='#4a4ec0', EMOJI='😴';
   var ACTIONS=[["☕", "下午 2 点后不碰咖啡因", "半衰期有 6 小时"], ["📱", "睡前 1 小时放下手机", "蓝光偷走睡意"], ["🛏️", "固定时间上床", "生物钟靠规律"]], TIPS=["睡前 90 分钟洗个热水澡，体温回落时睡意最浓", "下午 2 点后不碰咖啡因，半衰期有 6 小时", "床只用来睡觉，别在床上刷手机回消息", "固定时间起床，比固定时间上床更能稳住生物钟", "半夜醒来不看时间，看一眼更睡不着", "睡前把明天的事写下来，大脑才肯下班", "卧室暗一点、凉一点、静一点，入睡快一截", "白天晒 10 分钟太阳，晚上褪黑素才准时", "午睡超过 30 分钟，是在预支晚上的睡眠", "躺下 20 分钟没睡着就起来，别硬躺", "喝酒助眠是假象，它偷走的是深睡眠", "睡前 1 小时调暗灯光，给身体一个入睡信号", "周末补觉别超过 1 小时，生物钟怕乱不怕累", "运动助眠，但睡前 3 小时内别剧烈运动", "数羊不如数呼吸：吸气 4 秒，呼气 6 秒", "梦多不代表睡得差，醒来还记得才是原因", "睡前热水泡脚 10 分钟，手脚暖了入睡快", "晚睡不可怕，可怕的是一边晚睡一边焦虑", "今晚别追求睡满 8 小时，先追求躺下不刷手机", "别用周末懒觉还睡眠债，这笔债还不清的"], SCENES=null;
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
   function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
   function toast(m){
@@ -1334,11 +1336,11 @@ const STORAGE = {
 const SHARE_URL = 'https://zhouh7693-cmd.github.io/slim-partner/搭子-睡眠.html';
 
 let currentPartner = PARTNERS[0];
-let currentTag = '睡眠1';
+let currentTag = '睡眠2';
 let sopCatIdx = 0;
 let sopSelected = {};
 
-function getToday() { return new Date().toISOString().slice(0,10); }
+function getToday() { return __ld(new Date()); }
 function getLS(k, def) { try { return JSON.parse(localStorage.getItem(k) || def); } catch(e) { return JSON.parse(def); } }
 function setLS(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
 
@@ -1840,6 +1842,14 @@ function renderCheckinPage() {
   document.getElementById('dailyTip').style.display = 'block';
   document.getElementById('dailyTipText').innerText = DAILY_TIPS[0];
 
+  try {
+    const _h = getLS(STORAGE.history, '[]');
+    if (_h.some(x => x.date === getToday())) {
+      document.getElementById('checkinStatusText').innerText = '已打卡';
+      document.getElementById('checkinBtn').style.background = 'linear-gradient(135deg,#34c0b1,#4a4ec0)';
+    }
+  } catch (e) {}
+
   const area = document.getElementById('chatArea');
   if (!area.children.length) {
     area.innerHTML = `<div class="msg-bubble-wrap"><div class="msg-avatar">${currentPartner.emoji}</div><div class="msg-bubble ai">${currentPartner.fb.text}</div></div>`;
@@ -1903,7 +1913,7 @@ function fpSave(s) { localStorage.setItem(FP_KEY, JSON.stringify(s)); }
 function fpEnsure() {
   const s = fpState();
   if (!s.firstSeenDate) {
-    s.firstSeenDate = new Date().toISOString().slice(0,10);
+    s.firstSeenDate = __ld(new Date());
     s.freeUsesUsed = 0;
     s.paywallShown = false;
     s.subscription = null;
@@ -2001,7 +2011,7 @@ function updateContinuousDays() {
   let streak = 0;
   let d = new Date();
   while (true) {
-    const s = d.toISOString().slice(0,10);
+    const s = __ld(d);
     if (history.find(h => h.date === s)) { streak++; d.setDate(d.getDate()-1); }
     else break;
   }
@@ -2015,7 +2025,7 @@ function renderWeekDots() {
   let html = '';
   for (let i = 0; i < 7; i++) {
     const d = new Date(start); d.setDate(start.getDate() + i);
-    const s = d.toISOString().slice(0,10);
+    const s = __ld(d);
     const rec = history.find(h => h.date === s);
     const checked = rec ? 'checked' : '';
     const emoji = rec ? (rec.score >= 2 ? '🌙' : '💤') : '';
@@ -2222,7 +2232,7 @@ function renderProgress() {
   const total = history.length;
   let streak = 0, d = new Date();
   while (true) {
-    const s = d.toISOString().slice(0,10);
+    const s = __ld(d);
     if (history.find(h => h.date === s)) { streak++; d.setDate(d.getDate()-1); }
     else break;
   }
@@ -2392,7 +2402,7 @@ function chatAddMemory(text) {
   const item = {
     id: Date.now() + '-' + Math.random().toString(36).slice(2,6),
     text: t.length > 80 ? t.slice(0, 80) + '…' : t,
-    date: new Date().toISOString().slice(0,10),
+    date: __ld(new Date()),
   };
   mem.unshift(item);
   // 仅保留最近 30 条
@@ -2410,7 +2420,7 @@ function chatClearMemory() {
   renderMemoryCard();
 }
 function chatRandomMemory() {
-  const mem = chatGetMemory().filter(m => m.date !== new Date().toISOString().slice(0,10));
+  const mem = chatGetMemory().filter(m => m.date !== __ld(new Date()));
   if (!mem.length) return null;
   return mem[Math.floor(Math.random() * mem.length)];
 }
@@ -2419,13 +2429,13 @@ function chatRandomMemory() {
 function chatGetTodayCount() {
   try {
     const data = JSON.parse(localStorage.getItem(CHAT_DAILY_KEY) || '{}');
-    if (data.date === new Date().toISOString().slice(0,10)) return data.count || 0;
+    if (data.date === __ld(new Date())) return data.count || 0;
     return 0;
   } catch(e) { return 0; }
 }
 function chatSetTodayCount(n) {
   localStorage.setItem(CHAT_DAILY_KEY, JSON.stringify({
-    date: new Date().toISOString().slice(0,10),
+    date: __ld(new Date()),
     count: n,
   }));
 }
@@ -2626,7 +2636,7 @@ function chatGreet() {
       chatAddMsg('buddy', `你好呀。我是${CHAT_NAME}，你的睡眠搭子。\n你今天过得怎么样？想和我聊聊吗？`);
       // 首次 TTS 延后到用户首次发送后再启动（autoplay policy）
     }, 350);
-  } else if (lastMem && lastMem.date === new Date().toISOString().slice(0,10)) {
+  } else if (lastMem && lastMem.date === __ld(new Date())) {
     setTimeout(() => {
       setAvatar('state-smile');
       setStateLine('今天又见面了。');

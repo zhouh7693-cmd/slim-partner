@@ -594,6 +594,8 @@
       <div id="key3List"></div>
     </div>
     <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
     (function(){
       var KEY3_ACTIONS = [
         { icon: '🧴', title: '早晚护肤不掉步骤', sub: '防晒是性价比最高的抗老投资' },
@@ -602,7 +604,7 @@
       ];
       var KEY3_STORE = 'buddy_key3_image';
       var K3_COLOR = '#8b5cf6';
-      function k3today(){ return new Date().toISOString().slice(0,10); }
+      function k3today(){ return __ld(new Date()); }
       function k3data(){ try { var d = JSON.parse(localStorage.getItem(KEY3_STORE) || '{}'); if (d.date !== k3today()) d = { date: k3today(), checked: {} }; return d; } catch(e) { return { date: k3today(), checked: {} }; } }
       window.toggleKey3 = function(i){
         var d = k3data();
@@ -1074,7 +1076,7 @@
       {t:'✨ 状态', items:[['好气色是最贵的化妆品','睡好吃好动好'],['自信是最终的穿搭','你觉得好看就好看'],['形象是自我尊重','先取悦自己'],['保持新鲜感，偶尔改变','换个口红也是新气象'],['由内而外，先里后表','内在丰盈，外在自然']]}
   ];
   var wrap=document.getElementById('sayWrap_xingxiang'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){
@@ -1226,7 +1228,7 @@ function getSiteUrl() {
   return SHARE_URL + '/';
 }
 
-function getToday() { return new Date().toISOString().slice(0,10); }
+function getToday() { return __ld(new Date()); }
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
 function getWeightData() { return JSON.parse(localStorage.getItem(STORAGE.WEIGHT) || '[]'); }
@@ -1519,7 +1521,7 @@ function computeContinuous(history, today) {
   let cnt = 1, cur = new Date(today);
   for (let i = 1; i <= 365; i++) {
     let prev = new Date(cur); prev.setDate(cur.getDate() - i);
-    if (history.includes(prev.toISOString().slice(0,10))) cnt++; else break;
+    if (history.includes(__ld(prev))) cnt++; else break;
   }
   return cnt;
 }
@@ -1846,7 +1848,7 @@ function refreshDashboard() {
   let now = new Date(), dow = now.getDay();
   let mon = new Date(now); mon.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1));
   let weekDays = [];
-  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(d.toISOString().slice(0,10)); }
+  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(__ld(d)); }
   document.getElementById('weekRange').innerText = `${weekDays[0].slice(5)}~${weekDays[6].slice(5)}`;
   let dotsHtml = '', dayNames = ['一','二','三','四','五','六','日'];
   for (let i = 0; i < 7; i++) {
@@ -2325,7 +2327,7 @@ function renderWeeklyReport() {
   // 计算本周（最近7天）
   let now = new Date();
   let weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
-  let fmt = d => d.toISOString().slice(0,10);
+  let fmt = d => __ld(d);
 
   let thisWeekHistory = history.filter(h => new Date(h) >= weekAgo);
   let lastWeekStart = new Date(weekAgo); lastWeekStart.setDate(lastWeekStart.getDate() - 7);
@@ -3012,7 +3014,7 @@ function showSOPFinish() {
   for (let i = 6; i >= 0; i--) {
     let d = new Date();
     d.setDate(d.getDate() - i);
-    let dateStr = d.toISOString().slice(0, 10);
+    let dateStr = __ld(d);
     let dayLabel = (i === 0) ? '今天' : (d.getMonth() + 1) + '/' + d.getDate();
     let hRecord = history.find(h => h.date === dateStr);
     recent7.push({ date: dateStr, label: dayLabel, score: hRecord ? hRecord.score : null, isToday: i === 0 });
@@ -3167,7 +3169,7 @@ function renderProgress() {
     : 0;
 
   // 今日得分
-  const today = new Date().toISOString().slice(0, 10);
+  const today = __ld(new Date());
   const todayRecord = history.find(h => h.date === today);
   const todayScore = todayRecord ? todayRecord.score + '%' : '-';
 
@@ -3229,7 +3231,7 @@ function renderSharePage() {
   let d = new Date();
   for (let i = 0; i < 60; i++) {
     let dd = new Date(d); dd.setDate(d.getDate() - i);
-    if (history.some(h => h.date === dd.toISOString().slice(0,10) && h.checkin)) conDays++;
+    if (history.some(h => h.date === __ld(dd) && h.checkin)) conDays++;
     else if (i > 0) break;
   }
   document.getElementById('shareStreak').textContent = conDays + '天';

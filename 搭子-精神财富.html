@@ -626,13 +626,15 @@
   <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
 </div>
 <script>
+function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
 /* std-buddy-tab-v1 */
 (function(){
   if (window.__stdTab) return; window.__stdTab = 1;
   var SLUG='spirit', ACCENT='#7c3aed', EMOJI='📚';
   var ACTIONS=[["📚", "深度阅读 30 分钟", "读书是最便宜的高级享受"], ["✍️", "写 100 字思考", "写作是最低成本的思考"], ["🌄", "感受一次美", "审美是可修炼的能力"]], TIPS=["精神富足不靠物质堆砌", "读书是最便宜的高级享受", "独处的能力决定幸福的底线", "审美是可以修炼的能力", "输入决定输出，别喂自己垃圾信息", "每天留白15分钟", "艺术是灵魂的氧气", "写作是最低成本的思考", "深度体验胜过走马观花", "内心的秩序是最贵的奢侈品", "少刷短视频，多看长内容", "音乐能到达语言到不了的地方", "学习是最抗通胀的投资", "安静是一种力量", "精神世界丰富的人不孤独", "慢下来才能看见美", "好作品值得反复品味", "旅行的意义是刷新视角", "建自己的精神书单", "内在丰盛，外在自然从容"], SCENES=[["😰", "焦虑静不下来", "关手机，读20分钟纸质书。专注是最好的镇静剂。"], ["🕳️", "感觉精神空虚", "今天做一件纯粹取悦自己的事，不为展示给谁看。"], ["📱", "信息过载了", "退订一半信息源。做减法是成年人的奢侈。"], ["🎓", "想学新东西", "从最经典的入门书开始，别从碎片信息开始。"], ["🛑", "半途而废了", "把目标缩到最小：每天5分钟。先续上，再加量。"], ["🌧️", "情绪低落", "出门看一场展览或一次日落。美是最快的疗愈。"]];
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
   function jset(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
   function toast(m){
@@ -1128,7 +1130,7 @@ function getSiteUrl() {
   return SHARE_URL + '/';
 }
 
-function getToday() { return new Date().toISOString().slice(0,10); }
+function getToday() { return __ld(new Date()); }
 function getHistory() { return JSON.parse(localStorage.getItem(STORAGE.HISTORY) || '[]'); }
 function saveHistory(h) { localStorage.setItem(STORAGE.HISTORY, JSON.stringify(h)); if(window.saveHistoryToFirebase) saveHistoryToFirebase(h); }
 
@@ -1737,7 +1739,7 @@ function showSOPFinish() {
   for (let i = 6; i >= 0; i--) {
     let d = new Date();
     d.setDate(d.getDate() - i);
-    let dateStr = d.toISOString().slice(0, 10);
+    let dateStr = __ld(d);
     let dayLabel = (i === 0) ? '今天' : (d.getMonth() + 1) + '/' + d.getDate();
     let hRecord = history.find(h => h.date === dateStr);
     recent7.push({ date: dateStr, label: dayLabel, score: hRecord ? hRecord.score : null, isToday: i === 0 });
@@ -1812,11 +1814,6 @@ function closeSOPFinish() {
 
 // ==================== Tab 导航 ====================
 function switchTab(tab) {
-  // 打卡前必须先完成SOP
-  if (tab === 'checkin' && !sopCompletedToday) {
-    alert('⏰ 请先完成今日自检，再来打卡！');
-    return;
-  }
   // 关闭所有可能遮挡的弹窗
   document.querySelectorAll('.qa-overlay,.fb-overlay,.sop-finish-overlay,.neg-critic-overlay,.pos-reward-overlay').forEach(el => el.classList.remove('show'));
   document.getElementById('partnerOverlay').style.display = 'none';
@@ -1919,7 +1916,7 @@ function computeContinuous(history, today) {
   let cnt = 1, cur = new Date(today);
   for (let i = 1; i <= 365; i++) {
     let prev = new Date(cur); prev.setDate(cur.getDate() - i);
-    if (history.includes(prev.toISOString().slice(0,10))) cnt++; else break;
+    if (history.includes(__ld(prev))) cnt++; else break;
   }
   return cnt;
 }
@@ -2333,7 +2330,7 @@ function refreshDashboard() {
   let now = new Date(), dow = now.getDay();
   let mon = new Date(now); mon.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1));
   let weekDays = [];
-  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(d.toISOString().slice(0,10)); }
+  for (let i = 0; i < 7; i++) { let d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push(__ld(d)); }
   document.getElementById('weekRange').innerText = `${weekDays[0].slice(5)}~${weekDays[6].slice(5)}`;
   let dotsHtml = '', dayNames = ['一','二','三','四','五','六','日'];
   for (let i = 0; i < 7; i++) {
@@ -2614,7 +2611,7 @@ function renderSpiritProgress() {
   const streak = getStreak();
   const avgScore = history.length > 0
     ? Math.round(history.reduce((s, h) => s + (h.score || 0), 0) / history.length) : 0;
-  const today = new Date().toISOString().slice(0,10);
+  const today = __ld(new Date());
   const todayRecord = history.find(h => h.date === today);
   const todayScore = todayRecord ? todayRecord.score + '%' : '-';
   const circumference = 2 * Math.PI * 54;
@@ -3097,7 +3094,7 @@ startApp();
       {t:'🌱 滋养', items:[['学一门无用的爱好','无用之美养灵魂'],['逛博物馆和展览','美是精神的维生素'],['听一场现场音乐','现场是不可替代的'],['和有趣的人吃饭','有趣会传染'],['记录今天的小美好','幸福感是攒出来的']]}
   ];
   var wrap=document.getElementById('sayWrap_jingshen'); if(!wrap) return;
-  function today(){ return new Date().toISOString().slice(0,10); }
+  function today(){ return __ld(new Date()); }
   var st={}; try{var sv=JSON.parse(localStorage.getItem(KEY)||'null'); if(sv&&sv.d===today())st=sv.s||{}}catch(e){}
   var refs=[];
   G.forEach(function(g){
