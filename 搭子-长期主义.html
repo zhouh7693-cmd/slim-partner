@@ -492,7 +492,21 @@
       </div>
     <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" id="stdSceneBtn" onclick="stdSceneOpen()">💭 今天发生了什么</button></div></div>
 <!-- std-buddy-tab-v1: 关键动作 + 提醒自己 + 场景弹窗 -->
-<div id="stdKey3" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+<!-- 🏢 把自己当公司经营 · Agent化 -->
+    <div id="corpCard" style="max-width:420px;margin:0 auto 12px;background:linear-gradient(135deg,#fff8ec,#f3e5c8);border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:18px;">🏢</span>
+        <span style="font-weight:700;font-size:14px;color:#5a4408;">把自己当一家公司来经营</span>
+        <span onclick="openCorp()" style="margin-left:auto;font-size:11px;color:#92400e;cursor:pointer;text-decoration:underline;">展开</span>
+      </div>
+      <div style="font-size:11px;color:#8b6914;margin:4px 0 8px;">与其在公司里当螺丝钉，不如把自己变成一个独立的服务器。</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;">
+        <span onclick="openCorp('mod')" style="font-size:11px;background:#fff;border:1px solid #d9c9a3;color:#5a4408;border-radius:20px;padding:4px 10px;cursor:pointer;">🏢 公司 9 模块</span>
+        <span onclick="openCorp('agent')" style="font-size:11px;background:#fff;border:1px solid #d9c9a3;color:#5a4408;border-radius:20px;padding:4px 10px;cursor:pointer;">🤖 Agent 化三步</span>
+        <span onclick="openCorp('sys')" style="font-size:11px;background:#fff;border:1px solid #d9c9a3;color:#5a4408;border-radius:20px;padding:4px 10px;cursor:pointer;">💻 个人操作系统</span>
+      </div>
+    </div>
+    <div id="stdKey3" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
     <span style="font-size:18px;">🎯</span>
     <span style="font-weight:700;font-size:14px;color:#333;">🎯 今日 3 个长期主义关键动作</span>
@@ -523,7 +537,7 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
 (function(){
   if (window.__stdTab) return; window.__stdTab = 1;
   var SLUG='longterm', ACCENT='#92400e', EMOJI='⏳';
-  var ACTIONS=[["⏳", "自由时间投资 30 分钟", "给未来的自己打工"], ["📖", "深度阅读 30 分钟", "复利从今天开始"], ["🚫", "拒绝一次短期诱惑", "延迟满足在练肌肉"]], TIPS=["时间是最公平的资产，花在哪，长成什么样", "每天 30 分钟，一年就是 180 小时——够精通一件事", "延迟满足不是忍，是把奖励换个更大的兑现期", "复利的敌人只有两个：中断和着急", "种一棵树最好的时间是十年前，其次是现在", "短期波动吓不出长期主义者——十年后这还重要吗？", "刷不完的短视频是注意力的收割机，你才是资产", "读书是最便宜的「请教牛人」方式", "给未来的自己打工：今天的每个选择都是转账", "慢就是快——不返工的路才是最快的路", "别用战术上的忙碌，掩盖战略上的懒惰", "健康、认知、关系、信用：四样只涨不跌的资产", "急于兑现的人拿走小钱，等得起的人拿走大钱", "真正的护城河是十年如一日做同一件事", "少即是多：同时追两只兔子的人两手空空", "今天的舒适是预支，今天的坚持是存款", "长期主义者的崩溃次数不比别人少，只是恢复得快", "把大目标拆成「今天能做的最小一步」", "拒绝一次短期诱惑，就给未来的自己加了一次薪", "你不需要很厉害才能开始，但需要开始才能很厉害"], SCENES=[["📱", "又刷了1小时短视频", "⏳ 时间是最公平的资产，花在哪长成什么样。设个25分钟番茄钟，先拿回30分钟。"], ["🎮", "忍不住又熬夜了", "深夜的自由是假自由。长期主义者的自由，是白天攒出来的。"], ["📚", "学习坚持不下去", "别靠意志力，靠系统：固定时间、固定地点、最小目标5分钟。"], ["💸", "冲动消费了", "问自己：一年后它还值多少？把同样金额定投，才是给未来的礼物。"], ["😰", "焦虑未来怎么办", "焦虑是用了昨天的精力担心明天。把注意力拉回今天能做的一件事。"], ["🐢", "觉得进步太慢", "慢即是快。每年进步5%，十年后你甩开99%的人。"]];
+  var ACTIONS=[["⏳","自由时间投资 30 分钟","给未来的自己打工"],["📖","深度阅读 30 分钟","复利从今天开始"],["🚫","拒绝一次短期诱惑","延迟满足在练肌肉"],["🏢","沉淀 1 条 SOP","第二次出现就开始模板化"],["🤖","让 AI 干一件机械活","执行交出去，拍板留给自己"],["💰","记录一次「卖结果」","接口清晰，价值可复用"]], TIPS=["时间是最公平的资产，花在哪，长成什么样","每天 30 分钟，一年就是 180 小时——够精通一件事","延迟满足不是忍，是把奖励换个更大的兑现期","复利的敌人只有两个：中断和着急","种一棵树最好的时间是十年前，其次是现在","短期波动吓不出长期主义者——十年后这还重要吗？","刷不完的短视频是注意力的收割机，你才是资产","读书是最便宜的「请教牛人」方式","给未来的自己打工：今天的每个选择都是转账","慢就是快——不返工的路才是最快的路","别用战术上的忙碌，掩盖战略上的懒惰","健康、认知、关系、信用：四样只涨不跌的资产","急于兑现的人拿走小钱，等得起的人拿走大钱","真正的护城河是十年如一日做同一件事","少即是多：同时追两只兔子的人两手空空","今天的舒适是预支，今天的坚持是存款","长期主义者的崩溃次数不比别人少，只是恢复得快","把大目标拆成「今天能做的最小一步」","拒绝一次短期诱惑，就给未来的自己加了一次薪","你不需要很厉害才能开始，但需要开始才能很厉害","不卖时间，卖结果：把自己变成可调用的服务","知识库是硬盘，工作流是操作系统，AI 是应用","把机械的交给 AI，创造的留给自己","接口要清晰：别说「我什么都能做」","与其当螺丝钉，不如把自己变成独立的服务器","用标准化的流程，交付个性化的价值"], SCENES=[["📱","又刷了1小时短视频","⏳ 时间是最公平的资产，花在哪长成什么样。设个25分钟番茄钟，先拿回30分钟。"],["🎮","忍不住又熬夜了","深夜的自由是假自由。长期主义者的自由，是白天攒出来的。"],["📚","学习坚持不下去","别靠意志力，靠系统：固定时间、固定地点、最小目标5分钟。"],["💸","冲动消费了","问自己：一年后它还值多少？把同样金额定投，才是给未来的礼物。"],["😰","焦虑未来怎么办","焦虑是用了昨天的精力担心明天。把注意力拉回今天能做的一件事。"],["🐢","觉得进步太慢","慢即是快。每年进步5%，十年后你甩开99%的人。"]];
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
   function today(){ return __ld(new Date()); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
@@ -668,7 +682,7 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
     <div style="max-width:420px;margin:0 auto 8px;text-align:center;color:#8f9eae;font-size:12px;line-height:1.6;padding:0 8px;">自检页是帮我"看见"自己用的 —— 5 个小问题，让今天的时间花得更明白</div>
     <div class="sop-header" data-page-node-id="5eTVQdU503mDGmUG6GwYCZ">
       <div class="sop-title" data-page-node-id="ikn7PRWEV6RsueQC5WsOv2">🎯 时间账本自检</div>
-      <div class="sop-sub" data-page-node-id="4GGsrJgZuOaHivnG6ZDGKy">每天 5 个小问题 · 帮我看清今天的时间花在哪了</div>
+      <div class="sop-sub" data-page-node-id="4GGsrJgZuOaHivnG6ZDGKy">5 个维度 · 勾选今天做到了的项 · 每维度可确认小结</div>
       <div class="sop-score-row" data-page-node-id="hX8DOZ2ZFYx6h7z2nfV7fE">
         <div class="sop-score" data-page-node-id="PYEDeFDP7f5t6uwymVzt1W">
           <div class="sop-score-num" id="sopScore" data-page-node-id="091e3t3XGmZST45HdSrZHU">0</div>
@@ -680,7 +694,7 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
         </div>
         <div class="sop-score" data-page-node-id="1L9NWAY4f1bVnuzmvtxvFl">
           <div class="sop-score-num" id="sopNegCount" data-page-node-id="LzNIusNGNwJAZfciGMmiRG">100</div>
-          <div class="sop-score-label" data-page-node-id="EFRzDHFgq3cvLIF5MGEnzs">题库总数</div>
+          <div class="sop-score-label" data-page-node-id="EFRzDHFgq3cvLIF5MGEnzs">需注意</div>
         </div>
       </div>
       <div class="sop-progress-wrap" data-page-node-id="1Tx8MiIKwIs7p1BCZW2MF0">
@@ -695,13 +709,6 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
       <!-- 自检题内容由 JS 动态渲染 -->
     </div>
 
-    <div class="sop-tip" data-page-node-id="AVcpfTGorOMwHSgKZXF1QE">
-      <div class="sop-tip-title" data-page-node-id="sP7MVqa0MKJf1CwyzHws0w">💡 我的判断原则 · 5 类问题说明</div>
-      <div class="sop-tip-item" data-page-node-id="zMs0cDRJ5qBGafqAwB01g3">• A 短视触发器：识别群里@你、红点、「先回一下」这类偷走时间的小事</div>
-      <div class="sop-tip-item" data-page-node-id="4x8SHmpxu9CPXMQFGVi1Rg">• B 任务 5 个去向：自己做的 / AI 帮我做的 / 交给别人做的 / 做成 SOP 的 / 自动跑的</div>
-      <div class="sop-tip-item" data-page-node-id="nURjTcyXenbmlNoHvmK5KU">• C 时间价值层级：只有我能决定的 / 关键得亲手做的 / 需要别人配合的 / 可以让脚本跑的</div>
-      <div class="sop-tip-item" data-page-node-id="3rjw6jXo0zRzkc984SBXgy">• D 不做 ≠ 不完成：把事做完 ≠ 必须由我做完；先问「这件事是不是还会再来？」</div>
-      <div class="sop-tip-item" data-page-node-id="0qYLprr3i38VstAY3714k0">• E 时间账本：5 个去向（继续做 / 交给别人 / 做成 SOP / 设成自动 / 不做了）· 每周复盘一次</div>
     </div>
   </div>
 </div>
@@ -2919,10 +2926,14 @@ function initSOP() {
     sopSelected = {};
     sopAnswerCount = 0;
     sopScore = 0;
+    sopSubmittedCats = [];
+    sopDone = false;
   } else {
     sopSelected = d.selected || {};
     sopAnswerCount = d.answerCount || 0;
     sopScore = d.score || 0;
+    sopSubmittedCats = d.submittedCats || [];
+    sopDone = !!d.done;
   }
   renderSOPCats();
   updateSOPDisplay();
@@ -2946,103 +2957,209 @@ function switchSOPCat(idx) {
   renderSOPList();
 }
 
+/* ===== 简化版自检（对齐减肥结构）：每维 6 项勾选 ✅/❌ + 确认小结 + 自动出总结 ===== */
+const SOP_ITEMS = {
+  A: { tips: '识别群里@、红点、「先回一下」这类一碰就掉时间的钩子。', items: [
+    ['没有秒回非紧急消息', 12], ['红点/@先问了「必须现在吗」', 12], ['「先回一下」没有打断深度工作', 14],
+    ['拒绝了至少一次伪紧急请求', 12], ['深度工作块是完整的', 14], ['睡前没有报复性刷手机', 8]
+  ] },
+  B: { tips: '任务有 5 个去向：自己做 / AI 做我拍板 / AI 做我抽检 / 做成 SOP / 自动跑。', items: [
+    ['新任务先问「该谁做」再动手', 12], ['至少 1 件事让 AI 做、我拍板', 14], ['重复任务写成了 SOP', 14],
+    ['有 1 件事让脚本自动跑', 16], ['抽检了 AI 的产出而不是重做', 10], ['没有亲手做本该委托的事', 10]
+  ] },
+  C: { tips: '时间分四层：只有我能拍板的 / 关键得亲手做的 / 需要别人配合的 / 可以让脚本跑的。', items: [
+    ['大块时间给了「只有我能拍板的事」', 16], ['关键事亲手做，杂事交出去', 12], ['拒绝了 1 件别人也能做的事', 12],
+    ['把 1 件配合型任务推进了一步', 8], ['没有把黄金时间切碎', 14], ['记下了今天的价值层级判断', 8]
+  ] },
+  D: { tips: '完成 ≠ 必须由你完成。先问「这件事还会不会再发生？」', items: [
+    ['今天主动「不做」了 1 件事', 14], ['第二次出现的任务考虑了模板化', 12], ['第三次出现的任务开始做成 SOP', 14],
+    ['问过「这件事还会不会再发生」', 10], ['没有为面子做低价值的事', 10], ['对 1 个请求说了「不」', 12]
+  ] },
+  E: { tips: '时间 P&L 五张清单：继续做 / 交给别人 / 做成 SOP / 自动跑 / 不做了 · 每周复盘。', items: [
+    ['记了今天的时间账', 12], ['本周做了一次 P&L 复盘', 14], ['本周决定「不做了」至少 1 件', 14],
+    ['KEEP 清单有新增', 10], ['时间 ROI 自评 60 分以上', 8], ['把复盘结论落成了 1 个行动', 12]
+  ] }
+};
+let sopSubmittedCats = [], sopDone = false;
+
+function getCatSelected(catId) { return sopSelected[catId] || {}; }
+
+function sopCounts() {
+  let yes = 0, no = 0, total = 0;
+  SOP_CATEGORIES.forEach(c => {
+    const sel = sopSelected[c.id] || {};
+    (SOP_ITEMS[c.id] || { items: [] }).items.forEach((it, idx) => {
+      total++;
+      if (sel[idx] === 'yes') yes++;
+      else if (sel[idx] === 'no') no++;
+    });
+  });
+  return { yes, no, total };
+}
+
 function renderSOPList() {
   const card = document.getElementById('sopGameCard');
   if (!card) return;
+  if (sopDone) { renderSOPDoneState(); return; }
   const cat = SOP_CATEGORIES[sopCatIdx];
-  const pool = QA_POOL[cat.id] || [];
-  // 每次随机抽 5 题
-  const shuffled = pool.slice().sort(() => Math.random() - 0.5);
-  const items = shuffled.slice(0, Math.min(5, pool.length));
-  const sel = sopSelected[cat.id] || {};
+  const conf = SOP_ITEMS[cat.id];
+  const selected = getCatSelected(cat.id);
+  const doneCount = Object.keys(selected).length;
+  const totalCount = conf.items.length;
+  const allAnswered = doneCount >= totalCount;
+  const pct = Math.min(100, (doneCount / totalCount) * 100);
+  const progressFill = '<div class="sop-cat-progress-fill" style="width:' + pct + '%;background:' + cat.color + '"></div>';
+
+  // 全部勾完 → 维度小结卡
+  if (allAnswered) {
+    const yesCount = Object.values(selected).filter(v => v === 'yes').length;
+    const noCount = totalCount - yesCount;
+    const catScore = Math.round((yesCount / totalCount) * 100);
+    let feedback = '';
+    if (yesCount === totalCount) feedback = '完美！' + cat.name + '全部做到，时间账本漂亮！💯';
+    else if (yesCount >= totalCount * 0.7) feedback = cat.name + '做得不错！还有' + noCount + '项可以加强，继续保持！💪';
+    else if (yesCount >= totalCount * 0.5) feedback = cat.name + '有进步空间，' + yesCount + '项做到，继续加油！🌱';
+    else feedback = cat.name + '今天有点难没关系，看见就是改变的开始！🔥';
+    card.innerHTML = `
+      <div class="sop-cat-progress" style="margin-bottom:12px;">
+        <span style="font-size:18px;">${cat.icon}</span>
+        <span style="font-weight:700;color:${cat.color};">${cat.name}</span>
+        <div class="sop-cat-progress-bar">${progressFill}</div>
+        <span style="font-size:11px;color:#8f9eae;">完成 ✅</span>
+      </div>
+      <div style="text-align:center;padding:18px 12px;">
+        <div style="font-size:40px;">${cat.icon}</div>
+        <div style="font-size:16px;font-weight:800;color:#333;margin-top:8px;">${cat.name} · 复盘完成</div>
+        <div style="font-size:24px;font-weight:800;color:${cat.color};margin-top:8px;">${catScore}分</div>
+        <div style="font-size:12px;color:#8f9eae;margin-top:4px;">做到了 ${yesCount} 项 · 需注意 ${noCount} 项</div>
+        <div style="margin-top:12px;padding:12px;background:${cat.color}11;border-radius:12px;font-size:13px;color:#555;line-height:1.8;">${feedback}</div>
+        <div style="font-size:11px;color:#b0bec5;margin-top:10px;">切换上方维度继续，全部确认后解锁今日总结 🎉</div>
+      </div>
+    `;
+    return;
+  }
+
+  // 清单列表
+  const listItems = conf.items.map((item, idx) => {
+    const state = selected[idx];
+    const yesClass = state === 'yes' ? 'sop-item-yes' : '';
+    const noClass = state === 'no' ? 'sop-item-no' : '';
+    const yesBtn = state === 'yes' ? 'sop-check-btn yes-checked' : 'sop-check-btn';
+    const noBtn = state === 'no' ? 'sop-check-btn no-checked' : 'sop-check-btn';
+    return `
+      <div class="sop-item ${yesClass} ${noClass}" data-idx="${idx}">
+        <div class="sop-item-text">${item[0]}</div>
+        <div class="sop-item-btns">
+          <button class="${yesBtn}" onclick="toggleSOPItem(${idx}, 'yes')"><span>✅</span><span>做到了</span></button>
+          <button class="${noBtn}" onclick="toggleSOPItem(${idx}, 'no')"><span>❌</span><span>没做到</span></button>
+        </div>
+      </div>`;
+  }).join('');
+
+  const submited = sopSubmittedCats.includes(cat.id);
   card.innerHTML = `
-    <div class="sop-cat-progress">
+    <div class="sop-cat-progress" style="margin-bottom:10px;">
       <span style="font-size:18px;">${cat.icon}</span>
       <span style="font-weight:700;color:${cat.color};">${cat.name}</span>
-      <div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:${Math.min(100, Object.keys(sel).length / items.length * 100)}%;background:${cat.color}"></div></div>
-      <span style="font-size:11px;color:#8f9eae;">${Object.keys(sel).length}/${items.length}</span>
+      <div class="sop-cat-progress-bar">${progressFill}</div>
+      <span style="font-size:11px;color:#8f9eae;">${doneCount}/${totalCount}</span>
     </div>
-    <div style="font-size:12px;color:#6c7a89;line-height:1.6;margin-bottom:10px;background:#faf6ee;border-radius:12px;padding:10px 12px;">💡 ${cat.desc}</div>
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      ${items.map((item) => {
-        const state = sel[item.id];
-        const yesCls = state === 'yes' ? 'done-yes' : '';
-        const noCls  = state === 'no'  ? 'done-no'  : '';
-        const yesBtnCls = state === 'yes' ? 'qa-check-btn yes-checked' : 'qa-check-btn';
-        const noBtnCls  = state === 'no'  ? 'qa-check-btn no-checked'  : 'qa-check-btn';
-        return `
-        <div class="qa-question ${yesCls} ${noCls}" data-id="${item.id}">
-          <div class="qa-question-text">${item.id}. ${item.q}</div>
-          <div class="qa-question-options">${item.options.map((o, idx) => `<div class="qa-option">${String.fromCharCode(65+idx)}. ${o}</div>`).join('')}</div>
-          <div class="qa-question-btns">
-            <button class="${yesBtnCls}" onclick="answerQuestion('${cat.id}','${item.id}','yes')"><span>✅</span><span>做到了</span></button>
-            <button class="${noBtnCls}"  onclick="answerQuestion('${cat.id}','${item.id}','no')"><span>⚠️</span><span>需注意</span></button>
-          </div>
-        </div>`;
-      }).join('')}
+    <div style="font-size:12px;color:#6c7a89;line-height:1.6;margin-bottom:10px;background:#faf6ee;border-radius:12px;padding:10px 12px;">💡 ${conf.tips}</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">${listItems}</div>
+    <div style="text-align:center;margin-top:14px;">
+      ${doneCount > 0 ? `<button onclick="submitSOPCat()" style="background:${submited ? '#b0bec5' : cat.color};color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;">${submited ? '✓ 已确认，可继续调整后再次确认' : '确认本维度 ⏳'}</button>` : '<div style="font-size:12px;color:#8f9eae;">勾选今天真实发生的情况，再确认本维度</div>'}
     </div>
   `;
 }
 
-function answerQuestion(catId, qId, state) {
-  if (!sopSelected[catId]) sopSelected[catId] = {};
-  if (sopSelected[catId][qId] === state) {
-    delete sopSelected[catId][qId];
-  } else {
-    sopSelected[catId][qId] = state;
-  }
-  sopAnswerCount = countAnswers(sopSelected);
-  // 实时算分（yes 累计分）
-  sopScore = computeScoreFromSelections(sopSelected);
-  saveSOPData({ score: sopScore, selected: sopSelected, answerCount: sopAnswerCount, date: getToday() });
+function toggleSOPItem(idx, state) {
+  const cat = SOP_CATEGORIES[sopCatIdx];
+  if (!sopSelected[cat.id]) sopSelected[cat.id] = {};
+  if (sopSelected[cat.id][idx] === state) delete sopSelected[cat.id][idx];
+  else sopSelected[cat.id][idx] = state;
+  const c = sopCounts();
+  sopAnswerCount = c.yes + c.no;
+  sopScore = c.total ? Math.round((c.yes / c.total) * 100) : 0;
+  saveSOPData({ score: sopScore, selected: sopSelected, answerCount: sopAnswerCount, date: getToday(), submittedCats: sopSubmittedCats, done: sopDone });
   renderSOPCats();
   updateSOPDisplay();
   renderSOPList();
 }
 
-function countAnswers(sel) {
-  let c = 0;
-  Object.values(sel).forEach(o => { if (o && typeof o === 'object') c += Object.keys(o).length; });
-  return c;
+function submitSOPCat() {
+  const cat = SOP_CATEGORIES[sopCatIdx];
+  const selected = sopSelected[cat.id] || {};
+  const conf = SOP_ITEMS[cat.id];
+  const totalCount = conf.items.length;
+  const yesCount = Object.values(selected).filter(v => v === 'yes').length;
+  const catScore = Math.round((yesCount / totalCount) * 100);
+  if (!sopSubmittedCats.includes(cat.id)) sopSubmittedCats.push(cat.id);
+  const c = sopCounts();
+  sopAnswerCount = c.yes + c.no;
+  sopScore = c.total ? Math.round((c.yes / c.total) * 100) : 0;
+  updateSOPDisplay();
+  renderSOPCats();
+  const allDone = sopSubmittedCats.length >= SOP_CATEGORIES.length;
+  saveSOPData({ score: sopScore, selected: sopSelected, answerCount: sopAnswerCount, date: getToday(), submittedCats: sopSubmittedCats, done: allDone });
+  if (allDone) {
+    sopDone = true;
+    renderSOPDoneState();
+    if (window.__uxpOpen) {
+      let evalIcon = ['😔', '😐', '👍', '😊', '🎉'][Math.min(Math.floor(sopScore / 25), 4)];
+      let evalText = ['需加油', '一般', '还不错', '很好', '太棒了'][Math.min(Math.floor(sopScore / 25), 4)];
+      window.__uxpOpen('<div style="font-size:54px;margin-bottom:10px;">' + evalIcon + '</div>'
+        + '<div style="display:inline-block;font-size:11px;font-weight:700;color:#92400e;background:#92400e1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">⏳ 时间账本 · 今日自检完成</div>'
+        + '<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:6px;">今日复盘：' + evalText + '</div>'
+        + '<div style="font-size:30px;font-weight:800;color:#92400e;margin-bottom:8px;">' + sopScore + ' 分</div>'
+        + '<div style="background:#92400e0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">做到了 ' + c.yes + ' 项 · 需注意 ' + c.no + ' 项。时间账本最诚实——看见就是改变的开始，明天这里会重新开始记。</div>'
+        + '<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:#92400e;cursor:pointer;">记上了 ⏳</button>');
+    }
+  } else {
+    renderSOPList();
+    if (window.__uxpOpen) {
+      window.__uxpOpen('<div style="font-size:50px;margin-bottom:10px;">' + cat.icon + '</div>'
+        + '<div style="display:inline-block;font-size:11px;font-weight:700;color:' + cat.color + ';background:' + cat.color + '1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">✓ 维度小结</div>'
+        + '<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:6px;">' + cat.name + ' · ' + catScore + '分</div>'
+        + '<div style="background:' + cat.color + '0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">做到了 ' + yesCount + ' / ' + totalCount + ' 项。下一个维度：' + (SOP_CATEGORIES.find((cc, i) => i > sopCatIdx && !sopSubmittedCats.includes(cc.id)) || SOP_CATEGORIES.find(cc => !sopSubmittedCats.includes(cc.id)) || {}).name + '</div>'
+        + '<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:' + cat.color + ';cursor:pointer;">好的</button>');
+    }
+    setTimeout(() => {
+      let nextCat = SOP_CATEGORIES.findIndex((cc, i) => i > sopCatIdx && !sopSubmittedCats.includes(cc.id));
+      if (nextCat < 0) nextCat = SOP_CATEGORIES.findIndex(cc => !sopSubmittedCats.includes(cc.id));
+      if (nextCat >= 0 && !sopDone) { sopCatIdx = nextCat; renderSOPCats(); renderSOPList(); }
+    }, 2600);
+  }
 }
 
-function computeScoreFromSelections(sel) {
-  // 当前类 yes 占比 × 100，归一化为 100 / 5 = 20 分
-  const catId = SOP_CATEGORIES[sopCatIdx].id;
-  const cat = sopSelected[catId] || {};
-  const qs = QA_POOL[catId] || [];
-  let yes = 0, total = 0;
-  Object.entries(cat).forEach(([qid, st]) => {
-    if (st) total++;
-    if (st === 'yes') yes++;
-  });
-  if (total === 0) return sopScore;
-  // 当前类 yes% = yes/qs.length * 100（一类满分 20）
-  const catPct = (yes / Math.max(qs.length, 1)) * 100;
-  // 5 类综合分（按每类各 20 分，满分 100）
-  let totalAllYes = 0, totalAllItems = 0;
-  SOP_CATEGORIES.forEach(c => {
-    const ca = sopSelected[c.id] || {};
-    const qs2 = QA_POOL[c.id] || [];
-    Object.values(ca).forEach(st => { totalAllItems++; if (st === 'yes') totalAllYes++; });
-    if (qs2.length) {
-      totalAllItems = Math.max(totalAllItems, qs2.length);
-    }
-  });
-  return Math.round((totalAllYes / Math.max(totalAllItems, 1)) * 100);
+function renderSOPDoneState() {
+  const card = document.getElementById('sopGameCard');
+  if (!card) return;
+  const c = sopCounts();
+  card.innerHTML = `
+    <div style="text-align:center;padding:22px 12px;">
+      <div style="font-size:44px;">🎉</div>
+      <div style="font-size:17px;font-weight:800;color:#333;margin-top:8px;">今日时间账本自检完成</div>
+      <div style="font-size:30px;font-weight:800;color:#b8941f;margin-top:8px;">${sopScore} 分</div>
+      <div style="font-size:12px;color:#8f9eae;margin-top:4px;">做到了 ${c.yes} 项 · 需注意 ${c.no} 项</div>
+      <div style="margin-top:12px;padding:12px;background:#faf6ee;border-radius:12px;font-size:13px;color:#555;line-height:1.8;">5 个维度都已确认。你今天看见了自己的时间——明天打开这里，会开始新一轮记录。</div>
+    </div>
+  `;
 }
 
 function updateSOPDisplay() {
   const scoreEl = document.getElementById('sopScore');
   if (scoreEl) scoreEl.innerText = sopScore;
-  document.getElementById('sopPosCount').innerText = sopAnswerCount;
-  document.getElementById('sopNegCount').innerText = Math.max(0, 100 - sopAnswerCount);
+  const c = sopCounts();
+  const posEl = document.getElementById('sopPosCount');
+  if (posEl) posEl.innerText = (c.yes + c.no);
+  const negEl = document.getElementById('sopNegCount');
+  if (negEl) negEl.innerText = c.no;
   const pct = Math.max(0, Math.min(100, sopScore));
   const bar = document.getElementById('sopScoreBar');
   const ptext = document.getElementById('sopProgressText');
   if (bar) {
     bar.style.width = pct + '%';
-    bar.style.background = pct >= 60 ? 'linear-gradient(90deg,#c9a227,#8b6914)' : pct >= 30 ? 'linear-gradient(90deg,#ffa726,#ffc107)' : pct > 0 ? 'linear-gradient(90deg,#ef5350,#ff7043)' : '#f0e2bb';
+    bar.style.background = pct >= 60 ? 'linear-gradient(90deg,#c9a227,#8b6914)' : pct >= 30 ? 'linear-gradient(90deg,#ffa726,#ffc107)' : pct > 0 ? 'linear-gradient(90deg,#ef9a6d,#ffc107)' : '#e0e0e0';
   }
   if (ptext) ptext.innerText = sopScore + ' / 100';
 }
@@ -3146,8 +3263,7 @@ const HARD_RULES = [
   '每周固定 15 分钟做一次时间周报（5 个去向，每个至少 3 项）',
   '"只有我能决定"的事，定个最晚完成时间（建议今天 16:00）',
   '偷走时间的小事我全关掉——通知音 / 红点 / 自动展开群',
-  '把事做完 ≠ 必须由我做完——能交出去就交出去'
-];
+  '把事做完 ≠ 必须由我做完——能交出去就交出去', '把自己当公司经营：核心资源·关键业务·客户·价值·渠道·合作·成本·收入', '用标准化的流程，交付个性化的价值'];
 
 (function initHardRules() {
   const list = document.getElementById('hrList');
@@ -3338,7 +3454,7 @@ if (!localStorage.getItem(OB_KEY) && !localStorage.getItem(STORAGE.PARTNER)) {
 <script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
 (function(){
 if(window.__uxpV1) return; window.__uxpV1=true;
-var CFG={"accent":"#92400e","mood":{"happy":{"tag":"高能时刻","t":"给未来的自己转一笔账","d":"长期主义的本质：现在的行为，十年后兑现。趁状态好，做一件今天看不到回报的事——30 分钟深度阅读、写一篇复盘、健身一次。别人在收割今天的满足，你在给十年后的自己发工资。"},"neutral":{"tag":"平稳时刻","t":"投资 30 分钟自由时间","d":"算一笔账：每天 30 分钟，一年就是 180 小时——足够精通一项新技能。今天把这 30 分钟从刷手机里抢回来，投给那件「重要不紧急」的事。自由时间是你唯一完全自主的资产，别让它白白蒸发。"},"sad":{"tag":"低落时刻","t":"短期波动，吓不出长期主义者","d":"难过的、搞砸的、停滞的日子——放在十年的尺度上都是小波动。今天只做一件事：把这次挫折写下来，标注「十年后这重要吗」。能拉长时间看问题的人，情绪和决策都会稳得多。"},"tired":{"tag":"疲惫时刻","t":"累了就拒绝一次短期诱惑，然后睡觉","d":"疲惫时的「再刷一会儿」是复利最大的敌人。今天做两个动作：拒绝一次睡前刷手机的诱惑，然后早点睡。延迟满足练的就是这种时刻——赢下今晚，明天的时间质量完全不同。"}},"k3store":"buddy_key3_longterm","k3":[{"icon":"⏳","title":"自由时间投资 30 分钟","sub":"给未来的自己打工","why":"自由时间投资 30 分钟，一年就是 180 小时的复利本金。今天这半小时，是给十年后自己的转账。"},{"icon":"📖","title":"深度阅读 30 分钟","sub":"复利从今天开始","why":"深度阅读是复利率最高的自我投资。今天读的 30 页，会在未来某个决策时刻，变成你的关键优势。"},{"icon":"🚫","title":"拒绝一次短期诱惑","sub":"延迟满足在练肌肉","why":"拒绝短期诱惑是延迟满足的实操训练。今天赢下的这一次，「延迟满足」这块肌肉就壮了一圈。"}],"scenes":[["📱","又刷了1小时短视频","先拿回30分钟","⏳ 时间是最公平的资产，花在哪长成什么样。设个25分钟番茄钟，先拿回30分钟。"],["🎮","忍不住又熬夜了","自由是白天攒的","深夜的自由是假自由。长期主义者的自由，是白天攒出来的。"],["📚","学习坚持不下去","靠系统不靠意志力","别靠意志力，靠系统：固定时间、固定地点、最小目标5分钟。"],["💸","冲动消费了","一年后它值多少","问自己：一年后它还值多少？把同样金额定投，才是给未来的礼物。"],["😰","焦虑未来怎么办","拉回今天一件事","焦虑是用了昨天的精力担心明天。把注意力拉回今天能做的一件事。"],["🐢","觉得进步太慢","每年5%甩开99%","慢即是快。每年进步5%，十年后你甩开99%的人。"]]};
+var CFG={"accent":"#92400e","mood":{"happy":{"tag":"高能时刻","t":"给未来的自己转一笔账","d":"长期主义的本质：现在的行为，十年后兑现。趁状态好，做一件今天看不到回报的事——30 分钟深度阅读、写一篇复盘、健身一次。别人在收割今天的满足，你在给十年后的自己发工资。"},"neutral":{"tag":"平稳时刻","t":"投资 30 分钟自由时间","d":"算一笔账：每天 30 分钟，一年就是 180 小时——足够精通一项新技能。今天把这 30 分钟从刷手机里抢回来，投给那件「重要不紧急」的事。自由时间是你唯一完全自主的资产，别让它白白蒸发。"},"sad":{"tag":"低落时刻","t":"短期波动，吓不出长期主义者","d":"难过的、搞砸的、停滞的日子——放在十年的尺度上都是小波动。今天只做一件事：把这次挫折写下来，标注「十年后这重要吗」。能拉长时间看问题的人，情绪和决策都会稳得多。"},"tired":{"tag":"疲惫时刻","t":"累了就拒绝一次短期诱惑，然后睡觉","d":"疲惫时的「再刷一会儿」是复利最大的敌人。今天做两个动作：拒绝一次睡前刷手机的诱惑，然后早点睡。延迟满足练的就是这种时刻——赢下今晚，明天的时间质量完全不同。"}},"k3store":"buddy_key3_longterm","k3":[{"icon":"⏳","title":"自由时间投资 30 分钟","sub":"给未来的自己打工","why":"长期主义的本质：现在的行为，十年后兑现。今天的 30 分钟看不到回报，但它记在了十年后的账上。别人在收割今天的满足，你在给未来的自己发工资。"},{"icon":"📖","title":"深度阅读 30 分钟","sub":"复利从今天开始","why":"读进去的每一页都在给认知复利存钱。今天看不出变化，一年后就是完全不同的脑子。"},{"icon":"🚫","title":"拒绝一次短期诱惑","sub":"延迟满足在练肌肉","why":"每一次「不要现在爽」的选择，都是在练延迟满足的肌肉。拒绝得越多，未来的选择权越大。"},{"icon":"🏢","title":"沉淀 1 条 SOP","sub":"第二次出现就开始模板化","why":"流程标准化是把能力变成资产的第一步。你刚刚把一次性的经验变成了可复用的模块——这是你的个人操作系统在升级。"},{"icon":"🤖","title":"让 AI 干一件机械活","sub":"执行交出去，拍板留给自己","why":"人不再是执行者，而是调度者。你刚刚把机械的部分交给了 AI，把创造的部分留给了自己——这就是 Agent 化的日常。"},{"icon":"💰","title":"记录一次「卖结果」","sub":"接口清晰，价值可复用","why":"卖时间是一次性的，卖结果可以复制。你刚刚练习了一次把自己当成可调用的服务——边界清晰，交付标准化，越标准化越值钱。"}],"scenes":[["📱","又刷了1小时短视频","先拿回30分钟","⏳ 时间是最公平的资产，花在哪长成什么样。设个25分钟番茄钟，先拿回30分钟。"],["🎮","忍不住又熬夜了","自由是白天攒的","深夜的自由是假自由。长期主义者的自由，是白天攒出来的。"],["📚","学习坚持不下去","靠系统不靠意志力","别靠意志力，靠系统：固定时间、固定地点、最小目标5分钟。"],["💸","冲动消费了","一年后它值多少","问自己：一年后它还值多少？把同样金额定投，才是给未来的礼物。"],["😰","焦虑未来怎么办","拉回今天一件事","焦虑是用了昨天的精力担心明天。把注意力拉回今天能做的一件事。"],["🐢","觉得进步太慢","每年5%甩开99%","慢即是快。每年进步5%，十年后你甩开99%的人。"],["🏢","今天像经营者一样思考了一次","公司视角","你今天没有只当执行者，而是问了「这件事的投入产出和系统解法」——这就是老板视角的肌肉，练一次强一次。"],["📦","把一件重复的事做成了可交付的模块","模块化","客户要什么就调用什么模块。你刚刚把自己又标准化了一格——越标准，越可复用，越值钱。"],["🤖","让 AI 干掉了一件机械活","调度者","人不再是执行者，而是调度者。你把时间从执行里赎了回来，交给了拍板和创造。"],["🧭","拒绝了一个「什么都能做」的模糊请求","接口清晰","Agent 最忌讳边界模糊。你刚刚定义了自己的接口：输入什么、输出什么、交付标准是什么。"],["📚","沉淀了一条经验进知识库","知识结构化","经验只有变成可查询的数据库，才能被系统反复调用。你的个人操作系统又升了一个版本。"],["💸","记录了一次「卖结果」而不是卖时间","结果交付","卖时间是一锤子买卖，卖结果可以复制。你刚刚在练习把自己变成一个独立的服务器。"]]};
 var ACC=CFG.accent||'#e05a7a';
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 var ov=null;
@@ -3434,5 +3550,83 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
 q.setAttribute('data-bgclose','1');
 q.addEventListener('click',function(e){if(e.target===q){try{closeQAPanel();}catch(err){q.classList.remove('show');}}});
 }})();</script>
+
+<!-- 🏢 公司经营弹窗（document级） -->
+<div id="corpOverlay" onclick="if(event.target===this)closeCorp()" style="display:none;position:fixed;inset:0;z-index:100300;background:rgba(0,0,0,0.55);align-items:center;justify-content:center;padding:18px;">
+  <div style="background:#fffdf7;border-radius:20px;max-width:420px;width:100%;max-height:80vh;overflow-y:auto;padding:18px 16px;position:relative;animation:corpPop .22s ease;">
+    <span onclick="closeCorp()" id="corpCloseX" style="position:absolute;top:10px;right:14px;font-size:20px;color:#b8ac93;cursor:pointer;line-height:1;">✕</span>
+    <div style="display:flex;gap:6px;margin-bottom:12px;">
+      <span onclick="openCorp('mod')" id="corpTabMod" class="corp-tab" style="flex:1;text-align:center;font-size:12px;font-weight:700;padding:8px 0;border-radius:12px;cursor:pointer;background:#92400e;color:#fff;">🏢 公司 9 模块</span>
+      <span onclick="openCorp('agent')" id="corpTabAgent" class="corp-tab" style="flex:1;text-align:center;font-size:12px;font-weight:700;padding:8px 0;border-radius:12px;cursor:pointer;background:#f2e8d5;color:#8b6914;">🤖 Agent 化三步</span>
+      <span onclick="openCorp('sys')" id="corpTabSys" class="corp-tab" style="flex:1;text-align:center;font-size:12px;font-weight:700;padding:8px 0;border-radius:12px;cursor:pointer;background:#f2e8d5;color:#8b6914;">💻 个人操作系统</span>
+    </div>
+    <div id="corpBody"></div>
+    <div style="text-align:center;margin-top:12px;"><span onclick="closeCorp()" style="display:inline-block;background:#92400e;color:#fff;font-weight:700;font-size:13px;border-radius:24px;padding:9px 34px;cursor:pointer;">我知道了</span></div>
+  </div>
+</div>
+<style>@keyframes corpPop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}</style>
+<script>
+var CORP9 = [
+  { icon: "🧬", t: "核心资源", q: "我是一个什么样的人？我可以持续精进的核心能力是什么？" },
+  { icon: "🛠️", t: "关键业务", q: "我做事的核心优势是什么？什么事情别人愿意付费请我来做？" },
+  { icon: "👥", t: "客户群体", q: "我想和什么样的人同行？我能为身边和职场里的人带来什么？" },
+  { icon: "💎", t: "价值服务", q: "我可以解决哪些实际问题？我能提供专业价值，还是陪伴支持？" },
+  { icon: "📣", t: "渠道通路", q: "别人如何认识我？日常社交和线上平台是否持续输出价值？" },
+  { icon: "🤝", t: "客户关系", q: "如何真诚待人、守住口碑？如何把短期交集变成长久的良性关系？" },
+  { icon: "🌉", t: "重要合作", q: "哪些良师益友值得长期相伴？哪些资源值得长期经营？" },
+  { icon: "⚖️", t: "成本结构", q: "我的精力和资金主要消耗在哪里？哪些真正值得投入？" },
+  { icon: "💰", t: "收入来源", q: "除主业之外，还有哪些能力可以变现？" }
+];
+var CORP_AGENT = [
+  { icon: "1️⃣", t: "定义你的接口", d: "问自己三个问题：我能稳定输出什么价值？客户给我什么输入，能得到什么输出？我的交付标准是什么？别说「我什么都能做」——Agent 最忌讳边界模糊。", act: "练习：写下一句话接口——「你给我 __，我交付 __，标准是 __」。" },
+  { icon: "2️⃣", t: "构建你的系统", d: "知识结构化：把经验变成可查询的数据库；流程标准化：把工作步骤变成 SOP；工具智能化：用 AI 放大每个环节的效率。", act: "练习：本周把一件重复的事写成 SOP，让第二次不再从零开始。" },
+  { icon: "3️⃣", t: "迭代你的版本", d: "Agent 不是一成不变的：收集用户反馈 → 优化工作流（算法）→ 扩展能力模块 → 发布新版本。", act: "练习：每周末给自己发一版「更新日志」——这周升级了什么。" }
+];
+var CORP_SYS = [
+  { icon: "💾", t: "知识库 = 硬盘", d: "把经验、案例、方法沉淀成可查询的数据库，而不是散落在聊天记录里。" },
+  { icon: "⚙️", t: "工作流 = 操作系统", d: "传统的学习是往硬盘里存东西；Agent 化的核心，是升级你的操作系统。" },
+  { icon: "🧰", t: "AI 工具 = 应用程序", d: "不卖时间，卖结果；不是被动接活，而是主动定义服务；不是单线程，而是同时服务多个客户——从「出租车司机」变成「滴滴」。" },
+  { icon: "🖼️", t: "个人品牌 = 用户界面", d: "别人看到的是界面，支撑它的是背后的系统。把机械的部分交给 AI，创造的部分留给自己，用标准化的流程交付个性化的价值。" }
+];
+function openCorp(tab){
+  tab = tab || 'mod';
+  var body = document.getElementById("corpBody");
+  var tabs = { mod: "corpTabMod", agent: "corpTabAgent", sys: "corpTabSys" };
+  for (var k in tabs) {
+    var el = document.getElementById(tabs[k]);
+    if (el) el.style.cssText = "flex:1;text-align:center;font-size:12px;font-weight:700;padding:8px 0;border-radius:12px;cursor:pointer;" + (k === tab ? "background:#92400e;color:#fff;" : "background:#f2e8d5;color:#8b6914;");
+  }
+  if (tab === 'mod') {
+    body.innerHTML = '<div style="font-size:11px;color:#8b6914;margin-bottom:10px;line-height:1.7;">像经营公司一样经营自己——9 个模块，每个模块问自己两个问题：</div>'
+      + CORP9.map(function(m, i) {
+        return '<div style="background:#faf6ee;border-radius:14px;padding:11px 13px;margin-bottom:8px;">'
+          + '<div style="font-size:13.5px;font-weight:700;color:#92400e;">' + (i + 1) + '. ' + m.icon + ' ' + m.t + '</div>'
+          + '<div style="font-size:12px;color:#555;line-height:1.75;margin-top:4px;">' + m.q + '</div></div>';
+      }).join("");
+  } else if (tab === 'agent') {
+    body.innerHTML = '<div style="font-size:11px;color:#8b6914;margin-bottom:10px;line-height:1.7;">2025 是 AI Agent 元年，也应该是个人 Agent 化元年——不卖时间，卖结果；不是执行者，而是调度者。</div>'
+      + CORP_AGENT.map(function(m) {
+        return '<div style="background:#faf6ee;border-radius:14px;padding:11px 13px;margin-bottom:8px;">'
+          + '<div style="font-size:13.5px;font-weight:700;color:#92400e;">' + m.icon + ' ' + m.t + '</div>'
+          + '<div style="font-size:12px;color:#555;line-height:1.75;margin-top:4px;">' + m.d + '</div>'
+          + '<div style="font-size:11.5px;color:#5d8a3f;line-height:1.6;margin-top:7px;background:#f0f5ea;border-radius:8px;padding:7px 10px;">🌱 ' + m.act + '</div></div>';
+      }).join("");
+  } else {
+    body.innerHTML = '<div style="font-size:11px;color:#8b6914;margin-bottom:10px;line-height:1.7;">如果你是一台电脑，你的「个人操作系统」由四层组成：</div>'
+      + CORP_SYS.map(function(m) {
+        return '<div style="background:#faf6ee;border-radius:14px;padding:11px 13px;margin-bottom:8px;">'
+          + '<div style="font-size:13.5px;font-weight:700;color:#92400e;">' + m.icon + ' ' + m.t + '</div>'
+          + '<div style="font-size:12px;color:#555;line-height:1.75;margin-top:4px;">' + m.d + '</div></div>';
+      }).join("")
+      + '<div style="background:linear-gradient(135deg,#fff3e0,#f3e5c8);border-radius:14px;padding:12px 14px;font-size:12.5px;color:#5a4408;line-height:1.8;font-weight:600;text-align:center;">成为六边形战士，不是你什么都会，<br>而是你的系统什么都会。</div>';
+  }
+  var ov = document.getElementById("corpOverlay");
+  ov.style.display = "flex";
+  ov.querySelector("div").scrollTop = 0;
+}
+function closeCorp(){ var ov = document.getElementById("corpOverlay"); if (ov) ov.style.display = "none"; }
+window.openCorp = openCorp; window.closeCorp = closeCorp;
+</script>
+
 </body>
 </html>

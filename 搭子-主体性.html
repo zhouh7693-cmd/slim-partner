@@ -588,13 +588,31 @@
 
     <!-- 分享入口 -->
     
-    <!-- 🎯 今日 3 个关键小动作 -->
+    
+    <!-- 🛡️ 面对恶意 · 强者6心法 -->
+    <div id="maliceCard" style="max-width:420px;margin:0 auto 12px;background:linear-gradient(135deg,#1c1a17,#2b2620);border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.10);">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:18px;">🛡️</span>
+        <span style="font-weight:700;font-size:14px;color:#f0e6d2;">面对恶意 · 强者 6 心法</span>
+        <span onclick="openMalice()" style="margin-left:auto;font-size:11px;color:#d4af37;cursor:pointer;text-decoration:underline;">展开</span>
+      </div>
+      <div style="font-size:11px;color:#b8ac93;margin:4px 0 8px;">真正的自由，不是别人不再攻击你，而是你不再被他们的看法控制。</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;">
+        <span onclick="openMalice(0)" style="font-size:11px;background:#3a332a;color:#f0e6d2;border-radius:20px;padding:4px 10px;cursor:pointer;">🤐 停止自证</span>
+        <span onclick="openMalice(1)" style="font-size:11px;background:#3a332a;color:#f0e6d2;border-radius:20px;padding:4px 10px;cursor:pointer;">🔍 区分攻击和信息</span>
+        <span onclick="openMalice(2)" style="font-size:11px;background:#3a332a;color:#f0e6d2;border-radius:20px;padding:4px 10px;cursor:pointer;">🎭 不人格化</span>
+        <span onclick="openMalice(3)" style="font-size:11px;background:#3a332a;color:#f0e6d2;border-radius:20px;padding:4px 10px;cursor:pointer;">🎯 控制注意力</span>
+        <span onclick="openMalice(4)" style="font-size:11px;background:#3a332a;color:#f0e6d2;border-radius:20px;padding:4px 10px;cursor:pointer;">🛡️ 该反击就反击</span>
+        <span onclick="openMalice(5)" style="font-size:11px;background:#3a332a;color:#f0e6d2;border-radius:20px;padding:4px 10px;cursor:pointer;">🕊️ 无须胜过</span>
+      </div>
+    </div>
+<!-- 🎯 今日 3 个关键小动作 -->
     <div id="key3Card" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
         <span style="font-size:18px;">🎯</span>
-        <span style="font-weight:700;font-size:14px;color:#333;">🎯 今日 3 个主体性小动作</span>
+        <span style="font-weight:700;font-size:14px;color:#333;">🎯 今日主体性小动作</span>
       </div>
-      <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
+      <div style="font-size:11px;color:#999;margin-bottom:10px;">勾今天最重要的几条（建议 3 条），做到就是赢。</div>
       <div id="key3List"></div>
     </div>
     <script>
@@ -604,7 +622,10 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
       var KEY3_ACTIONS = [
         { icon: '🧭', title: '先独立想 30 秒', sub: '对任何结论，先有自己的答案再看别人的' },
         { icon: '✍️', title: '写下 1 条「我自己的观点」', sub: '有依据才算数' },
-        { icon: '🚫', title: '拒绝一次随大流', sub: '先问「依据是什么」，再决定改不改' }
+        { icon: '🚫', title: '拒绝一次随大流', sub: '先问「依据是什么」，再决定改不改' },
+        { icon: '🤐', title: '停止自证一次', sub: '被贴标签时只回应事实，不解释人格' },
+        { icon: '🔍', title: '拆一条「攻击里的信息」', sub: '丢掉情绪，留下有用的部分' },
+        { icon: '🎯', title: '收回注意力 30 分钟', sub: '从「他怎么看我」回到自己的事上' }
       ];
       var KEY3_STORE = 'buddy_key3_zhuti';
       var K3_COLOR = '#a67c00';
@@ -3600,7 +3621,7 @@ startApp();
   '今天的自评，比外部反馈更值钱',
   '主体性是练出来的，每天一次小判断',
   '被反对时先问依据，不先改口',
-  '观点被驳倒不可怕，没验证就缴械才可怕'];
+  '观点被驳倒不可怕，没验证就缴械才可怕', '停止自证：不解释，评价权才在你手里', '攻击丢掉，信息留下：不看包装看内容', '他的恶意是他的匮乏，不是你的价值', '注意力是最贵的资产，别借给不值得的人', '边界不是脾气，是让伤害有成本', '高级的胜利：他无法再影响你的方向', '允许别人不喜欢你，但别因此怀疑自己', '被刺一下就好，别用三天在脑内回放'];
   window.nextDailyTip = function() {
     var el = document.getElementById("dailyTipText");
     if (!el) return;
@@ -3609,7 +3630,7 @@ startApp();
 })();
 
 // ===== 「今天发生了什么」场景卡（参照睡眠搭子） =====
-const SCENE_DATA = {"pos": [{"icon": "🧭", "tag": "主体", "title": "给出了一个和主流不同的判断，且能自圆其说", "text": "独立思考从「我先想」开始", "quote": "🦅 搭子：你的观点值钱，因为它真的是你的"}, {"icon": "🦁", "tag": "气场", "title": "走进会场不自觉挺直了腰背", "text": "姿态是气场的第一张名片", "quote": "🦅 搭子：稳住，你站的样子就是你内心的样子"}, {"icon": "⚡", "tag": "反应", "title": "即席被点名，稳稳接住了", "text": "反应快的本质是题库大、框架熟", "quote": "🦅 搭子：每一次接住，都是平时积累在兑现"}, {"icon": "🗣️", "tag": "表达", "title": "三句话讲清了一个复杂方案", "text": "结论先行，理由分层，例子收尾", "quote": "🦅 搭子：能把话说短的人，都是想透了的"}, {"icon": "🧠", "tag": "逻辑", "title": "用金字塔结构拆了一个烂摊子", "text": "框架让任何问题都有下手的地方", "quote": "🦅 搭子：混沌变秩序，这就是你的价值"}, {"icon": "🎯", "tag": "执行", "title": "要事清单当日清零", "text": "强者的 day 用完成度丈量", "quote": "🦅 搭子：清零的踏实感，是最好的安眠药"}, {"icon": "💪", "tag": "精力", "title": "开了一天会，依然精神在线", "text": "精力底盘稳，输出才稳定", "quote": "🦅 搭子：别人的状态是波动，你的是系统"}, {"icon": "🧩", "tag": "系统", "title": "把套路写成了 SOP", "text": "能复制的能力才是真能力", "quote": "🦅 搭子：教得会的经验，才叫本事"}, {"icon": "😤", "tag": "勇敢", "title": "顶住压力，说出了一个「不」", "text": "边界感是气场的安全区", "quote": "🦅 搭子：会拒绝的人，承诺才有分量"}], "neg": [{"icon": "🪞", "tag": "随声", "title": "别人一质疑，就放弃了本来说对的观点", "text": "被驳倒不可怕，没验证就缴械才可怕", "quote": "🦅 搭子：先问「依据是什么」，再决定改不改"}, {"icon": "😶", "tag": "卡壳", "title": "被追问时大脑一片空白", "text": "空白 3 秒正常，补救话术要预备", "quote": "🦅 搭子：把这个问题写进题库，下次就是你的高光"}, {"icon": "🫥", "tag": "隐形", "title": "全场沉默，存在感为零", "text": "沉默的会议等于缺席", "quote": "🦅 搭子：哪怕一句补充，也比沉默强"}, {"icon": "🌀", "tag": "散乱", "title": "说话绕来绕去没人听懂", "text": "先想清一句话结论，再开口", "quote": "🦅 搭子：如果只能说一句，你说什么？"}, {"icon": "😴", "tag": "断电", "title": "下午三点精力见底", "text": "中场快走 15 分钟比硬撑划算", "quote": "🦅 搭子：精力是气场的电源，先充电"}, {"icon": "🐢", "tag": "拖延", "title": "要事又拖到了明天", "text": "启动成本降到 5 分钟，拖延自然破", "quote": "🦅 搭子：不求做完，先求开始"}, {"icon": "😰", "tag": "心虚", "title": "汇报时声音在抖", "text": "稳住身体，声音自然稳", "quote": "🦅 搭子：背熟开头 60 秒，后面就顺了"}, {"icon": "🍂", "tag": "内耗", "title": "被批评一句，内耗了半天", "text": "评价是数据不是判决", "quote": "🦅 搭子：收下事实，还给情绪，继续赶路"}, {"icon": "🫧", "tag": "从众", "title": "明知不对，还是随了大流", "text": "低风险句式帮你开口：我补充一个角度", "quote": "🦅 搭子：咽回去的话，会变成遗憾"}]};
+const SCENE_DATA = {"pos":[{"icon":"🧭","tag":"主体","title":"给出了一个和主流不同的判断，且能自圆其说","text":"独立思考从「我先想」开始","quote":"🦅 搭子：你的观点值钱，因为它真的是你的"},{"icon":"🦁","tag":"气场","title":"走进会场不自觉挺直了腰背","text":"姿态是气场的第一张名片","quote":"🦅 搭子：稳住，你站的样子就是你内心的样子"},{"icon":"⚡","tag":"反应","title":"即席被点名，稳稳接住了","text":"反应快的本质是题库大、框架熟","quote":"🦅 搭子：每一次接住，都是平时积累在兑现"},{"icon":"🗣️","tag":"表达","title":"三句话讲清了一个复杂方案","text":"结论先行，理由分层，例子收尾","quote":"🦅 搭子：能把话说短的人，都是想透了的"},{"icon":"🧠","tag":"逻辑","title":"用金字塔结构拆了一个烂摊子","text":"框架让任何问题都有下手的地方","quote":"🦅 搭子：混沌变秩序，这就是你的价值"},{"icon":"🎯","tag":"执行","title":"要事清单当日清零","text":"强者的 day 用完成度丈量","quote":"🦅 搭子：清零的踏实感，是最好的安眠药"},{"icon":"💪","tag":"精力","title":"开了一天会，依然精神在线","text":"精力底盘稳，输出才稳定","quote":"🦅 搭子：别人的状态是波动，你的是系统"},{"icon":"🧩","tag":"系统","title":"把套路写成了 SOP","text":"能复制的能力才是真能力","quote":"🦅 搭子：教得会的经验，才叫本事"},{"icon":"😤","tag":"勇敢","title":"顶住压力，说出了一个「不」","text":"边界感是气场的安全区","quote":"🦅 搭子：会拒绝的人，承诺才有分量"},{"icon":"🤐","tag":"自证戒断","title":"被阴阳怪气，没接招没解释，平静把话题结束","text":"不接人格审判：只有标签就不必解释","quote":"🦅 搭子：你一闭嘴，评价权就回到了自己手里"},{"icon":"🔍","tag":"信息分辨","title":"听到难听话，先拆出一条有用信息，再把情绪丢掉","text":"攻击丢掉，信息留下","quote":"🦅 搭子：不看包装看内容，这才是高手"},{"icon":"🛡️","tag":"边界反击","title":"面对造谣/羞辱没有忍气吞声，留了证据并明确处理","text":"让伤害你的人知道：伤害是有成本的","quote":"🦅 搭子：边界不是脾气，是你守住了自己"},{"icon":"🎯","tag":"注意力主权","title":"发现又在揣测某人怎么看自己，主动把注意力收回来做事","text":"注意力是最贵的心理资产","quote":"🦅 搭子：你的时间值得交给更重要的事"}],"neg":[{"icon":"🪞","tag":"随声","title":"别人一质疑，就放弃了本来说对的观点","text":"被驳倒不可怕，没验证就缴械才可怕","quote":"🦅 搭子：先问「依据是什么」，再决定改不改"},{"icon":"😶","tag":"卡壳","title":"被追问时大脑一片空白","text":"空白 3 秒正常，补救话术要预备","quote":"🦅 搭子：把这个问题写进题库，下次就是你的高光"},{"icon":"🫥","tag":"隐形","title":"全场沉默，存在感为零","text":"沉默的会议等于缺席","quote":"🦅 搭子：哪怕一句补充，也比沉默强"},{"icon":"🌀","tag":"散乱","title":"说话绕来绕去没人听懂","text":"先想清一句话结论，再开口","quote":"🦅 搭子：如果只能说一句，你说什么？"},{"icon":"😴","tag":"断电","title":"下午三点精力见底","text":"中场快走 15 分钟比硬撑划算","quote":"🦅 搭子：精力是气场的电源，先充电"},{"icon":"🐢","tag":"拖延","title":"要事又拖到了明天","text":"启动成本降到 5 分钟，拖延自然破","quote":"🦅 搭子：不求做完，先求开始"},{"icon":"😰","tag":"心虚","title":"汇报时声音在抖","text":"稳住身体，声音自然稳","quote":"🦅 搭子：背熟开头 60 秒，后面就顺了"},{"icon":"🍂","tag":"内耗","title":"被批评一句，内耗了半天","text":"评价是数据不是判决","quote":"🦅 搭子：收下事实，还给情绪，继续赶路"},{"icon":"🫧","tag":"从众","title":"明知不对，还是随了大流","text":"低风险句式帮你开口：我补充一个角度","quote":"🦅 搭子：咽回去的话，会变成遗憾"},{"icon":"😮‍💨","tag":"自证陷阱","title":"被质疑后反复解释自证，越解释越乱","text":"急着解释，是把评价权交给对方","quote":"🦅 搭子：有事实回应事实，标签不必接"},{"icon":"🔁","tag":"脑内回放","title":"一句难听话在脑子里回放了一整天","text":"别用三天五天继续伤害自己","quote":"🦅 搭子：一次攻击几分钟，别让它住进来"},{"icon":"🎭","tag":"恶意人格化","title":"把对方的嘲讽当成了对自己价值的判决","text":"他的恶意是他的出口，不是你的考题","quote":"🦅 搭子：那是他的匮乏，不是你的价值"},{"icon":"🙊","tag":"边界失守","title":"明知被越界，却怕撕破脸一句话没说","text":"忽略恶意不等于没有边界","quote":"🦅 搭子：讽刺可不回应，造谣必须处理"}]};
 function openSceneSheet() {
   document.getElementById('qaTitle').innerText = '💭 今天发生了什么？';
   document.getElementById('qaSub').innerText = '点一下 · 让搭子回应你 · 不计入打卡';
@@ -3748,7 +3769,7 @@ function openSceneFB(idx, type) {
 <script>/* coach-engine-uni-v1 */
 (function(){
 if(window.__ceuV1) return; window.__ceuV1=true;
-var CFG={"coach": "主体性修炼教练", "fallback": ["#e53935", "#b71c1c"], "qs": ["最近一次「别人说什么你就照做」的时刻是什么？你其实想要什么？", "哪个场合你会紧张、下意识讨好或退让？当时身体是什么反应？", "如果完全按自己的判断来，你最怕失去什么？", "你人生里哪件事其实一直是你自己扛下来的？这说明你有什么能力？", "下周，你可以在哪件小事上明确说一次「不」？"], "acts": ["每天记录一次「我本来想说X，我说了Y」——找回自己的声音", "练习3秒法则：被要求做事时先停3秒再答应", "每周做一件「纯粹因为自己想做」的事"], "acks": ["收到。说得越具体，后面的拆解就越准——我们继续往下走。", "明白，这个信息很关键。我们再挖一层。", "嗯，这个回答里藏着你的真实卡点。继续。", "好，最后一个问题——把它落到行动上。"], "accent": "#a67c00", "accent2": "#6b5509", "tint": "#a67c001f"};
+var CFG={"coach":"主体性修炼教练","fallback":["#e53935","#b71c1c"],"qs":["最近一次「别人说什么你就照做」的时刻是什么？你其实想要什么？","哪个场合你会紧张、下意识讨好或退让？当时身体是什么反应？","如果完全按自己的判断来，你最怕失去什么？","你人生里哪件事其实一直是你自己扛下来的？这说明你有什么能力？","下周，你可以在哪件小事上明确说一次「不」？","最近一次被恶意评价后，你的注意力被它占用了多久？下次怎样提前止损？"],"acts":["每天记录一次「我本来想说X，我说了Y」——找回自己的声音","练习3秒法则：被要求做事时先停3秒再答应","每周做一件「纯粹因为自己想做」的事","遇到恶意当天写三行：他说了什么 · 哪些是事实 · 我丢掉哪些","对一次贴标签式评价练习不回应，观察 24 小时后的真实影响"],"acks":["收到。说得越具体，后面的拆解就越准——我们继续往下走。","明白，这个信息很关键。我们再挖一层。","嗯，这个回答里藏着你的真实卡点。继续。","好，最后一个问题——把它落到行动上。"],"accent":"#a67c00","accent2":"#6b5509","tint":"#a67c001f"};
 var st={q:0,ans:[],busy:false};
 function el(id){return document.getElementById(id);}
 function show(e,d){if(e)e.style.display=d;}
@@ -3839,7 +3860,7 @@ if(_ci && !_ci.dataset.ceuEnter){ _ci.dataset.ceuEnter='1'; _ci.addEventListener
 <script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
 (function(){
 if(window.__uxpV1) return; window.__uxpV1=true;
-var CFG={"accent": "#a67c00", "mood": {"happy": {"tag": "高能时刻", "t": "把好状态用于「公开一次自己的观点」", "d": "主体性是在一次次表达里长出来的。趁今天状态好，在一个你平时会沉默的场合说出自己的判断，并给出一层依据。说错了也没关系——敢署名自己的观点，本身就是主体性的肌肉训练。"}, "neutral": {"tag": "平稳时刻", "t": "先独立想 30 秒", "d": "今天的练习：任何结论进来，先停 30 秒，问自己「我的答案是什么」，再看别人的。这 30 秒就是你大脑的自主权。坚持一周，你会发现自己的观点开始有形状了。"}, "sad": {"tag": "低落时刻", "t": "情绪低落时，更要分清「我的课题」和「别人的课题」", "d": "很多低落来自把别人的评价当成了自己的答案。今天做一个区分练习：写下难过的事，标注「这是我可控的」还是「这是别人的课题」。把别人的课题还给别人，你会轻一大截。"}, "tired": {"tag": "疲惫时刻", "t": "累了也要守住的一条线：不为合群而同意", "d": "疲惫时最容易随大流，因为反对需要能量。今天给自己一条最低底线：哪怕只说一句「我先想想」，也不轻易点头。主体性不是天天战斗，是在最累的时候也不把方向盘交出去。"}}, "k3store": "buddy_key3_zhuti", "k3": [{"icon": "🧭", "title": "先独立想 30 秒", "sub": "对任何结论，先有自己的答案再看别人的", "why": "先想 30 秒再听别人的——这 30 秒就是你大脑的独立宣言。每天练一次，观点的肌肉就会长出来。"}, {"icon": "✍️", "title": "写下 1 条「我自己的观点」", "sub": "有依据才算数", "why": "有依据的观点才算自己的。今天写下的这一条，就是你不再人云亦云的证据。"}, {"icon": "🚫", "title": "拒绝一次随大流", "sub": "先问「依据是什么」，再决定改不改", "why": "拒绝随大流不是叛逆，是校准。每次先问「依据是什么」，你的判断系统就多了一次自我升级。"}]};
+var CFG={"accent":"#a67c00","mood":{"happy":{"tag":"高能时刻","t":"把好状态用于「公开一次自己的观点」","d":"主体性是在一次次表达里长出来的。趁今天状态好，在一个你平时会沉默的场合说出自己的判断，并给出一层依据。说错了也没关系——敢署名自己的观点，本身就是主体性的肌肉训练。"},"neutral":{"tag":"平稳时刻","t":"先独立想 30 秒","d":"今天的练习：任何结论进来，先停 30 秒，问自己「我的答案是什么」，再看别人的。这 30 秒就是你大脑的自主权。坚持一周，你会发现自己的观点开始有形状了。"},"sad":{"tag":"低落时刻","t":"情绪低落时，更要分清「我的课题」和「别人的课题」","d":"很多低落来自把别人的评价当成了自己的答案。今天做一个区分练习：写下难过的事，标注「这是我可控的」还是「这是别人的课题」。把别人的课题还给别人，你会轻一大截。"},"tired":{"tag":"疲惫时刻","t":"累了也要守住的一条线：不为合群而同意","d":"疲惫时最容易随大流，因为反对需要能量。今天给自己一条最低底线：哪怕只说一句「我先想想」，也不轻易点头。主体性不是天天战斗，是在最累的时候也不把方向盘交出去。"}},"k3store":"buddy_key3_zhuti","k3":[{"icon":"🧭","title":"先独立想 30 秒","sub":"对任何结论，先有自己的答案再看别人的","why":"先想 30 秒再听别人的——这 30 秒就是你大脑的独立宣言。每天练一次，观点的肌肉就会长出来。"},{"icon":"✍️","title":"写下 1 条「我自己的观点」","sub":"有依据才算数","why":"有依据的观点才算自己的。今天写下的这一条，就是你不再人云亦云的证据。"},{"icon":"🚫","title":"拒绝一次随大流","sub":"先问「依据是什么」，再决定改不改","why":"拒绝随大流不是叛逆，是校准。每次先问「依据是什么」，你的判断系统就多了一次自我升级。"},{"icon":"🤐","title":"停止自证一次","sub":"被贴标签时只回应事实，不解释人格","why":"你刚刚把评价权拿了回来。被贴标签时不解释，不是心虚，而是清楚：有事实回应事实，标签不必接。省下来的解释时间和心力，都是你的主体性红利。"},{"icon":"🔍","title":"拆一条「攻击里的信息」","sub":"丢掉情绪，留下有用的部分","why":"你做了高手才做的事：把情绪和内容分开。有用的部分你留下，攻击的部分你丢掉——从此别人的态度，再也包不住你该拿走的价值。"},{"icon":"🎯","title":"收回注意力 30 分钟","sub":"从「他怎么看我」回到自己的事上","why":"你刚刚为自己赎回了最贵的资产——注意力。花在「他怎么看我」上的时间越少，你在自己人生里占的股份就越多。继续把精力还给真正值得的事。"}]};
 var ACC=CFG.accent||'#e05a7a';
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 var ov=null;
@@ -3931,5 +3952,53 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
 }
 })();
 </script>
+
+<!-- 🛡️ 面对恶意弹窗（document级） -->
+<div id="maliceOverlay" onclick="if(event.target===this)closeMalice()" style="display:none;position:fixed;inset:0;z-index:100300;background:rgba(0,0,0,0.55);align-items:center;justify-content:center;padding:18px;">
+  <div style="background:#1c1a17;border-radius:20px;max-width:420px;width:100%;max-height:78vh;overflow-y:auto;padding:18px 16px;position:relative;animation:malicePop .22s ease;">
+    <span onclick="closeMalice()" id="maliceCloseX" style="position:absolute;top:10px;right:14px;font-size:20px;color:#b8ac93;cursor:pointer;line-height:1;">✕</span>
+    <div style="font-size:16px;font-weight:700;color:#f0e6d2;padding-right:28px;">🛡️ 面对恶意 · 强者 6 心法</div>
+    <div style="font-size:11px;color:#d4af37;margin:4px 0 12px;">「真正的自由，不是让别人不再攻击你，而是你不再被他们的看法控制。」—— 爱比克泰德</div>
+    <div id="maliceList"></div>
+    <div style="text-align:center;margin-top:12px;"><span onclick="closeMalice()" style="display:inline-block;background:#d4af37;color:#1c1a17;font-weight:700;font-size:13px;border-radius:24px;padding:9px 34px;cursor:pointer;">我知道了</span></div>
+  </div>
+</div>
+<style>@keyframes malicePop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}</style>
+<script>
+var MALICE6 = [
+  { icon: "🤐", t: "1. 停止自证", d: "别人说你自私，不必拼命证明善良；被质疑，也不必把前因后果解释一遍。你一急着解释，就把评价自己的权力交给了对方。", p: "有事实，就处理事实；只有标签，就不必反复解释。承认一次错误 ≠ 接受对整个人的否定；拒绝人格羞辱 ≠ 拒绝合理批评。", act: "练习：被贴标签时只回应事实一句话，然后闭嘴，观察 24 小时其实什么都没发生。" },
+  { icon: "🔍", t: "2. 区分攻击和信息", d: "攻击可以丢掉，信息可以留下。态度差不代表内容没价值，态度好也不代表观点正确——高手不看包装，只看信息是否有用。", p: "刺耳不一定危险，客气不一定无害。回应的力度，看现实影响：可能误导重要他人的指控要用事实澄清；澄清是为了解决问题，不是让对方认输。", act: "练习：听到难听话先写三行——他说的哪件是真的？需要纠正什么？其余的直接丢掉。" },
+  { icon: "🎭", t: "3. 别把恶意人格化", d: "很多攻击源于对方自己的匮乏、嫉妒、焦虑和控制欲。你只是恰好站在了他的情绪出口上。", p: "别把别人的内在问题，解释成自己的价值问题。你不需要证明对方心怀恶意，才有资格拒绝越界。", act: "练习：被攻击时默念一句「这是他的出口，不是我的考题」，然后把注意力放回手头的事。" },
+  { icon: "🎯", t: "4. 控制注意力", d: "一次攻击可能只有几分钟，但很多人会用三天五天在脑子里继续伤害自己。注意力是成年人最贵的心理资产。", p: "谁不值得占据你，就别让谁长期住进你的脑子。把精力逐步还给工作、家人和真正想做的事——你的人生不需要他的观众。", act: "练习：发现自己在脑内回放难听话时，立刻给自己设 30 分钟「注意力赎回」：去做一件具体的事。" },
+  { icon: "🛡️", t: "5. 该反击时就反击", d: "忽略恶意不等于没有边界。讽刺、阴阳怪气可以不回应；但造谣、羞辱、欺骗、破坏名誉，一定要处理。", p: "边界不是脾气大，而是让伤害你的人知道：伤害你是有成本的。用行动表达边界——继续人身攻击，我会结束谈话；反复越界，我会减少接触。力量悬殊时更要讲策略：找支持、留记录、备退路。边界需要持续执行，一次妥协只会招来更多试探。", act: "练习：写下你的 3 条底线（哪些话不能说、哪些行为不能接受），越界一次就执行一次后果。" },
+  { icon: "🕊️", t: "6. 无须胜过", d: "真正高级的胜利，不是吵赢别人、让所有人承认你是对的，而是对方已经无法影响你的人生方向。", p: "他讨厌你，你依然做自己的事；他否定你，你依然持续成长。允许自己受伤也继续生活：接纳情绪而不压抑，给自己修复时间，从经历里提取成长。允许别人不喜欢你，但不要因为别人的不喜欢开始怀疑自己。", act: "练习：每天做一个主动选择（读什么、做什么、见什么人）——每一个微小的选择，都在强化你的自主权。" }
+];
+function openMalice(idx){
+  var ov = document.getElementById("maliceOverlay");
+  var box = document.getElementById("maliceList");
+  box.innerHTML = MALICE6.map(function(m,i){
+    var hl = (typeof idx === "number" && idx === i);
+    return '<div style="background:'+ (hl ? "#3a3223" : "#26221c") +';border:'+(hl?'1px solid #d4af37':'1px solid transparent')+';border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
+      + '<div style="font-size:14px;font-weight:700;color:#d4af37;">'+m.icon+' '+m.t+'</div>'
+      + '<div style="font-size:12.5px;color:#f0e6d2;line-height:1.7;margin-top:6px;">'+m.d+'</div>'
+      + '<div style="font-size:12px;color:#c9bda3;line-height:1.7;margin-top:6px;">'+m.p+'</div>'
+      + '<div style="font-size:11.5px;color:#8fbf8f;line-height:1.6;margin-top:8px;background:#20261e;border-radius:8px;padding:7px 10px;">🌱 内化练习：'+m.act.replace(/^练习：/,"")+'</div>'
+      + '</div>';
+  }).join("");
+  ov.style.display = "flex";
+  if (typeof idx === "number") {
+    var cards = box.children;
+    if (cards[idx]) setTimeout(function(){ cards[idx].scrollIntoView({block:"start",behavior:"smooth"}); }, 60);
+  } else {
+    box.scrollTop = 0; ov.querySelector("div").scrollTop = 0;
+  }
+}
+function closeMalice(){
+  var ov = document.getElementById("maliceOverlay");
+  if (ov) ov.style.display = "none";
+}
+window.openMalice = openMalice; window.closeMalice = closeMalice;
+</script>
+
 </body>
 </html>
