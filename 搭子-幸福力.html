@@ -3630,7 +3630,7 @@ function openSceneFB(idx, type) {
 }
 </script>
 
-<script>/* cc-enhance-v1 教练卡逐条确认 */
+<script>/* cc-enhance-v2 教练卡逐条确认（结构化反馈卡） */
 (function(){
   if (window.__ccEnhanced) return; window.__ccEnhanced = 1;
   var PREFIX = '搭子-幸福力';
@@ -3639,15 +3639,48 @@ function openSceneFB(idx, type) {
   try { state = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch(e) { state = {}; }
   function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){} }
   function hash(t){ var h = 0; for (var i = 0; i < t.length; i++) { h = (h * 31 + t.charCodeAt(i)) | 0; } return 'h' + (h >>> 0).toString(36); }
-  window.ccToast = function(msg){
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  var DEFAULT_FB = [
+    ['🧠 认知 · 为什么记住它', '你把这句话存进教练卡，说明你正在把它从「听过的道理」升级成「准备执行的规则」——记住一条、用上一条，比收藏十条有用。'],
+    ['🎯 行为 · 具体怎么做', '下次出现这句话描述的场景，直接照做一次：只做这一次，不求永远、不求完美。'],
+    ['⚠️ 易错点', '最常见的失败方式是「看过多遍、一次都没用」——把它当收藏，而不是当规则。'],
+    ['🔧 怎么调整', '给它一个触发锚点（时间 / 地点 / 关键词），晚上花 10 秒回顾：今天用上了吗？没用上，明天只提醒自己这一条。']
+  ];
+  function fbFor(txt){
+    var map = window.__CC_FB;
+    if (map) { for (var i = 0; i < map.length; i++) { if (txt.indexOf(map[i][0]) >= 0) return map[i][1]; } }
+    return DEFAULT_FB;
+  }
+  function miniToast(msg){
     var t = document.getElementById('ccToast');
-    if (!t) {
-      t = document.createElement('div'); t.id = 'ccToast';
-      t.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
-      document.body.appendChild(t);
-    }
+    if (!t) { t = document.createElement('div'); t.id = 'ccToast'; t.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:100601;transition:opacity .25s;pointer-events:none;max-width:80vw;text-align:center;'; document.body.appendChild(t); }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1600);
+  }
+  window.ccToast = function(on, txt){
+    if (!on) { miniToast('已取消确认'); return; }
+    var ov = document.getElementById('ccFbOverlay');
+    if (!ov) {
+      ov = document.createElement('div'); ov.id = 'ccFbOverlay';
+      ov.style.cssText = 'position:fixed;inset:0;z-index:100600;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:24px;';
+      ov.addEventListener('click', function(e){ if (e.target === ov) ov.style.display = 'none'; });
+      document.body.appendChild(ov);
+    }
+    var short = txt.length > 72 ? txt.slice(0, 72) + '…' : txt;
+    var secs = fbFor(txt).map(function(x){ return '<div style="background:#f6f5f2;border-radius:12px;padding:9px 12px;margin-bottom:8px;">'
+      + '<div style="font-size:11.5px;font-weight:800;color:#607d8b;margin-bottom:3px;">' + x[0] + '</div>'
+      + '<div style="font-size:12.5px;color:#444;line-height:1.75;">' + x[1] + '</div></div>'; }).join('');
+    ov.innerHTML = '<div style="background:#fffdf7;border-radius:20px;max-width:400px;width:100%;max-height:78vh;overflow-y:auto;padding:18px 16px;animation:ccPop .2s ease;">'
+      + '<div style="text-align:center;font-size:34px;margin-bottom:4px;">👍</div>'
+      + '<div style="text-align:center;font-size:16px;font-weight:800;color:#333;">已记住</div>'
+      + '<div style="text-align:center;font-size:11px;color:#8f9eae;margin:4px 0 12px;">说出来才算真的懂 · 下次遇到这个场景，先想起它</div>'
+      + '<div style="background:#fff6e0;border:1px dashed #cbb87e;border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:13px;color:#5a4408;line-height:1.7;font-weight:600;">📌 ' + esc(short) + '</div>'
+      + secs
+      + '<button id="ccFbOk" style="width:100%;border:none;border-radius:22px;padding:12px;font-size:14px;font-weight:700;color:#fff;background:#455a64;cursor:pointer;margin-top:2px;">记上了 ✅</button>'
+      + '</div>';
+    ov.style.display = 'flex';
+    var ok = document.getElementById('ccFbOk');
+    if (ok) ok.onclick = function(){ ov.style.display = 'none'; };
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -3691,16 +3724,16 @@ function openSceneFB(idx, type) {
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
-    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
-    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
+    var cctx = ''; try { var cct = row.querySelector('.cc-txt'); if (cct) cctx = cct.textContent.trim().replace(/\s+/g, ' '); } catch(e) {}
+    try { ccToast(on, cctx); } catch(e) {}
   }, true);
   var css = document.createElement('style');
-  css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
+  css.textContent = '@keyframes ccPop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}'
+    + '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
     + '.cc-row:last-child{border-bottom:none;}'
     + '.cc-txt{flex:1;min-width:0;font-size:13px;line-height:1.7;color:#37474f;}'
     + '.cc-row.done .cc-txt{color:#b6b6b6;text-decoration:line-through;}'
-    + '.cc-chip{flex-shrink:0;font-size:11px;padding:3px 9px;border-radius:12px;border:1.5px solid #dcdcdc;color:#909090;cursor:pointer;user-select:none;white-space:nowrap;margin-top:2px;transition:all .15s;}'
+    + '.cc-chip{flex-shrink:0;font-size:11px;padding:3px 9px;border-radius:12px;border:1.5px solid #dcdcdc;color:#909090;cursor:pointer;user-select:none;white-space:nowrap;margin-top:1px;}'
     + '.cc-chip:active{transform:scale(.94);}'
     + '.cc-chip.on{background:#eaf7ea;border-color:#54b26a;color:#2e7d32;font-weight:700;}';
   document.head.appendChild(css);

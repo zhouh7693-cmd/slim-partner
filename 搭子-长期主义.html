@@ -274,6 +274,15 @@
     .qa-check-btn:active { transform: scale(0.96); }
     .qa-check-btn.yes-checked { background: #66bb6a; color: white; border-color: #66bb6a; }
     .qa-check-btn.no-checked { background: #ef5350; color: white; border-color: #ef5350; }
+    .sop-item { background: #f8f9fa; border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; }
+    .sop-item.sop-item-yes { background: #e8f5e9; border: 1px solid #a5d6a7; }
+    .sop-item.sop-item-no { background: #fff3f3; border: 1px solid #ffcdd2; }
+    .sop-item-text { flex: 1; font-size: 14px; color: #5a4408; line-height: 1.4; margin-right: 12px; }
+    .sop-item-btns { display: flex; gap: 6px; flex-shrink: 0; }
+    .sop-check-btn { padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #d0d8e0; background: white; color: #8f9eae; transition: all 0.15s; display: flex; align-items: center; gap: 3px; }
+    .sop-check-btn:active { transform: scale(0.95); }
+    .sop-check-btn.yes-checked { background: #43a047; color: white; border-color: #43a047; }
+    .sop-check-btn.no-checked { background: #ef5350; color: white; border-color: #ef5350; }
 
     .sop-tip { background: #fff9e6; border-radius: 16px; padding: 14px 16px; margin-bottom: 16px; border: 1px solid #ffe599; }
     .sop-tip-title { font-size: 13px; font-weight: 700; color: #b8860b; margin-bottom: 6px; }
@@ -3268,20 +3277,23 @@ const HARD_RULES = [
 (function initHardRules() {
   const list = document.getElementById('hrList');
   if (!list) return;
-  const state = getHardRules();
   const render = () => {
+    const st = getHardRules();
     let cnt = 0;
     list.innerHTML = HARD_RULES.map((text, i) => {
-      const done = state[i] === true;
+      const done = st[i] === true;
       if (done) cnt++;
       return `<div class="hr-item ${done ? 'done' : ''}" onclick="toggleHR(${i})"><span class="hr-box">${done ? '☑' : '☐'}</span>${text}</div>`;
     }).join('') + `<div style="margin-top:8px;font-size:11px;color:#8b6914;text-align:right;">我已同意 <span class="hr-cnt">${cnt}</span>/${HARD_RULES.length} 条原则</div>`;
   };
   window.toggleHR = function(i) {
-    const s = getHardRules();
-    s[i] = !s[i];
-    saveHardRules(s);
+    const st = getHardRules();
+    st[i] = !st[i];
+    saveHardRules(st);
     render();
+    try {
+      if (typeof showToast === 'function') showToast(st[i] ? ('✅ 已记下第 ' + (i + 1) + ' 条原则——说出来才算真的懂') : ('已取消第 ' + (i + 1) + ' 条原则'));
+    } catch (e) {}
   };
   render();
 })();
@@ -3367,7 +3379,7 @@ if (!localStorage.getItem(OB_KEY) && !localStorage.getItem(STORAGE.PARTNER)) {
 
 
 
-<script>/* cc-enhance-v1 教练卡逐条确认 */
+<script>/* cc-enhance-v2 教练卡逐条确认（结构化反馈卡） */
 (function(){
   if (window.__ccEnhanced) return; window.__ccEnhanced = 1;
   var PREFIX = '搭子-长期主义';
@@ -3376,15 +3388,48 @@ if (!localStorage.getItem(OB_KEY) && !localStorage.getItem(STORAGE.PARTNER)) {
   try { state = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch(e) { state = {}; }
   function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){} }
   function hash(t){ var h = 0; for (var i = 0; i < t.length; i++) { h = (h * 31 + t.charCodeAt(i)) | 0; } return 'h' + (h >>> 0).toString(36); }
-  window.ccToast = function(msg){
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  var DEFAULT_FB = [
+    ['🧠 认知 · 为什么记住它', '你把这句话存进教练卡，说明你正在把它从「听过的道理」升级成「准备执行的规则」——记住一条、用上一条，比收藏十条有用。'],
+    ['🎯 行为 · 具体怎么做', '下次出现这句话描述的场景，直接照做一次：只做这一次，不求永远、不求完美。'],
+    ['⚠️ 易错点', '最常见的失败方式是「看过多遍、一次都没用」——把它当收藏，而不是当规则。'],
+    ['🔧 怎么调整', '给它一个触发锚点（时间 / 地点 / 关键词），晚上花 10 秒回顾：今天用上了吗？没用上，明天只提醒自己这一条。']
+  ];
+  function fbFor(txt){
+    var map = window.__CC_FB;
+    if (map) { for (var i = 0; i < map.length; i++) { if (txt.indexOf(map[i][0]) >= 0) return map[i][1]; } }
+    return DEFAULT_FB;
+  }
+  function miniToast(msg){
     var t = document.getElementById('ccToast');
-    if (!t) {
-      t = document.createElement('div'); t.id = 'ccToast';
-      t.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:99999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:82%;text-align:center;';
-      document.body.appendChild(t);
-    }
+    if (!t) { t = document.createElement('div'); t.id = 'ccToast'; t.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(30,30,30,.88);color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;z-index:100601;transition:opacity .25s;pointer-events:none;max-width:80vw;text-align:center;'; document.body.appendChild(t); }
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 3200);
+    clearTimeout(t._tm); t._tm = setTimeout(function(){ t.style.opacity = '0'; }, 1600);
+  }
+  window.ccToast = function(on, txt){
+    if (!on) { miniToast('已取消确认'); return; }
+    var ov = document.getElementById('ccFbOverlay');
+    if (!ov) {
+      ov = document.createElement('div'); ov.id = 'ccFbOverlay';
+      ov.style.cssText = 'position:fixed;inset:0;z-index:100600;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:24px;';
+      ov.addEventListener('click', function(e){ if (e.target === ov) ov.style.display = 'none'; });
+      document.body.appendChild(ov);
+    }
+    var short = txt.length > 72 ? txt.slice(0, 72) + '…' : txt;
+    var secs = fbFor(txt).map(function(x){ return '<div style="background:#f6f5f2;border-radius:12px;padding:9px 12px;margin-bottom:8px;">'
+      + '<div style="font-size:11.5px;font-weight:800;color:#607d8b;margin-bottom:3px;">' + x[0] + '</div>'
+      + '<div style="font-size:12.5px;color:#444;line-height:1.75;">' + x[1] + '</div></div>'; }).join('');
+    ov.innerHTML = '<div style="background:#fffdf7;border-radius:20px;max-width:400px;width:100%;max-height:78vh;overflow-y:auto;padding:18px 16px;animation:ccPop .2s ease;">'
+      + '<div style="text-align:center;font-size:34px;margin-bottom:4px;">👍</div>'
+      + '<div style="text-align:center;font-size:16px;font-weight:800;color:#333;">已记住</div>'
+      + '<div style="text-align:center;font-size:11px;color:#8f9eae;margin:4px 0 12px;">说出来才算真的懂 · 下次遇到这个场景，先想起它</div>'
+      + '<div style="background:#fff6e0;border:1px dashed #cbb87e;border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:13px;color:#5a4408;line-height:1.7;font-weight:600;">📌 ' + esc(short) + '</div>'
+      + secs
+      + '<button id="ccFbOk" style="width:100%;border:none;border-radius:22px;padding:12px;font-size:14px;font-weight:700;color:#fff;background:#455a64;cursor:pointer;margin-top:2px;">记上了 ✅</button>'
+      + '</div>';
+    ov.style.display = 'flex';
+    var ok = document.getElementById('ccFbOk');
+    if (ok) ok.onclick = function(){ ov.style.display = 'none'; };
   };
   function apply(body){
     if (body.getAttribute('data-cc-done')) return;
@@ -3428,16 +3473,16 @@ if (!localStorage.getItem(OB_KEY) && !localStorage.getItem(STORAGE.PARTNER)) {
     if (row) row.classList.toggle('done', on);
     el.classList.toggle('on', on);
     el.innerHTML = on ? '\u2713 已记住' : '标记记住';
-    var cctx=''; try{ var cct=row.querySelector('.cc-txt'); if(cct) cctx=cct.textContent.trim().replace(/\s+/g,' '); }catch(e){}
-    if(cctx.length>40) cctx=cctx.slice(0,40)+'…';
-    ccToast(on ? ('👍 已记住「'+cctx+'」——说出来才算真的懂，下次遇到这个场景，先想起它') : '已取消确认');
+    var cctx = ''; try { var cct = row.querySelector('.cc-txt'); if (cct) cctx = cct.textContent.trim().replace(/\s+/g, ' '); } catch(e) {}
+    try { ccToast(on, cctx); } catch(e) {}
   }, true);
   var css = document.createElement('style');
-  css.textContent = '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
+  css.textContent = '@keyframes ccPop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}'
+    + '.cc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 2px;border-bottom:1px dashed #f0f0f0;}'
     + '.cc-row:last-child{border-bottom:none;}'
     + '.cc-txt{flex:1;min-width:0;font-size:13px;line-height:1.7;color:#37474f;}'
     + '.cc-row.done .cc-txt{color:#b6b6b6;text-decoration:line-through;}'
-    + '.cc-chip{flex-shrink:0;font-size:11px;padding:3px 9px;border-radius:12px;border:1.5px solid #dcdcdc;color:#909090;cursor:pointer;user-select:none;white-space:nowrap;margin-top:2px;transition:all .15s;}'
+    + '.cc-chip{flex-shrink:0;font-size:11px;padding:3px 9px;border-radius:12px;border:1.5px solid #dcdcdc;color:#909090;cursor:pointer;user-select:none;white-space:nowrap;margin-top:1px;}'
     + '.cc-chip:active{transform:scale(.94);}'
     + '.cc-chip.on{background:#eaf7ea;border-color:#54b26a;color:#2e7d32;font-weight:700;}';
   document.head.appendChild(css);
@@ -3555,7 +3600,7 @@ q.addEventListener('click',function(e){if(e.target===q){try{closeQAPanel();}catc
 <div id="corpOverlay" onclick="if(event.target===this)closeCorp()" style="display:none;position:fixed;inset:0;z-index:100300;background:rgba(0,0,0,0.55);align-items:center;justify-content:center;padding:18px;">
   <div style="background:#fffdf7;border-radius:20px;max-width:420px;width:100%;max-height:80vh;overflow-y:auto;padding:18px 16px;position:relative;animation:corpPop .22s ease;">
     <span onclick="closeCorp()" id="corpCloseX" style="position:absolute;top:10px;right:14px;font-size:20px;color:#b8ac93;cursor:pointer;line-height:1;">✕</span>
-    <div style="display:flex;gap:6px;margin-bottom:12px;">
+    <div style="display:flex;gap:6px;margin-bottom:12px;padding-right:26px;">
       <span onclick="openCorp('mod')" id="corpTabMod" class="corp-tab" style="flex:1;text-align:center;font-size:12px;font-weight:700;padding:8px 0;border-radius:12px;cursor:pointer;background:#92400e;color:#fff;">🏢 公司 9 模块</span>
       <span onclick="openCorp('agent')" id="corpTabAgent" class="corp-tab" style="flex:1;text-align:center;font-size:12px;font-weight:700;padding:8px 0;border-radius:12px;cursor:pointer;background:#f2e8d5;color:#8b6914;">🤖 Agent 化三步</span>
       <span onclick="openCorp('sys')" id="corpTabSys" class="corp-tab" style="flex:1;text-align:center;font-size:12px;font-weight:700;padding:8px 0;border-radius:12px;cursor:pointer;background:#f2e8d5;color:#8b6914;">💻 个人操作系统</span>
@@ -3564,61 +3609,76 @@ q.addEventListener('click',function(e){if(e.target===q){try{closeQAPanel();}catc
     <div style="text-align:center;margin-top:12px;"><span onclick="closeCorp()" style="display:inline-block;background:#92400e;color:#fff;font-weight:700;font-size:13px;border-radius:24px;padding:9px 34px;cursor:pointer;">我知道了</span></div>
   </div>
 </div>
-<style>@keyframes corpPop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}</style>
+<style>@keyframes corpPop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}.corp-item{background:#faf6ee;border-radius:14px;padding:11px 13px;margin-bottom:8px;cursor:pointer;transition:all .15s;}.corp-item:active{transform:scale(.985);}.corp-head{display:flex;align-items:center;justify-content:space-between;}.corp-arrow{color:#c2b28a;font-size:12px;transition:transform .2s;flex-shrink:0;margin-left:8px;}.corp-item.open .corp-arrow{transform:rotate(180deg);}.corp-detail{display:none;margin-top:8px;border-top:1px dashed #e6d9b8;padding-top:8px;}.corp-item.open .corp-detail{display:block;}.corp-item.open{background:#f5edda;}</style>
 <script>
 var CORP9 = [
-  { icon: "🧬", t: "核心资源", q: "我是一个什么样的人？我可以持续精进的核心能力是什么？" },
-  { icon: "🛠️", t: "关键业务", q: "我做事的核心优势是什么？什么事情别人愿意付费请我来做？" },
-  { icon: "👥", t: "客户群体", q: "我想和什么样的人同行？我能为身边和职场里的人带来什么？" },
-  { icon: "💎", t: "价值服务", q: "我可以解决哪些实际问题？我能提供专业价值，还是陪伴支持？" },
-  { icon: "📣", t: "渠道通路", q: "别人如何认识我？日常社交和线上平台是否持续输出价值？" },
-  { icon: "🤝", t: "客户关系", q: "如何真诚待人、守住口碑？如何把短期交集变成长久的良性关系？" },
-  { icon: "🌉", t: "重要合作", q: "哪些良师益友值得长期相伴？哪些资源值得长期经营？" },
-  { icon: "⚖️", t: "成本结构", q: "我的精力和资金主要消耗在哪里？哪些真正值得投入？" },
-  { icon: "💰", t: "收入来源", q: "除主业之外，还有哪些能力可以变现？" }
+  { icon: "🧬", t: "核心资源", q: "我是一个什么样的人？我可以持续精进的核心能力是什么？", cog: "你能交换的价值，底层是你这个人：精力、专业、判断力。资产不盘点，就永远不知道自己手里有什么。", act: "列出你最重要的 3 项核心能力，每项配一个「最近一次被用到」的例子，每季度更新一次。", err: "只盯着职位头衔，忽略了可迁移的能力和精力资产。", fix: "每季度做一次「个人资产负债表」：能力 / 精力 / 人脉各写 3 条。" },
+  { icon: "🛠️", t: "关键业务", q: "我做事的核心优势是什么？什么事情别人愿意付费请我来做？", cog: "别人付费买的是「确定的结果」，不是你的忙碌。关键业务 = 你做得最好 × 别人最需要的那块交集。", act: "写下 1 件「别人愿意反复找你做」的事，把它从偶然接活变成固定服务。", err: "什么都想做，导致没有一项拿得出手的代表作。", fix: "砍到只剩 1-2 项主业务，其余降级为「可转介绍」。" },
+  { icon: "👥", t: "客户群体", q: "我想和什么样的人同行？我能为身边和职场里的人带来什么？", cog: "不是所有人都是你的客户；服务所有人 = 服务不好任何人。", act: "用一句话写出你想服务的人（谁 + 什么场景 + 什么痛点），放在自己每天能看到的地方。", err: "哪里有人去哪里，没有筛选，被低质量关系持续消耗。", fix: "写出 3 个「理想客户」画像，不符合的礼貌放手。" },
+  { icon: "💎", t: "价值服务", q: "我可以解决哪些实际问题？我能提供专业价值，还是陪伴支持？", cog: "价值 = 解决真问题。专业价值让人付费，陪伴支持让人留下，两者都值钱。", act: "把最近一次帮别人解决的事，写成一行「问题 → 结果」，攒进个人案例库。", err: "用时长证明价值（我很辛苦），而不是用结果（我解决了什么）。", fix: "每次交付完，当天补一行案例记录——积累 10 条就是你的价目表。" },
+  { icon: "📣", t: "渠道通路", q: "别人如何认识我？日常社交和线上平台是否持续输出价值？", cog: "酒香也怕巷子深：在别人认识你之前，你的能力对他而言不存在。", act: "本周在一个你常出没的地方（群 / 朋友圈 / 平台）输出 1 条对别人有用的内容。", err: "三分钟热度：平台和形式换来换去，哪个都没有沉淀。", fix: "选定 1 个主阵地，固定节奏更新（哪怕一周 1 条），先跑满 8 周。" },
+  { icon: "🤝", t: "客户关系", q: "如何真诚待人、守住口碑？如何把短期交集变成长久的良性关系？", cog: "复利不只发生在钱上，也发生在信任上。口碑是最便宜的获客渠道。", act: "今天真诚地帮一个人，不图即时回报；承诺过的事当天兑现。", err: "只在需要帮忙时才联系——关系会变成提款机。", fix: "每周真诚帮 1 个人 / 联系 1 位老朋友，不提任何请求。" },
+  { icon: "🌉", t: "重要合作", q: "哪些良师益友值得长期相伴？哪些资源值得长期经营？", cog: "一个人的天花板，是他身边人的平均值 + 他能调动的资源。", act: "列出 3 位值得长期相伴的良师益友，本月内各主动联系一次。", err: "把「认识」当「合作」：通讯录很厚，能调动的很少。", fix: "从通讯录挑 3 位深化，本月内各约一次深度交流。" },
+  { icon: "⚖️", t: "成本结构", q: "我的精力和资金主要消耗在哪里？哪些真正值得投入？", cog: "精力是比钱更稀缺的资本；不记账的支出，必然漏损。", act: "记录今天最大的一笔精力消耗，判断它值不值；不值就设计一个减法。", err: "只记钱的账，不记精力的账——累垮了才发现超支。", fix: "每晚标出「最亏的一笔精力支出」，第二天落实减法。" },
+  { icon: "💰", t: "收入来源", q: "除主业之外，还有哪些能力可以变现？", cog: "单一收入 = 单点故障。变现通道越多，你越自由。", act: "写下主业外的 1 个可变现能力，给它定一个 7 天内可完成的最小交付（价格 + 交付物），先卖一次。", err: "主业一忙就搁置副线，永远停在「以后再说」。", fix: "给副线一个启动日：本周内完成第一次最小交付，哪怕只卖 1 份。" }
 ];
 var CORP_AGENT = [
-  { icon: "1️⃣", t: "定义你的接口", d: "问自己三个问题：我能稳定输出什么价值？客户给我什么输入，能得到什么输出？我的交付标准是什么？别说「我什么都能做」——Agent 最忌讳边界模糊。", act: "练习：写下一句话接口——「你给我 __，我交付 __，标准是 __」。" },
-  { icon: "2️⃣", t: "构建你的系统", d: "知识结构化：把经验变成可查询的数据库；流程标准化：把工作步骤变成 SOP；工具智能化：用 AI 放大每个环节的效率。", act: "练习：本周把一件重复的事写成 SOP，让第二次不再从零开始。" },
-  { icon: "3️⃣", t: "迭代你的版本", d: "Agent 不是一成不变的：收集用户反馈 → 优化工作流（算法）→ 扩展能力模块 → 发布新版本。", act: "练习：每周末给自己发一版「更新日志」——这周升级了什么。" }
+  { icon: "1️⃣", t: "定义你的接口", cog: "边界模糊是个人价值无法被「调用」的第一原因。接口清晰，别人才知道该为什么找你、怎么找你。", act: "写下一句话接口——「你给我 __，我交付 __，标准是 __」，并说给 1 个人听。", err: "说「我什么都能做」——别人反而不知道该为什么找你。", fix: "每次自我介绍只保留 1 个核心交付，其余全删。下次介绍前先检查。" },
+  { icon: "2️⃣", t: "构建你的系统", cog: "靠记忆和临场发挥的系统无法复用；只有沉淀下来的才叫资产。知识结构化 / 流程标准化 / 工具智能化，是系统的三大件。", act: "本周把一件重复的事写成 SOP，让第二次不再从零开始。", err: "第二次遇到同类任务，仍然从零开始手工做。", fix: "用「第二次规则」：第二次手工做，第三次必须模板化。设个提醒检查。" },
+  { icon: "3️⃣", t: "迭代你的版本", cog: "不迭代的系统会贬值：环境变了，旧流程会悄悄失效。收集反馈 → 优化工作流 → 扩展模块 → 发新版本。", act: "每周末给自己发一版「更新日志」：这周升级了什么、删掉了什么。", err: "收藏了一堆方法，却从不动手改自己的流程。", fix: "周日固定 15 分钟复盘，一条小改动也算发版——先跑起来再谈版本号。" }
 ];
 var CORP_SYS = [
-  { icon: "💾", t: "知识库 = 硬盘", d: "把经验、案例、方法沉淀成可查询的数据库，而不是散落在聊天记录里。" },
-  { icon: "⚙️", t: "工作流 = 操作系统", d: "传统的学习是往硬盘里存东西；Agent 化的核心，是升级你的操作系统。" },
-  { icon: "🧰", t: "AI 工具 = 应用程序", d: "不卖时间，卖结果；不是被动接活，而是主动定义服务；不是单线程，而是同时服务多个客户——从「出租车司机」变成「滴滴」。" },
-  { icon: "🖼️", t: "个人品牌 = 用户界面", d: "别人看到的是界面，支撑它的是背后的系统。把机械的部分交给 AI，创造的部分留给自己，用标准化的流程交付个性化的价值。" }
+  { icon: "💾", t: "知识库 = 硬盘", cog: "散落在聊天记录里的经验，等于没有备份的硬盘，随时丢失。把经验、案例、方法沉淀成可查询的数据库。", act: "今天记 1 条经验进同一个地方（笔记 / 表格），并写清「这条以后用在哪」。", err: "收藏 ≠ 知识库：躺在收藏夹里的文章，调用不了。", fix: "以后收藏任何东西时，强制写一句用途，再进统一的笔记库。" },
+  { icon: "⚙️", t: "工作流 = 操作系统", cog: "传统的学习是往硬盘里存东西；Agent 化的核心，是升级你的操作系统——流程比知识更杠杆。", act: "挑一个你最常做的流程，画成 3 步以内，下次照着跑，跑完迭代一版。", err: "流程只存在脑子里，每次靠记忆重演，走样了还不自知。", fix: "把最常做的流程写成 3 步清单放在手边，跑一周后对照修订。" },
+  { icon: "🧰", t: "AI 工具 = 应用程序", cog: "不卖时间，卖结果；不是被动接活，而是主动定义服务；不是单线程，而是同时服务多个客户——从「出租车司机」变成「滴滴」。", act: "今天把 1 件机械活交给 AI，你只做验收和拍板——体验一次「调度者」角色。", err: "把 AI 当全自动替身，产出不验收，错误直接出门。", fix: "定一条铁律：AI 做执行，你做拍板——每件 AI 产出过一眼再交付。" },
+  { icon: "🖼️", t: "个人品牌 = 用户界面", cog: "别人看到的是界面，支撑它的是背后的系统。把机械的部分交给 AI，创造的部分留给自己，用标准化的流程交付个性化的价值。", act: "更新一次对外介绍（签名 / 主页），让它说清「你给谁、交付什么」。", err: "界面包装过度、系统跟不上，交付撑不起介绍。", fix: "对外介绍比真实能力慢半拍，用每一次交付结果逐步更新界面。" }
 ];
-function openCorp(tab){
+function corpSec(k, v, color) {
+  return '<div style="background:#fff;border:1px solid #eee2c8;border-radius:10px;padding:8px 10px;margin-top:6px;">'
+    + '<div style="font-size:11px;font-weight:800;color:' + (color || '#8b6914') + ';margin-bottom:2px;">' + k + '</div>'
+    + '<div style="font-size:12px;color:#555;line-height:1.7;">' + v + '</div></div>';
+}
+function corpCard(m, i, withNum) {
+  var head = (withNum ? (i + 1) + '. ' : '') + m.icon + ' ' + m.t;
+  return '<div class="corp-item">'
+    + '<div class="corp-head"><span style="font-size:13.5px;font-weight:700;color:#92400e;">' + head + '</span><span class="corp-arrow">▾</span></div>'
+    + (m.q ? '<div style="font-size:12px;color:#555;line-height:1.75;margin-top:4px;">' + m.q + '</div>' : '')
+    + '<div class="corp-detail">'
+    + corpSec('🧠 认知 · 这是什么', m.cog)
+    + corpSec('🎯 行为 · 怎么做', m.act)
+    + corpSec('⚠️ 易错点', m.err, '#b3593a')
+    + corpSec('🔧 怎么调整', m.fix, '#3a6ea5')
+    + '</div></div>';
+}
+function corpHint() {
+  return '<div style="background:#fff6e0;border:1px dashed #d9c48a;border-radius:10px;padding:7px 10px;margin-bottom:10px;font-size:11.5px;color:#8b6914;font-weight:600;">👆 点每个卡片展开：🧠认知 · 🎯行为 · ⚠️易错点 · 🔧怎么调整</div>';
+}
+function openCorp(tab) {
   tab = tab || 'mod';
   var body = document.getElementById("corpBody");
   var tabs = { mod: "corpTabMod", agent: "corpTabAgent", sys: "corpTabSys" };
   for (var k in tabs) {
     var el = document.getElementById(tabs[k]);
-    if (el) el.style.cssText = "flex:1;text-align:center;font-size:12px;font-weight:700;padding:8px 0;border-radius:12px;cursor:pointer;" + (k === tab ? "background:#92400e;color:#fff;" : "background:#f2e8d5;color:#8b6914;");
+    if (el) el.style.cssText = "flex:1;text-align:center;font-size:12px;font-weight:700;padding:8px 0;border-radius:12px;cursor:pointer;" + (k === tab ? "background:#92400e;color:#fff;" : "background:#f3ead6;color:#8b6914;");
   }
   if (tab === 'mod') {
-    body.innerHTML = '<div style="font-size:11px;color:#8b6914;margin-bottom:10px;line-height:1.7;">像经营公司一样经营自己——9 个模块，每个模块问自己两个问题：</div>'
-      + CORP9.map(function(m, i) {
-        return '<div style="background:#faf6ee;border-radius:14px;padding:11px 13px;margin-bottom:8px;">'
-          + '<div style="font-size:13.5px;font-weight:700;color:#92400e;">' + (i + 1) + '. ' + m.icon + ' ' + m.t + '</div>'
-          + '<div style="font-size:12px;color:#555;line-height:1.75;margin-top:4px;">' + m.q + '</div></div>';
-      }).join("");
+    body.innerHTML = '<div style="font-size:11px;color:#8b6914;margin-bottom:8px;line-height:1.7;">像经营公司一样经营自己——9 个模块，每个模块问自己两个问题：</div>' + corpHint()
+      + CORP9.map(function(m, i) { return corpCard(m, i, true); }).join("");
   } else if (tab === 'agent') {
-    body.innerHTML = '<div style="font-size:11px;color:#8b6914;margin-bottom:10px;line-height:1.7;">2025 是 AI Agent 元年，也应该是个人 Agent 化元年——不卖时间，卖结果；不是执行者，而是调度者。</div>'
-      + CORP_AGENT.map(function(m) {
-        return '<div style="background:#faf6ee;border-radius:14px;padding:11px 13px;margin-bottom:8px;">'
-          + '<div style="font-size:13.5px;font-weight:700;color:#92400e;">' + m.icon + ' ' + m.t + '</div>'
-          + '<div style="font-size:12px;color:#555;line-height:1.75;margin-top:4px;">' + m.d + '</div>'
-          + '<div style="font-size:11.5px;color:#5d8a3f;line-height:1.6;margin-top:7px;background:#f0f5ea;border-radius:8px;padding:7px 10px;">🌱 ' + m.act + '</div></div>';
-      }).join("");
+    body.innerHTML = '<div style="font-size:11px;color:#8b6914;margin-bottom:8px;line-height:1.7;">2025 是 AI Agent 元年，也应该是个人 Agent 化元年——不卖时间，卖结果；不是执行者，而是调度者。</div>' + corpHint()
+      + CORP_AGENT.map(function(m) { return corpCard(m, 0, false); }).join("");
   } else {
-    body.innerHTML = '<div style="font-size:11px;color:#8b6914;margin-bottom:10px;line-height:1.7;">如果你是一台电脑，你的「个人操作系统」由四层组成：</div>'
-      + CORP_SYS.map(function(m) {
-        return '<div style="background:#faf6ee;border-radius:14px;padding:11px 13px;margin-bottom:8px;">'
-          + '<div style="font-size:13.5px;font-weight:700;color:#92400e;">' + m.icon + ' ' + m.t + '</div>'
-          + '<div style="font-size:12px;color:#555;line-height:1.75;margin-top:4px;">' + m.d + '</div></div>';
-      }).join("")
-      + '<div style="background:linear-gradient(135deg,#fff3e0,#f3e5c8);border-radius:14px;padding:12px 14px;font-size:12.5px;color:#5a4408;line-height:1.8;font-weight:600;text-align:center;">成为六边形战士，不是你什么都会，<br>而是你的系统什么都会。</div>';
+    body.innerHTML = '<div style="font-size:11px;color:#8b6914;margin-bottom:8px;line-height:1.7;">如果你是一台电脑，你的「个人操作系统」由四层组成：</div>' + corpHint()
+      + CORP_SYS.map(function(m) { return corpCard(m, 0, false); }).join("")
+      + '<div style="background:linear-gradient(135deg,#fff3e0,#f3e5c8);border-radius:14px;padding:12px 14px;font-size:12.5px;color:#5a4408;line-height:1.8;font-weight:600;text-align:center;margin-top:4px;">成为六边形战士，不是你什么都会，<br>而是你的系统什么都会。</div>';
+  }
+  if (!body.getAttribute('data-acc')) {
+    body.setAttribute('data-acc', '1');
+    body.addEventListener('click', function(e) {
+      var it = e.target.closest ? e.target.closest('.corp-item') : null;
+      if (!it) return;
+      it.classList.toggle('open');
+    });
   }
   var ov = document.getElementById("corpOverlay");
   ov.style.display = "flex";
