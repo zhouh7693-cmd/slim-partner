@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <meta name="theme-color" content="#f5f2eb" />
-<title>Slim Partner V4.5｜统一详情与完整搭子壳版</title>
+<title>Slim Partner V4.6｜全量类目同步修正版</title>
 <style>
 :root{
   --outer:#ecefeb;
@@ -41,14 +41,14 @@ button,input{font:inherit}button{color:inherit}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.product{border:1px solid var(--line);background:var(--paper);border-radius:22px;padding:10px 10px 14px;box-shadow:0 7px 22px rgba(31,58,47,.035);cursor:pointer;text-align:left;transition:.15s}.art{height:124px;border-radius:16px;background:var(--stone);display:grid;place-items:center;position:relative;overflow:hidden}.art:before{content:"";position:absolute;inset:auto -28px -44px auto;width:108px;height:108px;border-radius:50%;border:1px solid rgba(35,76,61,.08)}.monogram{font-size:30px;font-weight:500;color:var(--deep);letter-spacing:-.04em}.pname{font-size:14px;font-weight:850;margin:10px 3px 4px}.pline{font-size:10px;color:#6c7671;line-height:1.55;min-height:32px;margin:0 3px}.pmeta{font-size:8.5px;color:#69736e;background:var(--sage-2);border-radius:999px;padding:5px 7px;display:inline-block;margin:9px 3px 0}
 .nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,var(--phone));height:76px;background:rgba(250,248,243,.97);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:50;padding:7px 8px;backdrop-filter:blur(12px)}.nav button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;color:#8c9390;border-radius:14px;cursor:pointer}.nav button b{font-size:16px;font-weight:500}.nav button.active{color:var(--deep);font-weight:800;background:var(--sage)}
 .storehead{padding-top:4px}.storetitle{font-size:29px;font-weight:850;letter-spacing:-.05em}.storelead{font-size:10.5px;color:var(--muted);margin-top:4px}.filter-row{display:flex;gap:7px;overflow-x:auto;padding:12px 0 2px;scrollbar-width:none}.filter-row::-webkit-scrollbar{display:none}.chip{white-space:nowrap;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:7px 10px;font-size:9.5px;color:#727c77;cursor:pointer}.chip.active{background:var(--deep);color:#fff;border-color:var(--deep)}
-.storelayout{display:grid;grid-template-columns:82px 1fr;gap:10px;margin-top:15px}.side{background:#efede8;border-radius:18px;padding:6px;height:max-content;position:sticky;top:8px}.side button{width:100%;border:0;background:transparent;padding:12px 4px;border-radius:12px;font-size:10.5px;color:#767f7b;cursor:pointer;transition:.15s}.side button.active{background:var(--paper);color:var(--deep);font-weight:850;box-shadow:0 3px 10px rgba(31,58,47,.03)}.side small{display:block;font-size:7.5px;color:#a0a5a2;margin-top:2px}.side button.active small{color:#7f8984}
+.storelayout{display:grid;grid-template-columns:102px 1fr;gap:10px;margin-top:15px}.side{background:#efede8;border-radius:18px;padding:6px;height:max-content;position:sticky;top:8px}.side button{width:100%;border:0;background:transparent;padding:12px 5px;border-radius:12px;font-size:10.5px;line-height:1.35;white-space:normal;color:#767f7b;cursor:pointer;transition:.15s}.side button.active{background:var(--paper);color:var(--deep);font-weight:850;box-shadow:0 3px 10px rgba(31,58,47,.03)}.side small{display:block;font-size:7.5px;color:#a0a5a2;margin-top:2px}.side button.active small{color:#7f8984}
 .storecopy{background:transparent;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 2px 12px;margin-bottom:11px}.storecopy strong{font-size:12.5px;font-weight:800}.storecopy p{font-size:9.5px;color:var(--muted);line-height:1.55;margin:4px 0 0}
 .rows{display:grid;gap:10px}.partner-row{display:grid;grid-template-columns:72px 1fr;gap:11px;background:var(--paper);border:1px solid var(--line);border-radius:19px;padding:9px;box-shadow:0 5px 18px rgba(31,58,47,.025);cursor:pointer;text-align:left;transition:.15s}.thumb{width:72px;height:84px;border-radius:15px;background:var(--stone);display:grid;place-items:center;position:relative;overflow:hidden}.thumb:after{content:"";position:absolute;width:58px;height:58px;right:-22px;top:-20px;border:1px solid rgba(35,76,61,.08);border-radius:50%}.thumb .monogram{font-size:22px}.row-title{display:flex;align-items:center;gap:6px;margin:3px 0 4px}.row-title h3{font-size:13.5px;margin:0;font-weight:850}.status{font-size:7.5px;border-radius:999px;padding:3px 5px;background:var(--sage-2);color:#65716b}.status.new,.status.ok{background:var(--sage-2);color:#65716b}.row-desc{font-size:9.4px;color:#6f7874;line-height:1.5;margin:0}.tags{margin-top:6px;display:flex;gap:4px;flex-wrap:wrap}.tag{font-size:7.5px;background:#f2f1ed;color:#737c78;padding:4px 6px;border-radius:999px}.full-badge{font-size:8px;color:var(--deep);font-weight:800;margin-top:7px;display:inline-flex;align-items:center;gap:4px}.empty{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:25px 14px;text-align:center;color:var(--muted);font-size:11px;line-height:1.7}
 .today-card,.profile-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}.today-card h2,.profile-card h2{font-size:18px;margin:0 0 8px}.today-card p,.profile-card p{font-size:10.5px;color:var(--muted);line-height:1.65;margin:0 0 14px}.recent-list{display:grid;gap:10px}.recent-item{display:flex;align-items:center;gap:11px;border:1px solid var(--line);background:var(--paper);border-radius:17px;padding:10px;cursor:pointer}.recent-icon{width:44px;height:44px;border-radius:13px;background:var(--stone);display:grid;place-items:center}.recent-icon .monogram{font-size:16px}.recent-item strong{font-size:12.5px}.recent-item span{font-size:8.8px;color:var(--muted);display:block;margin-top:3px}.favbtn{margin-left:auto;border:0;background:var(--sage-2);border-radius:11px;width:34px;height:34px;cursor:pointer;color:var(--deep)}
 /* 统一完整搭子外壳：不改原搭子内容，只统一“进入之后”的产品头部与返回路径 */
 .viewer{position:fixed;inset:0;z-index:200;display:none;background:rgba(27,44,37,.18);backdrop-filter:blur(8px)}.viewer.open{display:block}.viewer-shell{width:min(100%,var(--phone));height:100dvh;margin:auto;background:var(--paper);display:flex;flex-direction:column;box-shadow:0 0 60px rgba(0,0,0,.14)}.viewer-top{height:72px;flex:0 0 72px;display:grid;grid-template-columns:92px 1fr 36px;align-items:center;gap:8px;padding:0 12px;background:rgba(250,248,243,.98);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}.viewer-back{height:40px;border:1px solid var(--line);border-radius:13px;background:var(--paper);cursor:pointer;font-size:10px;font-weight:800;color:var(--deep);display:flex;align-items:center;justify-content:center;gap:5px}.viewer-center{text-align:center;min-width:0}.viewer-center .mini{font-size:8px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}.viewer-center strong{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}.viewer-menu{width:36px;height:36px;border:0;background:transparent;border-radius:12px;color:#79827e;cursor:pointer;font-size:17px}.viewer iframe{border:0;width:100%;flex:1;background:#f7f6f2}.viewer-loading{position:absolute;top:72px;left:50%;transform:translateX(-50%);width:min(100%,var(--phone));bottom:0;display:grid;place-items:center;background:#f7f6f2;color:#87908b;font-size:10.5px;pointer-events:none}.viewer-loading.hidden{display:none}
 .toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,16px);width:min(calc(100% - 40px),390px);background:var(--deep);color:white;border-radius:15px;padding:11px 14px;font-size:10.5px;text-align:center;opacity:0;pointer-events:none;transition:.22s;z-index:300}.toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:370px){.storelayout{grid-template-columns:74px 1fr}.side button{font-size:10px}.partner-row{grid-template-columns:64px 1fr}.thumb{width:64px;height:80px}.home-cats{grid-template-columns:repeat(4,1fr)}.viewer-top{grid-template-columns:84px 1fr 30px}}
+@media(max-width:370px){.storelayout{grid-template-columns:92px 1fr}.side button{font-size:10px}.partner-row{grid-template-columns:64px 1fr}.thumb{width:64px;height:80px}.home-cats{grid-template-columns:repeat(4,1fr)}.viewer-top{grid-template-columns:84px 1fr 30px}}
 
 /* V4｜用户问题导购：结果优先、SKU其次 */
 .home-intro{padding:8px 0 2px}.home-intro .eyebrow{font-size:10px;color:var(--deep);font-weight:850;letter-spacing:.08em}.home-intro h1{font-size:31px;line-height:1.17;letter-spacing:-.055em;margin:10px 0 8px;max-width:350px}.home-intro p{font-size:12px;line-height:1.7;color:#707974;margin:0;max-width:345px}
@@ -103,12 +103,17 @@ button,input{font:inherit}button{color:inherit}
 .viewer-loading{top:105px}.viewer iframe{min-height:0}
 @media(max-width:370px){.detail-body{padding-left:15px;padding-right:15px}.detail-benefit{font-size:22px}.feature-grid{grid-template-columns:repeat(3,1fr)}.viewer-top{grid-template-columns:70px 1fr 62px}}
 
+
+/* V4.6｜全量类目同步：类目优先展示完整SKU，货架只做二次筛选 */
+.category-sync-note{font-size:8.5px;color:#6f7b75;line-height:1.55;margin-top:7px}
+.category-sync-note b{color:var(--deep)}
+
 </style>
 </head>
 <body>
 <div class="app">
   <section class="screen active" id="homeScreen"><div class="inner">
-    <header class="header"><div class="brandrow"><div class="mark">SP</div><div><div class="brand">Slim Partner</div><div class="sub">先找到现在最适合你的那个搭子 · V4.5</div></div></div><button class="iconbtn" id="homeSearchBtn">⌕</button></header>
+    <header class="header"><div class="brandrow"><div class="mark">SP</div><div><div class="brand">Slim Partner</div><div class="sub">先找到现在最适合你的那个搭子 · V4.6</div></div></div><button class="iconbtn" id="homeSearchBtn">⌕</button></header>
     <div class="home-intro"><div class="eyebrow">从你的问题开始</div><h1>你最近最想让哪件事轻一点？</h1><p>不用先理解 35 个搭子。先告诉我你现在卡在哪里，我把最相关的几个放到你面前。</p></div>
     <div class="need-grid" id="needGrid"></div>
     <div class="guide-strip"><div><strong>不知道从哪里开始？</strong><p>回答 3 个很轻的问题，我帮你缩小到 3 个搭子。</p></div><button class="btn btn-light" id="openQuizBtn">帮我选 →</button></div>
@@ -117,7 +122,7 @@ button,input{font:inherit}button{color:inherit}
   </div></section>
 
   <section class="screen" id="storeScreen"><div class="inner">
-    <header class="header storehead"><div><div class="storetitle">搭子馆</div><div class="storelead"><b>先看核心，再按场景深入</b> · 35 个完整搭子全部保留</div></div><button class="iconbtn" data-nav="home">×</button></header>
+    <header class="header storehead"><div><div class="storetitle">搭子馆</div><div class="storelead"><b>8 大生活主题完整同步</b> · 35 个搭子一个不少</div></div><button class="iconbtn" data-nav="home">×</button></header>
     <div class="search"><span class="glass">⌕</span><input id="storeSearch" placeholder="例如：总拖延、睡不好、想晋升、关系累……" /></div>
     <div class="shelf-strip" id="shelfFilters"></div>
     <div class="storelayout"><aside class="side" id="storeSide"></aside><main><div class="storecopy" id="storeCopy"></div><div class="rows" id="storeRows"></div></main></div>
@@ -328,7 +333,12 @@ const coreSemanticVisuals={
   '业务 Owner':{caption:'业务 Owner',svg:'<svg viewBox="0 0 48 48" class="semantic-icon" aria-hidden="true"><circle cx="24" cy="24" r="5"></circle><path d="M24 8a16 16 0 0 1 14 8"></path><path d="m37 9 1 7-7-1"></path><path d="M40 25a16 16 0 0 1-9 13"></path><path d="m37 38-6 1 1-6"></path><path d="M22 40A16 16 0 0 1 9 31"></path><path d="m9 38 0-7 7 1"></path><path d="M8 22a16 16 0 0 1 9-12"></path><path d="m10 10 7 0-1 7"></path></svg>'},
   'AI 能力搭子':{caption:'AI 能力',svg:'<svg viewBox="0 0 48 48" class="semantic-icon" aria-hidden="true"><circle cx="24" cy="24" r="5"></circle><circle cx="10" cy="15" r="3"></circle><circle cx="38" cy="14" r="3"></circle><circle cx="12" cy="36" r="3"></circle><circle cx="37" cy="35" r="3"></circle><path d="m13 17 7 5M35 16l-7 6M14 34l7-6M34 33l-6-6"></path></svg>'},
   '40岁重启搭子':{caption:'40岁重启',svg:'<svg viewBox="0 0 48 48" class="semantic-icon" aria-hidden="true"><path d="M7 34h34"></path><path d="M12 34c3-10 8-15 14-15s10 4 15 10"></path><path d="M13 18c3-5 7-8 11-8"></path><path d="m20 7 5 3-4 4"></path></svg>'},
-  '关系力修炼搭子':{caption:'关系力修炼',svg:'<svg viewBox="0 0 48 48" class="semantic-icon" aria-hidden="true"><path d="M8 12h18a7 7 0 0 1 7 7v6a7 7 0 0 1-7 7h-7l-7 6v-6h-4z"></path><path d="M27 16h8a6 6 0 0 1 6 6v5a6 6 0 0 1-6 6h-3"></path></svg>'}
+  '关系力修炼搭子':{caption:'关系力修炼',svg:'<svg viewBox="0 0 48 48" class="semantic-icon" aria-hidden="true"><path d="M8 12h18a7 7 0 0 1 7 7v6a7 7 0 0 1-7 7h-7l-7 6v-6h-4z"></path><path d="M27 16h8a6 6 0 0 1 6 6v5a6 6 0 0 1-6 6h-3"></path></svg>'},
+  '身体财富':{caption:'身体财富',svg:'<svg viewBox="0 0 48 48" class="semantic-icon" aria-hidden="true"><path d="M8 25h7l4-9 7 18 5-11 4 2h5"></path><circle cx="24" cy="24" r="18"></circle></svg>'},
+  '财务财富':{caption:'财务财富',svg:'<svg viewBox="0 0 48 48" class="semantic-icon" aria-hidden="true"><path d="M10 36h28"></path><path d="M14 31V21h6v10M23 31V15h6v16M32 31V10h6v21"></path><path d="m12 16 9-6 7 3 9-7"></path></svg>'},
+  '精神财富':{caption:'精神财富',svg:'<svg viewBox="0 0 48 48" class="semantic-icon" aria-hidden="true"><path d="M24 39V19"></path><path d="M24 27c-7-1-11-5-12-11 7-1 11 2 12 8"></path><path d="M24 24c2-7 7-10 13-9 0 7-4 11-13 12"></path><path d="M16 39h16"></path></svg>'},
+  '关系财富':{caption:'关系财富',svg:'<svg viewBox="0 0 48 48" class="semantic-icon" aria-hidden="true"><circle cx="17" cy="24" r="9"></circle><circle cx="31" cy="24" r="9"></circle><path d="M22 18c2-2 4-2 6 0M22 30c2 2 4 2 6 0"></path></svg>'},
+  '使命财富':{caption:'使命财富',svg:'<svg viewBox="0 0 48 48" class="semantic-icon" aria-hidden="true"><circle cx="24" cy="24" r="16"></circle><circle cx="24" cy="24" r="8"></circle><path d="m24 8 3 7-3 9-3-9z"></path><path d="M24 32v8"></path></svg>'}
 };
 function visualFor(p,mode='card'){
   if(!p)return '<div class="semantic-generic"></div>';
@@ -358,11 +368,40 @@ function renderHomeReco(){
   document.getElementById('homeReco').innerHTML=list.map(p=>{const m=metaOf(p);return `<button class="reco-card" data-open="${p.id}"><div class="reco-mark semantic-reco">${visualFor(p,'reco')}</div><div><div class="reco-benefit">${m.benefit}</div><div class="reco-name">${p.name}</div><div class="reco-why">适合你，如果：${m.fit.slice(0,3).join(' · ')}</div><div class="reco-first">第一次会发生：${m.firstWin}</div><div class="reco-meta"><span>${m.effort}</span><span>进入完整搭子</span></div></div></button>`}).join('');
 }
 function counts(){const m={all:partners.length};categories.forEach(c=>{if(c.id!=='all')m[c.id]=partners.filter(p=>p.cat===c.id).length});return m}
-function renderSide(){const cts=counts();document.getElementById('storeSide').innerHTML=categories.map(c=>`<button class="${state.cat===c.id?'active':''}" data-cat="${c.id}">${c.short}<small>${cts[c.id]||0}</small></button>`).join('')}
-function renderShelf(){const defs=[{id:'core',name:'核心 12'},{id:'scene',name:'场景 12'},{id:'advanced',name:'进阶 9'},{id:'tool',name:'工具 2'},{id:'all',name:'全部 35'}];document.getElementById('shelfFilters').innerHTML=defs.map(d=>`<button class="shelf-chip ${state.shelf===d.id?'active':''}" data-shelf="${d.id}">${d.name}</button>`).join('')}
+function renderSide(){const cts=counts();document.getElementById('storeSide').innerHTML=categories.map(c=>`<button class="${state.cat===c.id?'active':''}" data-cat="${c.id}">${c.name}<small>${cts[c.id]||0}</small></button>`).join('')}
+function renderShelf(){
+  let defs;
+  if(state.cat!=='all'){
+    const catItems=partners.filter(p=>p.cat===state.cat);
+    const tierOrder=['core','scene','advanced','tool'];
+    const tierNames={core:'核心',scene:'场景',advanced:'进阶',tool:'工具'};
+    const available=tierOrder.map(id=>({id,name:`${tierNames[id]} ${catItems.filter(p=>shelfOf(p)===id).length}`,count:catItems.filter(p=>shelfOf(p)===id).length})).filter(x=>x.count>0);
+    defs=[{id:'all',name:`本类全部 ${catItems.length}`},...available];
+  }else{
+    defs=[{id:'core',name:'核心 12'},{id:'scene',name:'场景 12'},{id:'advanced',name:'进阶 9'},{id:'tool',name:'工具 2'},{id:'all',name:'全部 35'}];
+  }
+  document.getElementById('shelfFilters').innerHTML=defs.map(d=>`<button class="shelf-chip ${state.shelf===d.id?'active':''}" data-shelf="${d.id}">${d.name}</button>`).join('')
+}
 function filtered(){const q=state.q.trim().toLowerCase();return partners.filter(p=>{if(state.cat!=='all'&&p.cat!==state.cat)return false;if(!q&&state.shelf!=='all'&&shelfOf(p)!==state.shelf)return false;const m=metaOf(p);const hay=[p.name,p.desc,...p.tags,catById(p.cat).name,m.benefit,...m.fit,m.firstWin,m.effort,shelfDef(shelfOf(p)).name].join(' ').toLowerCase();return !q||hay.includes(q)})}
-function renderStore(){renderSide();renderShelf();document.getElementById('storeSearch').value=state.q;const c=catById(state.cat);const sd=state.shelf==='all'?{name:'全部 35 个',copy:'所有 SKU 都保留，但不再默认等权展示。'}:shelfDef(state.shelf);const catCopy=state.cat==='all'?'':` · ${c.name}`;document.getElementById('storeCopy').innerHTML=`<strong>${sd.name}${catCopy}</strong><p>${state.q?'正在跨全部货架搜索，不受当前货架限制。':sd.copy}</p><span class="benefit-mode">结果优先 · 货架分层 · 完整功能保留</span><div class="shelf-note">核心是默认入口；场景按情境触发；进阶在需求更明确后进入；工具不和搭子争抢注意力。</div><div class="semantic-rule-note">名称语义已锁定：不再用“睡 / 主 / P7”等推断式单字作为主要识别；图形负责识别，正式SKU名负责定义。</div>`;const list=filtered();document.getElementById('storeRows').innerHTML=list.length?list.map(p=>{const m=metaOf(p);const tier=shelfOf(p);const td=shelfDef(tier);return `<button class="partner-row" data-open="${p.id}"><div class="thumb semantic-thumb">${visualFor(p,'card')}</div><div><div class="value-title">${m.benefit}</div><div class="sku-name">${p.name}<span class="tier-badge ${tier}">${td.short}</span></div><p class="fit-line">适合：${m.fit.slice(0,3).join(' · ')}</p><p class="first-win">第一步：${m.firstWin}</p><span class="effort">${m.effort}</span><div class="full-badge">看看它怎么陪我 →</div></div></button>`}).join(''):`<div class="empty">暂时没有完全匹配的搭子。<br>试试用“睡不着 / 拖延 / 晋升 / 关系累”等状态来搜。</div>`}
-function openStore(cat='all',q=''){state.cat=cat;state.q=q;state.shelf=q?'all':'core';setView('store');renderStore();setTimeout(()=>{if(q)document.getElementById('storeSearch').focus()},80)}
+function renderStore(){
+  renderSide();renderShelf();document.getElementById('storeSearch').value=state.q;
+  const c=catById(state.cat);const cts=counts();
+  let title,copy;
+  if(state.q){title='搜索全部 35 个搭子';copy='正在跨全部类目与货架搜索，不会因为当前筛选漏掉搭子。'}
+  else if(state.cat!=='all'){
+    const tier=state.shelf==='all'?null:shelfDef(state.shelf);
+    const tierCount=partners.filter(p=>p.cat===state.cat&&(state.shelf==='all'||shelfOf(p)===state.shelf)).length;
+    title=state.shelf==='all'?`${c.name} · ${cts[state.cat]} 个搭子`:`${c.name} · ${tier.name} ${tierCount}`;
+    copy=c.copy;
+  }else{
+    const sd=state.shelf==='all'?{name:'全部 35 个',copy:'8 大生活主题、35 个 SKU 全量保留。'}:shelfDef(state.shelf);
+    title=sd.name;copy=sd.copy;
+  }
+  document.getElementById('storeCopy').innerHTML=`<strong>${title}</strong><p>${copy}</p><span class="benefit-mode">结果优先 · 类目完整 · 功能保留</span><div class="shelf-note">进入具体类目时默认展示该类全部搭子；货架只做二次筛选，不再让“核心12”遮住原有SKU。</div><div class="semantic-rule-note">正式名称完整保留：健康生活 / 心智成长 / 亲子养育 / 职场成长 / 创业经营 / 五大财富 / 人生经营 / 工具资源。</div><div class="category-sync-note"><b>V4.6 同步规则：</b>类目优先于货架。选择“五大财富”会直接看到身体财富、财务财富、精神财富、关系财富、使命财富 5 个完整入口。</div>`;
+  const list=filtered();
+  document.getElementById('storeRows').innerHTML=list.length?list.map(p=>{const m=metaOf(p);const tier=shelfOf(p);const td=shelfDef(tier);return `<button class="partner-row" data-open="${p.id}"><div class="thumb semantic-thumb">${visualFor(p,'card')}</div><div><div class="value-title">${m.benefit}</div><div class="sku-name">${p.name}<span class="tier-badge ${tier}">${td.short}</span></div><p class="fit-line">适合：${m.fit.slice(0,3).join(' · ')}</p><p class="first-win">第一步：${m.firstWin}</p><span class="effort">${m.effort}</span><div class="full-badge">看看它怎么陪我 →</div></div></button>`}).join(''):`<div class="empty">这个组合下暂时没有搭子。<br>可以切到“本类全部”或直接用状态搜索。</div>`
+}
+function openStore(cat='all',q=''){state.cat=cat;state.q=q;state.shelf=q?'all':(cat==='all'?'core':'all');setView('store');renderStore();setTimeout(()=>{if(q)document.getElementById('storeSearch').focus()},80)}
 function openQuiz(){state.quiz={step:1,need:state.need,mode:null,time:null};document.getElementById('quiz').classList.add('open');document.body.style.overflow='hidden';renderQuiz()}
 function closeQuiz(){document.getElementById('quiz').classList.remove('open');document.body.style.overflow=''}
 function renderQuiz(){const q=state.quiz;const body=document.getElementById('quizBody');document.getElementById('quizStep').textContent=q.step<=3?`STEP ${q.step} / 3`:'为你缩小到 3 个';
@@ -441,8 +480,8 @@ document.addEventListener('click',e=>{
   const qs=e.target.closest('[data-quiz-store]');if(qs){closeQuiz();openStore('all','');return}
   const nav=e.target.closest('[data-nav]');if(nav){const v=nav.dataset.nav;if(v==='store')openStore(state.cat||'all',state.q||'');else setView(v);return}
   const hc=e.target.closest('[data-home-cat]');if(hc){openStore(hc.dataset.homeCat,'');return}
-  const c=e.target.closest('[data-cat]');if(c){state.cat=c.dataset.cat;renderStore();return}
-  const sh=e.target.closest('[data-shelf]');if(sh){state.shelf=sh.dataset.shelf;renderStore();return}
+  const c=e.target.closest('[data-cat]');if(c){state.cat=c.dataset.cat;state.q='';state.shelf=state.cat==='all'?'core':'all';renderStore();return}
+  const sh=e.target.closest('[data-shelf]');if(sh){state.shelf=sh.dataset.shelf;state.q='';renderStore();return}
   const op=e.target.closest('[data-open]');if(op){openPartner(op.dataset.open);return}
   const fv=e.target.closest('[data-fav]');if(fv){toggleFav(fv.dataset.fav);return}
 });
@@ -452,7 +491,7 @@ document.getElementById('openQuizBtn').addEventListener('click',openQuiz);
 document.getElementById('quizClose').addEventListener('click',closeQuiz);
 document.getElementById('quiz').addEventListener('click',e=>{if(e.target===document.getElementById('quiz'))closeQuiz()});
 document.addEventListener('click',e=>{if(e.target&&e.target.id==='quizDone'){const p=picksForNeed(state.quiz.need||'overthink')[0];closeQuiz();if(p)openPartner(p.id)}});
-document.getElementById('storeSearch').addEventListener('input',e=>{state.q=e.target.value;if(state.q.trim())state.shelf='all';else if(state.shelf==='all')state.shelf='core';renderStore()});
+document.getElementById('storeSearch').addEventListener('input',e=>{state.q=e.target.value;if(state.q.trim()){state.cat='all';state.shelf='all'}else{state.cat='all';state.shelf='core'}renderStore()});
 document.getElementById('detailBack').addEventListener('click',closeDetail);
 document.getElementById('detailClose').addEventListener('click',closeDetail);
 document.getElementById('detail').addEventListener('click',e=>{if(e.target===document.getElementById('detail'))closeDetail()});
