@@ -33,6 +33,9 @@
   .task.done .tk{background:var(--brand);border-color:var(--brand);color:#fff;}
   .task.done .tt{opacity:.6;}
   .task .tt{transition:opacity .2s;}
+  .task-tip{font-size:12px;color:var(--brand);margin:-4px 0 10px;}
+  .style-line{font-size:13px;color:var(--ink);opacity:.9;line-height:1.8;}
+  .style-line a{color:var(--brand);font-weight:700;text-decoration:none;}
   .pgrid{display:flex;flex-direction:column;gap:10px;}
   .per{border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;cursor:pointer;transition:all .15s;background:#fff;}
   .per.on{border-color:var(--brand);background:var(--brand-lt);}
@@ -57,7 +60,7 @@
   <div id="app"></div>
   <div class="ctaBar">
     <button class="b-mine" id="bMine">开始陪伴</button>
-    <button class="b-try" id="bTry">免费体验 3 分钟 →</button>
+    <button class="b-try" id="bTry">免费试试 3 分钟 →</button>
   </div>
   <div class="toast" id="toast"></div>
 
@@ -86,22 +89,12 @@
       p.problems.map(function(x){ return '<div><b>✓</b><span>' + x + '</span></div>'; }).join('') +
     '</div></div>' +
 
-    '<div class="sec"><h2>我会怎么陪你</h2>' +
-      '<div class="method"><div class="mi">🌱</div><div><div class="mt">每天只给你几个小行动</div><div class="md">不要求一次改变很多，做一件就很好。</div></div></div>' +
-      '<div class="method"><div class="mi">💬</div><div><div class="mt">卡住的时候陪你聊</div><div class="md">不是催你，而是一起找到真正的阻力。</div></div></div>' +
-      '<div class="method"><div class="mi">📈</div><div><div class="mt">帮你看见自己的变化</div><div class="md">把过去几天真实发生的改变告诉你。</div></div></div>' +
-    '</div>' +
-
     '<div class="sec"><h2>今天可能会这样</h2>' +
+      '<div class="task-tip" id="taskTip"></div>' +
       p.tasks.map(function(t){ return '<div class="task"><span class="tk">✓</span><span class="tt">' + t + '</span></div>'; }).join('') +
     '</div>' +
-    '</div>' +
 
-    '<div class="sec"><h2>你可以决定我怎么陪你</h2><div class="pgrid">' +
-      V.personalities.map(function(x, i){
-        return '<div class="per' + (i === 0 ? ' on' : '') + '" data-k="' + x.key + '"><div class="pn">' + x.emoji + ' ' + x.name + '</div><div class="pq">“' + x.quote + '”</div></div>';
-      }).join('') +
-    '</div></div>' +
+    '<div class="sec"><h2>陪伴风格</h2><div class="style-line" id="styleLine"></div></div>' +
 
     '<div class="sec suit"><h2>适合谁 · 不适合谁</h2>' +
       '<p>' + p.suit.map(function(x){ return '• ' + x; }).join('<br>') + '</p>' +
@@ -112,13 +105,18 @@
 
     '<div class="closing"><div class="t">准备好了吗？</div><div class="s">不需要一次改变很多。<br>我们先从今天的一件小事开始。</div></div>';
 
-  /* 人格选择（本地配置记忆） */
-  app.querySelector('.pgrid').addEventListener('click', function(e){
-    var el = e.target.closest('.per'); if (!el) return;
-    app.querySelectorAll('.per').forEach(function(x){ x.classList.remove('on'); });
-    el.classList.add('on');
-    try { var mine = JSON.parse(localStorage.getItem('v3_mine') || '{}'); mine.style = el.getAttribute('data-k'); localStorage.setItem('v3_mine', JSON.stringify(mine)); } catch (err) {}
-  });
+  /* 陪伴风格：全局选择（在首页设置），这里只读展示 + 任务提示语气跟随 */
+  var mine = {};
+  try { mine = JSON.parse(localStorage.getItem('v3_mine') || '{}'); } catch (e) {}
+  var per = V.personalities.filter(function(x){ return x.key === (mine.style || 'gentle'); })[0] || V.personalities[0];
+  var STYLE_TIP = {
+    gentle: '不着急，先做一件就很好。',
+    push:   '别等状态，现在就做第一步。',
+    logic:  '先挑阻力最小的一件开始。'
+  };
+  document.getElementById('taskTip').textContent = STYLE_TIP[per.key] ? (' 💬 ' + STYLE_TIP[per.key]) : '';
+  document.getElementById('styleLine').innerHTML =
+    per.emoji + ' <b>' + per.name + '</b> ·「' + per.quote + '」&nbsp;<a href="v3-home.html#style">调整</a>';
 
   /* 「今天可能会这样」任务可勾选：先试一试小事的感觉 */
   var taskTipped = false;
@@ -144,14 +142,23 @@
     } catch (e) {}
   });
 
-  /* CTA：体验 = 进入真实搭子页面；开始陪伴 = 记住搭子（首页「继续我的搭子」） */
+  /* CTA：两个按钮都直达该搭子页（落地即「搭子」tab），并记住选择 */
+  function saveMine(){
+    try {
+      var m = {};
+      try { m = JSON.parse(localStorage.getItem('v3_mine') || '{}') || {}; } catch (err) {}
+      m.id = id; m.at = new Date().toLocaleDateString('zh-CN');
+      if (!m.style) m.style = per.key;
+      localStorage.setItem('v3_mine', JSON.stringify(m));
+    } catch (e) {}
+  }
   document.getElementById('bTry').addEventListener('click', function(){
-    try { localStorage.setItem('v3_mine', JSON.stringify({ id: id, at: new Date().toLocaleDateString('zh-CN') })); } catch (e) {}
+    saveMine();
     location.href = p.href;
   });
   document.getElementById('bMine').addEventListener('click', function(){
-    try { localStorage.setItem('v3_mine', JSON.stringify({ id: id, at: new Date().toLocaleDateString('zh-CN') })); } catch (e) {}
-    toast('已开启陪伴 · 首页可继续今天');
+    saveMine();
+    location.href = p.href;
   });
 
   function toast(msg){
