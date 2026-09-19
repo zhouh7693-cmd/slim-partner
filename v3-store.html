@@ -28,6 +28,8 @@
   .rail div.on .re{filter:none;}
   .list{flex:1;min-width:0;padding:0 16px 40px 14px;}
   .sec-t{font-size:14px;font-weight:800;margin:6px 0 10px;scroll-margin-top:10px;}
+  .sub-t{font-size:12px;font-weight:700;color:var(--brand);background:var(--brand-lt);display:inline-block;border-radius:10px;padding:3px 10px;margin:6px 0 10px;}
+  .sub-t:first-of-type{margin-top:0;}
   .cat-sec{animation:fadein .2s ease both;}
   @keyframes fadein{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
   .hot-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px;scrollbar-width:none;}
@@ -47,6 +49,9 @@
   .c-promise{font-size:12.5px;color:var(--ink);opacity:.85;margin-top:9px;line-height:1.65;}
   .c-tags{margin-top:8px;font-size:11px;color:var(--sub);}
   .c-tags b{color:var(--brand);font-weight:600;}
+  .c-hash{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;}
+  .c-hash span{font-size:10.5px;color:var(--sub);background:#F5F6F4;border-radius:9px;padding:3px 8px;}
+  .c-hash span.on{color:var(--brand);background:var(--brand-lt);font-weight:700;}
   .c-meta{margin-top:7px;font-size:10.5px;color:#A7ACA7;}
   .empty{padding:30px 10px;text-align:center;font-size:13px;color:var(--sub);line-height:2;}
   .empty b{color:var(--brand);cursor:pointer;}
@@ -64,7 +69,7 @@
     <p id="hdTip">现在最想改善什么，就从那里开始。</p>
   </div>
 
-  <div class="search">🔍<input id="q" placeholder="睡不好、焦虑、晋升、减脂……"><span class="s-clear" id="qClear">✕</span></div>
+  <div class="search">🔍<input id="q" placeholder="睡不好、内耗、晋升、分手、戒烟……"><span class="s-clear" id="qClear">✕</span></div>
 
   <div class="wrap">
     <div class="rail" id="rail"></div>
@@ -83,20 +88,16 @@
 <script>
 (function(){
   var V = window.V3;
-  var state = { cat: 'all', kw: '' };
-  var TIPS = {
-    all:   '现在最想改善什么，就从那里开始。',
-    body:  '先照顾好身体，很多事情都会慢慢变轻。',
-    state: '如果最近有点撑不住，先从这里找个人陪你。',
-    grow:  '每天一点点，慢慢长出让你踏实的本事。',
-    work:  '不是让你更忙，是陪你把重要的事做得更好。',
-    rel:   '关系顺了，日子就顺了大半。',
-    life:  '把人生当作值得认真经营的长期项目。'
-  };
+  var state = { cat: 'all', kw: '', tag: '', mood: '' };
+  /* 文案直接读数据层，新增品类不用改这里 */
+  var TIPS = {};
+  V.cats.forEach(function(c){ TIPS[c.key] = c.tip; });
 
   try {
     var qp = new URLSearchParams(location.search);
     if (qp.get('kw')) state.kw = qp.get('kw');
+    else if (qp.get('tag')) state.tag = qp.get('tag');
+    else if (qp.get('mood')) state.mood = qp.get('mood');
     else if (qp.get('cat')) state.cat = qp.get('cat');
   } catch (e) {}
 
@@ -115,12 +116,15 @@
       d.classList.toggle('on', d.getAttribute('data-c') === key);
     });
   }
-  function setTip(key){
+  function setTipText(txt){
     var t = document.getElementById('hdTip');
-    if (t.textContent !== TIPS[key]) {
+    if (t.textContent !== txt) {
       t.style.opacity = '0';
-      setTimeout(function(){ t.textContent = TIPS[key] || ''; t.style.opacity = '1'; }, 180);
+      setTimeout(function(){ t.textContent = txt || ''; t.style.opacity = '1'; }, 180);
     }
+  }
+  function setTip(key){
+    setTipText(TIPS[key]);
   }
 
   /* 点分类 = 平滑滚动到对应专区（不是冷筛选，是“在店里走动”） */
@@ -128,8 +132,9 @@
   railEl.addEventListener('click', function(e){
     var el = e.target.closest('[data-c]'); if (!el) return;
     var key = el.getAttribute('data-c');
+    var hadFilter = !!(state.kw || state.tag || state.mood);
     state.cat = key;
-    if (state.kw) { state.kw = ''; qEl.value = ''; qClear.style.display = 'none'; }
+    if (hadFilter) { clearFilters(); render(); }
     setRailOn(key); setTip(key);
     spyLock = Date.now() + 750;
     if (key === 'all') { window.scrollTo({ top: 0, behavior: 'smooth' }); }
@@ -141,7 +146,7 @@
 
   /* 滑动联动：滑到哪个专区，左边自动亮 */
   function spy(){
-    if (state.kw || Date.now() < spyLock) return;
+    if (state.kw || state.tag || state.mood || Date.now() < spyLock) return;
     var secs = listEl.querySelectorAll('[data-catsec]');
     if (!secs.length) return;
     /* 触底时直接选中最后一个分区 */
@@ -161,10 +166,22 @@
     if (!ticking) { ticking = true; requestAnimationFrame(function(){ spy(); ticking = false; }); }
   }, { passive: true });
 
+  /* 清空所有筛选，回到「逛店」状态 */
+  function clearFilters(){
+    state.kw = ''; state.tag = ''; state.mood = '';
+    qEl.value = ''; qClear.style.display = 'none';
+    try { history.replaceState(null, '', location.pathname); } catch (e) {}
+  }
+
+  /* 搜索命中：名字 / 承诺 / 痛点 / 交叉标签 / 别名 / 分类名 */
+  function hay(p){
+    return (p.name + p.promise + p.short.join('') + p.problems.join('') +
+            (p.tags || []).join('') + (p.alias || '') +
+            catLabel(p.cat) + V.subLabel(p.cat, p.sub)).toLowerCase();
+  }
   function match(p){
     if (!state.kw) return true;
-    var hay = (p.name + p.promise + p.short.join('') + p.problems.join('')).toLowerCase();
-    return state.kw.toLowerCase().split(/\s+/).every(function(w){ return hay.indexOf(w) >= 0; });
+    return state.kw.toLowerCase().split(/\s+/).every(function(w){ return hay(p).indexOf(w) >= 0; });
   }
 
   function cardHTML(p){
@@ -174,26 +191,53 @@
       '<div class="c-arrow">›</div></div>' +
       '<div class="c-promise">' + p.promise + '</div>' +
       '<div class="c-tags"><b>✓</b> ' + p.short.join(' · ') + '</div>' +
-      '<div class="c-meta">' + p.duration + ' · ' + p.dailyTime + '</div></div>';
+      '<div class="c-hash">' + (p.tags || []).slice(0, 4).map(function(t){
+        return '<span' + (state.tag === t ? ' class="on"' : '') + '>' + t + '</span>';
+      }).join('') + '</div>' +
+      '<div class="c-meta">' + catLabel(p.cat) + ' · ' + V.subLabel(p.cat, p.sub) + ' · ' + p.duration + ' · ' + p.dailyTime +
+        (p.soon ? ' · 🌱 发芽中' : '') + '</div></div>';
   }
 
-  function catLabel(key){ var c = V.cats.filter(function(x){ return x.key === key; })[0] || {}; return c.label || ''; }
+  function catLabel(key){ var c = V.catOf(key); return c.label || ''; }
+
+  /* 结果态：搜索 / 标签 / 情绪 —— 都平铺成结果列表 */
+  function flatList(title, sub, items){
+    if (!items.length) return '';
+    return '<div class="cat-sec"><div class="sec-t">' + title + '</div>' +
+      (sub ? '<div style="font-size:12px;color:var(--sub);margin:-4px 0 10px">' + sub + '</div>' : '') +
+      items.map(cardHTML).join('') + '</div>';
+  }
+  function emptyHTML(){
+    var also = ['state', 'mindset', 'subject'].map(V.partnerById).filter(Boolean);
+    return '<div class="empty cat-sec">暂时没有完全匹配的搭子。<br>但下面几个，可能和你现在的状态有关：<br><br>' +
+      also.map(function(p){ return '<b data-id="' + p.id + '">' + p.icon + ' ' + p.name + '</b>'; }).join('<br>') +
+      '<br><br>或者告诉我：你最近最困扰的是什么？</div>';
+  }
 
   function render(){
     if (state.kw) {
-      /* 搜索态：平铺结果 */
       var hits = V.partners.filter(match);
-      if (!hits.length) {
-        listEl.innerHTML = '<div class="empty cat-sec">暂时没有完全匹配的搭子。<br>但下面几个可能和你现在的状态有关：<br><br>' +
-          ['subject','mindset','discipline'].map(V.partnerById).map(function(p){
-            return '<b data-id="' + p.id + '">' + p.icon + ' ' + p.name + '</b>';
-          }).join('<br>') + '<br><br>或者告诉我：你最近最困扰的是什么？</div>';
-      } else {
-        listEl.innerHTML = '<div class="cat-sec"><div class="sec-t">和「' + state.kw + '」有关的搭子（' + hits.length + '）</div>' + hits.map(cardHTML).join('') + '</div>';
-      }
+      listEl.innerHTML = hits.length
+        ? flatList('和「' + state.kw + '」有关的搭子（' + hits.length + '）', '', hits)
+        : emptyHTML();
       return;
     }
-    /* 逛店态：右侧按品类分区，全部展示 */
+    if (state.tag) {
+      var tagHits = V.partners.filter(function(p){ return (p.tags || []).indexOf(state.tag) >= 0; });
+      listEl.innerHTML = tagHits.length
+        ? flatList('带 ' + state.tag + ' 的搭子（' + tagHits.length + '）', '同一个搭子可以同时在几个分类里，按你现在的状态找就行。', tagHits)
+        : emptyHTML();
+      return;
+    }
+    if (state.mood) {
+      var mo = V.moodOf(state.mood);
+      var moodHits = V.partners.filter(function(p){ return mo && mo.ids.indexOf(p.id) >= 0; });
+      listEl.innerHTML = moodHits.length
+        ? flatList(mo.emoji + ' ' + mo.label + ' · 这几个先陪你', '按你现在的状态挑的，不是按品类。', moodHits)
+        : emptyHTML();
+      return;
+    }
+    /* 逛店态：右侧按「大类 → 子模块」分区，全部展示 */
     var html = '';
     var hot = V.featured.map(V.partnerById).filter(Boolean);
     html += '<div data-catsec="all" id="sec-all"><div class="sec-t">大家最近都在找</div>' +
@@ -203,8 +247,16 @@
     V.cats.filter(function(c){ return c.key !== 'all'; }).forEach(function(c){
       var items = V.partners.filter(function(p){ return p.cat === c.key; });
       if (!items.length) return;
-      html += '<div class="cat-sec" data-catsec="' + c.key + '" id="sec-' + c.key + '">' +
-        '<div class="sec-t">' + c.emoji + ' ' + c.label + '搭子</div>' + items.map(cardHTML).join('') + '</div>';
+      var inner = '<div class="sec-t">' + c.emoji + ' ' + c.label + '</div>';
+      var subs = V.subs[c.key] || [];
+      subs.forEach(function(s){
+        var subItems = items.filter(function(p){ return p.sub === s.key; });
+        if (!subItems.length) return;
+        inner += '<div class="sub-t">' + s.label + '</div>' + subItems.map(cardHTML).join('');
+      });
+      var other = items.filter(function(p){ return !p.sub; });
+      if (other.length) inner += other.map(cardHTML).join('');
+      html += '<div class="cat-sec" data-catsec="' + c.key + '" id="sec-' + c.key + '">' + inner + '</div>';
     });
     listEl.innerHTML = html;
   }
@@ -243,9 +295,18 @@
   }
 
   render();
-  setTip(state.cat);
+  if (state.mood) {
+    var mo0 = V.moodOf(state.mood);
+    setTipText(mo0 ? ('你现在的状态：' + mo0.label + '。先找一个陪你。') : '');
+    setRailOn('');
+  } else if (state.tag) {
+    setTipText('按「' + state.tag + '」找，比按分类找更贴近你现在的状态。');
+    setRailOn('');
+  } else {
+    setTip(state.cat);
+  }
   /* 带 ?cat= 进入时，直接定位到对应专区 */
-  if (state.cat !== 'all' && !state.kw) {
+  if (state.cat !== 'all' && !state.kw && !state.tag && !state.mood) {
     setTimeout(function(){
       var sec = document.getElementById('sec-' + state.cat);
       if (sec) window.scrollTo({ top: sec.getBoundingClientRect().top + window.pageYOffset - 8 });

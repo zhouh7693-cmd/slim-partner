@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Slim Partner · 首页</title>
+<title>发芽搭子 · 有人陪你慢慢来</title>
 <style>
   :root{--bg:#FAF9F6;--brand:#49745F;--brand-lt:#EEF5F0;--ink:#202521;--sub:#6F756F;--line:#E7E9E6;}
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -52,6 +52,16 @@
   .c-meta{margin-top:10px;font-size:11.5px;color:var(--sub);}
   .c-go{float:right;font-size:12.5px;color:var(--brand);font-weight:700;}
   .all{display:block;text-align:center;margin:18px auto 8px;font-size:13.5px;color:var(--brand);font-weight:700;cursor:pointer;background:none;border:none;}
+  /* 发芽中 */
+  .sprow{display:flex;flex-direction:column;gap:10px;}
+  .sp{display:flex;align-items:center;gap:10px;background:#fff;border:1px dashed #CFE3D6;border-radius:16px;padding:12px 14px;cursor:pointer;transition:transform .12s;}
+  .sp:active{transform:scale(.985);}
+  .sp-i{width:36px;height:36px;border-radius:11px;background:var(--brand-lt);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .sp-b{flex:1;min-width:0;}
+  .sp-n{font-size:13.5px;font-weight:800;}
+  .sp-p{font-size:11.5px;color:var(--sub);margin-top:3px;line-height:1.5;}
+  .sp-btn{flex-shrink:0;font-size:11.5px;font-weight:700;color:var(--brand);border:1.5px solid var(--brand);border-radius:14px;padding:5px 11px;cursor:pointer;}
+  .sp-btn.on{background:var(--brand);color:#fff;}
   footer{padding:10px 20px 20px;text-align:center;font-size:11.5px;color:var(--sub);}
   /* 底部导航 */
   .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(255,255,255,.96);border-top:1px solid var(--line);display:flex;padding:8px 0 calc(10px + env(safe-area-inset-bottom));z-index:50;}
@@ -62,11 +72,11 @@
 </style>
 </head>
 <body>
-  <div class="top"><div class="brand">Slim <i>Partner</i></div><div style="font-size:18px">🔍</div></div>
+  <div class="top"><div class="brand">🌱 发芽<i>搭子</i></div><div style="font-size:18px">🔍</div></div>
 
   <div class="hero">
     <h1>人生很复杂，<br>你不用<span>一个人扛</span>。</h1>
-    <p>找一个搭子，陪你把想改变的事，一点点做到。</p>
+    <p>找一个搭子，陪你发芽。<br>不要求你一次改变很多，做一件就很好。</p>
     <button class="cta" onclick="location.href='v3-store.html'">找到我的搭子 →</button>
   </div>
 
@@ -80,8 +90,9 @@
   </div>
 
   <div class="sec">
-    <div class="sec-t">你最近最想改变什么？</div>
+    <div class="sec-t">你现在更接近哪种状态？</div>
     <div class="needs" id="needs"></div>
+    <div class="pnote">按你现在的感觉挑，不按分类挑 —— 同一个搭子可以在好几个分类里。</div>
   </div>
 
   <div class="sec" id="style">
@@ -105,7 +116,9 @@
     <button class="all" onclick="location.href='v3-store.html'">查看全部搭子 →</button>
   </div>
 
-  <footer>人生很复杂，你不用一个人扛。</footer>
+  <div class="sec" id="sprout"></div>
+
+  <footer>慢慢来，比较快 · 发芽搭子</footer>
 
   <div class="nav">
     <a class="on" href="v3-home.html"><span class="ni">🏠</span>首页</a>
@@ -119,15 +132,13 @@
 <script>
 (function(){
   var V = window.V3;
-  /* 需求入口 */
-  document.getElementById('needs').innerHTML = V.needs.map(function(n){
+  /* 情绪入口：按「你现在的状态」找搭子，而不是按品类 */
+  document.getElementById('needs').innerHTML = V.moods.map(function(n){
     return '<div class="need" data-n="' + n.key + '">' + n.emoji + ' ' + n.label + '</div>';
   }).join('');
   document.getElementById('needs').addEventListener('click', function(e){
     var el = e.target.closest('.need'); if (!el) return;
-    var n = V.needs.filter(function(x){ return x.key === el.getAttribute('data-n'); })[0];
-    var q = n.cat ? ('cat=' + n.cat) : ('kw=' + encodeURIComponent(n.kw));
-    location.href = 'v3-store.html?' + q;
+    location.href = 'v3-store.html?mood=' + el.getAttribute('data-n');
   });
   /* 精选 3 个 */
   var feat = V.featured.slice(0, 3).map(V.partnerById).filter(Boolean);
@@ -157,6 +168,36 @@
       }
     }
   } catch (e) {}
+  /* 🌱 发芽中：还没长出来的搭子，可以预约 */
+  var sprouts = V.partners.filter(function(p){ return p.soon; });
+  var spBox = document.getElementById('sprout');
+  if (sprouts.length) {
+    var wait = [];
+    try { wait = JSON.parse(localStorage.getItem('v3_wait') || '[]'); } catch (e) {}
+    spBox.innerHTML = '<div class="sec-t">🌱 正在发芽的搭子</div>' +
+      '<div class="sprow">' + sprouts.map(function(p){
+        var on = wait.indexOf(p.id) >= 0;
+        return '<div class="sp" data-id="' + p.id + '"><div class="sp-i">' + p.icon + '</div>' +
+          '<div class="sp-b"><div class="sp-n">' + p.name + '</div><div class="sp-p">' + p.promise + '</div></div>' +
+          '<div class="sp-btn' + (on ? ' on' : '') + '" data-w="' + p.id + '">' + (on ? '已预约 ✓' : '提醒我') + '</div></div>';
+      }).join('') + '</div>';
+    spBox.addEventListener('click', function(e){
+      var btn = e.target.closest('.sp-btn');
+      if (btn) {
+        var pid = btn.getAttribute('data-w');
+        var arr = [];
+        try { arr = JSON.parse(localStorage.getItem('v3_wait') || '[]'); } catch (err) {}
+        var i = arr.indexOf(pid);
+        if (i >= 0) { arr.splice(i, 1); btn.textContent = '提醒我'; btn.classList.remove('on'); toast('已取消提醒'); }
+        else { arr.push(pid); btn.textContent = '已预约 ✓'; btn.classList.add('on'); toast('记住了 · 发芽后第一个告诉你 🌱'); }
+        try { localStorage.setItem('v3_wait', JSON.stringify(arr)); } catch (err) {}
+        return;
+      }
+      var card = e.target.closest('.sp');
+      if (card) location.href = 'v3-detail.html?id=' + card.getAttribute('data-id');
+    });
+  }
+
   /* 陪伴风格（全局，存 v3_mine.style，详情页/搭子页读取） */
   var savedStyle = 'gentle';
   try { var m0 = JSON.parse(localStorage.getItem('v3_mine') || '{}'); if (m0.style) savedStyle = m0.style; } catch (e) {}

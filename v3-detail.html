@@ -16,6 +16,12 @@
   .hero h1{font-size:22px;font-weight:800;}
   .hero .promise{font-size:14px;color:var(--sub);margin-top:8px;line-height:1.7;}
   .hero .meta{display:inline-block;margin-top:12px;font-size:12px;color:var(--brand);background:var(--brand-lt);border-radius:14px;padding:6px 14px;font-weight:700;}
+  .crumb{text-align:center;font-size:11.5px;color:var(--sub);margin-top:10px;}
+  .crumb a{color:var(--brand);text-decoration:none;}
+  .hash{display:flex;flex-wrap:wrap;gap:8px;}
+  .hash span{font-size:11.5px;color:var(--brand);background:var(--brand-lt);border-radius:12px;padding:5px 11px;cursor:pointer;transition:transform .12s;}
+  .hash span:active{transform:scale(.95);}
+  .hash-note{font-size:11px;color:var(--sub);margin-top:10px;line-height:1.7;}
   .sec{margin:12px 20px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px 20px;}
   .sec h2{font-size:15px;font-weight:800;margin-bottom:12px;}
   .plist div{display:flex;gap:8px;font-size:13px;color:var(--ink);opacity:.88;line-height:1.7;margin-bottom:7px;}
@@ -74,20 +80,28 @@
   var app = document.getElementById('app');
   if (!p) { app.innerHTML = '<div style="padding:60px 30px;text-align:center;color:var(--sub)">没有找到这个搭子<br><br><a href="v3-store.html" style="color:var(--brand)">去搭子馆逛逛 →</a></div>';
             document.getElementById('ctaBar') && (document.querySelector('.ctaBar').style.display='none'); return; }
-  document.title = p.name + ' · Slim Partner';
+  document.title = p.name + ' · 发芽搭子';
 
-  var catLabel = (V.cats.filter(function(c){ return c.key === p.cat; })[0] || {}).label || '';
+  var cat = V.catOf(p.cat);
+  var subLabel = V.subLabel(p.cat, p.sub);
+  var catLabel = cat.label || '';
   app.innerHTML =
     '<div class="hero">' +
       '<div class="big">' + p.icon + '</div>' +
       '<h1>' + p.name + '</h1>' +
       '<div class="promise">' + p.promise + '</div>' +
-      '<div class="meta">' + p.duration + ' · ' + p.dailyTime + (p.badge ? ' · ' + p.badge : '') + '</div>' +
+      '<div class="meta">' + p.duration + ' · ' + p.dailyTime + (p.badge ? ' · ' + p.badge : '') + (p.soon ? ' · 🌱 发芽中' : '') + '</div>' +
+      '<div class="crumb"><a href="v3-store.html?cat=' + p.cat + '">' + cat.emoji + ' ' + catLabel + '</a>' +
+        (subLabel ? ' › ' + subLabel : '') + '</div>' +
     '</div>' +
 
     '<div class="sec"><h2>也许你正在经历这些</h2><div class="plist">' +
       p.problems.map(function(x){ return '<div><b>✓</b><span>' + x + '</span></div>'; }).join('') +
     '</div></div>' +
+
+    (p.tags && p.tags.length ? '<div class="sec"><h2>这些时候也可以找它</h2><div class="hash">' +
+      p.tags.map(function(t){ return '<span data-tag="' + t + '">' + t + '</span>'; }).join('') +
+      '</div><div class="hash-note">一个搭子可以同时属于好几个状态，点标签看看还有谁。</div></div>' : '') +
 
     '<div class="sec"><h2>今天可能会这样</h2>' +
       '<div class="task-tip" id="taskTip"></div>' +
@@ -103,7 +117,8 @@
 
     (p.safety ? '<div class="safety">' + p.safety + '</div>' : '') +
 
-    '<div class="closing"><div class="t">准备好了吗？</div><div class="s">不需要一次改变很多。<br>我们先从今天的一件小事开始。</div></div>';
+    '<div class="closing"><div class="t">' + (p.soon ? '还在发芽中 🌱' : '准备好了吗？') + '</div>' +
+      '<div class="s">' + (p.soon ? '这个搭子还在长，先预约一下，<br>长出来的第一天就来找你。' : '不需要一次改变很多。<br>我们先从今天的一件小事开始。') + '</div></div>';
 
   /* 陪伴风格：全局选择（在首页设置），这里只读展示 + 任务提示语气跟随 */
   var mine = {};
@@ -129,6 +144,12 @@
     }
   });
 
+  /* 交叉标签：点一下，看看同一状态下还有哪些搭子 */
+  app.addEventListener('click', function(e){
+    var el = e.target.closest('[data-tag]'); if (!el) return;
+    location.href = 'v3-store.html?tag=' + encodeURIComponent(el.getAttribute('data-tag'));
+  });
+
   /* 收藏 */
   var fav = document.getElementById('fav');
   try { var favs = JSON.parse(localStorage.getItem('v3_favs') || '[]'); if (favs.indexOf(id) >= 0) fav.textContent = '♥'; } catch (e) {}
@@ -152,14 +173,26 @@
       localStorage.setItem('v3_mine', JSON.stringify(m));
     } catch (e) {}
   }
-  document.getElementById('bTry').addEventListener('click', function(){
-    saveMine();
-    location.href = p.href;
-  });
-  document.getElementById('bMine').addEventListener('click', function(){
-    saveMine();
-    location.href = p.href;
-  });
+  var bTry = document.getElementById('bTry');
+  var bMine = document.getElementById('bMine');
+  if (p.soon) {
+    /* 还在发芽的搭子：不能进页面，但可以先预约 */
+    bTry.style.display = 'none';
+    var waited = [];
+    try { waited = JSON.parse(localStorage.getItem('v3_wait') || '[]'); } catch (e) {}
+    bMine.textContent = waited.indexOf(id) >= 0 ? '已预约 ✓' : '🌱 提醒我发芽';
+    bMine.addEventListener('click', function(){
+      var arr = [];
+      try { arr = JSON.parse(localStorage.getItem('v3_wait') || '[]'); } catch (e) {}
+      var i = arr.indexOf(id);
+      if (i >= 0) { arr.splice(i, 1); bMine.textContent = '🌱 提醒我发芽'; toast('已取消提醒'); }
+      else { arr.push(id); bMine.textContent = '已预约 ✓'; toast('记住了 · 发芽后第一个告诉你 🌱'); }
+      try { localStorage.setItem('v3_wait', JSON.stringify(arr)); } catch (e) {}
+    });
+  } else {
+    bTry.addEventListener('click', function(){ saveMine(); location.href = p.href; });
+    bMine.addEventListener('click', function(){ saveMine(); location.href = p.href; });
+  }
 
   function toast(msg){
     var t = document.getElementById('toast');
