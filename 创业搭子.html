@@ -2887,11 +2887,7 @@ function renderWeeklyReport() {
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ var s = t.length > 24 ? t.slice(0, 24) + '…' : t;
-    return [['🧠 认知 · 为什么记住它','你把「'+s+'」记进教练卡，说明它戳中了你真实的场景——它的价值，要在一次次具体决策里兑现，而不是躺在卡片里。'],
-            ['🎯 行为 · 具体怎么做','下次出现和「'+s+'」相关的场景，先按它做一次；做完对照一下：按老习惯本来会怎么做？两者的差距，就是这条规则的价值。'],
-            ['⚠️ 易错点','最常见的失败是场景出现了却用了老办法，事后才想起它——不是不懂，是当下没想到。'],
-            ['🔧 怎么调整','给「'+s+'」绑一个你场景里最常见的触发词，它一出现就自查一次：这次按它做了吗？']]; }
+      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
   function fbFor(txt){
     var map = window.__CC_FB;
     if (map) { for (var i = 0; i < map.length; i++) { if (txt.indexOf(map[i][0]) >= 0) return map[i][1]; } }
@@ -2914,9 +2910,6 @@ function renderWeeklyReport() {
       document.body.appendChild(ov);
     }
     var short = txt.length > 72 ? txt.slice(0, 72) + '…' : txt;
-    var secs = fbFor(txt).map(function(x){ return '<div style="background:#f6f5f2;border-radius:12px;padding:9px 12px;margin-bottom:8px;">'
-      + '<div style="font-size:11.5px;font-weight:800;color:#607d8b;margin-bottom:3px;">' + x[0] + '</div>'
-      + '<div style="font-size:12.5px;color:#444;line-height:1.75;">' + x[1] + '</div></div>'; }).join('');
     ov.innerHTML = (function(){
       var acc = '#607d8b', tint = '#f6f5f2';
       try {
@@ -2925,16 +2918,12 @@ function renderWeeklyReport() {
         if (c && c.indexOf('rgb') === 0) { acc = c; tint = c.replace('rgb(', 'rgba(').replace(')', ', .10)'); }
       } catch (e) {}
       var full = esc(short);
-      var main = short.split(/[，。；：！？!?,;:\n]/)[0] || short;
-      if (main.length > 20) main = main.slice(0, 20) + '…';
       var secs2 = fbFor(txt).map(function(x){ return '<div style="text-align:left;background:' + tint + ';border-radius:12px;padding:9px 12px;margin-bottom:8px;">'
         + '<div style="font-size:11.5px;font-weight:800;color:' + acc + ';margin-bottom:3px;">' + x[0] + '</div>'
         + '<div style="font-size:12.5px;color:#444;line-height:1.75;">' + x[1] + '</div></div>'; }).join('');
       return '<div style="background:#fffdf7;border-radius:24px;max-width:400px;width:100%;max-height:78vh;overflow-y:auto;padding:20px 18px;animation:ccPop .2s ease;text-align:center;">'
         + '<div style="display:inline-block;background:' + tint + ';padding:4px 14px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:1px;color:' + acc + ';margin-bottom:10px;">已记住</div>'
-        + '<div style="font-size:19px;font-weight:800;color:#333;line-height:1.45;margin-bottom:6px;">' + esc(main) + '</div>'
-        + '<div style="font-size:11px;color:#9aa5ae;margin-bottom:12px;">说出来才算真的懂 · 下次遇到这个场景，先想起它</div>'
-        + '<div style="text-align:left;background:' + tint + ';border-radius:14px;padding:12px 14px;margin-bottom:10px;font-size:13px;color:#555;line-height:1.8;">' + full + '</div>'
+        + '<div style="font-size:17.5px;font-weight:800;color:#333;line-height:1.55;margin-bottom:12px;">' + full + '</div>'
         + secs2
         + '<button id="ccFbOk" style="width:100%;border:none;border-radius:24px;padding:13px;font-size:15px;font-weight:800;color:#fff;background:' + acc + ';cursor:pointer;margin-top:2px;">记上了</button>'
         + '</div>';
