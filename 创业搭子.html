@@ -467,17 +467,19 @@
     }
     .qa-scroll {
       flex: 1; overflow-y: auto; padding: 16px; display: grid;
-      grid-template-columns: 1fr 1fr; gap: 12px;
+      grid-template-columns: 1fr; gap: 10px;
     }
     .qa-card {
-      background: #f5f5f5; border-radius: 16px; padding: 14px 12px;
-      cursor: pointer; transition: all 0.2s; text-align: center;
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      background: #f5f7fa; border-radius: 16px; padding: 14px 16px;
+      cursor: pointer; transition: all 0.2s; text-align: left;
+      display: flex; flex-direction: row; align-items: center; gap: 10px;
     }
+    .qa-card.pos { border: 1px solid #e3eef7; background: #f8fbfe; }
+    .qa-card.neg { border: 1px solid #ffcdd2; background: #fff5f5; }
     .qa-card:active { background: #eef2ff; transform: scale(0.97); }
     .qa-card-icon { font-size: 26px; line-height: 1; }
-    .qa-card-text { font-size: 12px; font-weight: 600; color: #2b2b3a; line-height: 1.4; text-align: center; }
-    .qa-card-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.5px; }
+    .qa-card-text { flex: 1; min-width: 0; font-size: 14px; font-weight: 600; color: #2b2b3a; line-height: 1.5; text-align: left; }
+    .qa-card-tag { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; letter-spacing: 0.5px; margin-left: auto; flex-shrink: 0; }
     .qa-card-tag.pos { background: #e8f5e9; color: #2e7d32; }
     .qa-card-tag.neg { background: #ffebee; color: #c62828; }
     .qa-card-title { font-size: 13px; font-weight: 700; color: #1a237e; }
@@ -3103,7 +3105,7 @@ function renderWeeklyReport() {
   if(!SCENES||!SCENES.length) return;
     var box=document.getElementById('stdSceneList');
     if(box){
-      var h='';
+      var h='<div style="font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:2px 2px 9px;">⬇️ 遇到的困难 / 需要引导</div>';
       for(var i=0;i<SCENES.length;i++){
         h+='<div onclick="stdScenePick('+i+')" style="display:flex;align-items:center;gap:12px;background:'+ACCENT+'0a;border:1px solid '+ACCENT+'24;border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;">'
           +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:600;color:#333;line-height:1.5;">'+SCENES[i][1]+'</div>'

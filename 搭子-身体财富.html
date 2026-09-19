@@ -753,7 +753,7 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
     if(!SCENES||!SCENES.length) return;
     var box=document.getElementById('stdSceneList');
     if(box){
-      var h='';
+      var h='<div style="font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:2px 2px 9px;">⬇️ 遇到的困难 / 需要引导</div>';
       for(var i=0;i<SCENES.length;i++){
         h+='<div onclick="stdScenePick('+i+')" style="display:flex;align-items:center;gap:12px;background:'+ACCENT+'0a;border:1px solid '+ACCENT+'24;border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;">'
           +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:600;color:#333;line-height:1.5;">'+SCENES[i][1]+'</div>'
@@ -1055,6 +1055,8 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
 <!-- ===== 问答/进展选择面板 ===== -->
 <div class="qa-overlay" id="qaOverlay">
   <div class="qa-panel">
+    <style>.qa-close-x{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.06);border:none;padding:0;font-size:14px;line-height:30px;color:#6b7280;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:all 0.18s;-webkit-tap-highlight-color:transparent;}.qa-close-x:hover{background:rgba(0,0,0,0.12);color:#374151;}.qa-panel{position:relative;}</style>
+    <button class="qa-close-x" onclick="closeQAPanel()" aria-label="关闭">✕</button>
     <div class="qa-handle"></div>
     <div class="qa-header">
       <div class="qa-title" id="qaTitle">🤔 有问题想问</div>

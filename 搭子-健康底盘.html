@@ -65,7 +65,14 @@ body {
 @keyframes qaPop { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .qa-title { font-size: 17px; font-weight: 700; text-align: center; margin-bottom: 4px; color: #0f172a; }
 .qa-sub { font-size: 13px; text-align: center; color: #64748b; margin-bottom: 16px; }
-.qa-card { display: block; padding: 14px 16px; background: #f8fafc; border-radius: 16px; margin-bottom: 10px; cursor: pointer; transition: all .15s; border: 1.5px solid transparent; }
+.qa-card { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: #f8fafc; border-radius: 16px; margin-bottom: 10px; cursor: pointer; transition: all .15s; border: 1.5px solid transparent; }
+.qa-card.pos { border-color: #e0f2f1; background: #f4fbfa; }
+.qa-card.neg { border-color: #ffcdd2; background: #fff5f5; }
+.qa-card-icon { font-size: 24px; flex-shrink: 0; }
+.qa-card-text { flex: 1; min-width: 0; font-size: 14px; color: #1f2937; line-height: 1.5; }
+.qa-card-tag { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; margin-left: auto; flex-shrink: 0; }
+.qa-card-tag.pos { background: #0d9488; color: white; }
+.qa-card-tag.neg { background: #ef5350; color: white; }
 .qa-card:hover { border-color: #0d9488; background: #ccfbf1; }
 .qa-card .emoji { font-size: 22px; margin-right: 8px; vertical-align: middle; }
 .qa-card .text { font-size: 14px; font-weight: 500; color: #1f2937; line-height: 1.5; }
@@ -328,7 +335,7 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
     if(!SCENES||!SCENES.length) return;
     var box=document.getElementById('stdSceneList');
     if(box){
-      var h='';
+      var h='<div style="font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:2px 2px 9px;">⬇️ 遇到的困难 / 需要引导</div>';
       for(var i=0;i<SCENES.length;i++){
         h+='<div onclick="stdScenePick('+i+')" style="display:flex;align-items:center;gap:12px;background:'+ACCENT+'0a;border:1px solid '+ACCENT+'24;border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;">'
           +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:600;color:#333;line-height:1.5;">'+SCENES[i][1]+'</div>'
@@ -2118,16 +2125,13 @@ function openHealthPanel(type) {
   $('qaSub').innerText = '选一条最像的，我会按你当前搭子风格给反馈';
   var list = $('qaList');
   list.innerHTML = '';
-  data.forEach(function(item, i) {
-    var card = document.createElement('div');
-    card.className = 'qa-card ' + item.type;
-    card.innerHTML = '<div class="qa-card-icon">' + item.icon + '</div>'
-      + '<div class="qa-card-text">' + item.scenario + '</div>'
-      + '<div class="qa-card-tag ' + item.type + '">' + item.tag + '</div>';
-    card._click = function() { pickHealthScene(currentHealthQAType, i); };
-    card.onclick = card._click;
-    list.appendChild(card);
-  });
+  var __pk = data.map(function(it, idx) { return { it: it, idx: idx }; });
+  var __pos = __pk.filter(function(o) { return o.it.type === 'pos'; });
+  var __neg = __pk.filter(function(o) { return o.it.type !== 'pos'; });
+  function __hd(txt, color) { var l = document.createElement('div'); l.style.cssText = 'font-size:11px;font-weight:700;color:' + color + ';letter-spacing:1px;margin:8px 2px 6px;'; l.innerText = txt; list.appendChild(l); }
+  function __card(o) { var card = document.createElement('div'); card.className = 'qa-card ' + o.it.type; card.innerHTML = '<div class="qa-card-icon">' + o.it.icon + '</div><div class="qa-card-text">' + o.it.scenario + '</div><div class="qa-card-tag ' + o.it.type + '">' + o.it.tag + '</div>'; card._click = function() { pickHealthScene(currentHealthQAType, o.idx); }; card.onclick = card._click; list.appendChild(card); }
+  if (__pos.length) { __hd('⬆️ 好的进展 / 想得到鼓励', '#43a047'); __pos.forEach(__card); }
+  if (__neg.length) { __hd('⬇️ 遇到困难 / 需要引导', '#ef5350'); __neg.forEach(__card); }
   $('qaOverlay').classList.add('show');
 }
 
