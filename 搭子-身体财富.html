@@ -755,10 +755,11 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
     if(box){
       var h='';
       for(var i=0;i<SCENES.length;i++){
-        h+='<div onclick="stdScenePick('+i+')" style="display:flex;align-items:center;gap:10px;background:#f6f8fa;border-radius:12px;padding:11px 12px;margin-bottom:8px;cursor:pointer;">'
-          +'<div style="font-size:20px;flex-shrink:0;">'+SCENES[i][0]+'</div>'
-          +'<div style="flex:1;font-size:13px;color:#333;font-weight:600;">'+SCENES[i][1]+'</div>'
-          +'<div style="color:#c0c4cc;font-size:16px;flex-shrink:0;">›</div></div>';
+        h+='<div onclick="stdScenePick('+i+')" style="display:flex;align-items:center;gap:12px;background:'+ACCENT+'0a;border:1px solid '+ACCENT+'24;border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;">'
+          +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:600;color:#333;line-height:1.5;">'+SCENES[i][1]+'</div>'
+          +(SCENES[i].length>3?'<div style="font-size:11px;color:#9a938a;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+SCENES[i][2]+'</div>':'')
+          +'</div>'
+          +'<div style="width:38px;height:38px;border-radius:50%;background:#fff;border:1px solid '+ACCENT+'30;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;">'+SCENES[i][0]+'</div></div>';
       }
       box.innerHTML=h;
     }
@@ -2562,7 +2563,7 @@ function renderSOPList() {
     </div>
     <div style="text-align:center;margin-top:16px;">
       <div style="font-size:12px;color:#8f9eae;margin-bottom:8px;">点击上方选项确认，每项可单独打分</div>
-      ${doneCount > 0 ? `<button onclick="submitSOPCat()" style="background:${cat.color};color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;">确认本维度 ✓</button>` : ''}
+      ${doneCount > 0 ? `<button onclick="submitSOPCat()" style="background:${cat.color};color:white;border:none;padding:12px 32px;border-radius:60px;font-size:15px;font-weight:700;cursor:pointer;">确认本维度</button>` : ''}
     </div>
   `;
 }
@@ -3812,12 +3813,12 @@ startApp();
         + '<div style="font-size:11.5px;font-weight:800;color:' + acc + ';margin-bottom:3px;">' + x[0] + '</div>'
         + '<div style="font-size:12.5px;color:#444;line-height:1.75;">' + x[1] + '</div></div>'; }).join('');
       return '<div style="background:#fffdf7;border-radius:24px;max-width:400px;width:100%;max-height:78vh;overflow-y:auto;padding:20px 18px;animation:ccPop .2s ease;text-align:center;">'
-        + '<div style="display:inline-block;background:' + tint + ';padding:4px 14px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:1px;color:' + acc + ';margin-bottom:10px;">✓ 已记住</div>'
+        + '<div style="display:inline-block;background:' + tint + ';padding:4px 14px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:1px;color:' + acc + ';margin-bottom:10px;">已记住</div>'
         + '<div style="font-size:19px;font-weight:800;color:#333;line-height:1.45;margin-bottom:6px;">' + esc(main) + '</div>'
         + '<div style="font-size:11px;color:#9aa5ae;margin-bottom:12px;">说出来才算真的懂 · 下次遇到这个场景，先想起它</div>'
         + '<div style="text-align:left;background:' + tint + ';border-radius:14px;padding:12px 14px;margin-bottom:10px;font-size:13px;color:#555;line-height:1.8;">' + full + '</div>'
         + secs2
-        + '<button id="ccFbOk" style="width:100%;border:none;border-radius:24px;padding:13px;font-size:15px;font-weight:800;color:#fff;background:' + acc + ';cursor:pointer;margin-top:2px;">记上了 ✅</button>'
+        + '<button id="ccFbOk" style="width:100%;border:none;border-radius:24px;padding:13px;font-size:15px;font-weight:800;color:#fff;background:' + acc + ';cursor:pointer;margin-top:2px;">记上了</button>'
         + '</div>';
     })();
     ov.style.display = 'flex';
@@ -4023,11 +4024,17 @@ window.addEventListener('click',function(e){
     if(e.preventDefault)e.preventDefault();
     if(e.stopImmediatePropagation)e.stopImmediatePropagation(); else if(e.stopPropagation)e.stopPropagation();
     var emo=(m.textContent||'').trim()||'\ud83d\ude42';
-    showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
-      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+esc(c.tag)+'</div>'
-      +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:10px;">'+esc(c.t)+'</div>'
-      +'<div style="font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(c.d)+'</div>'
-      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u6536\u5230\uff0c\u5c31\u8fd9\u4e48\u505a \ud83d\udcaa</button>');
+    var __mv=(k==='sad'||k==='tired')?1:0;
+    var __dd=String(c.d||'');var __mi=-1;
+    ['。','！','？','!','?'].forEach(function(p){var i=__dd.indexOf(p);if(i>=0&&(__mi<0||i<__mi))__mi=i;});
+    var __lead=__mi>=0?__dd.slice(0,__mi+1):__dd;
+    var __rest=__mi>=0?__dd.slice(__mi+1).trim():'';
+    showUxp('<div style="font-size:50px;margin-bottom:8px;">'+esc(emo)+'</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+(__mv?'#b3593a':ACC)+';background:'+(__mv?'#fff1ec':ACC+'1c')+';border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+esc(c.tag)+'</div>'
+      +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:8px;">'+esc(c.t)+'</div>'
+      +'<div style="font-size:14px;font-weight:600;color:#444;line-height:1.8;margin-bottom:10px;">'+esc(__lead)+'</div>'
+      +(__rest?'<div style="background:'+(__mv?'#fff6f2':ACC+'0f')+';border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(__rest)+'</div>':'')
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">收到</button>');
   }catch(err){}
 },true);
 /* ---- 关键小动作勾选：包装原函数，勾选时弹居中弹窗 ---- */
@@ -4045,11 +4052,11 @@ function wrapKey3(fnName, storeKey){
       if(!before&&after&&acts[i]){
         var a=acts[i];
         showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(a.icon||'\u2705')+'</div>'
-          +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u2713 \u4eca\u65e5\u5173\u952e\u52a8\u4f5c</div>'
+          +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">\u4eca\u65e5\u5173\u952e\u52a8\u4f5c</div>'
           +'<div style="font-size:18px;font-weight:800;color:#333;margin-bottom:4px;">'+esc(a.title||'')+'</div>'
           +(a.sub?'<div style="font-size:12px;color:#888;margin-bottom:10px;">'+esc(a.sub)+'</div>':'')
           +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(a.why||'')+'</div>'
-          +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u8bb0\u4e0a\u4e86 \u2705</button>');
+          +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">\u8bb0\u4e0a\u4e86</button>');
       }
     }catch(e){}
     return r;
@@ -4069,7 +4076,7 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
       +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:6px;">'+esc(ttl)+'</div>'
       +(sub?'<div style="font-size:12px;color:#8a8f99;margin-bottom:12px;">'+esc(sub)+'</div>':'')
       +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(why)+'</div>'
-      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">好的，记住了 📝</button>');
+      +'<button onclick="__uxpClose()" style="width:100%;border:none;border-radius:22px;padding:13px;font-size:15px;font-weight:700;color:#fff;background:'+ACC+';cursor:pointer;">好的，记住了</button>');
     try{ if(typeof appendMsg==='function') appendMsg(emo+' '+ttl+' —— 我在，一起拆。','partner'); }catch(e){}
   };
 }
@@ -4079,7 +4086,7 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
 #fbEmoji{display:none!important}
 #stdKey3>div:first-child>span:first-child{display:none!important}
 #stdDailyTip>div:first-child>span:first-child{display:none!important}
-#stdKey3List>div>div:first-child,#stdSceneList>div>div:first-child{display:none!important}
+#stdKey3List>div>div:first-child{display:none!important}
 .qa-card-icon{display:none!important}
 .fb-partner-quote{background:#e8f5e9!important;color:#555!important;border-radius:14px!important;padding:12px 14px!important;font-size:13px!important;text-align:left!important;width:100%!important;box-sizing:border-box!important}
 </style>
