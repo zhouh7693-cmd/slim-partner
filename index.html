@@ -101,6 +101,31 @@
     .day-name { font-size: 12px; color: #8f9eae; margin-bottom: 6px; }
     .dot { width: 40px; height: 40px; background: #eef2f5; border-radius: 100%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 18px; transition: all 0.2s; }
     .dot.checked { background: #3a7ca5; color: white; }
+    /* fix22: 今日工作台 */
+    .today-checkin {
+      width: 100%; max-width: 300px; margin: 0 auto 18px;
+      background: linear-gradient(145deg, #3de882, #2ed573);
+      border-radius: 60px; padding: 15px 20px;
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+      color: white; cursor: pointer;
+      box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45);
+      transition: transform .15s, opacity .2s;
+    }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
+    .ts-week .day-name { font-size: 10px; margin-bottom: 4px; }
+    .k3-bounce { animation: k3pop .35s ease; }
+    @keyframes k3pop { 0% { transform: scale(1); } 40% { transform: scale(1.3); } 100% { transform: scale(1); } }
+    #contractOverlay { position: fixed; inset: 0; background: rgba(20,40,60,.45); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); z-index: 150000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity .3s; }
+    #contractOverlay.show { opacity: 1; }
+    #contractOverlay .ct-card { background: rgba(255,255,255,.96); border-radius: 28px; padding: 30px 26px 24px; max-width: 320px; width: 86%; text-align: center; box-shadow: 0 24px 48px rgba(0,0,0,.18); transform: scale(.92); transition: transform .3s; }
+    #contractOverlay.show .ct-card { transform: scale(1); }
 
     /* ===== 搭子消息气泡 ===== */
     .chat-area { max-width: 420px; margin: 0 auto 20px; }
@@ -488,7 +513,7 @@
   </div>
   <div class="tab-item" onclick="switchTab('checkin')" data-page-node-id="16Wp9b6pOIbCkMhEgPlQuk">
     <div class="tab-icon" data-page-node-id="wEiuq7RvSyOEBkFI1Sl3zh">✅</div>
-    <div class="tab-label" data-page-node-id="Kb9gaFYkYNMeyNSxhKutNa">打卡</div>
+    <div class="tab-label" data-page-node-id="Kb9gaFYkYNMeyNSxhKutNa">今日</div>
   </div>
   <div class="tab-item" onclick="switchTab('weight')" data-page-node-id="VozJ98DJZ6wkM0FaFB7RCa">
     <div class="tab-icon" data-page-node-id="7euA9ARzt5FqpQmtMlwetv">⚖️</div>
@@ -540,61 +565,44 @@
   <div id="dashboard" style="display:none;" data-page-node-id="vfVuMQwF3UeaHGW2orLVwx">
     <div class="card" data-page-node-id="gI3hNZcUZw72CR8YWSS3jB">
       <div id="currentPartnerBadge" class="partner-badge" data-page-node-id="SNIyjCea6spPzEne4n0Ft5">🌸 温柔鼓励型</div>
-      <div class="question" data-page-node-id="wEsKAfr6GSIgeRSGYgBfj2">今天，你坚持了吗？</div>
-      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="wTTlRGFIFkGdUY9EwMKngh">
-        <div class="checkin-status" id="checkinStatusText" data-page-node-id="21ouhoXvil26CEMF6bq4XH">签到</div>
-        <div class="checkin-sub" data-page-node-id="X1CbQcxbv3N652HjR5onOd">点击打卡</div>
+      <div class="question" data-page-node-id="wEsKAfr6GSIgeRSGYgBfj2" style="font-size:20px;margin-bottom:18px;">今日份的小改变，准备就绪</div>
+      <div id="checkinBtn" class="today-checkin" onclick="doCheckin()" data-page-node-id="wTTlRGFIFkGdUY9EwMKngh">
+        <span class="checkin-status" id="checkinStatusText" data-page-node-id="21ouhoXvil26CEMF6bq4XH" style="font-size:20px;">签到</span>
+        <span class="checkin-sub" data-page-node-id="X1CbQcxbv3N652HjR5onOd">愿意来，就已经在变好</span>
       </div>
-      <div class="continuous" id="continuousDays" data-page-node-id="jpFCHusbFg0AaBowUsiMsw">0</div>
-      <div class="continuous-label" data-page-node-id="mLCDsaAvtYoLih8wGrvcck">连续打卡天数</div>
+      <div class="today-status">
+        <div class="ts-days"><span class="ts-num" id="continuousDays" data-page-node-id="jpFCHusbFg0AaBowUsiMsw">0</span><span class="ts-label">天连续</span></div>
+        <div class="ts-week">
+          <div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;"><span id="weekRange" data-page-node-id="zZTEnHhGTBm0yWpwB802la"></span> · 这一周</div>
+          <div class="week-dots" id="weekDots" data-page-node-id="Veunh6ZNmgA1jaGVR8f0Zw"></div>
+        </div>
+      </div>
+      <button class="talk-btn" style="margin-top:14px;width:100%;" onclick="copyStats()" data-page-node-id="e9J7Vbjse5NHxWHXwjC9sD">📋 分享战绩</button>
     </div>
 
-    <!-- 搭子消息区 -->
+    <!-- 今日 3 个减脂小动作（核心契约） -->
+    <div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+      <div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个减脂小动作</div>
+      <div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div>
+      <div class="famk3list"></div>
+    </div>
+
+    <!-- 今天发生了什么（轻量入口，面板归位后保留单入口） -->
+    <div style="max-width:420px;margin:0 auto 14px;">
+      <button class="talk-btn" style="width:100%;" onclick="openSceneSheet()">💭 今天发生了什么</button>
+    </div>
+
+    <!-- 搭子回应 -->
     <div class="chat-area" id="chatArea" data-page-node-id="EtrERTHm90cCoHu4zzaToP"></div>
 
-    <!-- 本周进度 -->
-    <div class="week-progress" data-page-node-id="3ZaueiZIuNLzv7IHjHCXsQ">
-      <div class="week-title" data-page-node-id="CeXcrsXcBdsG2qJ8ei0i1v"><span data-page-node-id="TpGojX3oUV8HcqI1QqMMfJ">📅 本周进度</span><span id="weekRange" data-page-node-id="zZTEnHhGTBm0yWpwB802la"></span></div>
-      <div class="week-dots" id="weekDots" data-page-node-id="Veunh6ZNmgA1jaGVR8f0Zw"></div>
-      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyStats()" data-page-node-id="e9J7Vbjse5NHxWHXwjC9sD">📋 复制战绩</button>
-    </div>
-
-    <!-- 搭子交互（仪表盘底部） -->
-    <div class="interaction-panel" data-page-node-id="C1MrpGyLfG7k0LTekRhlRd">
-      <div class="panel-label" data-page-node-id="Dq2Iu6gex8II6hTNvQ6H8Z">💬 和搭子说说话</div>
-      <div class="mood-row" data-page-node-id="YHvo0sfWHcPl3l3GypPlhm">
-        <div class="mood-btn" data-mood="happy" title="开心" data-page-node-id="PNavE7qCJWLJgMrpDeICFT">😄</div>
-        <div class="mood-btn" data-mood="neutral" title="平静" data-page-node-id="aJIl28dtOfQCggRPDCyjSF">😌</div>
-        <div class="mood-btn" data-mood="sad" title="低落" data-page-node-id="ON6ZIuCUuhZoviEF7wyrHm">😔</div>
-        <div class="mood-btn" data-mood="tired" title="累了" data-page-node-id="kjI6JC3BdxuxQ5iYEGvl16">😫</div>
-      </div>
-      <div class="talk-btn-row" data-page-node-id="ZVzbShUh46BBErg7hbMsAO">
-        <button class="talk-btn" data-type="progress" data-page-node-id="HvT81sJFQCfkJW97Dz5Umu">📈 进展</button>
-        <button class="talk-btn" data-type="struggle" data-page-node-id="FXHDMDXwTEqAnOXDGN3Htl">😣 困难</button>
-        <button class="talk-btn" data-type="idea" data-page-node-id="gUGNq5TURLeknyba27iXo2">💡 想法</button>
-        <button class="talk-btn" data-type="cheer" data-page-node-id="vNxloubEW5jZ1mp7dnPuXH">🎉 喜事</button>
-      </div>
-      <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="WEpG8Ub3GhdLFJfMd7wPHM">
-        <button class="talk-btn" data-type="report" data-page-node-id="rqvxCAxL64P54LdREmJCUk">📣 汇报进展</button>
-        <button class="talk-btn" data-type="question" data-page-node-id="5MHlCrCf6dtkLfMIu7vRim">🤔 有问题想问</button>
-      </div>
-      <div class="talk-btn-row" style="margin-top:8px;">
-        <button class="talk-btn" onclick="openSceneSheet()">💭 今天发生了什么</button>
-      </div>
-    </div>
-
-<!-- fix19: 今日3个关键小动作 -->
-<div style="max-width:420px;margin:14px auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
-  <div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个减脂小动作</div>
-  <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
-  <div class="famk3list"></div>
-</div>
 <script>
 (function(){
   var STORE='buddy_key3_slim', ACC='#3a7ca5';
-  var ACTS=[{"icon": "🍽️", "title": "三餐全记录", "sub": "吃了就记，只记录不自责", "why": "记录本身就能减脂——坚持记录的人平均少摄入 10%。今天的每一餐都记上，只记录，不评判自己。"}, {"icon": "🚶", "title": "餐后走 10 分钟", "sub": "任何一顿饭后都算", "why": "餐后是血糖上升最快的窗口，走 10 分钟能削掉峰值。不用大汗淋漓，散步就有效。今天挑一顿饭后走起来。"}, {"icon": "😴", "title": "23:30 前上床", "sub": "睡够 7 小时，瘦素才工作", "why": "熬夜掉的是肌肉不是脂肪——睡眠不足瘦素减半、饥饿素翻倍，第二天只想吃高热量。今晚早睡，是最便宜的减脂药。"}];
+  var ACTS=[{"icon": "🍽️", "title": "三餐全记录", "sub": "今天吃了什么好料？记一笔就好，只记录不自责", "why": "记录本身就能减脂——坚持记录的人平均少摄入 10%。今天的每一餐都记上，只记录，不评判自己。"}, {"icon": "🚶", "title": "餐后走 10 分钟", "sub": "任何一顿饭后都算，散步就有效", "why": "餐后是血糖上升最快的窗口，走 10 分钟能削掉峰值。不用大汗淋漓，散步就有效。今天挑一顿饭后走起来。"}, {"icon": "😴", "title": "23:30 前上床", "sub": "睡够 7 小时，瘦素才工作", "why": "熬夜掉的是肌肉不是脂肪——睡眠不足瘦素减半、饥饿素翻倍，第二天只想吃高热量。今晚早睡，是最便宜的减脂药。"}];
+  var CHEER=['太棒了，你的身体正在感受到你的爱 🌿','记上了！小改变正在悄悄复利 ✨','又稳稳攒下一条，慢慢来比较快 🍃','做到就是赢，今天你是自己的骄傲 💙','这不是小事，这是你在说到做到 💫'];
   function __k3ld(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
   function k3data(){ try{ var d=JSON.parse(localStorage.getItem(STORE)||'{}'); if(d.date!==__k3ld()) d={date:__k3ld(),checked:{}}; return d; }catch(e){ return {date:__k3ld(),checked:{}}; } }
+  var lastOn={};
   function renderAll(){
     var d=k3data();
     var boxes=document.querySelectorAll('.famk3list');
@@ -607,13 +615,75 @@
           +'<div style="font-size:22px;flex-shrink:0;">'+a.icon+'</div>'
           +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;color:#333;">'+a.title+'</div>'
           +'<div style="font-size:11px;color:#999;margin-top:2px;">'+a.sub+'</div></div>'
-          +'<div style="width:26px;height:26px;border-radius:50%;flex-shrink:0;'+circle+'">'+(on?'\u2713':'')+'</div></div>';
+          +'<div id="k3c_'+i+'" style="width:26px;height:26px;border-radius:50%;flex-shrink:0;'+circle+'">'+(on?'\u2713':'')+'</div></div>';
       }
       box.innerHTML=html;
     }
+    if (typeof window.__k3syncPill === 'function') window.__k3syncPill();
   }
-  window.toggleKey3=function(i){ var d=k3data(); d.checked[i]=!d.checked[i]; try{localStorage.setItem(STORE,JSON.stringify(d));}catch(e){} renderAll(); };
-  setTimeout(renderAll,0);
+  window.toggleKey3=function(i){
+    var d=k3data(); d.checked[i]=!d.checked[i];
+    try{localStorage.setItem(STORE,JSON.stringify(d));}catch(e){}
+    renderAll();
+    if(d.checked[i]&&!lastOn[i]){
+      var el=document.getElementById('k3c_'+i);
+      if(el) el.classList.add('k3-bounce');
+      if(typeof showToast==='function') showToast(CHEER[Math.floor(Math.random()*CHEER.length)]);
+    }
+    lastOn[i]=!!d.checked[i];
+    var all=true;
+    for(var j=0;j<ACTS.length;j++){ if(!d.checked[j]){ all=false; break; } }
+    if(all) setTimeout(function(){ if(typeof contractCelebrate==='function') contractCelebrate(); },450);
+  };
+  var AUTO_MAP = { 'sleep:0': 2, 'sport:2': 1 };
+  window.__k3autoOn = function(catId, idx) {
+    var k = AUTO_MAP[catId + ':' + idx];
+    if (k === undefined) return;
+    var d = k3data();
+    if (d.checked[k]) return;
+    d.checked[k] = true;
+    try{localStorage.setItem(STORE,JSON.stringify(d));}catch(e){}
+    renderAll();
+    if (typeof showToast === 'function') showToast('自检同步：今日小动作已帮你点亮 ✨');
+    var all = true;
+    for (var j = 0; j < ACTS.length; j++) { if (!d.checked[j]) { all = false; break; } }
+    if (all) setTimeout(function(){ if (typeof contractCelebrate === 'function') contractCelebrate(); }, 450);
+  };
+  window.__k3syncPill = function() {
+    var sub = document.querySelector('#checkinBtn .checkin-sub');
+    if (!sub) return;
+    var signed = false;
+    try { signed = getHistory().includes(getToday()); } catch(e) {}
+    if (!signed) { sub.innerText = '愿意来，就已经在变好'; return; }
+    var d = k3data(), n = 0;
+    for (var j = 0; j < ACTS.length; j++) { if (d.checked[j]) n++; }
+    sub.innerText = n >= ACTS.length ? '今日契约 3/3 · 达成' : '今日契约 ' + n + '/3';
+  };
+  window.contractCelebrate=function(){
+    var ov=document.getElementById('contractOverlay'); if(!ov) return;
+    var already=true;
+    try{ already=(JSON.parse(localStorage.getItem(STORAGE.HISTORY)||'[]')).includes(getToday()); }catch(e){}
+    ov.style.display='flex';
+    requestAnimationFrame(function(){ ov.classList.add('show'); });
+    if(!already && typeof doCheckin==='function') doCheckin();
+  };
+  window.closeContract=function(){
+    var ov=document.getElementById('contractOverlay'); if(!ov) return;
+    ov.classList.remove('show');
+    setTimeout(function(){ ov.style.display='none'; },300);
+  };
+  window.__k3streak = function() {
+    try {
+      var el = document.getElementById('stdTipStreak');
+      if (!el) return;
+      var c = (typeof computeContinuous === 'function' && typeof getHistory === 'function') ? computeContinuous(getHistory(), getToday()) : 0;
+      el.innerText = c > 0 ? ('🔥 已连续 ' + c + ' 天 · 这些小事正在变成你的代谢本钱') : '🌱 从今天开始 · 一件小事也是开始';
+    } catch(e) {}
+  };
+  setTimeout(function() {
+    renderAll();
+    window.__k3streak();
+  }, 0);
 })();
 </script>
     <div id="stdDailyTip" style="max-width:420px;margin:0 auto 20px;background:linear-gradient(135deg,#eef6fb,#e3f0fa);border-radius:18px;padding:14px 16px;font-size:13px;color:#2b5a7a;line-height:1.7;box-shadow:0 4px 14px rgba(0,0,0,0.04);">
@@ -622,12 +692,29 @@
         <span style="font-weight:700;">今天提醒自己</span>
         <span style="margin-left:auto;font-size:11px;cursor:pointer;text-decoration:underline;" onclick="stdTipNext()">换一条</span>
       </div>
+      <div id="stdTipStreak" style="font-size:11px;font-weight:700;color:#3a7ca5;margin-bottom:6px;"></div>
       <div id="stdTipText"></div>
     </div>
 
     <!-- 分享入口 -->
 
-    <footer data-page-node-id="f8BK3JzUPvY9OncVl93jwC">每天一次签到 · 你的搭子会给你力量</footer>
+    <!-- fix22: 今日契约达成庆祝 -->
+    <div id="contractOverlay" onclick="if(event.target===this)closeContract()">
+      <div class="ct-card">
+        <div style="font-size:44px;margin-bottom:8px;">🎉</div>
+        <div style="font-size:20px;font-weight:800;color:#2b3a4a;margin-bottom:6px;">今日契约达成</div>
+        <div style="font-size:13px;color:#6c7a89;line-height:1.7;margin-bottom:16px;">3 件小事全部做到，你已经赢了今天的自己。身体正在悄悄记下这些改变。</div>
+        <div style="display:flex;gap:8px;">
+          <button class="talk-btn" style="flex:1;margin:0;" onclick="closeContract();setTimeout(function(){askPartner('cheer');},340);">🎉 向搭子报喜</button>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button class="talk-btn" style="flex:1;margin:0;" onclick="closeContract();setTimeout(function(){openSceneSheet();},340);">💭 记录今天</button>
+          <button class="talk-btn" style="flex:1;margin:0;background:#f0f7fd;color:#3a7ca5;" onclick="closeContract()">收下 ✓</button>
+        </div>
+      </div>
+    </div>
+
+    <footer data-page-node-id="f8BK3JzUPvY9OncVl93jwC">完成 3 件小事 · 今天就赢了</footer>
   </div>
 </div>
 
@@ -2005,6 +2092,8 @@ function refreshDashboard() {
   let checked = history.includes(today);
   document.getElementById('checkinStatusText').innerText = checked ? '已签到' : '签到';
   document.getElementById('checkinBtn').style.opacity = checked ? '0.7' : '1';
+  if (window.__k3syncPill) window.__k3syncPill();
+  if (window.__k3streak) window.__k3streak();
   let continuous = computeContinuous(history, today);
   document.getElementById('continuousDays').innerText = continuous;
   let now = new Date(), dow = now.getDay();
@@ -2678,7 +2767,7 @@ const SOP_CATEGORIES = [
   { id: 'sleep', name: '睡眠', icon: '😴', color: '#9c27b0',
     tips: '每天7-8小时高质量睡眠能提升代谢、减少皮质醇，是减肥的隐形加速器。',
     items: [
-      { text: '晚上11点前上床睡觉', pts: 14 },
+      { text: '23:30 前上床睡觉', pts: 14 },
       { text: '睡眠时长达到7-8小时', pts: 10 },
       { text: '睡眠质量很好（醒来精神）', pts: 10 },
       { text: '午休小睡20-30分钟', pts: 6 },
@@ -2909,6 +2998,10 @@ function toggleSOPItem(idx, state) {
     sopSelected[cat.id][idx] = state;
   }
   
+  // fix23: 自检勾了等价项 → 单向点亮今日小动作（消灭双重劳动）
+  if (state === 'yes' && sopSelected[cat.id] && sopSelected[cat.id][idx] === 'yes' && typeof window.__k3autoOn === 'function') {
+    window.__k3autoOn(cat.id, idx);
+  }
   renderSOPList();
 }
 
@@ -3983,7 +4076,8 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
       function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
-  window.__CC_DB = {"规律三餐不节食，只在七八分饱时停筷": [["🧠 认知 · 为什么", "大脑接收「饱」的信号要延迟约20分钟，吃到「饱」时其实已过量；而节食会同时降低代谢并触发报复性进食。"], ["🎯 行为 · 怎么做", "每餐开始前喝一杯水，吃到「不饿了但还能吃」就放筷子，等20分钟再决定要不要添。"], ["⚠️ 易错点", "用「不吃晚饭」代偿中午吃多——一顿的亏两顿补，节奏一乱全天失控。"], ["✅ 确认", "这餐放下筷子后20分钟，不觉得饿也不觉得撑，记一次成功。"]], "• 每天步行7000步起步，不追求强度": [["🧠 认知 · 为什么", "研究显示日均步数与死亡风险呈剂量反应关系，约7000步是性价比拐点；步数总量比强度更关键，快慢都能受益。"], ["🎯 行为 · 怎么做", "把步数绑在既有动线上：通勤提前一站下车、饭后走10分钟、接水多走一段，凑够即停。"], ["⚠️ 易错点", "平时不动、周末暴走两万步「补账」——分散的日常活动比突击式锻炼更护心护代谢。"], ["✅ 确认", "睡前看步数≥7000算达标；连续两天不足，第二天就把走路路线提前排进日程。"]], "• 每周固定2次称重并记录，只记录不评价": [["🧠 认知 · 为什么", "体重 daily 波动可达1-2公斤（水/盐/肠道内容物），天天称会被噪音带偏情绪；但长期自我监测是减重维持的最强预测因子之一。"], ["🎯 行为 · 怎么做", "固定「周三、周日早晨、晨尿后、同一体重秤」称，数据只进记录表，不当天做任何饮食惩罚。"], ["⚠️ 易错点", "昨晚吃咸了第二天涨1公斤就恐慌加练——那是水不是脂肪，看周趋势别看单点。"], ["✅ 确认", "本周两次数据都已入表，且没有因为某个数字而额外节食或自责。"]], "学会看营养成分表，控制隐形热量": [["🧠 认知 · 为什么", "外卖和包装食品的热量大头是隐形油糖（酱料、奶茶、坚果、沙拉酱），一杯奶茶≈慢跑一小时；看不见的热量才是发胖主力。"], ["🎯 行为 · 怎么做", "买东西先翻背面营养成分表：看「每份」还是「每100g」、钠含量、反式脂肪三处；今天挑一件常吃的查一次。"], ["⚠️ 易错点", "被「0蔗糖」「轻卡」营销词带偏——看配料表前三位和NRV%，不看封面口号。"], ["✅ 确认", "能说出最近一件常吃食品的热量/钠含量，并做过一次「因为看了表而换掉」的决定。"]], "• 每周3次30分钟有氧 + 2次力量训练": [["🧠 认知 · 为什么", "WHO建议每周150分钟中等强度有氧+2次力量；有氧练心肺、力量保肌肉，肌肉量决定基础代谢上限，只做有氧容易「瘦但松」。"], ["🎯 行为 · 怎么做", "周日晚上把5个时段直接写进日历（像开会一样），到点只做当次最小版本，做完即止。"], ["⚠️ 易错点", "一周漏了就下周加倍补——运动获益来自规律刺激，报复性训练只换来酸痛和放弃。"], ["✅ 确认", "本周日历上有氧≥3格、力量≥2格，漏掉的次日做了10分钟缩水版保住节奏。"]], "• 睡眠保证7小时，睡前1小时不进食": [["🧠 认知 · 为什么", "大规模研究显示7小时睡眠全因死亡率最低，过短升高饥饿素、降低瘦素，直接推高食欲；睡前进食会推迟深睡窗口、影响修复。"], ["🎯 行为 · 怎么做", "从起床时间倒推：固定几点起→几点睡→几点后不进食，三个时间一次定死，睡前1小时只做洗漱和轻阅读。"], ["⚠️ 易错点", "用周末补觉还债——作息漂移本身（社交时差）就是独立风险因素，补觉补不回节律。"], ["✅ 确认", "本周≥5天睡满7小时、睡前1小时没进食；昨晚几点放下筷子的，说得出。"]], "加入力量训练，提升基础代谢": [["🧠 认知 · 为什么", "每公斤肌肉每天静息消耗约13大卡，基础代谢的70%由肌肉决定；30岁后每年流失0.5-1%肌肉，只做有氧会加速流失。"], ["🎯 行为 · 怎么做", "从自重开始：深蹲、俯卧撑、划船三个模式，每周2次各3组×8-12次，动作标准优先于次数。"], ["⚠️ 易错点", "只练喜欢的部位（腹肌/手臂）——大肌群（腿/背/胸）才是代谢发动机，局部训练减不了局部脂肪。"], ["✅ 确认", "本周完成2次包含深蹲或俯卧撑的训练，下次能比上次多做1次或加重一点点。"]], "• 建立压力性进食的应对清单": [["🧠 认知 · 为什么", "压力激素皮质醇会同时放大对高糖高脂食物的渴望——馋不是饿，是情绪在找出口，硬忍必然反弹。"], ["🎯 行为 · 怎么做", "写一张3行的应对卡贴冰箱：想吃先喝一杯水等10分钟→10分钟后还想要就吃一小份正餐替代→吃完不补救。"], ["⚠️ 易错点", "靠「忍」硬扛——对抗的是自己的情绪，赢一次输十次；清单的意义是给情绪另一条出路。"], ["✅ 确认", "本周至少一次用清单应对成功（喝水等10分钟后欲望消退），或吃多了但次日正常吃饭没有禁食补救。"]], "• 设定体重反弹预警线（+3kg即干预）": [["🧠 认知 · 为什么", "减重维持研究显示：反弹大多在「不再监测」之后发生；设预警线是把「失败后的懊悔」变成「触发即行动」的执行意图。"], ["🎯 行为 · 怎么做", "在记录表上画一条红线=最低体重+3kg；周称重碰到红线，当周只做一件事：恢复三餐记录+步数，不加练不节食。"], ["⚠️ 易错点", "超线后用极端手段快速压回去——反弹期最需要的是回到基础动作，猛减只会进入溜溜球循环。"], ["✅ 确认", "红线已写在记录表里，且能说出「碰到红线后我具体做的第一件事是什么」。"]]};
+  window.__CC_DB = {
+"1️⃣ 不用食物奖励自己：情绪化进食是减脂第一杀手，奖励换成了甜品店": [["🧠 认知 · 为什么记住它", "高糖高脂食物会刺激多巴胺奖励回路，让「吃」和「安抚情绪」错误绑定——压力越大越想吃，这不是馋，是奖赏系统被劫持。"], ["🎯 行为 · 具体怎么做", "今天写一张「非食物奖励清单」（一集剧、一次按摩、一件新衣服），下次想犒劳自己时只从清单里挑。"], ["⚠️ 易错点", "用「我值得」给甜品开绿灯——奖励情绪可以，但别让高糖高脂成为唯一的奖励通道。"], ["🔧 怎么调整", "每周回看一次：这周有几次情绪化进食？触发场景是什么？给每个场景配一个非食物替代。"]], "2️⃣ 不喝含糖饮料：液态热量最容易被忽略，一杯奶茶=慢跑一小时": [["🧠 认知 · 为什么记住它", "液体热量几乎不触发饱腹感——同样热量的液体比固体饿得更快；一杯全糖奶茶约400-500大卡，需要慢跑一小时才能消耗。"], ["🎯 行为 · 具体怎么做", "把手边含糖饮料换成水/气泡水/无糖茶；想喝奶茶时点「三分糖+中杯」过渡，不追求一步到位。"], ["⚠️ 易错点", "「0蔗糖」不等于无糖——果葡糖浆、蜂蜜、浓缩果汁都是糖，看配料表不看广告词。"], ["🔧 怎么调整", "记录一周饮品种类，数数每周喝下几杯含糖饮料；每周减一杯，不搞一次戒断。"]], "3️⃣ 不熬夜透支：睡不够，瘦素掉、饥饿素涨，意志力再强也白搭": [["🧠 认知 · 为什么记住它", "睡眠不足时瘦素（饱腹信号）下降、饥饿素（饥饿信号）上升，第二天对高热量食物的渴望显著增强——熬夜掉的常常是肌肉，留下的多是脂肪。"], ["🎯 行为 · 具体怎么做", "从固定起床时间倒推上床时间；今晚设一个「手机截止点」，睡前1小时把手机放远充电。"], ["⚠️ 易错点", "用周末补觉还债——作息漂移（社交时差）本身就是代谢风险，补觉补不回节律。"], ["🔧 怎么调整", "连续三天没睡够，先别加运动量，优先把睡眠补回来——睡眠是减脂的地基。"]], "减肥不是跟食欲打仗，是跟习惯谈判。": [["🧠 认知 · 为什么记住它", "意志力是消耗品，环境线索才是进食量的最大推手——容器大小、食物可见度能悄悄改变20%以上的进食量。谈判=改环境，打仗=耗意志。"], ["🎯 行为 · 具体怎么做", "今晚做一次环境微调：零食收进不透明的柜子、水果放到视线里、大碗换小碗。"], ["⚠️ 易错点", "把偶发破戒当战败——对抗思维带来羞耻感，而羞耻感正是暴食的导火索。"], ["🔧 怎么调整", "每周挑一个最容易破戒的场景，只为它设计一条环境对策，不追求一次改完。"]], "1️⃣ 「我吃的是七分饱」——给大脑留出饱腹信号的延迟时间": [["🧠 认知 · 为什么记住它", "大脑接收「饱」的信号要延迟约20分钟，吃到「撑」时其实早已过量——七分饱（不饿了但还能吃）才是真实的热量刹车点。"], ["🎯 行为 · 具体怎么做", "每餐开始前喝一杯水；吃到七分饱就放筷子，等20分钟再决定要不要添。"], ["⚠️ 易错点", "边刷手机边吃饭——分心进食会在无意识间多吃10%以上，饱腹信号更迟钝。"], ["🔧 怎么调整", "今晚挑一餐专心吃：放下手机、每口嚼15次以上，感受七分饱出现的位置。"]], "2️⃣ 「今天多走两千步」——碎步累积，比一次暴走更可持续": [["🧠 认知 · 为什么记住它", "日常活动的消耗差异每天可达数百大卡，是「瘦子不容易胖」的隐藏变量；研究显示步数总量比运动强度更关键，分散的小步优于突击暴走。"], ["🎯 行为 · 具体怎么做", "把两千步绑进既有动线：通勤提前一站下车、饭后走10分钟、接水绕远路。"], ["⚠️ 易错点", "平时不动、周末暴走两万步「补账」——分散活动比突击锻炼更护代谢，也更不容易受伤。"], ["🔧 怎么调整", "睡前看步数，连续两天不足就把「走路时段」提前写进明天的日程。"]], "3️⃣ 「明早上称，不逃避」——称重不是审判，是仪表盘": [["🧠 认知 · 为什么记住它", "长期规律的体重自我监测是减重维持的最强预测因子之一；逃避称重=关掉仪表盘，等体重「突然」反弹时早已错过干预窗口。"], ["🎯 行为 · 具体怎么做", "明早固定流程：起床、上完厕所、同一体重秤、记录——只记数字，不做任何当天的惩罚决定。"], ["⚠️ 易错点", "昨晚吃咸了涨1公斤就恐慌——那是水分波动（一天1-2公斤是正常噪音），看周趋势不看单点。"], ["🔧 怎么调整", "连续两天不想上称，正是最该上称的信号——把它当仪表盘红灯，不当审判。"]], "4️⃣ 「慢慢减，不着急」——每周0.5公斤，一年就是全新的自己": [["🧠 认知 · 为什么记住它", "每周0.5-1公斤是保住肌肉和代谢的安全速度；过快减重掉的多是水和肌肉，基础代谢随之下滑，反弹几乎是必然。"], ["🎯 行为 · 具体怎么做", "把目标拆到周：「本周比上周轻0.5公斤」——用每天300-500大卡的缺口实现，不节食只调整。"], ["⚠️ 易错点", "用「掉得快」验证努力——掉秤快说明缺口气势，不掉秤的周里身体正在重组。"], ["🔧 怎么调整", "平台期超过两周再微调（先查隐形热量和睡眠），不每周都加码。"]], "这四句话每天挑一句说出口，形成身体记忆。": [["🧠 认知 · 为什么记住它", "把意图说出来是一种「执行意图」设定——明确「什么场景做什么」的承诺，行为发生率显著高于只想不做。"], ["🎯 行为 · 具体怎么做", "每天早上挑一句，绑定到一个固定场景说出来（照镜子/出门前/饭前）。"], ["⚠️ 易错点", "四句全念等于没念——一天一句、说出口、当天做到一次，比背诵全部有用。"], ["🔧 怎么调整", "晚上回顾：今天那句在哪个场景用上了？没用上，明天只提醒这一句。"]], "Fact 事实底座（=先摆事实）：穷减肥拼意志力饿肚子；富减肥改环境和习惯，让对的选择变容易。": [["🧠 认知 · 为什么记住它", "意志力是有限资源，靠饿肚子对抗食欲必然输给生理机制；环境设计的优势是「不消耗意志力」——看不见就拿不到，拿得到就吃得多。"], ["🎯 行为 · 具体怎么做", "做一次「环境审计」：数一数家里视线内有多少高热量食物，今天至少收起来两样。"], ["⚠️ 易错点", "把失败归因于「我不自律」——大多数时候是环境输了，不是你输了。"], ["🔧 怎么调整", "每月做一次环境复查：新进门的零食、新的进食触发点，逐一处理。"]], "Core 核心结论（=一句话结论）：减肥减的不是体重，是生活方式。": [["🧠 认知 · 为什么记住它", "体重是生活方式的滞后指标——单靠节食压下去的数字，会被旧生活方式原样拉回来；能维持的减重，都来自习惯的更换。"], ["🎯 行为 · 具体怎么做", "每次做决定时问一句：「这个做法我能坚持一年吗？」不能坚持的方案，再快也不用。"], ["⚠️ 易错点", "用「冲刺式节食」应付重要场合——结束后报复性反弹，比不减更伤代谢。"], ["🔧 怎么调整", "每月挑一个旧习惯换成新习惯（含糖饮料→无糖茶），一次只换一个。"]], "Insight 洞察（=看穿背后的规律）：三禁忌：不用食物奖励自己、不喝含糖饮料、不熬夜透支。": [["🧠 认知 · 为什么记住它", "三禁忌对应三个最常见的隐形增重通道——情绪奖赏、液态热量、睡眠负债；单独看都不致命，叠加起来就是「怎么都瘦不下来」的全部原因。"], ["🎯 行为 · 具体怎么做", "今晚自查一次：今天碰了几条禁忌？碰了一条，明天只针对它做一个小对策。"], ["⚠️ 易错点", "偶尔破一条就用更狠的节食补救——底线动作的补救方式是不补救，下一餐正常吃。"], ["🔧 怎么调整", "每周日数一次本周禁忌次数，趋势变少就是进步，不追求零。"]], "So What（=所以该怎么做）：把减脂变成每天的标准动作，而不是一次性的豪赌。": [["🧠 认知 · 为什么记住它", "减脂的成败取决于「默认动作」——每天自动发生的记录、步数、上床，比偶尔一次的大强度更有价值；豪赌式减肥的反弹率极高。"], ["🎯 行为 · 具体怎么做", "定死三个默认动作：早上称一次、饭后走十分钟、23:30前上床——先完成，再谈强度。"], ["⚠️ 易错点", "状态好时猛加码——加码会抬高心理基线，状态回落时连标准动作都不想做了。"], ["🔧 怎么调整", "每周日晚核对：三个标准动作这周做了几天？≥5天即合格，不加不减。"]], "How To Do（=具体怎么做）：每天三个动作——记录饮食、走够步数、按时上床。": [["🧠 认知 · 为什么记住它", "自我监测（记录）是行为改变技术里效应量最大的一项——记录本身就能减少约10%的摄入；步数和睡眠分别管住消耗端和激素端。"], ["🎯 行为 · 具体怎么做", "三个动作绑到三个锚点：吃完饭→记一笔；下午→看步数；手机截止点→上床。"], ["⚠️ 易错点", "追求记录完美——漏记一顿就放弃当天，比记不全更伤节奏；记个大概也好过不记。"], ["🔧 怎么调整", "每周看一次三个动作的完成率，连续低于一半就砍掉一个，保住两个再说。"]], "Know How（=实操诀窍）：关键不是少吃一顿，而是不吃「隐形热量」：奶茶、酱料、夜宵都是脂肪的糖衣。": [["🧠 认知 · 为什么记住它", "一天的热量差往往败在细节：一杯奶茶≈400大卡、一勺沙拉酱≈100大卡、一份夜宵≈500大卡——少吃正餐饿得快，砍隐形热量几乎无感。"], ["🎯 行为 · 具体怎么做", "今天挑一样最常吃的「隐形热量」（奶茶/酱料/夜宵），查一次它的实际热量并记录下来。"], ["⚠️ 易错点", "被「0蔗糖」「轻卡」营销词骗——看配料表前三位和NRV%，不看封面口号。"], ["🔧 怎么调整", "每周替换一样隐形热量（奶茶→无糖茶、沙拉酱→醋汁），替换比戒断容易坚持。"]], "验收口径（=怎么算过关）：面对零食时，能否自己说出「我不饿，只是嘴馋」并放下——「七分饱」「明天再吃」「我说了算」。": [["🧠 认知 · 为什么记住它", "馋和饿是两套信号：饿是生理性渐进，馋是突发且指向特定食物——冲动峰值只有几分钟，能区分两者的人才有饮食自主权。"], ["🎯 行为 · 具体怎么做", "嘴馋时执行10秒话术：「我不饿，只是嘴馋」→ 喝一杯水 → 等10分钟，多数冲动会自己退潮。"], ["⚠️ 易错点", "说出口但没忍住就自责——这是训练不是考试，用了话术没忍住也比没用强。"], ["🔧 怎么调整", "每天睡前自查：今天面对零食时用上话术了吗？用上一次就算过关。"]], "1️⃣ 不节食只调整：节食掉的是水和肌肉，调整掉的是脂肪": [["🧠 认知 · 为什么记住它", "极低热量节食前期掉的是糖原和水，同时肌肉被分解供能——肌肉量决定基础代谢，节食结束后「更低的代谢+旧食量」=必反弹。"], ["🎯 行为 · 具体怎么做", "下一餐不减少份量，只调整结构：半盘蔬菜+一掌蛋白质+一拳主食。"], ["⚠️ 易错点", "体重不动就砍饭量——先查睡眠和隐形热量，最后才动份量。"], ["🔧 怎么调整", "每周只调整一个变量（结构/份量/加餐），一次动三个等于回到节食。"]], "2️⃣ 不追求速成：减得越快，弹得越猛——身体记仇": [["🧠 认知 · 为什么记住它", "快速减重会触发身体的「饥荒响应」：代谢下调、食欲激素反弹性升高——减得越猛，反弹时的「超量恢复」越猛，这叫体重定点防御。"], ["🎯 行为 · 具体怎么做", "给自己定死速度上限：每周不超过1公斤；超过的部分多是水，不是脂肪。"], ["⚠️ 易错点", "用「掉秤快」验证方法——快速掉秤期结束后的一周，才是真实趋势。"], ["🔧 怎么调整", "如果两周掉了超过2公斤，主动加回100-200大卡，把速度降回安全区。"]], "3️⃣ 不因一顿吃多而放弃：一顿饭毁不掉减肥，放弃的念头才会": [["🧠 认知 · 为什么记住它", "行为科学叫「去他的效应」——破戒后的自责会触发「反正今天已经毁了」的报复性进食；造成伤害的是放弃后的连续暴食，不是那一顿。"], ["🎯 行为 · 具体怎么做", "下一餐直接正常吃，不加练不禁食；翻篇速度越快，伤害越小。"], ["⚠️ 易错点", "用「明天节食抵扣」——补偿心态会让下一轮暴食循环更快到来。"], ["🔧 怎么调整", "记一条「破戒日记」：只写触发场景不写自责——下周为这个场景设计一条对策。"]], "4️⃣ 不孤立作战：告诉家人朋友，让环境托住你": [["🧠 认知 · 为什么记住它", "研究一致显示社会支持能显著提高减重成功率——公开承诺增加一致性，同伴认可是长期坚持的情绪燃料。"], ["🎯 行为 · 具体怎么做", "今天告诉一个人你的周目标（0.5公斤），并约定每周同步一次进展。"], ["⚠️ 易错点", "宣布太高目标换掌声——目标越夸张，弃牌时越难开口；选「小而确定」的目标。"], ["🔧 怎么调整", "如果对方总劝你「吃一顿没事」，换一个支持你的人做同步对象——环境要主动挑选。"]], "反弹不是失败，是旧习惯在敲门。你要做的是换锁，不是堵门。": [["🧠 认知 · 为什么记住它", "反弹不是意志力崩溃，是旧环境线索重新接管了行为——旧习惯没被替换、只是被压制，一有压力就会回来。"], ["🎯 行为 · 具体怎么做", "下次体重回升时别加练，先查三件事：睡眠乱了吗？隐形热量回来了吗？称重停了吗？"], ["⚠️ 易错点", "用更狠的节食「惩罚」反弹——惩罚只会加速下一轮循环。"], ["🔧 怎么调整", "每月做一次「换锁清单」：环境里哪些旧线索回来了，逐一替换。"]], "1️⃣ 饮食独立：离开外卖也能好好吃饭——会做三个健康菜": [["🧠 认知 · 为什么记住它", "烹饪能力是最被低估的减脂资产——会做饭的人对外食和深加工食品依赖更低，热量可控性完全不同。"], ["🎯 行为 · 具体怎么做", "本周练熟一个10分钟健康菜（如番茄炖鸡胸），凑齐三个当「保底菜单」。"], ["⚠️ 易错点", "追求复杂菜谱——保底菜的标准是「快、能常吃、不难吃」，不是惊艳。"], ["🔧 怎么调整", "每月新增或升级一道保底菜，三个月后外食频率自然下降。"]], "2️⃣ 情绪独立：离开食物也能消化压力——用运动代替暴食": [["🧠 认知 · 为什么记住它", "食物是最方便的情绪调节器，但安抚只维持几分钟、代价却是长期的；运动同样能降皮质醇、改善情绪，且没有热量账单。"], ["🎯 行为 · 具体怎么做", "下次压力上来，先做10分钟快走或拉伸，之后再决定要不要吃。"], ["⚠️ 易错点", "要求自己「不许有情绪」——目标是多一个出口，不是关掉情绪。"], ["🔧 怎么调整", "记一周「情绪-进食」日记，找出最容易用食物消化情绪的场景，为它配一个运动替代。"]], "3️⃣ 节奏独立：离开监督也能持续推进——称重和运动是自己的事": [["🧠 认知 · 为什么记住它", "外部监督停摆是反弹高发点——靠别人的坚持不叫习惯；内在动机（我想健康）比外部动机（别人看着我）维持得更久。"], ["🎯 行为 · 具体怎么做", "把称重和运动时间写进自己的日历，不依赖任何人提醒，今天就开始。"], ["⚠️ 易错点", "没人点赞就觉得没劲——给自己设计即时反馈（日历打钩、周报表），不依赖外部。"], ["🔧 怎么调整", "旅行、加班、假期结束时，24小时内恢复标准动作——偏三天不偏三周。"]], "瘦只是副产品，对身体的掌控感才是目标。": [["🧠 认知 · 为什么记住它", "心理学上叫「自我效能」——对身体的掌控感是最稳定的动机来源；只盯体重数字的动机最脆弱，因为数字天然波动。"], ["🎯 行为 · 具体怎么做", "每周记录一次「掌控感时刻」：拒绝了零食/完成训练/早睡成功，各算一次。"], ["⚠️ 易错点", "只用体重衡量进步——体围、精力、睡眠、情绪都是仪表盘的一部分。"], ["🔧 怎么调整", "体重不动的那周，翻翻掌控感记录——它们才是继续下去的理由。"]], "为什么：馋不是饿，是情绪在找出口。硬忍必反弹，因为对抗的是自己的情绪。": [["🧠 认知 · 为什么记住它", "馋是突发、指向特定食物（通常高糖高脂）；饿是渐进、什么都吃——馋的本质是情绪调节需求，硬压会触发反弹性暴食。"], ["🎯 行为 · 具体怎么做", "馋上来时先问一句：「我在焦虑/无聊/疲惫什么？」给情绪命名，冲动会降一档。"], ["⚠️ 易错点", "把「忍住不吃」当成功——压下去的情绪会连本带利回来，出口比闸门重要。"], ["🔧 怎么调整", "记一周「馋的日志」：时间、场景、情绪——规律会让你自己都吃惊。"]], "① 按暂停键：想吃先喝一杯水，等10分钟——多数「饿」会自己走": [["🧠 认知 · 为什么记住它", "冲动像海浪，峰值只有几分钟——「冲动冲浪」技术证明：不对抗、只是等待，欲望会自行退潮；口渴也常被误判为饿。"], ["🎯 行为 · 具体怎么做", "嘴馋时执行固定三步：喝一杯水→设10分钟计时→时间到了还想吃，就吃一小份，不带自责。"], ["⚠️ 易错点", "等待时盯着食物想象——离开现场，去刷个牙/走两步，给冲动换个环境。"], ["🔧 怎么调整", "记录10分钟后的结果：多少次「饿」自己走了？数据会给你信心。"]], "② 用观察代替自责：问自己「我在焦虑什么」，不说「我怎么又馋了」": [["🧠 认知 · 为什么记住它", "自责触发「吃→骂自己→情绪更差→再吃」的羞耻循环；观察式提问把对抗变成好奇，是正念饮食的核心技术。"], ["🎯 行为 · 具体怎么做", "下次馋的时候，用一句观察代替一句批评：「我现在什么情绪？它想让我吃什么？为什么是这个？」"], ["⚠️ 易错点", "观察变成新的自我攻击——「我就是管不住嘴」不是观察，是变相批评。"], ["🔧 怎么调整", "睡前回看当天的馋：给每次标注情绪类型（焦虑/无聊/疲惫），一周后找规律。"]], "③ 提供安全感：真吃多了，下一餐正常吃——不补救不禁食，翻篇要快": [["🧠 认知 · 为什么记住它", "补偿性节食（少吃一顿/清肠）会向大脑确认「食物要短缺了」，反而强化囤积倾向和下一轮暴食；规律进食的安全感才是暴食的解药。"], ["🎯 行为 · 具体怎么做", "吃多后的下一餐：正常时间、正常份量、正常结构——像什么都没发生一样。"], ["⚠️ 易错点", "「中午吃多了晚饭就不吃」——省掉的一顿会变成深夜的夜宵，账算回来是亏的。"], ["🔧 怎么调整", "每次翻篇后记一笔成功：「这次X小时就翻篇了」——翻篇速度本身就是训练成果。"]], "So What（=所以该怎么做）：减脂的目标不是管住嘴，而是让能量用在生活上，而不是用在和食物的内耗上。": [["🧠 认知 · 为什么记住它", "与食物长期内耗（想→忍→暴→悔）消耗的心理能量远超食物热量本身；目标从「管住嘴」换成「减少内耗」，坚持才有可能性。"], ["🎯 行为 · 具体怎么做", "今天做一次「内耗盘点」：花在「想吃又不敢吃」上的时间有几段？给每段配一个出口。"], ["⚠️ 易错点", "把「成功忍住一整天」当胜利——内耗更少的日子，才是更好的日子。"], ["🔧 怎么调整", "每周日问自己：这周和食物的关系更轻松还是更紧张？紧张了，先减规则再加控制。"]], "1 七分饱，饭前一杯水": [["🧠 认知 · 为什么记住它", "饭前约500ml水能显著降低单餐摄入（研究显示约减少13%）；而七分饱的刹车点需要约20分钟才能被大脑收到。"], ["🎯 行为 · 具体怎么做", "每餐前一杯水，吃到「不饿了但还能吃」放筷子，等20分钟再决定要不要添。"], ["⚠️ 易错点", "用汤泡饭加速吞咽——吃太快会让刹车信号永远迟到。"], ["🔧 怎么调整", "每周挑三餐执行「水+七分饱」，感受饱腹信号出现的位置。"]], "2 每天走够六千步": [["🧠 认知 · 为什么记住它", "步数与死亡风险呈剂量反应，约6000步已能拿到大部分健康收益；日常步行是每天几百大卡的隐藏消耗。"], ["🎯 行为 · 具体怎么做", "绑定动线凑步数：通勤提前一站、饭后走十分钟、接水绕远路。"], ["⚠️ 易错点", "平时不动周末补——分散的步行比突击暴走更护代谢，也更不容易受伤。"], ["🔧 怎么调整", "睡前看步数，连续两天不足，第二天把走路时段提前排进日程。"]], "3 晚上十一点前睡觉": [["🧠 认知 · 为什么记住它", "睡不足7小时，瘦素下降、饥饿素上升，第二天对高热量食物的渴望显著增强；固定作息本身更是独立于时长的健康变量。"], ["🎯 行为 · 具体怎么做", "从起床时间倒推：10点半手机放远，11点前关灯。"], ["⚠️ 易错点", "周末报复性熬夜——生物钟不认周末，作息漂移是独立的代谢风险。"], ["🔧 怎么调整", "连续三天熬夜，先停掉加练，优先把觉补回来。"]], "4 戒掉含糖饮料": [["🧠 认知 · 为什么记住它", "液体糖几乎不触发饱腹机制，是「最容易砍掉的热量」——一杯全糖奶茶≈400大卡，需要慢跑一小时消耗。"], ["🎯 行为 · 具体怎么做", "家里和办公室备好无糖替代（气泡水/无糖茶），想喝的冲动出现时先喝替代品。"], ["⚠️ 易错点", "「0蔗糖」陷阱——果葡糖浆、蜂蜜、浓缩果汁都是糖，看配料表不看广告。"], ["🔧 怎么调整", "数一数本周喝了几杯含糖饮料，每周减一杯，不搞一步戒断。"]], "5 每周称重三次，只看趋势": [["🧠 认知 · 为什么记住它", "体重每天波动1-2公斤是水分噪音；规律监测是减重维持的最强预测因子，但前提是「看趋势不看单点」。"], ["🎯 行为 · 具体怎么做", "固定三个早晨（如周二/周四/周六），晨厕后同一体重秤记录，只入表不评判。"], ["⚠️ 易错点", "昨晚吃咸了涨1公斤就恐慌加练——那是水，看7日均值。"], ["🔧 怎么调整", "周均值连续两周上升，才启动干预（先查隐形热量和睡眠）。"]], "6 持续学习营养学常识": [["🧠 认知 · 为什么记住它", "营养素养（看懂配料表、识别营销话术）直接决定饮食决策质量——知识是最便宜的「热量过滤器」。"], ["🎯 行为 · 具体怎么做", "每周搞懂一个概念（隐形热量/NRV%/升糖负荷），当场用它查一件常吃的食品。"], ["⚠️ 易错点", "收藏一堆科普不使用——学一条、用一条，才叫素养。"], ["🔧 怎么调整", "每次购物用上一个新学的知识点，用不上就先不学新的。"]], "说一百句不如做到一句——你活出来的样子，就是身体的答案。": [["🧠 认知 · 为什么记住它", "身份认同驱动长期行为——「我是个自律的人」比「我要减肥」更抗挫折；行为塑造身份，身份反过来巩固行为。"], ["🎯 行为 · 具体怎么做", "不新增承诺，把六条里最稳的一条再坚持一周，让它成为「身份证据」。"], ["⚠️ 易错点", "六条全上——全部同时在做的结果，通常是全部同时断。"], ["🔧 怎么调整", "每月盘点：哪条已经「不用想就会做」？它就是你的新身份，下个月再换下一条。"]],"规律三餐不节食，只在七八分饱时停筷": [["🧠 认知 · 为什么", "大脑接收「饱」的信号要延迟约20分钟，吃到「饱」时其实已过量；而节食会同时降低代谢并触发报复性进食。"], ["🎯 行为 · 怎么做", "每餐开始前喝一杯水，吃到「不饿了但还能吃」就放筷子，等20分钟再决定要不要添。"], ["⚠️ 易错点", "用「不吃晚饭」代偿中午吃多——一顿的亏两顿补，节奏一乱全天失控。"], ["🔧 怎么调整", "这餐放下筷子后20分钟，不觉得饿也不觉得撑，记一次成功。"]], "• 每天步行7000步起步，不追求强度": [["🧠 认知 · 为什么", "研究显示日均步数与死亡风险呈剂量反应关系，约7000步是性价比拐点；步数总量比强度更关键，快慢都能受益。"], ["🎯 行为 · 怎么做", "把步数绑在既有动线上：通勤提前一站下车、饭后走10分钟、接水多走一段，凑够即停。"], ["⚠️ 易错点", "平时不动、周末暴走两万步「补账」——分散的日常活动比突击式锻炼更护心护代谢。"], ["🔧 怎么调整", "睡前看步数≥7000算达标；连续两天不足，第二天就把走路路线提前排进日程。"]], "• 每周固定2次称重并记录，只记录不评价": [["🧠 认知 · 为什么", "体重 daily 波动可达1-2公斤（水/盐/肠道内容物），天天称会被噪音带偏情绪；但长期自我监测是减重维持的最强预测因子之一。"], ["🎯 行为 · 怎么做", "固定「周三、周日早晨、晨尿后、同一体重秤」称，数据只进记录表，不当天做任何饮食惩罚。"], ["⚠️ 易错点", "昨晚吃咸了第二天涨1公斤就恐慌加练——那是水不是脂肪，看周趋势别看单点。"], ["🔧 怎么调整", "本周两次数据都已入表，且没有因为某个数字而额外节食或自责。"]], "学会看营养成分表，控制隐形热量": [["🧠 认知 · 为什么", "外卖和包装食品的热量大头是隐形油糖（酱料、奶茶、坚果、沙拉酱），一杯奶茶≈慢跑一小时；看不见的热量才是发胖主力。"], ["🎯 行为 · 怎么做", "买东西先翻背面营养成分表：看「每份」还是「每100g」、钠含量、反式脂肪三处；今天挑一件常吃的查一次。"], ["⚠️ 易错点", "被「0蔗糖」「轻卡」营销词带偏——看配料表前三位和NRV%，不看封面口号。"], ["🔧 怎么调整", "能说出最近一件常吃食品的热量/钠含量，并做过一次「因为看了表而换掉」的决定。"]], "• 每周3次30分钟有氧 + 2次力量训练": [["🧠 认知 · 为什么", "WHO建议每周150分钟中等强度有氧+2次力量；有氧练心肺、力量保肌肉，肌肉量决定基础代谢上限，只做有氧容易「瘦但松」。"], ["🎯 行为 · 怎么做", "周日晚上把5个时段直接写进日历（像开会一样），到点只做当次最小版本，做完即止。"], ["⚠️ 易错点", "一周漏了就下周加倍补——运动获益来自规律刺激，报复性训练只换来酸痛和放弃。"], ["🔧 怎么调整", "本周日历上有氧≥3格、力量≥2格，漏掉的次日做了10分钟缩水版保住节奏。"]], "• 睡眠保证7小时，睡前1小时不进食": [["🧠 认知 · 为什么", "大规模研究显示7小时睡眠全因死亡率最低，过短升高饥饿素、降低瘦素，直接推高食欲；睡前进食会推迟深睡窗口、影响修复。"], ["🎯 行为 · 怎么做", "从起床时间倒推：固定几点起→几点睡→几点后不进食，三个时间一次定死，睡前1小时只做洗漱和轻阅读。"], ["⚠️ 易错点", "用周末补觉还债——作息漂移本身（社交时差）就是独立风险因素，补觉补不回节律。"], ["🔧 怎么调整", "本周≥5天睡满7小时、睡前1小时没进食；昨晚几点放下筷子的，说得出。"]], "加入力量训练，提升基础代谢": [["🧠 认知 · 为什么", "每公斤肌肉每天静息消耗约13大卡，基础代谢的70%由肌肉决定；30岁后每年流失0.5-1%肌肉，只做有氧会加速流失。"], ["🎯 行为 · 怎么做", "从自重开始：深蹲、俯卧撑、划船三个模式，每周2次各3组×8-12次，动作标准优先于次数。"], ["⚠️ 易错点", "只练喜欢的部位（腹肌/手臂）——大肌群（腿/背/胸）才是代谢发动机，局部训练减不了局部脂肪。"], ["🔧 怎么调整", "本周完成2次包含深蹲或俯卧撑的训练，下次能比上次多做1次或加重一点点。"]], "• 建立压力性进食的应对清单": [["🧠 认知 · 为什么", "压力激素皮质醇会同时放大对高糖高脂食物的渴望——馋不是饿，是情绪在找出口，硬忍必然反弹。"], ["🎯 行为 · 怎么做", "写一张3行的应对卡贴冰箱：想吃先喝一杯水等10分钟→10分钟后还想要就吃一小份正餐替代→吃完不补救。"], ["⚠️ 易错点", "靠「忍」硬扛——对抗的是自己的情绪，赢一次输十次；清单的意义是给情绪另一条出路。"], ["🔧 怎么调整", "本周至少一次用清单应对成功（喝水等10分钟后欲望消退），或吃多了但次日正常吃饭没有禁食补救。"]], "• 设定体重反弹预警线（+3kg即干预）": [["🧠 认知 · 为什么", "减重维持研究显示：反弹大多在「不再监测」之后发生；设预警线是把「失败后的懊悔」变成「触发即行动」的执行意图。"], ["🎯 行为 · 怎么做", "在记录表上画一条红线=最低体重+3kg；周称重碰到红线，当周只做一件事：恢复三餐记录+步数，不加练不节食。"], ["⚠️ 易错点", "超线后用极端手段快速压回去——反弹期最需要的是回到基础动作，猛减只会进入溜溜球循环。"], ["🔧 怎么调整", "红线已写在记录表里，且能说出「碰到红线后我具体做的第一件事是什么」。"]]};
   function fbFor(txt){
     
 var db = window.__CC_DB;
