@@ -58,7 +58,7 @@ body {
 .action-row.done .chk { background: #0d9488; border-color: #0d9488; }
 
 /* === Q&A panel === */
-.qa-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.45); display: none; align-items: center; justify-content: center; padding: 0 16px; z-index: 300; }
+.qa-overlay { position: fixed; left: 0; top: 0; right: 0; bottom: 0; background: rgba(15,23,42,.45); display: none; align-items: center; justify-content: center; padding: 0 16px; z-index: 300; }
 .qa-overlay.show { display: flex; }
 .qa-panel { position: relative; max-width: 460px; width: 100%; background: white; border-radius: 24px; padding: 22px 18px 26px; max-height: 76vh; overflow-y: auto; animation: qaPop .28s cubic-bezier(.175,.885,.32,1.2); }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -226,7 +226,7 @@ body {
 <div class="wrap" data-page-node-id="e2U1bBnRqcCsVUyCGthhp8"><div id="dashboard" style="display:none;" data-page-node-id="lr92pBb5y4WyfCAJ5JEZQj"><div class="card" style="text-align:center;" data-page-node-id="gN3Fz0U1FxDHFypA2tGHJz"><div id="currentPartnerBadge" class="partner-badge" data-page-node-id="CwcUdLigo35u3AkKoUbJze">🌿 温和提醒型</div><div class="question" style="font-size:17px;font-weight:700;color:#0f172a;margin-top:4px;" data-page-node-id="IDmHUQsvvOY0Qz7BYzUhDc">今天，做一件对自己身体好的小事</div><div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="VndnssmuVyusxqZzCzGSzf"><div class="checkin-status" id="checkinStatusText" data-page-node-id="uDB9IxH7bdELQcD0fgm2kb">已打卡</div><div class="checkin-sub" id="checkinSubText" data-page-node-id="UWWUV2AyBWkfMmLnyRcTLh">点击完成</div></div><div class="streak-num" id="streakNum" data-page-node-id="mCwhbOoCaJXcUHFapaUl2E">0</div><div class="streak-label" data-page-node-id="Lz881awcNcWXam2rrklS2s">连续天数 · 断签不清零</div></div><div class="chat-area" id="chatArea" data-page-node-id="CCakN0w8FP9LRSzGFH26fY"></div><div class="week-progress" data-page-node-id="ky0AHQyoTfvuIgZVs0LD05"><div class="week-title" data-page-node-id="WEdjBiJ4MNGkwN1DWBcCUk"><span data-page-node-id="5bdWeAWm7cPVrAwPfemjVQ">📅 本周</span><span id="weekRange" data-page-node-id="xjsEB1uyn7FRx8MEBgKJNa"></span></div><div class="week-dots" id="weekDots" data-page-node-id="Zsg05NhUndO2DiP2HhF3RS"></div></div></div><!-- 今天提醒自己（按时段区分） -->
 
 
-<div id="partnerSelectorMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:250;" data-page-node-id="UM0zHyrRTrbJOruIqcGLRl"></div>
+<div id="partnerSelectorMask" style="display:none;position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(15,23,42,.5);z-index:250;" data-page-node-id="UM0zHyrRTrbJOruIqcGLRl"></div>
 <!-- 怎么和搭子说（参考减肥搭子） -->
 <div class="interaction-panel" style="margin-top:18px;background:#fff;border-radius:18px;padding:14px 12px;box-shadow:0 4px 14px rgba(0,0,0,0.05);">
   <div class="panel-label" style="font-size:12px;color:#8f9eae;margin-bottom:10px;font-weight:500;letter-spacing:.5px;">💬 和搭子说说话</div>
@@ -260,7 +260,7 @@ body {
   <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
   <div id="stdKey3List"></div>
 </div>
-<div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
+<div id="stdSceneMask" style="display:none;position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
 <div id="stdSceneSheet" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:301;background:#fff;border-radius:24px;max-height:76vh;width:calc(100% - 40px);max-width:400px;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
   <div onclick="stdSceneClose()" style="position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
   <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
@@ -891,16 +891,89 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
   function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){} }
   function hash(t){ var h = 0; for (var i = 0; i < t.length; i++) { h = (h * 31 + t.charCodeAt(i)) | 0; } return 'h' + (h >>> 0).toString(36); }
   function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  var DEFAULT_FB = [
-    ['🧠 认知 · 为什么记住它', '你把这句话存进教练卡，说明你正在把它从「听过的道理」升级成「准备执行的规则」——记住一条、用上一条，比收藏十条有用。'],
-    ['🎯 行为 · 具体怎么做', '下次出现这句话描述的场景，直接照做一次：只做这一次，不求永远、不求完美。'],
-    ['⚠️ 易错点', '最常见的失败方式是「看过多遍、一次都没用」——把它当收藏，而不是当规则。'],
-    ['🔧 怎么调整', '给它一个触发锚点（时间 / 地点 / 关键词），晚上花 10 秒回顾：今天用上了吗？没用上，明天只提醒自己这一条。']
+    var __CC_RULES=[
+   ['客户|用户|需求|反馈|访谈|调研',
+    ['🧠 认知 · 为什么记住它','客户嘴上说的和实际做的经常是两回事——记这条，是在「自以为懂用户」和「用户真的这样」之间多一道校验。'],
+    ['🎯 行为 · 具体怎么做','下次接触用户，把这句话变成一个具体问题问出来，当场记原话，回来核对：他说的和这条一致吗？'],
+    ['⚠️ 易错点','容易变成「替用户下结论」——先入为主地解读，而不是原话记录。'],
+    ['🔧 怎么调整','每周翻一次用户原话记录，只挑一条和这条规则冲突的，认真想一想。']],
+   ['现金流|成本|定价|利润|收入|报价|账|钱',
+    ['🧠 认知 · 为什么记住它','钱的事不记下来就会靠感觉决策，而感觉在钱面前总是偏乐观的。'],
+    ['🎯 行为 · 具体怎么做','下次涉及这笔钱的决定，先写出三个数字：最少要多少、预期多少、最多亏多少，再按这句话做判断。'],
+    ['⚠️ 易错点','把「大概」当「确定」——钱的判断最怕模糊。'],
+    ['🔧 怎么调整','定一个固定查数时间（比如每周一早上），只看数字，不看心情。']],
+   ['时间|优先|重要|精力|忙',
+    ['🧠 认知 · 为什么记住它','时间的本质是取舍——记这条，是为了让你在「什么都想要」的时候砍掉次要的。'],
+    ['🎯 行为 · 具体怎么做','明天开始前，先用这句话过一遍当日清单：把最不重要的两件事划掉，再动手。'],
+    ['⚠️ 易错点','用「忙」代替「取舍」——忙只是状态，取舍才是决策。'],
+    ['🔧 怎么调整','每晚睡前 10 秒问自己：今天最重要的一件事，做了吗？']],
+   ['睡|休息|熬夜|累|恢复|放松',
+    ['🧠 认知 · 为什么记住它','疲劳不是意志力问题，是生理问题——这条规则是保护你的状态，不是约束你。'],
+    ['🎯 行为 · 具体怎么做','下次出现该休息的信号（走神、烦躁、效率掉），按这句话执行一次，哪怕只有 15 分钟。'],
+    ['⚠️ 易错点','「再撑一下」——撑过去的三小时，质量往往不如休息后的半小时。'],
+    ['🔧 怎么调整','把休息写进日程（像开会一样），而不是等撑不住才休息。']],
+   ['拒绝|失败|质疑|批评|否定|恶意|嘲讽|挫折',
+    ['🧠 认知 · 为什么记住它','别人的反应你控制不了，你能控制的只有解读方式——记这条就是把解读权拿回自己手里。'],
+    ['🎯 行为 · 具体怎么做','下次遇到类似场景，先按这句话处理情绪，再按这句话处理事情，分两步走。'],
+    ['⚠️ 易错点','把一次反馈当成对自己的最终评价——它只是信息，不是判决。'],
+    ['🔧 怎么调整','被击中时写一句话日记：他说的是事实、观点，还是情绪？第二天再看。']],
+   ['拖延|开始|启动|行动|迈出|第一步',
+    ['🧠 认知 · 为什么记住它','拖延大多不是懒，是任务太大太模糊——这条规则把启动成本降到最低。'],
+    ['🎯 行为 · 具体怎么做','下次不想动的时候，把任务缩到 5 分钟能完成的最小版本，做完就算赢。'],
+    ['⚠️ 易错点','等状态好了再开始——状态是开始的结果，不是前提。'],
+    ['🔧 怎么调整','给启动加一个固定触发点：某时间 / 某地点 / 做完某事后，立刻做最小版本。']],
+   ['复盘|记录|反思|总结|日记',
+    ['🧠 认知 · 为什么记住它','不写下来的经验会蒸发——记这条是为了让今天的教训能被明天的你查到。'],
+    ['🎯 行为 · 具体怎么做','今晚就用这句话的框架写三行：发生了什么、为什么、下次怎么做。'],
+    ['⚠️ 易错点','复盘变成流水账——只写做了什么，不写学到了什么。'],
+    ['🔧 怎么调整','每周日花 10 分钟翻本周记录，挑一条下周继续用。']],
+   ['情绪|焦虑|内耗|心态|担心|紧张|害怕|比较',
+    ['🧠 认知 · 为什么记住它','情绪不是敌人，是信号——这条规则帮你把「被情绪推着走」变成「读懂它在说什么」。'],
+    ['🎯 行为 · 具体怎么做','下次情绪上来，先停 10 秒，给强度打个分（1-10），再按这句话回应它。'],
+    ['⚠️ 易错点','压抑或放大——两个极端都会让情绪更持久。'],
+    ['🔧 怎么调整','睡前回顾当天最强的一次情绪：它想提醒你什么？一句话写下来。']],
+   ['沟通|关系|家人|孩子|伴侣|父母|朋友|表达|倾听|吵架',
+    ['🧠 认知 · 为什么记住它','关系里的问题大多不是「谁对谁错」，而是「谁没被听见」——这条规则帮你先接住人，再处理事。'],
+    ['🎯 行为 · 具体怎么做','下次对话，先按这句话回应对方的感受（哪怕一句「我理解」），再说你的观点。'],
+    ['⚠️ 易错点','急着讲道理——道理在情绪落地之前，都是噪音。'],
+    ['🔧 怎么调整','睡前想一次今天的对话：有没有哪句可以先接住情绪再说？明天补上。']],
+   ['学习|读书|课程|认知|思维|知识|输入',
+    ['🧠 认知 · 为什么记住它','学过 ≠ 学会，能调用才算——记这条是为了让输入变成库存，而不是收藏夹。'],
+    ['🎯 行为 · 具体怎么做','24 小时内用自己的话讲一遍这条内容，讲不清就回去重看。'],
+    ['⚠️ 易错点','只进不出——收藏了 100 条，用上的还是老三样。'],
+    ['🔧 怎么调整','每条新知识配一个「用在哪」的具体场景，写不出场景就不算学会。']],
+   ['运动|锻炼|吃|饮食|体重|健康|血压|身体',
+    ['🧠 认知 · 为什么记住它','身体的改变靠重复的小动作，不靠爆发——这条规则把大目标翻译成今天能做的小事。'],
+    ['🎯 行为 · 具体怎么做','下次到对应场景（饭点 / 下班 / 睡前），按这句话做当次的最小版本，做完即止。'],
+    ['⚠️ 易错点','用「今天没时间」跳过——最小版本的意义就是没时间也能做。'],
+    ['🔧 怎么调整','把它绑定到一个已有习惯上（饭后 / 起床后），省掉一次「记不记得」的消耗。']],
+   ['目标|方向|定位|战略|选择|取舍|聚焦',
+    ['🧠 认知 · 为什么记住它','方向错了，努力会放大错误——这条规则是你的刹车，在投入之前先校准。'],
+    ['🎯 行为 · 具体怎么做','下次做相关决定前，用这句话当过滤器：过不了的选项直接砍，不纠结。'],
+    ['⚠️ 易错点','用「都挺好」逃避选择——选择就意味着放弃另一边。'],
+    ['🔧 怎么调整','每月对着这句话检查一次当前路线：还在轨道上吗？不在就调。']],
+   ['AI|工具|自动化|软件|系统|流程|SOP',
+    ['🧠 认知 · 为什么记住它','重复的事交给系统和工具，你只保留判断和连接——这条规则是在给自己腾出思考空间。'],
+    ['🎯 行为 · 具体怎么做','下次再做同类的事，先停 10 秒问：这件事能不能让工具做？能就配一次。'],
+    ['⚠️ 易错点','「手工做更快」——单次更快，重复第三十次就不一定了。'],
+    ['🔧 怎么调整','每周挑一件重复三次以上的事，把它流程化或自动化一次。']],
+   ['坚持|习惯|每天|节奏|长期|自律',
+    ['🧠 认知 · 为什么记住它','习惯的力量在「不断线」，不在「强度大」——这条规则保护的是连续性。'],
+    ['🎯 行为 · 具体怎么做','下次想跳过的时候，做 1 分钟的缩水版，保住不断线就算完成。'],
+    ['⚠️ 易错点','断一天就放弃——断线不可怕，不接上才可怕。'],
+    ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
+  function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
+  function fbDefault(t){ var s = t.length > 24 ? t.slice(0, 24) + '…' : t;
+    return [['🧠 认知 · 为什么记住它','你把「'+s+'」存进教练卡，说明你正在把它从「听过的道理」升级成「准备执行的规则」——记住一条、用上一条，比收藏十条有用。'],
+            ['🎯 行为 · 具体怎么做','下次出现和「'+s+'」相关的场景，做一次最小版本：只做这一次，不求永远、不求完美。'],
+            ['⚠️ 易错点','最常见的失败方式是「看过多遍、一次都没用」——把「'+s+'」当收藏，而不是当规则。'],
+            ['🔧 怎么调整','给它一个触发锚点（时间 / 地点 / 关键词），晚上花 10 秒回顾：今天用上了吗？没用上，明天只提醒自己这一条。']]; }
   function fbFor(txt){
     var map = window.__CC_FB;
     if (map) { for (var i = 0; i < map.length; i++) { if (txt.indexOf(map[i][0]) >= 0) return map[i][1]; } }
-    return DEFAULT_FB;
+    var g = fbGen(txt); if (g) return g;
+    return fbDefault(txt);
   }
   function miniToast(msg){
     var t = document.getElementById('ccToast');
@@ -913,7 +986,7 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
     var ov = document.getElementById('ccFbOverlay');
     if (!ov) {
       ov = document.createElement('div'); ov.id = 'ccFbOverlay';
-      ov.style.cssText = 'position:fixed;inset:0;z-index:100600;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:24px;';
+      ov.style.cssText = 'position:fixed;left:0;top:0;right:0;bottom:0;z-index:100600;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:24px;';
       ov.addEventListener('click', function(e){ if (e.target === ov) ov.style.display = 'none'; });
       document.body.appendChild(ov);
     }
@@ -1008,7 +1081,7 @@ var ov=null;
 function ensureOv(){
   if(ov) return ov;
   ov=document.createElement('div');
-  ov.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100500;display:none;align-items:center;justify-content:center;padding:24px;';
+  ov.style.cssText='position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(15,23,42,.55);z-index:100500;display:none;align-items:center;justify-content:center;padding:24px;';
   ov.addEventListener('click',function(e){ if(e.target===ov) window.__uxpClose(); });
   document.body.appendChild(ov);
   return ov;
@@ -1196,6 +1269,14 @@ function renderShareStdH(){
 })();
 </script>
 
+<style>/* ux-minimal-v1 染色板块去ICON·极简化 */
+#fbEmoji{display:none!important}
+#stdKey3>div:first-child>span:first-child{display:none!important}
+#stdDailyTip>div:first-child>span:first-child{display:none!important}
+#stdKey3List>div>div:first-child,#stdSceneList>div>div:first-child{display:none!important}
+.qa-card-icon{display:none!important}
+#partnerChatArea{display:none!important}
+</style>
 </body><script>const STORAGE = { PARTNER: "slim_partner_health", CHECKIN: "slim_checkin_health", ACTIONS: "slim_health_actions", ACTIONS_DONE: "slim_health_actions_done", SOP: "slim_sop_health", SOP_HIST: "slim_sop_health_hist", SOP_LASTW: "slim_sop_health_lastw", METRICS: "slim_health_metrics", YEARLY: "slim_health_yearly", STREAKS: "slim_health_streaks" };const SOP_CATEGORIES = [{"key": "metab", "icon": "🩸", "name": "代谢", "desc": "血糖、血脂、血压、体重、腰围", "tip": "空腹血糖、腰围、血压，每 3-6 个月看一次趋势，比看单次数值更说明问题。"}, {"key": "gut", "icon": "🌱", "name": "肠道", "desc": "排便规律、菌群多样性、纤维摄入", "tip": "每周 25-30g 膳食纤维 + 多种植物（≥30 种/周），是肠道最稳的两件事。"}, {"key": "immune", "icon": "🛡", "name": "免疫", "desc": "疫苗更新、睡眠、急性病恢复期", "tip": "疫苗不焦虑每年补一次；睡眠连续 5 天低于 6 小时，免疫反应就会下降。"}, {"key": "sleep", "icon": "🌙", "name": "睡眠", "desc": "时长、入睡、深睡、节律", "tip": "固定上床时间比\"睡够\"更重要；连续 3 周规律，节律就稳了。"}, {"key": "stress", "icon": "🧘", "name": "压力", "desc": "心率、HRV、情绪复原、休息能力", "tip": "HRV（心率变异性）比\"心情\"更客观；连续 7 天早晨 5 分钟呼吸引续就能回升。"}, {"key": "move", "icon": "🏃", "name": "运动", "desc": "有氧、力量、柔韧、日常活动量", "tip": "每周 150 分钟中等强度有氧 + 2 次力量，比\"每天 1 万步\"更说明问题。"}];const ACTION_POOL = [{"emoji": "🥬", "title": "吃够 1 份深色蔬菜", "tip": "至少 80g，深绿色最好"}, {"emoji": "🚶", "title": "快走 10 分钟", "tip": "微喘能说话的速度"}, {"emoji": "📵", "title": "23:30 前放下手机", "tip": "屏幕蓝光骗大脑以为是白天"}, {"emoji": "💧", "title": "喝水 1.5L", "tip": "小口慢喝，不是一次灌"}, {"emoji": "🧘", "title": "5 分钟深呼吸", "tip": "4-7-8 节奏，鼻子吸嘴呼"}, {"emoji": "🍎", "title": "今天吃 1 份完整水果", "tip": "带皮吃，纤维更全"}, {"emoji": "🥗", "title": "主食用 1/3 粗粮替换", "tip": "糙米/燕麦/玉米/薯类"}, {"emoji": "🦴", "title": "靠墙静蹲 30 秒 × 3 组", "tip": "膝盖不超脚尖"}, {"emoji": "☀️", "title": "出门晒 10 分钟", "tip": "上午 10 点前最佳"}, {"emoji": "🛏", "title": "22:30 前上床", "tip": "节律比时长更值钱"}, {"emoji": "🚶‍♀️", "title": "饭后走 15 分钟", "tip": "降餐后血糖最有效"}, {"emoji": "📵", "title": "吃饭不看屏幕", "tip": "胃也会\"专注\"消化"}, {"emoji": "🌰", "title": "一小把坚果", "tip": "约 15-20g，原味最好"}, {"emoji": "🧂", "title": "看一眼包装食品盐含量", "tip": "警惕\"低钠\"标签"}, {"emoji": "😴", "title": "中午午休 15-20 分钟", "tip": "超过 30 分钟反而困"}, {"emoji": "🪥", "title": "认真刷牙 2 分钟", "tip": "牙周和心血管是连着的"}, {"emoji": "📝", "title": "写下 1 件让你焦虑的事", "tip": "写下来焦虑值就降一半"}, {"emoji": "🌬", "title": "做 5 次腹式呼吸", "tip": "吸 4 停 4 呼 6"}, {"emoji": "🪟", "title": "开窗通风 10 分钟", "tip": "CO₂ 比 PM2.5 更影响认知"}, {"emoji": "🎯", "title": "为 1 件明天要做的事定时", "tip": "把\"打算\"变成\"约定\""}];const METRICS = [{"key": "fpg", "name": "空腹血糖", "unit": "mmol/L", "ideal": "3.9 - 6.1"}, {"key": "hba1c", "name": "糖化血红蛋白", "unit": "%", "ideal": "< 5.7"}, {"key": "ldl", "name": "低密度脂蛋白", "unit": "mmol/L", "ideal": "< 3.4"}, {"key": "tg", "name": "甘油三酯", "unit": "mmol/L", "ideal": "< 1.7"}, {"key": "hdl", "name": "高密度脂蛋白", "unit": "mmol/L", "ideal": "> 1.0"}, {"key": "waist", "name": "腰围", "unit": "cm", "ideal": "男<90 女<85"}, {"key": "bmi", "name": "BMI", "unit": "kg/m²", "ideal": "18.5 - 24"}, {"key": "uric_acid", "name": "尿酸", "unit": "μmol/L", "ideal": "男<420 女<360"}, {"key": "alt", "name": "ALT（肝功）", "unit": "U/L", "ideal": "< 40"}, {"key": "ast", "name": "AST（肝功）", "unit": "U/L", "ideal": "< 40"}];const YEARLY_ITEMS = [{"key": "physical", "text": "今年做了年度体检", "freq": "年度"}, {"key": "bp_retest", "text": "血压复查", "freq": "建议 3 个月"}, {"key": "glucose_retest", "text": "血糖/糖化复查", "freq": "健康 1 年/有异常 3 月"}, {"key": "lipid_retest", "text": "血脂复查", "freq": "健康 3-5 年/有异常 1 年"}, {"key": "vaccine", "text": "疫苗更新（流感/新冠/带状疱疹等）", "freq": "按品种 1-5 年"}, {"key": "dental", "text": "口腔检查 + 洁牙", "freq": "半年到一年"}, {"key": "vision", "text": "视力 / 眼底检查", "freq": "建议一年"}, {"key": "cancer_screen", "text": "年龄对应癌症筛查咨询", "freq": "按医生建议"}, {"key": "family_history", "text": "家族史更新（父母/兄弟姐妹）", "freq": "每年回顾"}, {"key": "colon", "text": "肠镜（45 岁后或家族史）", "freq": "按医生建议"}, {"key": "breast", "text": "乳腺（女性，40+ 视情况）", "freq": "按医生建议"}, {"key": "cervical", "text": "宫颈（女性，21+ 起）", "freq": "按医生建议"}, {"key": "prostate", "text": "前列腺（男性，50+ 视情况）", "freq": "按医生建议"}];const TYPE_SCENES = {"progress": [{"type": "pos", "feedback": "看到你在认真维持每周记录，这就是最稳的那条路。"}, {"type": "pos", "feedback": "数据在握，未来十年你的身体会感谢今天的你。"}, {"type": "pos", "feedback": "把指标当朋友，不当敌人，趋势比单次更重要。"}], "struggle": [{"type": "neg", "feedback": "今天做不到，不代表明天做不到。先停一停，别硬撑。"}, {"type": "neg", "feedback": "焦虑的时候身体也在听你说话，对它温和一点。"}, {"type": "neg", "feedback": "断签一天不丢任何东西；连轴紧绷才是真正伤身体。"}], "idea": [{"type": "pos", "feedback": "好问题——健康的所有改进都是从这种\"咦\"开始。"}, {"type": "pos", "feedback": "记住这个念头，下次体检前再翻出来问问自己。"}], "cheer": [{"type": "pos", "feedback": "好事情 — 情绪好的时候免疫也好，稳稳的多收一份红利。"}], "question": [{"type": "q", "feedback": "我猜你最在意的是「这样是不是真的有用」。对吗？"}, {"type": "q", "feedback": "你愿意从哪一个最小的一步开始？"}], "report": [{"type": "pos", "feedback": "记下来了。我们看 4 周趋势，比看一周更说明问题。"}]};
 let sopCatIdx = 0;
 let sopScore = 0;
@@ -1619,7 +1700,7 @@ function toggleHealthCheckin(key) {
   box.className = 'bubble partner';
   box.style.cssText = 'background:#f0fdfa;border-left:3px solid #0d9488;padding:10px 14px;border-radius:14px;margin:8px 0;font-size:13px;line-height:1.7;color:#334155;';
   box.innerHTML = '<b style="color:#0d9488;">🛡️ 搭子</b><br>' + reply;
-  var chatArea = document.getElementById('partnerChatArea') || document.getElementById('chatArea') || document.getElementById('chatMessages');
+  var chatArea = document.getElementById('chatArea') || document.getElementById('partnerChatArea') || document.getElementById('chatMessages');
   if (chatArea) { chatArea.appendChild(box); chatArea.scrollTop = chatArea.scrollHeight; }
   // 重新渲染
   renderHealthCheckinScenes();

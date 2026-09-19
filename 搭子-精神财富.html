@@ -44,7 +44,7 @@
       padding: 28px 20px 32px;
       box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
       /* 未选搭子时遮罩全屏，阻止底层按钮被误触 */
-      position: fixed; inset: 0;
+      position: fixed; left: 0; top: 0; right: 0; bottom: 0;
       z-index: 100;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
@@ -52,7 +52,7 @@
     }
     #partnerSelectorMask {
       display: none; /* JS 控制显示 */
-      position: fixed; inset: 0; z-index: 99;
+      position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 99;
       background: rgba(0,0,0,0.4);
     }
     .selector-title {
@@ -617,7 +617,7 @@
   </div>
   <div id="stdTipText"></div>
 </div>
-<div id="stdSceneMask" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
+<div id="stdSceneMask" style="display:none;position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(15,23,42,.45);z-index:300;" onclick="stdSceneClose()"></div>
 <div id="stdSceneSheet" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:301;background:#fff;border-radius:24px;max-height:76vh;width:calc(100% - 40px);max-width:400px;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
   <div onclick="stdSceneClose()" style="position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
   <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
@@ -2303,12 +2303,12 @@ function showTypeFeedback(panel, dir, item) {
   document.getElementById('fbOverlay').classList.add('show');
 }
 function getEmpathy(style, dir, isPos) {
-  const msgs={gentle:{result:{pos:['这种感觉真的很好，我为你感到欣慰 🌿','你走在正确的方向上 💫','这个变化很真实，继续保持 💚'],neg:['这种感觉我理解，先给自己一点耐心 💙','我听见了，陪你一起 🌿']},solution:{pos:['谢谢你告诉我这些 💙','愿意说出来本身就需要勇气 🌿'],neg:['能感觉到你的为难，我在这里 🤝','没关系，我们一起拆解 🌿']}},passion:{result:{pos:['太强了！继续保持！🔥','这就是成长！继续燃烧！🚀'],neg:['别急，调整一下！💪','小调整，继续冲！🔥']},solution:{pos:['好！说得好！我听到了！💪'],neg:['来！我帮你拆解！🔥','没有困难是过不去的！冲！💪']}},rational:{result:{pos:['数据记录在案。这个变化值得关注。📊','收到。精神状态数据显示你的方向正确。📈'],neg:['这种情况在过程中很常见。📊','数据出现波动，分析后可以调整。📋']},solution:{pos:['这种情况有方法可以优化。📊','收到，让我帮你拆解。🧩'],neg:['这个问题的本质可以进一步分析。📊','先拆解，再制定对策。🛠️']}},tsundere:{result:{pos:['……还行吧，算你有点料。😏','哼，还凑合。😶'],neg:['又来了？……哼，我听听。😒','就这样吧，我也习惯了。🤷']},solution:{pos:['……行吧，我勉强听一下。😒'],neg:['怎么又这样……说吧，我帮你。😒','哼，说吧，我看看能不能救。🤷']}}};
+  const msgs={gentle:{result:{pos:['这种感觉真的很好，我为你感到欣慰 🌿','你走在正确的方向上 💫','这个变化很真实，继续保持 💚'],neg:['这种感觉我理解，先给自己一点耐心 💙','我听见了，陪你一起 🌿']},solution:{pos:['谢谢你告诉我这些 💙','愿意说出来本身就需要勇气 🌿'],neg:['能感觉到你的为难，我在这里 🤝','没关系，我们一起拆解 🌿']}},passion:{result:{pos:['太强了！继续保持！🔥','这就是成长！继续燃烧！🚀'],neg:['别急，调整一下！💪','小调整，继续冲！🔥']},solution:{pos:['好！说得好！我听到了！💪'],neg:['来！我帮你拆解！🔥','没有困难是过不去的！冲！💪']}},rational:{result:{pos:['数据记录在案。这个变化值得关注。📊','收到。精神状态数据显示你的方向正确。📈'],neg:['这种情况在过程中很常见。📊','数据出现波动，分析后可以调整。📋']},solution:{pos:['收到，把情况说细一点。📊','嗯，这个问题有解。🧩'],neg:['这个问题的本质可以进一步分析。📊','先拆解，再制定对策。🛠️']}},tsundere:{result:{pos:['……还行吧，算你有点料。😏','哼，还凑合。😶'],neg:['又来了？……行，我听着。😒','就这样吧，我也习惯了。🤷']},solution:{pos:['……行吧，算你主动。😏'],neg:['怎么又这样……说吧，我帮你。😒','哼，说吧，我看看能不能救。🤷']}}};
   const arr = ((msgs[style] || {})[dir] || {})[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
 function getFeedback(style, dir, isPos) {
-  const msgs={gentle:{result:{pos:['继续保持，你走的每一步都在积累 🌿','这个方向很对，坚持下去 💚','你比自己以为的更接近目标 💫'],neg:['不要因为这样就放弃，我们来看看怎么调整 🌿','先给自己一点耐心，我们慢慢来 💙']},solution:{pos:['找到突破口后继续往前 💪','我们来看看下一步可以怎么做 🌿'],neg:['说说具体卡在哪里，我帮你理清思路 🌿','这件事拆开来看，其实没有那么难 💙']}},passion:{result:{pos:['继续这个节奏，效果会越来越明显的！🔥','这就是复利！保持！💪'],neg:['调整一下，明天继续冲！⚡','战术修正，继续干！💪']},solution:{pos:['找对方法，继续冲！🔥'],neg:['来！我帮你拆解！没有过不去的坎！🔥','拆解完立刻行动！🚀']}},rational:{result:{pos:['继续执行当前方案，效果会逐步显现。📊','这个趋势值得坚持。📈'],neg:['需要分析原因后调整策略。📊','在可修正范围内，继续监测。📋']},solution:{pos:['有清晰的分析路径，可以优化。📊','建议先量化问题，再对症下药。🧩'],neg:['从数据入手，找核心原因。📊','把问题拆成小块，逐个击破。🛠️']}},tsundere:{result:{pos:['……行吧，算你有点进步。😏','嗯。还凑合。😶'],neg:['……我又来了。哼。😒']},solution:{pos:['说，我看看能不能帮。😒'],neg:['……算了，我帮你想想。😒','好吧，我勉强帮一下。🤷']}}};
+  const msgs={gentle:{result:{pos:['继续保持，你走的每一步都在积累 🌿','这个方向很对，坚持下去 💚','你比自己以为的更接近目标 💫'],neg:['不要因为这样就放弃，我们来看看怎么调整 🌿','先给自己一点耐心，我们慢慢来 💙']},solution:{pos:['找到突破口后继续往前 💪','我们来看看下一步可以怎么做 🌿'],neg:['说说具体卡在哪里，我帮你理清思路 🌿','这件事拆开来看，其实没有那么难 💙']}},passion:{result:{pos:['继续这个节奏，效果会越来越明显的！🔥','这就是复利！保持！💪'],neg:['调整一下，明天继续冲！⚡','战术修正，继续干！💪']},solution:{pos:['找对方法，继续冲！🔥'],neg:['把问题拆成三步，今天做第一步！💪','拆解完立刻行动！🚀']}},rational:{result:{pos:['继续执行当前方案，效果会逐步显现。📊','这个趋势值得坚持。📈'],neg:['需要分析原因后调整策略。📊','在可修正范围内，继续监测。📋']},solution:{pos:['有清晰的分析路径，可以优化。📊','建议先量化问题，再对症下药。🧩'],neg:['从数据入手，找核心原因。📊','把问题拆成小块，逐个击破。🛠️']}},tsundere:{result:{pos:['别得意，下次还要这个水准。😏','继续保持，别让我改口。😶'],neg:['知道问题在哪吗？先自己想一遍。😒']},solution:{pos:['说重点，我看看能不能帮。😒'],neg:['先说卡在哪一步，再谈怎么办。🤷','拆开看，一次只解决一个。😒']}}};
   const arr = ((msgs[style] || {})[dir] || {})[isPos?'pos':'neg'] || msgs.gentle[dir][isPos?'pos':'neg'];
   return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -2844,7 +2844,7 @@ function renderPartnerPage() {
 startApp();
 </script>
 <!-- ===== 搭子切换弹窗 ===== -->
-<div id="partnerOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center;" data-page-node-id="EvOzKBJI922UgeReuznRFx">
+<div id="partnerOverlay" style="display:none;position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center;" data-page-node-id="EvOzKBJI922UgeReuznRFx">
   <div style="background:white;border-radius:24px;padding:28px 20px;max-width:360px;width:90%;text-align:center;position:relative;" data-page-node-id="iA50ksfu1gpsrv8qLeo59v">
     <div style="position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;" onclick="closePartnerOverlay()" data-page-node-id="fYG223vISWhOddaowLVm52">✕</div>
     <div style="font-size:20px;font-weight:700;margin-bottom:4px;" data-page-node-id="q2QXp0lXAg4G7Hegs8asT0">💬 换个搭子</div>
@@ -2855,8 +2855,8 @@ startApp();
 </div>
 
 <!-- ===== 成就弹窗 ===== -->
-<div id="achievementOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:600;align-items:center;justify-content:center;flex-direction:column;" data-page-node-id="lJ9a7APX6NfzdNI4JY14MJ">
-  <canvas id="achievementConfetti" style="position:fixed;inset:0;pointer-events:none;z-index:601;" data-page-node-id="lsViHQaDN4lipib8rI6JWQ"></canvas>
+<div id="achievementOverlay" style="display:none;position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:600;align-items:center;justify-content:center;flex-direction:column;" data-page-node-id="lJ9a7APX6NfzdNI4JY14MJ">
+  <canvas id="achievementConfetti" style="position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:601;" data-page-node-id="lsViHQaDN4lipib8rI6JWQ"></canvas>
   <div style="background:white;border-radius:32px;padding:40px 32px;max-width:340px;width:90%;text-align:center;position:relative;z-index:602;animation:achievementPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);" data-page-node-id="H3QVW1R36mBopWmyKkcL17">
     <div style="position:absolute;top:-32px;left:50%;transform:translateX(-50%);font-size:56px;animation:achievementBounce 1s infinite;" id="achievementIcon" data-page-node-id="xheL1Vum4aINr8xlaQWyh1">🏆</div>
     <div style="margin-top:24px;font-size:28px;font-weight:800;color:#ff6b35;margin-bottom:4px;" id="achievementTitle" data-page-node-id="F7Xf07uzL7DyDK2qGNz0NV">里程碑达成！</div>
@@ -3212,16 +3212,89 @@ startApp();
   function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){} }
   function hash(t){ var h = 0; for (var i = 0; i < t.length; i++) { h = (h * 31 + t.charCodeAt(i)) | 0; } return 'h' + (h >>> 0).toString(36); }
   function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  var DEFAULT_FB = [
-    ['🧠 认知 · 为什么记住它', '你把这句话存进教练卡，说明你正在把它从「听过的道理」升级成「准备执行的规则」——记住一条、用上一条，比收藏十条有用。'],
-    ['🎯 行为 · 具体怎么做', '下次出现这句话描述的场景，直接照做一次：只做这一次，不求永远、不求完美。'],
-    ['⚠️ 易错点', '最常见的失败方式是「看过多遍、一次都没用」——把它当收藏，而不是当规则。'],
-    ['🔧 怎么调整', '给它一个触发锚点（时间 / 地点 / 关键词），晚上花 10 秒回顾：今天用上了吗？没用上，明天只提醒自己这一条。']
+    var __CC_RULES=[
+   ['客户|用户|需求|反馈|访谈|调研',
+    ['🧠 认知 · 为什么记住它','客户嘴上说的和实际做的经常是两回事——记这条，是在「自以为懂用户」和「用户真的这样」之间多一道校验。'],
+    ['🎯 行为 · 具体怎么做','下次接触用户，把这句话变成一个具体问题问出来，当场记原话，回来核对：他说的和这条一致吗？'],
+    ['⚠️ 易错点','容易变成「替用户下结论」——先入为主地解读，而不是原话记录。'],
+    ['🔧 怎么调整','每周翻一次用户原话记录，只挑一条和这条规则冲突的，认真想一想。']],
+   ['现金流|成本|定价|利润|收入|报价|账|钱',
+    ['🧠 认知 · 为什么记住它','钱的事不记下来就会靠感觉决策，而感觉在钱面前总是偏乐观的。'],
+    ['🎯 行为 · 具体怎么做','下次涉及这笔钱的决定，先写出三个数字：最少要多少、预期多少、最多亏多少，再按这句话做判断。'],
+    ['⚠️ 易错点','把「大概」当「确定」——钱的判断最怕模糊。'],
+    ['🔧 怎么调整','定一个固定查数时间（比如每周一早上），只看数字，不看心情。']],
+   ['时间|优先|重要|精力|忙',
+    ['🧠 认知 · 为什么记住它','时间的本质是取舍——记这条，是为了让你在「什么都想要」的时候砍掉次要的。'],
+    ['🎯 行为 · 具体怎么做','明天开始前，先用这句话过一遍当日清单：把最不重要的两件事划掉，再动手。'],
+    ['⚠️ 易错点','用「忙」代替「取舍」——忙只是状态，取舍才是决策。'],
+    ['🔧 怎么调整','每晚睡前 10 秒问自己：今天最重要的一件事，做了吗？']],
+   ['睡|休息|熬夜|累|恢复|放松',
+    ['🧠 认知 · 为什么记住它','疲劳不是意志力问题，是生理问题——这条规则是保护你的状态，不是约束你。'],
+    ['🎯 行为 · 具体怎么做','下次出现该休息的信号（走神、烦躁、效率掉），按这句话执行一次，哪怕只有 15 分钟。'],
+    ['⚠️ 易错点','「再撑一下」——撑过去的三小时，质量往往不如休息后的半小时。'],
+    ['🔧 怎么调整','把休息写进日程（像开会一样），而不是等撑不住才休息。']],
+   ['拒绝|失败|质疑|批评|否定|恶意|嘲讽|挫折',
+    ['🧠 认知 · 为什么记住它','别人的反应你控制不了，你能控制的只有解读方式——记这条就是把解读权拿回自己手里。'],
+    ['🎯 行为 · 具体怎么做','下次遇到类似场景，先按这句话处理情绪，再按这句话处理事情，分两步走。'],
+    ['⚠️ 易错点','把一次反馈当成对自己的最终评价——它只是信息，不是判决。'],
+    ['🔧 怎么调整','被击中时写一句话日记：他说的是事实、观点，还是情绪？第二天再看。']],
+   ['拖延|开始|启动|行动|迈出|第一步',
+    ['🧠 认知 · 为什么记住它','拖延大多不是懒，是任务太大太模糊——这条规则把启动成本降到最低。'],
+    ['🎯 行为 · 具体怎么做','下次不想动的时候，把任务缩到 5 分钟能完成的最小版本，做完就算赢。'],
+    ['⚠️ 易错点','等状态好了再开始——状态是开始的结果，不是前提。'],
+    ['🔧 怎么调整','给启动加一个固定触发点：某时间 / 某地点 / 做完某事后，立刻做最小版本。']],
+   ['复盘|记录|反思|总结|日记',
+    ['🧠 认知 · 为什么记住它','不写下来的经验会蒸发——记这条是为了让今天的教训能被明天的你查到。'],
+    ['🎯 行为 · 具体怎么做','今晚就用这句话的框架写三行：发生了什么、为什么、下次怎么做。'],
+    ['⚠️ 易错点','复盘变成流水账——只写做了什么，不写学到了什么。'],
+    ['🔧 怎么调整','每周日花 10 分钟翻本周记录，挑一条下周继续用。']],
+   ['情绪|焦虑|内耗|心态|担心|紧张|害怕|比较',
+    ['🧠 认知 · 为什么记住它','情绪不是敌人，是信号——这条规则帮你把「被情绪推着走」变成「读懂它在说什么」。'],
+    ['🎯 行为 · 具体怎么做','下次情绪上来，先停 10 秒，给强度打个分（1-10），再按这句话回应它。'],
+    ['⚠️ 易错点','压抑或放大——两个极端都会让情绪更持久。'],
+    ['🔧 怎么调整','睡前回顾当天最强的一次情绪：它想提醒你什么？一句话写下来。']],
+   ['沟通|关系|家人|孩子|伴侣|父母|朋友|表达|倾听|吵架',
+    ['🧠 认知 · 为什么记住它','关系里的问题大多不是「谁对谁错」，而是「谁没被听见」——这条规则帮你先接住人，再处理事。'],
+    ['🎯 行为 · 具体怎么做','下次对话，先按这句话回应对方的感受（哪怕一句「我理解」），再说你的观点。'],
+    ['⚠️ 易错点','急着讲道理——道理在情绪落地之前，都是噪音。'],
+    ['🔧 怎么调整','睡前想一次今天的对话：有没有哪句可以先接住情绪再说？明天补上。']],
+   ['学习|读书|课程|认知|思维|知识|输入',
+    ['🧠 认知 · 为什么记住它','学过 ≠ 学会，能调用才算——记这条是为了让输入变成库存，而不是收藏夹。'],
+    ['🎯 行为 · 具体怎么做','24 小时内用自己的话讲一遍这条内容，讲不清就回去重看。'],
+    ['⚠️ 易错点','只进不出——收藏了 100 条，用上的还是老三样。'],
+    ['🔧 怎么调整','每条新知识配一个「用在哪」的具体场景，写不出场景就不算学会。']],
+   ['运动|锻炼|吃|饮食|体重|健康|血压|身体',
+    ['🧠 认知 · 为什么记住它','身体的改变靠重复的小动作，不靠爆发——这条规则把大目标翻译成今天能做的小事。'],
+    ['🎯 行为 · 具体怎么做','下次到对应场景（饭点 / 下班 / 睡前），按这句话做当次的最小版本，做完即止。'],
+    ['⚠️ 易错点','用「今天没时间」跳过——最小版本的意义就是没时间也能做。'],
+    ['🔧 怎么调整','把它绑定到一个已有习惯上（饭后 / 起床后），省掉一次「记不记得」的消耗。']],
+   ['目标|方向|定位|战略|选择|取舍|聚焦',
+    ['🧠 认知 · 为什么记住它','方向错了，努力会放大错误——这条规则是你的刹车，在投入之前先校准。'],
+    ['🎯 行为 · 具体怎么做','下次做相关决定前，用这句话当过滤器：过不了的选项直接砍，不纠结。'],
+    ['⚠️ 易错点','用「都挺好」逃避选择——选择就意味着放弃另一边。'],
+    ['🔧 怎么调整','每月对着这句话检查一次当前路线：还在轨道上吗？不在就调。']],
+   ['AI|工具|自动化|软件|系统|流程|SOP',
+    ['🧠 认知 · 为什么记住它','重复的事交给系统和工具，你只保留判断和连接——这条规则是在给自己腾出思考空间。'],
+    ['🎯 行为 · 具体怎么做','下次再做同类的事，先停 10 秒问：这件事能不能让工具做？能就配一次。'],
+    ['⚠️ 易错点','「手工做更快」——单次更快，重复第三十次就不一定了。'],
+    ['🔧 怎么调整','每周挑一件重复三次以上的事，把它流程化或自动化一次。']],
+   ['坚持|习惯|每天|节奏|长期|自律',
+    ['🧠 认知 · 为什么记住它','习惯的力量在「不断线」，不在「强度大」——这条规则保护的是连续性。'],
+    ['🎯 行为 · 具体怎么做','下次想跳过的时候，做 1 分钟的缩水版，保住不断线就算完成。'],
+    ['⚠️ 易错点','断一天就放弃——断线不可怕，不接上才可怕。'],
+    ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
+  function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
+  function fbDefault(t){ var s = t.length > 24 ? t.slice(0, 24) + '…' : t;
+    return [['🧠 认知 · 为什么记住它','你把「'+s+'」存进教练卡，说明你正在把它从「听过的道理」升级成「准备执行的规则」——记住一条、用上一条，比收藏十条有用。'],
+            ['🎯 行为 · 具体怎么做','下次出现和「'+s+'」相关的场景，做一次最小版本：只做这一次，不求永远、不求完美。'],
+            ['⚠️ 易错点','最常见的失败方式是「看过多遍、一次都没用」——把「'+s+'」当收藏，而不是当规则。'],
+            ['🔧 怎么调整','给它一个触发锚点（时间 / 地点 / 关键词），晚上花 10 秒回顾：今天用上了吗？没用上，明天只提醒自己这一条。']]; }
   function fbFor(txt){
     var map = window.__CC_FB;
     if (map) { for (var i = 0; i < map.length; i++) { if (txt.indexOf(map[i][0]) >= 0) return map[i][1]; } }
-    return DEFAULT_FB;
+    var g = fbGen(txt); if (g) return g;
+    return fbDefault(txt);
   }
   function miniToast(msg){
     var t = document.getElementById('ccToast');
@@ -3234,7 +3307,7 @@ startApp();
     var ov = document.getElementById('ccFbOverlay');
     if (!ov) {
       ov = document.createElement('div'); ov.id = 'ccFbOverlay';
-      ov.style.cssText = 'position:fixed;inset:0;z-index:100600;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:24px;';
+      ov.style.cssText = 'position:fixed;left:0;top:0;right:0;bottom:0;z-index:100600;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:24px;';
       ov.addEventListener('click', function(e){ if (e.target === ov) ov.style.display = 'none'; });
       document.body.appendChild(ov);
     }
@@ -3420,7 +3493,7 @@ var ov=null;
 function ensureOv(){
   if(ov) return ov;
   ov=document.createElement('div');
-  ov.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100500;display:none;align-items:center;justify-content:center;padding:24px;';
+  ov.style.cssText='position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(15,23,42,.55);z-index:100500;display:none;align-items:center;justify-content:center;padding:24px;';
   ov.addEventListener('click',function(e){ if(e.target===ov) window.__uxpClose(); });
   document.body.appendChild(ov);
   return ov;
@@ -3505,5 +3578,12 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
 }
 })();
 </script>
+<style>/* ux-minimal-v1 染色板块去ICON·极简化 */
+#fbEmoji{display:none!important}
+#stdKey3>div:first-child>span:first-child{display:none!important}
+#stdDailyTip>div:first-child>span:first-child{display:none!important}
+#stdKey3List>div>div:first-child,#stdSceneList>div>div:first-child{display:none!important}
+.qa-card-icon{display:none!important}
+</style>
 </body>
 </html>
