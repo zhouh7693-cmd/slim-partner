@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>搭子详情 · Slim Partner</title>
+<style>
+  :root{--bg:#FAF9F6;--brand:#49745F;--brand-lt:#EEF5F0;--ink:#202521;--sub:#6F756F;--line:#E7E9E6;}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:110px;}
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;}
+  .topbar .bk{font-size:20px;cursor:pointer;text-decoration:none;color:var(--ink);}
+  .topbar .fav{font-size:20px;cursor:pointer;opacity:.75;}
+  .hero{text-align:center;padding:6px 24px 24px;}
+  .hero .big{width:88px;height:88px;border-radius:28px;background:var(--brand-lt);display:flex;align-items:center;justify-content:center;font-size:46px;margin:6px auto 14px;}
+  .hero h1{font-size:22px;font-weight:800;}
+  .hero .promise{font-size:14px;color:var(--sub);margin-top:8px;line-height:1.7;}
+  .hero .meta{display:inline-block;margin-top:12px;font-size:12px;color:var(--brand);background:var(--brand-lt);border-radius:14px;padding:6px 14px;font-weight:700;}
+  .sec{margin:12px 20px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px 20px;}
+  .sec h2{font-size:15px;font-weight:800;margin-bottom:12px;}
+  .plist div{display:flex;gap:8px;font-size:13px;color:var(--ink);opacity:.88;line-height:1.7;margin-bottom:7px;}
+  .plist b{color:var(--brand);font-weight:800;}
+  .method{display:flex;gap:12px;margin-bottom:14px;}
+  .method:last-child{margin-bottom:0;}
+  .method .mi{width:38px;height:38px;border-radius:12px;background:var(--brand-lt);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+  .method .mt{font-size:13.5px;font-weight:700;}
+  .method .md{font-size:12px;color:var(--sub);margin-top:3px;line-height:1.6;}
+  .task{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:13px;margin-bottom:9px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:transform .12s,background .2s,border-color .2s;user-select:none;}
+  .task:last-child{margin-bottom:0;}
+  .task:active{transform:scale(.98);}
+  .task .tk{width:20px;height:20px;border-radius:50%;border:2px solid #D5DAD5;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s;color:transparent;font-size:12px;font-weight:800;}
+  .task.done{background:var(--brand-lt);border-color:#CFE3D6;}
+  .task.done .tk{background:var(--brand);border-color:var(--brand);color:#fff;}
+  .task.done .tt{opacity:.6;}
+  .task .tt{transition:opacity .2s;}
+  .pgrid{display:flex;flex-direction:column;gap:10px;}
+  .per{border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;cursor:pointer;transition:all .15s;background:#fff;}
+  .per.on{border-color:var(--brand);background:var(--brand-lt);}
+  .per .pn{font-size:13.5px;font-weight:800;}
+  .per .pq{font-size:12px;color:var(--sub);margin-top:4px;}
+  .suit p{font-size:12.5px;line-height:1.8;color:var(--ink);opacity:.85;}
+  .suit .no{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);}
+  .safety{margin:12px 20px;font-size:11.5px;color:var(--sub);line-height:1.8;background:var(--brand-lt);border-radius:14px;padding:12px 16px;}
+  .closing{text-align:center;padding:22px 30px 8px;}
+  .closing .t{font-size:15px;font-weight:800;}
+  .closing .s{font-size:12.5px;color:var(--sub);margin-top:6px;line-height:1.7;}
+  .ctaBar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(250,249,246,.97);border-top:1px solid var(--line);padding:12px 20px calc(14px + env(safe-area-inset-bottom));display:flex;gap:10px;z-index:50;}
+  .ctaBar button{flex:1;border:none;border-radius:24px;padding:14px 0;font-size:14.5px;font-weight:800;cursor:pointer;transition:transform .12s;}
+  .ctaBar button:active{transform:scale(.98);}
+  .b-try{background:var(--brand);color:#fff;}
+  .b-mine{background:#fff;color:var(--brand);border:1.5px solid var(--brand)!important;}
+  .toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(32,37,33,.88);color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:99;}
+</style>
+</head>
+<body>
+  <div class="topbar"><a class="bk" href="v3-store.html" id="bk">←</a><span class="fav" id="fav">♡</span></div>
+  <div id="app"></div>
+  <div class="ctaBar">
+    <button class="b-mine" id="bMine">开始陪伴</button>
+    <button class="b-try" id="bTry">免费体验 3 分钟 →</button>
+  </div>
+  <div class="toast" id="toast"></div>
+
+<script src="v3-data.js"></script>
+<script>
+(function(){
+  var V = window.V3;
+  var id = 'sleep';
+  try { var m = location.search.match(/[?&]id=([^&]+)/); if (m) id = decodeURIComponent(m[1]); } catch (e) {}
+  var p = V.partnerById(id);
+  var app = document.getElementById('app');
+  if (!p) { app.innerHTML = '<div style="padding:60px 30px;text-align:center;color:var(--sub)">没有找到这个搭子<br><br><a href="v3-store.html" style="color:var(--brand)">去搭子馆逛逛 →</a></div>';
+            document.getElementById('ctaBar') && (document.querySelector('.ctaBar').style.display='none'); return; }
+  document.title = p.name + ' · Slim Partner';
+
+  var catLabel = (V.cats.filter(function(c){ return c.key === p.cat; })[0] || {}).label || '';
+  app.innerHTML =
+    '<div class="hero">' +
+      '<div class="big">' + p.icon + '</div>' +
+      '<h1>' + p.name + '</h1>' +
+      '<div class="promise">' + p.promise + '</div>' +
+      '<div class="meta">' + p.duration + ' · ' + p.dailyTime + (p.badge ? ' · ' + p.badge : '') + '</div>' +
+    '</div>' +
+
+    '<div class="sec"><h2>也许你正在经历这些</h2><div class="plist">' +
+      p.problems.map(function(x){ return '<div><b>✓</b><span>' + x + '</span></div>'; }).join('') +
+    '</div></div>' +
+
+    '<div class="sec"><h2>我会怎么陪你</h2>' +
+      '<div class="method"><div class="mi">🌱</div><div><div class="mt">每天只给你几个小行动</div><div class="md">不要求一次改变很多，做一件就很好。</div></div></div>' +
+      '<div class="method"><div class="mi">💬</div><div><div class="mt">卡住的时候陪你聊</div><div class="md">不是催你，而是一起找到真正的阻力。</div></div></div>' +
+      '<div class="method"><div class="mi">📈</div><div><div class="mt">帮你看见自己的变化</div><div class="md">把过去几天真实发生的改变告诉你。</div></div></div>' +
+    '</div>' +
+
+    '<div class="sec"><h2>今天可能会这样</h2>' +
+      p.tasks.map(function(t){ return '<div class="task"><span class="tk">✓</span><span class="tt">' + t + '</span></div>'; }).join('') +
+    '</div>' +
+    '</div>' +
+
+    '<div class="sec"><h2>你可以决定我怎么陪你</h2><div class="pgrid">' +
+      V.personalities.map(function(x, i){
+        return '<div class="per' + (i === 0 ? ' on' : '') + '" data-k="' + x.key + '"><div class="pn">' + x.emoji + ' ' + x.name + '</div><div class="pq">“' + x.quote + '”</div></div>';
+      }).join('') +
+    '</div></div>' +
+
+    '<div class="sec suit"><h2>适合谁 · 不适合谁</h2>' +
+      '<p>' + p.suit.map(function(x){ return '• ' + x; }).join('<br>') + '</p>' +
+      (p.unsuit && p.unsuit.length ? '<div class="no"><p style="color:var(--sub)">' + p.unsuit.map(function(x){ return '• ' + x; }).join('<br>') + '</p></div>' : '') +
+    '</div>' +
+
+    (p.safety ? '<div class="safety">' + p.safety + '</div>' : '') +
+
+    '<div class="closing"><div class="t">准备好了吗？</div><div class="s">不需要一次改变很多。<br>我们先从今天的一件小事开始。</div></div>';
+
+  /* 人格选择（本地配置记忆） */
+  app.querySelector('.pgrid').addEventListener('click', function(e){
+    var el = e.target.closest('.per'); if (!el) return;
+    app.querySelectorAll('.per').forEach(function(x){ x.classList.remove('on'); });
+    el.classList.add('on');
+    try { var mine = JSON.parse(localStorage.getItem('v3_mine') || '{}'); mine.style = el.getAttribute('data-k'); localStorage.setItem('v3_mine', JSON.stringify(mine)); } catch (err) {}
+  });
+
+  /* 「今天可能会这样」任务可勾选：先试一试小事的感觉 */
+  var taskTipped = false;
+  app.addEventListener('click', function(e){
+    var el = e.target.closest('.task'); if (!el) return;
+    el.classList.toggle('done');
+    if (el.classList.contains('done') && !taskTipped) {
+      taskTipped = true;
+      toast('对，就是这样一件小事 ✓');
+    }
+  });
+
+  /* 收藏 */
+  var fav = document.getElementById('fav');
+  try { var favs = JSON.parse(localStorage.getItem('v3_favs') || '[]'); if (favs.indexOf(id) >= 0) fav.textContent = '♥'; } catch (e) {}
+  fav.addEventListener('click', function(){
+    try {
+      var favs = JSON.parse(localStorage.getItem('v3_favs') || '[]');
+      var i = favs.indexOf(id);
+      if (i >= 0) { favs.splice(i, 1); fav.textContent = '♡'; toast('已取消收藏'); }
+      else { favs.push(id); fav.textContent = '♥'; toast('已收藏 ♡'); }
+      localStorage.setItem('v3_favs', JSON.stringify(favs));
+    } catch (e) {}
+  });
+
+  /* CTA：体验 = 进入真实搭子页面；开始陪伴 = 记住搭子（首页「继续我的搭子」） */
+  document.getElementById('bTry').addEventListener('click', function(){
+    try { localStorage.setItem('v3_mine', JSON.stringify({ id: id, at: new Date().toLocaleDateString('zh-CN') })); } catch (e) {}
+    location.href = p.href;
+  });
+  document.getElementById('bMine').addEventListener('click', function(){
+    try { localStorage.setItem('v3_mine', JSON.stringify({ id: id, at: new Date().toLocaleDateString('zh-CN') })); } catch (e) {}
+    toast('已开启陪伴 · 首页可继续今天');
+  });
+
+  function toast(msg){
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.style.opacity = '1';
+    clearTimeout(t._m); t._m = setTimeout(function(){ t.style.opacity = '0'; }, 1500);
+  }
+})();
+</script>
+</body>
+</html>

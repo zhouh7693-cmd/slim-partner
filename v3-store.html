@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Slim Partner · 找搭子</title>
+<style>
+  :root{--bg:#FAF9F6;--brand:#49745F;--brand-lt:#EEF5F0;--ink:#202521;--sub:#6F756F;--line:#E7E9E6;}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;max-width:480px;margin:0 auto;min-height:100vh;}
+  .hd{padding:16px 20px 10px;}
+  .bk{font-size:20px;cursor:pointer;text-decoration:none;color:var(--ink);display:inline-block;margin-bottom:8px;transition:transform .12s;}
+  .bk:active{transform:scale(.92);}
+  .hd h1{font-size:20px;font-weight:800;}
+  .hd p{font-size:12.5px;color:var(--sub);margin-top:4px;transition:opacity .2s;}
+  .search{margin:12px 20px 4px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:11px 16px;display:flex;align-items:center;gap:8px;transition:border-color .2s;}
+  .search:focus-within{border-color:var(--brand);}
+  .search input{border:none;outline:none;flex:1;font-size:13.5px;background:transparent;color:var(--ink);}
+  .search input::placeholder{color:#B9BEB9;}
+  .s-clear{font-size:15px;color:#B9BEB9;cursor:pointer;display:none;padding:0 2px;}
+  /* 布局：左分类 + 右分区列表 */
+  .wrap{display:flex;margin-top:12px;min-height:70vh;}
+  .rail{width:86px;flex-shrink:0;background:#F2F1EC;padding:10px 0 60px;position:sticky;top:0;align-self:flex-start;}
+  .rail div{padding:12px 6px;margin:3px 6px;text-align:center;font-size:12.5px;color:var(--sub);cursor:pointer;border-radius:12px;transition:transform .12s,background .18s,color .18s;user-select:none;}
+  .rail div:active{transform:scale(.95);}
+  .rail div .re{display:block;font-size:18px;margin-bottom:3px;filter:grayscale(.4);transition:filter .18s;}
+  .rail div.on{background:#DCEDE2;color:#2E5544;font-weight:800;}
+  .rail div.on .re{filter:none;}
+  .list{flex:1;min-width:0;padding:0 16px 40px 14px;}
+  .sec-t{font-size:14px;font-weight:800;margin:6px 0 10px;scroll-margin-top:10px;}
+  .cat-sec{animation:fadein .2s ease both;}
+  @keyframes fadein{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  .hot-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px;scrollbar-width:none;}
+  .hot-row::-webkit-scrollbar{display:none;}
+  .hot{flex-shrink:0;width:108px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 10px;cursor:pointer;transition:transform .12s;}
+  .hot:active{transform:scale(.96);}
+  .hot .hi{font-size:20px;}
+  .hot .hn{font-size:12px;font-weight:800;margin-top:5px;}
+  .hot .hp{font-size:10px;color:var(--sub);margin-top:3px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:12px;cursor:pointer;transition:transform .12s,box-shadow .2s;}
+  .card:active{transform:scale(.98);}
+  .c-head{display:flex;align-items:center;gap:10px;}
+  .c-icon{width:46px;height:46px;border-radius:14px;background:var(--brand-lt);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+  .c-name{font-size:15px;font-weight:800;}
+  .c-badge{font-size:10.5px;color:var(--brand);background:var(--brand-lt);border-radius:10px;padding:2px 8px;margin-left:7px;font-weight:700;}
+  .c-arrow{margin-left:auto;color:#C9CEC9;font-size:16px;}
+  .c-promise{font-size:12.5px;color:var(--ink);opacity:.85;margin-top:9px;line-height:1.65;}
+  .c-tags{margin-top:8px;font-size:11px;color:var(--sub);}
+  .c-tags b{color:var(--brand);font-weight:600;}
+  .c-meta{margin-top:7px;font-size:10.5px;color:#A7ACA7;}
+  .empty{padding:30px 10px;text-align:center;font-size:13px;color:var(--sub);line-height:2;}
+  .empty b{color:var(--brand);cursor:pointer;}
+  .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(255,255,255,.96);border-top:1px solid var(--line);display:flex;padding:8px 0 calc(10px + env(safe-area-inset-bottom));z-index:50;}
+  .nav a{flex:1;text-align:center;text-decoration:none;color:var(--sub);font-size:10.5px;cursor:pointer;}
+  .nav a .ni{font-size:20px;display:block;margin-bottom:2px;}
+  .nav a.on{color:var(--brand);font-weight:700;}
+  .toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(32,37,33,.88);color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:99;}
+</style>
+</head>
+<body>
+  <div class="hd">
+    <a class="bk" href="v3-home.html">←</a>
+    <h1>找一个适合你的搭子</h1>
+    <p id="hdTip">现在最想改善什么，就从那里开始。</p>
+  </div>
+
+  <div class="search">🔍<input id="q" placeholder="睡不好、焦虑、晋升、减脂……"><span class="s-clear" id="qClear">✕</span></div>
+
+  <div class="wrap">
+    <div class="rail" id="rail"></div>
+    <div class="list" id="list"></div>
+  </div>
+
+  <div class="nav">
+    <a href="v3-home.html"><span class="ni">🏠</span>首页</a>
+    <a class="on" href="v3-store.html"><span class="ni">✨</span>找搭子</a>
+    <a href="index.html"><span class="ni">☀️</span>今日</a>
+    <a id="navMine"><span class="ni">👤</span>我的</a>
+  </div>
+  <div class="toast" id="toast"></div>
+
+<script src="v3-data.js"></script>
+<script>
+(function(){
+  var V = window.V3;
+  var state = { cat: 'all', kw: '' };
+  var TIPS = {
+    all:   '现在最想改善什么，就从那里开始。',
+    body:  '先照顾好身体，很多事情都会慢慢变轻。',
+    state: '如果最近有点撑不住，先从这里找个人陪你。',
+    grow:  '每天一点点，慢慢长出让你踏实的本事。',
+    work:  '不是让你更忙，是陪你把重要的事做得更好。',
+    rel:   '关系顺了，日子就顺了大半。',
+    life:  '把人生当作值得认真经营的长期项目。'
+  };
+
+  try {
+    var qp = new URLSearchParams(location.search);
+    if (qp.get('kw')) state.kw = qp.get('kw');
+    else if (qp.get('cat')) state.cat = qp.get('cat');
+  } catch (e) {}
+
+  var railEl = document.getElementById('rail');
+  var listEl = document.getElementById('list');
+  var qEl = document.getElementById('q');
+  var qClear = document.getElementById('qClear');
+
+  /* 左侧一级品类导航 */
+  railEl.innerHTML = V.cats.map(function(c){
+    return '<div data-c="' + c.key + '" class="' + (c.key === state.cat ? 'on' : '') + '"><span class="re">' + c.emoji + '</span>' + c.label + '</div>';
+  }).join('');
+
+  function setRailOn(key){
+    railEl.querySelectorAll('[data-c]').forEach(function(d){
+      d.classList.toggle('on', d.getAttribute('data-c') === key);
+    });
+  }
+  function setTip(key){
+    var t = document.getElementById('hdTip');
+    if (t.textContent !== TIPS[key]) {
+      t.style.opacity = '0';
+      setTimeout(function(){ t.textContent = TIPS[key] || ''; t.style.opacity = '1'; }, 180);
+    }
+  }
+
+  /* 点分类 = 平滑滚动到对应专区（不是冷筛选，是“在店里走动”） */
+  var spyLock = 0;
+  railEl.addEventListener('click', function(e){
+    var el = e.target.closest('[data-c]'); if (!el) return;
+    var key = el.getAttribute('data-c');
+    state.cat = key;
+    if (state.kw) { state.kw = ''; qEl.value = ''; qClear.style.display = 'none'; }
+    setRailOn(key); setTip(key);
+    spyLock = Date.now() + 750;
+    if (key === 'all') { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    else {
+      var sec = document.getElementById('sec-' + key);
+      if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+
+  /* 滑动联动：滑到哪个专区，左边自动亮 */
+  function spy(){
+    if (state.kw || Date.now() < spyLock) return;
+    var secs = listEl.querySelectorAll('[data-catsec]');
+    if (!secs.length) return;
+    /* 触底时直接选中最后一个分区 */
+    if (window.innerHeight + window.pageYOffset >= document.body.scrollHeight - 60) {
+      var lastKey = secs[secs.length - 1].getAttribute('data-catsec');
+      if (lastKey !== state.cat) { state.cat = lastKey; setRailOn(lastKey); setTip(lastKey); }
+      return;
+    }
+    var cur = secs[0].getAttribute('data-catsec');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().top <= 130) cur = secs[i].getAttribute('data-catsec');
+    }
+    if (cur !== state.cat) { state.cat = cur; setRailOn(cur); setTip(cur); }
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if (!ticking) { ticking = true; requestAnimationFrame(function(){ spy(); ticking = false; }); }
+  }, { passive: true });
+
+  function match(p){
+    if (!state.kw) return true;
+    var hay = (p.name + p.promise + p.short.join('') + p.problems.join('')).toLowerCase();
+    return state.kw.toLowerCase().split(/\s+/).every(function(w){ return hay.indexOf(w) >= 0; });
+  }
+
+  function cardHTML(p){
+    return '<div class="card" data-id="' + p.id + '">' +
+      '<div class="c-head"><div class="c-icon">' + p.icon + '</div>' +
+      '<div class="c-name">' + p.name + (p.badge ? '<span class="c-badge">' + p.badge + '</span>' : '') + '</div>' +
+      '<div class="c-arrow">›</div></div>' +
+      '<div class="c-promise">' + p.promise + '</div>' +
+      '<div class="c-tags"><b>✓</b> ' + p.short.join(' · ') + '</div>' +
+      '<div class="c-meta">' + p.duration + ' · ' + p.dailyTime + '</div></div>';
+  }
+
+  function catLabel(key){ var c = V.cats.filter(function(x){ return x.key === key; })[0] || {}; return c.label || ''; }
+
+  function render(){
+    if (state.kw) {
+      /* 搜索态：平铺结果 */
+      var hits = V.partners.filter(match);
+      if (!hits.length) {
+        listEl.innerHTML = '<div class="empty cat-sec">暂时没有完全匹配的搭子。<br>但下面几个可能和你现在的状态有关：<br><br>' +
+          ['subject','mindset','discipline'].map(V.partnerById).map(function(p){
+            return '<b data-id="' + p.id + '">' + p.icon + ' ' + p.name + '</b>';
+          }).join('<br>') + '<br><br>或者告诉我：你最近最困扰的是什么？</div>';
+      } else {
+        listEl.innerHTML = '<div class="cat-sec"><div class="sec-t">和「' + state.kw + '」有关的搭子（' + hits.length + '）</div>' + hits.map(cardHTML).join('') + '</div>';
+      }
+      return;
+    }
+    /* 逛店态：右侧按品类分区，全部展示 */
+    var html = '';
+    var hot = V.featured.map(V.partnerById).filter(Boolean);
+    html += '<div data-catsec="all" id="sec-all"><div class="sec-t">大家最近都在找</div>' +
+      '<div class="hot-row">' + hot.map(function(p){
+        return '<div class="hot" data-id="' + p.id + '"><div class="hi">' + p.icon + '</div><div class="hn">' + p.name + '</div><div class="hp">' + p.promise + '</div></div>';
+      }).join('') + '</div></div>';
+    V.cats.filter(function(c){ return c.key !== 'all'; }).forEach(function(c){
+      var items = V.partners.filter(function(p){ return p.cat === c.key; });
+      if (!items.length) return;
+      html += '<div class="cat-sec" data-catsec="' + c.key + '" id="sec-' + c.key + '">' +
+        '<div class="sec-t">' + c.emoji + ' ' + c.label + '搭子</div>' + items.map(cardHTML).join('') + '</div>';
+    });
+    listEl.innerHTML = html;
+  }
+
+  /* 搭子卡整张可点 → 详情 */
+  listEl.addEventListener('click', function(e){
+    var el = e.target.closest('[data-id]'); if (!el) return;
+    location.href = 'v3-detail.html?id=' + el.getAttribute('data-id');
+  });
+
+  /* 搜索 */
+  var timer = null;
+  qEl.addEventListener('input', function(e){
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      state.kw = e.target.value.trim();
+      qClear.style.display = state.kw ? 'block' : 'none';
+      render();
+    }, 160);
+  });
+  qEl.addEventListener('keydown', function(e){ if (e.key === 'Enter') qEl.blur(); });
+  qClear.addEventListener('click', function(){
+    qEl.value = ''; state.kw = ''; qClear.style.display = 'none';
+    render(); setRailOn(state.cat); setTip(state.cat);
+  });
+
+  /* 底部导航 */
+  document.getElementById('navMine').addEventListener('click', function(){
+    toast('「我的」即将上线 · 敬请期待');
+  });
+
+  var toastEl = document.getElementById('toast');
+  function toast(msg){
+    toastEl.textContent = msg; toastEl.style.opacity = '1';
+    clearTimeout(toastEl._m); toastEl._m = setTimeout(function(){ toastEl.style.opacity = '0'; }, 1500);
+  }
+
+  render();
+  setTip(state.cat);
+  /* 带 ?cat= 进入时，直接定位到对应专区 */
+  if (state.cat !== 'all' && !state.kw) {
+    setTimeout(function(){
+      var sec = document.getElementById('sec-' + state.cat);
+      if (sec) window.scrollTo({ top: sec.getBoundingClientRect().top + window.pageYOffset - 8 });
+    }, 60);
+  }
+})();
+</script>
+</body>
+</html>
