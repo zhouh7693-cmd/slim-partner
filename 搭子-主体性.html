@@ -1201,7 +1201,7 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
     <div class="neg-critic-desc" id="negDesc" data-page-node-id="yHFMUHbOaTUlvzdbSGzVLA"></div>
     <div class="neg-critic-reply" id="negReply" data-page-node-id="HhEB5rg48cGg7oQuCm5UFX"></div>
     <div class="neg-critic-row" data-page-node-id="q9Oq8odewfHNeeXD4Izshz">
-      <button class="neg-btn yes" onclick="negYes()" data-page-node-id="RtVbaWPU1zvEDGjqCbyHxv">✅ 知道了</button>
+      <button class="neg-btn yes" onclick="negYes()" data-page-node-id="RtVbaWPU1zvEDGjqCbyHxv">知道了</button>
     </div>
   </div>
 </div>
@@ -1236,7 +1236,7 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
     <div class="fb-title" id="fbTitle" data-page-node-id="rkb3VMQGgwiHNErVo47vkO"></div>
     <div class="fb-text" id="fbText" data-page-node-id="gCpkAsDvm14FmBh5GUaQXh"></div>
     <div class="fb-partner-quote" id="fbQuote" data-page-node-id="Vdh8ew7D47ubb1lTdCIB6W"></div>
-    <button class="fb-btn" onclick="closeFeedback()" data-page-node-id="9DeHTcaujbmjIfKVUNTMfl">✅ 知道了</button>
+    <button class="fb-btn" onclick="closeFeedback()" data-page-node-id="9DeHTcaujbmjIfKVUNTMfl">知道了</button>
   </div>
 </div>
 
@@ -1902,7 +1902,7 @@ function closeFeedback() { document.getElementById('fbOverlay').classList.remove
 function refreshDashboard() {
   let today = getToday(), history = getHistory();
   let checked = history.includes(today);
-  document.getElementById('checkinStatusText').innerText = checked ? '✅ 已签到' : '签到';
+  document.getElementById('checkinStatusText').innerText = checked ? '已签到' : '签到';
   document.getElementById('checkinBtn').style.opacity = checked ? '0.7' : '1';
   let continuous = computeContinuous(history, today);
   document.getElementById('continuousDays').innerText = continuous;
@@ -3084,7 +3084,7 @@ function showSOPFinish() {
       </div>
       <div class="sf-history">${histBars}</div>
       <div class="sf-note">🌙 明天0点自动重置</div>
-      <button onclick="closeSOPFinish()" class="sf-btn">V 知道了</button>
+      <button onclick="closeSOPFinish()" class="sf-btn">知道了</button>
     </div>
   `;
   overlay.classList.add('show');
@@ -3795,14 +3795,28 @@ function openSceneFB(idx, type) {
     var secs = fbFor(txt).map(function(x){ return '<div style="background:#f6f5f2;border-radius:12px;padding:9px 12px;margin-bottom:8px;">'
       + '<div style="font-size:11.5px;font-weight:800;color:#607d8b;margin-bottom:3px;">' + x[0] + '</div>'
       + '<div style="font-size:12.5px;color:#444;line-height:1.75;">' + x[1] + '</div></div>'; }).join('');
-    ov.innerHTML = '<div style="background:#fffdf7;border-radius:20px;max-width:400px;width:100%;max-height:78vh;overflow-y:auto;padding:18px 16px;animation:ccPop .2s ease;">'
-      + '<div style="text-align:center;font-size:34px;margin-bottom:4px;">👍</div>'
-      + '<div style="text-align:center;font-size:16px;font-weight:800;color:#333;">已记住</div>'
-      + '<div style="text-align:center;font-size:11px;color:#8f9eae;margin:4px 0 12px;">说出来才算真的懂 · 下次遇到这个场景，先想起它</div>'
-      + '<div style="background:#fff6e0;border:1px dashed #cbb87e;border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:13px;color:#5a4408;line-height:1.7;font-weight:600;">📌 ' + esc(short) + '</div>'
-      + secs
-      + '<button id="ccFbOk" style="width:100%;border:none;border-radius:22px;padding:12px;font-size:14px;font-weight:700;color:#fff;background:#455a64;cursor:pointer;margin-top:2px;">记上了 ✅</button>'
-      + '</div>';
+    ov.innerHTML = (function(){
+      var acc = '#607d8b', tint = '#f6f5f2';
+      try {
+        var pb = document.createElement('div'); pb.className = 'fb-label pos'; pb.style.display = 'none'; document.body.appendChild(pb);
+        var c = getComputedStyle(pb).color; document.body.removeChild(pb);
+        if (c && c.indexOf('rgb') === 0) { acc = c; tint = c.replace('rgb(', 'rgba(').replace(')', ', .10)'); }
+      } catch (e) {}
+      var full = esc(short);
+      var main = short.split(/[，。；：！？!?,;:\n]/)[0] || short;
+      if (main.length > 20) main = main.slice(0, 20) + '…';
+      var secs2 = fbFor(txt).map(function(x){ return '<div style="text-align:left;background:' + tint + ';border-radius:12px;padding:9px 12px;margin-bottom:8px;">'
+        + '<div style="font-size:11.5px;font-weight:800;color:' + acc + ';margin-bottom:3px;">' + x[0] + '</div>'
+        + '<div style="font-size:12.5px;color:#444;line-height:1.75;">' + x[1] + '</div></div>'; }).join('');
+      return '<div style="background:#fffdf7;border-radius:24px;max-width:400px;width:100%;max-height:78vh;overflow-y:auto;padding:20px 18px;animation:ccPop .2s ease;text-align:center;">'
+        + '<div style="display:inline-block;background:' + tint + ';padding:4px 14px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:1px;color:' + acc + ';margin-bottom:10px;">✓ 已记住</div>'
+        + '<div style="font-size:19px;font-weight:800;color:#333;line-height:1.45;margin-bottom:6px;">' + esc(main) + '</div>'
+        + '<div style="font-size:11px;color:#9aa5ae;margin-bottom:12px;">说出来才算真的懂 · 下次遇到这个场景，先想起它</div>'
+        + '<div style="text-align:left;background:' + tint + ';border-radius:14px;padding:12px 14px;margin-bottom:10px;font-size:13px;color:#555;line-height:1.8;">' + full + '</div>'
+        + secs2
+        + '<button id="ccFbOk" style="width:100%;border:none;border-radius:24px;padding:13px;font-size:15px;font-weight:800;color:#fff;background:' + acc + ';cursor:pointer;margin-top:2px;">记上了 ✅</button>'
+        + '</div>';
+    })();
     ov.style.display = 'flex';
     var ok = document.getElementById('ccFbOk');
     if (ok) ok.onclick = function(){ ov.style.display = 'none'; };
@@ -4063,47 +4077,85 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
 <div id="maliceOverlay" onclick="if(event.target===this)closeMalice()" style="display:none;position:fixed;left:0;top:0;right:0;bottom:0;z-index:100300;background:rgba(0,0,0,0.55);align-items:center;justify-content:center;padding:18px;">
   <div style="background:#1c1a17;border-radius:20px;max-width:420px;width:100%;max-height:78vh;overflow-y:auto;padding:18px 16px;position:relative;animation:malicePop .22s ease;">
     <span onclick="closeMalice()" id="maliceCloseX" style="position:absolute;top:10px;right:14px;font-size:20px;color:#b8ac93;cursor:pointer;line-height:1;">✕</span>
-    <div style="font-size:16px;font-weight:700;color:#f0e6d2;padding-right:28px;">🛡️ 面对恶意 · 强者 6 心法</div>
-    <div style="font-size:11px;color:#d4af37;margin:4px 0 12px;">「真正的自由，不是让别人不再攻击你，而是你不再被他们的看法控制。」—— 爱比克泰德</div>
+    <div id="maliceHead" style="font-size:16px;font-weight:700;color:#f0e6d2;padding-right:28px;">🛡️ 面对恶意 · 强者 6 心法</div>
+    <div id="maliceSub" style="font-size:11px;color:#d4af37;margin:4px 0 12px;">点一条心法，只看它 · 一条一条内化</div>
     <div id="maliceList"></div>
-    <div style="text-align:center;margin-top:12px;"><span onclick="closeMalice()" style="display:inline-block;background:#d4af37;color:#1c1a17;font-weight:700;font-size:13px;border-radius:24px;padding:9px 34px;cursor:pointer;">我知道了</span></div>
   </div>
 </div>
 <style>@keyframes malicePop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}</style>
 <script>
 var MALICE6 = [
-  { icon: "🤐", t: "1. 停止自证", d: "别人说你自私，不必拼命证明善良；被质疑，也不必把前因后果解释一遍。你一急着解释，就把评价自己的权力交给了对方。", p: "有事实，就处理事实；只有标签，就不必反复解释。承认一次错误 ≠ 接受对整个人的否定；拒绝人格羞辱 ≠ 拒绝合理批评。", act: "练习：被贴标签时只回应事实一句话，然后闭嘴，观察 24 小时其实什么都没发生。" },
-  { icon: "🔍", t: "2. 区分攻击和信息", d: "攻击可以丢掉，信息可以留下。态度差不代表内容没价值，态度好也不代表观点正确——高手不看包装，只看信息是否有用。", p: "刺耳不一定危险，客气不一定无害。回应的力度，看现实影响：可能误导重要他人的指控要用事实澄清；澄清是为了解决问题，不是让对方认输。", act: "练习：听到难听话先写三行——他说的哪件是真的？需要纠正什么？其余的直接丢掉。" },
-  { icon: "🎭", t: "3. 别把恶意人格化", d: "很多攻击源于对方自己的匮乏、嫉妒、焦虑和控制欲。你只是恰好站在了他的情绪出口上。", p: "别把别人的内在问题，解释成自己的价值问题。你不需要证明对方心怀恶意，才有资格拒绝越界。", act: "练习：被攻击时默念一句「这是他的出口，不是我的考题」，然后把注意力放回手头的事。" },
-  { icon: "🎯", t: "4. 控制注意力", d: "一次攻击可能只有几分钟，但很多人会用三天五天在脑子里继续伤害自己。注意力是成年人最贵的心理资产。", p: "谁不值得占据你，就别让谁长期住进你的脑子。把精力逐步还给工作、家人和真正想做的事——你的人生不需要他的观众。", act: "练习：发现自己在脑内回放难听话时，立刻给自己设 30 分钟「注意力赎回」：去做一件具体的事。" },
-  { icon: "🛡️", t: "5. 该反击时就反击", d: "忽略恶意不等于没有边界。讽刺、阴阳怪气可以不回应；但造谣、羞辱、欺骗、破坏名誉，一定要处理。", p: "边界不是脾气大，而是让伤害你的人知道：伤害你是有成本的。用行动表达边界——继续人身攻击，我会结束谈话；反复越界，我会减少接触。力量悬殊时更要讲策略：找支持、留记录、备退路。边界需要持续执行，一次妥协只会招来更多试探。", act: "练习：写下你的 3 条底线（哪些话不能说、哪些行为不能接受），越界一次就执行一次后果。" },
-  { icon: "🕊️", t: "6. 无须胜过", d: "真正高级的胜利，不是吵赢别人、让所有人承认你是对的，而是对方已经无法影响你的人生方向。", p: "他讨厌你，你依然做自己的事；他否定你，你依然持续成长。允许自己受伤也继续生活：接纳情绪而不压抑，给自己修复时间，从经历里提取成长。允许别人不喜欢你，但不要因为别人的不喜欢开始怀疑自己。", act: "练习：每天做一个主动选择（读什么、做什么、见什么人）——每一个微小的选择，都在强化你的自主权。" }
+  { icon: "🤐", t: "停止自证", k: "不自证，就是收回评价权", c: "#d4af37",
+    d: "别人说你自私，不必拼命证明善良；被质疑，也不必把前因后果解释一遍。你一急着解释，就把评价自己的权力交给了对方。",
+    h: "有事实，就处理事实；只有标签，就不必反复解释。承认一次错误 ≠ 接受对整个人的否定；拒绝人格羞辱 ≠ 拒绝合理批评。",
+    act: "被贴标签时只回应事实一句话，然后闭嘴，观察 24 小时其实什么都没发生。" },
+  { icon: "🔍", t: "区分攻击和信息", k: "丢掉攻击，留下信息", c: "#4db6ac",
+    d: "攻击可以丢掉，信息可以留下。态度差不代表内容没价值，态度好也不代表观点正确——高手不看包装，只看信息是否有用。",
+    h: "刺耳不一定危险，客气不一定无害。回应的力度，看现实影响：可能误导重要他人的指控要用事实澄清；澄清是为了解决问题，不是让对方认输。",
+    act: "听到难听话先写三行——他说的哪件是真的？需要纠正什么？其余的直接丢掉。" },
+  { icon: "🎭", t: "别把恶意人格化", k: "这是他的出口，不是我的考题", c: "#ce93d8",
+    d: "很多攻击源于对方自己的匮乏、嫉妒、焦虑和控制欲。你只是恰好站在了他的情绪出口上。",
+    h: "别把别人的内在问题，解释成自己的价值问题。你不需要证明对方心怀恶意，才有资格拒绝越界。",
+    act: "被攻击时默念一句「这是他的出口，不是我的考题」，然后把注意力放回手头的事。" },
+  { icon: "🎯", t: "控制注意力", k: "别让他免费住进你的脑子", c: "#64b5f6",
+    d: "一次攻击可能只有几分钟，但很多人会用三天五天在脑子里继续伤害自己。注意力是成年人最贵的心理资产。",
+    h: "谁不值得占据你，就别让谁长期住进你的脑子。把精力逐步还给工作、家人和真正想做的事——你的人生不需要他的观众。",
+    act: "发现自己在脑内回放难听话时，立刻给自己设 30 分钟「注意力赎回」：去做一件具体的事。" },
+  { icon: "🛡️", t: "该反击时就反击", k: "边界，是让伤害有成本", c: "#ff8a65",
+    d: "忽略恶意不等于没有边界。讽刺、阴阳怪气可以不回应；但造谣、羞辱、欺骗、破坏名誉，一定要处理。",
+    h: "边界不是脾气大，而是让伤害你的人知道：伤害你是有成本的。用行动表达边界——继续人身攻击，我会结束谈话；反复越界，我会减少接触。力量悬殊时更要讲策略：找支持、留记录、备退路。边界需要持续执行，一次妥协只会招来更多试探。",
+    act: "写下你的 3 条底线（哪些话不能说、哪些行为不能接受），越界一次就执行一次后果。" },
+  { icon: "🕊️", t: "无须胜过", k: "不吵赢，直接越过", c: "#a5d6a7",
+    d: "真正高级的胜利，不是吵赢别人、让所有人承认你是对的，而是对方已经无法影响你的人生方向。",
+    h: "他讨厌你，你依然做自己的事；他否定你，你依然持续成长。允许自己受伤也继续生活：接纳情绪而不压抑，给自己修复时间，从经历里提取成长。允许别人不喜欢你，但不要因为别人的不喜欢开始怀疑自己。",
+    act: "每天做一个主动选择（读什么、做什么、见什么人）——每一个微小的选择，都在强化你的自主权。" }
 ];
 function openMalice(idx){
   var ov = document.getElementById("maliceOverlay");
   var box = document.getElementById("maliceList");
-  box.innerHTML = MALICE6.map(function(m,i){
-    var hl = (typeof idx === "number" && idx === i);
-    return '<div style="background:'+ (hl ? "#3a3223" : "#26221c") +';border:'+(hl?'1px solid #d4af37':'1px solid transparent')+';border-radius:14px;padding:12px 14px;margin-bottom:10px;">'
-      + '<div style="font-size:14px;font-weight:700;color:#d4af37;">'+m.icon+' '+m.t+'</div>'
-      + '<div style="font-size:12.5px;color:#f0e6d2;line-height:1.7;margin-top:6px;">'+m.d+'</div>'
-      + '<div style="font-size:12px;color:#c9bda3;line-height:1.7;margin-top:6px;">'+m.p+'</div>'
-      + '<div style="font-size:11.5px;color:#8fbf8f;line-height:1.6;margin-top:8px;background:#20261e;border-radius:8px;padding:7px 10px;">🌱 内化练习：'+m.act.replace(/^练习：/,"")+'</div>'
-      + '</div>';
-  }).join("");
-  ov.style.display = "flex";
+  var head = document.getElementById("maliceHead");
+  var sub = document.getElementById("maliceSub");
   if (typeof idx === "number") {
-    var cards = box.children;
-    if (cards[idx]) setTimeout(function(){ cards[idx].scrollIntoView({block:"start",behavior:"smooth"}); }, 60);
+    var m = MALICE6[idx];
+    if (head) head.innerHTML = m.icon + " 心法 " + (idx + 1) + " · " + m.t;
+    if (sub) { sub.innerText = "「" + m.k + "」"; sub.style.color = m.c; }
+    box.innerHTML =
+      '<div style="background:#26221c;border-left:3px solid ' + m.c + ';border-radius:12px;padding:11px 13px;margin-bottom:10px;">'
+      + '<div style="font-size:11px;font-weight:800;color:' + m.c + ';letter-spacing:1px;margin-bottom:4px;">🧠 核心认知</div>'
+      + '<div style="font-size:13px;color:#f0e6d2;line-height:1.8;">' + m.d + '</div></div>'
+      + '<div style="background:#26221c;border-left:3px solid ' + m.c + ';border-radius:12px;padding:11px 13px;margin-bottom:10px;">'
+      + '<div style="font-size:11px;font-weight:800;color:' + m.c + ';letter-spacing:1px;margin-bottom:4px;">🎯 怎么做</div>'
+      + '<div style="font-size:12.5px;color:#c9bda3;line-height:1.8;">' + m.h + '</div></div>'
+      + '<div style="background:#20261e;border-radius:12px;padding:11px 13px;">'
+      + '<div style="font-size:11px;font-weight:800;color:#8fbf8f;letter-spacing:1px;margin-bottom:4px;">🌱 内化练习</div>'
+      + '<div style="font-size:12.5px;color:#a8c8a8;line-height:1.7;">' + m.act + '</div></div>'
+      + '<div style="display:flex;gap:8px;margin-top:14px;align-items:center;">'
+      + (idx > 0 ? '<span onclick="openMalice(' + (idx - 1) + ')" style="flex:0 0 auto;font-size:12px;color:#b8ac93;background:#2b2620;border-radius:20px;padding:8px 14px;cursor:pointer;">◀ 上一条</span>' : '')
+      + '<span onclick="closeMalice()" style="flex:1;text-align:center;background:#d4af37;color:#1c1a17;font-weight:700;font-size:13px;border-radius:24px;padding:9px 0;cursor:pointer;">记上了</span>'
+      + (idx < MALICE6.length - 1 ? '<span onclick="openMalice(' + (idx + 1) + ')" style="flex:0 0 auto;font-size:12px;color:#1c1a17;background:#d4af37;border-radius:20px;padding:8px 14px;cursor:pointer;">下一条 ▶</span>' : '')
+      + '</div>';
   } else {
-    box.scrollTop = 0; ov.querySelector("div").scrollTop = 0;
+    if (head) head.innerText = "🛡️ 面对恶意 · 强者 6 心法";
+    if (sub) { sub.innerText = "点一条心法，只看它 · 一条一条内化"; sub.style.color = "#d4af37"; }
+    box.innerHTML = MALICE6.map(function(m, i){
+      return '<div onclick="openMalice(' + i + ')" style="background:#26221c;border-radius:14px;padding:12px 14px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:10px;">'
+        + '<span style="font-size:20px;">' + m.icon + '</span>'
+        + '<span style="flex:1;min-width:0;"><span style="display:block;font-size:13.5px;font-weight:700;color:#f0e6d2;">' + (i + 1) + '. ' + m.t + '</span>'
+        + '<span style="display:block;font-size:11px;color:' + m.c + ';margin-top:2px;">' + m.k + '</span></span>'
+        + '<span style="color:#6b6353;font-size:16px;">›</span></div>';
+    }).join('')
+      + '<div style="text-align:center;margin-top:12px;"><span onclick="closeMalice()" style="display:inline-block;background:#d4af37;color:#1c1a17;font-weight:700;font-size:13px;border-radius:24px;padding:9px 34px;cursor:pointer;">我知道了</span></div>';
   }
+  ov.style.display = "flex";
+  var sc = ov.querySelector("div");
+  if (sc) sc.scrollTop = 0;
 }
 function closeMalice(){
   var ov = document.getElementById("maliceOverlay");
   if (ov) ov.style.display = "none";
 }
 window.openMalice = openMalice; window.closeMalice = closeMalice;
+</script>
 </script>
 
 <style>/* ux-minimal-v1 染色板块去ICON·极简化 */
@@ -4112,6 +4164,7 @@ window.openMalice = openMalice; window.closeMalice = closeMalice;
 #stdDailyTip>div:first-child>span:first-child{display:none!important}
 #stdKey3List>div>div:first-child,#stdSceneList>div>div:first-child{display:none!important}
 .qa-card-icon{display:none!important}
+.fb-partner-quote{background:#fdf8e8!important;color:#555!important;border-radius:14px!important;padding:12px 14px!important;font-size:13px!important;text-align:left!important;width:100%!important;box-sizing:border-box!important}
 </style>
 </body>
 </html>

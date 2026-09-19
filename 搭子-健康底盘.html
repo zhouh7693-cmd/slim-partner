@@ -994,14 +994,28 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
     var secs = fbFor(txt).map(function(x){ return '<div style="background:#f6f5f2;border-radius:12px;padding:9px 12px;margin-bottom:8px;">'
       + '<div style="font-size:11.5px;font-weight:800;color:#607d8b;margin-bottom:3px;">' + x[0] + '</div>'
       + '<div style="font-size:12.5px;color:#444;line-height:1.75;">' + x[1] + '</div></div>'; }).join('');
-    ov.innerHTML = '<div style="background:#fffdf7;border-radius:20px;max-width:400px;width:100%;max-height:78vh;overflow-y:auto;padding:18px 16px;animation:ccPop .2s ease;">'
-      + '<div style="text-align:center;font-size:34px;margin-bottom:4px;">👍</div>'
-      + '<div style="text-align:center;font-size:16px;font-weight:800;color:#333;">已记住</div>'
-      + '<div style="text-align:center;font-size:11px;color:#8f9eae;margin:4px 0 12px;">说出来才算真的懂 · 下次遇到这个场景，先想起它</div>'
-      + '<div style="background:#fff6e0;border:1px dashed #cbb87e;border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:13px;color:#5a4408;line-height:1.7;font-weight:600;">📌 ' + esc(short) + '</div>'
-      + secs
-      + '<button id="ccFbOk" style="width:100%;border:none;border-radius:22px;padding:12px;font-size:14px;font-weight:700;color:#fff;background:#455a64;cursor:pointer;margin-top:2px;">记上了 ✅</button>'
-      + '</div>';
+    ov.innerHTML = (function(){
+      var acc = '#607d8b', tint = '#f6f5f2';
+      try {
+        var pb = document.createElement('div'); pb.className = 'fb-label pos'; pb.style.display = 'none'; document.body.appendChild(pb);
+        var c = getComputedStyle(pb).color; document.body.removeChild(pb);
+        if (c && c.indexOf('rgb') === 0) { acc = c; tint = c.replace('rgb(', 'rgba(').replace(')', ', .10)'); }
+      } catch (e) {}
+      var full = esc(short);
+      var main = short.split(/[，。；：！？!?,;:\n]/)[0] || short;
+      if (main.length > 20) main = main.slice(0, 20) + '…';
+      var secs2 = fbFor(txt).map(function(x){ return '<div style="text-align:left;background:' + tint + ';border-radius:12px;padding:9px 12px;margin-bottom:8px;">'
+        + '<div style="font-size:11.5px;font-weight:800;color:' + acc + ';margin-bottom:3px;">' + x[0] + '</div>'
+        + '<div style="font-size:12.5px;color:#444;line-height:1.75;">' + x[1] + '</div></div>'; }).join('');
+      return '<div style="background:#fffdf7;border-radius:24px;max-width:400px;width:100%;max-height:78vh;overflow-y:auto;padding:20px 18px;animation:ccPop .2s ease;text-align:center;">'
+        + '<div style="display:inline-block;background:' + tint + ';padding:4px 14px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:1px;color:' + acc + ';margin-bottom:10px;">✓ 已记住</div>'
+        + '<div style="font-size:19px;font-weight:800;color:#333;line-height:1.45;margin-bottom:6px;">' + esc(main) + '</div>'
+        + '<div style="font-size:11px;color:#9aa5ae;margin-bottom:12px;">说出来才算真的懂 · 下次遇到这个场景，先想起它</div>'
+        + '<div style="text-align:left;background:' + tint + ';border-radius:14px;padding:12px 14px;margin-bottom:10px;font-size:13px;color:#555;line-height:1.8;">' + full + '</div>'
+        + secs2
+        + '<button id="ccFbOk" style="width:100%;border:none;border-radius:24px;padding:13px;font-size:15px;font-weight:800;color:#fff;background:' + acc + ';cursor:pointer;margin-top:2px;">记上了 ✅</button>'
+        + '</div>';
+    })();
     ov.style.display = 'flex';
     var ok = document.getElementById('ccFbOk');
     if (ok) ok.onclick = function(){ ov.style.display = 'none'; };
@@ -1275,6 +1289,7 @@ function renderShareStdH(){
 #stdDailyTip>div:first-child>span:first-child{display:none!important}
 #stdKey3List>div>div:first-child,#stdSceneList>div>div:first-child{display:none!important}
 .qa-card-icon{display:none!important}
+.fb-partner-quote{background:#f6f5f2!important;color:#555!important;border-radius:14px!important;padding:12px 14px!important;font-size:13px!important;text-align:left!important;width:100%!important;box-sizing:border-box!important}
 #partnerChatArea{display:none!important}
 </style>
 </body><script>const STORAGE = { PARTNER: "slim_partner_health", CHECKIN: "slim_checkin_health", ACTIONS: "slim_health_actions", ACTIONS_DONE: "slim_health_actions_done", SOP: "slim_sop_health", SOP_HIST: "slim_sop_health_hist", SOP_LASTW: "slim_sop_health_lastw", METRICS: "slim_health_metrics", YEARLY: "slim_health_yearly", STREAKS: "slim_health_streaks" };const SOP_CATEGORIES = [{"key": "metab", "icon": "🩸", "name": "代谢", "desc": "血糖、血脂、血压、体重、腰围", "tip": "空腹血糖、腰围、血压，每 3-6 个月看一次趋势，比看单次数值更说明问题。"}, {"key": "gut", "icon": "🌱", "name": "肠道", "desc": "排便规律、菌群多样性、纤维摄入", "tip": "每周 25-30g 膳食纤维 + 多种植物（≥30 种/周），是肠道最稳的两件事。"}, {"key": "immune", "icon": "🛡", "name": "免疫", "desc": "疫苗更新、睡眠、急性病恢复期", "tip": "疫苗不焦虑每年补一次；睡眠连续 5 天低于 6 小时，免疫反应就会下降。"}, {"key": "sleep", "icon": "🌙", "name": "睡眠", "desc": "时长、入睡、深睡、节律", "tip": "固定上床时间比\"睡够\"更重要；连续 3 周规律，节律就稳了。"}, {"key": "stress", "icon": "🧘", "name": "压力", "desc": "心率、HRV、情绪复原、休息能力", "tip": "HRV（心率变异性）比\"心情\"更客观；连续 7 天早晨 5 分钟呼吸引续就能回升。"}, {"key": "move", "icon": "🏃", "name": "运动", "desc": "有氧、力量、柔韧、日常活动量", "tip": "每周 150 分钟中等强度有氧 + 2 次力量，比\"每天 1 万步\"更说明问题。"}];const ACTION_POOL = [{"emoji": "🥬", "title": "吃够 1 份深色蔬菜", "tip": "至少 80g，深绿色最好"}, {"emoji": "🚶", "title": "快走 10 分钟", "tip": "微喘能说话的速度"}, {"emoji": "📵", "title": "23:30 前放下手机", "tip": "屏幕蓝光骗大脑以为是白天"}, {"emoji": "💧", "title": "喝水 1.5L", "tip": "小口慢喝，不是一次灌"}, {"emoji": "🧘", "title": "5 分钟深呼吸", "tip": "4-7-8 节奏，鼻子吸嘴呼"}, {"emoji": "🍎", "title": "今天吃 1 份完整水果", "tip": "带皮吃，纤维更全"}, {"emoji": "🥗", "title": "主食用 1/3 粗粮替换", "tip": "糙米/燕麦/玉米/薯类"}, {"emoji": "🦴", "title": "靠墙静蹲 30 秒 × 3 组", "tip": "膝盖不超脚尖"}, {"emoji": "☀️", "title": "出门晒 10 分钟", "tip": "上午 10 点前最佳"}, {"emoji": "🛏", "title": "22:30 前上床", "tip": "节律比时长更值钱"}, {"emoji": "🚶‍♀️", "title": "饭后走 15 分钟", "tip": "降餐后血糖最有效"}, {"emoji": "📵", "title": "吃饭不看屏幕", "tip": "胃也会\"专注\"消化"}, {"emoji": "🌰", "title": "一小把坚果", "tip": "约 15-20g，原味最好"}, {"emoji": "🧂", "title": "看一眼包装食品盐含量", "tip": "警惕\"低钠\"标签"}, {"emoji": "😴", "title": "中午午休 15-20 分钟", "tip": "超过 30 分钟反而困"}, {"emoji": "🪥", "title": "认真刷牙 2 分钟", "tip": "牙周和心血管是连着的"}, {"emoji": "📝", "title": "写下 1 件让你焦虑的事", "tip": "写下来焦虑值就降一半"}, {"emoji": "🌬", "title": "做 5 次腹式呼吸", "tip": "吸 4 停 4 呼 6"}, {"emoji": "🪟", "title": "开窗通风 10 分钟", "tip": "CO₂ 比 PM2.5 更影响认知"}, {"emoji": "🎯", "title": "为 1 件明天要做的事定时", "tip": "把\"打算\"变成\"约定\""}];const METRICS = [{"key": "fpg", "name": "空腹血糖", "unit": "mmol/L", "ideal": "3.9 - 6.1"}, {"key": "hba1c", "name": "糖化血红蛋白", "unit": "%", "ideal": "< 5.7"}, {"key": "ldl", "name": "低密度脂蛋白", "unit": "mmol/L", "ideal": "< 3.4"}, {"key": "tg", "name": "甘油三酯", "unit": "mmol/L", "ideal": "< 1.7"}, {"key": "hdl", "name": "高密度脂蛋白", "unit": "mmol/L", "ideal": "> 1.0"}, {"key": "waist", "name": "腰围", "unit": "cm", "ideal": "男<90 女<85"}, {"key": "bmi", "name": "BMI", "unit": "kg/m²", "ideal": "18.5 - 24"}, {"key": "uric_acid", "name": "尿酸", "unit": "μmol/L", "ideal": "男<420 女<360"}, {"key": "alt", "name": "ALT（肝功）", "unit": "U/L", "ideal": "< 40"}, {"key": "ast", "name": "AST（肝功）", "unit": "U/L", "ideal": "< 40"}];const YEARLY_ITEMS = [{"key": "physical", "text": "今年做了年度体检", "freq": "年度"}, {"key": "bp_retest", "text": "血压复查", "freq": "建议 3 个月"}, {"key": "glucose_retest", "text": "血糖/糖化复查", "freq": "健康 1 年/有异常 3 月"}, {"key": "lipid_retest", "text": "血脂复查", "freq": "健康 3-5 年/有异常 1 年"}, {"key": "vaccine", "text": "疫苗更新（流感/新冠/带状疱疹等）", "freq": "按品种 1-5 年"}, {"key": "dental", "text": "口腔检查 + 洁牙", "freq": "半年到一年"}, {"key": "vision", "text": "视力 / 眼底检查", "freq": "建议一年"}, {"key": "cancer_screen", "text": "年龄对应癌症筛查咨询", "freq": "按医生建议"}, {"key": "family_history", "text": "家族史更新（父母/兄弟姐妹）", "freq": "每年回顾"}, {"key": "colon", "text": "肠镜（45 岁后或家族史）", "freq": "按医生建议"}, {"key": "breast", "text": "乳腺（女性，40+ 视情况）", "freq": "按医生建议"}, {"key": "cervical", "text": "宫颈（女性，21+ 起）", "freq": "按医生建议"}, {"key": "prostate", "text": "前列腺（男性，50+ 视情况）", "freq": "按医生建议"}];const TYPE_SCENES = {"progress": [{"type": "pos", "feedback": "看到你在认真维持每周记录，这就是最稳的那条路。"}, {"type": "pos", "feedback": "数据在握，未来十年你的身体会感谢今天的你。"}, {"type": "pos", "feedback": "把指标当朋友，不当敌人，趋势比单次更重要。"}], "struggle": [{"type": "neg", "feedback": "今天做不到，不代表明天做不到。先停一停，别硬撑。"}, {"type": "neg", "feedback": "焦虑的时候身体也在听你说话，对它温和一点。"}, {"type": "neg", "feedback": "断签一天不丢任何东西；连轴紧绷才是真正伤身体。"}], "idea": [{"type": "pos", "feedback": "好问题——健康的所有改进都是从这种\"咦\"开始。"}, {"type": "pos", "feedback": "记住这个念头，下次体检前再翻出来问问自己。"}], "cheer": [{"type": "pos", "feedback": "好事情 — 情绪好的时候免疫也好，稳稳的多收一份红利。"}], "question": [{"type": "q", "feedback": "我猜你最在意的是「这样是不是真的有用」。对吗？"}, {"type": "q", "feedback": "你愿意从哪一个最小的一步开始？"}], "report": [{"type": "pos", "feedback": "记下来了。我们看 4 周趋势，比看一周更说明问题。"}]};
@@ -1358,11 +1373,11 @@ function renderDashboard() {
 
 function updateCheckinBtn(checked) {
   var btn = $('checkinBtn');
-  if (checked) { if (btn) btn.classList.add('checked'); $('checkinStatusText').innerText = '✓ 已完成'; $('checkinSubText').innerText = '明天再来'; }
+  if (checked) { if (btn) btn.classList.add('checked'); $('checkinStatusText').innerText = '已完成'; $('checkinSubText').innerText = '明天再来'; }
   else { if (btn) btn.classList.remove('checked'); $('checkinStatusText').innerText = '打卡'; $('checkinSubText').innerText = '点击完成'; }
   var btn2 = $('checkinBtnCk');
   if (btn2) {
-    if (checked) { btn2.classList.add('checked'); $('checkinStatusTextCk').innerText = '✓ 已完成'; $('checkinSubTextCk').innerText = '明天再来'; }
+    if (checked) { btn2.classList.add('checked'); $('checkinStatusTextCk').innerText = '已完成'; $('checkinSubTextCk').innerText = '明天再来'; }
     else { btn2.classList.remove('checked'); $('checkinStatusTextCk').innerText = '打卡'; $('checkinSubTextCk').innerText = '点击完成'; }
   }
 }
