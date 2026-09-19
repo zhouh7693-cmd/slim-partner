@@ -580,7 +580,40 @@
       </div>
     <button class="talk-btn" style="margin-top:10px;width:100%;" onclick="askPartner('today')">💭 今天发生了什么</button>
     </div>
-    <div style="background:linear-gradient(135deg,#fff7ed,#ffedd5);border-radius:20px;padding:16px 14px;margin-top:14px;">
+    <script>
+(function(){
+  var STORE='buddy_key3_family', ACC='#c9704a';
+  var ACTS=[{"icon": "🗣️", "title": "一句具体的肯定", "sub": "夸行为不夸人设，说出看到的细节", "why": "「你今天主动收拾了碗筷」比「你真棒」更有力量——具体的肯定让家人知道你真的看见了他。今天夸一次，说出你观察到的细节。"}, {"icon": "⏸️", "title": "情绪上头先暂停", "sub": "说「我需要缓一缓」，离开现场 10 分钟", "why": "冲突最高点说出的话，往往是事后最后悔的。暂停不是冷战，是给彼此降温的时间。今晚若遇上头时刻，先暂停 10 分钟再回来谈。"}, {"icon": "📵", "title": "15 分钟完整陪伴", "sub": "放下手机，不催促不打断", "why": "陪伴的质量看的是「在场」，不是时长。15 分钟完整属于家人，胜过 2 小时人在心不在。今晚试一次，你会感受到不一样。"}];
+  function __k3ld(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+  function k3data(){ try{ var d=JSON.parse(localStorage.getItem(STORE)||'{}'); if(d.date!==__k3ld()) d={date:__k3ld(),checked:{}}; return d; }catch(e){ return {date:__k3ld(),checked:{}}; } }
+  function renderAll(){
+    var d=k3data();
+    var boxes=document.querySelectorAll('.famk3list');
+    for(var b=0;b<boxes.length;b++){
+      var box=boxes[b], html='';
+      for(var i=0;i<ACTS.length;i++){
+        var a=ACTS[i], on=!!d.checked[i];
+        var circle=on?'background:'+ACC+';color:#fff;text-align:center;line-height:26px;font-size:14px;font-weight:700;':'border:2px solid #d1d5db;background:#fff;';
+        html+='<div onclick="toggleKey3('+i+')" style="display:flex;align-items:center;gap:10px;background:#f6f8fa;border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;">'
+          +'<div style="font-size:22px;flex-shrink:0;">'+a.icon+'</div>'
+          +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;color:#333;">'+a.title+'</div>'
+          +'<div style="font-size:11px;color:#999;margin-top:2px;">'+a.sub+'</div></div>'
+          +'<div style="width:26px;height:26px;border-radius:50%;flex-shrink:0;'+circle+'">'+(on?'\u2713':'')+'</div></div>';
+      }
+      box.innerHTML=html;
+    }
+  }
+  window.toggleKey3=function(i){ var d=k3data(); d.checked[i]=!d.checked[i]; try{localStorage.setItem(STORE,JSON.stringify(d));}catch(e){} renderAll(); };
+  setTimeout(renderAll,0);
+})();
+</script>
+<!-- fix19: 今日3个关键小动作 -->
+<div style="max-width:420px;margin:14px auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+  <div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个家人相处小动作</div>
+  <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
+  <div class="famk3list"></div>
+</div>
+<div style="background:linear-gradient(135deg,#fff7ed,#ffedd5);border-radius:20px;padding:16px 14px;margin-top:14px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
         <div style="font-weight:800;font-size:14px;color:#9a3412;">📌 今天提醒自己</div>
         <button onclick="famTipNext()" style="border:none;background:#fff;color:#c9704a;font-size:12px;font-weight:700;padding:6px 12px;border-radius:14px;cursor:pointer;">🔄 换一条</button>
@@ -814,7 +847,13 @@
       <button class="talk-btn" data-type="question" data-page-node-id="nuAuWEvtXkrgleOXfjONPe">🤔 提问</button>
     </div>
     <button class="talk-btn" style="margin-top:10px;width:100%;" onclick="askPartner('today')">💭 今天发生了什么</button>
-    <div style="background:linear-gradient(135deg,#fff7ed,#ffedd5);border-radius:20px;padding:16px 14px;margin-top:14px;">
+    <!-- fix19: 今日3个关键小动作 -->
+<div style="max-width:420px;margin:14px auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+  <div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个家人相处小动作</div>
+  <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
+  <div class="famk3list"></div>
+</div>
+<div style="background:linear-gradient(135deg,#fff7ed,#ffedd5);border-radius:20px;padding:16px 14px;margin-top:14px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
         <div style="font-weight:800;font-size:14px;color:#9a3412;">📌 今天提醒自己</div>
         <button onclick="famTipNext()" style="border:none;background:#fff;color:#c9704a;font-size:12px;font-weight:700;padding:6px 12px;border-radius:14px;cursor:pointer;">🔄 换一条</button>
@@ -3625,7 +3664,7 @@ function initCoach(){
 <script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
 (function(){
 if(window.__uxpV1) return; window.__uxpV1=true;
-var CFG={"accent": "#c9704a", "mood": {"happy": {"tag": "高光时刻", "t": "今天家里的温度升了一格", "d": "家庭幸福感是由这样的高光时刻攒出来的。趁状态好，把今天为什么开心说给家人听——分享快乐，快乐会翻倍。顺便把这份好心情存进记忆：拍照、写一句话都行。"}, "neutral": {"tag": "平稳时刻", "t": "平稳是家最好的底色", "d": "家和不是天天开心，是细水长流的安稳。趁今天不忙不烦，做一件小存款：给家人倒杯水、说句「辛苦了」、认真吃一顿饭。平稳的日子做的准备，会在矛盾来临时兑现。"}, "sad": {"tag": "低落时刻", "t": "先接住自己，家会接住你", "d": "难过的时候别硬扛，也别把最坏的脾气留给最亲的人。跟家人说一句「我今天有点低落，不是因为你」——这句话能避免90%的误伤。家人不是外人，示弱不丢人。"}, "tired": {"tag": "疲惫时刻", "t": "累的时候，先照顾自己再照顾家", "d": "疲惫时的语气最容易扎人——不是你差劲，是电量不足。今晚早一点放下所有事，跟家人打个招呼「我太累了，先休息，明天聊」。休息好了，温柔自然会回来。"}}};
+var CFG={"accent": "#c9704a", "k3": [{"icon": "🗣️", "title": "一句具体的肯定", "sub": "夸行为不夸人设，说出看到的细节", "why": "「你今天主动收拾了碗筷」比「你真棒」更有力量——具体的肯定让家人知道你真的看见了他。今天夸一次，说出你观察到的细节。"}, {"icon": "⏸️", "title": "情绪上头先暂停", "sub": "说「我需要缓一缓」，离开现场 10 分钟", "why": "冲突最高点说出的话，往往是事后最后悔的。暂停不是冷战，是给彼此降温的时间。今晚若遇上头时刻，先暂停 10 分钟再回来谈。"}, {"icon": "📵", "title": "15 分钟完整陪伴", "sub": "放下手机，不催促不打断", "why": "陪伴的质量看的是「在场」，不是时长。15 分钟完整属于家人，胜过 2 小时人在心不在。今晚试一次，你会感受到不一样。"}], "k3store": "buddy_key3_family", "mood": {"happy": {"tag": "高光时刻", "t": "今天家里的温度升了一格", "d": "家庭幸福感是由这样的高光时刻攒出来的。趁状态好，把今天为什么开心说给家人听——分享快乐，快乐会翻倍。顺便把这份好心情存进记忆：拍照、写一句话都行。"}, "neutral": {"tag": "平稳时刻", "t": "平稳是家最好的底色", "d": "家和不是天天开心，是细水长流的安稳。趁今天不忙不烦，做一件小存款：给家人倒杯水、说句「辛苦了」、认真吃一顿饭。平稳的日子做的准备，会在矛盾来临时兑现。"}, "sad": {"tag": "低落时刻", "t": "先接住自己，家会接住你", "d": "难过的时候别硬扛，也别把最坏的脾气留给最亲的人。跟家人说一句「我今天有点低落，不是因为你」——这句话能避免90%的误伤。家人不是外人，示弱不丢人。"}, "tired": {"tag": "疲惫时刻", "t": "累的时候，先照顾自己再照顾家", "d": "疲惫时的语气最容易扎人——不是你差劲，是电量不足。今晚早一点放下所有事，跟家人打个招呼「我太累了，先休息，明天聊」。休息好了，温柔自然会回来。"}}};
 var ACC=CFG.accent||'#e05a7a';
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 var ov=null;
@@ -3938,5 +3977,16 @@ q.addEventListener('click',function(e){if(e.target===q){try{closeQAPanel();}catc
 .qa-card-icon{display:none!important}
 .fb-partner-quote{background:#e8f5e9!important;color:#555!important;border-radius:14px!important;padding:12px 14px!important;font-size:13px!important;text-align:left!important;width:100%!important;box-sizing:border-box!important}
 </style>
+<style>
+/* fix19: premium popup polish + close-x positioning guard */
+.qa-panel,.qa-modal,.qa-header{position:relative!important;}
+.fb-overlay,.qa-overlay,#stdSceneMask,#qaOverlay{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+div[style*="z-index:100500"]{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.fb-card{border-radius:28px!important;box-shadow:0 24px 64px rgba(15,23,42,.16)!important;}
+.fb-partner-quote{font-style:normal!important;}
+.fb-partner-label{display:none!important;}
+#key3Card>div:first-child>span:first-child{display:none!important;}
+</style>
+
 </body>
 </html>

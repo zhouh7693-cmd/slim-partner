@@ -580,7 +580,40 @@
       </div>
     <button class="talk-btn" style="margin-top:10px;width:100%;" onclick="askPartner('today')">💭 今天发生了什么</button>
     </div>
-    <div style="background:linear-gradient(135deg,#f0f7f0,#e2efe4);border-radius:20px;padding:16px 14px;margin-top:14px;">
+    <script>
+(function(){
+  var STORE='buddy_key3_health', ACC='#5f8d6e';
+  var ACTS=[{"icon": "🧘", "title": "身体扫描 1 分钟", "sub": "从头顶到脚趾，逐段放松", "why": "身体一直在给你发信号，只是你太忙没听见。花 1 分钟从头到脚扫一遍，找到今天最紧的部位，主动松开它——这就是和身体做朋友。"}, {"icon": "🚶", "title": "起身活动 5 分钟", "sub": "久坐 1 小时，就动一次", "why": "身体不是设计来久坐的。每起身一次，血液循环、腰椎压力、大脑供氧都在改善。定个提醒，到点就站起来走两步。"}, {"icon": "🥗", "title": "吃一份真食材", "sub": "少一份深加工", "why": "能看清原料的食物，身体才认识。今天挑一餐，把深加工换成真食材——身体会用轻松感谢谢你。"}];
+  function __k3ld(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+  function k3data(){ try{ var d=JSON.parse(localStorage.getItem(STORE)||'{}'); if(d.date!==__k3ld()) d={date:__k3ld(),checked:{}}; return d; }catch(e){ return {date:__k3ld(),checked:{}}; } }
+  function renderAll(){
+    var d=k3data();
+    var boxes=document.querySelectorAll('.famk3list');
+    for(var b=0;b<boxes.length;b++){
+      var box=boxes[b], html='';
+      for(var i=0;i<ACTS.length;i++){
+        var a=ACTS[i], on=!!d.checked[i];
+        var circle=on?'background:'+ACC+';color:#fff;text-align:center;line-height:26px;font-size:14px;font-weight:700;':'border:2px solid #d1d5db;background:#fff;';
+        html+='<div onclick="toggleKey3('+i+')" style="display:flex;align-items:center;gap:10px;background:#f6f8fa;border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;">'
+          +'<div style="font-size:22px;flex-shrink:0;">'+a.icon+'</div>'
+          +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;color:#333;">'+a.title+'</div>'
+          +'<div style="font-size:11px;color:#999;margin-top:2px;">'+a.sub+'</div></div>'
+          +'<div style="width:26px;height:26px;border-radius:50%;flex-shrink:0;'+circle+'">'+(on?'\u2713':'')+'</div></div>';
+      }
+      box.innerHTML=html;
+    }
+  }
+  window.toggleKey3=function(i){ var d=k3data(); d.checked[i]=!d.checked[i]; try{localStorage.setItem(STORE,JSON.stringify(d));}catch(e){} renderAll(); };
+  setTimeout(renderAll,0);
+})();
+</script>
+<!-- fix19: 今日3个关键小动作 -->
+<div style="max-width:420px;margin:14px auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+  <div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个身体对话小动作</div>
+  <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
+  <div class="famk3list"></div>
+</div>
+<div style="background:linear-gradient(135deg,#f0f7f0,#e2efe4);border-radius:20px;padding:16px 14px;margin-top:14px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
         <div style="font-weight:800;font-size:14px;color:#2f5d3f;">📌 今天提醒自己</div>
         <button onclick="bodyTipNext()" style="border:none;background:#fff;color:#5f8d6e;font-size:12px;font-weight:700;padding:6px 12px;border-radius:14px;cursor:pointer;">🔄 换一条</button>
@@ -814,7 +847,13 @@
       <button class="talk-btn" data-type="question" data-page-node-id="nuAuWEvtXkrgleOXfjONPe">🤔 提问</button>
     </div>
     <button class="talk-btn" style="margin-top:10px;width:100%;" onclick="askPartner('today')">💭 今天发生了什么</button>
-    <div style="background:linear-gradient(135deg,#f0f7f0,#e2efe4);border-radius:20px;padding:16px 14px;margin-top:14px;">
+    <!-- fix19: 今日3个关键小动作 -->
+<div style="max-width:420px;margin:14px auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+  <div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个身体对话小动作</div>
+  <div style="font-size:11px;color:#999;margin-bottom:10px;">只勾今天最重要的 3 条，做到就是赢。</div>
+  <div class="famk3list"></div>
+</div>
+<div style="background:linear-gradient(135deg,#f0f7f0,#e2efe4);border-radius:20px;padding:16px 14px;margin-top:14px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
         <div style="font-weight:800;font-size:14px;color:#2f5d3f;">📌 今天提醒自己</div>
         <button onclick="bodyTipNext()" style="border:none;background:#fff;color:#5f8d6e;font-size:12px;font-weight:700;padding:6px 12px;border-radius:14px;cursor:pointer;">🔄 换一条</button>
@@ -3624,7 +3663,7 @@ function initCoach(){
 <script>/* uxp-v1: 居中反馈弹窗（情绪/关键动作/场景） */
 (function(){
 if(window.__uxpV1) return; window.__uxpV1=true;
-var CFG={"accent": "#5f8d6e", "mood": {"happy": {"tag": "高光时刻", "t": "身体今天很轻快", "d": "身体状态好的日子值得记录——它是你最近善待身体的回报。趁状态好，把今天做了什么、几点睡的记下来，好状态是可以复制的。"}, "neutral": {"tag": "平稳时刻", "t": "平稳是身体最好的底色", "d": "身体不吵不闹，是因为被照顾得还行。趁今天不紧不累，做一个呵护小动作：泡个脚、松松肩、早点睡。平稳时存的健康，会在忙碌时兑现。"}, "sad": {"tag": "低落时刻", "t": "先松开身体，情绪会跟着松", "d": "情绪低落时身体最先知道：肩膀塌了、呼吸浅了。别急着振作，先给身体一个安慰：热毛巾敷肩、慢慢深呼吸、洗个热水澡。身体松了，心也会跟着松一格。"}, "tired": {"tag": "疲惫时刻", "t": "累是身体在打欠条", "d": "疲惫不是意志力问题，是身体在提醒你：欠的账该还了。今晚什么都别想，早点睡。透支身体换来的东西，最后都要用健康加倍赎回。"}}};
+var CFG={"accent": "#5f8d6e", "k3": [{"icon": "🧘", "title": "身体扫描 1 分钟", "sub": "从头顶到脚趾，逐段放松", "why": "身体一直在给你发信号，只是你太忙没听见。花 1 分钟从头到脚扫一遍，找到今天最紧的部位，主动松开它——这就是和身体做朋友。"}, {"icon": "🚶", "title": "起身活动 5 分钟", "sub": "久坐 1 小时，就动一次", "why": "身体不是设计来久坐的。每起身一次，血液循环、腰椎压力、大脑供氧都在改善。定个提醒，到点就站起来走两步。"}, {"icon": "🥗", "title": "吃一份真食材", "sub": "少一份深加工", "why": "能看清原料的食物，身体才认识。今天挑一餐，把深加工换成真食材——身体会用轻松感谢谢你。"}], "k3store": "buddy_key3_health", "mood": {"happy": {"tag": "高光时刻", "t": "身体今天很轻快", "d": "身体状态好的日子值得记录——它是你最近善待身体的回报。趁状态好，把今天做了什么、几点睡的记下来，好状态是可以复制的。"}, "neutral": {"tag": "平稳时刻", "t": "平稳是身体最好的底色", "d": "身体不吵不闹，是因为被照顾得还行。趁今天不紧不累，做一个呵护小动作：泡个脚、松松肩、早点睡。平稳时存的健康，会在忙碌时兑现。"}, "sad": {"tag": "低落时刻", "t": "先松开身体，情绪会跟着松", "d": "情绪低落时身体最先知道：肩膀塌了、呼吸浅了。别急着振作，先给身体一个安慰：热毛巾敷肩、慢慢深呼吸、洗个热水澡。身体松了，心也会跟着松一格。"}, "tired": {"tag": "疲惫时刻", "t": "累是身体在打欠条", "d": "疲惫不是意志力问题，是身体在提醒你：欠的账该还了。今晚什么都别想，早点睡。透支身体换来的东西，最后都要用健康加倍赎回。"}}};
 var ACC=CFG.accent||'#e05a7a';
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 var ov=null;
@@ -3937,5 +3976,16 @@ q.addEventListener('click',function(e){if(e.target===q){try{closeQAPanel();}catc
 .qa-card-icon{display:none!important}
 .fb-partner-quote{background:#e8f5e9!important;color:#555!important;border-radius:14px!important;padding:12px 14px!important;font-size:13px!important;text-align:left!important;width:100%!important;box-sizing:border-box!important}
 </style>
+<style>
+/* fix19: premium popup polish + close-x positioning guard */
+.qa-panel,.qa-modal,.qa-header{position:relative!important;}
+.fb-overlay,.qa-overlay,#stdSceneMask,#qaOverlay{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+div[style*="z-index:100500"]{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.fb-card{border-radius:28px!important;box-shadow:0 24px 64px rgba(15,23,42,.16)!important;}
+.fb-partner-quote{font-style:normal!important;}
+.fb-partner-label{display:none!important;}
+#key3Card>div:first-child>span:first-child{display:none!important;}
+</style>
+
 </body>
 </html>

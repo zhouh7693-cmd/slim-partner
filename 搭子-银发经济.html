@@ -3989,5 +3989,16 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
 .qa-card-icon{display:none!important}
 .fb-partner-quote{background:#fdf1e8!important;color:#555!important;border-radius:14px!important;padding:12px 14px!important;font-size:13px!important;text-align:left!important;width:100%!important;box-sizing:border-box!important}
 </style>
+<style>
+/* fix19: premium popup polish + close-x positioning guard */
+.qa-panel,.qa-modal,.qa-header{position:relative!important;}
+.fb-overlay,.qa-overlay,#stdSceneMask,#qaOverlay{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+div[style*="z-index:100500"]{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.fb-card{border-radius:28px!important;box-shadow:0 24px 64px rgba(15,23,42,.16)!important;}
+.fb-partner-quote{font-style:normal!important;}
+.fb-partner-label{display:none!important;}
+#key3Card>div:first-child>span:first-child{display:none!important;}
+</style>
+
 </body>
 </html>
