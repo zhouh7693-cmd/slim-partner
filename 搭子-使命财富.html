@@ -620,7 +620,7 @@
 <div id="stdSceneSheet" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:301;background:#fff;border-radius:24px;max-height:76vh;width:calc(100% - 40px);max-width:400px;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
   <div onclick="stdSceneClose()" style="position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
   <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
-  <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
+  <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">点一下 · 让搭子回应你 · 不计入打卡</div>
   <div id="stdSceneList"></div>
   <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
 </div>
@@ -680,33 +680,57 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
     var d=jget(TK); if(d.date!==today()||d.idx==null){ d={date:today(),idx:Math.floor(Math.random()*TIPS.length)}; jset(TK,d); }
     var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[d.idx];
   }
-  window.stdSceneOpen=function(){
-    if(!SCENES||!SCENES.length) return;
-    var box=document.getElementById('stdSceneList');
-    if(box){
-      var h='<div style="font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:2px 2px 9px;">⬇️ 遇到的困难 / 需要引导</div>';
-      for(var i=0;i<SCENES.length;i++){
-        h+='<div onclick="stdScenePick('+i+')" style="display:flex;align-items:center;gap:12px;background:'+ACCENT+'0a;border:1px solid '+ACCENT+'24;border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;">'
-          +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:600;color:#333;line-height:1.5;">'+SCENES[i][1]+'</div>'
-          +(SCENES[i].length>3?'<div style="font-size:11px;color:#9a938a;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+SCENES[i][2]+'</div>':'')
-          +'</div>'
-          +'<div style="width:38px;height:38px;border-radius:50%;background:#fff;border:1px solid '+ACCENT+'30;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;">'+SCENES[i][0]+'</div></div>';
+  window.__stdPos=[];
+window.stdSceneOpen=function(){
+  if(!SCENES||!SCENES.length) return;
+  var box=document.getElementById('stdSceneList');
+  if(box){
+    var groups=[['pos','\u2b06\ufe0f 好的进展 / 想得到鼓励','#43a047'],['neg','\u2b07\ufe0f 遇到的困难 / 需要引导','#ef5350']];
+    var h='';
+    for(var g=0;g<groups.length;g++){
+      var idxs=[];
+      for(var i=0;i<SCENES.length;i++){ if(((groups[g][0]==='pos')===(window.__stdPos.indexOf(i)>=0))) idxs.push(i); }
+      if(!idxs.length) continue;
+      h+='<div style="font-size:11px;font-weight:700;color:'+groups[g][2]+';letter-spacing:1px;margin:'+(h===''?'2px':'14px')+' 2px 9px;">'+groups[g][1]+'</div>';
+      for(var k=0;k<idxs.length;k++){
+        var i2=idxs[k], tint=(window.__stdPos.indexOf(i2)>=0)?'#43a047':ACCENT;
+        h+='<div onclick="stdScenePick('+i2+')" style="display:flex;align-items:center;gap:12px;background:'+tint+'0d;border:1px solid '+tint+'2e;border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;">'
+          +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:600;color:#333;line-height:1.5;">'+SCENES[i2][1]+'</div></div>'
+          +'<div style="width:38px;height:38px;border-radius:50%;background:#fff;border:1px solid '+tint+'44;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;">'+SCENES[i2][0]+'</div></div>';
       }
-      box.innerHTML=h;
     }
-    var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
-    if(m) m.style.display='block'; if(sh) sh.style.display='block';
-  };
-  window.stdSceneClose=function(){
+    box.innerHTML=h;
+  }
+  var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
+  if(m) m.style.display='block'; if(sh) sh.style.display='block';
+};
+
+window.stdSceneClose=function(){
     var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
     if(m) m.style.display='none'; if(sh) sh.style.display='none';
   };
   window.stdScenePick=function(i){
-    stdSceneClose();
-    toast(EMOJI+' '+SCENES[i][2]);
-    chat(SCENES[i][0]+' '+SCENES[i][1]+' —— 我在，一起拆。');
-  };
-  function ensureSceneBtn(){
+  var isPos=window.__stdPos.indexOf(i)>=0;
+  var tint=isPos?'#43a047':ACCENT;
+  var fb=document.getElementById('stdFB');
+  if(!fb){
+    fb=document.createElement('div'); fb.id='stdFB';
+    fb.style.cssText='position:fixed;left:0;top:0;right:0;bottom:0;z-index:100200;display:none;align-items:center;justify-content:center;background:rgba(15,23,42,.45);padding:24px;';
+    fb.innerHTML='<div id="stdFBCard" style="background:#fff;border-radius:22px;max-width:340px;width:100%;padding:24px 22px 18px;text-align:center;box-shadow:0 18px 50px rgba(0,0,0,.22);"></div>';
+    document.body.appendChild(fb);
+    fb.addEventListener('click',function(e){ if(e.target===fb) stdFBClose(); });
+  }
+  document.getElementById('stdFBCard').innerHTML=
+    '<div style="width:54px;height:54px;margin:0 auto 10px;border-radius:50%;background:'+tint+'14;display:flex;align-items:center;justify-content:center;font-size:28px;">'+SCENES[i][0]+'</div>'
+    +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+tint+';background:'+tint+'14;border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+(isPos?'正向':'挑战')+' · 今天</div>'
+    +'<div style="font-size:16.5px;font-weight:800;color:#222;margin-bottom:10px;">'+SCENES[i][1]+'</div>'
+    +'<div style="font-size:13px;color:#4b5563;line-height:1.8;text-align:left;background:#f7f8f7;border-radius:12px;padding:12px 14px;margin-bottom:14px;">'+EMOJI+' '+SCENES[i][2]+'</div>'
+    +'<button onclick="stdFBClose()" style="width:100%;padding:12px;border:none;border-radius:14px;background:'+tint+';color:#fff;font-size:14px;font-weight:700;cursor:pointer;">知道了</button>';
+  fb.style.display='flex';
+};
+window.stdFBClose=function(){ var fb=document.getElementById('stdFB'); if(fb) fb.style.display='none'; };
+
+function ensureSceneBtn(){
     try{
       if(!document.getElementById('stdSceneBtn')){
         var panel=document.querySelector('.interaction-panel');
@@ -3895,7 +3919,7 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     var sc=CFG.scenes[i]; if(!sc) return;
     var emo=sc[0],ttl=sc[1],sub=(sc.length>3?sc[2]:''),why=(sc.length>3?sc[3]:(sc[2]||''));
     showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
-      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">💬 今天发生了什么</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+(window.__stdPos&&window.__stdPos.indexOf(i)>=0?'#43a047':ACC)+';background:'+(window.__stdPos&&window.__stdPos.indexOf(i)>=0?'#43a0471c':ACC+'1c')+';border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+(window.__stdPos&&window.__stdPos.indexOf(i)>=0?'⬆️ 正向进展':'💬 今天发生了什么')+'</div>'
       +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:6px;">'+esc(ttl)+'</div>'
       +(sub?'<div style="font-size:12px;color:#8a8f99;margin-bottom:12px;">'+esc(sub)+'</div>':'')
       +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(why)+'</div>'

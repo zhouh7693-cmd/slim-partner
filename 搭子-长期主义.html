@@ -535,7 +535,7 @@
 <div id="stdSceneSheet" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:301;background:#fff;border-radius:24px;max-height:76vh;width:calc(100% - 40px);max-width:400px;overflow-y:auto;padding:16px 16px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.15);">
   <div onclick="stdSceneClose()" style="position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;background:#f2f4f7;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;cursor:pointer;">✕</div>
   <div style="text-align:center;font-weight:700;font-size:15px;color:#333;margin-bottom:2px;">💭 今天发生了什么</div>
-  <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">挑最贴近的一条，搭子陪你拆解</div>
+  <div style="text-align:center;font-size:11px;color:#999;margin-bottom:12px;">点一下 · 让搭子回应你 · 不计入打卡</div>
   <div id="stdSceneList"></div>
   <button onclick="stdSceneClose()" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:14px;background:#f2f4f7;color:#555;font-size:14px;font-weight:600;cursor:pointer;">收起 ▾</button>
 </div>
@@ -546,7 +546,7 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
 (function(){
   if (window.__stdTab) return; window.__stdTab = 1;
   var SLUG='longterm', ACCENT='#92400e', EMOJI='⏳';
-  var ACTIONS=[["⏳","自由时间投资 30 分钟","给未来的自己打工"],["📖","深度阅读 30 分钟","复利从今天开始"],["🚫","拒绝一次短期诱惑","延迟满足在练肌肉"],["🏢","沉淀 1 条 SOP","第二次出现就开始模板化"],["🤖","让 AI 干一件机械活","执行交出去，拍板留给自己"],["💰","记录一次「卖结果」","接口清晰，价值可复用"]], TIPS=["时间是最公平的资产，花在哪，长成什么样","每天 30 分钟，一年就是 180 小时——够精通一件事","延迟满足不是忍，是把奖励换个更大的兑现期","复利的敌人只有两个：中断和着急","种一棵树最好的时间是十年前，其次是现在","短期波动吓不出长期主义者——十年后这还重要吗？","刷不完的短视频是注意力的收割机，你才是资产","读书是最便宜的「请教牛人」方式","给未来的自己打工：今天的每个选择都是转账","慢就是快——不返工的路才是最快的路","别用战术上的忙碌，掩盖战略上的懒惰","健康、认知、关系、信用：四样只涨不跌的资产","急于兑现的人拿走小钱，等得起的人拿走大钱","真正的护城河是十年如一日做同一件事","少即是多：同时追两只兔子的人两手空空","今天的舒适是预支，今天的坚持是存款","长期主义者的崩溃次数不比别人少，只是恢复得快","把大目标拆成「今天能做的最小一步」","拒绝一次短期诱惑，就给未来的自己加了一次薪","你不需要很厉害才能开始，但需要开始才能很厉害","不卖时间，卖结果：把自己变成可调用的服务","知识库是硬盘，工作流是操作系统，AI 是应用","把机械的交给 AI，创造的留给自己","接口要清晰：别说「我什么都能做」","与其当螺丝钉，不如把自己变成独立的服务器","用标准化的流程，交付个性化的价值"], SCENES=[["📱","又刷了1小时短视频","⏳ 时间是最公平的资产，花在哪长成什么样。设个25分钟番茄钟，先拿回30分钟。"],["🎮","忍不住又熬夜了","深夜的自由是假自由。长期主义者的自由，是白天攒出来的。"],["📚","学习坚持不下去","别靠意志力，靠系统：固定时间、固定地点、最小目标5分钟。"],["💸","冲动消费了","问自己：一年后它还值多少？把同样金额定投，才是给未来的礼物。"],["😰","焦虑未来怎么办","焦虑是用了昨天的精力担心明天。把注意力拉回今天能做的一件事。"],["🐢","觉得进步太慢","慢即是快。每年进步5%，十年后你甩开99%的人。"]];
+  var ACTIONS=[["⏳","自由时间投资 30 分钟","给未来的自己打工"],["📖","深度阅读 30 分钟","复利从今天开始"],["🚫","拒绝一次短期诱惑","延迟满足在练肌肉"],["🏢","沉淀 1 条 SOP","第二次出现就开始模板化"],["🤖","让 AI 干一件机械活","执行交出去，拍板留给自己"],["💰","记录一次「卖结果」","接口清晰，价值可复用"]], TIPS=["时间是最公平的资产，花在哪，长成什么样","每天 30 分钟，一年就是 180 小时——够精通一件事","延迟满足不是忍，是把奖励换个更大的兑现期","复利的敌人只有两个：中断和着急","种一棵树最好的时间是十年前，其次是现在","短期波动吓不出长期主义者——十年后这还重要吗？","刷不完的短视频是注意力的收割机，你才是资产","读书是最便宜的「请教牛人」方式","给未来的自己打工：今天的每个选择都是转账","慢就是快——不返工的路才是最快的路","别用战术上的忙碌，掩盖战略上的懒惰","健康、认知、关系、信用：四样只涨不跌的资产","急于兑现的人拿走小钱，等得起的人拿走大钱","真正的护城河是十年如一日做同一件事","少即是多：同时追两只兔子的人两手空空","今天的舒适是预支，今天的坚持是存款","长期主义者的崩溃次数不比别人少，只是恢复得快","把大目标拆成「今天能做的最小一步」","拒绝一次短期诱惑，就给未来的自己加了一次薪","你不需要很厉害才能开始，但需要开始才能很厉害","不卖时间，卖结果：把自己变成可调用的服务","知识库是硬盘，工作流是操作系统，AI 是应用","把机械的交给 AI，创造的留给自己","接口要清晰：别说「我什么都能做」","与其当螺丝钉，不如把自己变成独立的服务器","用标准化的流程，交付个性化的价值"], SCENES=[["📱", "又刷了1小时短视频", "先拿回30分钟", "⏳ 时间是最公平的资产，花在哪长成什么样。设个25分钟番茄钟，先拿回30分钟。"], ["🎮", "忍不住又熬夜了", "自由是白天攒的", "深夜的自由是假自由。长期主义者的自由，是白天攒出来的。"], ["📚", "学习坚持不下去", "靠系统不靠意志力", "别靠意志力，靠系统：固定时间、固定地点、最小目标5分钟。"], ["💸", "冲动消费了", "一年后它值多少", "问自己：一年后它还值多少？把同样金额定投，才是给未来的礼物。"], ["😰", "焦虑未来怎么办", "拉回今天一件事", "焦虑是用了昨天的精力担心明天。把注意力拉回今天能做的一件事。"], ["🐢", "觉得进步太慢", "每年5%甩开99%", "慢即是快。每年进步5%，十年后你甩开99%的人。"], ["🏢", "今天像经营者一样思考了一次", "公司视角", "你今天没有只当执行者，而是问了「这件事的投入产出和系统解法」——这就是老板视角的肌肉，练一次强一次。"], ["📦", "把一件重复的事做成了可交付的模块", "模块化", "客户要什么就调用什么模块。你刚刚把自己又标准化了一格——越标准，越可复用，越值钱。"], ["🤖", "让 AI 干掉了一件机械活", "调度者", "人不再是执行者，而是调度者。你把时间从执行里赎了回来，交给了拍板和创造。"], ["🧭", "拒绝了一个「什么都能做」的模糊请求", "接口清晰", "Agent 最忌讳边界模糊。你刚刚定义了自己的接口：输入什么、输出什么、交付标准是什么。"], ["📚", "沉淀了一条经验进知识库", "知识结构化", "经验只有变成可查询的数据库，才能被系统反复调用。你的个人操作系统又升了一个版本。"], ["💸", "记录了一次「卖结果」而不是卖时间", "结果交付", "卖时间是一锤子买卖，卖结果可以复制。你刚刚在练习把自己变成一个独立的服务器。"]];
   var K3='buddy_key3_'+SLUG, TK='std_tip_'+SLUG;
   function today(){ return __ld(new Date()); }
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'{}'); }catch(e){ return {}; } }
@@ -595,33 +595,57 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
     var d=jget(TK); if(d.date!==today()||d.idx==null){ d={date:today(),idx:Math.floor(Math.random()*TIPS.length)}; jset(TK,d); }
     var el=document.getElementById('stdTipText'); if(el) el.innerText=TIPS[d.idx];
   }
-  window.stdSceneOpen=function(){
-    if(!SCENES||!SCENES.length) return;
-    var box=document.getElementById('stdSceneList');
-    if(box){
-      var h='<div style="font-size:11px;font-weight:700;color:#ef5350;letter-spacing:1px;margin:2px 2px 9px;">⬇️ 遇到的困难 / 需要引导</div>';
-      for(var i=0;i<SCENES.length;i++){
-        h+='<div onclick="stdScenePick('+i+')" style="display:flex;align-items:center;gap:12px;background:'+ACCENT+'0a;border:1px solid '+ACCENT+'24;border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;">'
-          +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:600;color:#333;line-height:1.5;">'+SCENES[i][1]+'</div>'
-          +(SCENES[i].length>3?'<div style="font-size:11px;color:#9a938a;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+SCENES[i][2]+'</div>':'')
-          +'</div>'
-          +'<div style="width:38px;height:38px;border-radius:50%;background:#fff;border:1px solid '+ACCENT+'30;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;">'+SCENES[i][0]+'</div></div>';
+  window.__stdPos=[6,7,8,9,10,11];
+window.stdSceneOpen=function(){
+  if(!SCENES||!SCENES.length) return;
+  var box=document.getElementById('stdSceneList');
+  if(box){
+    var groups=[['pos','\u2b06\ufe0f 好的进展 / 想得到鼓励','#43a047'],['neg','\u2b07\ufe0f 遇到的困难 / 需要引导','#ef5350']];
+    var h='';
+    for(var g=0;g<groups.length;g++){
+      var idxs=[];
+      for(var i=0;i<SCENES.length;i++){ if(((groups[g][0]==='pos')===(window.__stdPos.indexOf(i)>=0))) idxs.push(i); }
+      if(!idxs.length) continue;
+      h+='<div style="font-size:11px;font-weight:700;color:'+groups[g][2]+';letter-spacing:1px;margin:'+(h===''?'2px':'14px')+' 2px 9px;">'+groups[g][1]+'</div>';
+      for(var k=0;k<idxs.length;k++){
+        var i2=idxs[k], tint=(window.__stdPos.indexOf(i2)>=0)?'#43a047':ACCENT;
+        h+='<div onclick="stdScenePick('+i2+')" style="display:flex;align-items:center;gap:12px;background:'+tint+'0d;border:1px solid '+tint+'2e;border-radius:14px;padding:12px 14px;margin-bottom:9px;cursor:pointer;">'
+          +'<div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:600;color:#333;line-height:1.5;">'+SCENES[i2][1]+'</div></div>'
+          +'<div style="width:38px;height:38px;border-radius:50%;background:#fff;border:1px solid '+tint+'44;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;">'+SCENES[i2][0]+'</div></div>';
       }
-      box.innerHTML=h;
     }
-    var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
-    if(m) m.style.display='block'; if(sh) sh.style.display='block';
-  };
-  window.stdSceneClose=function(){
+    box.innerHTML=h;
+  }
+  var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
+  if(m) m.style.display='block'; if(sh) sh.style.display='block';
+};
+
+window.stdSceneClose=function(){
     var m=document.getElementById('stdSceneMask'), sh=document.getElementById('stdSceneSheet');
     if(m) m.style.display='none'; if(sh) sh.style.display='none';
   };
   window.stdScenePick=function(i){
-    stdSceneClose();
-    toast(EMOJI+' '+SCENES[i][2]);
-    chat(SCENES[i][0]+' '+SCENES[i][1]+' —— 我在，一起拆。');
-  };
-  function ensureSceneBtn(){
+  var isPos=window.__stdPos.indexOf(i)>=0;
+  var tint=isPos?'#43a047':ACCENT;
+  var fb=document.getElementById('stdFB');
+  if(!fb){
+    fb=document.createElement('div'); fb.id='stdFB';
+    fb.style.cssText='position:fixed;left:0;top:0;right:0;bottom:0;z-index:100200;display:none;align-items:center;justify-content:center;background:rgba(15,23,42,.45);padding:24px;';
+    fb.innerHTML='<div id="stdFBCard" style="background:#fff;border-radius:22px;max-width:340px;width:100%;padding:24px 22px 18px;text-align:center;box-shadow:0 18px 50px rgba(0,0,0,.22);"></div>';
+    document.body.appendChild(fb);
+    fb.addEventListener('click',function(e){ if(e.target===fb) stdFBClose(); });
+  }
+  document.getElementById('stdFBCard').innerHTML=
+    '<div style="width:54px;height:54px;margin:0 auto 10px;border-radius:50%;background:'+tint+'14;display:flex;align-items:center;justify-content:center;font-size:28px;">'+SCENES[i][0]+'</div>'
+    +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+tint+';background:'+tint+'14;border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+(isPos?'正向':'挑战')+' · 今天</div>'
+    +'<div style="font-size:16.5px;font-weight:800;color:#222;margin-bottom:10px;">'+SCENES[i][1]+'</div>'
+    +'<div style="font-size:13px;color:#4b5563;line-height:1.8;text-align:left;background:#f7f8f7;border-radius:12px;padding:12px 14px;margin-bottom:14px;">'+EMOJI+' '+SCENES[i][2]+'</div>'
+    +'<button onclick="stdFBClose()" style="width:100%;padding:12px;border:none;border-radius:14px;background:'+tint+';color:#fff;font-size:14px;font-weight:700;cursor:pointer;">知道了</button>';
+  fb.style.display='flex';
+};
+window.stdFBClose=function(){ var fb=document.getElementById('stdFB'); if(fb) fb.style.display='none'; };
+
+function ensureSceneBtn(){
     try{
       if(!document.getElementById('stdSceneBtn')){
         var panel=document.querySelector('.interaction-panel');
@@ -3669,7 +3693,7 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     var sc=CFG.scenes[i]; if(!sc) return;
     var emo=sc[0],ttl=sc[1],sub=(sc.length>3?sc[2]:''),why=(sc.length>3?sc[3]:(sc[2]||''));
     showUxp('<div style="font-size:54px;margin-bottom:10px;">'+esc(emo)+'</div>'
-      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+ACC+';background:'+ACC+'1c;border-radius:20px;padding:3px 12px;margin-bottom:10px;">💬 今天发生了什么</div>'
+      +'<div style="display:inline-block;font-size:11px;font-weight:700;color:'+(window.__stdPos&&window.__stdPos.indexOf(i)>=0?'#43a047':ACC)+';background:'+(window.__stdPos&&window.__stdPos.indexOf(i)>=0?'#43a0471c':ACC+'1c')+';border-radius:20px;padding:3px 12px;margin-bottom:10px;">'+(window.__stdPos&&window.__stdPos.indexOf(i)>=0?'⬆️ 正向进展':'💬 今天发生了什么')+'</div>'
       +'<div style="font-size:17px;font-weight:800;color:#333;margin-bottom:6px;">'+esc(ttl)+'</div>'
       +(sub?'<div style="font-size:12px;color:#8a8f99;margin-bottom:12px;">'+esc(sub)+'</div>':'')
       +'<div style="background:'+ACC+'0f;border-radius:14px;padding:12px 14px;font-size:13px;color:#555;line-height:1.85;text-align:justify;margin-bottom:18px;">'+esc(why)+'</div>'
