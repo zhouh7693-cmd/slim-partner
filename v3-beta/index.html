@@ -3,196 +3,84 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<meta name="theme-color" content="#f5f2eb" />
-<title>Slim Partner V4.6｜全量类目同步修正版</title>
+<meta name="theme-color" content="#f6f3ed" />
+<title>下一步 V2.1｜继续陪伴商城版</title>
 <style>
-:root{
-  --outer:#ecefeb;
-  --bg:#f6f3ed;
-  --paper:#fffdfa;
-  --ink:#17392f;
-  --ink-2:#2d443c;
-  --muted:#7f8883;
-  --muted-2:#9ba19d;
-  --line:#e5e0d7;
-  --deep:#234c3d;
-  --sage:#eaf0eb;
-  --sage-2:#f0f3ef;
-  --stone:#f1eee8;
-  --shadow:0 12px 34px rgba(28,55,44,.055);
-  --phone:460px;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--outer);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
-button,input{font:inherit}button{color:inherit}
-.app{width:min(100%,var(--phone));min-height:100dvh;margin:auto;background:var(--bg);box-shadow:0 0 48px rgba(0,0,0,.07);position:relative;padding-bottom:82px;overflow-x:hidden}
-.screen{display:none;min-height:calc(100dvh - 76px)}.screen.active{display:block}.inner{padding:0 20px 32px}
-.header{height:80px;display:flex;align-items:center;justify-content:space-between}
-.brandrow{display:flex;align-items:center;gap:11px}.mark{width:40px;height:40px;border-radius:13px;background:var(--deep);color:#fff;display:grid;place-items:center;font-size:10px;font-weight:900;letter-spacing:.05em}.brand{font-size:20px;font-weight:850;letter-spacing:-.035em}.sub{font-size:10.5px;color:var(--muted);margin-top:2px;letter-spacing:.02em}
-.iconbtn{width:42px;height:42px;border:1px solid var(--line);background:rgba(255,253,250,.9);border-radius:14px;display:grid;place-items:center;cursor:pointer;transition:.15s;box-shadow:0 4px 14px rgba(31,58,47,.025)}
-.iconbtn:active,.btn:active,.cat:active,.product:active,.partner-row:active,.side button:active,.recent-item:active{transform:scale(.985)}
-.search{height:58px;border:1px solid var(--line);background:var(--paper);border-radius:19px;display:flex;align-items:center;gap:10px;padding:0 17px;box-shadow:0 6px 20px rgba(31,58,47,.025)}.search input{flex:1;border:0;outline:0;background:transparent;color:var(--ink);font-size:14px}.search input::placeholder{color:#969d99}.glass{width:18px;height:18px;display:grid;place-items:center;color:#7e8983;font-size:16px}
-.home-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 20px}.cat{border:0;background:transparent;padding:0;cursor:pointer;text-align:center;color:#737d78}.cat i{width:46px;height:46px;border-radius:15px;background:rgba(255,253,250,.95);border:1px solid var(--line);display:grid;place-items:center;margin:0 auto 7px;font-style:normal;font-size:11px;font-weight:850;color:var(--deep);letter-spacing:.04em}.cat b{font-size:10px;font-weight:650}
-.hero{border-radius:28px;background:#f0eee8;border:1px solid var(--line);padding:28px 24px 26px;position:relative;overflow:hidden;min-height:222px}.hero:before{content:"";position:absolute;width:160px;height:160px;border-radius:50%;right:-72px;top:-74px;border:1px solid rgba(35,76,61,.07)}.hero:after{content:"";position:absolute;width:86px;height:86px;border-radius:50%;right:20px;bottom:-42px;background:rgba(255,255,255,.35)}.kicker{font-size:11px;color:var(--deep);font-weight:800;letter-spacing:.06em}.hero h1{font-size:30px;line-height:1.18;letter-spacing:-.05em;margin:10px 0 12px;max-width:320px}.hero p{font-size:12.5px;line-height:1.75;color:#67716c;max-width:305px;margin:0 0 18px}
-.btn{border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font-weight:800;transition:.15s}.btn-primary{background:var(--deep);color:#fff;padding:12px 18px}.btn-light{background:var(--paper);color:var(--deep);border:1px solid var(--line);padding:12px 18px}.btn-wide{width:100%;border-radius:16px;padding:15px 18px;font-size:14px}
-.notice{display:flex;gap:12px;align-items:center;background:rgba(255,253,250,.88);border:1px solid var(--line);border-radius:19px;padding:14px 15px;margin-top:14px}.notice .ico{width:42px;height:42px;border-radius:13px;background:var(--sage);display:grid;place-items:center;font-size:11px;font-weight:900;color:var(--deep);flex:0 0 42px}.notice strong{font-size:12.5px}.notice p{font-size:10.5px;color:var(--muted);margin:3px 0 0;line-height:1.55}
-.section{padding-top:28px}.sectionhead{display:flex;justify-content:space-between;align-items:end;margin-bottom:13px}.sectiontitle{font-size:20px;font-weight:850;letter-spacing:-.035em}.sectiondesc{font-size:10.5px;color:var(--muted);margin-top:4px}.more{border:0;background:transparent;color:var(--deep);font-weight:800;font-size:11px;cursor:pointer}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.product{border:1px solid var(--line);background:var(--paper);border-radius:22px;padding:10px 10px 14px;box-shadow:0 7px 22px rgba(31,58,47,.035);cursor:pointer;text-align:left;transition:.15s}.art{height:124px;border-radius:16px;background:var(--stone);display:grid;place-items:center;position:relative;overflow:hidden}.art:before{content:"";position:absolute;inset:auto -28px -44px auto;width:108px;height:108px;border-radius:50%;border:1px solid rgba(35,76,61,.08)}.monogram{font-size:30px;font-weight:500;color:var(--deep);letter-spacing:-.04em}.pname{font-size:14px;font-weight:850;margin:10px 3px 4px}.pline{font-size:10px;color:#6c7671;line-height:1.55;min-height:32px;margin:0 3px}.pmeta{font-size:8.5px;color:#69736e;background:var(--sage-2);border-radius:999px;padding:5px 7px;display:inline-block;margin:9px 3px 0}
-.nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,var(--phone));height:76px;background:rgba(250,248,243,.97);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:50;padding:7px 8px;backdrop-filter:blur(12px)}.nav button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;color:#8c9390;border-radius:14px;cursor:pointer}.nav button b{font-size:16px;font-weight:500}.nav button.active{color:var(--deep);font-weight:800;background:var(--sage)}
-.storehead{padding-top:4px}.storetitle{font-size:29px;font-weight:850;letter-spacing:-.05em}.storelead{font-size:10.5px;color:var(--muted);margin-top:4px}.filter-row{display:flex;gap:7px;overflow-x:auto;padding:12px 0 2px;scrollbar-width:none}.filter-row::-webkit-scrollbar{display:none}.chip{white-space:nowrap;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:7px 10px;font-size:9.5px;color:#727c77;cursor:pointer}.chip.active{background:var(--deep);color:#fff;border-color:var(--deep)}
-.storelayout{display:grid;grid-template-columns:102px 1fr;gap:10px;margin-top:15px}.side{background:#efede8;border-radius:18px;padding:6px;height:max-content;position:sticky;top:8px}.side button{width:100%;border:0;background:transparent;padding:12px 5px;border-radius:12px;font-size:10.5px;line-height:1.35;white-space:normal;color:#767f7b;cursor:pointer;transition:.15s}.side button.active{background:var(--paper);color:var(--deep);font-weight:850;box-shadow:0 3px 10px rgba(31,58,47,.03)}.side small{display:block;font-size:7.5px;color:#a0a5a2;margin-top:2px}.side button.active small{color:#7f8984}
-.storecopy{background:transparent;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 2px 12px;margin-bottom:11px}.storecopy strong{font-size:12.5px;font-weight:800}.storecopy p{font-size:9.5px;color:var(--muted);line-height:1.55;margin:4px 0 0}
-.rows{display:grid;gap:10px}.partner-row{display:grid;grid-template-columns:72px 1fr;gap:11px;background:var(--paper);border:1px solid var(--line);border-radius:19px;padding:9px;box-shadow:0 5px 18px rgba(31,58,47,.025);cursor:pointer;text-align:left;transition:.15s}.thumb{width:72px;height:84px;border-radius:15px;background:var(--stone);display:grid;place-items:center;position:relative;overflow:hidden}.thumb:after{content:"";position:absolute;width:58px;height:58px;right:-22px;top:-20px;border:1px solid rgba(35,76,61,.08);border-radius:50%}.thumb .monogram{font-size:22px}.row-title{display:flex;align-items:center;gap:6px;margin:3px 0 4px}.row-title h3{font-size:13.5px;margin:0;font-weight:850}.status{font-size:7.5px;border-radius:999px;padding:3px 5px;background:var(--sage-2);color:#65716b}.status.new,.status.ok{background:var(--sage-2);color:#65716b}.row-desc{font-size:9.4px;color:#6f7874;line-height:1.5;margin:0}.tags{margin-top:6px;display:flex;gap:4px;flex-wrap:wrap}.tag{font-size:7.5px;background:#f2f1ed;color:#737c78;padding:4px 6px;border-radius:999px}.full-badge{font-size:8px;color:var(--deep);font-weight:800;margin-top:7px;display:inline-flex;align-items:center;gap:4px}.empty{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:25px 14px;text-align:center;color:var(--muted);font-size:11px;line-height:1.7}
-.today-card,.profile-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}.today-card h2,.profile-card h2{font-size:18px;margin:0 0 8px}.today-card p,.profile-card p{font-size:10.5px;color:var(--muted);line-height:1.65;margin:0 0 14px}.recent-list{display:grid;gap:10px}.recent-item{display:flex;align-items:center;gap:11px;border:1px solid var(--line);background:var(--paper);border-radius:17px;padding:10px;cursor:pointer}.recent-icon{width:44px;height:44px;border-radius:13px;background:var(--stone);display:grid;place-items:center}.recent-icon .monogram{font-size:16px}.recent-item strong{font-size:12.5px}.recent-item span{font-size:8.8px;color:var(--muted);display:block;margin-top:3px}.favbtn{margin-left:auto;border:0;background:var(--sage-2);border-radius:11px;width:34px;height:34px;cursor:pointer;color:var(--deep)}
-/* 统一完整搭子外壳：不改原搭子内容，只统一“进入之后”的产品头部与返回路径 */
-.viewer{position:fixed;inset:0;z-index:200;display:none;background:rgba(27,44,37,.18);backdrop-filter:blur(8px)}.viewer.open{display:block}.viewer-shell{width:min(100%,var(--phone));height:100dvh;margin:auto;background:var(--paper);display:flex;flex-direction:column;box-shadow:0 0 60px rgba(0,0,0,.14)}.viewer-top{height:72px;flex:0 0 72px;display:grid;grid-template-columns:92px 1fr 36px;align-items:center;gap:8px;padding:0 12px;background:rgba(250,248,243,.98);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}.viewer-back{height:40px;border:1px solid var(--line);border-radius:13px;background:var(--paper);cursor:pointer;font-size:10px;font-weight:800;color:var(--deep);display:flex;align-items:center;justify-content:center;gap:5px}.viewer-center{text-align:center;min-width:0}.viewer-center .mini{font-size:8px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}.viewer-center strong{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}.viewer-menu{width:36px;height:36px;border:0;background:transparent;border-radius:12px;color:#79827e;cursor:pointer;font-size:17px}.viewer iframe{border:0;width:100%;flex:1;background:#f7f6f2}.viewer-loading{position:absolute;top:72px;left:50%;transform:translateX(-50%);width:min(100%,var(--phone));bottom:0;display:grid;place-items:center;background:#f7f6f2;color:#87908b;font-size:10.5px;pointer-events:none}.viewer-loading.hidden{display:none}
-.toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,16px);width:min(calc(100% - 40px),390px);background:var(--deep);color:white;border-radius:15px;padding:11px 14px;font-size:10.5px;text-align:center;opacity:0;pointer-events:none;transition:.22s;z-index:300}.toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:370px){.storelayout{grid-template-columns:92px 1fr}.side button{font-size:10px}.partner-row{grid-template-columns:64px 1fr}.thumb{width:64px;height:80px}.home-cats{grid-template-columns:repeat(4,1fr)}.viewer-top{grid-template-columns:84px 1fr 30px}}
+:root{--outer:#edf0ec;--bg:#f7f4ee;--paper:#fffdf9;--ink:#15382e;--ink2:#355048;--muted:#7d8782;--line:#e4dfd6;--deep:#214c3d;--sage:#e9f0eb;--sage2:#f1f4f1;--stone:#f0ede6;--shadow:0 12px 32px rgba(27,55,44,.055);--phone:460px}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--outer);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit;color:inherit} button{cursor:pointer} .app{width:min(100%,var(--phone));min-height:100dvh;margin:auto;background:var(--bg);box-shadow:0 0 48px rgba(0,0,0,.07);padding-bottom:82px;overflow-x:hidden;position:relative}
+.screen{display:none;min-height:calc(100dvh - 76px)} .screen.active{display:block} .inner{padding:0 20px 34px}
+.header{height:78px;display:flex;align-items:center;justify-content:space-between;gap:12px} .brandrow{display:flex;align-items:center;gap:11px} .logo{width:40px;height:40px;border-radius:14px;background:var(--deep);display:grid;place-items:center;color:#fff} .logo svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.brand{font-size:20px;font-weight:880;letter-spacing:-.04em} .sub{font-size:10px;color:var(--muted);margin-top:2px} .iconbtn{height:40px;min-width:40px;border:1px solid var(--line);background:rgba(255,253,249,.92);border-radius:13px;display:grid;place-items:center;padding:0 12px;font-size:10px;font-weight:780}
+.bag{display:flex;align-items:center;gap:6px} .bag svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7} .bag-count{min-width:18px;height:18px;border-radius:999px;background:var(--deep);color:white;display:grid;place-items:center;font-size:8px;padding:0 5px}
+.search{height:54px;border:1px solid var(--line);background:var(--paper);border-radius:18px;display:flex;align-items:center;gap:10px;padding:0 15px;box-shadow:0 6px 18px rgba(31,58,47,.025)} .search input{flex:1;border:0;outline:0;background:transparent;font-size:12px;min-width:0} .search input::placeholder{color:#969d99} .glass{font-size:17px;color:#85908a}
+.hero-copy{padding:7px 0 8px} .hero-copy h1{font-size:31px;line-height:1.18;letter-spacing:-.055em;margin:0 0 10px;max-width:365px} .hero-copy p{font-size:11.5px;line-height:1.65;color:#65716b;margin:0}
+.need-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px} .need-card{border:1px solid var(--line);background:var(--paper);border-radius:18px;padding:13px 12px;text-align:left;min-height:72px;box-shadow:0 5px 16px rgba(31,58,47,.022)} .need-card strong{display:block;font-size:12px;letter-spacing:-.02em} .need-card span{display:block;font-size:8.8px;line-height:1.45;color:var(--muted);margin-top:4px} .need-card.active{border-color:#b9c8bf;background:var(--sage)}
+.section{padding-top:28px} .sectionhead{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:12px} .sectiontitle{font-size:20px;font-weight:880;letter-spacing:-.04em} .sectiondesc{font-size:10px;color:var(--muted);margin-top:4px} .more{border:0;background:transparent;font-size:10px;font-weight:800;color:var(--deep)}
+.reco-list{display:grid;gap:10px} .reco-card{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:22px;padding:12px;display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:12px;text-align:left;align-items:start;box-shadow:0 8px 20px rgba(31,58,47,.025)} .reco-mark{width:72px;height:82px;border-radius:17px;background:linear-gradient(145deg,#f0ede6,#edf1ed);display:grid;place-items:center} .reco-main{min-width:0} .reco-benefit{font-size:15px;line-height:1.35;font-weight:880;letter-spacing:-.035em} .reco-name{font-size:10.5px;font-weight:820;color:var(--deep);margin-top:5px} .reco-fit{font-size:8.6px;line-height:1.5;color:var(--muted);margin-top:6px} .reco-effort{font-size:8px;color:#6f7b75;margin-top:7px} .mini-add{align-self:center;border:1px solid #cdd8d1;background:var(--sage);color:var(--deep);border-radius:999px;padding:7px 9px;font-size:8.5px;font-weight:820;white-space:nowrap} .mini-add.selected{background:var(--deep);color:white;border-color:var(--deep)}
+.recent-list{display:grid;gap:10px} .recent-card{border:1px solid var(--line);background:var(--paper);border-radius:20px;padding:12px;display:grid;grid-template-columns:50px minmax(0,1fr) 30px;gap:11px;align-items:center;text-align:left} .recent-icon{width:50px;height:50px;border-radius:15px;background:var(--sage);display:grid;place-items:center} .recent-card strong{font-size:13px} .recent-card p{font-size:9px;line-height:1.45;color:var(--muted);margin:4px 0 0} .arrow{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--sage);font-weight:900}
+.domain-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px} .domain-card{border:1px solid var(--line);background:var(--paper);border-radius:22px;padding:16px;min-height:154px;text-align:left;display:flex;flex-direction:column;box-shadow:0 7px 20px rgba(31,58,47,.02)} .domain-card strong{font-size:17px} .domain-card p{font-size:9.3px;line-height:1.5;color:var(--muted);margin:6px 0} .keywords{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px} .keywords span{font-size:7.6px;padding:4px 6px;border-radius:999px;background:#f1f0eb;color:#76807b} .domain-link{margin-top:auto;padding-top:10px;font-size:8.8px;font-weight:820;color:var(--deep)}
+.series-row{display:flex;gap:9px;overflow-x:auto;scrollbar-width:none} .series-row::-webkit-scrollbar{display:none} .series-card{flex:0 0 148px;border:1px solid var(--line);background:var(--paper);border-radius:19px;padding:14px;text-align:left;min-height:100px} .series-card strong{font-size:12px} .series-card span{font-size:8.6px;line-height:1.5;color:var(--muted);display:block;margin-top:6px}
+.all-entry{margin-top:30px;border-radius:25px;background:var(--deep);color:white;padding:23px 20px;box-shadow:0 14px 32px rgba(31,58,47,.12)} .all-entry h3{font-size:20px;line-height:1.34;letter-spacing:-.035em;margin:0 0 7px} .all-entry p{font-size:10px;line-height:1.6;color:#d7e0db;margin:0 0 15px} .btn{border:0;border-radius:16px;min-height:48px;padding:0 16px;font-weight:820} .btn-primary{background:var(--deep);color:white} .btn-light{background:var(--paper);border:1px solid var(--line);color:var(--deep)} .btn-wide{width:100%}
+.nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,var(--phone));height:76px;background:rgba(250,248,243,.97);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:60;padding:7px 8px;backdrop-filter:blur(12px)} .nav button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;color:#8d9491;border-radius:14px} .nav button b{font-size:16px;font-weight:500} .nav button.active{color:var(--deep);font-weight:820;background:var(--sage)}
+.storehead{position:sticky;top:0;z-index:5;background:rgba(247,244,238,.94);backdrop-filter:blur(12px);padding-top:2px} .storetitle{font-size:29px;font-weight:900;letter-spacing:-.05em} .storelead{font-size:10px;color:var(--muted);margin-top:3px} .store-modes{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding:12px 0 3px} .mode-chip{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:8px 11px;font-size:9px;white-space:nowrap} .mode-chip.active{background:var(--deep);color:white;border-color:var(--deep)} .storelayout{display:grid;grid-template-columns:86px 1fr;gap:10px;margin-top:12px} .side{background:#efede8;border-radius:18px;padding:5px;height:max-content;position:sticky;top:89px} .side button{width:100%;border:0;background:transparent;border-radius:12px;padding:12px 4px;font-size:10px;color:#76807b} .side button.active{background:var(--paper);color:var(--deep);font-weight:850} .side small{display:block;font-size:7px;color:#9aa29d;margin-top:2px}
+.storecopy{padding:6px 2px 11px} .storecopy strong{font-size:14px} .storecopy p{font-size:9px;color:var(--muted);margin:4px 0 0;line-height:1.5} .rows{display:grid;gap:10px} .partner-row{border:1px solid var(--line);background:var(--paper);border-radius:20px;padding:10px;display:grid;grid-template-columns:66px minmax(0,1fr);gap:10px;text-align:left;position:relative} .thumb{width:66px;height:78px;border-radius:15px;background:linear-gradient(145deg,#f0ede6,#edf1ed);display:grid;place-items:center} .value-title{font-size:13px;line-height:1.38;font-weight:860;letter-spacing:-.025em;padding-right:50px} .sku-name{font-size:9.5px;font-weight:820;color:var(--deep);margin-top:5px} .fit-line{font-size:8.2px;line-height:1.45;color:var(--muted);margin:5px 0 0} .effort{font-size:7.7px;color:#738078;display:block;margin-top:5px} .row-add{position:absolute;right:9px;top:10px;border:1px solid #ced9d2;background:var(--sage);border-radius:999px;padding:6px 8px;font-size:8px;font-weight:820} .row-add.selected{background:var(--deep);color:white;border-color:var(--deep)}
+.semantic-icon{width:34px;height:34px;stroke:var(--deep);fill:none;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round} .semantic-caption{font-size:7px;margin-top:4px;color:#617169;text-align:center}
+.overlay{position:fixed;inset:0;z-index:150;display:none;background:rgba(22,43,35,.18);backdrop-filter:blur(8px)} .overlay.open{display:block} .panel{width:min(100%,var(--phone));height:100dvh;margin:auto;background:var(--bg);overflow:auto;box-shadow:0 0 58px rgba(0,0,0,.12)} .panel-top{height:68px;position:sticky;top:0;z-index:5;background:rgba(250,248,243,.96);border-bottom:1px solid var(--line);display:grid;grid-template-columns:70px 1fr 112px;align-items:center;padding:0 12px;backdrop-filter:blur(12px)} .backbtn,.topbag{height:38px;border:1px solid var(--line);background:var(--paper);border-radius:12px;font-size:9px;font-weight:820} .panel-title{text-align:center;min-width:0} .panel-title strong{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block} .panel-title span{font-size:7.5px;color:var(--muted);letter-spacing:.08em}
+.detail-body{padding:20px 20px 28px} .detail-hero{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:21px;box-shadow:var(--shadow)} .detail-visual{width:70px;height:70px;border-radius:21px;background:linear-gradient(145deg,#f0ede6,#edf1ed);display:grid;place-items:center;margin-bottom:17px} .detail-benefit{font-size:25px;line-height:1.23;font-weight:900;letter-spacing:-.05em} .detail-name{font-size:11px;font-weight:850;color:var(--deep);margin-top:8px} .detail-fit{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px} .detail-fit span{font-size:8.3px;padding:6px 8px;border-radius:999px;background:var(--sage);color:#65736c} .first-step{margin-top:17px;background:#f1efe9;border-radius:18px;padding:14px 15px} .first-step b{font-size:10px} .first-step p{font-size:10px;line-height:1.55;color:#68736d;margin:6px 0 0} .what-you-get{margin-top:14px;border:1px solid var(--line);background:var(--paper);border-radius:22px;padding:17px} .what-you-get h3{font-size:14px;margin:0 0 10px} .benefit-list{display:grid;gap:9px} .benefit-item{display:flex;align-items:flex-start;gap:9px;font-size:9.6px;color:#5f6d66;line-height:1.5} .benefit-dot{width:7px;height:7px;border-radius:50%;background:#b9cbbf;flex:0 0 7px;margin-top:4px} .detail-meta{display:flex;justify-content:space-between;align-items:center;margin-top:15px;padding-top:13px;border-top:1px solid var(--line);font-size:9px;color:var(--muted)} .detail-meta strong{color:var(--deep)} .detail-add-line{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px} .detail-add{border:1px solid #cdd8d1;background:var(--sage);color:var(--deep);border-radius:999px;padding:9px 12px;font-size:9px;font-weight:850} .detail-add.selected{background:var(--deep);color:white;border-color:var(--deep)} .detail-primary{margin-top:12px} .detail-note{text-align:center;font-size:8.5px;color:#89928e;line-height:1.5;margin-top:11px}
+.use-body{padding:18px 20px 28px} .use-identity{display:flex;align-items:center;gap:12px;margin-bottom:14px} .use-icon{width:52px;height:52px;border-radius:16px;background:var(--sage);display:grid;place-items:center} .use-identity strong{font-size:14px} .use-identity span{display:block;font-size:8.5px;color:var(--muted);margin-top:3px} .today-card{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:20px;box-shadow:var(--shadow)} .today-card h2{font-size:24px;line-height:1.26;letter-spacing:-.045em;margin:0 0 15px} .task-list{display:grid;gap:9px} .task{width:100%;border:1px solid var(--line);background:#f8f6f1;border-radius:16px;padding:13px 12px;display:grid;grid-template-columns:24px 1fr;gap:9px;text-align:left;align-items:start} .task-check{width:22px;height:22px;border-radius:50%;border:1px solid #bac8c0;display:grid;place-items:center;font-size:12px;color:white} .task.done{background:var(--sage)} .task.done .task-check{background:var(--deep);border-color:var(--deep)} .task span:last-child{font-size:10px;line-height:1.5} .complete-state{margin-top:13px;padding:14px;border-radius:17px;background:var(--sage);display:none} .complete-state.show{display:block} .complete-state strong{font-size:12px} .complete-state p{font-size:9px;color:#66736c;line-height:1.5;margin:4px 0 0}
+.week-card,.coach-card{margin-top:14px;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:17px} .card-title{font-size:14px;font-weight:850;margin-bottom:12px} .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px} .day{text-align:center} .day b{width:28px;height:28px;border-radius:50%;background:#f1efe9;display:grid;place-items:center;margin:auto;font-size:8px;font-weight:700} .day.done b{background:var(--deep);color:white} .day span{display:block;font-size:7px;color:var(--muted);margin-top:4px} .coach-card p{font-size:10px;line-height:1.65;color:#607069;margin:0} .tool-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:14px} .tool-btn{border:1px solid var(--line);background:var(--paper);border-radius:15px;padding:10px 4px;font-size:8.2px;font-weight:760;text-align:center} .tool-btn svg{width:20px;height:20px;stroke:var(--deep);fill:none;stroke-width:1.5;display:block;margin:0 auto 5px}
+.collection-body{padding:18px 20px 30px} .collection-hero{border-radius:24px;background:var(--deep);color:white;padding:20px} .collection-hero h2{font-size:24px;margin:0 0 6px;letter-spacing:-.04em} .collection-hero p{font-size:9.5px;line-height:1.55;color:#d7e0db;margin:0} .collection-section{padding-top:22px} .collection-list{display:grid;gap:9px} .collection-item{border:1px solid var(--line);background:var(--paper);border-radius:18px;padding:11px;display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:center} .collection-item .cicon{width:48px;height:48px;border-radius:14px;background:var(--sage);display:grid;place-items:center} .collection-item strong{font-size:12px} .collection-item span{display:block;font-size:8px;color:var(--muted);margin-top:4px} .collection-item button{border:0;background:var(--sage);border-radius:999px;padding:7px 9px;font-size:8px;font-weight:820}
+.utility{position:fixed;inset:0;z-index:220;display:none;background:rgba(19,37,31,.25);backdrop-filter:blur(7px);align-items:end;justify-content:center} .utility.open{display:flex} .utility-sheet{width:min(100%,var(--phone));max-height:78dvh;background:var(--paper);border-radius:28px 28px 0 0;padding:20px 20px 28px;overflow:auto} .utility-top{display:flex;align-items:center;justify-content:space-between} .utility-top h3{font-size:17px;margin:0} .utility-close{width:36px;height:36px;border:1px solid var(--line);background:var(--paper);border-radius:12px} textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:16px;background:#f8f6f1;padding:12px;outline:0;resize:vertical;font-size:11px;line-height:1.55;margin-top:12px} .utility-copy{font-size:10px;line-height:1.6;color:#66736c;margin:12px 0} .check-options{display:grid;gap:8px;margin-top:12px} .check-options button{border:1px solid var(--line);background:#f8f6f1;border-radius:15px;padding:12px;text-align:left;font-size:10px} .share-card{border-radius:22px;background:var(--deep);color:white;padding:20px;margin-top:14px} .share-card strong{font-size:18px} .share-card p{font-size:10px;line-height:1.6;color:#d7e0db}
+.empty{border:1px solid var(--line);background:var(--paper);border-radius:18px;padding:22px 14px;text-align:center;font-size:10px;line-height:1.65;color:var(--muted)}
+@media(max-width:370px){.inner{padding-left:15px;padding-right:15px} .hero-copy h1{font-size:28px} .storelayout{grid-template-columns:76px 1fr} .reco-card{grid-template-columns:64px minmax(0,1fr) auto} .reco-mark{width:64px;height:76px} .detail-benefit{font-size:22px} .tool-grid{grid-template-columns:repeat(5,1fr);gap:5px}}
 
-/* V4｜用户问题导购：结果优先、SKU其次 */
-.home-intro{padding:8px 0 2px}.home-intro .eyebrow{font-size:10px;color:var(--deep);font-weight:850;letter-spacing:.08em}.home-intro h1{font-size:31px;line-height:1.17;letter-spacing:-.055em;margin:10px 0 8px;max-width:350px}.home-intro p{font-size:12px;line-height:1.7;color:#707974;margin:0;max-width:345px}
-.need-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 8px}.need-card{border:1px solid var(--line);background:var(--paper);border-radius:18px;padding:14px 13px;text-align:left;cursor:pointer;transition:.16s;min-height:86px;box-shadow:0 6px 18px rgba(31,58,47,.025)}.need-card:hover{border-color:#d7ded9}.need-card.active{background:var(--sage);border-color:#d6e1d9}.need-card strong{display:block;font-size:13px;font-weight:850;letter-spacing:-.02em}.need-card span{display:block;font-size:9.5px;line-height:1.5;color:var(--muted);margin-top:5px}.need-card:active{transform:scale(.985)}
-.guide-strip{margin-top:13px;border:1px solid var(--line);background:#f0eee8;border-radius:20px;padding:15px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}.guide-strip strong{font-size:12.5px}.guide-strip p{font-size:9.5px;color:var(--muted);margin:4px 0 0;line-height:1.45}.guide-strip button{flex:0 0 auto}
-.reco-list{display:grid;gap:10px}.reco-card{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:20px;padding:14px;display:grid;grid-template-columns:54px 1fr;gap:12px;text-align:left;cursor:pointer;box-shadow:0 6px 18px rgba(31,58,47,.025);transition:.15s}.reco-card:active{transform:scale(.988)}.reco-mark{width:54px;height:64px;border-radius:14px;background:var(--stone);display:grid;place-items:center;font-size:18px;color:var(--deep);font-weight:850}.reco-benefit{font-size:15px;line-height:1.35;font-weight:880;letter-spacing:-.025em;margin-bottom:4px}.reco-name{font-size:9.5px;color:var(--deep);font-weight:800;margin-bottom:5px}.reco-why{font-size:9.5px;line-height:1.55;color:#727b77}.reco-first{font-size:9px;line-height:1.5;color:#506159;margin-top:5px;padding-left:8px;border-left:2px solid #d8dfd9}.reco-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.reco-meta span{font-size:7.8px;border-radius:999px;background:var(--sage-2);padding:4px 6px;color:#6b756f}
-.value-title{font-size:14px;font-weight:880;letter-spacing:-.025em;line-height:1.32;margin:1px 0 3px}.sku-name{font-size:9px;color:var(--deep);font-weight:800;margin-bottom:4px}.fit-line{font-size:9.2px;color:#6e7773;line-height:1.5;margin:0}.first-win{font-size:8.7px;color:#56655e;line-height:1.5;margin:5px 0 0;padding-left:8px;border-left:2px solid #d8dfd9}.effort{font-size:7.8px;color:#6d7771;background:var(--sage-2);padding:4px 6px;border-radius:999px;display:inline-block;margin-top:6px}
-.storecopy .benefit-mode{display:inline-flex;align-items:center;gap:6px;font-size:8px;color:var(--deep);font-weight:800;background:var(--sage);padding:5px 7px;border-radius:999px;margin-top:6px}
-.quiz{position:fixed;inset:0;z-index:400;background:rgba(20,38,31,.22);backdrop-filter:blur(10px);display:none;align-items:flex-end;justify-content:center}.quiz.open{display:flex}.quiz-sheet{width:min(100%,var(--phone));background:var(--bg);border-radius:28px 28px 0 0;border:1px solid var(--line);padding:18px 20px calc(24px + env(safe-area-inset-bottom));box-shadow:0 -18px 50px rgba(26,43,36,.13);max-height:88dvh;overflow:auto}.quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.quiz-top .step{font-size:9px;color:var(--muted);font-weight:800;letter-spacing:.08em}.quiz-top button{border:1px solid var(--line);background:var(--paper);width:36px;height:36px;border-radius:12px;cursor:pointer}.quiz h2{font-size:24px;line-height:1.25;letter-spacing:-.045em;margin:0 0 7px}.quiz .lead{font-size:11px;color:var(--muted);line-height:1.6;margin:0 0 16px}.quiz-options{display:grid;gap:9px}.quiz-option{border:1px solid var(--line);background:var(--paper);border-radius:17px;padding:14px;text-align:left;cursor:pointer}.quiz-option strong{font-size:12px}.quiz-option span{font-size:9px;color:var(--muted);display:block;margin-top:4px}.quiz-option.selected{background:var(--sage);border-color:#d4ded7}.quiz-actions{display:flex;gap:8px;margin-top:16px}.quiz-actions button{flex:1}.quiz-result{display:grid;gap:9px}.quiz-reason{font-size:9px;color:var(--muted);line-height:1.55;margin-top:4px}
-@media(max-width:370px){.need-grid{gap:8px}.need-card{padding:12px 10px}.home-intro h1{font-size:28px}}
-
-/* V4.2｜SKU货架治理：不删SKU，只降低选择压力 */
-.shelf-strip{display:flex;gap:7px;overflow-x:auto;padding:13px 0 2px;scrollbar-width:none}.shelf-strip::-webkit-scrollbar{display:none}.shelf-chip{white-space:nowrap;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:8px 11px;font-size:9.5px;color:#727c77;cursor:pointer;transition:.15s}.shelf-chip.active{background:var(--deep);color:#fff;border-color:var(--deep)}
-.tier-badge{display:inline-flex;align-items:center;margin-left:5px;border-radius:999px;padding:3px 5px;font-size:7px;line-height:1;background:var(--sage-2);color:#6c7670;font-weight:800}.tier-badge.core{background:var(--sage);color:var(--deep)}.tier-badge.tool{background:#eeeae2}.tier-badge.advanced{background:#f1efeb}.tier-badge.scene{background:#f4f2ee}
-.shelf-note{font-size:8.5px;color:var(--muted);margin-top:6px;line-height:1.5}.storelead b{color:var(--deep)}
-
-
-/* V4.4｜语义视觉：视觉极简，但不再用“睡 / 主 / P7”等推断式单字缩写 */
-.semantic-visual{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--deep);width:100%;height:100%;position:relative;z-index:1}
-.semantic-icon{width:34px;height:34px;display:block;stroke:currentColor;fill:none;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}
-.semantic-icon.small{width:22px;height:22px}
-.semantic-icon.reco{width:28px;height:28px}
-.semantic-generic{width:28px;height:28px;border:1.4px solid currentColor;border-radius:50%;position:relative;opacity:.9}
-.semantic-generic:before,.semantic-generic:after{content:"";position:absolute;border-radius:50%;background:currentColor}
-.semantic-generic:before{width:4px;height:4px;left:7px;top:10px}.semantic-generic:after{width:4px;height:4px;right:7px;bottom:9px}
-.semantic-caption{font-size:7.4px;line-height:1.15;color:#6e7b74;max-width:58px;text-align:center;font-weight:750;letter-spacing:.01em}
-.thumb.semantic-thumb{background:linear-gradient(145deg,#f2efe8 0%,#edf1ed 100%)}
-.reco-mark.semantic-reco{display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#f2efe8 0%,#edf1ed 100%)}
-.recent-icon.semantic-recent{background:linear-gradient(145deg,#f2efe8 0%,#edf1ed 100%)}
-.semantic-rule-note{font-size:8.5px;color:#6f7b75;line-height:1.55;margin-top:7px}
-
-
-/* V4.5｜两段式进入：先理解价值，再进入完整搭子。避免从新商城突然掉回旧页面 */
-.detail{position:fixed;inset:0;z-index:170;display:none;background:rgba(27,44,37,.16);backdrop-filter:blur(8px)}
-.detail.open{display:block}.detail-shell{width:min(100%,var(--phone));height:100dvh;margin:auto;background:var(--bg);display:flex;flex-direction:column;box-shadow:0 0 60px rgba(0,0,0,.12);overflow:auto;padding-bottom:28px}
-.detail-top{height:72px;flex:0 0 72px;display:grid;grid-template-columns:88px 1fr 42px;align-items:center;gap:8px;padding:0 12px;background:rgba(250,248,243,.98);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:3;backdrop-filter:blur(12px)}
-.detail-back{height:40px;border:1px solid var(--line);border-radius:13px;background:var(--paper);cursor:pointer;font-size:10px;font-weight:800;color:var(--deep)}
-.detail-brand{text-align:center;min-width:0}.detail-brand .mini{font-size:8px;letter-spacing:.12em;color:var(--muted)}.detail-brand strong{display:block;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
-.detail-close{width:38px;height:38px;border:1px solid var(--line);background:var(--paper);border-radius:12px;cursor:pointer;color:var(--muted)}
-.detail-body{padding:22px 20px 18px}.detail-hero{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:22px 20px;box-shadow:var(--shadow)}
-.detail-visual{width:76px;height:76px;border-radius:22px;background:linear-gradient(145deg,#f2efe8 0%,#edf1ed 100%);display:grid;place-items:center;margin-bottom:18px}
-.detail-eyebrow{font-size:9px;letter-spacing:.09em;color:var(--muted);font-weight:800}.detail-benefit{font-size:25px;line-height:1.22;letter-spacing:-.045em;margin:8px 0 8px;font-weight:900}.detail-name{font-size:12px;font-weight:850;color:var(--deep)}
-.detail-fit{display:flex;flex-wrap:wrap;gap:6px;margin-top:15px}.detail-fit span{font-size:8.5px;padding:6px 8px;border-radius:999px;background:var(--sage-2);color:#66736c}
-.detail-first{margin-top:16px;padding:14px 15px;background:#f2f0ea;border-radius:17px;border:1px solid #ebe6dd}.detail-first b{font-size:10px;display:block;margin-bottom:5px}.detail-first p{font-size:10.5px;color:#66716b;line-height:1.6;margin:0}
-.detail-effort{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);margin-top:16px;padding-top:13px;font-size:9.5px;color:var(--muted)}.detail-effort strong{font-size:10.5px;color:var(--deep)}
-.detail-section{margin-top:16px;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:18px}.detail-section h3{font-size:15px;margin:0 0 6px;letter-spacing:-.02em}.detail-section>p{font-size:9.5px;color:var(--muted);line-height:1.6;margin:0 0 13px}
-.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.feature-pill{border:1px solid var(--line);background:#f7f5f0;border-radius:13px;padding:9px 4px;text-align:center;font-size:8.5px;color:#637069;font-weight:750}
-.detail-actions{display:grid;gap:9px;margin-top:16px}.detail-actions .btn{border-radius:16px;min-height:50px;font-size:13px}.detail-note{text-align:center;font-size:8.5px;color:#8a928e;line-height:1.55;margin:11px 12px 0}
-/* 完整搭子层：壳永远保留，旧页面不再把用户带出 Slim Partner */
-.viewer{z-index:220}.viewer-top{grid-template-columns:78px 1fr 72px}.viewer-back{font-size:9.5px}.viewer-store{height:40px;border:1px solid var(--line);border-radius:13px;background:var(--paper);cursor:pointer;font-size:9px;font-weight:800;color:var(--deep)}
-.viewer-context{height:33px;flex:0 0 33px;background:#f0eee8;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center;padding:0 12px;color:#6d7772;font-size:8.8px;letter-spacing:.01em}
-.viewer-loading{top:105px}.viewer iframe{min-height:0}
-@media(max-width:370px){.detail-body{padding-left:15px;padding-right:15px}.detail-benefit{font-size:22px}.feature-grid{grid-template-columns:repeat(3,1fr)}.viewer-top{grid-template-columns:70px 1fr 62px}}
-
-
-/* V4.6｜全量类目同步：类目优先展示完整SKU，货架只做二次筛选 */
-.category-sync-note{font-size:8.5px;color:#6f7b75;line-height:1.55;margin-top:7px}
-.category-sync-note b{color:var(--deep)}
+/* V2.1｜继续陪伴 + 商城详情 */
+.top-actions{display:flex;justify-content:flex-end;align-items:center;gap:6px}.heart-btn{width:38px;height:38px;border:1px solid var(--line);background:var(--paper);border-radius:13px;font-size:22px;line-height:1;color:var(--deep)}.heart-btn.on{background:var(--sage);border-color:#b9cbc0}.top-actions .topbag{min-width:62px;padding:0 8px}.top-actions .topbag span{display:none}
+.active-strip{position:fixed;left:50%;bottom:76px;transform:translateX(-50%) translateY(12px);width:min(calc(100% - 18px),442px);z-index:58;background:rgba(255,253,249,.98);border:1px solid var(--line);box-shadow:0 10px 26px rgba(25,52,42,.12);border-radius:17px;padding:9px 10px;display:none;grid-template-columns:38px minmax(0,1fr) auto;gap:9px;align-items:center;backdrop-filter:blur(12px)}.active-strip.show{display:grid;transform:translateX(-50%) translateY(0)}.active-strip .aicon{width:38px;height:38px;border-radius:12px;background:var(--sage);display:grid;place-items:center}.active-strip strong{font-size:11px;display:block}.active-strip span{font-size:8px;color:var(--muted);display:block;margin-top:2px}.active-strip button{border:0;background:var(--deep);color:white;border-radius:999px;padding:8px 10px;font-size:8px;font-weight:850}
+.detail-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:17px;margin-top:11px}.detail-card h3{font-size:15px;margin:0 0 12px;letter-spacing:-.025em}.empathy-list{display:grid;gap:10px}.empathy-item{display:grid;grid-template-columns:20px 1fr;gap:8px;align-items:start;font-size:10.5px;line-height:1.5;color:#4c5c55}.empathy-item b{color:#6f9182;font-size:14px}.state-tags{display:flex;gap:7px;flex-wrap:wrap}.state-tags button,.state-tags span{border:0;background:var(--sage2);color:#557066;border-radius:999px;padding:7px 10px;font-size:9px}.fit-split{display:grid;grid-template-columns:1fr 1fr;gap:10px}.fit-box{background:#f7f5f0;border-radius:16px;padding:12px}.fit-box strong{display:block;font-size:10px;margin-bottom:8px}.fit-box p{font-size:8.8px;line-height:1.55;color:var(--muted);margin:0 0 5px}.scope-list{display:flex;gap:7px;flex-wrap:wrap}.scope-list span{background:#f1f0eb;border-radius:999px;padding:6px 9px;font-size:8.5px;color:#66746d}.ready-card{background:var(--deep);color:white;border-radius:24px;padding:20px;margin-top:12px}.ready-card h3{font-size:18px;margin:0 0 7px}.ready-card p{font-size:10px;line-height:1.6;color:#d8e2dd;margin:0 0 14px}.ready-card .first{background:rgba(255,255,255,.08);border-radius:15px;padding:12px;margin-bottom:12px}.ready-card .first b{display:block;font-size:9px;margin-bottom:4px}.ready-card .first span{font-size:9px;line-height:1.5}.ready-card .btn{background:white;color:var(--deep)}
+.upcoming-grid{display:grid;gap:9px}.upcoming-card{border:1px dashed #cfd8d2;background:rgba(255,253,249,.72);border-radius:19px;padding:13px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.upcoming-card strong{font-size:12px}.upcoming-card p{font-size:8.7px;color:var(--muted);line-height:1.45;margin:4px 0 0}.reserve-btn{border:1px solid #c7d5cd;background:var(--sage);border-radius:999px;padding:8px 10px;font-size:8.5px;font-weight:820}.reserve-btn.on{background:var(--deep);color:white;border-color:var(--deep)}
+.collection-group{margin-bottom:24px}.collection-group .sectiontitle{font-size:16px}.collection-item .statusline{font-size:8px;color:#6f7d76;margin-top:4px}.collection-item .detail-link{border:0;background:transparent;color:#718079;font-size:8px;padding:4px}
+.current-card{border:1px solid #bdcec3;background:linear-gradient(145deg,#edf4ef,#fffdf9);border-radius:22px;padding:14px;display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:11px;align-items:center}.current-card .recent-icon{width:52px;height:52px}.current-card strong{font-size:14px}.current-card p{font-size:9px;color:var(--muted);margin:4px 0 0}.current-card button{border:0;background:var(--deep);color:white;border-radius:999px;padding:9px 11px;font-size:8.5px;font-weight:850}
 
 </style>
 </head>
 <body>
 <div class="app">
-  <section class="screen active" id="homeScreen"><div class="inner">
-    <header class="header"><div class="brandrow"><div class="mark">SP</div><div><div class="brand">Slim Partner</div><div class="sub">先找到现在最适合你的那个搭子 · V4.6</div></div></div><button class="iconbtn" id="homeSearchBtn">⌕</button></header>
-    <div class="home-intro"><div class="eyebrow">从你的问题开始</div><h1>你最近最想让哪件事轻一点？</h1><p>不用先理解 35 个搭子。先告诉我你现在卡在哪里，我把最相关的几个放到你面前。</p></div>
-    <div class="need-grid" id="needGrid"></div>
-    <div class="guide-strip"><div><strong>不知道从哪里开始？</strong><p>回答 3 个很轻的问题，我帮你缩小到 3 个搭子。</p></div><button class="btn btn-light" id="openQuizBtn">帮我选 →</button></div>
-    <section class="section"><div class="sectionhead"><div><div class="sectiontitle" id="recoTitle">先从这几个开始</div><div class="sectiondesc" id="recoDesc">不需要逛完整个搭子馆。</div></div><button class="more" data-nav="store">进入搭子馆 →</button></div><div class="reco-list" id="homeReco"></div></section>
-    <section class="section" style="padding-top:22px"><div class="sectionhead"><div><div class="sectiontitle">也可以直接搜索</div><div class="sectiondesc">用你自己的话，不需要知道搭子名称。</div></div></div><div class="search"><span class="glass">⌕</span><input id="homeSearch" placeholder="例如：总是拖延、睡不着、工作没成长……" /></div></section>
-  </div></section>
+<section class="screen active" id="homeScreen"><div class="inner">
+<header class="header"><div class="brandrow"><div class="logo"><svg viewBox="0 0 48 48"><path d="M9 35h9v-8h9v-8h10"></path><path d="m32 14 5 5-5 5"></path><path d="M12 17c0-5 3-8 8-8 0 5-3 8-8 8Z"></path><path d="M12 17v7"></path></svg></div><div><div class="brand">下一步</div><div class="sub">下一步，不用一个人走。</div></div></div><button class="iconbtn bag" data-collection><svg viewBox="0 0 24 24"><path d="M6 8h12l1 12H5z"></path><path d="M9 8a3 3 0 0 1 6 0"></path></svg><span>我的搭子</span><i class="bag-count">0</i></button></header>
+<div class="hero-copy"><h1>今天，最想先改变哪件事？</h1><p>不用一次改变全部。我们只陪你走下一步。</p></div>
+<div class="search"><span class="glass">⌕</span><input id="homeSearch" placeholder="睡不好、想减肥、总拖延、想晋升、关系很累……"></div>
+<div class="need-grid" id="needGrid"></div>
+<section class="section"><div class="sectionhead"><div><div class="sectiontitle" id="recoTitle">今天，可以先从这里开始</div><div class="sectiondesc" id="recoDesc">挑一个最像你现在状态的。</div></div><button class="more" data-nav="store">更多 →</button></div><div class="reco-list" id="homeReco"></div></section>
+<section class="section" id="recentSection"><div class="sectionhead"><div><div class="sectiontitle">继续</div><div class="sectiondesc">上次到这里，今天接着来。</div></div></div><div class="recent-list" id="homeRecent"></div></section>
+<section class="section"><div class="sectionhead"><div><div class="sectiontitle">想改变的事，这里慢慢找</div></div></div><div class="domain-grid" id="domainGrid"></div></section>
+<section class="section"><div class="sectionhead"><div><div class="sectiontitle">最近值得慢慢看的</div></div></div><div class="series-row" id="homeSeries"></div></section>
+<section class="section"><div class="sectionhead"><div><div class="sectiontitle">即将上新</div><div class="sectiondesc">想要的搭子，先预约。</div></div></div><div class="upcoming-grid" id="upcomingGrid"></div></section>
+<section class="all-entry"><h3>还有很多想改变的事</h3><p>睡眠、身体、习惯、工作、关系、财富、人生……慢慢挑一个适合现在的搭子。</p><button class="btn btn-light btn-wide" data-nav="store">逛逛搭子馆 →</button></section>
+<section class="section"><div class="sectionhead"><div><div class="sectiontitle">没看到你现在想解决的？</div><div class="sectiondesc">直接说出来就好。</div></div></div><div class="search"><span class="glass">⌕</span><input id="homeSearchBottom" placeholder="睡不着、总拖延、刚分手、想创业……"><button class="mini-add" id="homeSearchGo">帮我找</button></div></section>
+</div></section>
 
-  <section class="screen" id="storeScreen"><div class="inner">
-    <header class="header storehead"><div><div class="storetitle">搭子馆</div><div class="storelead"><b>8 大生活主题完整同步</b> · 35 个搭子一个不少</div></div><button class="iconbtn" data-nav="home">×</button></header>
-    <div class="search"><span class="glass">⌕</span><input id="storeSearch" placeholder="例如：总拖延、睡不好、想晋升、关系累……" /></div>
-    <div class="shelf-strip" id="shelfFilters"></div>
-    <div class="storelayout"><aside class="side" id="storeSide"></aside><main><div class="storecopy" id="storeCopy"></div><div class="rows" id="storeRows"></div></main></div>
-  </div></section>
+<section class="screen" id="storeScreen"><div class="inner">
+<header class="header storehead"><div><div class="storetitle">搭子馆</div><div class="storelead">今天想改变什么，就从这里找一个搭子。</div></div><button class="iconbtn bag" data-collection><svg viewBox="0 0 24 24"><path d="M6 8h12l1 12H5z"></path><path d="M9 8a3 3 0 0 1 6 0"></path></svg><span>我的搭子</span><i class="bag-count">0</i></button></header>
+<div class="search"><span class="glass">⌕</span><input id="storeSearch" placeholder="睡不好、总拖延、想晋升、关系很累……"></div>
+<div class="store-modes" id="storeModes"></div>
+<div class="storelayout"><aside class="side" id="storeSide"></aside><main><div class="storecopy" id="storeCopy"></div><div class="rows" id="storeRows"></div></main></div>
+</div></section>
 
-  <section class="screen" id="todayScreen"><div class="inner">
-    <header class="header"><div class="brandrow"><div class="mark">SP</div><div><div class="brand">今日</div><div class="sub">回到真正陪你的那个搭子</div></div></div></header>
-    <div id="todayBody"></div>
-  </div></section>
-
-  <section class="screen" id="profileScreen"><div class="inner">
-    <header class="header"><div class="brandrow"><div class="mark">SP</div><div><div class="brand">我的</div><div class="sub">最近使用与收藏</div></div></div></header>
-    <div id="profileBody"></div>
-  </div></section>
-
-  <nav class="nav">
-    <button class="active" data-nav="home"><b>⌂</b>首页</button>
-    <button data-nav="store"><b>▦</b>搭子馆</button>
-    <button data-nav="today"><b>☀</b>今日</button>
-    <button data-nav="profile"><b>○</b>我的</button>
-  </nav>
+<section class="screen" id="todayScreen"><div class="inner"><header class="header"><div class="brandrow"><div class="logo"><svg viewBox="0 0 48 48"><path d="M9 35h9v-8h9v-8h10"></path><path d="m32 14 5 5-5 5"></path></svg></div><div><div class="brand">今日</div><div class="sub">今天不用做很多，只走下一步。</div></div></div><button class="iconbtn bag" data-collection><span>我的搭子</span><i class="bag-count">0</i></button></header><div id="todayBody"></div></div></section>
+<section class="screen" id="profileScreen"><div class="inner"><header class="header"><div class="brandrow"><div class="logo"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="15"></circle><path d="M16 34c2-5 6-8 8-8s6 3 8 8"></path><circle cx="24" cy="18" r="5"></circle></svg></div><div><div class="brand">我的</div><div class="sub">正在陪伴你的，都在这里。</div></div></div></header><div id="profileBody"></div></div></section>
+<div class="active-strip" id="activeStrip"></div>
+<nav class="nav"><button class="active" data-nav="home"><b>⌂</b>首页</button><button data-nav="store"><b>▦</b>搭子馆</button><button data-nav="today"><b>☀</b>今日</button><button data-nav="profile"><b>○</b>我的</button></nav>
 </div>
 
-<div class="detail" id="detail">
-  <div class="detail-shell">
-    <div class="detail-top">
-      <button class="detail-back" id="detailBack">‹ 返回</button>
-      <div class="detail-brand"><div class="mini">SLIM PARTNER</div><strong id="detailTopName">搭子详情</strong></div>
-      <button class="detail-close" id="detailClose">×</button>
-    </div>
-    <div class="detail-body" id="detailBody"></div>
-  </div>
-</div>
-
-<div class="viewer" id="viewer">
-  <div class="viewer-shell">
-    <div class="viewer-top">
-      <button class="viewer-back" id="viewerBack">‹ 详情</button>
-      <div class="viewer-center"><div class="mini">SLIM PARTNER · 完整搭子</div><strong id="viewerName">搭子</strong></div>
-      <button class="viewer-store" id="viewerStore">搭子馆</button>
-    </div>
-    <div class="viewer-context">原有搭子 / 教练 / 自检 / 今日 / 专项记录 / 进展 / 分享等功能继续保留</div>
-    <div class="viewer-loading" id="viewerLoading">正在进入完整搭子……</div>
-    <iframe id="viewerFrame" title="完整搭子" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-downloads"></iframe>
-  </div>
-</div>
-
-<div class="quiz" id="quiz">
-  <div class="quiz-sheet">
-    <div class="quiz-top"><div class="step" id="quizStep">STEP 1 / 3</div><button id="quizClose">×</button></div>
-    <div id="quizBody"></div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
+<div class="overlay" id="detail"><div class="panel"><div class="panel-top"><button class="backbtn" id="detailBack">‹ 返回</button><div class="panel-title"><span>下一步</span><strong id="detailTopName">搭子</strong></div><div class="top-actions"><button class="heart-btn" id="detailFavorite" title="收藏">♡</button><button class="topbag bag" data-collection><span>我的搭子</span><i class="bag-count">0</i></button></div></div><div class="detail-body" id="detailBody"></div></div></div>
+<div class="overlay" id="usePage"><div class="panel"><div class="panel-top"><button class="backbtn" id="useBack">‹ 返回</button><div class="panel-title"><span>正在陪伴</span><strong id="useTopName">搭子</strong></div><button class="topbag bag" data-collection><span>我的搭子</span><i class="bag-count">0</i></button></div><div class="use-body" id="useBody"></div></div></div>
+<div class="overlay" id="collection"><div class="panel"><div class="panel-top"><button class="backbtn" id="collectionBack">‹ 返回</button><div class="panel-title"><span>你的选择</span><strong>我的搭子</strong></div><div></div></div><div class="collection-body" id="collectionBody"></div></div></div>
+<div class="utility" id="utility"><div class="utility-sheet"><div class="utility-top"><h3 id="utilityTitle">搭子</h3><button class="utility-close" id="utilityClose">×</button></div><div id="utilityBody"></div></div></div>
+<div id="toast" style="position:fixed;left:50%;bottom:94px;transform:translate(-50%,18px);background:var(--deep);color:white;border-radius:14px;padding:10px 14px;font-size:9px;opacity:0;pointer-events:none;transition:.2s;z-index:300"></div>
 
 <script>
-const BASE='https://zhouh7693-cmd.github.io/slim-partner/';
-const categories=[
-  {id:'all',name:'全部',short:'全部',code:'ALL',copy:'从现在最需要被陪的地方开始。'},
-  {id:'health',name:'健康生活',short:'健康',code:'01',copy:'先照顾身体，很多事情都会慢慢变轻。'},
-  {id:'mind',name:'心智成长',short:'心智',code:'02',copy:'少一点内耗，多一点真实行动。'},
-  {id:'family',name:'亲子养育',short:'亲子',code:'03',copy:'关系不是管理，是看见、理解和共同成长。'},
-  {id:'career',name:'职场成长',short:'职场',code:'04',copy:'不只是更忙，而是让影响力持续变大。'},
-  {id:'startup',name:'创业经营',short:'创业',code:'05',copy:'方向、产品、增长与心力，一起经营。'},
-  {id:'wealth',name:'五大财富',short:'财富',code:'06',copy:'身体、财务、精神、关系、使命一起变厚。'},
-  {id:'life',name:'人生经营',short:'人生',code:'07',copy:'把时间放回真正长期有价值的地方。'},
-  {id:'tools',name:'工具资源',short:'工具',code:'08',copy:'休息、指南与分享，也属于完整体验的一部分。'}
-];
-const statusMeta={optimized:{label:'已优化',className:'ok'},optimizing:{label:'优化中',className:''},new:{label:'NEW',className:'new'}};
 const partners=[
   {cat:'health',icon:'🏃',name:'减肥搭子',href:'index.html',desc:'饮食 · 体重 · 习惯',tags:['健康']},
   {cat:'health',icon:'🛡️',name:'健康底盘搭子',href:'搭子-健康底盘.html',desc:'血压 · 睡眠 · 运动 · 体检 · 习惯',tags:['健康'],status:'new'},
@@ -238,22 +126,6 @@ const partners=[
   {cat:'tools',icon:'📣',name:'分享卡片',href:'share.html',desc:'一键生成专属海报',tags:['分享']}
 ].map((p,i)=>({...p,id:'p'+(i+1)}));
 
-const shelfDefs=[
-  {id:'core',name:'核心搭子',short:'核心',count:12,copy:'需求广、好处清楚、第一次使用就容易感知价值。优先从这里开始。'},
-  {id:'scene',name:'场景搭子',short:'场景',count:12,copy:'当具体情境出现时更有价值，例如晨间启动、家庭沟通、领导力或创业。'},
-  {id:'advanced',name:'进阶搭子',short:'进阶',count:9,copy:'更适合已经知道自己要解决什么、愿意做更深层经营的人。'},
-  {id:'tool',name:'工具资源',short:'工具',count:2,copy:'不作为核心搭子售卖，负责上手与分享等辅助体验。'}
-];
-const shelfMap={
-  core:['index.html','搭子-健康底盘.html','搭子-睡眠.html','搭子-状态.html','搭子-坚持自律.html','搭子-主体性.html','陪读妈妈搭子.html','搭子-P7-P8.html','搭子-业务Owner.html','搭子-AI能力.html','搭子-40岁重启.html','搭子-关系力修复.html'],
-  scene:['搭子-身体朋友.html','搭子-肌肉.html','搭子-形象.html','搭子-晨间启动.html','搭子-心态信念.html','搭子-幸福力.html','搭子-家人相处.html','搭子-领导力管理.html','创业搭子.html','搭子-关系财富.html','搭子-长期主义.html','休息一下.html'],
-  advanced:['搭子-认知思维.html','搭子-富知行.html','搭子-富教育.html','搭子-AI-OPC创业.html','搭子-银发经济.html','搭子-身体财富.html','搭子-财务财富.html','搭子-精神财富.html','搭子-使命财富.html'],
-  tool:['guide.html','share.html']
-};
-function shelfOf(p){for(const [k,arr] of Object.entries(shelfMap)){if(arr.includes(p.href))return k}return 'scene'}
-function shelfDef(id){return shelfDefs.find(x=>x.id===id)||shelfDefs[0]}
-
-
 const skuMeta={
 'index.html':{benefit:'不靠挨饿，把减脂变成能长期坚持的生活方式',fit:['反复减反复涨','一忙就乱吃','知道方法但坚持不了'],firstWin:'先找到一个最容易改的小习惯，不再从“全盘重来”开始',effort:'每天约 5 分钟 · 7 天起步',needs:['body','action']},
 '搭子-健康底盘.html':{benefit:'把睡眠、运动、体检这些关键健康项重新管起来',fit:['状态忽高忽低','体检指标开始提醒','想系统照顾身体'],firstWin:'先看清现在最值得优先修的一项健康底盘',effort:'每天约 5 分钟',needs:['body','sleep']},
@@ -269,7 +141,7 @@ const skuMeta={
 '搭子-认知思维.html':{benefit:'把复杂问题想清楚，再把时间放在真正重要的事上',fit:['脑子很乱','决策困难','知道很多但缺框架'],firstWin:'把眼前一个复杂问题拆成一个清晰的判断题',effort:'每天约 8 分钟',needs:['overthink','career']},
 '搭子-富知行.html':{benefit:'把“知道很多”慢慢变成“真正做到”',fit:['学很多做得少','注意力分散','执行经常断掉'],firstWin:'把今天学到的一个知识点，马上转成一个真实行动',effort:'每天约 5 分钟',needs:['action','career']},
 '搭子-幸福力.html':{benefit:'更容易感受到生活里真实的满足、勇气和意义',fit:['容易麻木','总觉得不够好','很难感到满足'],firstWin:'今天先看见一个真实让自己变好的时刻',effort:'每天约 3 分钟',needs:['overthink','relation']},
-'搭子-主体性.html':{benefit:'从“被动反应”走向主动选择、表达和行动',fit:['想很多','不敢表达','反应慢半拍'],firstWin:'在一个真实场景里，提前说出一次自己的判断',effort:'每天约 8 分钟',needs:['overthink','action','career']},
+'搭子-主体性.html':{benefit:'从外界驱动和被动反应，走向自己的判断、选择、表达与承担',fit:['想很多','不敢表达','反应慢半拍'],firstWin:'在一个真实场景里，提前说出一次自己的判断',effort:'每天约 8 分钟',needs:['overthink','action','career']},
 
 '搭子-富教育.html':{benefit:'让孩子在金钱、选择和后果里慢慢长出主见',fit:['想培养财商','担心孩子没主见','总忍不住替孩子决定'],firstWin:'今天用一个提问替代一次说教，让孩子自己做判断',effort:'每周 2–3 次',needs:['relation']},
 '陪读妈妈搭子.html':{benefit:'少一点陪读拉扯，多一点稳定沟通和彼此成长',fit:['陪读焦虑','作业冲突','情绪总被孩子带走'],firstWin:'下一次作业冲突先稳住自己，再开始沟通',effort:'每天约 5 分钟',needs:['relation']},
@@ -299,28 +171,58 @@ const skuMeta={
 'share.html':{benefit:'把自己的变化做成一张可以回看和分享的成长卡',fit:['想记录成长','想分享给朋友','需要一点仪式感'],firstWin:'把一个今天完成的变化，马上变成可保存的卡片',effort:'1 分钟生成',needs:['relation']}
 };
 
-const needDefs=[
-  {id:'sleep',title:'睡得更好',desc:'睡不着、晚睡、醒来还是累',headline:'先把夜晚稳下来',copy:'如果最近身体很累、脑子却停不下来，可以从睡眠先开始。'},
-  {id:'overthink',title:'少一点内耗',desc:'想很多、焦虑、脑子停不下来',headline:'先让脑子安静一点',copy:'不是逼自己想开，而是把复杂感受慢慢变得可处理。'},
-  {id:'action',title:'更容易行动',desc:'知道该做什么，却总是做不起来',headline:'把第一步变得更容易',copy:'如果最大问题不是“不知道”，而是“迟迟没开始”，从这里选。'},
-  {id:'career',title:'工作更进一步',desc:'做很多，却感觉成长和影响力不够',headline:'让努力开始产生更大影响',copy:'从晋升、业务经营到 AI 杠杆，优先解决工作里的关键卡点。'},
-  {id:'relation',title:'关系舒服一点',desc:'沟通累、亲子拉扯、人际消耗',headline:'先让重要关系少一点消耗',copy:'不是讨好别人，而是让理解、表达和边界都更清楚。'},
-  {id:'body',title:'把身体照顾好',desc:'减脂、体能、精力、健康底盘',headline:'先把身体这个底盘照顾好',copy:'睡眠、体能、减脂和健康习惯，先从最容易改变的一处开始。'}
+const domainDefs=[
+  {id:'all',name:'全部',copy:'看看现在最想先从哪里开始。'},
+  {id:'bodymind',name:'身心',copy:'身体、睡眠、状态、运动与恢复，先让自己稳下来。'},
+  {id:'career',name:'事业',copy:'工作、能力、收入、业务与创业，让投入逐渐变成影响。'},
+  {id:'relation',name:'关系',copy:'家庭、亲子、沟通、边界与重要连接，少一点消耗。'},
+  {id:'self',name:'自我',copy:'主体性、认知、习惯、人生方向，慢慢长成更像自己的样子。'}
 ];
-const needPicks={
-  sleep:['搭子-睡眠.html','搭子-健康底盘.html','搭子-状态.html'],
-  overthink:['搭子-主体性.html','搭子-状态.html','搭子-坚持自律.html'],
-  action:['搭子-坚持自律.html','搭子-主体性.html','搭子-AI能力.html'],
-  career:['搭子-P7-P8.html','搭子-业务Owner.html','搭子-AI能力.html'],
-  relation:['搭子-关系力修复.html','陪读妈妈搭子.html','搭子-家人相处.html'],
-  body:['index.html','搭子-健康底盘.html','搭子-睡眠.html']
-};
-function metaOf(p){return skuMeta[p.href]||{benefit:p.name.replace('搭子','')+'，从今天开始更有秩序',fit:p.tags,firstWin:'先从一个最小行动开始',effort:'按需使用',needs:[]}}
 
-const state={view:'home',cat:'all',q:'',shelf:'core',recent:[],favorites:[],need:null,quiz:{step:1,need:null,mode:null,time:null}};
-const byId=id=>partners.find(p=>p.id===id);
-const catById=id=>categories.find(c=>c.id===id)||categories[0];
-// V4.4 名称语义锁定：正式SKU名不得用推断式缩写替代。
+const domainMap={
+  '减肥搭子':'bodymind','健康底盘搭子':'bodymind','和身体做朋友搭子':'bodymind','肌肉搭子':'bodymind','睡眠搭子':'bodymind','状态搭子':'bodymind','身体财富':'bodymind','休息一下':'bodymind',
+  '领导力管理搭子':'career','P7→P8':'career','业务 Owner':'career','AI 能力搭子':'career','创业搭子':'career','AI OPC创业搭子':'career','银发经济创业搭子':'career','财务财富':'career',
+  '富教育搭子':'relation','陪读妈妈':'relation','家人相处搭子':'relation','关系财富':'relation','关系力修炼搭子':'relation',
+  '形象搭子':'self','晨间启动搭子':'self','心态信念搭子':'self','坚持自律搭子':'self','认知思维搭子':'self','富知行搭子':'self','幸福力搭子':'self','主体性搭子':'self','精神财富':'self','使命财富':'self','40岁重启搭子':'self','长期主义搭子':'self',
+  '使用指南':'tool','分享卡片':'tool'
+};
+
+const toolNames=['休息一下','使用指南','分享卡片'];
+
+const recommendedNames=['减肥搭子','健康底盘搭子','睡眠搭子','状态搭子','坚持自律搭子','主体性搭子','陪读妈妈','P7→P8','业务 Owner','AI 能力搭子','40岁重启搭子','关系力修炼搭子'];
+
+const seriesDefs=[
+  {id:'wealth',name:'五大财富',desc:'身体 · 财务 · 精神 · 关系 · 使命',members:['身体财富','财务财富','精神财富','关系财富','使命财富']},
+  {id:'career',name:'职业跃迁',desc:'从执行到影响与经营',members:['P7→P8','领导力管理搭子','业务 Owner','AI 能力搭子']},
+  {id:'ai',name:'AI时代',desc:'把AI变成能力与组织杠杆',members:['AI 能力搭子','AI OPC创业搭子']},
+  {id:'restart',name:'人生重启',desc:'重新选择长期值得投入的路',members:['40岁重启搭子','长期主义搭子','主体性搭子']},
+  {id:'relation',name:'关系重建',desc:'沟通、边界、连接与家庭',members:['关系力修炼搭子','家人相处搭子','关系财富','陪读妈妈']}
+];
+
+const needDefs=[
+  {id:'sleep',title:'睡得好一点',desc:'晚睡、睡不着、醒来还是累',headline:'先把夜晚稳下来',copy:'如果身体很累、脑子却停不下来，可以从睡眠先开始。'},
+  {id:'move',title:'开始动起来',desc:'久坐、体能差、总想运动但没开始',headline:'先让身体动起来',copy:'不先追求强度，先找到能重复的最低行动量。'},
+  {id:'overthink',title:'少一点内耗',desc:'想很多、反复纠结、总在脑内打转',headline:'先让复杂感受变得可处理',copy:'不是逼自己想开，而是重新拿回判断和下一步。'},
+  {id:'dependency',title:'慢慢戒掉一个依赖',desc:'烟酒、刷手机、重复性依赖行为',headline:'先看见触发，再把替代动作变小',copy:'先从状态、触发和习惯机制开始；涉及成瘾时不替代医疗评估。'},
+  {id:'career',title:'工作更进一步',desc:'做很多，却感觉成长和影响力不够',headline:'让努力开始产生更大影响',copy:'从晋升、业务经营到AI杠杆，先解决最关键的工作卡点。'},
+  {id:'money',title:'想搞钱',desc:'收入、安全感、创业或财富秩序',headline:'先把“想赚钱”变成可经营的问题',copy:'从财务秩序到创业验证，先选最贴近你阶段的一件。'},
+  {id:'relation',title:'关系舒服一点',desc:'沟通累、亲子拉扯、人际消耗',headline:'先让重要关系少一点消耗',copy:'理解、表达和边界，都可以从一次更好的互动开始。'},
+  {id:'breakup',title:'从一段关系里走出来',desc:'分手、失落、反复想起、生活被打乱',headline:'不急着振作，先把今天接住',copy:'先照顾情绪、边界和日常节律，再慢慢把自己接回来。'},
+  {id:'restart',title:'想重新开始',desc:'阶段迷茫、旧路径不再适用',headline:'允许自己重新选择',copy:'从人生资产、长期价值和主体判断里，找到下一条启动路线。'}
+];
+
+const needPicks={
+  sleep:['睡眠搭子','健康底盘搭子','状态搭子'],
+  move:['健康底盘搭子','肌肉搭子','和身体做朋友搭子'],
+  overthink:['主体性搭子','状态搭子','心态信念搭子'],
+  dependency:['坚持自律搭子','状态搭子','和身体做朋友搭子'],
+  career:['P7→P8','业务 Owner','AI 能力搭子'],
+  money:['财务财富','创业搭子','AI OPC创业搭子'],
+  relation:['关系力修炼搭子','家人相处搭子','关系财富'],
+  breakup:['关系力修炼搭子','状态搭子','幸福力搭子'],
+  restart:['40岁重启搭子','长期主义搭子','主体性搭子']
+};
+
 const coreSemanticVisuals={
   '减肥搭子':{caption:'减肥搭子',svg:'<svg viewBox="0 0 48 48" class="semantic-icon" aria-hidden="true"><circle cx="24" cy="24" r="15"></circle><path d="M9 24h30"></path><path d="M24 9c5 5 7 10 7 15s-2 10-7 15"></path></svg>'},
   '健康底盘搭子':{caption:'健康底盘',svg:'<svg viewBox="0 0 48 48" class="semantic-icon" aria-hidden="true"><path d="M24 7 37 12v9c0 9-5.8 16.3-13 20-7.2-3.7-13-11-13-20v-9z"></path><path d="M16 31h16"></path><path d="M19 26h10"></path></svg>'},
@@ -340,166 +242,108 @@ const coreSemanticVisuals={
   '关系财富':{caption:'关系财富',svg:'<svg viewBox="0 0 48 48" class="semantic-icon" aria-hidden="true"><circle cx="17" cy="24" r="9"></circle><circle cx="31" cy="24" r="9"></circle><path d="M22 18c2-2 4-2 6 0M22 30c2 2 4 2 6 0"></path></svg>'},
   '使命财富':{caption:'使命财富',svg:'<svg viewBox="0 0 48 48" class="semantic-icon" aria-hidden="true"><circle cx="24" cy="24" r="16"></circle><circle cx="24" cy="24" r="8"></circle><path d="m24 8 3 7-3 9-3-9z"></path><path d="M24 32v8"></path></svg>'}
 };
+
 function visualFor(p,mode='card'){
   if(!p)return '<div class="semantic-generic"></div>';
   const v=coreSemanticVisuals[p.name];
   const iconClass=mode==='small'?' small':(mode==='reco'?' reco':'');
-  if(v){
-    const svg=v.svg.replace('class="semantic-icon"',`class="semantic-icon${iconClass}"`);
-    const caption=(mode==='card')?`<span class="semantic-caption">${v.caption}</span>`:'';
-    return `<div class="semantic-visual" title="${p.name}" aria-label="${p.name}">${svg}${caption}</div>`;
-  }
+  if(v){const svg=v.svg.replace('class="semantic-icon"',`class="semantic-icon${iconClass}"`);const caption=(mode==='card')?`<span class="semantic-caption">${v.caption}</span>`:'';return `<div class="semantic-visual" title="${p.name}" aria-label="${p.name}">${svg}${caption}</div>`;}
   return `<div class="semantic-visual" title="${p.name}" aria-label="${p.name}"><span class="semantic-generic"></span>${mode==='card'?`<span class="semantic-caption">${p.name.replace('搭子','')}</span>`:''}</div>`;
 }
-function load(){try{state.recent=JSON.parse(localStorage.getItem('sp4_recent')||'[]');state.favorites=JSON.parse(localStorage.getItem('sp4_favs')||'[]')}catch(e){}}
-function save(){try{localStorage.setItem('sp4_recent',JSON.stringify(state.recent));localStorage.setItem('sp4_favs',JSON.stringify(state.favorites))}catch(e){}}
-function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(window.__tt);window.__tt=setTimeout(()=>el.classList.remove('show'),1600)}
-function setView(v){state.view=v;document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(v+'Screen').classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.nav===v));window.scrollTo({top:0,behavior:'smooth'});if(v==='today')renderToday();if(v==='profile')renderProfile()}
-function renderNeeds(){
-  document.getElementById('needGrid').innerHTML=needDefs.map(n=>`<button class="need-card ${state.need===n.id?'active':''}" data-need="${n.id}"><strong>${n.title}</strong><span>${n.desc}</span></button>`).join('');
-}
-function getNeedDef(id){return needDefs.find(n=>n.id===id)||needDefs[0]}
-function picksForNeed(id){const hrefs=needPicks[id]||['搭子-睡眠.html','搭子-主体性.html','搭子-P7-P8.html'];return hrefs.map(h=>partners.find(p=>p.href===h)).filter(Boolean)}
-function renderHomeReco(){
-  const list=state.need?picksForNeed(state.need):[partners.find(p=>p.href==='搭子-睡眠.html'),partners.find(p=>p.href==='搭子-主体性.html'),partners.find(p=>p.href==='搭子-P7-P8.html')].filter(Boolean);
-  const def=state.need?getNeedDef(state.need):null;
-  document.getElementById('recoTitle').textContent=def?def.headline:'先从这几个开始';
-  document.getElementById('recoDesc').textContent=def?def.copy:'三个不同方向，先看哪一个最像你现在的状态。';
-  document.getElementById('homeReco').innerHTML=list.map(p=>{const m=metaOf(p);return `<button class="reco-card" data-open="${p.id}"><div class="reco-mark semantic-reco">${visualFor(p,'reco')}</div><div><div class="reco-benefit">${m.benefit}</div><div class="reco-name">${p.name}</div><div class="reco-why">适合你，如果：${m.fit.slice(0,3).join(' · ')}</div><div class="reco-first">第一次会发生：${m.firstWin}</div><div class="reco-meta"><span>${m.effort}</span><span>进入完整搭子</span></div></div></button>`}).join('');
-}
-function counts(){const m={all:partners.length};categories.forEach(c=>{if(c.id!=='all')m[c.id]=partners.filter(p=>p.cat===c.id).length});return m}
-function renderSide(){const cts=counts();document.getElementById('storeSide').innerHTML=categories.map(c=>`<button class="${state.cat===c.id?'active':''}" data-cat="${c.id}">${c.name}<small>${cts[c.id]||0}</small></button>`).join('')}
-function renderShelf(){
-  let defs;
-  if(state.cat!=='all'){
-    const catItems=partners.filter(p=>p.cat===state.cat);
-    const tierOrder=['core','scene','advanced','tool'];
-    const tierNames={core:'核心',scene:'场景',advanced:'进阶',tool:'工具'};
-    const available=tierOrder.map(id=>({id,name:`${tierNames[id]} ${catItems.filter(p=>shelfOf(p)===id).length}`,count:catItems.filter(p=>shelfOf(p)===id).length})).filter(x=>x.count>0);
-    defs=[{id:'all',name:`本类全部 ${catItems.length}`},...available];
-  }else{
-    defs=[{id:'core',name:'核心 12'},{id:'scene',name:'场景 12'},{id:'advanced',name:'进阶 9'},{id:'tool',name:'工具 2'},{id:'all',name:'全部 35'}];
-  }
-  document.getElementById('shelfFilters').innerHTML=defs.map(d=>`<button class="shelf-chip ${state.shelf===d.id?'active':''}" data-shelf="${d.id}">${d.name}</button>`).join('')
-}
-function filtered(){const q=state.q.trim().toLowerCase();return partners.filter(p=>{if(state.cat!=='all'&&p.cat!==state.cat)return false;if(!q&&state.shelf!=='all'&&shelfOf(p)!==state.shelf)return false;const m=metaOf(p);const hay=[p.name,p.desc,...p.tags,catById(p.cat).name,m.benefit,...m.fit,m.firstWin,m.effort,shelfDef(shelfOf(p)).name].join(' ').toLowerCase();return !q||hay.includes(q)})}
-function renderStore(){
-  renderSide();renderShelf();document.getElementById('storeSearch').value=state.q;
-  const c=catById(state.cat);const cts=counts();
-  let title,copy;
-  if(state.q){title='搜索全部 35 个搭子';copy='正在跨全部类目与货架搜索，不会因为当前筛选漏掉搭子。'}
-  else if(state.cat!=='all'){
-    const tier=state.shelf==='all'?null:shelfDef(state.shelf);
-    const tierCount=partners.filter(p=>p.cat===state.cat&&(state.shelf==='all'||shelfOf(p)===state.shelf)).length;
-    title=state.shelf==='all'?`${c.name} · ${cts[state.cat]} 个搭子`:`${c.name} · ${tier.name} ${tierCount}`;
-    copy=c.copy;
-  }else{
-    const sd=state.shelf==='all'?{name:'全部 35 个',copy:'8 大生活主题、35 个 SKU 全量保留。'}:shelfDef(state.shelf);
-    title=sd.name;copy=sd.copy;
-  }
-  document.getElementById('storeCopy').innerHTML=`<strong>${title}</strong><p>${copy}</p><span class="benefit-mode">结果优先 · 类目完整 · 功能保留</span><div class="shelf-note">进入具体类目时默认展示该类全部搭子；货架只做二次筛选，不再让“核心12”遮住原有SKU。</div><div class="semantic-rule-note">正式名称完整保留：健康生活 / 心智成长 / 亲子养育 / 职场成长 / 创业经营 / 五大财富 / 人生经营 / 工具资源。</div><div class="category-sync-note"><b>V4.6 同步规则：</b>类目优先于货架。选择“五大财富”会直接看到身体财富、财务财富、精神财富、关系财富、使命财富 5 个完整入口。</div>`;
-  const list=filtered();
-  document.getElementById('storeRows').innerHTML=list.length?list.map(p=>{const m=metaOf(p);const tier=shelfOf(p);const td=shelfDef(tier);return `<button class="partner-row" data-open="${p.id}"><div class="thumb semantic-thumb">${visualFor(p,'card')}</div><div><div class="value-title">${m.benefit}</div><div class="sku-name">${p.name}<span class="tier-badge ${tier}">${td.short}</span></div><p class="fit-line">适合：${m.fit.slice(0,3).join(' · ')}</p><p class="first-win">第一步：${m.firstWin}</p><span class="effort">${m.effort}</span><div class="full-badge">看看它怎么陪我 →</div></div></button>`}).join(''):`<div class="empty">这个组合下暂时没有搭子。<br>可以切到“本类全部”或直接用状态搜索。</div>`
-}
-function openStore(cat='all',q=''){state.cat=cat;state.q=q;state.shelf=q?'all':(cat==='all'?'core':'all');setView('store');renderStore();setTimeout(()=>{if(q)document.getElementById('storeSearch').focus()},80)}
-function openQuiz(){state.quiz={step:1,need:state.need,mode:null,time:null};document.getElementById('quiz').classList.add('open');document.body.style.overflow='hidden';renderQuiz()}
-function closeQuiz(){document.getElementById('quiz').classList.remove('open');document.body.style.overflow=''}
-function renderQuiz(){const q=state.quiz;const body=document.getElementById('quizBody');document.getElementById('quizStep').textContent=q.step<=3?`STEP ${q.step} / 3`:'为你缩小到 3 个';
- if(q.step===1){body.innerHTML=`<h2>最近最困扰你的是什么？</h2><p class="lead">只选最想先变轻的一件，不需要一次解决全部。</p><div class="quiz-options">${needDefs.map(n=>`<button class="quiz-option ${q.need===n.id?'selected':''}" data-quiz-need="${n.id}"><strong>${n.title}</strong><span>${n.desc}</span></button>`).join('')}</div>`;return}
- if(q.step===2){body.innerHTML=`<h2>你更想先得到哪种变化？</h2><p class="lead">这会帮助我判断先推荐“状态型”还是“结果型”搭子。</p><div class="quiz-options"><button class="quiz-option ${q.mode==='lighter'?'selected':''}" data-quiz-mode="lighter"><strong>先让自己轻一点</strong><span>先稳定情绪、身体和日常状态。</span></button><button class="quiz-option ${q.mode==='result'?'selected':''}" data-quiz-mode="result"><strong>先解决一个具体结果</strong><span>例如晋升、减脂、行动、关系改善。</span></button></div>`;return}
- if(q.step===3){body.innerHTML=`<h2>每天愿意给自己多少时间？</h2><p class="lead">不是承诺，只是帮助我们把行动门槛设得更合理。</p><div class="quiz-options"><button class="quiz-option ${q.time===3?'selected':''}" data-quiz-time="3"><strong>3 分钟</strong><span>越轻越好，先能开始。</span></button><button class="quiz-option ${q.time===5?'selected':''}" data-quiz-time="5"><strong>5 分钟</strong><span>适合每天稳定做一点。</span></button><button class="quiz-option ${q.time===10?'selected':''}" data-quiz-time="10"><strong>10 分钟左右</strong><span>愿意做更完整的复盘和行动。</span></button></div>`;return}
- const list=picksForNeed(q.need||'overthink').filter(p=>{const m=metaOf(p);if(!q.time)return true;const nums=m.effort.match(/\d+/g)||['5'];const num=nums[nums.length-1];return Number(num)<=q.time+5}).slice(0,3);body.innerHTML=`<h2>听起来，你可以先从这几个开始。</h2><p class="lead">不是“最优答案”，只是把 35 个选项先缩小到真正和你有关的 3 个。</p><div class="quiz-result">${list.map((p,i)=>{const m=metaOf(p);return `<button class="reco-card" data-open="${p.id}"><div class="reco-mark semantic-reco">${visualFor(p,'reco')}</div><div><div class="reco-benefit">${m.benefit}</div><div class="reco-name">${p.name}</div><div class="quiz-reason">因为你刚才选择的是「${getNeedDef(q.need).title}」，这个搭子更接近你当前的状态。</div><div class="reco-meta"><span>${m.effort}</span></div></div></button>`}).join('')}</div><div class="quiz-actions"><button class="btn btn-light" data-quiz-store="1">看全部搭子</button><button class="btn btn-primary" id="quizDone">先选第一个</button></div>`
-}
-function quizNext(){state.quiz.step+=1;renderQuiz()}
-let activePartnerId=null;
-const standardFeatures=['搭子陪伴','教练','自检','今日','记录','进展','分享'];
-function openPartner(id){
-  const p=byId(id);if(!p)return;activePartnerId=id;
-  state.recent=[id,...state.recent.filter(x=>x!==id)].slice(0,12);save();
-  const m=metaOf(p);document.getElementById('detailTopName').textContent=p.name;
-  document.getElementById('detailBody').innerHTML=`
-    <section class="detail-hero">
-      <div class="detail-visual">${visualFor(p,'reco')}</div>
-      <div class="detail-eyebrow">先看它能为你做什么</div>
-      <div class="detail-benefit">${m.benefit}</div>
-      <div class="detail-name">${p.name}</div>
-      <div class="detail-fit">${m.fit.slice(0,4).map(x=>`<span>${x}</span>`).join('')}</div>
-      <div class="detail-first"><b>第一次使用，先发生这一点</b><p>${m.firstWin}</p></div>
-      <div class="detail-effort"><span>使用门槛</span><strong>${m.effort}</strong></div>
-    </section>
-    <section class="detail-section">
-      <h3>完整功能不会缩水</h3>
-      <p>搭子馆只负责帮你选对。真正开始之后，原来已经建立的功能继续保留，不重新做一套缩水版。</p>
-      <div class="feature-grid">${standardFeatures.map(x=>`<div class="feature-pill">${x}</div>`).join('')}</div>
-    </section>
-    <div class="detail-actions">
-      <button class="btn btn-primary btn-wide" id="detailStart">开始今天的陪伴 →</button>
-      <button class="btn btn-light btn-wide" id="detailFull">进入完整功能页</button>
-    </div>
-    <div class="detail-note">进入后仍保留 Slim Partner 顶部外壳与返回路径，不会突然跳回另一套产品。</div>`;
-  document.getElementById('detail').classList.add('open');document.body.style.overflow='hidden';
-}
-function closeDetail(){document.getElementById('detail').classList.remove('open');document.body.style.overflow=''}
-function enterLegacyPartner(id=activePartnerId){
-  const p=byId(id);if(!p)return;activePartnerId=id;
-  document.getElementById('viewerName').textContent=p.name;
-  const joiner=p.href.includes('?')?'&':'?';const src=encodeURI(BASE+p.href+joiner+'sp_embed=v45');
-  document.getElementById('viewerFrame').src=src;
-  document.getElementById('viewerLoading').classList.remove('hidden');
-  document.getElementById('viewer').classList.add('open');document.body.style.overflow='hidden';
-}
-function closeViewer(){document.getElementById('viewer').classList.remove('open');setTimeout(()=>{document.getElementById('viewerFrame').src='about:blank'},180);document.body.style.overflow='hidden'}
-function backToStoreFromViewer(){document.getElementById('viewer').classList.remove('open');document.getElementById('detail').classList.remove('open');setTimeout(()=>{document.getElementById('viewerFrame').src='about:blank'},180);document.body.style.overflow='';openStore('all','')}
-function harmonizeLegacyFrame(){
-  const fr=document.getElementById('viewerFrame');
-  try{
-    const d=fr.contentDocument;if(!d||!d.head)return;
-    let st=d.getElementById('spV45BridgeStyle');if(st)return;
-    st=d.createElement('style');st.id='spV45BridgeStyle';st.textContent=`
-      html,body{background:#f6f3ed!important;color:#17392f!important;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif!important}
-      .tab-bar{background:rgba(255,253,250,.98)!important;box-shadow:0 -1px 0 #e5e0d7!important;border-radius:0!important}
-      .tab-item.active{background:#eaf0eb!important}.tab-item .tab-label{color:#7f8883!important}.tab-item.active .tab-label{color:#234c3d!important}
-      .confirm-btn,.today-checkin,.checkin-btn{background:#234c3d!important;box-shadow:none!important}
-      .card,.partner-selector,.week-progress,.interaction-panel,.share-inline-card{border:1px solid #e5e0d7!important;box-shadow:0 8px 22px rgba(28,55,44,.045)!important}
-      .partner-badge{color:#234c3d!important;background:#eaf0eb!important}
-    `;d.head.appendChild(st);
-  }catch(e){}
-}
 
-function renderToday(){const p=state.recent.length?byId(state.recent[0]):partners.find(x=>x.href==='搭子-睡眠.html');document.getElementById('todayBody').innerHTML=`<div class="today-card"><h2>今天回到 ${p.name}</h2><p>不重新造一套“今日任务”。打卡、教练、自检、专项记录、进展与分享，都继续在这个完整搭子里完成。</p><button class="btn btn-primary btn-wide" data-open="${p.id}">进入完整搭子 →</button><button class="btn btn-light btn-wide" style="margin-top:9px" data-nav="store">换一个搭子</button></div><section class="section"><div class="sectionhead"><div><div class="sectiontitle">最近去过</div><div class="sectiondesc">继续关系，而不是每天重新选。</div></div></div><div class="recent-list">${renderRecentItems(state.recent.slice(0,4))}</div></section>`}
-function renderRecentItems(ids){if(!ids.length)return `<div class="empty">还没有最近使用记录。<br>去搭子馆选一个看看。</div>`;return ids.map(id=>{const p=byId(id);return `<button class="recent-item" data-open="${id}"><div class="recent-icon semantic-recent">${visualFor(p,'small')}</div><div><strong>${p.name}</strong><span>${p.desc}</span></div></button>`}).join('')}
-function renderProfile(){const rec=state.recent.slice(0,6);const fav=state.favorites.map(byId).filter(Boolean);document.getElementById('profileBody').innerHTML=`<div class="profile-card"><h2>我的搭子</h2><p>记录最近真的使用过谁，以及你想留下谁。这里不堆积分，不制造压力。</p><button class="btn btn-primary btn-wide" data-nav="store">去搭子馆 →</button></div><section class="section"><div class="sectionhead"><div><div class="sectiontitle">最近使用</div><div class="sectiondesc">点击即可回到完整搭子。</div></div></div><div class="recent-list">${renderRecentItems(rec)}</div></section><section class="section"><div class="sectionhead"><div><div class="sectiontitle">收藏</div><div class="sectiondesc">留下真正想继续的关系。</div></div></div><div class="recent-list">${fav.length?fav.map(p=>`<div class="recent-item"><button style="all:unset;display:flex;align-items:center;gap:11px;flex:1;cursor:pointer" data-open="${p.id}"><div class="recent-icon semantic-recent">${visualFor(p,'small')}</div><div><strong>${p.name}</strong><span>${p.desc}</span></div></button><button class="favbtn" data-fav="${p.id}">♥</button></div>`).join(''):`<div class="empty">暂时没有收藏。<br>从最近使用里慢慢留下真正需要的搭子。</div>`}</div></section>`}
-function toggleFav(id){state.favorites=state.favorites.includes(id)?state.favorites.filter(x=>x!==id):[id,...state.favorites];save();renderProfile();toast(state.favorites.includes(id)?'已经收藏。':'已经取消收藏。')}
 
-load();renderNeeds();renderHomeReco();renderStore();renderToday();renderProfile();
-document.addEventListener('click',e=>{
-  const need=e.target.closest('[data-need]');if(need){state.need=need.dataset.need;renderNeeds();renderHomeReco();document.getElementById('recoTitle').scrollIntoView({behavior:'smooth',block:'center'});return}
-  const qn=e.target.closest('[data-quiz-need]');if(qn){state.quiz.need=qn.dataset.quizNeed;quizNext();return}
-  const qm=e.target.closest('[data-quiz-mode]');if(qm){state.quiz.mode=qm.dataset.quizMode;quizNext();return}
-  const qt=e.target.closest('[data-quiz-time]');if(qt){state.quiz.time=Number(qt.dataset.quizTime);quizNext();return}
-  const qs=e.target.closest('[data-quiz-store]');if(qs){closeQuiz();openStore('all','');return}
-  const nav=e.target.closest('[data-nav]');if(nav){const v=nav.dataset.nav;if(v==='store')openStore(state.cat||'all',state.q||'');else setView(v);return}
-  const hc=e.target.closest('[data-home-cat]');if(hc){openStore(hc.dataset.homeCat,'');return}
-  const c=e.target.closest('[data-cat]');if(c){state.cat=c.dataset.cat;state.q='';state.shelf=state.cat==='all'?'core':'all';renderStore();return}
-  const sh=e.target.closest('[data-shelf]');if(sh){state.shelf=sh.dataset.shelf;state.q='';renderStore();return}
-  const op=e.target.closest('[data-open]');if(op){openPartner(op.dataset.open);return}
-  const fv=e.target.closest('[data-fav]');if(fv){toggleFav(fv.dataset.fav);return}
-});
-document.getElementById('homeSearch').addEventListener('keydown',e=>{if(e.key==='Enter')openStore('all',e.target.value)});
-document.getElementById('homeSearchBtn').addEventListener('click',()=>document.getElementById('homeSearch').focus());
-document.getElementById('openQuizBtn').addEventListener('click',openQuiz);
-document.getElementById('quizClose').addEventListener('click',closeQuiz);
-document.getElementById('quiz').addEventListener('click',e=>{if(e.target===document.getElementById('quiz'))closeQuiz()});
-document.addEventListener('click',e=>{if(e.target&&e.target.id==='quizDone'){const p=picksForNeed(state.quiz.need||'overthink')[0];closeQuiz();if(p)openPartner(p.id)}});
-document.getElementById('storeSearch').addEventListener('input',e=>{state.q=e.target.value;if(state.q.trim()){state.cat='all';state.shelf='all'}else{state.cat='all';state.shelf='core'}renderStore()});
-document.getElementById('detailBack').addEventListener('click',closeDetail);
-document.getElementById('detailClose').addEventListener('click',closeDetail);
-document.getElementById('detail').addEventListener('click',e=>{if(e.target===document.getElementById('detail'))closeDetail()});
-document.addEventListener('click',e=>{if(e.target&&['detailStart','detailFull'].includes(e.target.id))enterLegacyPartner()});
-document.getElementById('viewerBack').addEventListener('click',closeViewer);
-document.getElementById('viewerStore').addEventListener('click',backToStoreFromViewer);
-document.getElementById('viewerFrame').addEventListener('load',()=>{document.getElementById('viewerLoading').classList.add('hidden');harmonizeLegacyFrame()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('viewer').classList.contains('open'))closeViewer();else if(e.key==='Escape'&&document.getElementById('detail').classList.contains('open'))closeDetail()});
+const domainLabels={bodymind:{name:'身心',keywords:['睡眠','体重','健康','肌肉','状态','休息'],copy:'先把身体和状态照顾好。'},career:{name:'事业',keywords:['晋升','管理','Owner','AI','创业','财务'],copy:'工作、能力、收入，都可以继续往前。'},relation:{name:'关系',keywords:['亲子','家人','沟通','边界','重要关系'],copy:'让重要的人之间，少一点消耗。'},self:{name:'自我',keywords:['主体性','认知','自律','幸福','形象','人生方向'],copy:'更清楚自己是谁，也更敢按自己的方式生活。'}};
+const usageProfiles={
+'减肥搭子':{headline:'今天，先把一件小事做稳。',tasks:['午餐先加一份蔬菜','下午饿时先喝一杯水','晚饭后走10分钟'],coach:'体重不会每天都变，但习惯会慢慢留下来。'},
+'睡眠搭子':{headline:'今晚，让入睡轻一点。',tasks:['下午2点后不再加咖啡因','睡前30分钟把手机放远一点','上床后做3次慢呼吸'],coach:'不用急着把睡眠一次修好。我们先找出真正影响你的那一环。'},
+'坚持自律搭子':{headline:'今天，只把一件事做完。',tasks:['选一件最容易拖延的事','把它缩小到10分钟以内','现在开始第一分钟'],coach:'真正稳定的坚持，通常不是更用力，而是把门槛变低。'},
+'40岁重启搭子':{headline:'今天，只重启一件事。',tasks:['写下最近最想改变的一件事','判断它属于身体 / 事业 / 关系 / 自我','只选一个最小下一步'],coach:'重启不是推翻过去，是重新决定接下来怎么走。'},
+'主体性搭子':{headline:'今天，先把自己的判断说出来。',tasks:['写下你对一件事真正的判断','把它变成一句清楚的表达','在真实场景里说出或做出一次选择'],coach:'主体性不是更强势，而是更清楚自己为什么这样判断和选择。'},
+'P7→P8':{headline:'今天，把一件工作提升一个层级。',tasks:['把正在做的任务改写成一个业务问题','写清它影响谁、影响什么结果','确定一个需要推动的关键决策'],coach:'层级跃迁往往发生在你开始定义问题、影响决策和组织结果的时候。'},
+'业务 Owner':{headline:'今天，用Owner视角做一个决定。',tasks:['写下今天最重要的业务问题','确认它对应的客户价值和关键指标','做一个需要你承担结果的判断'],coach:'Owner感不是事情更多，而是你开始对问题定义、判断和结果闭环负责。'},
+'AI 能力搭子':{headline:'今天，让AI真正替你省一次力。',tasks:['找一个重复或耗时的工作','让AI先完成第一版','比较前后时间和质量差异'],coach:'真正的AI能力，不是会多少工具，而是能不能持续改变你的工作方式。'},
+'健康底盘搭子':{headline:'今天，先修一块底盘。',tasks:['从睡眠 / 运动 / 体检里选最需要的一项','给它一个当前状态判断','定一个今天能完成的最小动作'],coach:'健康底盘不是一次做到完美，而是把关键项重新管起来。'},
+'状态搭子':{headline:'今天，先看见自己的状态。',tasks:['用一个词描述现在的情绪','给精力打一个1–5分','选一个最适合现在的恢复动作'],coach:'状态不是你的全部。先看见它，再决定怎么回应。'},
+'陪读妈妈':{headline:'今天，先把拉扯变轻一点。',tasks:['作业开始前先稳定自己的情绪','用一个提问替代一次说教','具体肯定孩子一个已经做到的地方'],coach:'陪读不是把每件事都管好，而是让关系先稳下来。'},
+'关系力修炼搭子':{headline:'今天，让一次对话更舒服。',tasks:['先多听一个问题再回应','用“我感受到…”替代指责','清楚表达一条边界或需要'],coach:'好的关系力不是讨好，而是理解、表达和边界同时存在。'}
+};
+const benefitLines={
+'减肥搭子':['每天一个真正做得到的小动作','饮食和体重变化有地方记录','做不到时一起把目标缩小','看见自己的长期变化'],
+'睡眠搭子':['找到最影响睡眠的一环','每晚一个轻量调整','看见睡眠节律变化','睡乱了也能重新开始'],
+'主体性搭子':['识别自己真正的判断','提前练习表达','在真实场景里行动','复盘为什么这样选择'],
+'P7→P8':['把日常工作提升成业务问题','练习战略判断','扩大影响范围','看见能力跃迁的证据']
+};
+
+const state={view:'home',need:null,domain:'all',mode:'recommended',q:'',series:'wealth',recent:[],selected:[],favorites:[],reservations:[],progress:{},notes:{},selfcheck:{},active:null,returnView:'home',session:{view:'home',overlay:null,partnerId:null,utility:null,useScroll:0,returnView:'home'}};
+function load(){try{state.recent=JSON.parse(localStorage.getItem('ns_v21_recent')||localStorage.getItem('ns_v2_recent')||'[]');state.selected=JSON.parse(localStorage.getItem('ns_v21_selected')||localStorage.getItem('ns_v2_selected')||'[]');state.favorites=JSON.parse(localStorage.getItem('ns_v21_favorites')||'[]');state.reservations=JSON.parse(localStorage.getItem('ns_v21_reservations')||'[]');state.progress=JSON.parse(localStorage.getItem('ns_v21_progress')||localStorage.getItem('ns_v2_progress')||'{}');state.notes=JSON.parse(localStorage.getItem('ns_v21_notes')||localStorage.getItem('ns_v2_notes')||'{}');state.selfcheck=JSON.parse(localStorage.getItem('ns_v21_selfcheck')||localStorage.getItem('ns_v2_selfcheck')||'{}');state.session=JSON.parse(localStorage.getItem('ns_v21_session')||'null')||state.session}catch(e){}}
+function save(){try{localStorage.setItem('ns_v21_recent',JSON.stringify(state.recent));localStorage.setItem('ns_v21_selected',JSON.stringify(state.selected));localStorage.setItem('ns_v21_favorites',JSON.stringify(state.favorites));localStorage.setItem('ns_v21_reservations',JSON.stringify(state.reservations));localStorage.setItem('ns_v21_progress',JSON.stringify(state.progress));localStorage.setItem('ns_v21_notes',JSON.stringify(state.notes));localStorage.setItem('ns_v21_selfcheck',JSON.stringify(state.selfcheck));localStorage.setItem('ns_v21_session',JSON.stringify(state.session))}catch(e){}}
+function setSession(patch){state.session={...state.session,...patch};save()}
+const byId=id=>partners.find(p=>p.id===id); const byName=n=>partners.find(p=>p.name===n); const metaOf=p=>skuMeta[p.href]||{benefit:p.name,fit:[p.desc],firstWin:'今天先做一个最小动作',effort:'每天约5分钟'}; const domainOf=p=>domainMap[p.name]||'tool'; const isTool=p=>toolNames.includes(p.name)||domainOf(p)==='tool';
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';t.style.transform='translate(-50%,0)';clearTimeout(window.__tt);window.__tt=setTimeout(()=>{t.style.opacity='0';t.style.transform='translate(-50%,18px)'},1600)}
+function setView(v,restore=false){state.view=v;document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(v+'Screen').classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.nav===v));if(v==='today')renderToday();if(v==='profile')renderProfile();if(!restore)setSession({view:v,overlay:null,utility:null});window.scrollTo({top:0,behavior:restore?'auto':'smooth'});updateActiveStrip()}
+function updateBagCounts(){document.querySelectorAll('.bag-count').forEach(x=>x.textContent=state.selected.length)}
+function selected(id){return state.selected.includes(id)}
+function favorite(id){return state.favorites.includes(id)}
+function toggleFavorite(id){const p=byId(id);if(!p||isTool(p))return;if(favorite(id)){state.favorites=state.favorites.filter(x=>x!==id);toast('已取消收藏')}else{state.favorites=[id,...state.favorites];toast(`已收藏「${p.name}」`)}save();renderFavoriteButton(id);renderCollection();renderProfile()}
+function renderFavoriteButton(id){const b=document.getElementById('detailFavorite');if(!b)return;b.classList.toggle('on',favorite(id));b.textContent=favorite(id)?'♥':'♡';b.dataset.favorite=id}
+function progressFor(id){if(!state.progress[id])state.progress[id]={days:{},tasks:{},startedAt:null,lastVisit:null};return state.progress[id]}
+function started(id){return !!(state.progress[id]&&state.progress[id].startedAt)}
+function dayCount(id){const pr=progressFor(id);return Object.values(pr.days||{}).filter(Boolean).length}
+function companionStatus(id){const p=byId(id);if(!p)return '';const u=usageFor(p),arr=todayTaskState(id),left=Math.max(0,u.tasks.length-arr.length);return left===0&&u.tasks.length?'今天完成了':`今天还有 ${left||u.tasks.length} 步`}
+function cardAction(p,cls){if(isTool(p))return '';if(started(p.id))return `<span class="${cls} selected" data-use="${p.id}">继续</span>`;if(selected(p.id))return `<span class="${cls} selected">已加入</span>`;return `<span class="${cls}" data-add="${p.id}">加入</span>`}
+function currentPartnerId(){if(state.session.partnerId&&started(state.session.partnerId))return state.session.partnerId;return state.recent.find(id=>started(id))||state.selected.find(id=>started(id))||null}
+function updateActiveStrip(){const el=document.getElementById('activeStrip'),id=currentPartnerId();if(!el||!id||document.getElementById('usePage').classList.contains('open')){if(el)el.classList.remove('show');return}const p=byId(id);el.innerHTML=`<div class="aicon">${visualFor(p,'small')}</div><div><strong>${p.name}</strong><span>${companionStatus(id)}</span></div><button data-use="${id}">继续</button>`;el.classList.add('show')}
+function reserve(name){if(state.reservations.includes(name)){state.reservations=state.reservations.filter(x=>x!==name);toast('已取消预约')}else{state.reservations=[name,...state.reservations];toast(`已预约「${name}」`)}save();renderUpcoming()}
+
+function toggleSelected(id,forceAdd=false){const p=byId(id);if(!p||isTool(p))return;const has=selected(id);if(has&&!forceAdd){state.selected=state.selected.filter(x=>x!==id);toast('已从我的搭子移除')}else if(!has){state.selected=[id,...state.selected];toast(`已加入「${p.name}」`)}save();updateBagCounts();renderHomeReco();renderStore();renderCollection();renderProfile();updateActiveStrip();if(document.getElementById('detail').classList.contains('open'))renderDetail(id)}
+function renderNeeds(){document.getElementById('needGrid').innerHTML=needDefs.filter(n=>['sleep','move','overthink','career','money','relation','restart','dependency'].includes(n.id)).map(n=>`<button class="need-card ${state.need===n.id?'active':''}" data-need="${n.id}"><strong>${n.title}</strong><span>${n.desc}</span></button>`).join('')}
+function picksForNeed(id){return (needPicks[id]||needPicks.overthink).map(byName).filter(Boolean)}
+function renderRecoCards(list){return list.map(p=>{const m=metaOf(p);return `<button class="reco-card" data-open="${p.id}"><div class="reco-mark">${visualFor(p,'reco')}</div><div class="reco-main"><div class="reco-benefit">${m.benefit}</div><div class="reco-name">${p.name}</div><div class="reco-fit">${m.fit.slice(0,3).join(' · ')}</div><div class="reco-effort">${m.effort}</div></div>${cardAction(p,'mini-add')}</button>`}).join('')}
+function renderHomeReco(){const list=state.need?picksForNeed(state.need):[byName('睡眠搭子'),byName('主体性搭子'),byName('P7→P8')].filter(Boolean);document.getElementById('recoTitle').textContent=state.need?(needDefs.find(n=>n.id===state.need)?.headline||'今天，可以先从这里开始'):'今天，可以先从这里开始';document.getElementById('recoDesc').textContent='挑一个最像你现在状态的。';document.getElementById('homeReco').innerHTML=renderRecoCards(list)}
+function renderRecent(){const sec=document.getElementById('recentSection');const current=currentPartnerId();const ids=[current,...state.recent.filter(x=>x!==current&&started(x))].filter(Boolean).slice(0,3);if(!ids.length){sec.style.display='none';return}sec.style.display='block';document.getElementById('homeRecent').innerHTML=ids.map((id,i)=>{const p=byId(id),m=metaOf(p);return i===0?`<div class="current-card"><div class="recent-icon">${visualFor(p,'small')}</div><div><strong>${p.name}</strong><p>${companionStatus(id)} · ${m.benefit}</p></div><button data-use="${id}">继续</button></div>`:`<button class="recent-card" data-use="${id}"><div class="recent-icon">${visualFor(p,'small')}</div><div><strong>${p.name}</strong><p>${companionStatus(id)}</p></div><div class="arrow">→</div></button>`}).join('')}
+function renderDomains(){document.getElementById('domainGrid').innerHTML=Object.entries(domainLabels).map(([id,d])=>`<button class="domain-card" data-domain="${id}"><strong>${d.name}</strong><p>${d.copy}</p><div class="keywords">${d.keywords.map(k=>`<span>${k}</span>`).join('')}</div><div class="domain-link">看看${d.name}搭子 →</div></button>`).join('')}
+function renderSeries(){document.getElementById('homeSeries').innerHTML=seriesDefs.map(s=>`<button class="series-card" data-series="${s.id}"><strong>${s.name}</strong><span>${s.desc}</span></button>`).join('')}
+const upcomingDefs=[{name:'运动搭子',copy:'想动起来，却总开始不了。'},{name:'分手疗愈搭子',copy:'陪你熬过关系结束后最难的那一段。'},{name:'戒烟搭子',copy:'从看见触发开始，一点点松开依赖。'}];
+function renderUpcoming(){const el=document.getElementById('upcomingGrid');if(!el)return;el.innerHTML=upcomingDefs.map(x=>`<div class="upcoming-card"><div><strong>${x.name}</strong><p>${x.copy}</p></div><button class="reserve-btn ${state.reservations.includes(x.name)?'on':''}" data-reserve="${x.name}">${state.reservations.includes(x.name)?'已预约 ✓':'预约'}</button></div>`).join('')}
+function renderSide(){const defs=[{id:'all',name:'全部'},...Object.entries(domainLabels).map(([id,d])=>({id,name:d.name}))];document.getElementById('storeSide').innerHTML=defs.map(d=>`<button class="${state.domain===d.id?'active':''}" data-domain-filter="${d.id}">${d.name}</button>`).join('')}
+function renderModes(){const defs=[['recommended','精选'],['all','全部'],['series','主题'],['tools','轻工具']];const base=defs.map(([id,n])=>`<button class="mode-chip ${state.mode===id?'active':''}" data-mode="${id}">${n}</button>`).join('');const series=state.mode==='series'?seriesDefs.map(s=>`<button class="mode-chip ${state.series===s.id?'active':''}" data-series="${s.id}">${s.name}</button>`).join(''):'';document.getElementById('storeModes').innerHTML=base+series}
+function seriesById(id){return seriesDefs.find(s=>s.id===id)||seriesDefs[0]}
+function filtered(){const q=state.q.trim().toLowerCase();return partners.filter(p=>{const m=metaOf(p);if(q){const hay=[p.name,p.desc,...(p.tags||[]),m.benefit,...m.fit,m.firstWin].join(' ').toLowerCase();return hay.includes(q)}if(state.mode==='tools')return isTool(p);if(isTool(p))return false;if(state.mode==='recommended'&&!recommendedNames.includes(p.name))return false;if(state.mode==='series'&&!seriesById(state.series).members.includes(p.name))return false;if(state.domain!=='all'&&domainOf(p)!==state.domain)return false;return true})}
+function renderStore(){renderSide();renderModes();document.getElementById('storeSearch').value=state.q;let title='今天可以先看看这些',copy='挑一个最像你现在状态的。';if(state.q){title='搜索结果';copy=''}else if(state.mode==='all'){title=state.domain==='all'?'全部搭子':domainLabels[state.domain].name;copy=state.domain==='all'?'慢慢挑一个适合现在的。':domainLabels[state.domain].copy}else if(state.mode==='series'){const s=seriesById(state.series);title=s.name;copy=s.desc}else if(state.mode==='tools'){title='轻工具';copy='需要时打开就好。'}document.getElementById('storeCopy').innerHTML=`<strong>${title}</strong>${copy?`<p>${copy}</p>`:''}`;const list=filtered();document.getElementById('storeRows').innerHTML=list.length?list.map(p=>{const m=metaOf(p);return `<button class="partner-row" data-open="${p.id}"><div class="thumb">${visualFor(p,'card')}</div><div><div class="value-title">${m.benefit}</div><div class="sku-name">${p.name}</div><p class="fit-line">${m.fit.slice(0,3).join(' · ')}</p><span class="effort">${m.effort}</span></div>${cardAction(p,'row-add')}</button>`}).join(''):`<div class="empty">暂时没找到完全一样的。<br>换一种说法试试，比如“睡不着”“关系很累”“总是拖延”。</div>`}
+function openStore(domain='all',q='',mode='recommended'){state.domain=domain;state.q=q;state.mode=mode;setView('store');renderStore()}
+function openSeries(id){state.series=id;state.domain='all';state.q='';state.mode='series';setView('store');renderStore()}
+function detailBenefits(p){const m=metaOf(p);return benefitLines[p.name]||[m.firstWin,'每天只做一个最小动作','随时记录今天的变化','停下来以后也可以继续']}
+function detailUnsuitable(p){const d=domainOf(p);if(d==='bodymind')return ['需要诊断或治疗支持','出现持续或明显身体不适'];if(d==='career')return ['只想要标准答案，不准备实践','希望替代真实业务判断'];if(d==='relation')return ['需要专业危机或治疗支持','希望单方面改变对方'];return ['希望一次解决全部问题','需要专业诊断或治疗支持']}
+function detailScope(p){return [...new Set([...(p.desc||'').split('·').map(x=>x.trim()).filter(Boolean),...(p.tags||[])])].slice(0,6)}
+function renderDetail(id){const p=byId(id);if(!p)return;if(started(id)){openUse(id);return}state.active=id;setSession({view:state.view,overlay:'detail',partnerId:id,utility:null});const m=metaOf(p),scope=detailScope(p),unsuitable=detailUnsuitable(p);document.getElementById('detailTopName').textContent=p.name;renderFavoriteButton(id);document.getElementById('detailBody').innerHTML=`<section class="detail-hero"><div class="detail-visual">${visualFor(p,'reco')}</div><div class="detail-benefit">${m.benefit}</div><div class="detail-name">${p.name}</div><div class="detail-meta"><span>第一次只需要</span><strong>3分钟</strong></div></section><section class="detail-card"><h3>也许你正在经历这些</h3><div class="empathy-list">${m.fit.slice(0,4).map(x=>`<div class="empathy-item"><b>✓</b><span>${x}</span></div>`).join('')}</div></section><section class="detail-card"><h3>这些时候，也可以找它</h3><div class="state-tags">${scope.slice(0,5).map(x=>`<span>${x}</span>`).join('')}</div></section><section class="detail-card"><div class="fit-split"><div class="fit-box"><strong>适合你，如果</strong>${m.fit.slice(0,3).map(x=>`<p>• ${x}</p>`).join('')}</div><div class="fit-box"><strong>暂时不适合</strong>${unsuitable.map(x=>`<p>• ${x}</p>`).join('')}</div></div></section><section class="detail-card"><h3>它比较擅长这些</h3><div class="scope-list">${scope.map(x=>`<span>${x}</span>`).join('')}</div></section><section class="ready-card"><h3>准备好了吗？</h3><p>不用一次改变全部，先走今天这一步。</p><div class="first"><b>先从这里开始</b><span>${m.firstWin}</span></div><button class="btn btn-wide" data-start="${id}">开始陪伴 →</button></section>`;document.getElementById('detail').classList.add('open');document.body.style.overflow='hidden'}
+function usageFor(p){const m=metaOf(p);return usageProfiles[p.name]||{headline:'今天，先走这一小步。',tasks:[m.firstWin,'用一句话记下今天最明显的变化','结束前写下明天想继续的一件事'],coach:`${p.name}会陪你把变化做小、做稳，再慢慢积累。`}}
+function dayKey(d=new Date()){return d.toISOString().slice(0,10)}
+function todayTaskState(id){const pr=progressFor(id),k=dayKey();if(!pr.tasks[k])pr.tasks[k]=[];return pr.tasks[k]}
+function toolLabels(p){if(p.name==='减肥搭子')return ['教练','自检','饮食体重','进展','分享'];if(p.name==='睡眠搭子')return ['教练','自检','睡眠记录','进展','分享'];if(p.name==='40岁重启搭子')return ['教练','自检','重启记录','进展','分享'];if(p.name==='P7→P8')return ['教练','自检','影响力记录','进展','分享'];if(p.name==='业务 Owner')return ['教练','自检','经营记录','进展','分享'];return ['教练','自检','专项记录','进展','分享']}
+function renderUse(id,restore=false){const p=byId(id);if(!p)return;state.active=id;if(!isTool(p)&&!selected(id))state.selected=[id,...state.selected];state.recent=[id,...state.recent.filter(x=>x!==id)].slice(0,12);const pr=progressFor(id);if(!pr.startedAt)pr.startedAt=new Date().toISOString();pr.lastVisit=new Date().toISOString();if(!restore){state.returnView=state.view;setSession({view:state.view,overlay:'use',partnerId:id,utility:null,returnView:state.returnView})}else{state.returnView=state.session.returnView||state.session.view||'home';setSession({view:state.session.view||state.view,overlay:'use',partnerId:id,utility:null,returnView:state.returnView})};updateBagCounts();renderRecent();document.getElementById('useTopName').textContent=p.name;const u=usageFor(p),tasks=todayTaskState(id),doneAll=u.tasks.length>0&&u.tasks.every((_,i)=>tasks.includes(i));const days=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const k=dayKey(d);days.push({label:['日','一','二','三','四','五','六'][d.getDay()],done:!!pr.days[k]})}const left=Math.max(0,u.tasks.length-tasks.length);document.getElementById('useBody').innerHTML=`<div class="use-identity"><div class="use-icon">${visualFor(p,'small')}</div><div><strong>${p.name}</strong><span>已陪伴 ${Math.max(1,dayCount(id))} 天 · ${left?`今天还有 ${left} 步`:'今天完成了'}</span></div></div><section class="today-card"><h2>${u.headline}</h2><div class="task-list">${u.tasks.map((t,i)=>`<button class="task ${tasks.includes(i)?'done':''}" data-task="${i}"><span class="task-check">${tasks.includes(i)?'✓':''}</span><span>${t}</span></button>`).join('')}</div><div class="complete-state ${doneAll?'show':''}" id="completeState"><strong>今天这一步，完成了。</strong><p>不用很多，能继续就很好。</p></div></section><section class="week-card"><div class="card-title">这一周</div><div class="week-grid">${days.map(d=>`<div class="day ${d.done?'done':''}"><b>${d.done?'✓':'·'}</b><span>周${d.label}</span></div>`).join('')}</div></section><section class="coach-card"><div class="card-title">搭子想对你说</div><p>${u.coach}</p></section><div class="tool-grid">${toolLabels(p).map(x=>`<button class="tool-btn" data-tool="${x}"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="M8 12h8M12 8v8"></path></svg>${x}</button>`).join('')}</div></div>`;document.getElementById('usePage').classList.add('open');document.body.style.overflow='hidden';updateActiveStrip();renderCollection();renderProfile();save();if(restore)setTimeout(()=>{document.querySelector('#usePage .panel').scrollTop=state.session.useScroll||0},0)}
+function openUse(id){document.getElementById('detail').classList.remove('open');renderUse(id)}
+function toggleTask(i){const id=state.active,p=byId(id),u=usageFor(p),arr=todayTaskState(id);const idx=arr.indexOf(i);if(idx>=0)arr.splice(idx,1);else arr.push(i);if(u.tasks.every((_,j)=>arr.includes(j)))progressFor(id).days[dayKey()]=true;else delete progressFor(id).days[dayKey()];save();renderUse(id);updateActiveStrip()}
+function renderCollection(){const selectedPartners=state.selected.map(byId).filter(Boolean),running=selectedPartners.filter(p=>started(p.id)),later=selectedPartners.filter(p=>!started(p.id)),favOnly=state.favorites.map(byId).filter(p=>p&&!selected(p.id));const item=(p,mode)=>`<div class="collection-item"><div class="cicon">${visualFor(p,'small')}</div><div><strong>${p.name}</strong><span class="statusline">${mode==='running'?companionStatus(p.id):mode==='later'?'还没开始':'已收藏'}</span></div>${mode==='running'?`<button data-use="${p.id}">继续</button>`:mode==='later'?`<button data-start="${p.id}">开始</button>`:`<button class="detail-link" data-open="${p.id}">详情</button>`}</div>`;document.getElementById('collectionBody').innerHTML=`<section class="collection-hero"><h2>我的搭子</h2><p>想继续的、想试试的，都放在这里。</p></section><section class="collection-section collection-group"><div class="sectionhead"><div><div class="sectiontitle">正在陪伴</div></div></div><div class="collection-list">${running.length?running.map(p=>item(p,'running')).join(''):`<div class="empty">还没有正在陪伴的搭子。</div>`}</div></section><section class="collection-section collection-group"><div class="sectionhead"><div><div class="sectiontitle">想试试</div></div></div><div class="collection-list">${later.length?later.map(p=>item(p,'later')).join(''):`<div class="empty">在搭子馆点“加入”，会先放到这里。</div>`}</div></section>${favOnly.length?`<section class="collection-section collection-group"><div class="sectionhead"><div><div class="sectiontitle">收藏</div></div></div><div class="collection-list">${favOnly.map(p=>item(p,'fav')).join('')}</div></section>`:''}`}
+function renderToday(){const id=currentPartnerId()||state.selected[0];document.getElementById('todayBody').innerHTML=id?`<section class="section" style="padding-top:12px"><div class="sectionhead"><div><div class="sectiontitle">今天，继续这一步</div><div class="sectiondesc">不用重新开始，接着来。</div></div></div><div class="current-card"><div class="recent-icon">${visualFor(byId(id),'small')}</div><div><strong>${byId(id).name}</strong><p>${started(id)?companionStatus(id):metaOf(byId(id)).benefit}</p></div><button ${started(id)?`data-use="${id}"`:`data-start="${id}"`}>${started(id)?'继续':'开始'}</button></div></section>`:`<div class="empty" style="margin-top:24px">今天还没有正在陪伴的搭子。<br>去搭子馆挑一个开始。</div>`}
+function renderProfile(){const selectedPartners=state.selected.map(byId).filter(Boolean),running=selectedPartners.filter(p=>started(p.id)),later=selectedPartners.filter(p=>!started(p.id));document.getElementById('profileBody').innerHTML=`<section class="collection-section" style="padding-top:12px"><div class="sectionhead"><div><div class="sectiontitle">正在陪伴</div><div class="sectiondesc">回来时，继续原来的位置。</div></div><button class="more" data-nav="store">去搭子馆 →</button></div><div class="collection-list">${running.length?running.map(p=>`<div class="collection-item"><div class="cicon">${visualFor(p,'small')}</div><div><strong>${p.name}</strong><span class="statusline">${companionStatus(p.id)}</span></div><button data-use="${p.id}">继续</button></div>`).join(''):`<div class="empty">还没有正在陪伴的搭子。</div>`}</div></section>${later.length?`<section class="collection-section"><div class="sectionhead"><div><div class="sectiontitle">想试试</div></div></div><div class="collection-list">${later.map(p=>`<div class="collection-item"><div class="cicon">${visualFor(p,'small')}</div><div><strong>${p.name}</strong><span class="statusline">尚未开始</span></div><button data-start="${p.id}">开始</button></div>`).join('')}</div></section>`:''}`}
+function openCollection(){renderCollection();setSession({view:state.view,overlay:'collection',utility:null});document.getElementById('collection').classList.add('open');document.body.style.overflow='hidden'}
+function closeCollection(){document.getElementById('collection').classList.remove('open');setSession({view:state.view,overlay:null,utility:null});document.body.style.overflow='';updateActiveStrip()}
+function openUtility(type){const p=byId(state.active),u=usageFor(p);setSession({view:state.view,overlay:'utility',partnerId:state.active,utility:type});document.getElementById('utilityTitle').textContent=`${p.name} · ${type}`;let html='';if(type==='教练')html=`<p class="utility-copy">今天卡在哪里？写一句就好。</p><textarea id="coachInput" placeholder="比如：我知道要做，但就是不想开始……"></textarea><button class="btn btn-primary btn-wide" style="margin-top:10px" id="coachSend">聊一聊</button><div id="coachReply"></div>`;if(type==='自检')html=`<p class="utility-copy">现在更接近哪一种状态？</p><div class="check-options">${['有点累，想先轻一点','状态还可以，想继续','卡住了，需要重新找下一步'].map(x=>`<button data-check="${x}">${x}</button>`).join('')}</div>`;if(!['教练','自检','进展','分享'].includes(type))html=`<p class="utility-copy">把今天最想留下的一句话写下来。</p><textarea id="noteInput" placeholder="今天发生了什么？">${state.notes[p.id]||''}</textarea><button class="btn btn-primary btn-wide" style="margin-top:10px" id="noteSave">保存</button>`;if(type==='进展'){const done=Object.values(progressFor(p.id).days).filter(Boolean).length;html=`<div class="share-card"><strong>${done} 天</strong><p>已经留下的陪伴记录。不是连续才算，回来就算。</p></div>`}if(type==='分享')html=`<div class="share-card"><strong>${p.name}</strong><p>${metaOf(p).benefit}</p><p>今天，我又走了一小步。</p></div><button class="btn btn-light btn-wide" style="margin-top:10px" id="copyShare">复制分享文案</button>`;document.getElementById('utilityBody').innerHTML=html;document.getElementById('utility').classList.add('open')}
+function closeUtility(){document.getElementById('utility').classList.remove('open');setSession({view:state.view,overlay:'use',partnerId:state.active,utility:null});updateActiveStrip()}
+function handleUtilityClick(e){const p=byId(state.active),u=usageFor(p);if(e.target.id==='coachSend'){const v=document.getElementById('coachInput').value.trim();document.getElementById('coachReply').innerHTML=`<div class="coach-card"><p>${v?u.coach:'先写一句现在最卡的地方，我会陪你一起拆小。'}</p></div>`}if(e.target.dataset.check){state.selfcheck[p.id]=e.target.dataset.check;save();toast('记下了')}if(e.target.id==='noteSave'){state.notes[p.id]=document.getElementById('noteInput').value;save();toast('已保存')}if(e.target.id==='copyShare'){const text=`${p.name}｜${metaOf(p).benefit}
+今天，我又走了一小步。`;navigator.clipboard?.writeText(text);toast('分享文案已复制')}}
+
+load();updateBagCounts();renderNeeds();renderHomeReco();renderRecent();renderDomains();renderSeries();renderUpcoming();renderStore();renderCollection();renderToday();renderProfile();updateActiveStrip();
+function restoreSession(){const s=state.session||{};setView(s.view||'home',true);if(s.overlay==='use'&&s.partnerId&&byId(s.partnerId)){renderUse(s.partnerId,true)}else if(s.overlay==='utility'&&s.partnerId&&byId(s.partnerId)){renderUse(s.partnerId,true);setTimeout(()=>openUtility(s.utility||'教练'),20)}else if(s.overlay==='detail'&&s.partnerId&&byId(s.partnerId)){renderDetail(s.partnerId)}else if(s.overlay==='collection'){openCollection()}else updateActiveStrip()}
+restoreSession();
+document.addEventListener('click',e=>{const reserveBtn=e.target.closest('[data-reserve]');if(reserveBtn){reserve(reserveBtn.dataset.reserve);return}const fav=e.target.closest('[data-favorite]');if(fav){toggleFavorite(fav.dataset.favorite);return}const add=e.target.closest('[data-add]');if(add){e.stopPropagation();toggleSelected(add.dataset.add);return}const need=e.target.closest('[data-need]');if(need){state.need=need.dataset.need;renderNeeds();renderHomeReco();return}const domain=e.target.closest('[data-domain]');if(domain){openStore(domain.dataset.domain,'','all');return}const dfilter=e.target.closest('[data-domain-filter]');if(dfilter){state.domain=dfilter.dataset.domainFilter;state.mode='all';state.q='';renderStore();return}const mode=e.target.closest('[data-mode]');if(mode){state.mode=mode.dataset.mode;state.q='';if(state.mode==='series')state.series='wealth';renderStore();return}const series=e.target.closest('[data-series]');if(series){openSeries(series.dataset.series);return}const open=e.target.closest('[data-open]');if(open){renderDetail(open.dataset.open);return}const start=e.target.closest('[data-start]');if(start){openUse(start.dataset.start);return}const use=e.target.closest('[data-use]');if(use){closeCollection();openUse(use.dataset.use);return}const task=e.target.closest('[data-task]');if(task){toggleTask(Number(task.dataset.task));return}const tool=e.target.closest('[data-tool]');if(tool){openUtility(tool.dataset.tool);return}const nav=e.target.closest('[data-nav]');if(nav){setView(nav.dataset.nav);return}if(e.target.closest('[data-collection]')){openCollection();return}handleUtilityClick(e)});
+document.getElementById('detailBack').onclick=()=>{document.getElementById('detail').classList.remove('open');setSession({view:state.view,overlay:null,utility:null});document.body.style.overflow='';updateActiveStrip()};document.getElementById('useBack').onclick=()=>{document.getElementById('usePage').classList.remove('open');document.body.style.overflow='';setSession({view:state.returnView||state.view,overlay:null,utility:null,partnerId:state.active});setView(state.returnView||state.view,true);renderRecent();renderToday();renderProfile();updateActiveStrip()};document.getElementById('collectionBack').onclick=closeCollection;document.getElementById('utilityClose').onclick=closeUtility;
+document.getElementById('homeSearch').addEventListener('keydown',e=>{if(e.key==='Enter')openStore('all',e.target.value,'all')});document.getElementById('homeSearchBottom').addEventListener('keydown',e=>{if(e.key==='Enter')openStore('all',e.target.value,'all')});document.getElementById('homeSearchGo').onclick=()=>openStore('all',document.getElementById('homeSearchBottom').value,'all');document.getElementById('storeSearch').addEventListener('input',e=>{state.q=e.target.value;state.domain='all';state.mode='all';renderStore()});
+document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(document.getElementById('utility').classList.contains('open'))closeUtility();else if(document.getElementById('collection').classList.contains('open'))closeCollection();else if(document.getElementById('usePage').classList.contains('open')){document.getElementById('usePage').classList.remove('open');setSession({view:state.view,overlay:null,partnerId:state.active})}else if(document.getElementById('detail').classList.contains('open')){document.getElementById('detail').classList.remove('open');setSession({view:state.view,overlay:null})}});
+
+const usePanel=document.querySelector('#usePage .panel');let scrollTimer=null;usePanel.addEventListener('scroll',()=>{clearTimeout(scrollTimer);scrollTimer=setTimeout(()=>{if(document.getElementById('usePage').classList.contains('open'))setSession({useScroll:usePanel.scrollTop,partnerId:state.active,overlay:'use'})},120)});
+window.addEventListener('pagehide',()=>{if(document.getElementById('usePage').classList.contains('open'))state.session={...state.session,overlay:'use',partnerId:state.active,useScroll:usePanel.scrollTop};save()});
+window.addEventListener('beforeunload',()=>{if(document.getElementById('usePage').classList.contains('open'))state.session={...state.session,overlay:'use',partnerId:state.active,useScroll:usePanel.scrollTop};save()});
+
 </script>
-</body>
-</html>
+</body></html>
