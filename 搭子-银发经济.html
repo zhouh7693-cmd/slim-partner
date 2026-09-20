@@ -467,6 +467,17 @@
     .qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; }
     .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#1f2937; }
     .qa-close-x:active { background:rgba(0,0,0,0.18); }
+
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
 </style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
@@ -545,46 +556,19 @@
   <div id="dashboard" style="display:none;" data-page-node-id="vfVuMQwF3UeaHGW2orLVwx">
     <div class="card" data-page-node-id="gI3hNZcUZw72CR8YWSS3jB">
       <div id="currentPartnerBadge" class="partner-badge" data-page-node-id="SNIyjCea6spPzEne4n0Ft5">🌅 同行者型</div>
-      <div class="question" data-page-node-id="wEsKAfr6GSIgeRSGYgBfj2">今天，你走访或兑现了什么？</div>
-      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="wTTlRGFIFkGdUY9EwMKngh">
-        <div class="checkin-status" id="checkinStatusText" data-page-node-id="21ouhoXvil26CEMF6bq4XH">签到</div>
-        <div class="checkin-sub" data-page-node-id="X1CbQcxbv3N652HjR5onOd">点击打卡</div>
-      </div>
-      <div class="continuous" id="continuousDays" data-page-node-id="jpFCHusbFg0AaBowUsiMsw">0</div>
-      <div class="continuous-label" data-page-node-id="mLCDsaAvtYoLih8wGrvcck">连续打卡天数</div>
+      <div class="question" data-page-node-id="wEsKAfr6GSIgeRSGYgBfj2">今日份的小改变，准备就绪</div>
+      <div class="today-checkin" id="checkinBtn" onclick="doCheckin()"><span class="checkin-status" id="checkinStatusText" style="font-size:20px;">签到</span><span class="checkin-sub">愿意来，就已经在变好</span></div>
+      <div class="today-status"><div class="ts-days"><span class="ts-num" id="continuousDays">0</span><span class="ts-label">天连续</span></div><div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;"><span id="weekRange"></span> · 这一周</div><div class="week-dots" id="weekDots"></div></div></div>
     </div>
 
     <!-- 搭子消息区 -->
-    <div class="chat-area" id="chatArea" data-page-node-id="EtrERTHm90cCoHu4zzaToP"></div>
+    <div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);"><div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个关键小动作</div><div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div><div class="famk3list"></div></div><div style="max-width:420px;margin:0 auto 14px;"><button class="talk-btn" style="width:100%;" onclick="openSceneSheet()">💭 今天发生了什么</button></div><button class="talk-btn" style="margin-top:14px;width:100%;" onclick="copyStats()">📋 分享战绩</button><div class="chat-area" id="chatArea" data-page-node-id="EtrERTHm90cCoHu4zzaToP"></div>
 
     <!-- 本周进度 -->
-    <div class="week-progress" data-page-node-id="3ZaueiZIuNLzv7IHjHCXsQ">
-      <div class="week-title" data-page-node-id="CeXcrsXcBdsG2qJ8ei0i1v"><span data-page-node-id="TpGojX3oUV8HcqI1QqMMfJ">📅 本周进度</span><span id="weekRange" data-page-node-id="zZTEnHhGTBm0yWpwB802la"></span></div>
-      <div class="week-dots" id="weekDots" data-page-node-id="Veunh6ZNmgA1jaGVR8f0Zw"></div>
-      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyStats()" data-page-node-id="e9J7Vbjse5NHxWHXwjC9sD">📋 复制战绩</button>
-    </div>
+    
 
     <!-- 搭子交互（仪表盘底部） -->
-    <div class="interaction-panel" data-page-node-id="C1MrpGyLfG7k0LTekRhlRd">
-      <div class="panel-label" data-page-node-id="Dq2Iu6gex8II6hTNvQ6H8Z">💬 和搭子说说话</div>
-      <div class="mood-row" data-page-node-id="YHvo0sfWHcPl3l3GypPlhm">
-        <div class="mood-btn" data-mood="happy" title="开心" data-page-node-id="PNavE7qCJWLJgMrpDeICFT">😄</div>
-        <div class="mood-btn" data-mood="neutral" title="平静" data-page-node-id="aJIl28dtOfQCggRPDCyjSF">😌</div>
-        <div class="mood-btn" data-mood="sad" title="低落" data-page-node-id="ON6ZIuCUuhZoviEF7wyrHm">😔</div>
-        <div class="mood-btn" data-mood="tired" title="累了" data-page-node-id="kjI6JC3BdxuxQ5iYEGvl16">😫</div>
-      </div>
-      <div class="talk-btn-row" data-page-node-id="ZVzbShUh46BBErg7hbMsAO">
-        <button class="talk-btn" data-type="progress" data-page-node-id="HvT81sJFQCfkJW97Dz5Umu">📈 进展</button>
-        <button class="talk-btn" data-type="struggle" data-page-node-id="FXHDMDXwTEqAnOXDGN3Htl">😣 困难</button>
-        <button class="talk-btn" data-type="idea" data-page-node-id="gUGNq5TURLeknyba27iXo2">💡 想法</button>
-        <button class="talk-btn" data-type="cheer" data-page-node-id="vNxloubEW5jZ1mp7dnPuXH">🎉 喜事</button>
-      </div>
-      <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="WEpG8Ub3GhdLFJfMd7wPHM">
-        <button class="talk-btn" data-type="report" data-page-node-id="rqvxCAxL64P54LdREmJCUk">📣 汇报进展</button>
-        <button class="talk-btn" data-type="question" data-page-node-id="5MHlCrCf6dtkLfMIu7vRim">🤔 有问题想问</button>
-      </div>
-    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene">💭 今天发生了什么</button></div>
-    </div>
+    
 
     <!-- 分享入口 -->
     
@@ -3668,7 +3652,22 @@ function openSceneFB(idx, type) {
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
+      function fbDefault(t){
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    var t2 = t.replace(/^[0-9]{1,2}[、..\s]+/, '').replace(/^[\u2460-\u2473]\s*/, '').replace(/^[0-9]\uFE0F?\u20E3[、..\s]*/, '');
+    var m = t2.match(/^([^：:（(]{2,24})(（=([^）]+)）)?[:：]?\s*(.+)$/);
+    var quote = t2.length <= 30;
+    var name = quote ? t2 : (m && m[1] ? m[1] : t2.slice(0, 20) + '…');
+    var def = m && m[3] ? m[3] : '';
+    var body = m && m[4] ? m[4] : t2;
+    var short = body.length > 44 ? body.slice(0, 44) + '…' : body;
+    return [
+      ['🧠 认知 · 为什么记住它', def ? ('这条你自己给的定义是：' + def + '。把「' + name + '」记下来，就是把这个判断变成随时可调用的标准，下次遇到同类场景不用从零纠结。') : (quote ? ('这是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。') : ('「' + name + '」是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。'))],
+      ['🎯 行为 · 怎么做', '下次遇到对应场景，按这条执行一次最小版本：' + short + ' 先做一次，再对比老做法的结果。'],
+      ['⚠️ 易错点', '只收藏不执行——这条的价值要在一次次具体决策里兑现，而不是躺在卡片里。'],
+      ['🔧 怎么调整', '每周回看一次：最近的决策有没有真的用到它？没用上的场景，就是下周要练的场景。']
+    ];
+  }
   window.__CC_DB = {"记住三个数：3.2亿老人、8万亿市场规模、年均20%增速——2035年将破30万亿": [["🧠 认知 · 为什么", "赛道判断先看总量与斜率：60岁以上人口超3.1亿（占总人口22%）且持续攀升，银发经济从「夕阳印象」变成确定性最高的增量市场——记住三个数，你就有了对话的话语权和判断的坐标系。"], ["🎯 行为 · 怎么做", "把三个数字写进备忘录并各查一次权威出处（统计局/行业白皮书），今天能脱稿说出，与任何人对银发话题不再凭感觉。"], ["⚠️ 易错点", "只记总数不看结构——高龄段（80+）增速最快、失能照护需求最刚性；分年龄段看才有商业含义。"], ["✅ 确认", "三个数+出处，能脱口而出；下次和人聊起银发经济，你引用的是数字还是印象。"]], "研究政策红利：长护险全国铺开、适老化改造补贴、社区养老驿站专项经费": [["🧠 认知 · 为什么", "银发赛道是「政策驱动型市场」：长护险试点扩围直接决定照护服务的支付能力，补贴决定客户从哪来——读懂支付方（政府/保险）比读懂用户更先行。"], ["🎯 行为 · 怎么做", "本周研究本地的三个政策：长护险在本市的落地状态/适老化改造补贴的申请条件/养老驿站的建设规划，各写三条要点。"], ["⚠️ 易错点", "只看国家文件不看落地细则——补贴能不能拿到、怎么申请、找哪个部门，全在区级执行层面。"], ["✅ 确认", "能说出本地长护险的覆盖人群和报销上限；这三个政策里哪条离你的切入点最近。"]], "走访社区：跟10位老人和他们的子女聊需求，痛点长在聊天里": [["🧠 认知 · 为什么", "银发需求的最大陷阱是「子女视角替代老人视角」：真实需求（不想麻烦子女/社交孤独/害怕失能）藏在闲聊里，问卷问不出来——《The Mom Test》的老年版。"], ["🎯 行为 · 怎么做", "本周去2个社区，各聊5位老人+3位子女，只问过去行为：「上次需要帮忙是什么事？谁帮的？花了多少钱/人情？」"], ["⚠️ 易错点", "把礼貌当需求（「挺好的，没啥需要」）——老人报喜不报忧是常态，观察他们「自己凑合的办法」才是真痛点。"], ["✅ 确认", "10位聊完了吗；记下≥3个「他们自己凑合的土办法」——每个土办法背后都是一个没被满足的需求。"]], "从轻资产赛道切入：文娱社群/旅居康养/代际融合/健康管理/适老化改造/上门照护/智能硬件": [["🧠 认知 · 为什么", "重资产养老机构是资本和政策的游戏：轻资产（服务/内容/社群）用运营能力换生存空间，验证快、试错便宜——个人和小团队的标准起手式。"], ["🎯 行为 · 怎么做", "把7个赛道按「我的资源匹配度×需求刚性」打分排序，选出前2个，各找1个已运营的同行深聊一次（成本/获客/复购）。"], ["⚠️ 易错点", "按「市场规模」选赛道不按「自己够得着」选——8万亿的市场和你没关系，你所在城市那个细分的需求密度才和你有关系。"], ["✅ 确认", "两个候选赛道已确定；每个赛道至少和一个从业者聊过真实账本。"]], "小步试点：先服务10位老人，跑通服务与口碑": [["🧠 认知 · 为什么", "银发服务的验证单位是「人」不是「模式」：10位真实老人能暴露交付全流程的坑（沟通方式/信任建立/服务边界），比任何商业计划书都诚实。"], ["🎯 行为 · 怎么做", "定义最小服务包（一件具体的小事做到极致），免费或成本价服务10位，每人建立服务档案：需求/反馈/复购意愿，两周内完成。"], ["⚠️ 易错点", "试点追求「收费证明商业模式」——第一轮目标是跑通交付和口碑，收费是第二轮的事，顺序反了两边都做不好。"], ["✅ 确认", "10位老人的服务档案建好了吗；其中几位主动问过「下次什么时候来」。"]], "算清账：启动资金、补贴路径、复购模型，轻资产滚动": [["🧠 认知 · 为什么", "银发生意的账有三个特殊性：补贴是收入的一部分（要会申请）、复购靠信任积累（慢启动）、现金流要按「补贴滞后到账」规划——算清账才能轻资产滚动。"], ["🎯 行为 · 怎么做", "写一页账：启动资金清单/可申请补贴及到账周期/单客服务成本与复购频次，算出「补贴到账前能撑几个月」。"], ["⚠️ 易错点", "把补贴当确定性收入做规划——补贴有周期和不确定性，账要按「没有补贴也能活」做底线。"], ["✅ 确认", "这一页账写好了；「零补贴情景」下你的现金流是正的吗。"]], "把口碑做成转介绍：服务好一位老人，撬动一个社区": [["🧠 认知 · 为什么", "老年社区是高信任密度网络：一位老人的真实好评会在老姐妹饭桌上放大十倍；银发获客的最低成本路径不是广告，是把每一位服务对象变成传播节点。"], ["🎯 行为 · 怎么做", "给每位服务对象做「可展示的成果」（一次改变/一张对比/一个健康数据），并设计自然转介绍点：「隔壁阿姨要是也需要，您带她来我加一次」。"], ["⚠️ 易错点", "用补贴/红包买转介绍——钱买来的介绍没有信任背书；老人推荐的是「人」不是「服务」，先做人才做事。"], ["✅ 确认", "最近一位服务对象给你带来了几位新客户；他们是「被谁的一句话打动」来的。"]], "对接长护险定点与政府补贴，让现金流有托底": [["🧠 认知 · 为什么", "成为长护险定点机构=接入政府支付方：订单稳定、回款有保障、且自带信任背书——这是银发服务里最接近「托底」的现金流来源。"], ["🎯 行为 · 怎么做", "查清本地定点机构的准入条件（资质/场地/人员证照），列一张差距清单，按季度逐项补齐，同时先承接定点机构的分包订单切入。"], ["⚠️ 易错点", "等资质齐了再入局——分包和合作是「边干边达标」的现实路径，资质周期长达数年，纯等待会错过窗口。"], ["✅ 确认", "准入差距清单写好了吗；本地有哪些定点机构可以先谈分包。"]], "深耕一个社区，做成标杆再复制": [["🧠 认知 · 为什么", "养老服务的规模陷阱：铺10个社区每个都做60分，不如1个社区做到95分——标杆社区的价值是可复制的完整打法（信任模式/服务SOP/转介绍引擎）。"], ["🎯 行为 · 怎么做", "选一个社区深耕6个月：覆盖率/复购率/口碑推荐率三个指标逐月看，把每一步沉淀成手册，复制的条件是「新人照手册能做80分」。"], ["⚠️ 易错点", "一个社区还没做透就见异思迁——银发的信任周期长，半年是底线，频繁换阵地等于清零重来。"], ["✅ 确认", "深耕社区选定了哪个；它的三个指标本月分别是多少。"]]};
   function fbFor(txt){
     

@@ -463,7 +463,18 @@
     .fb-partner-label { font-size: 11px; color: #8f9eae; margin-bottom: 6px; font-style: normal; font-weight: 600; }
     .fb-btn { background: #7e57c2; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
-  </style>
+  
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
+</style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body>
@@ -541,46 +552,19 @@
   <div id="dashboard" style="display:none;">
     <div class="card">
       <div id="currentPartnerBadge" class="partner-badge">🌷 温柔知性型</div>
-      <div class="question">今天，你坚持了吗？</div>
-      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()">
-        <div class="checkin-status" id="checkinStatusText">签到</div>
-        <div class="checkin-sub">点击打卡</div>
-      </div>
-      <div class="continuous" id="continuousDays">0</div>
-      <div class="continuous-label">连续打卡天数</div>
+      <div class="question">今日份的小改变，准备就绪</div>
+      <div class="today-checkin" id="checkinBtn" onclick="doCheckin()"><span class="checkin-status" id="checkinStatusText" style="font-size:20px;">签到</span><span class="checkin-sub">愿意来，就已经在变好</span></div>
+      <div class="today-status"><div class="ts-days"><span class="ts-num" id="continuousDays">0</span><span class="ts-label">天连续</span></div><div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;"><span id="weekRange"></span> · 这一周</div><div class="week-dots" id="weekDots"></div></div></div>
     </div>
 
     <!-- 搭子消息区 -->
-    <div class="chat-area" id="chatArea"></div>
+    <div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);"><div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个关键小动作</div><div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div><div class="famk3list"></div></div><div style="max-width:420px;margin:0 auto 14px;"><button class="talk-btn" style="width:100%;" onclick="openSceneSheet()">💭 今天发生了什么</button></div><button class="talk-btn" style="margin-top:14px;width:100%;" onclick="copyStats()">📋 分享战绩</button><div class="chat-area" id="chatArea"></div>
 
     <!-- 本周进度 -->
-    <div class="week-progress">
-      <div class="week-title"><span>📅 本周进度</span><span id="weekRange"></span></div>
-      <div class="week-dots" id="weekDots"></div>
-      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyStats()">📋 复制战绩</button>
-    </div>
+    
 
     <!-- 搭子交互（仪表盘底部） -->
-    <div class="interaction-panel">
-      <div class="panel-label">💬 和搭子说说话</div>
-      <div class="mood-row">
-        <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
-        <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
-        <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
-        <div class="mood-btn" onclick="sendMood('tired')" title="累了">😫</div>
-      </div>
-      <div class="talk-btn-row">
-        <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
-        <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
-        <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
-        <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
-      </div>
-      <div class="talk-btn-row" style="margin-top:8px;">
-        <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
-        <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
-      </div>
-      <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" onclick="askPartner('scene')">💭 今天发生了什么</button></div>
-    </div>
+    
 
 
     
@@ -4052,7 +4036,22 @@ function scrollToBottom() {
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
+      function fbDefault(t){
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    var t2 = t.replace(/^[0-9]{1,2}[、..\s]+/, '').replace(/^[\u2460-\u2473]\s*/, '').replace(/^[0-9]\uFE0F?\u20E3[、..\s]*/, '');
+    var m = t2.match(/^([^：:（(]{2,24})(（=([^）]+)）)?[:：]?\s*(.+)$/);
+    var quote = t2.length <= 30;
+    var name = quote ? t2 : (m && m[1] ? m[1] : t2.slice(0, 20) + '…');
+    var def = m && m[3] ? m[3] : '';
+    var body = m && m[4] ? m[4] : t2;
+    var short = body.length > 44 ? body.slice(0, 44) + '…' : body;
+    return [
+      ['🧠 认知 · 为什么记住它', def ? ('这条你自己给的定义是：' + def + '。把「' + name + '」记下来，就是把这个判断变成随时可调用的标准，下次遇到同类场景不用从零纠结。') : (quote ? ('这是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。') : ('「' + name + '」是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。'))],
+      ['🎯 行为 · 怎么做', '下次遇到对应场景，按这条执行一次最小版本：' + short + ' 先做一次，再对比老做法的结果。'],
+      ['⚠️ 易错点', '只收藏不执行——这条的价值要在一次次具体决策里兑现，而不是躺在卡片里。'],
+      ['🔧 怎么调整', '每周回看一次：最近的决策有没有真的用到它？没用上的场景，就是下周要练的场景。']
+    ];
+  }
   window.__CC_DB = {"每天防晒+基础护肤三步不走样": [["🧠 认知 · 为什么", "皮肤老化约80%归因于光老化（UV），防晒是性价比最高的抗老手段，没有之一；护肤的有效性取决于「每天做」，不取决于产品贵贱。"], ["🎯 行为 · 怎么做", "把三步（清洁-保湿-防晒）绑在早晨刷牙之后：刷完牙→洗脸→保湿→防晒，阳光季出门前15分钟补一次。"], ["⚠️ 易错点", "阴天/室内不防晒——UVA可穿透云层和玻璃，全年防晒才是防晒，季节性防晒只是半个防晒。"], ["✅ 确认", "本周执行率≥6天；问自己：出门前「涂了吗」这个动作还需要想吗，还是已经自动了。"]], "• 靠墙站5分钟，找到挺拔的中立位": [["🧠 认知 · 为什么", "体态是形象的底座：圆肩探颈在视觉上直接削弱气场和状态感；靠墙站立（头/肩/臀/脚跟四点贴墙）是最简单的中立位校准训练。"], ["🎯 行为 · 怎么做", "每天固定锚点（刷牙时/午饭后）靠墙站5分钟：后脑、双肩、臀部贴墙，下巴微收，腹式呼吸。"], ["⚠️ 易错点", "只站不迁移——墙上的挺拔要带走：白天设2个手机提醒，收到提醒就检查一次耳肩髋是否一线。"], ["✅ 确认", "本周≥5天完成；自然站立体检：侧面照片里耳、肩、髋是否接近一条垂线。"]], "• 每周固定拍照记录形象，只记录不评价": [["🧠 认知 · 为什么", "自我形象的记忆是失真的（身体意象研究：多数人对自己的评估偏离照片证据）：固定影像记录提供客观基线，进步才可见，退化才有警报。"], ["🎯 行为 · 怎么做", "每周同一时间同一地点同一着装拍三张（正/侧/背），存进固定相册，规则是只记录，两周后才允许对比。"], ["⚠️ 易错点", "拍完当天就开始批判——单张照片会放大瑕疵，趋势只在对比里；评价留给「隔两周的对比时刻」。"], ["✅ 确认", "本周照片已入册；两周后的对比里，你最想改善的一个点是什么。"]], "全身颜色不过三，买衣先想搭配场景": [["🧠 认知 · 为什么", "色彩心理学的实用结论：全身颜色≤3种时观感最「贵」，因为视觉焦点会落在人身上而不是衣服上；「买时想象场景」能砍掉70%的衣橱废料。"], ["🎯 行为 · 怎么做", "本周做两件事：衣柜按场景分三堆（通勤/休闲/正式），每套搭配数颜色；购物车里的衣服逐件问「它和现有三件能搭吗」。"], ["⚠️ 易错点", "单品好看≠搭配好看——没有场景的「喜欢」是衣橱负债，买前场景测试：明天穿它去哪。"], ["✅ 确认", "本周出门搭配颜色≤3；最近一次购物决定，是被「场景」说服或否决的吗。"]], "• 每周3次体态训练（靠墙站/YTW/颈肩拉伸）": [["🧠 认知 · 为什么", "圆肩驼背的本质是肌力失衡：胸肌和颈前紧、上背弱；YTW和拉伸用每周30分钟就能逆转失衡，体态改善的投入产出比全形象项目里最高。"], ["🎯 行为 · 怎么做", "日历固定3个时段（如周一三五晚），每次10分钟：靠墙站3分钟+YTW各15次×2组+颈肩拉伸3分钟。"], ["⚠️ 易错点", "练三天就照镜子找变化——体态肌群适应以月计，指标是「主动挺直后维持的时间变长」，不是镜子里的一周。"], ["✅ 确认", "本周3次完成；工作日的自然体态，被同事或镜子提醒「挺拔了」的次数有没有增加。"]], "• 睡眠保证7~8小时，皮肤修复靠深睡": [["🧠 认知 · 为什么", "皮肤屏障修复与胶原合成集中在深睡期进行（生长激素夜间脉冲）；连续睡眠不足的实验组在他人眼中「颜值与吸引力」评分显著下降（睡眠剥夺研究）。"], ["🎯 行为 · 怎么做", "从固定起床时间倒推入睡点，睡前1小时停用手机（蓝光推迟褪黑素）；把「睡够」当护肤步骤的一部分写进流程。"], ["⚠️ 易错点", "靠周末补觉救脸——熬夜的急性损伤（浮肿/暗沉）第二天就显现，节律紊乱的慢性伤害补觉救不了。"], ["✅ 确认", "本周≥5天睡够7小时；第二天素颜的皮肤状态，你记录对比过吗。"]], "建立胶囊衣橱，场合着装零纠结": [["🧠 认知 · 为什么", "决策疲劳研究：每个清晨的「穿什么」都在消耗意志力预算；胶囊衣橱（少量高兼容单品互相全兼容）用一次性筛选买回每天10分钟和满格的决策力。"], ["🎯 行为 · 怎么做", "定场景清单（通勤/休闲/正式各需几套），清出全兼容核心单品，本周先淘汰「一年没穿且无法搭配」的10件。"], ["⚠️ 易错点", "胶囊衣橱一次买齐——先用现有衣服做兼容测试，确认了自己的真实场景和色系再补买。"], ["✅ 确认", "本周 mornings 的穿搭决策时间缩短了吗；清出的那10件，今天还在占地方吗。"]], "• 建立表达复盘清单（语速/倾听/语气词）": [["🧠 认知 · 为什么", "形象不止于视觉：表达状态（语速稳/少语气词/真倾听）占他人印象形成的比重被严重低估；录音回听是表达形象最残酷也最有效的镜子。"], ["🎯 行为 · 怎么做", "本周录一段自己即兴说1分钟的话，回听只标三个问题：语速是否赶？「嗯那个」出现几次？有没有打断/抢话模式。"], ["⚠️ 易错点", "回听陷入自我厌恶——清单的目的是定一个本周只改的点（如砍掉一半「然后」），逐周迭代。"], ["✅ 确认", "录音已完成、三问已标注；本周要改的那「一个点」是什么，下周回听时验证。"]], "• 设定形象预警线（连熬3天=启动修复方案）": [["🧠 认知 · 为什么", "形象崩塌不是渐变而是「破窗」：一次熬夜引发浮肿→第二天不想收拾→状态进一步下滑；预警线把「破窗」拦截在第一扇窗。"], ["🎯 行为 · 怎么做", "写下你的预警线和预案：「若连熬3天/连3天没护肤→第4天强制：早睡+补水面膜+三次靠墙站+一身最省心的套装」。"], ["⚠️ 易错点", "状态差时放弃收拾（反正都这样了）——恰恰是低状态日的基础打理在止损，破罐破摔才是形象负债的复利。"], ["✅ 确认", "预警线和预案已写死在备忘录；最近一次触发时，你启动预案了吗。"]]};
   function fbFor(txt){
     

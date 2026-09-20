@@ -216,6 +216,17 @@ body {
     .daily-tip-swap { margin-left: auto; font-size: 11px; color: #0f766e; cursor: pointer; text-decoration: underline; }
     /* === 时段徽章 === */
     .time-badge { display: inline-block; margin-top: 8px; padding: 4px 10px; background: rgba(255,255,255,0.7); border-radius: 12px; font-size: 12px; color: #0f766e; font-weight: 600; backdrop-filter: blur(4px); }
+
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
 </style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
@@ -230,7 +241,7 @@ body {
       <div id="partnerStyleB" style="text-align:center;font-size:12px;color:#0d9488;margin-top:4px;"></div>
     </div>
     <div id="partnerChatArea" style="min-height:60px;max-height:200px;overflow-y:auto;margin-bottom:14px;padding:4px 0;"></div>
-<div class="wrap" data-page-node-id="e2U1bBnRqcCsVUyCGthhp8"><div id="dashboard" style="display:none;" data-page-node-id="lr92pBb5y4WyfCAJ5JEZQj"><div class="card" style="text-align:center;" data-page-node-id="gN3Fz0U1FxDHFypA2tGHJz"><div id="currentPartnerBadge" class="partner-badge" data-page-node-id="CwcUdLigo35u3AkKoUbJze">🌿 温和提醒型</div><div class="question" style="font-size:17px;font-weight:700;color:#0f172a;margin-top:4px;" data-page-node-id="IDmHUQsvvOY0Qz7BYzUhDc">今天，做一件对自己身体好的小事</div><div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="VndnssmuVyusxqZzCzGSzf"><div class="checkin-status" id="checkinStatusText" data-page-node-id="uDB9IxH7bdELQcD0fgm2kb">已打卡</div><div class="checkin-sub" id="checkinSubText" data-page-node-id="UWWUV2AyBWkfMmLnyRcTLh">点击完成</div></div><div class="streak-num" id="streakNum" data-page-node-id="mCwhbOoCaJXcUHFapaUl2E">0</div><div class="streak-label" data-page-node-id="Lz881awcNcWXam2rrklS2s">连续天数 · 断签不清零</div></div><div class="chat-area" id="chatArea" data-page-node-id="CCakN0w8FP9LRSzGFH26fY"></div><div class="week-progress" data-page-node-id="ky0AHQyoTfvuIgZVs0LD05"><div class="week-title" data-page-node-id="WEdjBiJ4MNGkwN1DWBcCUk"><span data-page-node-id="5bdWeAWm7cPVrAwPfemjVQ">📅 本周</span><span id="weekRange" data-page-node-id="xjsEB1uyn7FRx8MEBgKJNa"></span></div><div class="week-dots" id="weekDots" data-page-node-id="Zsg05NhUndO2DiP2HhF3RS"></div></div></div><!-- 今天提醒自己（按时段区分） -->
+<div class="wrap" data-page-node-id="e2U1bBnRqcCsVUyCGthhp8"><div id="dashboard" style="display:none;" data-page-node-id="lr92pBb5y4WyfCAJ5JEZQj"><div class="card" style="text-align:center;" data-page-node-id="gN3Fz0U1FxDHFypA2tGHJz"><div id="currentPartnerBadge" class="partner-badge" data-page-node-id="CwcUdLigo35u3AkKoUbJze">🌿 温和提醒型</div><div class="question" style="font-size:17px;font-weight:700;color:#0f172a;margin-top:4px;" data-page-node-id="IDmHUQsvvOY0Qz7BYzUhDc">今日份的小改变，准备就绪</div><div class="today-checkin" id="checkinBtn" onclick="doCheckin()"><span class="checkin-status" id="checkinStatusText" style="font-size:20px;">签到</span><span class="checkin-sub">愿意来，就已经在变好</span></div><div class="streak-num" id="streakNum" data-page-node-id="mCwhbOoCaJXcUHFapaUl2E">0</div><div class="streak-label" data-page-node-id="Lz881awcNcWXam2rrklS2s">连续天数 · 断签不清零</div></div><div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);"><div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个预防小动作</div><div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div><div class="famk3list"></div></div><div style="max-width:420px;margin:0 auto 14px;"><button class="talk-btn" style="width:100%;" onclick="askPartner('today')">💭 今天发生了什么</button></div><button class="talk-btn" style="margin-top:14px;width:100%;" onclick="copyStats()">📋 分享战绩</button><div class="chat-area" id="chatArea" data-page-node-id="CCakN0w8FP9LRSzGFH26fY"></div></div><!-- 今天提醒自己（按时段区分） -->
 
 
 <div id="partnerSelectorMask" style="display:none;position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(15,23,42,.5);z-index:250;" data-page-node-id="UM0zHyrRTrbJOruIqcGLRl"></div>
@@ -755,19 +766,34 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
   </script>
 </div>
 <div id="page-sop" class="page" data-page-node-id="Kq25RHoFuigWtmK96gplLs"><div class="wrap" data-page-node-id="VFcBBL4XtTMAU6agOVjNF1">
-<div class="card" data-page-node-id="gQNBuHQqqUX8jCZEKA3SDS"><div class="card-title" data-page-node-id="mDF7XeuDcMp3mtpGCZCaWK">🎯 健康六维自评</div><div class="card-sub" data-page-node-id="bLUCrARbBWCYpbXAwO6HPn">每周一次，每个维度 1-5 分。不评没事，评了就是数据。</div>
-<div style="display:flex;gap:10px;margin:14px 0 12px;">
-<div style="flex:1;background:linear-gradient(135deg,#f0fdfa,#e6fffa);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0d9488;" id="sopNum1">0</div><div style="font-size:11px;color:#94a3b8;">已评维度</div></div>
-<div style="flex:1;background:linear-gradient(135deg,#f0fdfa,#e6fffa);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0d9488;" id="sopNum2">6</div><div style="font-size:11px;color:#94a3b8;">总维度</div></div>
-<div style="flex:1;background:linear-gradient(135deg,#f0fdfa,#e6fffa);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0d9488;" id="sopNum3">0%</div><div style="font-size:11px;color:#94a3b8;">完成度</div></div>
+<div style="padding:16px 12px 80px;">
+  <div style="background:#fff;border-radius:20px;padding:20px 18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+    <div style="font-size:20px;font-weight:800;color:#333;">🎯 今日自检复盘</div>
+    <div style="font-size:13px;color:#999;margin-top:4px;margin-bottom:14px;">分维度勾选，看清今天做到了什么</div>
+    <div style="display:flex;gap:10px;margin-bottom:12px;">
+      <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0d9488;" id="sopScore">0</div><div style="font-size:11px;color:#8f9eae;">今日得分</div></div>
+      <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#43a047;" id="sopPosCount">0</div><div style="font-size:11px;color:#8f9eae;">做到了</div></div>
+      <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#ef5350;" id="sopNegCount">0</div><div style="font-size:11px;color:#8f9eae;">需注意</div></div>
+    </div>
+    <div style="background:#eef2f5;border-radius:8px;height:10px;overflow:hidden;"><div id="sopScoreBar" style="height:100%;width:0%;background:#0d9488;border-radius:8px;transition:width .5s;"></div></div>
+    <div style="font-size:11px;color:#8f9eae;text-align:right;margin-top:4px;" id="sopProgressText">0 / 100</div>
+  </div>
+  <div class="sop-cat-tabs" id="sopCatTabs" style="margin-bottom:12px;"></div>
+  <div class="sop-game-card" id="sopGameCard"></div>
+  <div style="background:#fff;border-radius:18px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+    <div style="font-size:14px;font-weight:800;color:#333;margin-bottom:6px;">💡 本维度提示</div>
+    <div id="sopTipText" style="font-size:12.5px;color:#555;line-height:1.7;"></div>
+  </div>
 </div>
-<div style="background:#eef2f5;border-radius:8px;height:10px;overflow:hidden;"><div id="sopBar" style="height:100%;width:0%;background:#0d9488;border-radius:8px;transition:width .5s;"></div></div>
-<div style="font-size:11px;color:#94a3b8;text-align:right;margin-top:4px;" id="sopBarText">0 / 6</div>
+<div class="radar-wrap" data-page-node-id="lnwZNWbBS6REQOtLcx4r6y"><div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:6px;" data-page-node-id="16dzuPugHzOx7hEay8AQ1f">📊 六维健康图谱</div><div class="radar-svg" id="radarSvg" data-page-node-id="grHECvp8fstskEMrYZs6Ar"></div><div class="radar-legend" id="radarLegend" data-page-node-id="A65hneyVa0NfzbynnRXxEN"></div></div><div class="card" id="cardHealthMetrics"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font-size:22px;">📊</span><span style="font-weight:800;font-size:15px;color:#0f172a;">日常可监测</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">在家就能做 · 不焦虑</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">这 5 项是<b>生活医学</b>能在家监督的指标：血压计、体重秤、计步器、手机。频率看心情，<b>不是每天</b>。</div><div id="dailyMetricList" style="display:flex;flex-direction:column;gap:6px;"></div><div style="margin-top:14px;display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font-size:22px;">🩺</span><span style="font-weight:800;font-size:15px;color:#0f172a;">体检项目</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">按年度周期</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">这部分需要医院/体检机构测，记录最近一次结果便于下次对比。<b>不诊断，只显示你和医生要讨论的范围。</b></div><div id="yearlyMetricList" style="display:flex;flex-direction:column;gap:6px;"></div></div></div></div><div id="sopFinishOverlay" class="sop-finish-overlay">
+  <div class="sop-finish-card">
+    <div style="font-size:54px;margin-bottom:10px;">🎉</div>
+    <div style="font-size:20px;font-weight:800;color:#333;margin-bottom:6px;">今日复盘完成！</div>
+    <div style="font-size:13px;color:#8f9eae;">明天 0 点自动重置，继续加油</div>
+    <button onclick="closeSOPFinish()" style="margin-top:18px;padding:12px 32px;border:none;border-radius:50px;background:#0d9488;color:#fff;font-size:15px;font-weight:700;cursor:pointer;">好的</button>
+  </div>
 </div>
-<div class="sop-cats" id="sopCats" data-page-node-id="kR3RICprycoW0q7pweY1CF"></div>
-<div class="card"><div id="sopQTitle" style="font-size:15px;font-weight:700;color:#0f172a;line-height:1.6;margin-bottom:6px;"></div><div id="sopQDesc" style="font-size:12.5px;color:#64748b;line-height:1.6;margin-bottom:14px;"></div><div class="sop-score-row" id="sopScoreRow" data-page-node-id="BYdD2W0P4PpdO6JAN2ktDj"></div><div style="text-align:right;margin-top:10px;"><button onclick="clearSOPScore()" style="border:none;background:#f1f5f9;color:#64748b;font-size:12px;font-weight:700;padding:7px 14px;border-radius:16px;cursor:pointer;">↺ 重选分数</button></div></div>
-<div class="card"><div style="font-size:14px;font-weight:800;color:#0f172a;margin-bottom:6px;">💡 本维度提示</div><div class="sop-cat-tip" id="sopTipText" data-page-node-id="GqkrQNdZxpdHX0V7bVakgA"></div></div>
-<div class="radar-wrap" data-page-node-id="lnwZNWbBS6REQOtLcx4r6y"><div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:6px;" data-page-node-id="16dzuPugHzOx7hEay8AQ1f">📊 六维健康图谱</div><div class="radar-svg" id="radarSvg" data-page-node-id="grHECvp8fstskEMrYZs6Ar"></div><div class="radar-legend" id="radarLegend" data-page-node-id="A65hneyVa0NfzbynnRXxEN"></div></div><div class="card" id="cardHealthMetrics"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font-size:22px;">📊</span><span style="font-weight:800;font-size:15px;color:#0f172a;">日常可监测</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">在家就能做 · 不焦虑</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">这 5 项是<b>生活医学</b>能在家监督的指标：血压计、体重秤、计步器、手机。频率看心情，<b>不是每天</b>。</div><div id="dailyMetricList" style="display:flex;flex-direction:column;gap:6px;"></div><div style="margin-top:14px;display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font-size:22px;">🩺</span><span style="font-weight:800;font-size:15px;color:#0f172a;">体检项目</span><span style="margin-left:auto;font-size:11px;color:#94a3b8;">按年度周期</span></div><div style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6;">这部分需要医院/体检机构测，记录最近一次结果便于下次对比。<b>不诊断，只显示你和医生要讨论的范围。</b></div><div id="yearlyMetricList" style="display:flex;flex-direction:column;gap:6px;"></div></div></div></div><div id="page-checkin" class="page" data-page-node-id="OeJppHx2BF7FM7bZ2WeUrW">
+<div id="page-checkin" class="page" data-page-node-id="OeJppHx2BF7FM7bZ2WeUrW">
     <div class="card" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
       <div style="font-size:34px;" id="hcEntryEmoji">🌿</div>
       <div style="flex:1;">
@@ -776,7 +802,7 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
       </div>
       <button onclick="showPartnerSelector()" style="border:none;border-radius:18px;padding:9px 16px;background:linear-gradient(135deg,#ecfdf5,#f0fdfa);color:#0d9488;font-size:13px;font-weight:700;">换人设</button>
     </div>
-<div class="wrap" data-page-node-id="nLdVFsC5UEgFSaHfC1cdgw"><div class="card" style="text-align:center;" data-page-node-id="o6IbWHzAD2oFDqBDZM8aac"><div id="currentPartnerBadgeCk" class="partner-badge">🌿 温和提醒型</div><div class="question" style="font-size:17px;font-weight:700;color:#0f172a;margin-top:4px;">今天，做一件对自己身体好的小事</div><div id="checkinBtnCk" class="checkin-btn" onclick="doCheckin()"><div class="checkin-status" id="checkinStatusTextCk">打卡</div><div class="checkin-sub" id="checkinSubTextCk">点击完成</div></div><div class="streak-num" id="streakNumCk">0</div><div class="streak-label">连续天数 · 断签不清零</div></div>
+<div class="wrap" data-page-node-id="nLdVFsC5UEgFSaHfC1cdgw"><div class="card" style="text-align:center;" data-page-node-id="o6IbWHzAD2oFDqBDZM8aac"><div id="currentPartnerBadgeCk" class="partner-badge">🌿 温和提醒型</div><div class="question" style="font-size:17px;font-weight:700;color:#0f172a;margin-top:4px;">今天，做一件对自己身体好的小事</div><div class="today-checkin" id="checkinBtn" onclick="doCheckin()"><span class="checkin-status" id="checkinStatusText" style="font-size:20px;">签到</span><span class="checkin-sub" id="checkinSubText">愿意来，就已经在变好</span></div><div class="today-status"><div class="ts-days"><span class="ts-num" id="continuousDays">0</span><span class="ts-label">天连续</span></div><div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;"><span id="weekRange"></span> · 这一周</div><div class="week-dots" id="weekDots"></div></div></div>
 <div class="card">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:22px;">📋</span><span style="font-weight:800;font-size:15px;color:#0f172a;">今日打卡场景</span></div>
   <div style="font-size:12px;color:#64748b;margin-bottom:12px;">挑最贴近今天的一个。这 8 个维度覆盖预防医学最关键的方向：<b>饮食 · 运动 · 睡眠 · 压力 · 放松 · 喝水 · 屏幕 · 用药补剂</b>。</div>
@@ -972,7 +998,22 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
+      function fbDefault(t){
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    var t2 = t.replace(/^[0-9]{1,2}[、..\s]+/, '').replace(/^[\u2460-\u2473]\s*/, '').replace(/^[0-9]\uFE0F?\u20E3[、..\s]*/, '');
+    var m = t2.match(/^([^：:（(]{2,24})(（=([^）]+)）)?[:：]?\s*(.+)$/);
+    var quote = t2.length <= 30;
+    var name = quote ? t2 : (m && m[1] ? m[1] : t2.slice(0, 20) + '…');
+    var def = m && m[3] ? m[3] : '';
+    var body = m && m[4] ? m[4] : t2;
+    var short = body.length > 44 ? body.slice(0, 44) + '…' : body;
+    return [
+      ['🧠 认知 · 为什么记住它', def ? ('这条你自己给的定义是：' + def + '。把「' + name + '」记下来，就是把这个判断变成随时可调用的标准，下次遇到同类场景不用从零纠结。') : (quote ? ('这是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。') : ('「' + name + '」是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。'))],
+      ['🎯 行为 · 怎么做', '下次遇到对应场景，按这条执行一次最小版本：' + short + ' 先做一次，再对比老做法的结果。'],
+      ['⚠️ 易错点', '只收藏不执行——这条的价值要在一次次具体决策里兑现，而不是躺在卡片里。'],
+      ['🔧 怎么调整', '每周回看一次：最近的决策有没有真的用到它？没用上的场景，就是下周要练的场景。']
+    ];
+  }
   window.__CC_DB = {"每天只做 3 件可监督的小事（吃饭/睡眠/运动）": [["🧠 认知 · 为什么", "行为设计的核心是降低变量数：同时改5个习惯的失败率接近100%，3件封顶可监督的小事让执行率可控、反馈清晰。"], ["🎯 行为 · 怎么做", "定死今天的3件：如「三餐在家吃一餐、12点前睡、走6000步」，写在手心/便签，晚上逐项打钩。"], ["⚠️ 易错点", "状态好就加码到6件——加码破坏「可监督」的稀缺性，3件的纪律比6件的雄心更值钱。"], ["✅ 确认", "今晚三件事有≥2件打钩；连续一周≥2件，即视为系统在转。"]], "• 每周固定 1 天量血压、体重、腰围": [["🧠 认知 · 为什么", "三围数据（血压/体重/腰围）是代谢健康的三角验证：单项会骗人（体重受水影响），三项同看才能定位真问题；腰围是内脏脂肪最便宜的代理指标。"], ["🎯 行为 · 怎么做", "定死「每周日早晨、晨尿后」：血压×2次取均值、体重、脐周腰围，三个数进同一张表，只看月趋势。"], ["⚠️ 易错点", "数据一波动就调整行为——单周数据无意义，月趋势连续两周同向变化才值得干预。"], ["✅ 确认", "本周日三个数已入表；能说出各自近一个月的趋势（升/平/降）。"]], "• 找到 1 个红旗症状的\"什么时候必须就医\"清单": [["🧠 认知 · 为什么", "健康管理的分水岭是「分诊能力」：知道什么能扛、什么必须立刻就医，既防过度焦虑也防延误；红旗清单把恐慌变成流程。"], ["🎯 行为 · 怎么做", "针对自己的基础状况（如高血压），查权威来源列出5条红旗（如血压>180/120、胸痛伴冷汗），拍照存手机。"], ["⚠️ 易错点", "症状持续就硬扛观察——红旗的意义是「满足即行动」，观察期只适用于清单外的轻微症状。"], ["✅ 确认", "清单已存在且能说出≥3条；本周至少确认过一次「我的症状不在红旗内」而安心。"]], "每月做 1 次自评，看 6 维雷达图变化": [["🧠 认知 · 为什么", "自评的价值不在分数而在「趋势可视化」：雷达图让被忽略的维度（如睡眠/情绪）从背景板走到台前，防止单维优化。"], ["🎯 行为 · 怎么做", "月末日历提醒，15分钟做6维自评（按搭子维度），只对比上月：哪维掉最狠，下月只为它设一个动作。"], ["⚠️ 易错点", "六维都想提升——每月只动一维，其他维维持即胜利；全都要=全都得不到。"], ["✅ 确认", "本月雷达图已更新，且下月的「唯一重点维度」及其一个动作已写下。"]], "• 每 3 个月做 1 次年度清单回顾": [["🧠 认知 · 为什么", "健康目标衰减的规律是3个月：季度回顾是对抗「目标漂移」的校准点，让年度目标始终有当前分解项。"], ["🎯 行为 · 怎么做", "季度最后周的周日，30分钟：翻年度清单，逐项标「完成/推进/搁置」，搁置项要么重新拆小要么公开删除。"], ["⚠️ 易错点", "把没完成的项无脑滚入下季度——不带修改的滚动是自欺，每次回顾必须改变点什么。"], ["✅ 确认", "本次回顾后，清单里至少一项被拆小、一项被删除。"]], "• 找到自己最在意的 1 个指标，给它设目标区间": [["🧠 认知 · 为什么", "指标聚焦效应：一个被持续关注的指标会带动周边指标改善（如盯腰围的人自然吃动平衡）；区间比点值更科学，允许正常波动。"], ["🎯 行为 · 怎么做", "从血压/体重/腰围/静息心率/睡眠时长中选最在意的一个，查健康区间（如腰围<90cm），写「当前值→目标区间」贴出来。"], ["⚠️ 易错点", "选了指标但频率没跟上——选定的指标要进每周日固定测量清单，不测的指标等于不存在。"], ["✅ 确认", "这个指标本周被测量过，当前值和目标区间你脱口而出。"]], "把体检报告里的异常项，做成\"下次复查日历\"": [["🧠 认知 · 为什么", "体检的最大损耗是「查完就完」：异常项若无复查触发机制，一年后体检重复发现同样的问题；日历化把「担心」变成「到点动作」。"], ["🎯 行为 · 怎么做", "翻最近一次体检报告，圈出所有异常/临界项，逐项在日历设复查提醒（含复查项目名+预约方式）。"], ["⚠️ 易错点", "只圈「严重」项——临界项（如尿酸偏高）是性价比最高的干预窗口，此时改变生活方式成本最低。"], ["✅ 确认", "日历里已有≥2条复查提醒；最近一条的复查项目你能在日历上指出来。"]], "• 每年家族史和疫苗更新一次": [["🧠 认知 · 为什么", "家族史是体检项目定制的核心输入（如肠癌家族史→提前肠镜）；疫苗不是儿童专利（流感/肺炎球菌/带状疱疹对成人同样关键）。"], ["🎯 行为 · 怎么做", "设年度重复提醒（生日当天最好记）：更新家族病史记录+核对成人疫苗清单，缺的预约补种。"], ["⚠️ 易错点", "家族史「大概知道」——问出具体病名和确诊年龄才有效，一级亲属的病史权重最高。"], ["✅ 确认", "家族史记录有更新日期，疫苗清单里没有「该打没打」的缺口。"]], "• 找到 1 个让自己长期能坚持下去的小动作": [["🧠 认知 · 为什么", "健康的复利来自「几十年不断线」的最小动作，而非三分钟的完美方案：可持续性是唯一筛选标准，强度是第二位的。"], ["🎯 行为 · 怎么做", "选一个「最糟状态下也能做」的动作（饭后走10分钟/睡前拉伸3分钟），绑定到既有习惯之后（晚饭后→走路）。"], ["⚠️ 易错点", "选了需要意志力的动作——考验意志力的方案都在第3周阵亡；要选「不做反而难受」的。"], ["✅ 确认", "这个动作已连续执行≥21天，且最忙的一天也做了缩水版。"]]};
   function fbFor(txt){
     
@@ -1309,12 +1350,39 @@ div[style*="z-index:100500"]{backdrop-filter:blur(8px);-webkit-backdrop-filter:b
 .fb-partner-quote{font-style:normal!important;}
 .fb-partner-label{display:none!important;}
 #key3Card>div:first-child>span:first-child{display:none!important;}
+.sop-cat-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;}
+.sop-cat-tab{flex-shrink:0;font-size:13px;padding:8px 14px;border-radius:50px;border:1.5px solid #e3e3e3;background:#fff;color:#666;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.sop-cat-tab.active{background:#0d9488;border-color:#0d9488;color:#fff;font-weight:700;}
+.sop-game-card{background:#fff;border-radius:18px;padding:18px 16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+.sop-cat-progress{display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:13px;color:#555;font-weight:600;}
+.sop-cat-progress-bar{flex:1;height:6px;background:#eef2f5;border-radius:6px;overflow:hidden;}
+.sop-cat-progress-fill{height:100%;border-radius:6px;transition:width .3s;}
+.sop-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #f2f2f2;}
+.sop-item:last-child{border-bottom:none;}
+.sop-item-text{flex:1;font-size:14px;color:#37474f;line-height:1.5;}
+.sop-item-btns{display:flex;gap:8px;flex-shrink:0;}
+.sop-check-btn{flex-shrink:0;font-size:12px;padding:7px 12px;border-radius:12px;border:1.5px solid #e0e0e0;background:#fff;color:#888;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.sop-check-btn:active{transform:scale(.94);}
+.sop-check-btn.yes-checked{background:#e8f5e9;border-color:#43a047;color:#2e7d32;font-weight:700;}
+.sop-check-btn.no-checked{background:#fff3f3;border-color:#ef9a9a;color:#c62828;font-weight:700;}
+.sop-item-yes .sop-item-text{color:#2e7d32;}
+.sop-item-no .sop-item-text{color:#c62828;text-decoration:line-through;}
+.sop-cat-summary{text-align:center;padding:14px 0 4px;}
+.sop-cat-summary-icon{font-size:34px;}
+.sop-cat-summary-title{font-size:16px;font-weight:800;color:#333;margin-top:4px;}
+.sop-cat-summary-sub{font-size:12px;color:#8f9eae;margin-top:2px;}
+.sop-all-done-card{text-align:center;padding:20px 0 8px;}
+.sop-all-done-emoji{font-size:54px;margin-bottom:8px;}
+.sop-all-done-text{font-size:20px;font-weight:800;color:#333;margin-bottom:4px;}
+.sop-all-done-sub{font-size:12px;color:#8f9eae;}
+.sop-finish-overlay{display:none;position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:120;align-items:center;justify-content:center;padding:24px;}
+.sop-finish-overlay.show{display:flex;}
+.sop-finish-card{background:#fff;border-radius:24px;padding:32px 28px;text-align:center;max-width:320px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
 </style>
 
-</body><script>const STORAGE = { PARTNER: "slim_partner_health", CHECKIN: "slim_checkin_health", ACTIONS: "slim_health_actions", ACTIONS_DONE: "slim_health_actions_done", SOP: "slim_sop_health", SOP_HIST: "slim_sop_health_hist", SOP_LASTW: "slim_sop_health_lastw", METRICS: "slim_health_metrics", YEARLY: "slim_health_yearly", STREAKS: "slim_health_streaks" };const SOP_CATEGORIES = [{"key": "metab", "icon": "🩸", "name": "代谢", "desc": "血糖、血脂、血压、体重、腰围", "tip": "空腹血糖、腰围、血压，每 3-6 个月看一次趋势，比看单次数值更说明问题。"}, {"key": "gut", "icon": "🌱", "name": "肠道", "desc": "排便规律、菌群多样性、纤维摄入", "tip": "每周 25-30g 膳食纤维 + 多种植物（≥30 种/周），是肠道最稳的两件事。"}, {"key": "immune", "icon": "🛡", "name": "免疫", "desc": "疫苗更新、睡眠、急性病恢复期", "tip": "疫苗不焦虑每年补一次；睡眠连续 5 天低于 6 小时，免疫反应就会下降。"}, {"key": "sleep", "icon": "🌙", "name": "睡眠", "desc": "时长、入睡、深睡、节律", "tip": "固定上床时间比\"睡够\"更重要；连续 3 周规律，节律就稳了。"}, {"key": "stress", "icon": "🧘", "name": "压力", "desc": "心率、HRV、情绪复原、休息能力", "tip": "HRV（心率变异性）比\"心情\"更客观；连续 7 天早晨 5 分钟呼吸引续就能回升。"}, {"key": "move", "icon": "🏃", "name": "运动", "desc": "有氧、力量、柔韧、日常活动量", "tip": "每周 150 分钟中等强度有氧 + 2 次力量，比\"每天 1 万步\"更说明问题。"}];const ACTION_POOL = [{"emoji": "🥬", "title": "吃够 1 份深色蔬菜", "tip": "至少 80g，深绿色最好"}, {"emoji": "🚶", "title": "快走 10 分钟", "tip": "微喘能说话的速度"}, {"emoji": "📵", "title": "23:30 前放下手机", "tip": "屏幕蓝光骗大脑以为是白天"}, {"emoji": "💧", "title": "喝水 1.5L", "tip": "小口慢喝，不是一次灌"}, {"emoji": "🧘", "title": "5 分钟深呼吸", "tip": "4-7-8 节奏，鼻子吸嘴呼"}, {"emoji": "🍎", "title": "今天吃 1 份完整水果", "tip": "带皮吃，纤维更全"}, {"emoji": "🥗", "title": "主食用 1/3 粗粮替换", "tip": "糙米/燕麦/玉米/薯类"}, {"emoji": "🦴", "title": "靠墙静蹲 30 秒 × 3 组", "tip": "膝盖不超脚尖"}, {"emoji": "☀️", "title": "出门晒 10 分钟", "tip": "上午 10 点前最佳"}, {"emoji": "🛏", "title": "22:30 前上床", "tip": "节律比时长更值钱"}, {"emoji": "🚶‍♀️", "title": "饭后走 15 分钟", "tip": "降餐后血糖最有效"}, {"emoji": "📵", "title": "吃饭不看屏幕", "tip": "胃也会\"专注\"消化"}, {"emoji": "🌰", "title": "一小把坚果", "tip": "约 15-20g，原味最好"}, {"emoji": "🧂", "title": "看一眼包装食品盐含量", "tip": "警惕\"低钠\"标签"}, {"emoji": "😴", "title": "中午午休 15-20 分钟", "tip": "超过 30 分钟反而困"}, {"emoji": "🪥", "title": "认真刷牙 2 分钟", "tip": "牙周和心血管是连着的"}, {"emoji": "📝", "title": "写下 1 件让你焦虑的事", "tip": "写下来焦虑值就降一半"}, {"emoji": "🌬", "title": "做 5 次腹式呼吸", "tip": "吸 4 停 4 呼 6"}, {"emoji": "🪟", "title": "开窗通风 10 分钟", "tip": "CO₂ 比 PM2.5 更影响认知"}, {"emoji": "🎯", "title": "为 1 件明天要做的事定时", "tip": "把\"打算\"变成\"约定\""}];const METRICS = [{"key": "fpg", "name": "空腹血糖", "unit": "mmol/L", "ideal": "3.9 - 6.1"}, {"key": "hba1c", "name": "糖化血红蛋白", "unit": "%", "ideal": "< 5.7"}, {"key": "ldl", "name": "低密度脂蛋白", "unit": "mmol/L", "ideal": "< 3.4"}, {"key": "tg", "name": "甘油三酯", "unit": "mmol/L", "ideal": "< 1.7"}, {"key": "hdl", "name": "高密度脂蛋白", "unit": "mmol/L", "ideal": "> 1.0"}, {"key": "waist", "name": "腰围", "unit": "cm", "ideal": "男<90 女<85"}, {"key": "bmi", "name": "BMI", "unit": "kg/m²", "ideal": "18.5 - 24"}, {"key": "uric_acid", "name": "尿酸", "unit": "μmol/L", "ideal": "男<420 女<360"}, {"key": "alt", "name": "ALT（肝功）", "unit": "U/L", "ideal": "< 40"}, {"key": "ast", "name": "AST（肝功）", "unit": "U/L", "ideal": "< 40"}];const YEARLY_ITEMS = [{"key": "physical", "text": "今年做了年度体检", "freq": "年度"}, {"key": "bp_retest", "text": "血压复查", "freq": "建议 3 个月"}, {"key": "glucose_retest", "text": "血糖/糖化复查", "freq": "健康 1 年/有异常 3 月"}, {"key": "lipid_retest", "text": "血脂复查", "freq": "健康 3-5 年/有异常 1 年"}, {"key": "vaccine", "text": "疫苗更新（流感/新冠/带状疱疹等）", "freq": "按品种 1-5 年"}, {"key": "dental", "text": "口腔检查 + 洁牙", "freq": "半年到一年"}, {"key": "vision", "text": "视力 / 眼底检查", "freq": "建议一年"}, {"key": "cancer_screen", "text": "年龄对应癌症筛查咨询", "freq": "按医生建议"}, {"key": "family_history", "text": "家族史更新（父母/兄弟姐妹）", "freq": "每年回顾"}, {"key": "colon", "text": "肠镜（45 岁后或家族史）", "freq": "按医生建议"}, {"key": "breast", "text": "乳腺（女性，40+ 视情况）", "freq": "按医生建议"}, {"key": "cervical", "text": "宫颈（女性，21+ 起）", "freq": "按医生建议"}, {"key": "prostate", "text": "前列腺（男性，50+ 视情况）", "freq": "按医生建议"}];const TYPE_SCENES = {"progress": [{"type": "pos", "feedback": "看到你在认真维持每周记录，这就是最稳的那条路。"}, {"type": "pos", "feedback": "数据在握，未来十年你的身体会感谢今天的你。"}, {"type": "pos", "feedback": "把指标当朋友，不当敌人，趋势比单次更重要。"}], "struggle": [{"type": "neg", "feedback": "今天做不到，不代表明天做不到。先停一停，别硬撑。"}, {"type": "neg", "feedback": "焦虑的时候身体也在听你说话，对它温和一点。"}, {"type": "neg", "feedback": "断签一天不丢任何东西；连轴紧绷才是真正伤身体。"}], "idea": [{"type": "pos", "feedback": "好问题——健康的所有改进都是从这种\"咦\"开始。"}, {"type": "pos", "feedback": "记住这个念头，下次体检前再翻出来问问自己。"}], "cheer": [{"type": "pos", "feedback": "好事情 — 情绪好的时候免疫也好，稳稳的多收一份红利。"}], "question": [{"type": "q", "feedback": "我猜你最在意的是「这样是不是真的有用」。对吗？"}, {"type": "q", "feedback": "你愿意从哪一个最小的一步开始？"}], "report": [{"type": "pos", "feedback": "记下来了。我们看 4 周趋势，比看一周更说明问题。"}]};
+</body><script>const STORAGE = { PARTNER: "slim_partner_health", CHECKIN: "slim_checkin_health", ACTIONS: "slim_health_actions", ACTIONS_DONE: "slim_health_actions_done", SOP: "slim_sop_health", SOP_HIST: "slim_sop_health_hist", SOP_LASTW: "slim_sop_health_lastw", METRICS: "slim_health_metrics", YEARLY: "slim_health_yearly", STREAKS: "slim_health_streaks" };const SOP_CATEGORIES = [{"id":"metab","icon":"🩸","name":"代谢","color":"#0d9488","tips":"空腹血糖、腰围、血压，每 3-6 个月看一次趋势，比看单次数值更说明问题。","items":[{"text":"今天吃了 1 份深色蔬菜（深绿/彩色优先）","pts":10},{"text":"主食用 1/3 粗粮替换（糙米/燕麦/薯类）","pts":10},{"text":"今天没喝含糖饮料（或只 1 次以内）","pts":10},{"text":"记录了对一次身体信号（腰围/体重/血压任一）","pts":10},{"text":"饭后走了 15 分钟（帮助餐后血糖）","pts":10}]},{"id":"gut","icon":"🌱","name":"肠道","color":"#0d9488","tips":"每周 25-30g 膳食纤维 + 多种植物（≥30 种/周），是肠道最稳的两件事。","items":[{"text":"今天吃够 25g+ 膳食纤维","pts":10},{"text":"今天吃了 ≥3 种不同植物（菜/菌/果）","pts":10},{"text":"排便规律、顺畅","pts":10},{"text":"喝够水（约 1.5L）","pts":10},{"text":"没吃重油重辣到肠胃不适","pts":10}]},{"id":"immune","icon":"🛡","name":"免疫","color":"#0d9488","tips":"疫苗不焦虑每年补一次；睡眠连续 5 天低于 6 小时，免疫反应就会下降。","items":[{"text":"昨晚睡够 7 小时（睡眠护免疫）","pts":10},{"text":"今天出门晒了太阳 / 活动了","pts":10},{"text":"疫苗或补剂按计划没漏（如有）","pts":10},{"text":"没硬扛明显不适，及时休息","pts":10},{"text":"外出后洗手 / 卫生做到位","pts":10}]},{"id":"sleep","icon":"🌙","name":"睡眠","color":"#0d9488","tips":"固定上床时间比\"睡够\"更重要；连续 3 周规律，节律就稳了。","items":[{"text":"固定时间上床（节律优先）","pts":10},{"text":"睡前 1 小时放下手机","pts":10},{"text":"今晚睡眠时长 ≥ 7 小时","pts":10},{"text":"半夜没怎么醒来","pts":10},{"text":"下午后没靠咖啡硬撑","pts":10}]},{"id":"stress","icon":"🧘","name":"压力","color":"#0d9488","tips":"HRV（心率变异性）比\"心情\"更客观；连续 7 天早晨 5 分钟呼吸练习就能回升。","items":[{"text":"做了 5 分钟深呼吸 / 呼吸练习","pts":10},{"text":"把一件烦心事写下来或聊了出来","pts":10},{"text":"给自己留了 10 分钟放松（拉伸/发呆）","pts":10},{"text":"今天没被情绪拖垮，有复原","pts":10},{"text":"屏幕间隙休息了眼睛和身体","pts":10}]},{"id":"move","icon":"🏃","name":"运动","color":"#0d9488","tips":"每周 150 分钟中等强度有氧 + 2 次力量，比\"每天 1 万步\"更说明问题。","items":[{"text":"今天快走 / 有氧 20 分钟以上","pts":10},{"text":"做了 1 次力量训练（深蹲/静蹲/推墙）","pts":10},{"text":"今天日常活动量够（步数不错）","pts":10},{"text":"做了拉伸 / 柔韧练习","pts":10},{"text":"能站着就不一直坐着（少久坐）","pts":10}]}];;const ACTION_POOL = [{"emoji": "🥬", "title": "吃够 1 份深色蔬菜", "tip": "至少 80g，深绿色最好"}, {"emoji": "🚶", "title": "快走 10 分钟", "tip": "微喘能说话的速度"}, {"emoji": "📵", "title": "23:30 前放下手机", "tip": "屏幕蓝光骗大脑以为是白天"}, {"emoji": "💧", "title": "喝水 1.5L", "tip": "小口慢喝，不是一次灌"}, {"emoji": "🧘", "title": "5 分钟深呼吸", "tip": "4-7-8 节奏，鼻子吸嘴呼"}, {"emoji": "🍎", "title": "今天吃 1 份完整水果", "tip": "带皮吃，纤维更全"}, {"emoji": "🥗", "title": "主食用 1/3 粗粮替换", "tip": "糙米/燕麦/玉米/薯类"}, {"emoji": "🦴", "title": "靠墙静蹲 30 秒 × 3 组", "tip": "膝盖不超脚尖"}, {"emoji": "☀️", "title": "出门晒 10 分钟", "tip": "上午 10 点前最佳"}, {"emoji": "🛏", "title": "22:30 前上床", "tip": "节律比时长更值钱"}, {"emoji": "🚶‍♀️", "title": "饭后走 15 分钟", "tip": "降餐后血糖最有效"}, {"emoji": "📵", "title": "吃饭不看屏幕", "tip": "胃也会\"专注\"消化"}, {"emoji": "🌰", "title": "一小把坚果", "tip": "约 15-20g，原味最好"}, {"emoji": "🧂", "title": "看一眼包装食品盐含量", "tip": "警惕\"低钠\"标签"}, {"emoji": "😴", "title": "中午午休 15-20 分钟", "tip": "超过 30 分钟反而困"}, {"emoji": "🪥", "title": "认真刷牙 2 分钟", "tip": "牙周和心血管是连着的"}, {"emoji": "📝", "title": "写下 1 件让你焦虑的事", "tip": "写下来焦虑值就降一半"}, {"emoji": "🌬", "title": "做 5 次腹式呼吸", "tip": "吸 4 停 4 呼 6"}, {"emoji": "🪟", "title": "开窗通风 10 分钟", "tip": "CO₂ 比 PM2.5 更影响认知"}, {"emoji": "🎯", "title": "为 1 件明天要做的事定时", "tip": "把\"打算\"变成\"约定\""}];const METRICS = [{"key": "fpg", "name": "空腹血糖", "unit": "mmol/L", "ideal": "3.9 - 6.1"}, {"key": "hba1c", "name": "糖化血红蛋白", "unit": "%", "ideal": "< 5.7"}, {"key": "ldl", "name": "低密度脂蛋白", "unit": "mmol/L", "ideal": "< 3.4"}, {"key": "tg", "name": "甘油三酯", "unit": "mmol/L", "ideal": "< 1.7"}, {"key": "hdl", "name": "高密度脂蛋白", "unit": "mmol/L", "ideal": "> 1.0"}, {"key": "waist", "name": "腰围", "unit": "cm", "ideal": "男<90 女<85"}, {"key": "bmi", "name": "BMI", "unit": "kg/m²", "ideal": "18.5 - 24"}, {"key": "uric_acid", "name": "尿酸", "unit": "μmol/L", "ideal": "男<420 女<360"}, {"key": "alt", "name": "ALT（肝功）", "unit": "U/L", "ideal": "< 40"}, {"key": "ast", "name": "AST（肝功）", "unit": "U/L", "ideal": "< 40"}];const YEARLY_ITEMS = [{"key": "physical", "text": "今年做了年度体检", "freq": "年度"}, {"key": "bp_retest", "text": "血压复查", "freq": "建议 3 个月"}, {"key": "glucose_retest", "text": "血糖/糖化复查", "freq": "健康 1 年/有异常 3 月"}, {"key": "lipid_retest", "text": "血脂复查", "freq": "健康 3-5 年/有异常 1 年"}, {"key": "vaccine", "text": "疫苗更新（流感/新冠/带状疱疹等）", "freq": "按品种 1-5 年"}, {"key": "dental", "text": "口腔检查 + 洁牙", "freq": "半年到一年"}, {"key": "vision", "text": "视力 / 眼底检查", "freq": "建议一年"}, {"key": "cancer_screen", "text": "年龄对应癌症筛查咨询", "freq": "按医生建议"}, {"key": "family_history", "text": "家族史更新（父母/兄弟姐妹）", "freq": "每年回顾"}, {"key": "colon", "text": "肠镜（45 岁后或家族史）", "freq": "按医生建议"}, {"key": "breast", "text": "乳腺（女性，40+ 视情况）", "freq": "按医生建议"}, {"key": "cervical", "text": "宫颈（女性，21+ 起）", "freq": "按医生建议"}, {"key": "prostate", "text": "前列腺（男性，50+ 视情况）", "freq": "按医生建议"}];const TYPE_SCENES = {"progress": [{"type": "pos", "feedback": "看到你在认真维持每周记录，这就是最稳的那条路。"}, {"type": "pos", "feedback": "数据在握，未来十年你的身体会感谢今天的你。"}, {"type": "pos", "feedback": "把指标当朋友，不当敌人，趋势比单次更重要。"}], "struggle": [{"type": "neg", "feedback": "今天做不到，不代表明天做不到。先停一停，别硬撑。"}, {"type": "neg", "feedback": "焦虑的时候身体也在听你说话，对它温和一点。"}, {"type": "neg", "feedback": "断签一天不丢任何东西；连轴紧绷才是真正伤身体。"}], "idea": [{"type": "pos", "feedback": "好问题——健康的所有改进都是从这种\"咦\"开始。"}, {"type": "pos", "feedback": "记住这个念头，下次体检前再翻出来问问自己。"}], "cheer": [{"type": "pos", "feedback": "好事情 — 情绪好的时候免疫也好，稳稳的多收一份红利。"}], "question": [{"type": "q", "feedback": "我猜你最在意的是「这样是不是真的有用」。对吗？"}, {"type": "q", "feedback": "你愿意从哪一个最小的一步开始？"}], "report": [{"type": "pos", "feedback": "记下来了。我们看 4 周趋势，比看一周更说明问题。"}]};
 let sopCatIdx = 0;
-let sopScore = 0;
-let sopSubmitted = {};
+let sopSelected = {};
 
 function $(id) { return document.getElementById(id); }
 function safeParse(k, def) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch(e) { return def; } }
@@ -1336,7 +1404,7 @@ function switchTab(tab) {
   var tabs = document.querySelectorAll('.tab-item');
   var idx = ['chat','coach','sop','checkin','data','progress','share'].indexOf(tab);
   if (idx >= 0 && tabs[idx]) tabs[idx].classList.add('active');
-  if (tab === 'sop') renderSOP();
+  if (tab === 'sop') initSOP();
   if (tab === 'checkin') { renderCheckinScenes(); if (typeof renderTodayActions === 'function') renderTodayActions(); }
   if (tab === 'data') renderDataPage();
   if (tab === 'progress') renderProgressPage();
@@ -1428,7 +1496,8 @@ function updateStreak() {
     safeSet(STORAGE.CHECKIN, chk);
   }
   safeSet(STORAGE.STREAKS, streak);
-  $('streakNum').innerText = streak;
+  var sn = $('streakNum'); if (sn) sn.innerText = streak;
+  var cd = $('continuousDays'); if (cd) cd.innerText = streak;
   var sn2 = $('streakNumCk'); if (sn2) sn2.innerText = streak;
 }
 
@@ -1529,135 +1598,25 @@ function updateProgress() {
 }
 
 // === SOP ===
-function renderSOP() {
-  // 分类 tab
-  var cats = $('sopCats');
-  cats.innerHTML = '';
-  SOP_CATEGORIES.forEach(function(c, i) {
-    var el = document.createElement('div');
-    el.className = 'sop-cat' + (i === sopCatIdx ? ' active' : '');
-    el.innerText = c.icon + ' ' + c.name;
-    el.onclick = function() { sopCatIdx = i; renderSOP(); };
-    cats.appendChild(el);
-  });
-  var cur = SOP_CATEGORIES[sopCatIdx];
-  $('sopTipText').innerHTML = '<b>' + cur.name + ' · </b>' + cur.tip;
-  var qTitle = $('sopQTitle'), qDesc = $('sopQDesc');
-  if (qTitle) qTitle.innerText = cur.icon + ' ' + cur.name + ' · 本周这一维打几分？';
-  if (qDesc) qDesc.innerText = cur.desc;
-  try {
-    var wkScores = getThisWeekScores();
-    var doneN = 0;
-    SOP_CATEGORIES.forEach(function(c){ if (typeof wkScores[c.key] === 'number') doneN++; });
-    var totN = SOP_CATEGORIES.length;
-    if ($('sopNum1')) $('sopNum1').innerText = doneN;
-    if ($('sopNum2')) $('sopNum2').innerText = totN;
-    if ($('sopNum3')) $('sopNum3').innerText = Math.round(doneN / totN * 100) + '%';
-    if ($('sopBar')) $('sopBar').style.width = (doneN / totN * 100) + '%';
-    if ($('sopBarText')) $('sopBarText').innerText = doneN + ' / ' + totN;
-  } catch(e) {}
-  // 评分 - 点 1-5 直接记下这一维
-  var sr = $('sopScoreRow'); sr.innerHTML = '';
-  for (var i = 1; i <= 5; i++) {
-    var b = document.createElement('button');
-    b.className = 'sop-score-btn' + (sopScore === i ? ' active' : '');
-    b.innerText = i;
-    b.onclick = function(n) { return function() { sopScore = n; submitSOPScore(); }; }(i);
-    sr.appendChild(b);
-  }
-  renderRadar();
-}
-function submitSOPScore() {
-  if (sopScore < 1 || sopScore > 5) { appendMsg('先点一个分数（1-5）。', 'partner'); return; }
-  var data = safeParse(STORAGE.SOP, {});
-  var week = thisMondayISO();
-  data[week] = data[week] || {};
-  data[week][SOP_CATEGORIES[sopCatIdx].key] = sopScore;
-  safeSet(STORAGE.SOP, data);
-  // 归档到历史（保留每周最新）
-  var hist = safeParse(STORAGE.SOP_HIST, []);
-  var lastW = safeParse(STORAGE.SOP_LASTW, null);
-  if (lastW && lastW !== week) {
-    var prev = data[lastW];
-    if (prev) {
-      var sum = 0; var n = 0;
-      SOP_CATEGORIES.forEach(function(c) {
-        if (typeof prev[c.key] === 'number') { sum += prev[c.key]; n++; }
-      });
-      hist.push({ week: lastW, date: lastW, total: sum, avg: n ? +(sum/n).toFixed(2) : 0 });
-      if (hist.length > 60) hist = hist.slice(-60);
-      safeSet(STORAGE.SOP_HIST, hist);
-    }
-  }
-  safeSet(STORAGE.SOP_LASTW, week);
-  appendMsg('记下来了。下一维？还是下周再来？', 'partner');
-  sopScore = 0;
-  renderSOP();
-  renderDataPage();
-  renderProgressPage();
-}
-function clearSOPScore() {
-  sopScore = 0; renderSOP();
-}
-function getThisWeekScores() {
-  var data = safeParse(STORAGE.SOP, {});
-  var week = thisMondayISO();
-  return data[week] || {};
-}
-function renderRadar() {
-  var scores = getThisWeekScores();
-  var n = SOP_CATEGORIES.length;
-  var max = 5;
-  var cx = 150, cy = 130, r = 90;
-  var pts = [];
-  for (var i = 0; i < n; i++) {
-    var ang = -Math.PI / 2 + i * 2 * Math.PI / n;
-    var v = scores[SOP_CATEGORIES[i].key] || 0;
-    var rr = (v / max) * r;
-    pts.push({ x: cx + Math.cos(ang) * rr, y: cy + Math.sin(ang) * rr });
-  }
-  var svg = '';
-  // 背景层
-  for (var l = 1; l <= 5; l++) {
-    var pl = [];
-    for (var i2 = 0; i2 < n; i2++) {
-      var ang2 = -Math.PI / 2 + i2 * 2 * Math.PI / n;
-      var rl = (l / max) * r;
-      pl.push((cx + Math.cos(ang2) * rl).toFixed(1) + ',' + (cy + Math.sin(ang2) * rl).toFixed(1));
-    }
-    svg += '<polygon points="' + pl.join(' ') + '" fill="none" stroke="#e2e8f0" stroke-width="' + (l === 5 ? 1.5 : 0.6) + '" />';
-  }
-  // 标签
-  for (var i3 = 0; i3 < n; i3++) {
-    var ang3 = -Math.PI / 2 + i3 * 2 * Math.PI / n;
-    var lx = cx + Math.cos(ang3) * (r + 22);
-    var ly = cy + Math.sin(ang3) * (r + 22) + 4;
-    svg += '<text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" font-size="11" fill="#475569" text-anchor="middle">' + SOP_CATEGORIES[i3].name + '</text>';
-  }
-  // 数值折线
-  if (pts.length && pts.some(function(p) { return p.x !== cx && p.y !== cy; })) {
-    var polyPts = pts.map(function(p) { return p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' ');
-    svg += '<polygon points="' + cx + ',' + cy + ' ' + polyPts + '" fill="#0d948822" stroke="#0d9488" stroke-width="2.5" stroke-linejoin="round" />';
-    pts.forEach(function(p) {
-      svg += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="3.5" fill="#0d9488" />';
-    });
-  }
-  $('radarSvg').innerHTML = '<svg class="radar-svg" viewBox="0 0 300 270">' + svg + '</svg>';
-
-  // 图例
-  var lg = $('radarLegend');
-  SOP_CATEGORIES.forEach(function(c) {
-    var v = scores[c.key] || 0;
-    lg.innerHTML += '<div class="it"><div class="sw" style="background:#0d9488;"></div>' + c.icon + ' ' + c.name + ' · ' + v + '/5</div>';
-  });
-  if (!lg.innerHTML) lg.innerHTML = '<div style="grid-column:1/-1;color:#94a3b8;">还没有评分 — 完成至少 1 维即可</div>';
-  else lg.innerHTML = '';
-  SOP_CATEGORIES.forEach(function(c) {
-    var v = scores[c.key] || 0;
-    lg.innerHTML += '<div class="it"><div class="sw" style="background:#0d9488;"></div>' + c.icon + ' ' + c.name + ' · ' + v + '/5</div>';
-  });
-}
-
+let sopScore=0,sopDone=false,sopSubmittedCats=[];
+const SOP_ACC='#0d9488',SOP_KEY='健康底盘_sop';
+function getToday(){return today();}
+function getSOPData(){try{let d=JSON.parse(localStorage.getItem(SOP_KEY));return d&&typeof d==='object'?d:{}}catch(e){return{}}}
+function saveSOPData(o){localStorage.setItem(SOP_KEY,JSON.stringify(o))}
+function getSOPStreaks(){try{return JSON.parse(localStorage.getItem(SOP_KEY+'_streaks')||'{}')}catch(e){return{}}}
+function updateSOPCatStreak(catId,yesCount){let s=getSOPStreaks();let o=s[catId]||{streak:0,last:''};if(yesCount>0){o.streak=(o.last===getToday())?o.streak+0:o.streak+1;o.last=getToday()}else{o.streak=0;o.last=getToday()}s[catId]=o;localStorage.setItem(SOP_KEY+'_streaks',JSON.stringify(s))}
+function initSOP(){let d=getSOPData(),t=getToday();if(d.date!==t){sopScore=0;sopSelected={};sopDone=false;sopSubmittedCats=[]}else{sopScore=d.score||0;sopSelected=d.selected||{};sopDone=d.done||false;sopSubmittedCats=d.submittedCats||[]}renderSOPTabs();renderSOPList();updateSOPHeader();let tip=document.getElementById('sopTipText');if(tip&&SOP_CATEGORIES[sopCatIdx])tip.textContent=SOP_CATEGORIES[sopCatIdx].tips}
+function renderSOPTabs(){let tabs=document.getElementById('sopCatTabs');if(!tabs)return;let st=getSOPStreaks();tabs.innerHTML=SOP_CATEGORIES.map((c,i)=>{let sel=sopSelected[c.id]||{};let done=Object.keys(sel).length>=c.items.length;let sk=st[c.id]?st[c.id].streak:0;return '<button class="sop-cat-tab '+(i===sopCatIdx?'active':'')+'" onclick="switchSOPCat('+i+')">'+c.icon+' '+(done?'✅':'')+c.name+(sk>0?' 🔥':'')+'</button>'}).join('')}
+function switchSOPCat(idx){sopCatIdx=idx;let tip=document.getElementById('sopTipText');if(tip)tip.textContent=SOP_CATEGORIES[idx].tips;renderSOPTabs();renderSOPList()}
+function updateSOPHeader(){let ty=0,tn=0,ti=0;SOP_CATEGORIES.forEach(c=>{let sel=sopSelected[c.id]||{};c.items.forEach((it,ix)=>{ti++;if(sel[ix]==='yes')ty++;else if(sel[ix]==='no')tn++})});let s=document.getElementById('sopScore');if(s)s.textContent=sopScore;let p=document.getElementById('sopPosCount');if(p)p.textContent=ty;let n=document.getElementById('sopNegCount');if(n)n.textContent=tn;let bar=document.getElementById('sopScoreBar');if(bar)bar.style.width=sopScore+'%';let pt=document.getElementById('sopProgressText');if(pt)pt.textContent=Math.round(ti>0?(ty/ti)*100:0)+' / 100'}
+function getCatSelected(id){return sopSelected[id]||{}}
+function renderSOPList(){let card=document.getElementById('sopGameCard');if(!card)return;let cat=SOP_CATEGORIES[sopCatIdx];if(!cat){card.innerHTML='';return}let sel=getCatSelected(cat.id),dc=Object.keys(sel).length,tc=cat.items.length,all=dc>=tc;if(sopDone){renderSOPDoneState();return}let items=cat.items.map((it,ix)=>{let st=sel[ix]||null;let yc=st==='yes'?'sop-item-yes':'',nc=st==='no'?'sop-item-no':'';let yb=st==='yes'?'yes-checked':'',nb=st==='no'?'no-checked':'';return '<div class="sop-item '+yc+' '+nc+'"><div class="sop-item-text">'+it.text+'</div><div class="sop-item-btns"><button class="sop-check-btn '+yb+'" onclick="toggleSOPItem('+ix+',\'yes\')">✅ 做到了</button><button class="sop-check-btn '+nb+'" onclick="toggleSOPItem('+ix+',\'no\')">❌ 没做到</button></div></div>'}).join('');let sum=all?'<div class="sop-cat-summary" style="margin-top:12px;"><div class="sop-cat-summary-icon">'+cat.icon+'</div><div class="sop-cat-summary-title">'+cat.name+' 今日小结</div><div class="sop-cat-summary-sub">已全部回答 ✅</div><button onclick="submitSOPCat()" style="margin-top:12px;padding:12px 24px;background:'+SOP_ACC+';color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;">📋 确认本维度 →</button></div>':'';card.innerHTML='<div class="sop-cat-progress"><span>'+cat.icon+' '+cat.name+'</span><div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:'+Math.round(dc/tc*100)+'%;background:'+(cat.color||SOP_ACC)+'"></div></div><span style="color:'+SOP_ACC+';font-weight:700;">'+dc+'/'+tc+'</span></div><div class="sop-list-container">'+items+'</div>'+sum}
+function toggleSOPItem(ix,state){let cat=SOP_CATEGORIES[sopCatIdx];if(!sopSelected[cat.id])sopSelected[cat.id]={};if(sopSelected[cat.id][ix]===state)delete sopSelected[cat.id][ix];else sopSelected[cat.id][ix]=state;renderSOPList();renderSOPTabs();updateSOPHeader()}
+function submitSOPCat(){let cat=SOP_CATEGORIES[sopCatIdx],sel=sopSelected[cat.id]||{},cy=0;cat.items.forEach((it,ix)=>{if(sel[ix]==='yes')cy++});if(!sopSubmittedCats.includes(cat.id))sopSubmittedCats.push(cat.id);updateSOPCatStreak(cat.id,cy);let ty=0,tia=0;SOP_CATEGORIES.forEach(c=>{let s=sopSelected[c.id]||{};c.items.forEach((it,ix)=>{tia++;if(s[ix]==='yes')ty++})});sopScore=Math.round((ty/tia)*100);saveSOPData({score:sopScore,selected:sopSelected,done:false,date:getToday(),submittedCats:sopSubmittedCats});updateSOPHeader();let all=SOP_CATEGORIES.every(c=>sopSubmittedCats.includes(c.id));if(all){sopDone=true;saveSOPData({score:sopScore,selected:sopSelected,done:true,date:getToday(),submittedCats:sopSubmittedCats});setTimeout(showSOPFinish,400)}else{let nx=SOP_CATEGORIES.findIndex(c=>!sopSubmittedCats.includes(c.id));if(nx>=0){sopCatIdx=nx;let tip=document.getElementById('sopTipText');if(tip)tip.textContent=SOP_CATEGORIES[sopCatIdx].tips}renderSOPTabs();renderSOPList()}}
+function renderSOPDoneState(){let card=document.getElementById('sopGameCard');if(!card)return;let st=getSOPStreaks(),ty=0,tn=0;SOP_CATEGORIES.forEach(c=>{let sel=sopSelected[c.id]||{};c.items.forEach((it,ix)=>{if(sel[ix]==='yes')ty++;else if(sel[ix]==='no')tn++})});let det=SOP_CATEGORIES.map(c=>{let sel=sopSelected[c.id]||{},cy=0;c.items.forEach((it,ix)=>{if(sel[ix]==='yes')cy++});let pct=Math.round((cy/c.items.length)*100);let sk=st[c.id]||{streak:0};return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;"><span style="font-size:13px;">'+c.icon+' '+c.name+'</span><span style="font-size:13px;font-weight:700;color:'+(c.color||SOP_ACC)+';">'+pct+'% '+(cy>0?'✅':'')+'</span></div>'}).join('');let em=sopScore>=80?'🏆':sopScore>=60?'💪':sopScore>=30?'🌱':'😊';let ti=sopScore>=80?'满分！完美复盘！':sopScore>=60?'做得很好！':sopScore>=30?'有收获，继续加油！':'明天会更好！';card.innerHTML='<div class="sop-all-done-card"><div class="sop-all-done-emoji">'+em+'</div><div class="sop-all-done-text">'+ti+'</div><div class="sop-all-done-sub">今日复盘已完成 · 明天0点自动重置</div><div style="display:flex;justify-content:center;gap:20px;margin:16px 0;"><div style="text-align:center;"><div style="font-size:26px;font-weight:800;color:'+SOP_ACC+';">'+sopScore+'%</div><div style="font-size:11px;color:#8f9eae;">今日得分</div></div><div style="text-align:center;"><div style="font-size:26px;font-weight:800;color:#43a047;">'+ty+'</div><div style="font-size:11px;color:#8f9eae;">做到了</div></div><div style="text-align:center;"><div style="font-size:26px;font-weight:800;color:#ef5350;">'+tn+'</div><div style="font-size:11px;color:#8f9eae;">需注意</div></div></div><div style="font-size:12px;font-weight:600;color:'+SOP_ACC+';padding:0 12px 6px;">📊 各维度总结</div><div style="padding:0 4px;">'+det+'</div><div style="text-align:center;font-size:11px;color:#b0bec5;margin-top:12px;">🌙 明天0点自动重置</div></div>';let tabs=document.getElementById('sopCatTabs');if(tabs)tabs.style.display='none'}
+function showSOPFinish(){let ov=document.getElementById('sopFinishOverlay');if(ov)ov.classList.add('show')}
+function closeSOPFinish(){let ov=document.getElementById('sopFinishOverlay');if(ov)ov.classList.remove('show')}
+function getThisWeekScores(){var data=safeParse(STORAGE.SOP,{});var week=thisMondayISO();return data[week]||{}}
 // === Metrics ===
 function renderMetrics() {
   // v5: 改名为兼容调用（体检指标已拆为"日常可监测"+"体检项目"两层）

@@ -113,16 +113,34 @@
     .daily-tip-swap { margin-left: auto; font-size: 11px; color: #066b65; cursor: pointer; text-decoration: underline; }
 
     /* ===== SOP 自检 ===== */
-    .sop-page { max-width: 420px; margin: 0 auto; }
-    .sop-title { font-size: 20px; font-weight: 700; color: #0b8a82; margin-bottom: 16px; text-align: center; }
-    .sop-cat-tabs { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 16px; }
-    .sop-cat-tab { flex-shrink: 0; padding: 8px 14px; border-radius: 999px; background: white; border: 1.5px solid #e9edf2; font-size: 13px; cursor: pointer; }
-    .sop-cat-tab.active { background: linear-gradient(135deg,#0b8a82,#066b65); color: white; border-color: transparent; }
-    .sop-question { font-size: 15px; color: #2b3a4a; margin-bottom: 12px; line-height: 1.5; }
-    .sop-options { display: flex; flex-direction: column; gap: 8px; }
-    .sop-option { text-align: left; padding: 12px 14px; border-radius: 16px; background: white; border: 1.5px solid #e9edf2; font-size: 14px; cursor: pointer; }
-    .sop-option.selected { background: #d6efec; border-color: #0b8a82; color: #0b8a82; }
-    .sop-score { text-align: center; font-size: 13px; color: #6c7a89; margin-top: 16px; }
+    .sop-cat-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;}
+    .sop-cat-tab{flex-shrink:0;font-size:13px;padding:8px 14px;border-radius:50px;border:1.5px solid #e3e3e3;background:#fff;color:#666;cursor:pointer;white-space:nowrap;transition:all .15s;}
+    .sop-cat-tab.active{background:#0b8a82;border-color:#0b8a82;color:#fff;font-weight:700;}
+    .sop-game-card{background:#fff;border-radius:18px;padding:18px 16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+    .sop-cat-progress{display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:13px;color:#555;font-weight:600;}
+    .sop-cat-progress-bar{flex:1;height:6px;background:#eef2f5;border-radius:6px;overflow:hidden;}
+    .sop-cat-progress-fill{height:100%;border-radius:6px;transition:width .3s;}
+    .sop-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #f2f2f2;}
+    .sop-item:last-child{border-bottom:none;}
+    .sop-item-text{flex:1;font-size:14px;color:#37474f;line-height:1.5;}
+    .sop-item-btns{display:flex;gap:8px;flex-shrink:0;}
+    .sop-check-btn{flex-shrink:0;font-size:12px;padding:7px 12px;border-radius:12px;border:1.5px solid #e0e0e0;background:#fff;color:#888;cursor:pointer;white-space:nowrap;transition:all .15s;}
+    .sop-check-btn:active{transform:scale(.94);}
+    .sop-check-btn.yes-checked{background:#e8f5e9;border-color:#43a047;color:#2e7d32;font-weight:700;}
+    .sop-check-btn.no-checked{background:#fff3f3;border-color:#ef9a9a;color:#c62828;font-weight:700;}
+    .sop-item-yes .sop-item-text{color:#2e7d32;}
+    .sop-item-no .sop-item-text{color:#c62828;text-decoration:line-through;}
+    .sop-cat-summary{text-align:center;padding:14px 0 4px;}
+    .sop-cat-summary-icon{font-size:34px;}
+    .sop-cat-summary-title{font-size:16px;font-weight:800;color:#333;margin-top:4px;}
+    .sop-cat-summary-sub{font-size:12px;color:#8f9eae;margin-top:2px;}
+    .sop-all-done-card{text-align:center;padding:20px 0 8px;}
+    .sop-all-done-emoji{font-size:54px;margin-bottom:8px;}
+    .sop-all-done-text{font-size:20px;font-weight:800;color:#333;margin-bottom:4px;}
+    .sop-all-done-sub{font-size:12px;color:#8f9eae;}
+    .sop-finish-overlay{display:none;position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:120;align-items:center;justify-content:center;padding:24px;}
+    .sop-finish-overlay.show{display:flex;}
+    .sop-finish-card{background:#fff;border-radius:24px;padding:32px 28px;text-align:center;max-width:320px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
 
     /* ===== 进展 ===== */
     .progress-page { max-width: 420px; margin: 0 auto; }
@@ -299,7 +317,18 @@
 
     .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%) translateY(-30px); background: rgba(0,0,0,0.75); color: white; padding: 10px 18px; border-radius: 20px; font-size: 13px; opacity: 0; transition: all .3s; z-index: 200; }
     .toast.show { opacity: 1; transform: translate(-50%,-50%); }
-  </style>
+  
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
+</style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body data-page-node-id="MuCSIofOUaN52Vc4jGnPS0">
@@ -364,30 +393,35 @@
 
 <!-- ===== Page: 自检 ===== -->
 <div id="page-sop" class="page">
-  <div style="padding:16px 12px 80px;">
-    <div style="background:#fff;border-radius:20px;padding:20px 18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
-      <div style="font-size:20px;font-weight:800;color:#333;">🎯 状态自检</div>
-      <div style="font-size:13px;color:#999;margin-top:4px;margin-bottom:14px;">答完今天的题，看看准备度</div>
-      <div style="display:flex;gap:10px;margin-bottom:12px;">
-        <div style="flex:1;background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0e7490;" id="sopNum1">0</div><div style="font-size:11px;color:#8f9eae;">今日已答</div></div>
-        <div style="flex:1;background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0e7490;" id="sopNum2">0</div><div style="font-size:11px;color:#8f9eae;">总题数</div></div>
-        <div style="flex:1;background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0e7490;" id="sopNum3">0%</div><div style="font-size:11px;color:#8f9eae;">完成度</div></div>
+    <div style="padding:16px 12px 80px;">
+      <div style="background:#fff;border-radius:20px;padding:20px 18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+        <div style="font-size:20px;font-weight:800;color:#333;">🎯 今日自检复盘</div>
+        <div style="font-size:13px;color:#999;margin-top:4px;margin-bottom:14px;">分维度勾选，看清今天做到了什么</div>
+        <div style="display:flex;gap:10px;margin-bottom:12px;">
+          <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#0b8a82;" id="sopScore">0</div><div style="font-size:11px;color:#8f9eae;">今日得分</div></div>
+          <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#43a047;" id="sopPosCount">0</div><div style="font-size:11px;color:#8f9eae;">做到了</div></div>
+          <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#ef5350;" id="sopNegCount">0</div><div style="font-size:11px;color:#8f9eae;">需注意</div></div>
+        </div>
+        <div style="background:#eef2f5;border-radius:8px;height:10px;overflow:hidden;"><div id="sopScoreBar" style="height:100%;width:0%;background:#0b8a82;border-radius:8px;transition:width .5s;"></div></div>
+        <div style="font-size:11px;color:#8f9eae;text-align:right;margin-top:4px;" id="sopProgressText">0 / 100</div>
       </div>
-      <div style="background:#eef2f5;border-radius:8px;height:10px;overflow:hidden;"><div id="sopBar" style="height:100%;width:0%;background:#0e7490;border-radius:8px;transition:width .5s;"></div></div>
-      <div style="font-size:11px;color:#8f9eae;text-align:right;margin-top:4px;" id="sopBarText">0 / 0</div>
-    </div>
-    <div class="sop-cat-tabs" id="sopCatTabs" style="margin-bottom:12px;"></div>
-    <div style="background:#fff;border-radius:18px;padding:18px 16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
-      <div id="sopQuestion" style="font-size:15px;font-weight:700;color:#333;line-height:1.6;margin-bottom:12px;"></div>
-      <div id="sopOptions" style="display:flex;flex-direction:column;gap:8px;"></div>
-      <div id="sopScore" style="display:none;"></div>
-    </div>
-    <div style="background:#fff;border-radius:18px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
-      <div style="font-size:14px;font-weight:800;color:#333;margin-bottom:6px;">💡 状态提示</div>
-      <div id="sopTipText" style="font-size:12.5px;color:#555;line-height:1.7;"></div>
+      <div class="sop-cat-tabs" id="sopCatTabs" style="margin-bottom:12px;"></div>
+      <div class="sop-game-card" id="sopGameCard"></div>
+      <div style="background:#fff;border-radius:18px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+        <div style="font-size:14px;font-weight:800;color:#333;margin-bottom:6px;">💡 本维度提示</div>
+        <div id="sopTipText" style="font-size:12.5px;color:#555;line-height:1.7;"></div>
+      </div>
     </div>
   </div>
-</div>
+
+  <div id="sopFinishOverlay" class="sop-finish-overlay">
+    <div class="sop-finish-card">
+      <div style="font-size:54px;margin-bottom:10px;">🎉</div>
+      <div style="font-size:20px;font-weight:800;color:#333;margin-bottom:6px;">今日复盘完成！</div>
+      <div style="font-size:13px;color:#8f9eae;">明天 0 点自动重置，继续加油</div>
+      <button onclick="closeSOPFinish()" style="margin-top:18px;padding:12px 32px;border:none;border-radius:50px;background:#0b8a82;color:#fff;font-size:15px;font-weight:700;cursor:pointer;">好的</button>
+    </div>
+  </div>
 
 
 <!-- ===== Page: 教练（McKinsey风格 · 青绿主题） ===== -->
@@ -616,46 +650,18 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
 
 <div class="card" style="margin-top:20px;" data-page-node-id="s7n0fyJbIS8D1akdhgRuJ0">
     <div class="partner-badge" id="currentPartnerBadge" data-page-node-id="bL08K4uSeSpI91z2SUWPEz">🌊 海浪</div>
-    <div class="question" id="todaysQ" data-page-node-id="ez0AYCLpkPX3Ne074WjJW2">此刻你的状态，更接近哪一种？</div>
+    <div class="question" id="todaysQ" data-page-node-id="ez0AYCLpkPX3Ne074WjJW2">今日份的小改变，准备就绪</div>
     <div class="question-sub" id="todaysQSub" data-page-node-id="bbppiZWboI3peBX7anjS72">不评判 · 只是看见 · 然后选一个</div>
     <div class="tag-grid" id="tagGrid" data-page-node-id="5BRgFbKDOyoIVw8f3oiLDO"></div>
-    <div class="checkin-btn" id="checkinBtn" onclick="doCheckin()" data-page-node-id="PVJQ0GKHkeTGJgiE8xoAQX">
-      <div class="checkin-status" id="checkinStatusText" data-page-node-id="pQOG4WJmyEQsrCUHPu4V77">🪷 打卡</div>
-      <div class="checkin-sub" data-page-node-id="wV9FLYfGqU4dwS72wuOXD6">记录此刻</div>
-    </div>
-    <div class="continuous" id="continuousDays" data-page-node-id="Et1GCrDUhnmKesT4O9GKHE">0</div>
-    <div class="continuous-label" data-page-node-id="Ai8fKwd9pKldgiZdgGuA51">连续觉察天数</div>
+    <div class="today-checkin" id="checkinBtn" onclick="doCheckin()"><span class="checkin-status" id="checkinStatusText" style="font-size:20px;">签到</span><span class="checkin-sub">愿意来，就已经在变好</span></div>
+    <div class="today-status"><div class="ts-days"><span class="ts-num" id="continuousDays">0</span><span class="ts-label">天连续</span></div><div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;"><span id="weekRange"></span> · 这一周</div><div class="week-dots" id="weekDots"></div></div></div>
   </div>
 
-  <div class="chat-area" id="chatArea" data-page-node-id="dV4kMnE2rfWe0jvzdnkLV3"></div>
+  <div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);"><div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个小动作</div><div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div><div class="famk3list"></div></div><div class="chat-area" id="chatArea" data-page-node-id="dV4kMnE2rfWe0jvzdnkLV3"></div>
 
-  <div class="week-progress" data-page-node-id="ZNR5H3eZYvCDWdqH68VEZt">
-    <div class="week-title" data-page-node-id="fzkFg4kqHjHziQj4h21Im7"><span data-page-node-id="ku1b8u8Rg3phlO2QbFFRT9">📅 本周进度</span><span id="weekRange" data-page-node-id="6cxarEzuygsup0S0KD9MFU"></span></div>
-    <div class="week-dots" id="weekDots" data-page-node-id="MbbgwwhumJ2miM5ugL3rEi"></div>
-  </div>
+  
 
-  <div class="interaction-panel" data-page-node-id="4CrKmcJEvxo2MklBkwUjh2">
-    <div class="panel-label" data-page-node-id="lz8UPx7GVMEWTaI7FUPuwi">💬 和搭子说说话</div>
-    <div class="mood-row" data-page-node-id="0K8T64TLckQEoxIk3KtEYj">
-      <div class="mood-btn" data-mood="calm" title="平静" data-page-node-id="J4N4WC6EvaYzz9AWE48dNs">🌊</div>
-      <div class="mood-btn" data-mood="tired" title="疲惫" data-page-node-id="WalJBDrNX4CPiXPorgz4Hg">🫠</div>
-      <div class="mood-btn" data-mood="anxious" title="焦虑" data-page-node-id="F5daNvbFsSaBqgL9AxaRgr">😣</div>
-      <div class="mood-btn" data-mood="energetic" title="有劲" data-page-node-id="kNM9zsUQiA0RAxuDhAsavn">⚡</div>
-    </div>
-    <div class="talk-btn-row" data-page-node-id="tPR7XOC280WZzRCqI5rjqt">
-      <button class="talk-btn" data-type="progress" data-page-node-id="S14WQdpqwI3NNxsyOgAhV5">📈 进展</button>
-      <button class="talk-btn" data-type="struggle" data-page-node-id="QnfsVDugL8duVrt8sZDY3F">😣 状态差</button>
-      <button class="talk-btn" data-type="idea" data-page-node-id="LphH8rLTRUXimhcgtvIXKt">💭 想聊聊</button>
-      <button class="talk-btn" data-type="cheer" data-page-node-id="5PAiHvFlaCG76ceQgmg5jW">🎉 好状态</button>
-    </div>
-    <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
-      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
-    </div>
-    <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="stdSceneOpen()">💭 今天发生了什么</button>
-    </div>
-  </div>
+  
 <!-- std-buddy-tab-v1: 关键动作 + 提醒自己 + 场景弹窗 -->
 <div id="stdKey3" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
@@ -963,26 +969,33 @@ const TAGS = [
 ];
 
 const SOP_CATEGORIES = [
-  { id:0, name:'身体信号', icon:'🧘', questions:[
-    { q:'此刻身体哪里最紧 / 最不舒服？', options:['没有','肩膀','胃/胸口','整个人都很紧'], scores:[3,2,1,0] },
-    { q:'现在的呼吸是浅还是深？', options:['深而慢','一般','浅而快','屏住呼吸'], scores:[3,2,1,0] },
-    { q:'今天喝够水了吗？', options:['喝了 1.5L+','差不多','喝了一点','几乎没喝'], scores:[3,2,1,0] },
-    { q:'今天吃了让你舒服的食物吗？', options:['清淡有营养','一般','乱吃','没怎么吃'], scores:[3,2,1,0] },
-    { q:'现在身体是疲惫还是清醒？', options:['清醒','一般','有点累','非常疲惫'], scores:[3,2,1,0] }
+  { id:'a', name:'身体信号', icon:'🧘', color:'#0b8a82', tips:'身体是状态的底盘——先看见哪里最紧，再谈其他。', items:[
+    { text:'我留意到了身体最紧绷的部位，并做了一次主动放松', pts:10 },
+    { text:'我用 3 个深呼吸把呼吸调回了深而慢', pts:10 },
+    { text:'我今天喝够了水（约 1.5L+）', pts:10 },
+    { text:'我吃了让自己舒服、有营养的食物', pts:10 },
+    { text:'我允许身体休息，没有硬撑着透支', pts:10 }
   ]},
-  { id:1, name:'情绪命名', icon:'🌊', questions:[
-    { q:'能说出此刻最明显的情绪吗？', options:['能，清晰','能，大概','模糊','完全说不清'], scores:[3,2,1,0] },
-    { q:'这个情绪的强度（0-10）？', options:['0-3 平稳','4-6 有感','7-8 强烈','9-10 极端'], scores:[3,2,1,0] },
-    { q:'你对这个情绪的态度？', options:['接纳','观察','想赶走','被淹没'], scores:[3,2,1,0] },
-    { q:'此刻脑中重复出现的念头？', options:['没有','偶尔','反复','停不下来'], scores:[3,2,1,0] },
-    { q:'如果给这一刻起个名字？', options:['轻松','忙碌','焦虑','混乱'], scores:[3,2,1,0] }
+  { id:'b', name:'情绪命名', icon:'🌊', color:'#0b8a82', tips:'情绪像天气，命名它，它的强度就会小一点。', items:[
+    { text:'我说出了此刻最明显的情绪，而不是忽略它', pts:10 },
+    { text:'我给情绪的强度打了分（0-10），把它具象化', pts:10 },
+    { text:'我对自己的情绪保持「观察」而非「评判」', pts:10 },
+    { text:'我把反复出现的念头写下来，让它从洪水变数据', pts:10 },
+    { text:'我用一个词给这一刻起了名（如焦虑 / 平静）', pts:10 }
   ]},
-  { id:2, name:'专注锚点', icon:'🎯', questions:[
-    { q:'现在注意力能聚焦在 1 件事上吗？', options:['能','10 分钟内','几分钟','完全无法'], scores:[3,2,1,0] },
-    { q:'周围环境让你容易分心吗？', options:['安静','一般','有点乱','非常乱'], scores:[3,2,1,0] },
-    { q:'手机通知在过去 30 分钟响过几次？', options:['0','1-3 次','4-6 次','>6 次'], scores:[3,2,1,0] },
-    { q:'你现在「想做」的事和「该做」的事一致吗？', options:['一致','大部分','不一致','完全相反'], scores:[3,2,1,0] },
-    { q:'过去 1 小时切换过几次任务？', options:['0-1','2-3','4-5','>5'], scores:[3,2,1,0] }
+  { id:'c', name:'能量管理', icon:'⚡', color:'#0b8a82', tips:'能量有波峰波谷，谷底不做重大决定，先充电。', items:[
+    { text:'我识别了自己现在是高峰还是低谷能量', pts:10 },
+    { text:'低电量时我只做最低配置：喝水、晒太阳、早睡', pts:10 },
+    { text:'我把最难的事安排在状态最好的时候', pts:10 },
+    { text:'我给自己安排了 5 分钟走动 / 重启', pts:10 },
+    { text:'我没拿今天的自己和别人比较，只和昨天的自己比', pts:10 }
+  ]},
+  { id:'d', name:'专注锚点', icon:'🎯', color:'#0b8a82', tips:'专注不是逼出来的，先放下干扰，一次只做一件事。', items:[
+    { text:'我能把注意力聚焦在 1 件事上', pts:10 },
+    { text:'我关掉了手机通知 30 分钟', pts:10 },
+    { text:'我做的「想做」和「该做」基本一致', pts:10 },
+    { text:'过去 1 小时任务切换很少（≤2 次）', pts:10 },
+    { text:'我先用 5 分钟启动，让惯性接管剩下的', pts:10 }
   ]}
 ];
 
@@ -1035,7 +1048,7 @@ function switchTab(tab) {
   const idx = tabs.indexOf(tab);
   if (idx >= 0) document.querySelectorAll('.tab-item')[idx].classList.add('active');
   document.getElementById('page-' + tab).classList.add('active');
-  if (tab === 'sop') renderSOP();
+  if (tab === 'sop') initSOP();
   if (tab === 'checkin') renderCheckinPage();
   if (tab === 'record') renderStateRecord();
   if (tab === 'progress') renderProgress();
@@ -1711,46 +1724,24 @@ function bindStateInteractionFallback() {
   }, true);
 }
 
-// ===== SOP 自检 =====
-function renderSOP() {
-  const tabs = document.getElementById('sopCatTabs');
-  tabs.innerHTML = SOP_CATEGORIES.map((c, i) => `
-    <div class="sop-cat-tab ${i===sopCatIdx?'active':''}" onclick="switchSOPCat(${i})">${c.icon} ${c.name}</div>
-  `).join('');
-  renderSOPQuestion();
-}
-
-function switchSOPCat(i) {
-  sopCatIdx = i;
-  renderSOP();
-}
-
-function renderSOPQuestion() {
-  const cat = SOP_CATEGORIES[sopCatIdx];
-  const qIdx = sopSelected[sopCatIdx] || 0;
-  const q = cat.questions[qIdx];
-  document.getElementById('sopQuestion').innerText = `${cat.icon} ${cat.name} · 第 ${qIdx+1}/${cat.questions.length} 题：${q.q}`;
-  document.getElementById('sopOptions').innerHTML = q.options.map((opt, i) => `
-    <button class="sop-option" onclick="answerSOP(${i}, ${q.scores[i]})">${opt}</button>
-  `).join('');
-  updateSOPScore();
-  try{ updateSOPStd(); }catch(e){}
-}
-
-function answerSOP(optionIdx, score) {
-  sopSelected[sopCatIdx] = (sopSelected[sopCatIdx] || 0) + 1;
-  if (sopSelected[sopCatIdx] >= SOP_CATEGORIES[sopCatIdx].questions.length) {
-    sopSelected[sopCatIdx] = 0;
-  }
-  renderSOPQuestion();
-  showToast('已记录 · 继续下一题');
-}
-
-function updateSOPScore() {
-  const total = SOP_CATEGORIES.reduce((sum, c) => sum + c.questions.length, 0);
-  const answered = Object.values(sopSelected).reduce((sum, v) => sum + (v || 0), 0);
-  document.getElementById('sopScore').innerText = `已答 ${answered}/${total} 题 · 觉察清晰度慢慢浮现中`;
-}
+// ===== SOP 自检（Format C：分类 tab + 清单打分） =====
+let sopScore=0,sopDone=false,sopSubmittedCats=[];
+const SOP_ACC='#0b8a82',SOP_KEY='状态_sop';
+function getSOPData(){try{let d=JSON.parse(localStorage.getItem(SOP_KEY));return d&&typeof d==='object'?d:{}}catch(e){return{}}}
+function saveSOPData(o){localStorage.setItem(SOP_KEY,JSON.stringify(o))}
+function getSOPStreaks(){try{return JSON.parse(localStorage.getItem(SOP_KEY+'_streaks')||'{}')}catch(e){return{}}}
+function updateSOPCatStreak(catId,yesCount){let s=getSOPStreaks();let o=s[catId]||{streak:0,last:''};if(yesCount>0){o.streak=(o.last===getToday())?o.streak+0:o.streak+1;o.last=getToday()}else{o.streak=0;o.last=getToday()}s[catId]=o;localStorage.setItem(SOP_KEY+'_streaks',JSON.stringify(s))}
+function initSOP(){let d=getSOPData(),t=getToday();if(d.date!==t){sopScore=0;sopSelected={};sopDone=false;sopSubmittedCats=[]}else{sopScore=d.score||0;sopSelected=d.selected||{};sopDone=d.done||false;sopSubmittedCats=d.submittedCats||[]}renderSOPTabs();renderSOPList();updateSOPHeader();let tip=document.getElementById('sopTipText');if(tip&&SOP_CATEGORIES[sopCatIdx])tip.textContent=SOP_CATEGORIES[sopCatIdx].tips}
+function renderSOPTabs(){let tabs=document.getElementById('sopCatTabs');if(!tabs)return;let st=getSOPStreaks();tabs.innerHTML=SOP_CATEGORIES.map((c,i)=>{let sel=sopSelected[c.id]||{};let done=Object.keys(sel).length>=c.items.length;let sk=st[c.id]?st[c.id].streak:0;return '<button class="sop-cat-tab '+(i===sopCatIdx?'active':'')+'" onclick="switchSOPCat('+i+')">'+c.icon+' '+(done?'✅':'')+c.name+(sk>0?' 🔥':'')+'</button>'}).join('')}
+function switchSOPCat(idx){sopCatIdx=idx;let tip=document.getElementById('sopTipText');if(tip)tip.textContent=SOP_CATEGORIES[idx].tips;renderSOPTabs();renderSOPList()}
+function updateSOPHeader(){let ty=0,tn=0,ti=0;SOP_CATEGORIES.forEach(c=>{let sel=sopSelected[c.id]||{};c.items.forEach((it,ix)=>{ti++;if(sel[ix]==='yes')ty++;else if(sel[ix]==='no')tn++})});let s=document.getElementById('sopScore');if(s)s.textContent=sopScore;let p=document.getElementById('sopPosCount');if(p)p.textContent=ty;let n=document.getElementById('sopNegCount');if(n)n.textContent=tn;let bar=document.getElementById('sopScoreBar');if(bar)bar.style.width=sopScore+'%';let pt=document.getElementById('sopProgressText');if(pt)pt.textContent=Math.round(ti>0?(ty/ti)*100:0)+' / 100'}
+function getCatSelected(id){return sopSelected[id]||{}}
+function renderSOPList(){let card=document.getElementById('sopGameCard');if(!card)return;let cat=SOP_CATEGORIES[sopCatIdx];if(!cat){card.innerHTML='';return}let sel=getCatSelected(cat.id),dc=Object.keys(sel).length,tc=cat.items.length,all=dc>=tc;if(sopDone){renderSOPDoneState();return}let items=cat.items.map((it,ix)=>{let st=sel[ix]||null;let yc=st==='yes'?'sop-item-yes':'',nc=st==='no'?'sop-item-no':'';let yb=st==='yes'?'yes-checked':'',nb=st==='no'?'no-checked':'';return '<div class="sop-item '+yc+' '+nc+'"><div class="sop-item-text">'+it.text+'</div><div class="sop-item-btns"><button class="sop-check-btn '+yb+'" onclick="toggleSOPItem('+ix+',\'yes\')">✅ 做到了</button><button class="sop-check-btn '+nb+'" onclick="toggleSOPItem('+ix+',\'no\')">❌ 没做到</button></div></div>'}).join('');let sum=all?'<div class="sop-cat-summary" style="margin-top:12px;"><div class="sop-cat-summary-icon">'+cat.icon+'</div><div class="sop-cat-summary-title">'+cat.name+' 今日小结</div><div class="sop-cat-summary-sub">已全部回答 ✅</div><button onclick="submitSOPCat()" style="margin-top:12px;padding:12px 24px;background:'+SOP_ACC+';color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;">📋 确认本维度 →</button></div>':'';card.innerHTML='<div class="sop-cat-progress"><span>'+cat.icon+' '+cat.name+'</span><div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:'+Math.round(dc/tc*100)+'%;background:'+(cat.color||SOP_ACC)+'"></div></div><span style="color:'+SOP_ACC+';font-weight:700;">'+dc+'/'+tc+'</span></div><div class="sop-list-container">'+items+'</div>'+sum}
+function toggleSOPItem(ix,state){let cat=SOP_CATEGORIES[sopCatIdx];if(!sopSelected[cat.id])sopSelected[cat.id]={};if(sopSelected[cat.id][ix]===state)delete sopSelected[cat.id][ix];else sopSelected[cat.id][ix]=state;renderSOPList();renderSOPTabs();updateSOPHeader()}
+function submitSOPCat(){let cat=SOP_CATEGORIES[sopCatIdx],sel=sopSelected[cat.id]||{},cy=0;cat.items.forEach((it,ix)=>{if(sel[ix]==='yes')cy++});if(!sopSubmittedCats.includes(cat.id))sopSubmittedCats.push(cat.id);updateSOPCatStreak(cat.id,cy);let ty=0,tia=0;SOP_CATEGORIES.forEach(c=>{let s=sopSelected[c.id]||{};c.items.forEach((it,ix)=>{tia++;if(s[ix]==='yes')ty++})});sopScore=Math.round((ty/tia)*100);saveSOPData({score:sopScore,selected:sopSelected,done:false,date:getToday(),submittedCats:sopSubmittedCats});updateSOPHeader();let all=SOP_CATEGORIES.every(c=>sopSubmittedCats.includes(c.id));if(all){sopDone=true;saveSOPData({score:sopScore,selected:sopSelected,done:true,date:getToday(),submittedCats:sopSubmittedCats});setTimeout(showSOPFinish,400)}else{let nx=SOP_CATEGORIES.findIndex(c=>!sopSubmittedCats.includes(c.id));if(nx>=0){sopCatIdx=nx;let tip=document.getElementById('sopTipText');if(tip)tip.textContent=SOP_CATEGORIES[sopCatIdx].tips}renderSOPTabs();renderSOPList()}}
+function renderSOPDoneState(){let card=document.getElementById('sopGameCard');if(!card)return;let st=getSOPStreaks(),ty=0,tn=0;SOP_CATEGORIES.forEach(c=>{let sel=sopSelected[c.id]||{};c.items.forEach((it,ix)=>{if(sel[ix]==='yes')ty++;else if(sel[ix]==='no')tn++})});let det=SOP_CATEGORIES.map(c=>{let sel=sopSelected[c.id]||{},cy=0;c.items.forEach((it,ix)=>{if(sel[ix]==='yes')cy++});let pct=Math.round((cy/c.items.length)*100);let sk=st[c.id]||{streak:0};return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;"><span style="font-size:13px;">'+c.icon+' '+c.name+'</span><span style="font-size:13px;font-weight:700;color:'+(c.color||SOP_ACC)+';">'+pct+'% '+(cy>0?'✅':'')+'</span></div>'}).join('');let em=sopScore>=80?'🏆':sopScore>=60?'💪':sopScore>=30?'🌱':'😊';let ti=sopScore>=80?'满分！完美复盘！':sopScore>=60?'做得很好！':sopScore>=30?'有收获，继续加油！':'明天会更好！';card.innerHTML='<div class="sop-all-done-card"><div class="sop-all-done-emoji">'+em+'</div><div class="sop-all-done-text">'+ti+'</div><div class="sop-all-done-sub">今日复盘已完成 · 明天0点自动重置</div><div style="display:flex;justify-content:center;gap:20px;margin:16px 0;"><div style="text-align:center;"><div style="font-size:26px;font-weight:800;color:'+SOP_ACC+';">'+sopScore+'%</div><div style="font-size:11px;color:#8f9eae;">今日得分</div></div><div style="text-align:center;"><div style="font-size:26px;font-weight:800;color:#43a047;">'+ty+'</div><div style="font-size:11px;color:#8f9eae;">做到了</div></div><div style="text-align:center;"><div style="font-size:26px;font-weight:800;color:#ef5350;">'+tn+'</div><div style="font-size:11px;color:#8f9eae;">需注意</div></div></div><div style="font-size:12px;font-weight:600;color:'+SOP_ACC+';padding:0 12px 6px;">📊 各维度总结</div><div style="padding:0 4px;">'+det+'</div><div style="text-align:center;font-size:11px;color:#b0bec5;margin-top:12px;">🌙 明天0点自动重置</div></div>';let tabs=document.getElementById('sopCatTabs');if(tabs)tabs.style.display='none'}
+function showSOPFinish(){let ov=document.getElementById('sopFinishOverlay');if(ov)ov.classList.add('show')}
+function closeSOPFinish(){let ov=document.getElementById('sopFinishOverlay');if(ov)ov.classList.remove('show')}
 
 // ===== 进展 =====
 function renderProgress() {
@@ -1971,7 +1962,22 @@ function closeFBBack() {
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
+      function fbDefault(t){
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    var t2 = t.replace(/^[0-9]{1,2}[、..\s]+/, '').replace(/^[\u2460-\u2473]\s*/, '').replace(/^[0-9]\uFE0F?\u20E3[、..\s]*/, '');
+    var m = t2.match(/^([^：:（(]{2,24})(（=([^）]+)）)?[:：]?\s*(.+)$/);
+    var quote = t2.length <= 30;
+    var name = quote ? t2 : (m && m[1] ? m[1] : t2.slice(0, 20) + '…');
+    var def = m && m[3] ? m[3] : '';
+    var body = m && m[4] ? m[4] : t2;
+    var short = body.length > 44 ? body.slice(0, 44) + '…' : body;
+    return [
+      ['🧠 认知 · 为什么记住它', def ? ('这条你自己给的定义是：' + def + '。把「' + name + '」记下来，就是把这个判断变成随时可调用的标准，下次遇到同类场景不用从零纠结。') : (quote ? ('这是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。') : ('「' + name + '」是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。'))],
+      ['🎯 行为 · 怎么做', '下次遇到对应场景，按这条执行一次最小版本：' + short + ' 先做一次，再对比老做法的结果。'],
+      ['⚠️ 易错点', '只收藏不执行——这条的价值要在一次次具体决策里兑现，而不是躺在卡片里。'],
+      ['🔧 怎么调整', '每周回看一次：最近的决策有没有真的用到它？没用上的场景，就是下周要练的场景。']
+    ];
+  }
   window.__CC_DB = {"每天 3 次「觉察打卡」（起床 / 午后 / 睡前各 1 次）": [["🧠 认知 · 为什么", "情绪觉察的频次比深度重要：每日三次采样能拼出完整的能量节律曲线，而一天一次的回顾只能记住最强烈的片段（峰值效应），看不到真实波动。"], ["🎯 行为 · 怎么做", "定三个锚点（起床/午后3点/睡前），每次30秒只答两问：现在能量几分（1-10）？情绪是什么词？记进便签即可。"], ["⚠️ 易错点", "打卡变成分析大会——觉察阶段只采样不解读，解读留给周复盘，否则会为了「状态好」而美化记录。"], ["✅ 确认", "今天三次都打了；本周的曲线里，你的能量低谷固定在几点。"]], "· 不评价，只命名（\"焦虑\" \"涣散\" \"平静\"...）": [["🧠 认知 · 为什么", "情绪命名的神经科学证据（affect labeling）：给感受贴上准确词语本身就能降低杏仁核激活；而评价（「我不该焦虑」）会叠加第二层痛苦。"], ["🎯 行为 · 怎么做", "打卡时强制用「词语」作答而非句子，练习 finer 词汇：不写「不好」，写「燥/闷/空/紧」——词越准，降激活越强。"], ["⚠️ 易错点", "用「还行」糊弄——「还行」是回避性命名，等于没命名；宁可写「说不清的堵」。"], ["✅ 确认", "本周的打卡词汇里出现了≥5个不同的情绪词；有没有一个词是以前没用过的。"]], "· 先不试图改变，只看见就好": [["🧠 认知 · 为什么", "正念研究的核心机制：对内在体验的「不评判觉察」本身就能改变它与你的关系——急着改变等于确认「这个状态是敌人」，反而强化对抗。"], ["🎯 行为 · 怎么做", "打卡后若想分析，对自己说一句「看到了，先这样」就收工；改变的动作只允许出现在每周复盘时。"], ["⚠️ 易错点", "「看见」变成变相自我监控和纠正——检验标准：打卡后你是更平静了还是更紧张了。"], ["✅ 确认", "本周≥5次「只看见不处理」；那些被看见的情绪，自己发生了什么变化。"]], "能用 2-3 个词说出今天的「能量」与「平静」": [["🧠 认知 · 为什么", "内感受（interoception）精度是情绪调节能力的基础：能精细区分「累」和「钝」、「平静」和「麻木」的人，情绪恢复速度更快。"], ["🎯 行为 · 怎么做", "每晚睡前给今天两个维度各打一个词+一个分：能量（1-10）与平静（1-10），坚持两周后你的个人词库会自然扩容。"], ["⚠️ 易错点", "两个维度混为一个「状态」——能量高可以平静也可以躁，分开打分才能定位真问题。"], ["✅ 确认", "今晚的两个词是什么；回看本周，能量与平静是否经常不同步。"]], "· 区分「触发因素」（外部事件）和「真实状态」（内在感受）": [["🧠 认知 · 为什么", "归因错位是情绪困扰的放大器：把内在波动归咎于外部事件（「他让我烦」）会制造敌意，把外部压力误当内在问题会陷入自责；分开归因才能对症。"], ["🎯 行为 · 怎么做", "状态波动时写两行：「发生了什么（外部）」/「我实际感到什么（内部）」，问一句：如果没这件事，我现在的基线状态是什么。"], ["⚠️ 易错点", "把生理因素（没睡/低血糖/经期）误归因为心理或人际问题——先排查身体，再谈心理。"], ["✅ 确认", "本周一次波动完成了双行归因；找到过一次「其实是身体原因」吗。"]], "· 开始观察身体信号：紧 / 松 / 累 / 醒": [["🧠 认知 · 为什么", "身体比意识早6秒知道情绪（躯体标记假说）：肩颈的紧、胸口的闷常是情绪的第一信使；学会读身体信号，就能在情绪成形前介入。"], ["🎯 行为 · 怎么做", "每次打卡加一个身体扫描（30秒）：从头到脚过一遍，说出一个最明显的信号词（紧/松/累/沉/热），记下来。"], ["⚠️ 易错点", "只在难受时才扫描——日常「松」和「醒」的状态也要记，否则你只有负面信号的数据集。"], ["✅ 确认", "本周扫描≥5次；能说出「紧」通常出现在你什么情绪之后吗。"]], "拥有 2-3 套快速重置动作（呼吸 / 走动 / 冷水洗脸）": [["🧠 认知 · 为什么", "生理性叹息与慢呼气（呼气长于吸气）能直接激活副交感神经——重置不靠意志靠生理开关；预制的2-3套动作让「重置」在情绪风暴中可执行。"], ["🎯 行为 · 怎么做", "固定三套并写下来：4-7-8呼吸×3轮/楼下快走5分钟/冷水洗脸30秒，情绪波动超6分（1-10）时强制执行其一。"], ["⚠️ 易错点", "重置时还在脑子里重播事件——先动身体再动脑，生理水平降下来，思维自然停。"], ["✅ 确认", "三套动作已写死；本周至少用过一次，用它后强度降了几分。"]], "· 能在状态低谷前预警（连续 3 天评分 ≤4 触发自我对话）": [["🧠 认知 · 为什么", "低谷的早期信号（睡眠变浅/语速变快/小事烦躁）比低谷本身早2-3天出现：预警线把「崩溃后自救」前移为「萌芽期介入」，成本差一个量级。"], ["🎯 行为 · 怎么做", "定义你的if-then：「连续3天能量≤4或平静≤4→第二天启动预案（早睡1小时/砍掉一半日程/约信任的人吃饭）」。"], ["⚠️ 易错点", "触发后硬撑「扛过去就好」——数据已经报警，硬撑是把小感冒拖成肺炎；预案的价值就是不用临场决定。"], ["✅ 确认", "预警线已写死；最近一次触发（如有）你执行预案了吗。"]], "· 情绪波动回到节律的时间在缩短": [["🧠 认知 · 为什么", "情绪调节能力的进步指标不是「不波动」而是「回归速度」：从半天缩短到2小时再到20分钟——回归时长是可测量的复原力（resilience）。"], ["🎯 行为 · 怎么做", "每次波动记录两个时间点：被触发的时间/恢复基线的时间，每周算一次平均回归时长，只跟自己的上周比。"], ["⚠️ 易错点", "期待「不再波动」——目标定错会让进步不可见；月度看回归曲线，哪怕只缩短10%都是真实的能力增长。"], ["✅ 确认", "本周平均回归时长是多少；比四周前快了吗。"]]};
   function fbFor(txt){
     
@@ -2207,17 +2213,7 @@ function pgStats(){
 }
 
 function updateSOPStd(){
-  try{
-    var total=SOP_CATEGORIES.reduce(function(s,c){return s+c.questions.length;},0);
-    var answered=Object.values(sopSelected).reduce(function(s,v){return s+(v||0);},0);
-    var n1=document.getElementById('sopNum1'); if(n1)n1.innerText=answered;
-    var n2=document.getElementById('sopNum2'); if(n2)n2.innerText=total;
-    var n3=document.getElementById('sopNum3'); if(n3)n3.innerText=(total?Math.round(answered/total*100):0)+'%';
-    var bar=document.getElementById('sopBar'); if(bar)bar.style.width=(total?answered/total*100:0)+'%';
-    var bt=document.getElementById('sopBarText'); if(bt)bt.innerText=answered+' / '+total;
-    var tips=['觉察的第一步只是命名：「我现在有点烦」——不评判', '能量低不是懒，是身体在要求恢复，先补觉再补计划', '情绪上头时先深呼吸6秒，前额叶才能重新上线', '每天固定3个觉察时点：早起/午后/睡前，形成锚点', '写下来比想清楚更容易——记录本身就在降低情绪强度'];
-    var t=document.getElementById('sopTipText'); if(t)t.innerText=tips[answered%tips.length];
-  }catch(e){}
+  try{ if(typeof updateSOPHeader==='function')updateSOPHeader(); }catch(e){}
 }
 function renderProgressStd(){
   try{
@@ -2298,7 +2294,7 @@ function renderRecordWeekly(){
     var r;
     try{ r=__oldST.apply(this,arguments); }catch(e){ if(t&&document.getElementById('page-'+t))document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');}); document.getElementById('page-'+t).classList.add('active'); }
     if(t==='partner'){ pgFillCard(); pgObserve(); }
-    if(t==='sop'){ try{ if(typeof renderSOP==='function')renderSOP(); if(typeof updateSOPStd==='function')updateSOPStd(); }catch(e){} }
+    if(t==='sop'){ try{ if(typeof initSOP==='function')initSOP(); }catch(e){} }
     if(t==='progress'){ try{ renderProgressStd(); }catch(e){} }
     if(t==='share'){ try{ renderShareStd(); }catch(e){} }
     if(t==='record'){ try{ renderRecordWeekly(); }catch(e){} }

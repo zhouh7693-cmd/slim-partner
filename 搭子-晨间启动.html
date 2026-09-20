@@ -467,6 +467,17 @@
     .qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; }
     .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#1f2937; }
     .qa-close-x:active { background:rgba(0,0,0,0.18); }
+
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
 </style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
@@ -545,46 +556,19 @@
   <div id="dashboard" style="display:none;" data-page-node-id="vfVuMQwF3UeaHGW2orLVwx">
     <div class="card" data-page-node-id="gI3hNZcUZw72CR8YWSS3jB">
       <div id="currentPartnerBadge" class="partner-badge" data-page-node-id="SNIyjCea6spPzEne4n0Ft5">🌅 唤醒型</div>
-      <div class="question" data-page-node-id="wEsKAfr6GSIgeRSGYgBfj2">今天，早晨的主导权在你手里吗？</div>
-      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="wTTlRGFIFkGdUY9EwMKngh">
-        <div class="checkin-status" id="checkinStatusText" data-page-node-id="21ouhoXvil26CEMF6bq4XH">签到</div>
-        <div class="checkin-sub" data-page-node-id="X1CbQcxbv3N652HjR5onOd">点击打卡</div>
-      </div>
-      <div class="continuous" id="continuousDays" data-page-node-id="jpFCHusbFg0AaBowUsiMsw">0</div>
-      <div class="continuous-label" data-page-node-id="mLCDsaAvtYoLih8wGrvcck">连续打卡天数</div>
+      <div class="question" data-page-node-id="wEsKAfr6GSIgeRSGYgBfj2">今日份的小改变，准备就绪</div>
+      <div class="today-checkin" id="checkinBtn" onclick="doCheckin()"><span class="checkin-status" id="checkinStatusText" style="font-size:20px;">签到</span><span class="checkin-sub">愿意来，就已经在变好</span></div>
+      <div class="today-status"><div class="ts-days"><span class="ts-num" id="continuousDays">0</span><span class="ts-label">天连续</span></div><div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;"><span id="weekRange"></span> · 这一周</div><div class="week-dots" id="weekDots"></div></div></div>
     </div>
 
     <!-- 搭子消息区 -->
-    <div class="chat-area" id="chatArea" data-page-node-id="EtrERTHm90cCoHu4zzaToP"></div>
+    <div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);"><div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个关键小动作</div><div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div><div class="famk3list"></div></div><div style="max-width:420px;margin:0 auto 14px;"><button class="talk-btn" style="width:100%;" onclick="openSceneSheet()">💭 今天发生了什么</button></div><button class="talk-btn" style="margin-top:14px;width:100%;" onclick="copyStats()">📋 分享战绩</button><div class="chat-area" id="chatArea" data-page-node-id="EtrERTHm90cCoHu4zzaToP"></div>
 
     <!-- 本周进度 -->
-    <div class="week-progress" data-page-node-id="3ZaueiZIuNLzv7IHjHCXsQ">
-      <div class="week-title" data-page-node-id="CeXcrsXcBdsG2qJ8ei0i1v"><span data-page-node-id="TpGojX3oUV8HcqI1QqMMfJ">📅 本周进度</span><span id="weekRange" data-page-node-id="zZTEnHhGTBm0yWpwB802la"></span></div>
-      <div class="week-dots" id="weekDots" data-page-node-id="Veunh6ZNmgA1jaGVR8f0Zw"></div>
-      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyStats()" data-page-node-id="e9J7Vbjse5NHxWHXwjC9sD">📋 复制战绩</button>
-    </div>
+    
 
     <!-- 搭子交互（仪表盘底部） -->
-    <div class="interaction-panel" data-page-node-id="C1MrpGyLfG7k0LTekRhlRd">
-      <div class="panel-label" data-page-node-id="Dq2Iu6gex8II6hTNvQ6H8Z">💬 和搭子说说话</div>
-      <div class="mood-row" data-page-node-id="YHvo0sfWHcPl3l3GypPlhm">
-        <div class="mood-btn" data-mood="happy" title="开心" data-page-node-id="PNavE7qCJWLJgMrpDeICFT">😄</div>
-        <div class="mood-btn" data-mood="neutral" title="平静" data-page-node-id="aJIl28dtOfQCggRPDCyjSF">😌</div>
-        <div class="mood-btn" data-mood="sad" title="低落" data-page-node-id="ON6ZIuCUuhZoviEF7wyrHm">😔</div>
-        <div class="mood-btn" data-mood="tired" title="累了" data-page-node-id="kjI6JC3BdxuxQ5iYEGvl16">😫</div>
-      </div>
-      <div class="talk-btn-row" data-page-node-id="ZVzbShUh46BBErg7hbMsAO">
-        <button class="talk-btn" data-type="progress" data-page-node-id="HvT81sJFQCfkJW97Dz5Umu">📈 进展</button>
-        <button class="talk-btn" data-type="struggle" data-page-node-id="FXHDMDXwTEqAnOXDGN3Htl">😣 困难</button>
-        <button class="talk-btn" data-type="idea" data-page-node-id="gUGNq5TURLeknyba27iXo2">💡 想法</button>
-        <button class="talk-btn" data-type="cheer" data-page-node-id="vNxloubEW5jZ1mp7dnPuXH">🎉 喜事</button>
-      </div>
-      <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="WEpG8Ub3GhdLFJfMd7wPHM">
-        <button class="talk-btn" data-type="report" data-page-node-id="rqvxCAxL64P54LdREmJCUk">📣 汇报进展</button>
-        <button class="talk-btn" data-type="question" data-page-node-id="5MHlCrCf6dtkLfMIu7vRim">🤔 有问题想问</button>
-      </div>
-    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" data-type="scene">💭 今天发生了什么</button></div>
-    </div>
+    
 
     <!-- 分享入口 -->
     
@@ -3668,7 +3652,22 @@ function openSceneFB(idx, type) {
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
+      function fbDefault(t){
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    var t2 = t.replace(/^[0-9]{1,2}[、..\s]+/, '').replace(/^[\u2460-\u2473]\s*/, '').replace(/^[0-9]\uFE0F?\u20E3[、..\s]*/, '');
+    var m = t2.match(/^([^：:（(]{2,24})(（=([^）]+)）)?[:：]?\s*(.+)$/);
+    var quote = t2.length <= 30;
+    var name = quote ? t2 : (m && m[1] ? m[1] : t2.slice(0, 20) + '…');
+    var def = m && m[3] ? m[3] : '';
+    var body = m && m[4] ? m[4] : t2;
+    var short = body.length > 44 ? body.slice(0, 44) + '…' : body;
+    return [
+      ['🧠 认知 · 为什么记住它', def ? ('这条你自己给的定义是：' + def + '。把「' + name + '」记下来，就是把这个判断变成随时可调用的标准，下次遇到同类场景不用从零纠结。') : (quote ? ('这是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。') : ('「' + name + '」是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。'))],
+      ['🎯 行为 · 怎么做', '下次遇到对应场景，按这条执行一次最小版本：' + short + ' 先做一次，再对比老做法的结果。'],
+      ['⚠️ 易错点', '只收藏不执行——这条的价值要在一次次具体决策里兑现，而不是躺在卡片里。'],
+      ['🔧 怎么调整', '每周回看一次：最近的决策有没有真的用到它？没用上的场景，就是下周要练的场景。']
+    ];
+  }
   window.__CC_DB = {"固定一个起床时间，周末也不超过1小时浮动": [["🧠 认知 · 为什么", "《Sleep》期刊6万人加速度计研究：睡眠规律性对死亡风险的预测力超过睡眠时长，作息规律者全因死亡风险低20-48%；周末漂移就是每周一次的「社交时差」。"], ["🎯 行为 · 怎么做", "定死起床点（误差±30分钟），周末也不破例；闹钟响起：脚落地→开窗帘，不给「再躺五分钟」留执行路径。"], ["⚠️ 易错点", "「周末补觉」——补的是困倦，赔的是节律；困了用20分钟午睡解决，起床时间不动摇。"], ["✅ 确认", "本周7天起床时间偏差都≤1小时了吗；昨晚几点睡的，明早几点起，说得出就是节律在位。"]], "醒来第一件事是喝水开窗帘，不是摸手机": [["🧠 认知 · 为什么", "晨光是校准生物钟的最强信号（抑制褪黑素、启动皮质醇觉醒反应），补水弥补整夜呼吸失水；而手机是「被动注意力」陷阱，睁眼即刷会劫持一天的注意力主权。"], ["🎯 行为 · 怎么做", "睡前在床头放好一杯水；睁眼动作链固定为：坐起→喝水→拉开窗帘晒30秒光，全套做完才允许看手机。"], ["⚠️ 易错点", "「就看一眼时间」——一眼变十分钟的路径每人都经历过；买一个实体闹钟，手机夜里根本不进卧室。"], ["✅ 确认", "本周≥5天「先水+光后手机」；睁眼到第一次碰手机的间隔，比上周长了吗。"]], "昨晚把手机放到床头够不着的地方": [["🧠 认知 · 为什么", "睡前刷屏的双重伤害：蓝光推迟褪黑素分泌，内容刺激维持皮层唤醒，两者都压缩深睡窗口；而「手机在床头」是行为链的起点，物理距离是最便宜的自控。"], ["🎯 行为 · 怎么做", "定一条铁律：每晚睡前手机放到卧室外或3米外充电；买一个实体闹钟替代它的叫醒职能。"], ["⚠️ 易错点", "「我需要它待机听白噪音」——用其他设备（音箱/手表）替代，别为单个功能保留整条堕落通道。"], ["✅ 确认", "昨晚手机睡在哪？连续一周不在床头，睡前醒后两段的体验都会有变化。"]], "起床后60分钟里，先做最重要的那件事": [["🧠 认知 · 为什么", "晨间的前60分钟是全天认知资源的头等舱：前额叶刚完成整夜「清理」，意志力和专注力处于峰值；把峰值给最重要的事，是把一天的主导权握在自己手里。"], ["🎯 行为 · 怎么做", "昨晚睡前写下「晨间第一事」（一件，5-50分钟量级），起床顺序走完（水/光/洗漱）后直接进入，不查看任何消息。"], ["⚠️ 易错点", "「先处理一下昨晚的消息」——一打开收件箱，今天的议程就换成别人的了；消息在第一件事完成前不存在。"], ["✅ 确认", "本周≥5天「第一事」在60分钟内开工；今天上午的状态，和刷完手机才开工的日子比呢。"]], "写下来今天必做的3件事，只写3件": [["🧠 认知 · 为什么", "目标研究：书面目标达成率显著高于心理目标；而清单超过3件后，完成率随条目数下降——3件封顶是「日清」与「成就感」的最优配置。"], ["🎯 行为 · 怎么做", "昨晚或今早写3件事（一件对结果重要、一件对长期重要、一件杂务），当天结束时逐项打钩，没完成的明早第一顺位。"], ["⚠️ 易错点", "把「想做的」全塞进来变成10件——清单的功能是聚焦不是罗列，第4件开始都在透支今天的3件。"], ["✅ 确认", "今天的3件事写了吗；昨晚写了吗（那就更对）——本周日清率≥2/3即健康。"]], "10分钟晨间激活：拉伸、快走或几个俯卧撑": [["🧠 认知 · 为什么", "晨间活动通过体温上升和血液循环提前唤醒身体，比咖啡因更生理且无半衰期；10分钟的量级设计保证「最低状态也能完成」——频率比强度重要。"], ["🎯 行为 · 怎么做", "三选一按状态轮换：窗边拉伸5分钟+快走5分钟/20个俯卧撑分组做/原地开合跳30秒×3组，做完冲个澡效果加倍。"], ["⚠️ 易错点", "「今天没状态就跳过」——激活动作的意义恰恰是状态差时的兜底，把标准降到最低保证不断线。"], ["✅ 确认", "本周激活≥5次；做完那天的上午专注度，和没做的日子有差吗。"]], "例行动作固化成习惯，不靠意志力也能启动": [["🧠 认知 · 为什么", "习惯自动化中位数约66天（18-254天）：固化的本质是固定顺序+固定锚点，让行为从「决定」变成「默认」；意志力只该用在建立期。"], ["🎯 行为 · 怎么做", "把晨间动作写成固定顺序清单（睁眼→水→帘→洗漱→第一事），贴在床头，连续执行不停改顺序，21天前不评估。"], ["⚠️ 易错点", "每天微调流程求最优——固化期变量越少越好，优化欲留给21天后的复盘日。"], ["✅ 确认", "清单贴出了吗；今天有哪些动作是「没想就做了」的，数一数，那就是自动化的进度。"]], "早晨的状态延伸到全天：不慌、有序、有主导权": [["🧠 认知 · 为什么", "锚定效应在自我认知里同样成立：早晨的掌控体验会成为全天解释框架（「今天是我在做主」）；反之，起床即追赶的一天默认进入应激模式。"], ["🎯 行为 · 怎么做", "给早晨留缓冲：比「必须出门的时间」提前30分钟作为缓冲区，缓冲区里不排任务，只做让节奏从容的事（慢慢吃早餐/看两页书）。"], ["⚠️ 易错点", "用「多睡30分钟」吃掉缓冲——缓冲换来的从容贯穿全天，账要算全天的，不算床上的。"], ["✅ 确认", "本周≥4天有缓冲；上午10点时的你，是从容的还是已经在追赶了。"]], "用晨间复盘校准节奏：哪天崩了，为什么": [["🧠 认知 · 为什么", "复盘的对象是「系统」不是「意志」：崩溃日的价值是暴露流程缺陷（睡太晚/清单超载/被消息劫持）；不归因于人的复盘才能持续做下去。"], ["🎯 行为 · 怎么做", "每周挑2次晨间复盘（3分钟）：哪天崩了/链条断在哪一环/给那一环加一个小补丁（如手机挪远10厘米）。"], ["⚠️ 易错点", "崩了就全盘否定重来——修改系统而非清零重启，好系统的标志是被打倒后自己会站起来。"], ["✅ 确认", "最近一次「崩」的断点找到了吗；给它的补丁生效了吗。"]]};
   function fbFor(txt){
     

@@ -228,6 +228,17 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
   .ai-clk-item:hover { background: #f5f5f7; }
   .ai-clk-item.done { color: #8f9eae; text-decoration: line-through; }
   .ai-clk-item .ai-clk-box { margin-right: 8px; }
+
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
 </style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
@@ -272,38 +283,13 @@ footer{font-size:12px;text-align:center;color:#8f9eae;margin-top:16px;max-width:
   <div id="dashboard" style="display:none;">
     <div class="card">
       <div id="currentPartnerBadge" class="partner-badge">🌸 温柔导师型</div>
-      <div class="question">今天，你用AI了吗？</div>
-      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()">
-        <div class="checkin-status" id="checkinStatusText">签到</div>
-        <div class="checkin-sub">点击打卡</div>
-      </div>
-      <div class="continuous" id="continuousDays">0</div>
-      <div class="continuous-label">连续打卡天数</div>
+      <div class="question">今日份的小改变，准备就绪</div>
+      <div class="today-checkin" id="checkinBtn" onclick="doCheckin()"><span class="checkin-status" id="checkinStatusText" style="font-size:20px;">签到</span><span class="checkin-sub">愿意来，就已经在变好</span></div>
+      <div class="today-status"><div class="ts-days"><span class="ts-num" id="continuousDays">0</span><span class="ts-label">天连续</span></div><div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;"><span id="weekRange"></span> · 这一周</div><div class="week-dots" id="weekDots"></div></div></div>
     </div>
-    <div class="chat-area" id="chatArea"></div>
-    <div class="week-progress">
-      <div class="week-title"><span>📅 本周进度</span><span id="weekRange"></span></div>
-      <div class="week-dots" id="weekDots"></div>
-    </div>
-    <div class="interaction-panel">
-      <div class="panel-label">💬 和AI搭子聊聊</div>
-      <div class="mood-row">
-        <div class="mood-btn" data-mood="happy">😄</div>
-        <div class="mood-btn" data-mood="neutral">😌</div>
-        <div class="mood-btn" data-mood="sad">😔</div>
-        <div class="mood-btn" data-mood="tired">😫</div>
-      </div>
-      <div class="talk-btn-row">
-        <button class="talk-btn" data-type="progress">📈 进展</button>
-        <button class="talk-btn" data-type="struggle">😣 困难</button>
-        <button class="talk-btn" data-type="idea">💡 想法</button>
-        <button class="talk-btn" data-type="cheer">🎉 喜事</button>
-      </div>
-      <div class="talk-btn-row" style="margin-top:8px;">
-        <button class="talk-btn" data-type="report">📣 汇报进展</button>
-        <button class="talk-btn" data-type="question">🤔 有问题想问</button>
-      </div>
-    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" id="stdSceneBtn" onclick="stdSceneOpen()">💭 今天发生了什么</button></div></div>
+    <div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);"><div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个小动作</div><div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div><div class="famk3list"></div></div><div class="chat-area" id="chatArea"></div>
+    
+    
 <!-- std-buddy-tab-v1: 关键动作 + 提醒自己 + 场景弹窗 -->
 <div id="stdKey3" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
@@ -2015,7 +2001,22 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
+      function fbDefault(t){
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    var t2 = t.replace(/^[0-9]{1,2}[、..\s]+/, '').replace(/^[\u2460-\u2473]\s*/, '').replace(/^[0-9]\uFE0F?\u20E3[、..\s]*/, '');
+    var m = t2.match(/^([^：:（(]{2,24})(（=([^）]+)）)?[:：]?\s*(.+)$/);
+    var quote = t2.length <= 30;
+    var name = quote ? t2 : (m && m[1] ? m[1] : t2.slice(0, 20) + '…');
+    var def = m && m[3] ? m[3] : '';
+    var body = m && m[4] ? m[4] : t2;
+    var short = body.length > 44 ? body.slice(0, 44) + '…' : body;
+    return [
+      ['🧠 认知 · 为什么记住它', def ? ('这条你自己给的定义是：' + def + '。把「' + name + '」记下来，就是把这个判断变成随时可调用的标准，下次遇到同类场景不用从零纠结。') : (quote ? ('这是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。') : ('「' + name + '」是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。'))],
+      ['🎯 行为 · 怎么做', '下次遇到对应场景，按这条执行一次最小版本：' + short + ' 先做一次，再对比老做法的结果。'],
+      ['⚠️ 易错点', '只收藏不执行——这条的价值要在一次次具体决策里兑现，而不是躺在卡片里。'],
+      ['🔧 怎么调整', '每周回看一次：最近的决策有没有真的用到它？没用上的场景，就是下周要练的场景。']
+    ];
+  }
   window.__CC_DB = {"每天用 AI 解决 1 件真实小事（写周报 / 查资料 / 改文案）": [["🧠 认知 · 为什么", "技能形成的开关是「真实任务」：在真实小事上每天用AI，学习迁移效率远高于集中看教程；用进废退，肌肉记忆只认重复。"], ["🎯 行为 · 怎么做", "今天挑一件本来就要做的事（周报/邮件/查资料），强制自己先让AI出第一版，再做修改。"], ["⚠️ 易错点", "收藏了100个教程从不在真实任务上用——看会和上手之间隔着一条「第一次不完美产出」的河。"], ["✅ 确认", "今天有一件事的初稿是AI产的、你改完交付了；连续一周，AI就成了默认选项。"]], "· 用完把好用的问法收藏起来": [["🧠 认知 · 为什么", "好问法是你的私有资产：同样一个模型，问法的质量直接决定产出质量；不复盘问法，每次都在从零开始碰运气。"], ["🎯 行为 · 怎么做", "建一个「问法收藏」笔记（备忘录即可），格式三行：场景/我这样问/结果如何，用完一次记一条。"], ["⚠️ 易错点", "只收藏不分类——到用的时候翻不到，等于没收藏；按场景打标签（写作/分析/方案）。"], ["✅ 确认", "收藏夹里本周新增≥3条，且每条都标注了它适合的场景。"]], "· 不求高深，先让 AI 进入你的日常": [["🧠 认知 · 为什么", "习惯研究显示：行为的「频率」比「强度」更决定自动化程度——每天低门槛使用，比周末高强度钻研更快形成调用直觉。"], ["🎯 行为 · 怎么做", "降低启动门槛：手机首屏放AI入口，定一个「遇事先问AI」的默认规则，先不求质量只求发生。"], ["⚠️ 易错点", "等「学会prompt工程」才开始用——先用量变积累体感，技巧是使用中长出来的。"], ["✅ 确认", "今天AI被调用过至少1次；回想本周，它已经出现在哪些日常动作里。"]], "按场景沉淀自己的 Prompt 库（写作 / 分析 / 方案）": [["🧠 认知 · 为什么", "个人Prompt库=你的思维外骨骼：把高频场景的问法模板化后，产出质量下限被锁死，时间成本趋近于零。"], ["🎯 行为 · 怎么做", "按三大场景建三个模板（写作/分析/方案），每个模板包含：角色设定+背景喂料+输出格式+约束条件四段。"], ["⚠️ 易错点", "照抄网上通用模板不本地化——别人的模板没有你的业务背景，喂自己的上下文才是灵魂。"], ["✅ 确认", "三个场景各有一个自己的模板，且本周每个模板被真实用过≥1次。"]], "· 把 1 个重复任务做成模板，每次只微调": [["🧠 认知 · 为什么", "重复任务的模板化是一次投入终身复利的典型：把「重新想」变成「填空」，单次耗时下降80%且质量更稳。"], ["🎯 行为 · 怎么做", "挑最烦的重复任务（周报/会议纪要/周计划），今天把它的固定结构和变量部分拆开做成模板。"], ["⚠️ 易错点", "模板做得太细失去弹性——变量留足，只固化「结构」和「标准」，别固化「内容」。"], ["✅ 确认", "本周该任务第二次执行时，只花了原来1/3的时间，产出质量没掉。"]], "· 每次产出后复盘问法，迭代一次再存": [["🧠 认知 · 为什么", "产出质量=问法质量的镜像：不迭代的模板会随任务变化失效；「用→改→存」的闭环让库随你的业务一起进化。"], ["🎯 行为 · 怎么做", "给库里的每条模板加「版本号」，每次产出后花1分钟改一处（加约束/调角色/换格式）再存回。"], ["⚠️ 易错点", "只在结果差时才回头看问法——好的问法也有被任务升级淘汰的一天，定期回访。"], ["✅ 确认", "本周至少有一条模板升到了v2，且你记得改了哪一处、为什么。"]], "把多步流程串起来（AI + 工具），让机器跑例行": [["🧠 认知 · 为什么", "单点提效10倍不如流程无人值守：把「收集→处理→输出」串成自动化流水线后，例行工作从日程表上永久消失。"], ["🎯 行为 · 怎么做", "画出一个例行流程的三步（如：收集信息→AI总结→发到群里），本周用工具把三步接起来跑通一次。"], ["⚠️ 易错点", "追求一步到位的全自动——先半自动（人按一下按钮跑完流程），稳定后再全托管。"], ["✅ 确认", "本周至少有一次该流程没有你动手就跑完了，产出可直接用。"]], "· 你只做判断和把关，不再做搬运": [["🧠 认知 · 为什么", "时间审计的结果惊人：知识工作者约40%的时间在「搬运」（复制/整理/格式转换）；把这些还给机器，是把时间还给思考。"], ["🎯 行为 · 怎么做", "做一次24小时搬运行为记录（复制粘贴/转格式/汇总），圈出最耗时的一项，本周设法定点清除。"], ["⚠️ 易错点", "把关变成重做——AI产出60分你全部重写，说明指令没给清，先改指令再动手。"], ["✅ 确认", "本周你圈定的那项搬运工作已由流程接管，你只花了X分钟做终审。"]], "· 形成自己的「AI 工作流」清单": [["🧠 认知 · 为什么", "清单化的价值在于可交接、可迭代、可复制：散落在脑子里的用法会遗忘，写下来的工作流是可累积的资产。"], ["🎯 行为 · 怎么做", "写一页《我的AI工作流》：每行=「任务→工具链→入口→预计耗时」，每月最后一个周五更新一版。"], ["⚠️ 易错点", "清单变成工具炫技展——每行必须对应一个真实在做的事，不能对应现实里任务的行删掉。"], ["✅ 确认", "清单上每一条本周都真实发生过≥1次，且没有任何「理论上很棒但没用过」的行。"]]};
   function fbFor(txt){
     

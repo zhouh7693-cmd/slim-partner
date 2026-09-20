@@ -478,7 +478,18 @@
     .fb-partner-label { font-size: 11px; color: #8f9eae; margin-bottom: 6px; font-style: normal; font-weight: 600; }
     .fb-btn { background: #3a7ca5; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
-  </style>
+  
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
+</style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 <style>.qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; } .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#374151; }.qa-panel{position:relative;}</style>
 </head>
@@ -560,45 +571,19 @@
   <div id="dashboard" style="display:none;" data-page-node-id="LhyIryJBRtADhYP5dWsUq0">
     <div class="card" data-page-node-id="eg1PYpgkRNrMD41cXsniFK">
       <div id="currentPartnerBadge" class="partner-badge" data-page-node-id="CQ9pq38KVXb1RoaXfGtmBj">🌸 温柔鼓励型</div>
-      <div class="question" data-page-node-id="W8mnp5DDOqhCTb7kLFqTsM">今天，你行动了吗？</div>
-      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="5up46JrzrtWB504WuVL1c8">
-        <div class="checkin-status" id="checkinStatusText" data-page-node-id="RT697IRyxI95WsJuqEeV1w">签到</div>
-        <div class="checkin-sub" data-page-node-id="29PMEM0I2V4FJwlAjACYIZ">点击打卡</div>
-      </div>
-      <div class="continuous" id="continuousDays" data-page-node-id="LULFxj7SNW8NVRIgR84n46">0</div>
-      <div class="continuous-label" data-page-node-id="EpxZzCJOYQrpfRxJbQnKPE">连续打卡天数</div>
+      <div class="question" data-page-node-id="W8mnp5DDOqhCTb7kLFqTsM">今日份的小改变，准备就绪</div>
+      <div class="today-checkin" id="checkinBtn" onclick="doCheckin()"><span class="checkin-status" id="checkinStatusText" style="font-size:20px;">签到</span><span class="checkin-sub">愿意来，就已经在变好</span></div>
+      <div class="today-status"><div class="ts-days"><span class="ts-num" id="continuousDays">0</span><span class="ts-label">天连续</span></div><div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;"><span id="weekRange"></span> · 这一周</div><div class="week-dots" id="weekDots"></div></div></div>
     </div>
 
     <!-- 搭子消息区 -->
-    <div class="chat-area" id="chatArea" data-page-node-id="wdbmkHWiQ6Qu5ZaFGseD32"></div>
+    <div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);"><div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个小动作</div><div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div><div class="famk3list"></div></div><button class="talk-btn" style="margin-top:14px;width:100%;" onclick="copyStats()">📋 分享战绩</button><div class="chat-area" id="chatArea" data-page-node-id="wdbmkHWiQ6Qu5ZaFGseD32"></div>
 
     <!-- 本周进度 -->
-    <div class="week-progress" data-page-node-id="7qs340fSPCELwXP5fIZ8zi">
-      <div class="week-title" data-page-node-id="ikeEEIei4XB4xGy95g50gw"><span data-page-node-id="IAALnnbWyQWNDUEYt56kfV">📅 本周进度</span><span id="weekRange" data-page-node-id="YRn0RkBH0LmfndMkIlMxfh"></span></div>
-      <div class="week-dots" id="weekDots" data-page-node-id="d1fxUj3T0B8r6akzZYuK6b"></div>
-      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyStats()" data-page-node-id="nc8BRB9kkwDuvJqXAQfu9F">📋 复制战绩</button>
-    </div>
+    
 
     <!-- 搭子交互（仪表盘底部） -->
-    <div class="interaction-panel" data-page-node-id="CKgA7AGV0BYDH5Eqv26LNm">
-      <div class="panel-label" data-page-node-id="JQACNPkODBYAQYJc2zRGHN">💬 和搭子说说话</div>
-      <div class="mood-row" data-page-node-id="55NiWaPQuRaxV267HWKQtj">
-        <div class="mood-btn" data-mood="happy" title="开心" data-page-node-id="GALC6sOkF05PlZeB5G7E36">😄</div>
-        <div class="mood-btn" data-mood="neutral" title="平静" data-page-node-id="sfnoxGy1GeVEDU0PKBf5OM">😌</div>
-        <div class="mood-btn" data-mood="sad" title="低落" data-page-node-id="7BWMsxACFgHHmQpiUEYWoi">😔</div>
-        <div class="mood-btn" data-mood="tired" title="累了" data-page-node-id="zCmIpGowq21C5zT5sFknhU">😫</div>
-      </div>
-      <div class="talk-btn-row" data-page-node-id="wNbowQq5QLDSdgWoCCJrKG">
-        <button class="talk-btn" data-type="progress" data-page-node-id="54k8o4JXXe3zY55Bh83i9e">📈 进展</button>
-        <button class="talk-btn" data-type="struggle" data-page-node-id="pC6oalKqMG1YDPtgTGSR48">😣 困难</button>
-        <button class="talk-btn" data-type="idea" data-page-node-id="3YvbDz1TDWqPIJ0w3navLa">💡 想法</button>
-        <button class="talk-btn" data-type="cheer" data-page-node-id="Tz4HvTTnwa9YrfOHRGtLAa">🎉 喜事</button>
-      </div>
-      <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="E3Xd1kgvuAgXL2Ri9ljp0T">
-        <button class="talk-btn" data-type="report" data-page-node-id="ru0PoY3ACzNAC39xQlcSJb">📣 汇报进展</button>
-        <button class="talk-btn" data-type="question" data-page-node-id="rTQL8ZoaC9i2lCfBvvOA81">🤔 有问题想问</button>
-      </div>
-    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" id="stdSceneBtn" onclick="stdSceneOpen()">💭 今天发生了什么</button></div></div>
+    
 <!-- std-buddy-tab-v1: 关键动作 + 提醒自己 + 场景弹窗 -->
 <div id="stdKey3" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
@@ -3622,7 +3607,22 @@ startApp();
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
+      function fbDefault(t){
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    var t2 = t.replace(/^[0-9]{1,2}[、..\s]+/, '').replace(/^[\u2460-\u2473]\s*/, '').replace(/^[0-9]\uFE0F?\u20E3[、..\s]*/, '');
+    var m = t2.match(/^([^：:（(]{2,24})(（=([^）]+)）)?[:：]?\s*(.+)$/);
+    var quote = t2.length <= 30;
+    var name = quote ? t2 : (m && m[1] ? m[1] : t2.slice(0, 20) + '…');
+    var def = m && m[3] ? m[3] : '';
+    var body = m && m[4] ? m[4] : t2;
+    var short = body.length > 44 ? body.slice(0, 44) + '…' : body;
+    return [
+      ['🧠 认知 · 为什么记住它', def ? ('这条你自己给的定义是：' + def + '。把「' + name + '」记下来，就是把这个判断变成随时可调用的标准，下次遇到同类场景不用从零纠结。') : (quote ? ('这是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。') : ('「' + name + '」是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。'))],
+      ['🎯 行为 · 怎么做', '下次遇到对应场景，按这条执行一次最小版本：' + short + ' 先做一次，再对比老做法的结果。'],
+      ['⚠️ 易错点', '只收藏不执行——这条的价值要在一次次具体决策里兑现，而不是躺在卡片里。'],
+      ['🔧 怎么调整', '每周回看一次：最近的决策有没有真的用到它？没用上的场景，就是下周要练的场景。']
+    ];
+  }
   window.__CC_DB = {"写下人生高光与低谷时刻，找规律": [["🧠 认知 · 为什么", "使命不是想出来的，是从既往证据里长出来的：高光时刻藏着你被激活的能力，低谷藏着你不可让渡的价值——两者交叉处指向使命。"], ["🎯 行为 · 怎么做", "各写5个高光与5个低谷（事件+当时的情绪+你做了什么），写完问：什么事反复出现？什么价值我从不妥协？"], ["⚠️ 易错点", "只挑「体面」的大事——被陌生人一句感谢击中的小事，往往比奖状更接近使命。"], ["✅ 确认", "写完后能用三句话总结出「我反复被什么吸引、反复为什么愤怒、反复因什么发光」。"]], "• 识别反复出现的核心价值观": [["🧠 认知 · 为什么", "价值观冲突是内耗的主因：做违背核心价值观的事，再成功也耗电；识别出自己的Top 3价值观，决策速度和满足感同时提升。"], ["🎯 行为 · 怎么做", "从价值观词表（自由/成就/家庭/创造/公正…）圈出10个，再忍痛删到3个，为每个写一句「它被我辜负时的场景」。"], ["⚠️ 易错点", "把「应该看重的」（稳定/体面）当核心价值观——判断标准不是正确，而是「被侵犯时你真的会愤怒」。"], ["✅ 确认", "三个价值观都能对应一个「为它发过脾气/流过泪/放弃过什么」的真实事件。"]], "• 做一次优势测评（如盖洛普）": [["🧠 认知 · 为什么", "优势视角的研究（盖洛普数千万样本）显示：把时间投在优势区的人，投入度和绩效显著更高；修补短板的天花板，远低于放大优势的地板。"], ["🎯 行为 · 怎么做", "本周完成一次正式测评（盖洛普/VIA），然后只做一件事：为前5优势各写一条「它在工作中被我使用过的例子」。"], ["⚠️ 易错点", "把测评当算命只看不行动——测评的产出是「时间再分配」的决定：哪些事该少做、该委托出去。"], ["✅ 确认", "能说出你的前5优势，并且本周有一个决定（拒绝/委托/争取）是基于它做出的。"]], "写出一段个人使命宣言并打磨": [["🧠 认知 · 为什么", "写下来的目标比未写下的达成率高（Gail Matthews实验）：使命宣言把模糊的「意义感」编译成可指导日常排序的判据。"], ["🎯 行为 · 怎么做", "用「我要用【优势】为【谁】解决【什么】，让【改变】发生」造句，写3版，读给懂你的人听，改到对方起鸡皮疙瘩。"], ["⚠️ 易错点", "写成座右铭式的口号——好的宣言里必须有具体的人和具体的改变，能指导你明天对某件事说不。"], ["✅ 确认", "这段话在过去一个月里，至少一次帮你在两难时做出了取舍。"]], "• 设定3年愿景，画面越具体越好": [["🧠 认知 · 为什么", "大脑对画面的驱动力远超对数字的驱动力：具体愿景（几点起床、在哪个城市、和谁工作）会自动调用网状激活系统帮你捕捉机会。"], ["🎯 行为 · 怎么做", "写「3年后的一天」：从早上睁眼写到晚上入睡，含工作内容/收入形态/家庭场景/健康状态，至少800字。"], ["⚠️ 易错点", "只写成就不写日常——愿景的检验标准是你愿不愿意过「那一天的一天」，而不是只想要那一天的奖杯。"], ["✅ 确认", "这篇文字存在且你能背出其中三个画面；对照今天，能说出一个与愿景对齐的决定。"]], "• 找到使命与当下工作的连接点": [["🧠 认知 · 为什么", "工作塑造研究（job crafting）显示：同一份工作，主动把任务与意义连接的人，倦怠率显著更低——使命感多在「怎么做事」而非「做什么事」。"], ["🎯 行为 · 怎么做", "列出手头任务的清单，为每项标注与使命宣言的连接强度（强/弱/无关），本周多分配20%时间给「强连接」任务。"], ["⚠️ 易错点", "「等找到使命工作再全力以赴」——使命感是动词不是名词，先用当前工作练手。"], ["✅ 确认", "本周至少一次主动选择/调整了任务顺序以服务你的强连接项，且说得出连接点。"]], "每月做一次利他行动并记录感受": [["🧠 认知 · 为什么", "利他行为是幸福感研究中最稳定的正预测因子之一：助人激活的奖赏回路与获得回报时相同，且效果更持久（意义感 vs 快感）。"], ["🎯 行为 · 怎么做", "月历设重复提醒，本月做一件具体的利他事（辅导/捐赠时间/帮助一个具体的人），做完当天写100字感受。"], ["⚠️ 易错点", "利他变成自我感动式的付出——检验标准：对方真实受益了吗？你的能力被真实使用了吗？"], ["✅ 确认", "本月利他记录存在，且你能说出「这件事和我的使命宣言的连接点」。"]], "• 把使命融入日常工作的小选择": [["🧠 认知 · 为什么", "使命感不是年度大事而是日常微决策的累积：每天2-3个「以使命为判据」的小选择，一年就是完全不同的轨迹。"], ["🎯 行为 · 怎么做", "把使命宣言设成手机锁屏或工位便签，每天遇到第一个选择时读一遍，问「哪边离它更近」。"], ["⚠️ 易错点", "只在人生大事时才想起使命——使命对日常小选择失去约束力时，对大事同样会失效。"], ["✅ 确认", "本周至少有一次「因为使命而选了另一条路」的小决定被记录下来。"]], "• 影响至少3个人共同行动": [["🧠 认知 · 为什么", "使命通过传播而强化：教是最好的学（protégé effect），且共同行动者构成的环境是行为最持久的支撑系统。"], ["🎯 行为 · 怎么做", "把你在做的一件事（复盘/晨间/利他）分享给3个人，邀请一人本月和你各做一次并互相同步进展。"], ["⚠️ 易错点", "把「影响」做成说教——分享自己的改变证据（截图/记录），比讲道理有效十倍。"], ["✅ 确认", "有≥1个人因为你开始了类似行动，且你们有过一次进展同步。"]]};
   function fbFor(txt){
     

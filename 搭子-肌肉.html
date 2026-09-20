@@ -463,7 +463,18 @@
     .fb-partner-label { font-size: 11px; color: #8f9eae; margin-bottom: 6px; font-style: normal; font-weight: 600; }
     .fb-btn { background: #3a7ca5; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
-  </style>
+  
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
+</style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body>
@@ -541,46 +552,19 @@
   <div id="dashboard" style="display:none;">
     <div class="card">
       <div id="currentPartnerBadge" class="partner-badge">🤝 温和陪练型</div>
-      <div class="question">今天，你坚持了吗？</div>
-      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()">
-        <div class="checkin-status" id="checkinStatusText">签到</div>
-        <div class="checkin-sub">点击打卡</div>
-      </div>
-      <div class="continuous" id="continuousDays">0</div>
-      <div class="continuous-label">连续打卡天数</div>
+      <div class="question">今日份的小改变，准备就绪</div>
+      <div class="today-checkin" id="checkinBtn" onclick="doCheckin()"><span class="checkin-status" id="checkinStatusText" style="font-size:20px;">签到</span><span class="checkin-sub">愿意来，就已经在变好</span></div>
+      <div class="today-status"><div class="ts-days"><span class="ts-num" id="continuousDays">0</span><span class="ts-label">天连续</span></div><div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;"><span id="weekRange"></span> · 这一周</div><div class="week-dots" id="weekDots"></div></div></div>
     </div>
 
     <!-- 搭子消息区 -->
-    <div class="chat-area" id="chatArea"></div>
+    <div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);"><div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个关键小动作</div><div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div><div class="famk3list"></div></div><div style="max-width:420px;margin:0 auto 14px;"><button class="talk-btn" style="width:100%;" onclick="openSceneSheet()">💭 今天发生了什么</button></div><button class="talk-btn" style="margin-top:14px;width:100%;" onclick="copyStats()">📋 分享战绩</button><div class="chat-area" id="chatArea"></div>
 
     <!-- 本周进度 -->
-    <div class="week-progress">
-      <div class="week-title"><span>📅 本周进度</span><span id="weekRange"></span></div>
-      <div class="week-dots" id="weekDots"></div>
-      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyStats()">📋 复制战绩</button>
-    </div>
+    
 
     <!-- 搭子交互（仪表盘底部） -->
-    <div class="interaction-panel">
-      <div class="panel-label">💬 和搭子说说话</div>
-      <div class="mood-row">
-        <div class="mood-btn" onclick="sendMood('happy')" title="开心">😄</div>
-        <div class="mood-btn" onclick="sendMood('neutral')" title="平静">😌</div>
-        <div class="mood-btn" onclick="sendMood('sad')" title="低落">😔</div>
-        <div class="mood-btn" onclick="sendMood('tired')" title="累了">😫</div>
-      </div>
-      <div class="talk-btn-row">
-        <button class="talk-btn" onclick="askPartner('progress')">📈 进展</button>
-        <button class="talk-btn" onclick="askPartner('struggle')">😣 困难</button>
-        <button class="talk-btn" onclick="askPartner('idea')">💡 想法</button>
-        <button class="talk-btn" onclick="askPartner('cheer')">🎉 喜事</button>
-      </div>
-      <div class="talk-btn-row" style="margin-top:8px;">
-        <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
-        <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
-      </div>
-      <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" onclick="askPartner('scene')">💭 今天发生了什么</button></div>
-    </div>
+    
 
 
     
@@ -4057,7 +4041,22 @@ function scrollToBottom() {
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
+      function fbDefault(t){
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    var t2 = t.replace(/^[0-9]{1,2}[、..\s]+/, '').replace(/^[\u2460-\u2473]\s*/, '').replace(/^[0-9]\uFE0F?\u20E3[、..\s]*/, '');
+    var m = t2.match(/^([^：:（(]{2,24})(（=([^）]+)）)?[:：]?\s*(.+)$/);
+    var quote = t2.length <= 30;
+    var name = quote ? t2 : (m && m[1] ? m[1] : t2.slice(0, 20) + '…');
+    var def = m && m[3] ? m[3] : '';
+    var body = m && m[4] ? m[4] : t2;
+    var short = body.length > 44 ? body.slice(0, 44) + '…' : body;
+    return [
+      ['🧠 认知 · 为什么记住它', def ? ('这条你自己给的定义是：' + def + '。把「' + name + '」记下来，就是把这个判断变成随时可调用的标准，下次遇到同类场景不用从零纠结。') : (quote ? ('这是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。') : ('「' + name + '」是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。'))],
+      ['🎯 行为 · 怎么做', '下次遇到对应场景，按这条执行一次最小版本：' + short + ' 先做一次，再对比老做法的结果。'],
+      ['⚠️ 易错点', '只收藏不执行——这条的价值要在一次次具体决策里兑现，而不是躺在卡片里。'],
+      ['🔧 怎么调整', '每周回看一次：最近的决策有没有真的用到它？没用上的场景，就是下周要练的场景。']
+    ];
+  }
   window.__CC_DB = {"每周固定2~3次力量训练，重量宁轻勿歪": [["🧠 认知 · 为什么", "增肌的第一原则是「训练可持续性」：动作变形的代价是关节磨损和受伤停训——一次受伤清零三个月进度；宁轻勿歪不是保守，是最快路径。"], ["🎯 行为 · 怎么做", "定死每周3个时段（如周一三五晚），每次只求「动作全程可控的最后2次略吃力」的重量，宁可信手拈来不咬牙硬撑。"], ["⚠️ 易错点", "跟别人比重量——健身房里最贵的是自尊心驱动的重量；你的对手只有上一次的自己。"], ["✅ 确认", "本周3次按时完成；每个动作能用手机侧面拍视频自查轨迹吗。"]], "• 学会深蹲/卧推/划船的基础动作模式": [["🧠 认知 · 为什么", "推/拉/蹲是人体运动的三大基础模式：覆盖全身主要肌群，是所有训练动作的母版；模式对了，后续一切加重都安全且高效。"], ["🎯 行为 · 怎么做", "前4周用空杆或最轻重量只练模式：深蹲（膝盖与脚尖同向/脊柱中立）、卧推（肩胛收紧）、划船（肘贴身），每次拍视频对照。"], ["⚠️ 易错点", "急着上重量让模式变形——前期投入在「神经系统学会发力」，这段路没有捷径。"], ["✅ 确认", "三个模式各有一段自己的训练视频；能说出每个动作你最容易错的点。"]], "• 每周固定称重2次并记录，只记录不评价": [["🧠 认知 · 为什么", "增肌期体重是滞后指标（肌肉合成以周/月计），而日间波动（水/糖原）以公斤计：固定频率+只看趋势，才不会被噪音带进乱吃或乱练。"], ["🎯 行为 · 怎么做", "周三、周日晨起如厕后称，数据进表；月度看斜率：增重期健康速度约每月0.5-1kg。"], ["⚠️ 易错点", "涨了0.5kg就狂加饭量——一次波动多是水，按周斜率调整热量才有效。"], ["✅ 确认", "本周两次数据入表；最近四周的斜率是多少。"]], "蛋白质吃到体重×1.6g，热量盈余200~300大卡": [["🧠 认知 · 为什么", "增肌营养研究的最优区间：蛋白1.6g/kg体重（超过收益递减），盈余200-300大卡——大盈余只会长脂肪，增肌是「精装修」不是「乱填仓」。"], ["🎯 行为 · 怎么做", "算出你的蛋白目标（如70kg→112g/天），分配到3-4餐（每餐25-40g），本周先达标蛋白质，热量盈余用一把坚果/一杯牛奶补足。"], ["⚠️ 易错点", "靠蛋白粉凑数而正餐蛋白不足——优先天然食物（蛋/奶/肉/豆），粉只是补缺口。"], ["✅ 确认", "今天蛋白达标了吗（用记录APP算过）；连续记录一周后你的均值是多少。"]], "• 开始记录训练日志，执行渐进超负荷": [["🧠 认知 · 为什么", "渐进超负荷是增肌增力的唯一底层机制：肌肉只对「比上次多一点」的刺激适应；没有日志就没有「上次」，渐进就变成凭感觉乱练。"], ["🎯 行为 · 怎么做", "手机备忘录建训练日志：日期/动作/重量/次数，下次同一动作力争+1次或+1.25kg，四周一循环。"], ["⚠️ 易错点", "天天加重——平台期或状态差时保持同重量练技术，超负荷按周规划而非按天情绪。"], ["✅ 确认", "日志已有≥4次记录；最近一次「+1」发生在哪个动作上。"]], "• 睡眠保证7~9小时，睡前1小时不看手机": [["🧠 认知 · 为什么", "生长激素的分泌高峰在深睡期——肌肉不是在健身房长的，是在深睡里长的；睡眠不足同时升高皮质醇（分解肌肉），训练等于白练一半。"], ["🎯 行为 · 怎么做", "训练日的睡眠按最高优先级排：固定入睡点，睡前1小时手机出卧室，训练日晚上的拉伸顺带当放松仪式。"], ["⚠️ 易错点", "牺牲睡眠换训练时间——6小时睡眠+1小时训练 < 8小时睡眠+45分钟训练，这道算术要算清。"], ["✅ 确认", "训练日当晚睡够了吗；第二天晨起的力量表现和睡眠时长对照过吗。"]], "加入减载周，让神经和关节定期恢复": [["🧠 认知 · 为什么", "连续加压4-6周后神经疲劳和关节磨损会先于肌肉到达极限（它们恢复更慢）：减载周（重量减半/容量减半）不是偷懒，是把超负荷循环闭合的必要环节。"], ["🎯 行为 · 怎么做", "每4-5周设一个减载周：同动作重量降至60%，组数减半，完全不练到力竭；减载周结束力量通常不降反升。"], ["⚠️ 易错点", "「状态好就不减载」——神经疲劳是感觉不到的，等感觉到（失眠/力量骤降）已经过度训练了。"], ["✅ 确认", "下一个减载周标在日历上了吗；上一次减载后的第一周，力量变化如何。"]], "• 建立伤病预防与应对清单（疼就停）": [["🧠 认知 · 为什么", "「疼」和「酸」是两种信号：酸是训练的正常产物，疼（尖锐/关节处/单侧）是组织报警；把两者的判别写成清单，能拦下80%的急性伤。"], ["🎯 行为 · 怎么做", "写下三行规则：关节尖锐疼→立即停+冰敷评估/肌肉酸痛→可继续但降重/持续超72小时的疼→就医，贴在健身包里。"], ["⚠️ 易错点", "「疼说明有效」——有效的是目标肌群的灼烧感，关节的刺痛是纯损伤，混淆两者是停训的最大原因。"], ["✅ 确认", "清单已随身；最近一次「疼」，你停了吗，还是硬撑了。"]], "• 设定增重预警线（腰围涨太快即收盈余）": [["🧠 认知 · 为什么", "增肌期的体重上涨里混着脂肪：腰围是内脏脂肪最灵敏的代理指标——腰围增速超过体重增速，说明盈余给多了，该收了。"], ["🎯 行为 · 怎么做", "每周日测腰围（脐周），红线规则：连续两周腰围+1cm→每日热量收回200大卡，蛋白不动。"], ["⚠️ 易错点", "只盯体重秤高兴——增重10kg里若是4kg脂肪，你离「减脂再增肌」的死循环就不远了。"], ["✅ 确认", "本周腰围已测；当前体重斜率和腰围斜率，哪个更陡。"]]};
   function fbFor(txt){
     

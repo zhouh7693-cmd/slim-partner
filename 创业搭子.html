@@ -604,7 +604,18 @@
     .ie-p2 { background: #ede9fe; color: #6b21a8; }
 
     @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  </style>
+  
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
+</style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body>
@@ -1208,15 +1219,13 @@ function renderCheckinPage() {
   html += `<div class="card" id="mainCheckin" style="display:none">
     <div class="partner-badge" id="partnerBadge"></div>
     <div class="question" id="checkinQuestion">今天有没有迈出创业的一步？</div>
-    <div class="checkin-btn" id="checkinBtn" onclick="handleCheckin()">
-      <div class="checkin-status" id="checkinStatus">${todayChecked ? '✅' : '打卡'}</div>
-      <div class="checkin-sub" id="checkinSub">${todayChecked ? '今日已完成' : '点击打卡'}</div>
+    <div class="today-checkin" id="checkinBtn" onclick="handleCheckin()">
+      <span class="checkin-status" id="checkinStatus" style="font-size:20px;">${todayChecked ? '已签到' : '签到'}</span>
+      <span class="checkin-sub" id="checkinSub">${todayChecked ? '今日已完成' : '愿意来，就已经在变好'}</span>
     </div>
-    <div class="continuous" id="continuousNum">${streak}</div>
-    <div class="continuous-label">连续打卡天数</div>
-    <div class="week-progress">
-      <div class="week-title"><span>本周进度</span><span id="weekCount">0/7</span></div>
-      <div class="week-dots" id="weekDots"></div>
+    <div class="today-status">
+      <div class="ts-days"><span class="ts-num" id="continuousNum">${streak}</span><span class="ts-label">天连续</span></div>
+      <div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;">本周进度 · <span id="weekCount">0/7</span></div><div class="week-dots" id="weekDots"></div></div>
     </div>
   </div>`;
 
@@ -1224,29 +1233,14 @@ function renderCheckinPage() {
   html += `<div class="chat-area" id="chatArea" style="display:none">
     <div id="msgContainer"></div>
   </div>`;
-  html += `<div class="interaction-panel" id="interactionPanel" style="display:none">
-    <div class="panel-label">💬 告诉搭子你现在的状态</div>
-    <div class="mood-row" id="moodRow">
-      <div class="mood-btn" data-mood="happy" title="开心">😄</div>
-      <div class="mood-btn" data-mood="neutral" title="平静">😌</div>
-      <div class="mood-btn" data-mood="sad" title="低落">😔</div>
-      <div class="mood-btn" data-mood="tired" title="疲惫">😫</div>
-    </div>
-    <div class="panel-label" style="margin-top:10px">🚀 想聊点什么？</div>
-    <div class="talk-btn-row">
-      <button class="talk-btn" data-type="progress">📈 进展</button>
-      <button class="talk-btn" data-type="struggle">😣 困难</button>
-      <button class="talk-btn" data-type="idea">💡 想法</button>
-      <button class="talk-btn" data-type="cheer">🎉 喜事</button>
-    </div>
-    <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" data-type="report">📣 汇报进展</button>
-      <button class="talk-btn" data-type="question">🤔 有问题想问</button>
-    </div>
-    <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="stdSceneOpen()">💭 今天发生了什么</button>
-    </div>
+  html += `<div id="todayExtra" style="display:none">`;
+  html += `<div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+    <div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个创业小动作</div>
+    <div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div>
+    <div id="stdKey3List"></div>
   </div>`;
+  html += `<div style="max-width:420px;margin:0 auto 14px;"><button class="talk-btn" style="width:100%;" onclick="stdSceneOpen()">💭 今天发生了什么</button></div>`;
+  html += `</div>`;
 
   // 分享入口
 
@@ -1272,7 +1266,7 @@ function renderCheckinPage() {
     document.getElementById('partnerSelector').style.display = 'none';
     document.getElementById('mainCheckin').style.display = 'block';
     document.getElementById('chatArea').style.display = 'block';
-    document.getElementById('interactionPanel').style.display = 'block';
+    var _tx=document.getElementById('todayExtra'); if(_tx) _tx.style.display='block'; try{stdK3Render();}catch(e){}
     var _si = document.getElementById('shareInline'); if (_si) _si.style.display = 'block';
     if (recentHist.length > 1) document.getElementById('historySection').style.display = 'block';
     const p = PARTNER_STYLES[selectedPartner];
@@ -1306,7 +1300,7 @@ function confirmPartner() {
   document.getElementById('partnerSelector').style.display = 'none';
   document.getElementById('mainCheckin').style.display = 'block';
   document.getElementById('chatArea').style.display = 'block';
-  document.getElementById('interactionPanel').style.display = 'block';
+  var _tx=document.getElementById('todayExtra'); if(_tx) _tx.style.display='block'; try{stdK3Render();}catch(e){}
   var _si = document.getElementById('shareInline'); if (_si) _si.style.display = 'block';
   const p = PARTNER_STYLES[selectedPartner];
   document.getElementById('partnerBadge').textContent = `🤝 ${p.emoji} ${p.name}`;
@@ -1340,8 +1334,8 @@ function handleCheckin() {
     save(STORAGE.SOP_HISTORY, hist);
   }
   todayChecked = true;
-  document.getElementById('checkinStatus').textContent = ((PARTNER_STYLES[selectedPartner]||{}).emoji||'🚀');
-  document.getElementById('checkinStatus').style.fontSize = '36px';
+  document.getElementById('checkinStatus').textContent = '已签到';
+  document.getElementById('checkinStatus').style.fontSize = '20px';
   document.getElementById('checkinSub').textContent = '今日已完成';
   initWeekDots(load(STORAGE.SOP_HISTORY, []));
   try { appendMsg('🚀', '打卡成功！迈出的一步都算数，明天继续。', true); } catch (e) {}
@@ -2887,7 +2881,22 @@ function renderWeeklyReport() {
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
+      function fbDefault(t){
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    var t2 = t.replace(/^[0-9]{1,2}[、..\s]+/, '').replace(/^[\u2460-\u2473]\s*/, '').replace(/^[0-9]\uFE0F?\u20E3[、..\s]*/, '');
+    var m = t2.match(/^([^：:（(]{2,24})(（=([^）]+)）)?[:：]?\s*(.+)$/);
+    var quote = t2.length <= 30;
+    var name = quote ? t2 : (m && m[1] ? m[1] : t2.slice(0, 20) + '…');
+    var def = m && m[3] ? m[3] : '';
+    var body = m && m[4] ? m[4] : t2;
+    var short = body.length > 44 ? body.slice(0, 44) + '…' : body;
+    return [
+      ['🧠 认知 · 为什么记住它', def ? ('这条你自己给的定义是：' + def + '。把「' + name + '」记下来，就是把这个判断变成随时可调用的标准，下次遇到同类场景不用从零纠结。') : (quote ? ('这是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。') : ('「' + name + '」是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。'))],
+      ['🎯 行为 · 怎么做', '下次遇到对应场景，按这条执行一次最小版本：' + short + ' 先做一次，再对比老做法的结果。'],
+      ['⚠️ 易错点', '只收藏不执行——这条的价值要在一次次具体决策里兑现，而不是躺在卡片里。'],
+      ['🔧 怎么调整', '每周回看一次：最近的决策有没有真的用到它？没用上的场景，就是下周要练的场景。']
+    ];
+  }
   window.__CC_DB = {"深度访谈10个目标用户，只问不推": [["🧠 认知 · 为什么", "《The Mom Test》的核心：用户被推销时会礼貌撒谎，被真诚提问时才说真话；访谈的目的是挖事实和痛点，不是找认同。"], ["🎯 行为 · 怎么做", "列5个只问过去行为的问题（「上一次遇到这问题是什么时候？你怎么处理的？」），本周约3个目标用户，只记笔记不介绍产品。"], ["⚠️ 易错点", "把访谈做成路演——用户一夸「不错哦」就当验证通过；礼貌性肯定是最危险的假信号。"], ["✅ 确认", "每场访谈记下了≥3个用户过去真实的做法/花费，而不是对未来的承诺。"]], "• 一句话讲清价值主张（给谁解决什么痛）": [["🧠 认知 · 为什么", "价值主张的检验标准不是「说得全」，而是「转述得走」：用户能不能用你的原话推荐给朋友，决定增长是否零成本。"], ["🎯 行为 · 怎么做", "用「帮【谁】在【场景】解决【痛点】，不用【旧方案】而用【你】」填空，写5版，找2个目标用户听哪版不用解释。"], ["⚠️ 易错点", "堆形容词（智能/高效/一站式）——名词和动词才传递信息，形容词只传达自我感觉。"], ["✅ 确认", "有一个版本，目标用户听完能自己复述出「你是给谁解决什么」。"]], "• 定义最小可行产品MVP范围，砍到不能再砍": [["🧠 认知 · 为什么", "MVP的目的是用最小成本验证核心假设，不是发布一个粗糙的完整产品；范围蔓延是MVP失败的第一死因。"], ["🎯 行为 · 怎么做", "写下MVP要验证的那一个假设，然后逐项问「砍掉它，假设还测得到吗？」——测得到就砍，只留一条主路径。"], ["⚠️ 易错点", "把「用户会不会要的附加功能」也做进去——每个附加项都在稀释验证信号、拖延验证时间。"], ["✅ 确认", "能用一句话说清「MVP在验证什么假设」，且当前功能清单里没有任何与该假设无关的项。"]], "MVP上线，快速收集真实反馈": [["🧠 认知 · 为什么", "上线不是终点而是测量起点：验证速度而非开发速度决定创业成败，反馈周期每缩短一半，试错成本指数下降。"], ["🎯 行为 · 怎么做", "上线前先定好要看的3个信号（如：注册转化、次日回访、是否有人主动提需求），上线一周内逐个找答案。"], ["⚠️ 易错点", "只看下载/注册等虚荣指标——没人第二次打开的产品，数据再好看也是伪需求。"], ["✅ 确认", "拿到了≥5个真实用户的使用反馈（说了什么、卡在哪），而不只有后台数字。"]], "• 找到第一批愿意付费的用户": [["🧠 认知 · 为什么", "付费是需求的最终投票：愿意掏钱的用户给出的是 PMF 信号，愿意免费用的人给的只是好感。"], ["🎯 行为 · 怎么做", "从访谈和反馈里挑「痛得最狠」的3个人，直接开价（哪怕很低），收款前不优化任何功能。"], ["⚠️ 易错点", "用「等产品更完善再收费」拖延——免费阶段收集的永远不是需求信号，是容忍信号。"], ["✅ 确认", "有真实用户完成了付款动作，并能说出他为什么愿意付（他眼里的价值和你以为的可能不一样）。"]], "• 建立关键指标看板（留存/转化/复购）": [["🧠 认知 · 为什么", "增长=流量×转化×留存×复购，只盯流量会掩盖漏斗下游的失血；留存是产品价值的唯一诚实指标。"], ["🎯 行为 · 怎么做", "先只建一条漏斗：访问→注册→付费→复购，每周固定10分钟更新并写一条「本周漏斗上最大的洞」。"], ["⚠️ 易错点", "指标一多就只看涨的那几个——看板的用途是找最痛的洞，不是做汇报美化。"], ["✅ 确认", "能立刻说出当前四个环节各自的数字，以及最大的洞在哪一环。"]], "验证至少一条可复制的获客渠道": [["🧠 认知 · 为什么", "「有一条渠道」和「有一条可复制的渠道」是两回事：前者是运气，后者=投入可预测产出，才敢放量。"], ["🎯 行为 · 怎么做", "选定1个渠道小预算跑两周，记录每次投入（钱/时间）与获客数，算出单客成本，低于客户终身价值的1/3才加码。"], ["⚠️ 易错点", "三条渠道同时小打小闹——每条都测不出显著结果，等于全都没验证。"], ["✅ 确认", "能报出该渠道的单客获取成本，并说出「再加多少预算、预期带来多少用户」。"]], "• 搭建最小团队，明确分工与节奏": [["🧠 认知 · 为什么", "早期团队的第一杀招是职责模糊：两个人都负责=没人负责；分工的意义是让每个关键结果都有唯一责任人。"], ["🎯 行为 · 怎么做", "写下当前最关键的3件事（产品/获客/现金），每件事写唯一责任人+每周节奏（谁、何时、交付什么）。"], ["⚠️ 易错点", "按「谁有空」分活而不是按「谁对结果负责」分工——忙碌不产生问责，唯一责任人才产生。"], ["✅ 确认", "团队里每个人能说出「我这周对哪个结果负责、周五交付什么」。"]], "• 规划现金流转正路径，留足安全垫": [["🧠 认知 · 为什么", "创业公司死于现金流断裂而非竞争；账上现金÷月消耗=存活月数，这个数低于6，所有决策都会变形。"], ["🎯 行为 · 怎么做", "今晚算三个数：月消耗、账上现金、现金流转正还差的条件；把「安全垫月数」贴在工作台每天看。"], ["⚠️ 易错点", "用「下轮融资快到了」当安全垫——融资是期权不是收入，到期没到账时没有B计划就是死局。"], ["✅ 确认", "说得出当前还能撑几个月，以及把转正时间提前1个月的最小动作是什么。"]]};
   function fbFor(txt){
     

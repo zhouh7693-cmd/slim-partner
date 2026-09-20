@@ -579,7 +579,18 @@
     .ie-p2 { background: #ede9fe; color: #6b21a8; }
 
     @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  </style>
+  
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
+</style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body>
@@ -933,26 +944,16 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
   <div id="dashboard" style="display:none;">
     <div class="card">
       <div id="currentPartnerBadge" class="partner-badge">🌸 温柔陪伴型</div>
-      <div class="question">今天，你陪伴得怎么样？</div>
-      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()">
-        <div class="checkin-status" id="checkinStatusText">签到</div>
-        <div class="checkin-sub">点击打卡</div>
-      </div>
-      <div class="continuous" id="continuousDays">0</div>
-      <div class="continuous-label">连续陪读打卡天数</div>
+      <div class="question">今日份的小改变，准备就绪</div>
+      <div class="today-checkin" id="checkinBtn" onclick="doCheckin()"><span class="checkin-status" id="checkinStatusText" style="font-size:20px;">签到</span><span class="checkin-sub" id="checkinSub">愿意来，就已经在变好</span></div>
+      <div class="today-status"><div class="ts-days"><span class="ts-num" id="continuousDays">0</span><span class="ts-label">天连续</span></div><div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;"><span id="weekRange"></span><span id="weekCount" style="color:#e11d48;"></span></div><div class="week-dots" id="weekDots"></div></div></div>
     </div>
 
     <!-- 周进度 -->
-    <div class="week-progress">
-      <div class="week-title">
-        <span id="weekLabel">本周陪读</span>
-        <span id="weekCount" style="color:#9c27b0;font-weight:700;">0/7天</span>
-      </div>
-      <div class="week-dots" id="weekDots"></div>
-    </div>
+    
 
     <!-- 搭子对话区 -->
-    <div class="chat-area" id="chatArea">
+    <div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);"><div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个小动作</div><div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div><div class="famk3list"></div></div><div class="chat-area" id="chatArea">
       <div class="msg-bubble-wrap">
         <div class="msg-avatar">🌸</div>
         <div class="msg-bubble ai" id="aiMsg">嗨，陪读妈妈！今天和孩子相处得如何？</div>
@@ -960,25 +961,7 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
     </div>
 
     <!-- 搭子互动面板 -->
-    <div class="interaction-panel" id="interactionPanel">
-      <div class="panel-label">👋 说说今天的情况</div>
-      <div class="mood-row" id="moodRow">
-        <button class="mood-btn" data-mood="😊 很好" title="很好">😊</button>
-        <button class="mood-btn" data-mood="😌 还行" title="还行">😌</button>
-        <button class="mood-btn" data-mood="😣 有挑战" title="有挑战">😣</button>
-        <button class="mood-btn" data-mood="😤 有点急" title="有点急躁">😤</button>
-      </div>
-      <div class="talk-btn-row">
-        <button class="talk-btn" data-type="progress">📈 进展</button>
-        <button class="talk-btn" data-type="struggle">😣 困难</button>
-        <button class="talk-btn" data-type="idea">💡 想法</button>
-        <button class="talk-btn" data-type="cheer">🎉 喜事</button>
-      </div>
-      <div class="talk-btn-row" style="margin-top:8px;">
-        <button class="talk-btn" data-type="report">📣 汇报进展</button>
-        <button class="talk-btn" data-type="question">🤔 有问题想问</button>
-      </div>
-    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" id="stdSceneBtn" onclick="stdSceneOpen()">💭 今天发生了什么</button></div></div>
+    
 <!-- std-buddy-tab-v1: 关键动作 + 提醒自己 + 场景弹窗 -->
 <div id="stdKey3" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
@@ -2093,9 +2076,12 @@ function renderWeekProgress() {
     weekDays.push({ label: days[i], date: __ld(d), checked: history.some(h => h.date === __ld(d) && h.checkin) });
   }
   let checked = weekDays.filter(d => d.checked).length;
-  document.getElementById('weekLabel').textContent = `本周陪读（${(monday.getMonth()+1)}/${monday.getDate()}起）`;
-  document.getElementById('weekCount').textContent = `${checked}/7天`;
-  document.getElementById('weekDots').innerHTML = weekDays.map(d => `
+  var wl = document.getElementById('weekLabel') || document.getElementById('weekRange');
+  if (wl) wl.textContent = `本周陪读（${(monday.getMonth()+1)}/${monday.getDate()}起）`;
+  var wc = document.getElementById('weekCount');
+  if (wc) wc.textContent = `${checked}/7天`;
+  var wd = document.getElementById('weekDots');
+  if (wd) wd.innerHTML = weekDays.map(d => `
     <div class="day-item">
       <div class="day-name">${d.label}</div>
       <div class="dot ${d.checked ? 'checked' : ''}">${d.checked ? ((__wp&&__wp.emoji)||'🌸') : '○'}</div>
@@ -2119,7 +2105,8 @@ function renderChatWelcome() {
       <div class="msg-bubble ai">${msgs[0]}</div>
     </div>
   `;
-  document.getElementById('interactionPanel').querySelector('.panel-label').textContent = '👋 说说今天的情况';
+  var ip = document.getElementById('interactionPanel');
+  if (ip) { var pl = ip.querySelector('.panel-label'); if (pl) pl.textContent = '👋 说说今天的情况'; }
 }
 
 function sendMood(mood) {
@@ -2968,7 +2955,22 @@ function renderWeeklyReport() {
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
+      function fbDefault(t){
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    var t2 = t.replace(/^[0-9]{1,2}[、..\s]+/, '').replace(/^[\u2460-\u2473]\s*/, '').replace(/^[0-9]\uFE0F?\u20E3[、..\s]*/, '');
+    var m = t2.match(/^([^：:（(]{2,24})(（=([^）]+)）)?[:：]?\s*(.+)$/);
+    var quote = t2.length <= 30;
+    var name = quote ? t2 : (m && m[1] ? m[1] : t2.slice(0, 20) + '…');
+    var def = m && m[3] ? m[3] : '';
+    var body = m && m[4] ? m[4] : t2;
+    var short = body.length > 44 ? body.slice(0, 44) + '…' : body;
+    return [
+      ['🧠 认知 · 为什么记住它', def ? ('这条你自己给的定义是：' + def + '。把「' + name + '」记下来，就是把这个判断变成随时可调用的标准，下次遇到同类场景不用从零纠结。') : (quote ? ('这是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。') : ('「' + name + '」是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。'))],
+      ['🎯 行为 · 怎么做', '下次遇到对应场景，按这条执行一次最小版本：' + short + ' 先做一次，再对比老做法的结果。'],
+      ['⚠️ 易错点', '只收藏不执行——这条的价值要在一次次具体决策里兑现，而不是躺在卡片里。'],
+      ['🔧 怎么调整', '每周回看一次：最近的决策有没有真的用到它？没用上的场景，就是下周要练的场景。']
+    ];
+  }
   window.__CC_DB = {"每天写情绪日记，识别爆发触发点": [["🧠 认知 · 为什么", "辅导作业的爆发不是「脾气差」而是有触发链的：作业磨蹭/同一题反复错/顶嘴——每天记录才能把「莫名爆发」拆解成「可预防的模式」；情绪命名本身就能降温。"], ["🎯 行为 · 怎么做", "每晚3行：今天几点火药味最浓/触发的是哪句话哪个动作/我当时身体的第一反应；连续记一周找你的头号触发点。"], ["⚠️ 易错点", "日记写成愧疚检讨（「我又吼了，我不是好妈妈」）——只记「事件+触发+反应」，自责会让你连记录都不敢了。"], ["✅ 确认", "本周记录≥6天；你的头号触发点找到了吗，它今天出现过吗。"]], "• 每天留30分钟完全属于自己的时间": [["🧠 认知 · 为什么", "自我耗竭（ego depletion）在全职照护者身上最严重：没有「自己时间」的妈妈，耐心余额每天都在低位运行；30分钟不是自私，是给耐心账户充值。"], ["🎯 行为 · 怎么做", "和家人明确这30分钟的「不可侵犯」（如孩子作业后/晚饭前），提前想好做什么（散步/追剧/发呆都行），手机可以带上但你说了算。"], ["⚠️ 易错点", "自己的30分钟拿来干家务——家务是第二轮付出，不是充电；充电的标准是「做完感觉被补了」。"], ["✅ 确认", "今天30分钟有了吗；是在「充电」还是在「换种方式干活」。"]], "• 把\"一次辅导只解决一个问题\"设为底线": [["🧠 认知 · 为什么", "辅导崩溃常见于「顺藤摸瓜」：一道错题牵出错字、牵出态度、牵出昨天——问题越滚越多，孩子情绪先崩；一次一个问题的底线保护的是双方的注意力带宽。"], ["🎯 行为 · 怎么做", "开辅导前默念「只解决一个问题」（今晚就攻那道反复错的题）；发现新问题写进「下次清单」，当场不说。"], ["⚠️ 易错点", "「顺手提一句」——那句「顺手」就是崩溃多米诺的第一张牌；写下来等于放下了。"], ["✅ 确认", "今晚的「一个问题」解决了吗；「下次清单」上又攒了几条（攒着不亏，一次性爆发才亏）。"]], "练习先倾听再建议，忍住不评判": [["🧠 认知 · 为什么", "孩子（尤其青春期）关闭心门的机制是「一说就被评判」：倾听而不评判传递「你是安全的」，这是孩子遇到真问题（霸凌/焦虑/早恋）时愿意告诉你的前提。"], ["🎯 行为 · 怎么做", "孩子说话时用「复述+提问」回应：「你是说…，然后呢？」；建议必须先问「要我出主意吗」，被拒绝就收住。"], ["⚠️ 易错点", "倾听中插纠正（「这有什么好难过的」）——否定感受等于终止对话；感受没有对错，先接住。"], ["✅ 确认", "本周一次「只听不说」完成了吗；孩子说的内容，比你们平时对话时多还是少。"]], "• 用\"我感到…我希望…\"替代指责表达": [["🧠 认知 · 为什么", "「你怎么又…」触发防御，「我感到…我希望…」触发共情——同一件事，前者让孩子学会撒谎和顶嘴，后者让孩子学会理解后果；表达句式就是家庭的语言环境。"], ["🎯 行为 · 怎么做", "想指责时套模板：「看到【事实】，我感到【情绪】，我希望【具体请求】」——如「看到九点还没开始写作业，我很着急，我希望我们现在就开始」。"], ["⚠️ 易错点", "「我希望」后面跟翻旧账——请求要具体到今晚可执行，一次一个，不打包清算。"], ["✅ 确认", "本周模板用了≥3次；孩子的反应从「狡辩」变成「行动」过吗。"]], "• 与老师建立同盟，同步而非对立": [["🧠 认知 · 为什么", "家校关系决定孩子的中间地带：对立（孩子夹在中间两头受气）或全盘转发压力（老师说什么都加码执行）都伤孩子；同盟关系让你成为「翻译器」而非「传声筒」。"], ["🎯 行为 · 怎么做", "本月主动和班主任做一次平等沟通：先同步家里的真实情况（孩子状态/困难），再听老师的观察，共同定一个「学校家里各做一件事」的小方案。"], ["⚠️ 易错点", "只在出事时联系老师——平时一次正向沟通，胜过出事时十次救火；老师对「同盟家长」的孩子天然多一分耐心。"], ["✅ 确认", "最近一次和老师的沟通是什么性质（同盟/告状/救火）；下一次主动沟通定在哪天。"]], "从\"盯作业\"转向\"教学习方法\"": [["🧠 认知 · 为什么", "盯作业培养的是「外部监控依赖」：孩子学会的是「有人盯才学」；教学习方法（怎么审题/怎么检查/错题怎么处理）才是把学习的主权逐步移交给孩子。"], ["🎯 行为 · 怎么做", "本周把「检查作业」升级为「教检查方法」：不直接指出错题，教「怎么自己找出错」（先查抄写/再查计算/最后查理解），让TA自己找。"], ["⚠️ 易错点", "孩子找不出时你忍不住指——指一次，方法教育退回零；找不出就明天再找，错了的后果本来就是学习材料。"], ["✅ 确认", "本周TA自己找出过错吗；「妈妈检查」这个环节，能不能开始逐步撤出。"]], "• 逐步放手，让孩子承担自然结果": [["🧠 认知 · 为什么", "自然后果是最深刻的老师（没带作业的窘迫比十次提醒有效）：被「提醒系统」包办的孩子不会发展出自己的管理系统；放手的痛苦期是学习的学费。"], ["🎯 行为 · 怎么做", "选一件低风险的事完全放手（整理书包/记作业），提前告知「这是你的事了」；后果发生时只共情不复盘不救场：「很难受吧，需要总结经验吗」。"], ["⚠️ 易错点", "后果太痛时忍不住补刀（「早听我的…」）——补刀把教育瞬间变成羞辱，孩子记住的是你的嘴脸不是教训。"], ["✅ 确认", "放手的那件事运行几周了；TA建立自己的「防错机制」了吗（哪怕是个歪办法）。"]], "• 重启自己的兴趣或事业，做孩子的榜样": [["🧠 认知 · 为什么", "孩子通过「观察学习」建立对生活样态的理解：一个有自己热爱和事业的妈妈，示范的是「成年人如何自驱地生活」——这比任何「你要努力」的言语都有说服力。"], ["🎯 行为 · 怎么做", "选一件搁置的事（兴趣/副业/学习），本周投入3小时启动最小的一步，并让孩子「看见」：饭桌上自然地聊起你在做的事和卡住的地方。"], ["⚠️ 易错点", "「等孩子大了再开始」——等待示范的是「梦想可以无限期搁置」；从小步开始，你和孩子各自成长，互为见证。"], ["✅ 确认", "那3小时投入了吗；孩子问起你在做的事时，你是眼睛发光的还是含糊带过的。"]]};
   function fbFor(txt){
     

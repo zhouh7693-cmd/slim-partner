@@ -602,7 +602,18 @@
     .ie-p2 { background: #ede9fe; color: #6b21a8; }
 
     @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  </style>
+  
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
+</style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body>
@@ -1206,15 +1217,13 @@ function renderCheckinPage() {
   html += `<div class="card" id="mainCheckin" style="display:none">
     <div class="partner-badge" id="partnerBadge"></div>
     <div class="question" id="checkinQuestion">今天有没有迈出创业的一步？</div>
-    <div class="checkin-btn" id="checkinBtn" onclick="handleCheckin()">
-      <div class="checkin-status" id="checkinStatus">${todayChecked ? '✅' : '打卡'}</div>
-      <div class="checkin-sub" id="checkinSub">${todayChecked ? '今日已完成' : '点击打卡'}</div>
+    <div class="today-checkin" id="checkinBtn" onclick="handleCheckin()">
+      <span class="checkin-status" id="checkinStatus" style="font-size:20px;">${todayChecked ? '已签到' : '签到'}</span>
+      <span class="checkin-sub" id="checkinSub">${todayChecked ? '今日已完成' : '愿意来，就已经在变好'}</span>
     </div>
-    <div class="continuous" id="continuousNum">${streak}</div>
-    <div class="continuous-label">连续打卡天数</div>
-    <div class="week-progress">
-      <div class="week-title"><span>本周进度</span><span id="weekCount">0/7</span></div>
-      <div class="week-dots" id="weekDots"></div>
+    <div class="today-status">
+      <div class="ts-days"><span class="ts-num" id="continuousNum">${streak}</span><span class="ts-label">天连续</span></div>
+      <div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;">本周进度 · <span id="weekCount">0/7</span></div><div class="week-dots" id="weekDots"></div></div>
     </div>
   </div>`;
 
@@ -1222,29 +1231,14 @@ function renderCheckinPage() {
   html += `<div class="chat-area" id="chatArea" style="display:none">
     <div id="msgContainer"></div>
   </div>`;
-  html += `<div class="interaction-panel" id="interactionPanel" style="display:none">
-    <div class="panel-label">💬 告诉搭子你现在的状态</div>
-    <div class="mood-row" id="moodRow">
-      <div class="mood-btn" data-mood="happy" title="开心">😄</div>
-      <div class="mood-btn" data-mood="neutral" title="平静">😌</div>
-      <div class="mood-btn" data-mood="sad" title="低落">😔</div>
-      <div class="mood-btn" data-mood="tired" title="疲惫">😫</div>
-    </div>
-    <div class="panel-label" style="margin-top:10px">🚀 想聊点什么？</div>
-    <div class="talk-btn-row">
-      <button class="talk-btn" data-type="progress">📈 进展</button>
-      <button class="talk-btn" data-type="struggle">😣 困难</button>
-      <button class="talk-btn" data-type="idea">💡 想法</button>
-      <button class="talk-btn" data-type="cheer">🎉 喜事</button>
-    </div>
-    <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" data-type="report">📣 汇报进展</button>
-      <button class="talk-btn" data-type="question">🤔 有问题想问</button>
-    </div>
-    <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="stdSceneOpen()">💭 今天发生了什么</button>
-    </div>
+  html += `<div id="todayExtra" style="display:none">`;
+  html += `<div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
+    <div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个创业小动作</div>
+    <div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div>
+    <div id="stdKey3List"></div>
   </div>`;
+  html += `<div style="max-width:420px;margin:0 auto 14px;"><button class="talk-btn" style="width:100%;" onclick="stdSceneOpen()">💭 今天发生了什么</button></div>`;
+  html += `</div>`;
 
   // 分享入口
 
@@ -1270,7 +1264,7 @@ function renderCheckinPage() {
     document.getElementById('partnerSelector').style.display = 'none';
     document.getElementById('mainCheckin').style.display = 'block';
     document.getElementById('chatArea').style.display = 'block';
-    document.getElementById('interactionPanel').style.display = 'block';
+    var _tx=document.getElementById('todayExtra'); if(_tx) _tx.style.display='block'; try{stdK3Render();}catch(e){}
     var _si = document.getElementById('shareInline'); if (_si) _si.style.display = 'block';
     if (recentHist.length > 1) document.getElementById('historySection').style.display = 'block';
     const p = PARTNER_STYLES[selectedPartner];
@@ -1304,7 +1298,7 @@ function confirmPartner() {
   document.getElementById('partnerSelector').style.display = 'none';
   document.getElementById('mainCheckin').style.display = 'block';
   document.getElementById('chatArea').style.display = 'block';
-  document.getElementById('interactionPanel').style.display = 'block';
+  var _tx=document.getElementById('todayExtra'); if(_tx) _tx.style.display='block'; try{stdK3Render();}catch(e){}
   var _si = document.getElementById('shareInline'); if (_si) _si.style.display = 'block';
   const p = PARTNER_STYLES[selectedPartner];
   document.getElementById('partnerBadge').textContent = `🤝 ${p.emoji} ${p.name}`;
@@ -1338,8 +1332,8 @@ function handleCheckin() {
     save(STORAGE.SOP_HISTORY, hist);
   }
   todayChecked = true;
-  document.getElementById('checkinStatus').textContent = '✅';
-  document.getElementById('checkinStatus').style.fontSize = '36px';
+  document.getElementById('checkinStatus').textContent = '已签到';
+  document.getElementById('checkinStatus').style.fontSize = '20px';
   document.getElementById('checkinSub').textContent = '今日已完成';
   initWeekDots(load(STORAGE.SOP_HISTORY, []));
   try { appendMsg('🚀', '打卡成功！迈出的一步都算数，明天继续。', true); } catch (e) {}

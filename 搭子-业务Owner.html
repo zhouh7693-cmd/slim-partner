@@ -208,7 +208,48 @@
     .coach-report-section { background: #f0fdf4; border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; }
     .coach-report-label { font-size: 12px; font-weight: 700; color: #16a34a; text-transform: uppercase; margin-bottom: 6px; }
     .coach-report-value { font-size: 14px; color: #333; line-height: 1.5; }
-  </style>
+  
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
+
+  /* ===== Format C 自检引擎样式 ===== */
+  .sop-cat-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;}
+  .sop-cat-tab{flex-shrink:0;font-size:13px;padding:8px 14px;border-radius:50px;border:1.5px solid #e3e3e3;background:#fff;color:#666;cursor:pointer;white-space:nowrap;transition:all .15s;}
+  .sop-cat-tab.active{background:#16a34a;border-color:#16a34a;color:#fff;font-weight:700;}
+  .sop-game-card{background:#fff;border-radius:18px;padding:18px 16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+  .sop-cat-progress{display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:13px;color:#555;font-weight:600;}
+  .sop-cat-progress-bar{flex:1;height:6px;background:#eef2f5;border-radius:6px;overflow:hidden;}
+  .sop-cat-progress-fill{height:100%;border-radius:6px;transition:width .3s;}
+  .sop-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #f2f2f2;}
+  .sop-item:last-child{border-bottom:none;}
+  .sop-item-text{flex:1;font-size:14px;color:#37474f;line-height:1.5;}
+  .sop-item-btns{display:flex;gap:8px;flex-shrink:0;}
+  .sop-check-btn{flex-shrink:0;font-size:12px;padding:7px 12px;border-radius:12px;border:1.5px solid #e0e0e0;background:#fff;color:#888;cursor:pointer;white-space:nowrap;transition:all .15s;}
+  .sop-check-btn:active{transform:scale(.94);}
+  .sop-check-btn.yes-checked{background:#e8f5e9;border-color:#43a047;color:#2e7d32;font-weight:700;}
+  .sop-check-btn.no-checked{background:#fff3f3;border-color:#ef9a9a;color:#c62828;font-weight:700;}
+  .sop-item-yes .sop-item-text{color:#2e7d32;}
+  .sop-item-no .sop-item-text{color:#c62828;text-decoration:line-through;}
+  .sop-cat-summary{text-align:center;padding:14px 0 4px;}
+  .sop-cat-summary-icon{font-size:34px;}
+  .sop-cat-summary-title{font-size:16px;font-weight:800;color:#333;margin-top:4px;}
+  .sop-cat-summary-sub{font-size:12px;color:#8f9eae;margin-top:2px;}
+  .sop-all-done-card{text-align:center;padding:20px 0 8px;}
+  .sop-all-done-emoji{font-size:54px;margin-bottom:8px;}
+  .sop-all-done-text{font-size:20px;font-weight:800;color:#333;margin-bottom:4px;}
+  .sop-all-done-sub{font-size:12px;color:#8f9eae;}
+  .sop-finish-overlay{display:none;position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:120;align-items:center;justify-content:center;padding:24px;}
+  .sop-finish-overlay.show{display:flex;}
+  .sop-finish-card{background:#fff;border-radius:24px;padding:32px 28px;text-align:center;max-width:320px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+</style>
   <style>
     /* ── 教练Tab（业务Owner主题） ── */
     .coach-page { max-width: 420px; margin: 0 auto; }
@@ -601,16 +642,12 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
 <div class="page active" id="checkinPage">
   <div class="card">
     <div class="partner-badge" id="partnerBadge">🌿 业务教练</div>
-    <div class="question" id="dailyQuestion">今日Owner反思：你今天主动推进了哪个业务结果？</div>
-    <div class="checkin-btn" onclick="doCheckin()">
-      <div class="checkin-status" id="checkinStatus">打卡</div>
-      <div class="checkin-sub" id="checkinSub">点击记录今日</div>
-    </div>
-    <div class="continuous" id="continuousCount">0</div>
-    <div class="continuous-label">连续打卡天数</div>
+    <div class="question" id="dailyQuestion">今日份的小改变，准备就绪</div>
+    <div class="today-checkin" id="checkinBtn" onclick="doCheckin()"><span class="checkin-status" id="checkinStatusText" style="font-size:20px;">签到</span><span class="checkin-sub">愿意来，就已经在变好</span></div>
+    <div class="today-status"><div class="ts-days"><span class="ts-num" id="continuousDays">0</span><span class="ts-label">天连续</span></div><div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;"><span id="weekRange"></span> · 这一周</div><div class="week-dots" id="weekDots"></div></div></div>
   </div>
-  <div class="week-progress" id="weekProgress"></div>
-</div>
+  
+<div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);"><div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个小动作</div><div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div><div class="famk3list"></div></div><div style="max-width:420px;margin:0 auto 14px;"><button class="talk-btn" style="width:100%;" onclick="askPartner('today')">💭 今天发生了什么</button></div></div>
 
 <div class="page" id="chatPage">
   <div class="chat-area" id="chatArea"></div>
@@ -815,50 +852,35 @@ function ensureSceneBtn(){
 </div>
 
 <div class="page" id="sopPage">
-  <div class="sop-page">
-    <div class="sop-header">
-      <div class="sop-title">业务Owner成长自检</div>
-      <div class="sop-sub">每天10题，照见真正的Owner思维</div>
-      <div class="sop-score-row">
-        <div class="sop-score"><div class="sop-score-num" id="sopScore">0</div><div class="sop-score-label">获得积分</div></div>
-        <div class="sop-score"><div class="sop-score-num" id="sopDone">0/20</div><div class="sop-score-label">已完成</div></div>
+  <div style="padding:16px 12px 80px;">
+    <div style="background:#fff;border-radius:20px;padding:20px 18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+      <div style="font-size:20px;font-weight:800;color:#333;">🎯 今日自检复盘</div>
+      <div style="font-size:13px;color:#999;margin-top:4px;margin-bottom:14px;">分维度勾选，看清今天做到了什么</div>
+      <div style="display:flex;gap:10px;margin-bottom:12px;">
+        <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#16a34a;" id="sopScore">0</div><div style="font-size:11px;color:#8f9eae;">今日得分</div></div>
+        <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#43a047;" id="sopPosCount">0</div><div style="font-size:11px;color:#8f9eae;">做到了</div></div>
+        <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#ef5350;" id="sopNegCount">0</div><div style="font-size:11px;color:#8f9eae;">需注意</div></div>
       </div>
-      <div class="sop-progress-wrap">
-        <div class="sop-progress-bg"><div class="sop-progress-bar" id="sopProgressBar"></div></div>
-        <div class="sop-progress-text" id="sopProgressText">0%</div>
-      </div>
+      <div style="background:#eef2f5;border-radius:8px;height:10px;overflow:hidden;"><div id="sopScoreBar" style="height:100%;width:0%;background:#16a34a;border-radius:8px;transition:width .5s;"></div></div>
+      <div style="font-size:11px;color:#8f9eae;text-align:right;margin-top:4px;" id="sopProgressText">0 / 100</div>
     </div>
-    <div class="sop-cat-grid" id="sopCatGrid"></div>
-    <div class="sop-list-wrap" id="sopListWrap" style="display:none;">
-      <div class="sop-list-header">
-        <button class="sop-back-btn" onclick="backToSOPCats()">← 返回分类</button>
-        <div class="sop-list-cat-title" id="sopListCatTitle"></div>
-      </div>
-      <div class="sop-list-container" id="sopListContainer"></div>
-      <div class="sop-list-done-btn" id="sopListDoneBtn" onclick="submitSOPList()" style="display:none;">确认提交 →</div>
+    <div class="sop-cat-tabs" id="sopCatTabs" style="margin-bottom:12px;"></div>
+    <div class="sop-game-card" id="sopGameCard"></div>
+    <div style="background:#fff;border-radius:18px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
+      <div style="font-size:14px;font-weight:800;color:#333;margin-bottom:6px;">💡 本维度提示</div>
+      <div id="sopTipText" style="font-size:12.5px;color:#555;line-height:1.7;"></div>
     </div>
-    <div class="sop-game-card" id="sopGameCard" style="display:none;">
-      <div class="sop-cat-progress" id="sopCatProgress"></div>
-      <div class="sop-habit-card">
-        <div class="sop-habit-label" id="sopHabitLabel">习惯</div>
-        <span class="sop-habit-emoji" id="sopHabitEmoji">🌿</span>
-        <div class="sop-habit-text" id="sopHabitText">测试文本</div>
-        <div class="sop-habit-sub" id="sopHabitSub">测试副文本</div>
-      </div>
-      <div class="sop-btn-row">
-        <button class="sop-btn yes" id="sopYesBtn" onclick="answerSOP('yes')"><span>✅ 做到了</span><span class="sop-btn-pts">+3分</span></button>
-        <button class="sop-btn no" id="sopNoBtn" onclick="answerSOP('no')"><span>❌ 没做到</span><span class="sop-btn-pts">+0分</span></button>
-      </div>
-    </div>
-    <div class="sop-done-state" id="sopDoneState" style="display:none;">
-      <div class="sop-done-icon">🎉</div>
-      <div class="sop-done-title">今日自检完成！</div>
-      <div class="sop-done-sub" id="sopDoneSub">又完成了一次自我审视</div>
-      <button class="sop-reset-btn" onclick="resetSOP()">明天再来 →</button>
+  </div>
+
+  <div id="sopFinishOverlay" class="sop-finish-overlay">
+    <div class="sop-finish-card">
+      <div style="font-size:54px;margin-bottom:10px;">🎉</div>
+      <div style="font-size:20px;font-weight:800;color:#333;margin-bottom:6px;">今日复盘完成！</div>
+      <div style="font-size:13px;color:#8f9eae;">明天 0 点自动重置，继续加油</div>
+      <button onclick="closeSOPFinish()" style="margin-top:18px;padding:12px 32px;border:none;border-radius:50px;background:#16a34a;color:#fff;font-size:15px;font-weight:700;cursor:pointer;">好的</button>
     </div>
   </div>
 </div>
-
 <div id="sopGuideOverlay">
   <div class="sop-guide-card">
     <div class="sop-guide-icon">🌿</div>
@@ -1071,7 +1093,7 @@ if (savedPartner) {
   document.getElementById('tabBar').style.display = 'flex';
   document.getElementById('checkinPage').classList.add('active');
   initDashboard();
-  renderSOP();
+  initSOP();
   autoCloseSOPGuide();
 } else {
   renderPartnerGrid();
@@ -1124,7 +1146,7 @@ function confirmPartner() {
   document.getElementById('partnerSelectorMask').style.display = 'none';
   document.getElementById('tabBar').style.display = 'flex';
   initDashboard();
-  renderSOP();
+  initSOP();
   autoCloseSOPGuide();
   switchTabDirect('chat');
   setTimeout(function() {
@@ -1385,256 +1407,65 @@ function closeFBOverlay() { document.getElementById('fbOverlay').classList.remov
 function closeQA() { document.getElementById('qaOverlay').classList.remove('show'); }
 
 // ===== SOP自检 =====
-var SOP_CATEGORIES = [
-  {id:'biz_mindset', name:'Owner思维', icon:'🧭', desc:'视角、判断力、主动权', color:'#16a34a'},
-  {id:'data_finance', name:'数据财务', icon:'📊', desc:'ROI、毛利、利润逻辑', color:'#0284c7'},
-  {id:'brand_rel', name:'品牌关系', icon:'🤝', desc:'信任、谈判、长期经营', color:'#d97706'},
-  {id:'report_comm', name:'汇报表达', icon:'💬', desc:'结论先行、判断输出', color:'#7c3aed'},
-  {id:'self_mgmt', name:'自我管理', icon:'🌿', desc:'节奏、边界、持续成长', color:'#dc2626'}
+const SOP_CATEGORIES = [
+  {id:'biz_mindset', name:'Owner思维', icon:'🧭', color:'#16a34a', tips:'Owner不是等答案的人，是给答案的人。先判断，再执行。',
+    items:[
+      {text:'今天主动做了一个业务方向的判断，没有等上级拍板', pts:10},
+      {text:'今天主动推进了一件"没人要求我做"的业务事项', pts:10},
+      {text:'遇到卡点时，我先给建议（我的建议是X，需要您确认Y）再上报', pts:10},
+      {text:'今天用Owner视角思考了"这件事为什么该做"，而不只是执行', pts:10}
+    ]},
+  {id:'data_finance', name:'数据财务', icon:'📊', color:'#0284c7', tips:'用数字思考，而不是只看数字。利润比收入更诚实。',
+    items:[
+      {text:'今天主动看了ROI或毛利数据，并理解数字背后的原因', pts:10},
+      {text:'今天做决策时计算了净利润影响，不只看收入/GMV', pts:10},
+      {text:'下属汇报的数字，我亲自验证过，没有照单全收', pts:10},
+      {text:'被问到利润数据时，我能说清楚', pts:10}
+    ]},
+  {id:'brand_rel', name:'品牌关系', icon:'🤝', color:'#d97706', tips:'任何承诺前先算ROI。有立场的服务商才有话语权。',
+    items:[
+      {text:'今天主动联系了一个品牌方，没有等他们来找我', pts:10},
+      {text:'和品牌方沟通时，我清晰表达了我们的立场和价值', pts:10},
+      {text:'接到品牌方要求时，我先评估了利润/ROI影响再回应', pts:10},
+      {text:'今天有意识从外部（品牌方/平台/市场）获取了关键信息', pts:10}
+    ]},
+  {id:'report_comm', name:'汇报表达', icon:'💬', color:'#7c3aed', tips:'结论先行，带上建议。事实是原料，判断才是产品。',
+    items:[
+      {text:'今天汇报时先说结论，再给数据支撑', pts:10},
+      {text:'今天有一次表达带上了"我的建议是X，理由是Y"', pts:10},
+      {text:'被问"你觉得该怎么做"时，我给出了自己的判断', pts:10},
+      {text:'今天的汇报不只是罗列事实，还输出了判断', pts:10}
+    ]},
+  {id:'self_mgmt', name:'自我管理', icon:'🌿', color:'#dc2626', tips:'保护你的专注力，它比时间更稀缺。方向清晰才能积累动能。',
+    items:[
+      {text:'今天设定了"今日最重要的3件事"并专注完成', pts:10},
+      {text:'今天主动保护专注力，减少了碎片化打扰', pts:10},
+      {text:'今天花时间思考了"1年后想成为什么样的Owner"', pts:10},
+      {text:'今天工作与休息边界清晰，状态保持在较高水平', pts:10}
+    ]}
 ];
 
-var SOP_HABITS = [
-  // cat: biz_mindset
-  {id:'biz_mindset_1', cat:'biz_mindset', emoji:'🧭', pos:true, text:'今天主动做了一个业务方向的判断，没有等上级拍板', sub:'Owner不是等答案的人，是给答案的人'},
-  {id:'biz_mindset_2', cat:'biz_mindset', emoji:'🏃', pos:false, text:'今天大部分时间在处理执行细节，没有做过一个业务判断', sub:'Owner的价值在判断，而不是执行'},
-  {id:'biz_mindset_3', cat:'biz_mindset', emoji:'⚡', pos:true, text:'今天主动推进了一件"没人要求我做"的业务事项', sub:'主动性是Owner和执行者最大的分水岭'},
-  {id:'biz_mindset_4', cat:'biz_mindset', emoji:'😶', pos:false, text:'遇到卡点时第一反应是"等上级决定"', sub:'试着把等待变成"我的建议是X，需要您确认的是Y"'},
-  // cat: data_finance
-  {id:'data_finance_1', cat:'data_finance', emoji:'📊', pos:true, text:'今天主动看了ROI或毛利数据，并知道数字背后的原因', sub:'Owner用数字思考，不只是看数字'},
-  {id:'data_finance_2', cat:'data_finance', emoji:'📉', pos:false, text:'今天听了下属的汇报数字，但没有自己验证', sub:'数字要亲自看，不能只靠别人的解读'},
-  {id:'data_finance_3', cat:'data_finance', emoji:'💰', pos:true, text:'今天做决策时计算了净利润影响，不只看收入', sub:'"这件事能赚多少"比"这件事有多少GMV"更重要'},
-  {id:'data_finance_4', cat:'data_finance', emoji:'🤷', pos:false, text:'被问到利润数据时，答不上来或者说不清楚', sub:'财务数据是Owner的基本功，每天早上花5分钟看一遍'},
-  // cat: brand_rel
-  {id:'brand_rel_1', cat:'brand_rel', emoji:'🤝', pos:true, text:'今天主动联系了一个品牌方，不是等他们来找我', sub:'品牌关系靠主动经营，靠被动响应只会越来越被动'},
-  {id:'brand_rel_2', cat:'brand_rel', emoji:'😰', pos:false, text:'今天接到品牌方要求，立刻答应了，没有评估利润影响', sub:'任何承诺之前先算ROI，这是Owner的基本商业纪律'},
-  {id:'brand_rel_3', cat:'brand_rel', emoji:'💼', pos:true, text:'今天和品牌方沟通时清晰表达了我们的立场和价值', sub:'有立场的服务商才有话语权，无立场的只能打价格战'},
-  {id:'brand_rel_4', cat:'brand_rel', emoji:'😤', pos:false, text:'今天没有任何外部沟通，全天在处理内部事务', sub:'Owner的核心信息来自外部——品牌方、平台、市场'},
-  // cat: report_comm
-  {id:'report_comm_1', cat:'report_comm', emoji:'💬', pos:true, text:'今天汇报或表达时，先说结论再给数据', sub:'结论先行是Owner与执行者在沟通上最显著的差异'},
-  {id:'report_comm_2', cat:'report_comm', emoji:'📝', pos:false, text:'今天汇报时只是罗列了发生的事情，没有说出判断', sub:'事实是原材料，判断才是有价值的产品'},
-  {id:'report_comm_3', cat:'report_comm', emoji:'📋', pos:true, text:'今天有一次表达带上了"我的建议是X，理由是Y"', sub:'有建议的汇报才是完整的汇报'},
-  {id:'report_comm_4', cat:'report_comm', emoji:'😬', pos:false, text:'今天被问"你觉得应该怎么做"时，答不上来', sub:'每次汇报前逼自己准备好建议，这是Owner的功课'},
-  // cat: self_mgmt
-  {id:'self_mgmt_1', cat:'self_mgmt', emoji:'🌿', pos:true, text:'今天设定了今日3件最重要的事，并专注在这3件上', sub:'Owner的稀缺资源是专注力，保护它比管理时间更重要'},
-  {id:'self_mgmt_2', cat:'self_mgmt', emoji:'😔', pos:false, text:'今天被各种消息和临时需求打断，没有完成一件重要的事', sub:'碎片化工作是Owner效能最大的杀手，要主动建立保护机制'},
-  {id:'self_mgmt_3', cat:'self_mgmt', emoji:'📈', pos:true, text:'今天花时间思考了"1年后我想成为什么样的Owner"', sub:'没有方向的成长只是在消耗能量，方向清晰才能积累动能'},
-  {id:'self_mgmt_4', cat:'self_mgmt', emoji:'😤', pos:false, text:'今天工作和休息的边界模糊，状态一直在低水平运行', sub:'持续低效比偶尔休息更消耗生命，Owner要学会真正切换'}
-];
 
-// 按分类建立索引，方便 SOP_HABITS_BY_CAT[catId] 访问
-var SOP_HABITS_BY_CAT = {};
-SOP_HABITS.forEach(function(h) {
-  if (!SOP_HABITS_BY_CAT[h.cat]) SOP_HABITS_BY_CAT[h.cat] = [];
-  SOP_HABITS_BY_CAT[h.cat].push(h);
-});
-
-function renderSOP() {
-  var grid = document.getElementById('sopCatGrid');
-  grid.innerHTML = '';
-  SOP_CATEGORIES.forEach(function(cat) {
-    var habits = SOP_HABITS.filter(function(h) { return h.cat === cat.id; });
-    var done = getSOPDone(cat.id);
-    var total = habits.length;
-    var pct = total > 0 ? Math.round(done / total * 100) : 0;
-    var div = document.createElement('div');
-    div.className = 'sop-cat-btn';
-    var progressTag = '';
-    if (done > 0 && done < total) {
-      progressTag = '<div style="margin-top:8px;"><div style="height:4px;background:#eef2f5;border-radius:4px;overflow:hidden;"><div style="height:100%;width:' + pct + '%;background:#16a34a;border-radius:4px;transition:width 0.3s;"></div></div><div class="sop-cat-done" style="margin-top:3px;">' + done + '/' + total + ' · ' + pct + '%</div></div>';
-    } else if (done >= total) {
-      progressTag = '<div style="margin-top:8px;"><div style="height:4px;background:#eef2f5;border-radius:4px;overflow:hidden;"><div style="height:100%;width:100%;background:#16a34a;border-radius:4px;"></div></div><div class="sop-cat-done" style="margin-top:3px;">已完成</div></div>';
-    } else {
-      progressTag = '<div style="margin-top:8px;height:4px;background:#eef2f5;border-radius:4px;"></div>';
-    }
-    div.innerHTML = '<div class="sop-cat-icon">' + cat.icon + '</div><div class="sop-cat-name">' + cat.name + '</div><div class="sop-cat-desc">' + cat.desc + '</div>' + progressTag;
-    div.onclick = function() { showSOPList(cat.id); };
-    grid.appendChild(div);
-  });
-  updateSOPStats();
+let sopScore=0,sopCatIdx=0,sopSelected={},sopDone=false,sopSubmittedCats=[];
+const SOP_ACC='#16a34a',SOP_KEY='业务Owner_sop';
+function getSOPData(){try{let d=JSON.parse(localStorage.getItem(SOP_KEY));return d&&typeof d==='object'?d:{}}catch(e){return{}}}
+function saveSOPData(o){localStorage.setItem(SOP_KEY,JSON.stringify(o))}
+function getSOPStreaks(){try{return JSON.parse(localStorage.getItem(SOP_KEY+'_streaks')||'{}')}catch(e){return{}}}
+function updateSOPCatStreak(catId,yesCount){let s=getSOPStreaks();let o=s[catId]||{streak:0,last:''};if(yesCount>0){o.streak=(o.last===getToday())?o.streak+0:o.streak+1;o.last=getToday()}else{o.streak=0;o.last=getToday()}s[catId]=o;localStorage.setItem(SOP_KEY+'_streaks',JSON.stringify(s))}
+function initSOP(){let d=getSOPData(),t=getToday();if(d.date!==t){sopScore=0;sopSelected={};sopDone=false;sopSubmittedCats=[]}else{sopScore=d.score||0;sopSelected=d.selected||{};sopDone=d.done||false;sopSubmittedCats=d.submittedCats||[]}renderSOPTabs();renderSOPList();updateSOPHeader();let tip=document.getElementById('sopTipText');if(tip&&SOP_CATEGORIES[sopCatIdx])tip.textContent=SOP_CATEGORIES[sopCatIdx].tips}
+function renderSOPTabs(){let tabs=document.getElementById('sopCatTabs');if(!tabs)return;let st=getSOPStreaks();tabs.innerHTML=SOP_CATEGORIES.map((c,i)=>{let sel=sopSelected[c.id]||{};let done=Object.keys(sel).length>=c.items.length;let sk=st[c.id]?st[c.id].streak:0;return '<button class="sop-cat-tab '+(i===sopCatIdx?'active':'')+'" onclick="switchSOPCat('+i+')">'+c.icon+' '+(done?'✅':'')+c.name+(sk>0?' 🔥':'')+'</button>'}).join('')}
+function switchSOPCat(idx){sopCatIdx=idx;let tip=document.getElementById('sopTipText');if(tip)tip.textContent=SOP_CATEGORIES[idx].tips;renderSOPTabs();renderSOPList()}
+function updateSOPHeader(){let ty=0,tn=0,ti=0;SOP_CATEGORIES.forEach(c=>{let sel=sopSelected[c.id]||{};c.items.forEach((it,ix)=>{ti++;if(sel[ix]==='yes')ty++;else if(sel[ix]==='no')tn++})});let s=document.getElementById('sopScore');if(s)s.textContent=sopScore;let p=document.getElementById('sopPosCount');if(p)p.textContent=ty;let n=document.getElementById('sopNegCount');if(n)n.textContent=tn;let bar=document.getElementById('sopScoreBar');if(bar)bar.style.width=sopScore+'%';let pt=document.getElementById('sopProgressText');if(pt)pt.textContent=Math.round(ti>0?(ty/ti)*100:0)+' / 100'}
+function getCatSelected(id){return sopSelected[id]||{}}
+function renderSOPList(){let card=document.getElementById('sopGameCard');if(!card)return;let cat=SOP_CATEGORIES[sopCatIdx];if(!cat){card.innerHTML='';return}let sel=getCatSelected(cat.id),dc=Object.keys(sel).length,tc=cat.items.length,all=dc>=tc;if(sopDone){renderSOPDoneState();return}let items=cat.items.map((it,ix)=>{let st=sel[ix]||null;let yc=st==='yes'?'sop-item-yes':'',nc=st==='no'?'sop-item-no':'';let yb=st==='yes'?'yes-checked':'',nb=st==='no'?'no-checked':'';return '<div class="sop-item '+yc+' '+nc+'"><div class="sop-item-text">'+it.text+'</div><div class="sop-item-btns"><button class="sop-check-btn '+yb+'" onclick="toggleSOPItem('+ix+',\'yes\')">✅ 做到了</button><button class="sop-check-btn '+nb+'" onclick="toggleSOPItem('+ix+',\'no\')">❌ 没做到</button></div></div>'}).join('');let sum=all?'<div class="sop-cat-summary" style="margin-top:12px;"><div class="sop-cat-summary-icon">'+cat.icon+'</div><div class="sop-cat-summary-title">'+cat.name+' 今日小结</div><div class="sop-cat-summary-sub">已全部回答 ✅</div><button onclick="submitSOPCat()" style="margin-top:12px;padding:12px 24px;background:'+SOP_ACC+';color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;">📋 确认本维度 →</button></div>':'';card.innerHTML='<div class="sop-cat-progress"><span>'+cat.icon+' '+cat.name+'</span><div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:'+Math.round(dc/tc*100)+'%;background:'+(cat.color||SOP_ACC)+'"></div></div><span style="color:'+SOP_ACC+';font-weight:700;">'+dc+'/'+tc+'</span></div><div class="sop-list-container">'+items+'</div>'+sum}
+function toggleSOPItem(ix,state){let cat=SOP_CATEGORIES[sopCatIdx];if(!sopSelected[cat.id])sopSelected[cat.id]={};if(sopSelected[cat.id][ix]===state)delete sopSelected[cat.id][ix];else sopSelected[cat.id][ix]=state;renderSOPList();renderSOPTabs();updateSOPHeader()}
+function submitSOPCat(){let cat=SOP_CATEGORIES[sopCatIdx],sel=sopSelected[cat.id]||{},cy=0;cat.items.forEach((it,ix)=>{if(sel[ix]==='yes')cy++});if(!sopSubmittedCats.includes(cat.id))sopSubmittedCats.push(cat.id);updateSOPCatStreak(cat.id,cy);let ty=0,tia=0;SOP_CATEGORIES.forEach(c=>{let sel=sopSelected[c.id]||{};c.items.forEach((it,ix)=>{tia++;if(sel[ix]==='yes')ty++})});sopScore=Math.round((ty/tia)*100);saveSOPData({score:sopScore,selected:sopSelected,done:false,date:getToday(),submittedCats:sopSubmittedCats});updateSOPHeader();let all=SOP_CATEGORIES.every(c=>sopSubmittedCats.includes(c.id));if(all){sopDone=true;saveSOPData({score:sopScore,selected:sopSelected,done:true,date:getToday(),submittedCats:sopSubmittedCats});setTimeout(showSOPFinish,400)}else{let nx=SOP_CATEGORIES.findIndex(c=>!sopSubmittedCats.includes(c.id));if(nx>=0){sopCatIdx=nx;let tip=document.getElementById('sopTipText');if(tip)tip.textContent=SOP_CATEGORIES[sopCatIdx].tips}renderSOPTabs();renderSOPList()}}
+function renderSOPDoneState(){let card=document.getElementById('sopGameCard');if(!card)return;let st=getSOPStreaks(),ty=0,tn=0;SOP_CATEGORIES.forEach(c=>{let sel=sopSelected[c.id]||{};c.items.forEach((it,ix)=>{if(sel[ix]==='yes')ty++;else if(sel[ix]==='no')tn++})});let det=SOP_CATEGORIES.map(c=>{let sel=sopSelected[c.id]||{},cy=0;c.items.forEach((it,ix)=>{if(sel[ix]==='yes')cy++});let pct=Math.round((cy/c.items.length)*100);let sk=st[c.id]||{streak:0};return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;"><span style="font-size:13px;">'+c.icon+' '+c.name+'</span><span style="font-size:13px;font-weight:700;color:'+(c.color||SOP_ACC)+';">'+pct+'% '+(cy>0?'✅':'')+'</span></div>'}).join('');let em=sopScore>=80?'🏆':sopScore>=60?'💪':sopScore>=30?'🌱':'😊';let ti=sopScore>=80?'满分！完美复盘！':sopScore>=60?'做得很好！':sopScore>=30?'有收获，继续加油！':'明天会更好！';card.innerHTML='<div class="sop-all-done-card"><div class="sop-all-done-emoji">'+em+'</div><div class="sop-all-done-text">'+ti+'</div><div class="sop-all-done-sub">今日复盘已完成 · 明天0点自动重置</div><div style="display:flex;justify-content:center;gap:20px;margin:16px 0;"><div style="text-align:center;"><div style="font-size:26px;font-weight:800;color:'+SOP_ACC+';">'+sopScore+'%</div><div style="font-size:11px;color:#8f9eae;">今日得分</div></div><div style="text-align:center;"><div style="font-size:26px;font-weight:800;color:#43a047;">'+ty+'</div><div style="font-size:11px;color:#8f9eae;">做到了</div></div><div style="text-align:center;"><div style="font-size:26px;font-weight:800;color:#ef5350;">'+tn+'</div><div style="font-size:11px;color:#8f9eae;">需注意</div></div></div><div style="font-size:12px;font-weight:600;color:'+SOP_ACC+';padding:0 12px 6px;">📊 各维度总结</div><div style="padding:0 4px;">'+det+'</div><div style="text-align:center;font-size:11px;color:#b0bec5;margin-top:12px;">🌙 明天0点自动重置</div></div>';let tabs=document.getElementById('sopCatTabs');if(tabs)tabs.style.display='none';}
+function showSOPFinish(){let ov=document.getElementById('sopFinishOverlay');if(ov)ov.classList.add('show')}
+function closeSOPFinish(){let ov=document.getElementById('sopFinishOverlay');if(ov)ov.classList.remove('show')}
+function closeSOPGuide() {
+  document.getElementById('sopGuideOverlay').classList.add('hidden');
 }
-
-// ===== SOP 清单视图 =====
-var sopListAnswers = {}; // 暂存清单答案
-
-function showSOPList(catId) {
-  sopListAnswers = {};
-  document.getElementById('sopCatGrid').style.display = 'none';
-  document.getElementById('sopGameCard').style.display = 'none';
-  document.getElementById('sopDoneState').style.display = 'none';
-  var wrap = document.getElementById('sopListWrap');
-  wrap.style.display = 'block';
-  wrap.dataset.cat = catId;
-  var cat = SOP_CATEGORIES.find(function(c) { return c.id === catId; });
-  document.getElementById('sopListCatTitle').innerText = cat ? cat.icon + ' ' + cat.name : '';
-  renderSOPList(catId);
-}
-
-function renderSOPList(catId) {
-  var container = document.getElementById('sopListContainer');
-  container.innerHTML = '';
-  var habits = SOP_HABITS_BY_CAT[catId] || [];
-  var catData = {};
-  try { catData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}')[catId] || {}; } catch(e) {}
-  habits.forEach(function(h, i) {
-    var savedAns = catData['h' + i];
-    var item = document.createElement('div');
-    item.className = 'sop-item' + (savedAns === 'yes' ? ' yes' : savedAns === 'no' ? ' no' : '');
-    item.innerHTML = '<div class="sop-item-emoji">' + h.emoji + '</div>' +
-      '<div class="sop-item-content">' +
-        '<div class="sop-item-label ' + (h.pos ? 'pos' : 'neg') + '">' + (h.pos ? '✅ 正向习惯' : '❌ 待改进') + '</div>' +
-        '<div class="sop-item-text">' + h.text + '</div>' +
-        '<div class="sop-item-sub">' + h.sub + '</div>' +
-      '</div>' +
-      '<div class="sop-item-actions">' +
-        '<button class="sop-item-btn yes" onclick="event.stopPropagation();answerSOPItem(\'' + catId + '\',' + i + ',\'yes\')">✅</button>' +
-        '<button class="sop-item-btn no" onclick="event.stopPropagation();answerSOPItem(\'' + catId + '\',' + i + ',\'no\')">❌</button>' +
-      '</div>';
-    container.appendChild(item);
-  });
-  // 所有项目已回答，显示确认提交按钮
-  var allAnswered = habits.every(function(h, i) { return catData['h' + i]; });
-  document.getElementById('sopListDoneBtn').style.display = allAnswered ? '' : 'none';
-  updateSOPStats();
-}
-
-function answerSOPItem(catId, habitIdx, ans) {
-  var h = SOP_HABITS_BY_CAT[catId][habitIdx];
-  var allData = {};
-  try { allData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}'); } catch(e) {}
-  if (!allData[catId]) allData[catId] = {};
-  allData[catId]['h' + habitIdx] = ans;
-  localStorage.setItem(STORAGE.SOP, JSON.stringify(allData));
-  if (ans === 'yes') {
-    var pts = parseInt(localStorage.getItem(STORAGE.SOP_STREAKS) || '0');
-    pts += 3;
-    localStorage.setItem(STORAGE.SOP_STREAKS, pts);
-  }
-  renderSOPList(catId);
-}
-
-function backToSOPCats() {
-  document.getElementById('sopListWrap').style.display = 'none';
-  document.getElementById('sopCatGrid').style.display = '';
-  renderSOP();
-}
-
-function submitSOPList() {
-  var catId = document.getElementById('sopListWrap').dataset.cat;
-  if (catId) {
-    document.getElementById('sopListWrap').style.display = 'none';
-    document.getElementById('sopCatGrid').style.display = '';
-    renderSOP();
-  }
-}
-
-function getSOPDone(catId) {
-  try {
-    var data = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}');
-    return data[catId] ? Object.keys(data[catId]).length : 0;
-  } catch(e) { return 0; }
-}
-
-function startSOPCat(catId) {
-  var habits = SOP_HABITS_BY_CAT[catId];
-  if (!habits) return;
-  var catData = {};
-  try { catData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}')[catId] || {}; } catch(e) {}
-  var undone = habits.filter(function(h, i) { return !catData['h' + i]; });
-  if (undone.length === 0) {
-    var card = document.getElementById('sopGameCard');
-    var doneState = document.getElementById('sopDoneState');
-    card.style.display = 'none';
-    doneState.style.display = 'block';
-    document.getElementById('sopDoneSub').innerText = (SOP_CATEGORIES.find(function(c) { return c.id === catId; }) || {}).name + ' 全部完成！';
-    return;
-  }
-  var h = undone[Math.floor(Math.random() * undone.length)];
-  var habitIdx = habits.indexOf(h);
-  var cat = SOP_CATEGORIES.find(function(c) { return c.id === catId; });
-  document.getElementById('sopCatProgress').innerHTML = '<span>' + cat.icon + ' ' + cat.name + '</span><div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:' + (getSOPDone(catId) / habits.length * 100) + '%"></div></div><span>' + getSOPDone(catId) + '/' + habits.length + '</span>';
-  document.getElementById('sopHabitLabel').innerText = h.pos ? '✅ 正向习惯' : '❌ 待改进';
-  document.getElementById('sopHabitLabel').className = 'sop-habit-label ' + (h.pos ? 'pos' : 'neg');
-  document.getElementById('sopHabitEmoji').innerText = h.emoji;
-  document.getElementById('sopHabitText').innerText = h.text;
-  document.getElementById('sopHabitSub').innerText = h.sub;
-  document.getElementById('sopGameCard').style.display = 'block';
-  document.getElementById('sopDoneState').style.display = 'none';
-  document.getElementById('sopGameCard').dataset.cat = catId;
-  document.getElementById('sopGameCard').dataset.idx = habitIdx;
-}
-
-function answerSOP(ans) {
-  var card = document.getElementById('sopGameCard');
-  if (!card || !card.dataset.cat || card.style.display === 'none') return;
-  var catId = card.dataset.cat;
-  var habitIdx = parseInt(card.dataset.idx);
-  var h = SOP_HABITS_BY_CAT[catId][habitIdx];
-  var allData = {};
-  try { allData = JSON.parse(localStorage.getItem(STORAGE.SOP) || '{}'); } catch(e) {}
-  if (!allData[catId]) allData[catId] = {};
-  allData[catId]['h' + habitIdx] = ans;
-  localStorage.setItem(STORAGE.SOP, JSON.stringify(allData));
-  if (ans === 'yes') {
-    var pts = parseInt(localStorage.getItem(STORAGE.SOP_STREAKS) || '0');
-    pts += 3;
-    localStorage.setItem(STORAGE.SOP_STREAKS, pts);
-  }
-  var feedbackMsg = '';
-  if (h.pos && ans === 'yes') {
-    feedbackMsg = '✅ 这个Owner习惯继续保持，它在塑造你的业务能力。';
-  } else if (h.pos && ans === 'no') {
-    feedbackMsg = '⚠️ 这个正向习惯还没建立，今天就是开始的好时机。';
-  } else if (!h.pos && ans === 'yes') {
-    feedbackMsg = '⚠️ 你有这个问题。先承认它，这是改变的第一步。';
-  } else {
-    feedbackMsg = '✅ 能意识到这个问题，已经走在很多人前面了。';
-  }
-  appendPartnerMsg(feedbackMsg, true);
-  updateSOPStats();
-  setTimeout(function() {
-    var done = getSOPDone(catId);
-    var total = SOP_HABITS_BY_CAT[catId].length;
-    if (done >= total) {
-      document.getElementById('sopGameCard').style.display = 'none';
-      document.getElementById('sopDoneState').style.display = 'block';
-      document.getElementById('sopDoneSub').innerText = '✅ ' + (SOP_CATEGORIES.find(function(c) { return c.id === catId; }) || {}).name + ' 自检完成！';
-    } else {
-      startSOPCat(catId);
-    }
-    renderSOP();
-  }, 1500);
-}
-
-function updateSOPStats() {
-  var total = 0, done = 0;
-  SOP_CATEGORIES.forEach(function(cat) {
-    var habits = SOP_HABITS_BY_CAT[cat.id] || [];
-    total += habits.length;
-    done += getSOPDone(cat.id);
-  });
-  var pts = parseInt(localStorage.getItem(STORAGE.SOP_STREAKS) || '0');
-  document.getElementById('sopScore').innerText = pts;
-  document.getElementById('sopDone').innerText = done + '/' + total;
-  var pct = total > 0 ? Math.round(done / total * 100) : 0;
-  document.getElementById('sopProgressBar').style.width = pct + '%';
-  document.getElementById('sopProgressText').innerText = pct + '%';
-  // 所有SOP完成，允许打卡
-  if (done >= total && total > 0) {
-    sopCompletedToday = true;
-    localStorage.setItem('sop_completed_owner_' + new Date().toDateString(), 'true');
-  }
-}
-
-function resetSOP() {
-  localStorage.removeItem(STORAGE.SOP);
-  localStorage.removeItem(STORAGE.SOP_STREAKS);
-  document.getElementById('sopGameCard').style.display = 'none';
-  document.getElementById('sopDoneState').style.display = 'none';
-  document.getElementById('sopListWrap').style.display = 'none';
-  document.getElementById('sopCatGrid').style.display = '';
-  renderSOP();
-}
-
 function autoCloseSOPGuide() {
   var overlay = document.getElementById('sopGuideOverlay');
   if (overlay) {
@@ -1642,9 +1473,6 @@ function autoCloseSOPGuide() {
   }
 }
 
-function closeSOPGuide() {
-  document.getElementById('sopGuideOverlay').classList.add('hidden');
-}
 
 // ===== 增长率记录功能 ====================
 function getBizData() { return JSON.parse(localStorage.getItem(STORAGE.BIZ) || '[]'); }
@@ -1801,7 +1629,7 @@ function switchTab(tab) {
   } else {
     var pe = document.getElementById(tab + 'Page');
     if (pe) pe.classList.add('active');
-    if (tab === 'sop' && typeof renderSOP === 'function') { try { renderSOP(); } catch(e) {} }
+    if (tab === 'sop') { try { initSOP(); } catch(e) {} }
   }
   // 精确高亮当前tab按钮
   document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
@@ -1819,7 +1647,7 @@ function switchTabDirect(tab) {
   currentTab = tab;
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   document.getElementById(tab + 'Page').classList.add('active');
-  if (tab === 'sop') { renderSOP(); }
+  if (tab === 'sop') { initSOP(); }
   if (tab === 'data') { renderBizPage(); renderBizWeeklyReport(); }
   if (tab === 'share') { renderSharePage(); }
   document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
@@ -2378,7 +2206,22 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
+      function fbDefault(t){
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    var t2 = t.replace(/^[0-9]{1,2}[、..\s]+/, '').replace(/^[\u2460-\u2473]\s*/, '').replace(/^[0-9]\uFE0F?\u20E3[、..\s]*/, '');
+    var m = t2.match(/^([^：:（(]{2,24})(（=([^）]+)）)?[:：]?\s*(.+)$/);
+    var quote = t2.length <= 30;
+    var name = quote ? t2 : (m && m[1] ? m[1] : t2.slice(0, 20) + '…');
+    var def = m && m[3] ? m[3] : '';
+    var body = m && m[4] ? m[4] : t2;
+    var short = body.length > 44 ? body.slice(0, 44) + '…' : body;
+    return [
+      ['🧠 认知 · 为什么记住它', def ? ('这条你自己给的定义是：' + def + '。把「' + name + '」记下来，就是把这个判断变成随时可调用的标准，下次遇到同类场景不用从零纠结。') : (quote ? ('这是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。') : ('「' + name + '」是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。'))],
+      ['🎯 行为 · 怎么做', '下次遇到对应场景，按这条执行一次最小版本：' + short + ' 先做一次，再对比老做法的结果。'],
+      ['⚠️ 易错点', '只收藏不执行——这条的价值要在一次次具体决策里兑现，而不是躺在卡片里。'],
+      ['🔧 怎么调整', '每周回看一次：最近的决策有没有真的用到它？没用上的场景，就是下周要练的场景。']
+    ];
+  }
   window.__CC_DB = {"每周 1 次客户 / 用户深聊，建立「客户价值」第一手体感": [["🧠 认知 · 为什么", "管理者的信息会经过层层美化衰减，一手客户体感是唯一不被过滤的数据源；离客户最近的人拥有定价权。"], ["🎯 行为 · 怎么做", "日历设每周重复的「客户深聊」时段，每次40分钟，只问「最近一次用我们产品是什么场景、卡在哪」，不推销。"], ["⚠️ 易错点", "让客户成功团队替你聊——转述丢掉语气和犹豫，那些才是最有价值的需求信号。"], ["✅ 确认", "本周记录了≥1条「客户原话」，且它改变了你对某个优先级的判断。"]], "· 每天 10 分钟读数据看板，写下 1 个发现": [["🧠 认知 · 为什么", "数据直觉是喂出来的：每天10分钟的规律暴露让异常「跳出来」，而每周一次的集中看数只能看到平均值，看不到异动。"], ["🎯 行为 · 怎么做", "每天固定时段（如早饭后）打开看板，强制写一句话：「今天最异常的是X，可能因为Y」，存进笔记。"], ["⚠️ 易错点", "只看不写——写的动作强迫归因，看完没写下任何东西的那次，等于没看。"], ["✅ 确认", "笔记里连续5天有「异常+可能原因」，且本周至少一条异动被你追查到了真实原因。"]], "· 把业务里最说不清的一环先说清楚": [["🧠 认知 · 为什么", "说不清=没想清：业务里「大家都含糊带过」的环节（转化率为什么低、成本花在哪）通常是最大的优化空间和最大的风险源。"], ["🎯 行为 · 怎么做", "写下业务全链路，标出「我说不清数字的一环」，本周用一周时间把那一环的数字补齐到能被追问三层。"], ["⚠️ 易错点", "回避说不清的环节因为「怕暴露无知」——Owner的可信度恰恰建立在「我知道我哪里不清楚」上。"], ["✅ 确认", "那一环现在能被任何人追问三层（是什么/为什么/怎么变），都有数字或假设可答。"]], "把重复动作 SOP 化，交给团队和系统": [["🧠 认知 · 为什么", "Owner的时间是全公司最贵的：重复动作每占用1小时，等于把1小时的战略思考烧掉；SOP是把你的判断一次性卖给系统。"], ["🎯 行为 · 怎么做", "列出你每周重复≥2次的事，挑1件写成SOP（步骤+判断标准+异常处理），交给一人试运行一周。"], ["⚠️ 易错点", "SOP写成操作手册没人看——SOP的读者是「接手的聪明人」，写判断标准比写步骤更重要。"], ["✅ 确认", "那件事本周在你不参与下被执行了≥1次，产出达到你的验收标准。"]], "· 关键决策写「假设 - 验证」记录": [["🧠 认知 · 为什么", "决策日志对抗两件事：事后归因偏差（赢了以为都对）和重复踩坑；「当时怎么想的」的记录是组织最贵的学习资产。"], ["🎯 行为 · 怎么做", "每个关键决策写四行：背景/假设/预期结果/验证时点（如3个月后回看），日历设提醒到点核对。"], ["⚠️ 易错点", "只记录决策不记录预期——没有预期就没有对错可言，复盘会退化成讲故事。"], ["✅ 确认", "最近一个关键决策有完整的假设与预期记录，且验证时点已设在日历上。"]], "· 让团队对齐唯一的北极星指标": [["🧠 认知 · 为什么", "多目标=没有目标：团队在每个指标的夹缝中做局部最优；北极星指标的稀缺性（一次只能有一个）正是它的管理价值。"], ["🎯 行为 · 怎么做", "和团队开一次会，只讨论一个问题：「如果只能保一个指标，是哪个？」定下后，所有周报第一行都是它。"], ["⚠️ 易错点", "把北极星定成 vanity 指标（下载/注册）——选「用户获得的价值」类指标（活跃/复购），否则团队会优化错方向。"], ["✅ 确认", "随机问一位团队成员「咱们北极星是什么、这周怎么样」，他能不假思索答对。"]], "从自己做转向带人做，你的杠杆是人": [["🧠 认知 · 为什么", "从执行者到Owner的本质换算：你的产出=你的直接产出×你带的人的产出×系统效率；不换挡的人卡死在个人产能天花板。"], ["🎯 行为 · 怎么做", "本周挑一件「你做得最好但别人也能做80分」的事交出去，容忍那20分的差距，只验收不接管。"], ["⚠️ 易错点", "「教一遍的工夫我自己做完了」——这是最贵的错觉：教一次=永久产能，自己做=永久占用。"], ["✅ 确认", "本周你亲手做的「别人也能做」的事比上周少一件，且你多出1小时投在只有你能做的事上。"]], "· 每周给 1 次有质量的反馈": [["🧠 认知 · 为什么", "成长最快的杠杆是具体反馈：泛泛的「不错」没有信息量；「行为+影响+建议」的反馈让对方知道具体改什么。"], ["🎯 行为 · 怎么做", "用SBI结构（场景-行为-影响）每周给1人反馈：「周三的会上你打断客户时（行为），客户明显收住了（影响），下次试试先记下再问」。"], ["⚠️ 易错点", "把反馈攒到绩效面谈一次性倒——延迟反馈错过行为矫正窗口，负面反馈攒多了变成审判。"], ["✅ 确认", "本周的反馈里包含具体场景和可操作建议，对方复述出了他要改的那一件事。"]], "· 每月复盘 1 个自己拍板的业务决策": [["🧠 认知 · 为什么", "决策质量≠结果质量：好决策可能坏结果（运气），坏决策可能好结果（侥幸）；复盘决策过程而非结果，才能积累真正的判断力。"], ["🎯 行为 · 怎么做", "每月固定复盘一个决策：对照当时的「假设-验证」记录，问三个问题——信息够吗？逻辑对吗？换今天会怎么选？"], ["⚠️ 易错点", "结果好就不复盘——侥幸的成功最危险，它会强化错误的决策模式等你输更大的。"], ["✅ 确认", "本月复盘已完成，且写下了一条「下次同类决策要改的一点」。"]]};
   function fbFor(txt){
     

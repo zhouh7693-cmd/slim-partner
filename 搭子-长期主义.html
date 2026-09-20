@@ -376,7 +376,18 @@
     .fb-partner-label { font-size: 11px; color: #8f9eae; margin-bottom: 6px; font-style: normal; font-weight: 600; }
     .fb-btn { background: linear-gradient(135deg,#c9a227,#8b6914); color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
-  </style>
+  
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
+</style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 <style>.qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; } .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#374151; }</style>
 </head>
@@ -446,7 +457,7 @@
     <div style="max-width:420px;margin:0 auto 8px;text-align:center;color:#8f9eae;font-size:12px;line-height:1.6;padding:0 8px;" data-page-node-id="pageIntro">每天 5 分钟，给自己一个交代 —— 看看今天的时间花在了哪类事上</div>
     <div class="card" data-page-node-id="gj26ZU7jgxQVjyVnwwlORt">
       <div id="currentPartnerBadge" class="partner-badge" data-page-node-id="M91UQVFV6LDzbKnRGW13sm">⏳ 沙漏</div>
-      <div class="question" id="todaysQ" data-page-node-id="COR3u30cXyyac3tLemI3xh">今天，你把时间花在哪一类上了？</div>
+      <div class="question" id="todaysQ" data-page-node-id="COR3u30cXyyac3tLemI3xh">今日份的小改变，准备就绪</div>
       <div class="question-sub" id="todaysQSub" data-page-node-id="rFgXrvjZp6JmPT6NCkaE7p">先选今天的状态 · 可以复盘后再选</div>
       <div class="tag-grid" id="tagGrid" data-page-node-id="cyCK7Vh4soxyCXoQ3FHntJ">
         <div class="tag-btn selected" data-tag="long"  onclick="pickTag('long', this)" data-page-node-id="TU9EH3N2veHjYVbpcZcAQH">
@@ -462,44 +473,18 @@
           <span class="tag-emoji" data-page-node-id="99Qitn388yF2S34YmClLG9">🧩</span><span data-page-node-id="GrzZQeug1JySIc53r2h7cE">已做成 SOP（固定成套路的标准流程）</span>
         </div>
       </div>
-      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="WAbxQCriGFO0kKmuh9t0SB">
-        <div class="checkin-status" id="checkinStatusText" data-page-node-id="tUDZHWml6Y8ZtWeV3KOyqE">打卡</div>
-        <div class="checkin-sub" id="checkinSubText" data-page-node-id="HNIEQt2vFKwSvQYhHD7WzH">记录今天</div>
-      </div>
-      <div class="continuous" id="continuousDays" data-page-node-id="vpjJQtS56hMQodiNQNbNlE">0</div>
-      <div class="continuous-label" data-page-node-id="i1apvupfQ1PvNEQWDwTOkf">连续打卡天数</div>
+      <div class="today-checkin" id="checkinBtn" onclick="doCheckin()"><span class="checkin-status" id="checkinStatusText" style="font-size:20px;">签到</span><span class="checkin-sub">愿意来，就已经在变好</span></div>
+      <div class="today-status"><div class="ts-days"><span class="ts-num" id="continuousDays">0</span><span class="ts-label">天连续</span></div><div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;"><span id="weekRange"></span> · 这一周</div><div class="week-dots" id="weekDots"></div></div></div>
     </div>
 
     <!-- 搭子消息区 -->
-    <div class="chat-area" id="chatArea" data-page-node-id="PxWuxOpET9qC18cdEXoJUz"></div>
+    <div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);"><div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个小动作</div><div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div><div class="famk3list"></div></div><div class="chat-area" id="chatArea" data-page-node-id="PxWuxOpET9qC18cdEXoJUz"></div>
 
     <!-- 本周进度 -->
-    <div class="week-progress" data-page-node-id="bbwoF4J6mL8cS6KtExwENC">
-      <div class="week-title" data-page-node-id="l6KDtWoDJAJfE7ypq8aKNA"><span data-page-node-id="6iHAGlCKsb47vcv05DDvaY">📅 本周进度</span><span id="weekRange" data-page-node-id="wAEjtHvuB4hS2Bo3G4GUZz"></span></div>
-      <div class="week-dots" id="weekDots" data-page-node-id="delcd7EEFyxYtBt05NiSpn"></div>
-      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyPnLText()" data-page-node-id="wAgReCuiRlSoblfMXQE8rU">📋 复制今日时间账本</button>
-    </div>
+    
 
     <!-- 搭子交互 -->
-    <div class="interaction-panel" data-page-node-id="MS8gFGBg0LlhaZr3wLt4RU">
-      <div class="panel-label" data-page-node-id="T0QDY3gN7VnzyecNhBIfIU">💬 和搭子说说话</div>
-      <div class="mood-row" data-page-node-id="UR5eyX5httErOAOtcWCCn9">
-        <div class="mood-btn" data-mood="happy" title="平静" data-page-node-id="RoFM2FFIRyLn4hUmvOFAwY">🕊️</div>
-        <div class="mood-btn" data-mood="neutral" title="凑合" data-page-node-id="UizepWVag137XygrdgTYKw">😐</div>
-        <div class="mood-btn" data-mood="sad" title="焦虑" data-page-node-id="h2yUMMV8PyCJoJFWb6JVOD">😣</div>
-        <div class="mood-btn" data-mood="tired" title="累" data-page-node-id="jLCajx5VlbiI7e4WgGVcNC">😴</div>
-      </div>
-      <div class="talk-btn-row" data-page-node-id="uXkHX0k0zaSKH375u0polB">
-        <button class="talk-btn" data-type="progress" data-page-node-id="4YLyq8iczLO95wTM8nC5xM">📈 进展</button>
-        <button class="talk-btn" data-type="struggle" data-page-node-id="nkgfbTqF73QqcHCKx3opwr">😣 卡点</button>
-        <button class="talk-btn" data-type="idea" data-page-node-id="Xn0hR5NrugKTRdI2oCxVKh">💡 想法</button>
-        <button class="talk-btn" data-type="cheer" data-page-node-id="KDk5WeLwh7mFRlMobaCwf8">🎉 突破</button>
-      </div>
-      <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="ju3baUcHRYhweDTXKSNBKv">
-        <button class="talk-btn" data-type="report" data-page-node-id="ec5QP28PFHcbWbk2JcKs72">📣 汇报</button>
-        <button class="talk-btn" data-type="question" data-page-node-id="Ap3DMS2zTM96iKEcedoHJC">🤔 提问</button>
-      </div>
-    <div class="talk-btn-row" style="margin-top:8px;"><button class="talk-btn" id="stdSceneBtn" onclick="stdSceneOpen()">💭 今天发生了什么</button></div></div>
+    
 <!-- std-buddy-tab-v1: 关键动作 + 提醒自己 + 场景弹窗 -->
 <!-- 🏢 把自己当公司经营 · Agent化 -->
     <div id="corpCard" style="max-width:420px;margin:0 auto 12px;background:linear-gradient(135deg,#fff8ec,#f3e5c8);border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
@@ -3487,7 +3472,22 @@ if (!localStorage.getItem(OB_KEY) && !localStorage.getItem(STORAGE.PARTNER)) {
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
+      function fbDefault(t){
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    var t2 = t.replace(/^[0-9]{1,2}[、..\s]+/, '').replace(/^[\u2460-\u2473]\s*/, '').replace(/^[0-9]\uFE0F?\u20E3[、..\s]*/, '');
+    var m = t2.match(/^([^：:（(]{2,24})(（=([^）]+)）)?[:：]?\s*(.+)$/);
+    var quote = t2.length <= 30;
+    var name = quote ? t2 : (m && m[1] ? m[1] : t2.slice(0, 20) + '…');
+    var def = m && m[3] ? m[3] : '';
+    var body = m && m[4] ? m[4] : t2;
+    var short = body.length > 44 ? body.slice(0, 44) + '…' : body;
+    return [
+      ['🧠 认知 · 为什么记住它', def ? ('这条你自己给的定义是：' + def + '。把「' + name + '」记下来，就是把这个判断变成随时可调用的标准，下次遇到同类场景不用从零纠结。') : (quote ? ('这是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。') : ('「' + name + '」是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。'))],
+      ['🎯 行为 · 怎么做', '下次遇到对应场景，按这条执行一次最小版本：' + short + ' 先做一次，再对比老做法的结果。'],
+      ['⚠️ 易错点', '只收藏不执行——这条的价值要在一次次具体决策里兑现，而不是躺在卡片里。'],
+      ['🔧 怎么调整', '每周回看一次：最近的决策有没有真的用到它？没用上的场景，就是下周要练的场景。']
+    ];
+  }
   window.__CC_DB = {"这阶段要做的：把做的事分个类，看清多少是「现在不做就焦虑」，多少是「半年后还有价值」": [["🧠 认知 · 为什么", "时间焦虑的本质是「紧急性暴政」：紧急的事自带噪音放大器，重要的事安静无声——分类是把注意力从「响的」挪回「值的」的第一步（艾森豪威尔矩阵的操作版）。"], ["🎯 行为 · 怎么做", "今天记录5件事，每件标【长期/短期/噪音】；判断标准只有一条：半年后它还增值吗（钱/技能/关系/健康）。"], ["⚠️ 易错点", "把「感觉重要」的事标成长期——检验方法：如果它半年后还有价值，你现在应该能说出它每周的推进动作，说不出就是错觉。"], ["✅ 确认", "5件事标完了吗；「噪音」类占几件——这个比例就是你时间的真实质量。"]], "• 任务 1：今天第一次记录 5 件事，每件标 长期 / 短期 / 噪音": [["🧠 认知 · 为什么", "记录比感觉可靠：人对「自己很忙」的感知大量来自噪音事件（回复/群消息/临时琐事），只有白纸黑字分类，才能看见长期事项的真实占比。"], ["🎯 行为 · 怎么做", "现在就列今天已做的5件事（凭记忆即可），逐件标注并写一行理由；连续记3天找规律。"], ["⚠️ 易错点", "只记工作不记碎片——刷手机、无目的群聊也要记，噪音的真相往往在「工作之外」。"], ["✅ 确认", "5件已标注；「噪音」的件数有没有比你预想的多。"]], "• 任务 2：找到 3 个最容易偷走你时间的\"假忙\"场景（比如群里@你、红点提醒、\"先回一下\"的冲动）": [["🧠 认知 · 为什么", "「假忙」的特征是即时响应感+零复利：它们利用的是大脑对「未处理红点」的焦虑（蔡格尼克效应）；找到自己的Top3假忙场景，是给注意力装防火墙的前置侦察。"], ["🎯 行为 · 怎么做", "回顾最近三天，写下3个「当时觉得必须做、现在想毫无产出」的场景，每个配一个触发条件（谁@我/什么红点）。"], ["⚠️ 易错点", "只怪自己不自律——假忙是「场景+工具设计」出来的，解决方案在环境层（关通知/定时回复），不在意志层。"], ["✅ 确认", "三个场景写下了；每个场景今天发生了几次，明天呢。"]], "• 任务 3：写下「如果不做这件事，3 个月后会怎样？」多数答案是\"没事\"，那就是噪音": [["🧠 认知 · 为什么", "「3个月测试」是噪音过滤器：真正重要的事不做会有可感知的代价（关系/健康/核心业务），问出「没事」的事正在占用你的注意力预算。"], ["🎯 行为 · 怎么做", "对本阶段记录的每件事做一次3个月测试，答案为「没事」的当场处理掉：不做/委托/自动，三选一。"], ["⚠️ 易错点", "对「别人期待的事」不忍心判噪音——讨好型任务消耗最大收益最小；你的时间预算首先对你的目标负责。"], ["✅ 确认", "测试做完了吗；今天「没事」清单上有几件事被你放手了。"]], "这阶段要做的：所有任务只进 5 个去处：自己做的 / 让 AI 做我拍板 / AI 做我抽检 / 做成 SOP / 自动跑": [["🧠 认知 · 为什么", "长期主义的执行核心是「杠杆分层」：亲手做的事应该只剩判断和创造，其余按自动化成本排序分流——5个去处的本质是给每类任务找到最便宜的执行者。"], ["🎯 行为 · 怎么做", "把上周任务全量重分类进5个去处，圈出「我亲手做但本不该」的3件，本周至少把其中1件迁出。"], ["⚠️ 易错点", "「教别人/AI的时间不如自己干」——单次看是，三次以上重复的任务迁出后就是纯赚；算三次的账。"], ["✅ 确认", "5去处分类完成；被迁出的那件事，本周真的没再回到你手上。"]], "• 任务 1：把上周所有任务重分类进 5 个去处，写下「我自己应该不做的 3 件事」": [["🧠 认知 · 为什么", "「不做什么」清单比「要做什么」清单更稀缺：它对抗的是惯性（一直在做的默认继续做）；写下来才有执行的可能，脑子里的是愿望。"], ["🎯 行为 · 怎么做", "按5去处过一遍上周任务，选出3件「 repetitive 且无判断含量」的，各写迁出去处（AI/SOP/自动）和迁出日期。"], ["⚠️ 易错点", "挑最难的3件下手——先迁最简单机械的（数据整理/固定格式汇报），成功一次建立信心再迁复杂的。"], ["✅ 确认", "3件已写下并定了迁出日期；第一件的本周进展是。"]], "• 任务 2：选一个重复做的事，今天就把它做成 SOP（哪怕只是一段话术模板）": [["🧠 认知 · 为什么", "SOP是把判断一次性写好的复利行为：从「每次重新想」到「照单执行」，单次省时不明显，一年累计的省时和稳定度是指数级的。"], ["🎯 行为 · 怎么做", "今天选一件本周重复过的事，用「触发条件-步骤-验收标准」三段写成SOP，下次执行前先读SOP再动手。"], ["⚠️ 易错点", "SOP写成操作流水账——验收标准（什么算做好）才是SOP的灵魂，没有标准的SOP只是备忘录。"], ["✅ 确认", "SOP写完了吗；下次执行时对比：用了几步、漏了几步，回去修订一版。"]], "• 任务 3：选一个最耗你时间的会，问自己「这次如果我不出席，会发生什么？」": [["🧠 认知 · 为什么", "会议是时间的最大黑洞且最缺审查：「必然参加」多半是惯性而非必要；「缺席测试」一次就能测出会议的真实价值和你被默认绑定的程度。"], ["🎯 行为 · 怎么做", "挑最长的例行会，下次试着：提前发书面意见代替出席/请人代听并要纪要/只参加与你相关的前15分钟，观察实际后果。"], ["⚠️ 易错点", "担心缺席被视为不重视——用「书面意见+纪要跟踪」替代到场，输出不减缺席有理；先试一次再评估。"], ["✅ 确认", "那个会测过了吗；缺席的实际后果和你预想的差多远。"]], "这阶段要做的：每周只做 1 次《我的时间周报》，写清「继续做 / 交给别人 / 做成 SOP / 设成自动 / 不做了」5 张清单": [["🧠 认知 · 为什么", "周报是时间杠杆的定期审计：每周30分钟的分类复盘，能把「本周怎么过的」从感觉变成清单——5张清单的格式强制每个任务有归宿。"], ["🎯 行为 · 怎么做", "周五下午固定30分钟：按5张清单过一遍本周任务，下周计划只从「继续做」那张里排，其他张各推进一项。"], ["⚠️ 易错点", "周报只写不执行——「不做了」清单里的事要真的停，每周至少1件被真正停止才算审计有效。"], ["✅ 确认", "本周周报写了吗；「不做了」那张清单上，真的停掉了几件。"]], "• 任务 1：完成第一次时间周报（15 分钟）": [["🧠 认知 · 为什么", "15分钟的时限设计是对抗完美主义：周报是审计工具不是汇报文档，粗糙但每周必出，好过精致但月度难产。"], ["🎯 行为 · 怎么做", "现在计时15分钟：凭记忆列本周做过的10件事，分进5张清单，写不完就写最重要的，发出去或存档即完成。"], ["⚠️ 易错点", "回忆不出来就开始翻所有记录——允许粗略，记忆里的10件大致就是时间结构的镜像。"], ["✅ 确认", "15分钟版本写完了；「不做了」清单有几件，这已经是本周最值钱的15分钟了。"]], "• 任务 2：累计做成 SOP ≥ 3 项 + 自动跑 ≥ 1 项": [["🧠 认知 · 为什么", "这是从「个人勤奋」切换到「系统运转」的量化门槛：3个SOP+1个自动化意味着每周固定有数小时从你身上卸载到系统上。"], ["🎯 行为 · 怎么做", "每周新做1个SOP、每月推动1件事自动化（定时任务/自动回复/AI流水线），在显眼处计数，达标即庆祝。"], ["⚠️ 易错点", "SOP做了没人用变成文档资产——SOP的验收标准是「被使用」，没被使用的SOP回炉简化。"], ["✅ 确认", "当前SOP计数__/3，自动跑__/1；本周新增的那个是什么。"]], "• 任务 3：立一条原则：「让别人配合的事 / 让脚本跑的事，不排进我自己的日程」": [["🧠 认知 · 为什么", "这条原则封死「回流」的口子：迁出的任务最容易趁乱溜回自己日程（顺手做了更快）；原则一立，每次回流都变成需要解释的例外。"], ["🎯 行为 · 怎么做", "把原则写进日程系统的签名处；每周周报时做一次「回流检查」：本周有没有本不该我做的事进了我日程，有就退回去。"], ["⚠️ 易错点", "「这次特殊先做了再说」——例外一次就会有第二次；例外也要走「先迁出再例外」的程序，保持原则的完整。"], ["✅ 确认", "原则立下了吗；本周回流检查发现了几件「溜回来」的事。"]]};
   function fbFor(txt){
     

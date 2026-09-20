@@ -565,7 +565,43 @@
       font-size: 12px;
     }
     .chat-msg .play-tts:hover { opacity: 1; }
-  </style>
+  
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
+    .sop-game-card{background:#fff;border-radius:18px;padding:18px 16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+    .sop-cat-progress{display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:13px;color:#555;font-weight:600;}
+    .sop-cat-progress-bar{flex:1;height:6px;background:#eef2f5;border-radius:6px;overflow:hidden;}
+    .sop-cat-progress-fill{height:100%;border-radius:6px;transition:width .3s;}
+    .sop-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #f2f2f2;}
+    .sop-item:last-child{border-bottom:none;}
+    .sop-item-text{flex:1;font-size:14px;color:#37474f;line-height:1.5;}
+    .sop-item-btns{display:flex;gap:8px;flex-shrink:0;}
+    .sop-check-btn{flex-shrink:0;font-size:12px;padding:7px 12px;border-radius:12px;border:1.5px solid #e0e0e0;background:#fff;color:#888;cursor:pointer;white-space:nowrap;transition:all .15s;}
+    .sop-check-btn:active{transform:scale(.94);}
+    .sop-check-btn.yes-checked{background:#e8f5e9;border-color:#43a047;color:#2e7d32;font-weight:700;}
+    .sop-check-btn.no-checked{background:#fff3f3;border-color:#ef9a9a;color:#c62828;font-weight:700;}
+    .sop-item-yes .sop-item-text{color:#2e7d32;}
+    .sop-item-no .sop-item-text{color:#c62828;text-decoration:line-through;}
+    .sop-cat-summary{text-align:center;padding:14px 0 4px;}
+    .sop-cat-summary-icon{font-size:34px;}
+    .sop-cat-summary-title{font-size:16px;font-weight:800;color:#333;margin-top:4px;}
+    .sop-cat-summary-sub{font-size:12px;color:#8f9eae;margin-top:2px;}
+    .sop-all-done-card{text-align:center;padding:20px 0 8px;}
+    .sop-all-done-emoji{font-size:54px;margin-bottom:8px;}
+    .sop-all-done-text{font-size:20px;font-weight:800;color:#333;margin-bottom:4px;}
+    .sop-all-done-sub{font-size:12px;color:#8f9eae;}
+    .sop-finish-overlay{display:none;position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:120;align-items:center;justify-content:center;padding:24px;}
+    .sop-finish-overlay.show{display:flex;}
+    .sop-finish-card{background:#fff;border-radius:24px;padding:32px 28px;text-align:center;max-width:320px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+</style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 </head>
 <body data-page-node-id="dRxQbNHWVkjf0u3criZ4h5">
@@ -629,30 +665,35 @@
 </div>
 
 
-<!-- ===== Page: 自检 ===== -->
+<!-- ===== Page: 自检 (Format C · 与减肥一致) ===== -->
 <div id="page-sop" class="page">
   <div style="padding:16px 12px 80px;">
     <div style="background:#fff;border-radius:20px;padding:20px 18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
-      <div style="font-size:20px;font-weight:800;color:#333;">🎯 睡眠自检</div>
-      <div style="font-size:13px;color:#999;margin-top:4px;margin-bottom:14px;">答完今天的题，看看准备度</div>
+      <div style="font-size:20px;font-weight:800;color:#333;">🎯 今日自检复盘</div>
+      <div style="font-size:13px;color:#999;margin-top:4px;margin-bottom:14px;">分维度勾选，看清今天做到了什么</div>
       <div style="display:flex;gap:10px;margin-bottom:12px;">
-        <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#4a4ec0;" id="sopNum1">0</div><div style="font-size:11px;color:#8f9eae;">今日已答</div></div>
-        <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#4a4ec0;" id="sopNum2">0</div><div style="font-size:11px;color:#8f9eae;">总题数</div></div>
-        <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#4a4ec0;" id="sopNum3">0%</div><div style="font-size:11px;color:#8f9eae;">完成度</div></div>
+        <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#4a4ec0;" id="sopScore">0</div><div style="font-size:11px;color:#8f9eae;">今日得分</div></div>
+        <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#43a047;" id="sopPosCount">0</div><div style="font-size:11px;color:#8f9eae;">做到了</div></div>
+        <div style="flex:1;background:linear-gradient(135deg,#eef0ff,#f5f3ff);border-radius:14px;padding:10px 6px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#ef5350;" id="sopNegCount">0</div><div style="font-size:11px;color:#8f9eae;">需注意</div></div>
       </div>
-      <div style="background:#eef2f5;border-radius:8px;height:10px;overflow:hidden;"><div id="sopBar" style="height:100%;width:0%;background:#4a4ec0;border-radius:8px;transition:width .5s;"></div></div>
-      <div style="font-size:11px;color:#8f9eae;text-align:right;margin-top:4px;" id="sopBarText">0 / 0</div>
+      <div style="background:#eef2f5;border-radius:8px;height:10px;overflow:hidden;"><div id="sopScoreBar" style="height:100%;width:0%;background:#4a4ec0;border-radius:8px;transition:width .5s;"></div></div>
+      <div style="font-size:11px;color:#8f9eae;text-align:right;margin-top:4px;" id="sopProgressText">0 / 100</div>
     </div>
     <div class="sop-cat-tabs" id="sopCatTabs" style="margin-bottom:12px;"></div>
-    <div style="background:#fff;border-radius:18px;padding:18px 16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
-      <div id="sopQuestion" style="font-size:15px;font-weight:700;color:#333;line-height:1.6;margin-bottom:12px;"></div>
-      <div id="sopOptions" style="display:flex;flex-direction:column;gap:8px;"></div>
-      <div id="sopScore" style="display:none;"></div>
-    </div>
+    <div class="sop-game-card" id="sopGameCard"></div>
     <div style="background:#fff;border-radius:18px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.05);">
-      <div style="font-size:14px;font-weight:800;color:#333;margin-bottom:6px;">💡 睡眠提示</div>
+      <div style="font-size:14px;font-weight:800;color:#333;margin-bottom:6px;">💡 本维度提示</div>
       <div id="sopTipText" style="font-size:12.5px;color:#555;line-height:1.7;"></div>
     </div>
+  </div>
+</div>
+
+<div id="sopFinishOverlay" class="sop-finish-overlay">
+  <div class="sop-finish-card">
+    <div style="font-size:54px;margin-bottom:10px;">🎉</div>
+    <div style="font-size:20px;font-weight:800;color:#333;margin-bottom:6px;">今日复盘完成！</div>
+    <div style="font-size:13px;color:#8f9eae;">明天 0 点自动重置，继续加油</div>
+    <button onclick="closeSOPFinish()" style="margin-top:18px;padding:12px 32px;border:none;border-radius:50px;background:#4a4ec0;color:#fff;font-size:15px;font-weight:700;cursor:pointer;">好的</button>
   </div>
 </div>
 
@@ -883,46 +924,18 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
 
 <div class="card" style="margin-top:20px;" data-page-node-id="ESC5UaRDQu9RtBgtXQ4qbO">
     <div class="partner-badge" id="currentPartnerBadge" data-page-node-id="5ak8n7W4a6d6Sg4bjXxA7I">🌙 月亮</div>
-    <div class="question" id="todaysQ" data-page-node-id="8hCVxGAqXSZjsvdpf2F8ro">🌙 22:30 前睡觉打卡</div>
+    <div class="question" id="todaysQ" data-page-node-id="8hCVxGAqXSZjsvdpf2F8ro">今日份的小改变，准备就绪</div>
     <div class="question-sub" id="todaysQSub" data-page-node-id="kx8SPaw5rwK75nwrVyhvj2">做到就是赢 · 点击打卡记录今晚</div>
     <div class="tag-grid" id="tagGrid" style="display:none" data-page-node-id="SbY3NBublAuBwrYCHDRxC2"></div>
-    <div class="checkin-btn" id="checkinBtn" onclick="doCheckin()" data-page-node-id="vBiIsgkXkWwF30Pj8iYozb">
-      <div class="checkin-status" id="checkinStatusText" data-page-node-id="fAHeIa7KHBgHstfVV6AICd">🌙 打卡</div>
-      <div class="checkin-sub" data-page-node-id="BMT22Fv9fV29ubphQ45BzC">记录今晚</div>
-    </div>
-    <div class="continuous" id="continuousDays" data-page-node-id="s5b19FZ0M5WF0FAu0GRAUF">0</div>
-    <div class="continuous-label" data-page-node-id="cnjQhy5fJNrikvVxjI9k9Y">连续早睡天数</div>
+    <div class="today-checkin" id="checkinBtn" onclick="doCheckin()"><span class="checkin-status" id="checkinStatusText" style="font-size:20px;">签到</span><span class="checkin-sub">愿意来，就已经在变好</span></div>
+    <div class="today-status"><div class="ts-days"><span class="ts-num" id="continuousDays">0</span><span class="ts-label">天连续</span></div><div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;"><span id="weekRange"></span> · 这一周</div><div class="week-dots" id="weekDots"></div></div></div>
   </div>
 
-  <div class="chat-area" id="chatArea" data-page-node-id="lAN9gfTEGpgQmlrjrFFV3q"></div>
+  <div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);"><div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个小动作</div><div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div><div class="famk3list"></div></div><div class="chat-area" id="chatArea" data-page-node-id="lAN9gfTEGpgQmlrjrFFV3q"></div>
 
-  <div class="week-progress" data-page-node-id="6BWIIiGWmVMXhAeoUvFZbM">
-    <div class="week-title" data-page-node-id="RXHvKyIDSNR8BsRYgHjPrn"><span data-page-node-id="UEUGuDMkytpWe2g2iehLzi">📅 本周进度</span><span id="weekRange" data-page-node-id="IGNWMIRsN2zNWEgGuvbCN5"></span></div>
-    <div class="week-dots" id="weekDots" data-page-node-id="HyA5W2DzLM1vzIHVckNm0k"></div>
-  </div>
+  
 
-  <div class="interaction-panel" data-page-node-id="aMpSysvAEnkhAEnpaI80Ih">
-    <div class="panel-label" data-page-node-id="IBSy0HzjxcJPznIspPEvjn">💬 和搭子说说话</div>
-    <div class="mood-row" data-page-node-id="LlDArCTbJCfzrykcx57q5R">
-      <div class="mood-btn" data-mood="calm" title="平静" data-page-node-id="pZ5FCUyobwixpZN8KBRLKS">🌙</div>
-      <div class="mood-btn" data-mood="tired" title="累" data-page-node-id="XoddV0tAn6CSYfaYSTDvUU">😴</div>
-      <div class="mood-btn" data-mood="anxious" title="焦虑" data-page-node-id="bHPNWmHbdVLOIjBWfSf0nu">😣</div>
-      <div class="mood-btn" data-mood="energetic" title="有劲" data-page-node-id="hHK0pY8vJgvdi8EFXBispA">⚡</div>
-    </div>
-    <div class="talk-btn-row" data-page-node-id="5rrwh1pQrVLFO2Y9KsC8tr">
-      <button class="talk-btn" data-type="progress" data-page-node-id="pzCabpMvaCyNY7xqUqPy8u">📈 进展</button>
-      <button class="talk-btn" data-type="struggle" data-page-node-id="NkUJixBGvmcuLuAgu79kP0">😣 睡不着</button>
-      <button class="talk-btn" data-type="idea" data-page-node-id="rPY8C4vXAwuSkCePXmMXh6">💡 想法</button>
-      <button class="talk-btn" data-type="cheer" data-page-node-id="jb07aSOjDkucfQ4FOfaKSq">🎉 突破了</button>
-    </div>
-    <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="askPartner('report')">📣 汇报进展</button>
-      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
-    </div>
-    <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="stdSceneOpen()">💭 今天发生了什么</button>
-    </div>
-  </div>
+  
 <!-- std-buddy-tab-v1: 关键动作 + 提醒自己 + 场景弹窗 -->
 <div id="stdKey3" style="max-width:420px;margin:0 auto 12px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
@@ -1279,27 +1292,30 @@ const TAGS = [
 ];
 
 const SOP_CATEGORIES = [
-  { id:0, name:'刺激源', icon:'☕', questions:[
-    { q:'下午 2 点后喝过咖啡/浓茶/奶茶吗？', options:['没有','下午 2-5 点','傍晚 5-8 点','睡前刚喝'], scores:[3,2,1,0] },
-    { q:'睡前 2 小时吃过很饱/很辣/很油吗？', options:['没有','有点饱','很饱','睡前还在吃'], scores:[3,2,1,0] },
-    { q:'今晚卧室光线够暗吗？', options:['很暗','一般','有点亮','开着大灯'], scores:[3,2,1,0] },
-    { q:'睡前会把手机放远吗？', options:['另一个房间','桌上','枕边','手里拿着'], scores:[3,2,1,0] },
-    { q:'上床前 30 分钟在看屏吗？', options:['没有','少量','一直在看','关灯后还在看'], scores:[3,2,1,0] }
-  ]},
-  { id:1, name:'节律', icon:'⏰', questions:[
-    { q:'昨晚入睡时间？', options:['22:00 前','23:00 前','00:00 前','00:00 后'], scores:[3,2,1,0] },
-    { q:'今天起床时间？', options:['固定时间','差不多','晚了 1 小时','完全混乱'], scores:[3,2,1,0] },
-    { q:'白天有 20 分钟运动/散步吗？', options:['有','少量','没有','睡前剧烈运动'], scores:[3,2,1,0] },
-    { q:'午睡超过 30 分钟吗？', options:['没有午睡','15 分钟','30 分钟','1 小时以上'], scores:[3,2,1,0] },
-    { q:'周末起床时间和工作日差多久？', options:['<30 分','1 小时','2 小时','>2 小时'], scores:[3,2,1,0] }
-  ]},
-  { id:2, name:'身心', icon:'🧘', questions:[
-    { q:'躺下后脑子还在想事吗？', options:['没有','有点','经常','停不下来'], scores:[3,2,1,0] },
-    { q:'现在身体是放松的吗？', options:['是','基本','有点紧','很紧绷'], scores:[3,2,1,0] },
-    { q:'今晚有做一点放松的事吗？', options:['有 15 分钟','有 5 分钟','没有','一直在忙'], scores:[3,2,1,0] },
-    { q:'你现在感觉困倦吗？', options:['自然困','有点困','不困','很清醒'], scores:[3,2,1,0] },
-    { q:'今天有允许自己停下来吗？', options:['有','一点点','没有','一直硬撑'], scores:[3,2,1,0] }
-  ]}
+  { id:'stim', name:'刺激源', icon:'☕', color:'#4a4ec0', tips:'咖啡因、光线、屏幕是入睡的三大刺客。今晚把这些刺激源关掉，给大脑一个干净的睡前边界。',
+    items:[
+      { text:'下午 2 点后没有喝咖啡 / 浓茶 / 奶茶', pts:14 },
+      { text:'睡前 2 小时没有吃很饱 / 很辣 / 很油', pts:12 },
+      { text:'卧室光线够暗（没开大灯）', pts:10 },
+      { text:'睡前把手机放远（不在枕边 / 手里）', pts:12 },
+      { text:'上床前 30 分钟没有在看屏', pts:12 }
+    ]},
+  { id:'rhythm', name:'节律', icon:'⏰', color:'#2e8b8b', tips:'固定起床时间是调生物钟最快的方法。规律比时长更重要。',
+    items:[
+      { text:'昨晚 23:00 前入睡 / 作息规律', pts:14 },
+      { text:'今天固定时间起床', pts:12 },
+      { text:'白天有 20 分钟运动 / 散步', pts:12 },
+      { text:'午睡不超过 30 分钟', pts:8 },
+      { text:'周末起床和工作日差不到 1 小时', pts:10 }
+    ]},
+  { id:'mind', name:'身心', icon:'🧘', color:'#8e44ad', tips:'躺下后脑子还在转，是入睡最大的内耗。允许自己停下来，比硬撑更助眠。',
+    items:[
+      { text:'躺下后脑子不怎么想事', pts:12 },
+      { text:'现在身体是放松的', pts:10 },
+      { text:'今晚做了至少 5 分钟放松的事', pts:10 },
+      { text:'现在感觉自然困倦', pts:10 },
+      { text:'今天允许自己停下来休息', pts:10 }
+    ]}
 ];
 
 const DAILY_TIPS = [
@@ -1351,7 +1367,7 @@ function switchTab(tab) {
   const idx = tabs.indexOf(tab);
   if (idx >= 0) document.querySelectorAll('.tab-item')[idx].classList.add('active');
   document.getElementById('page-' + tab).classList.add('active');
-  if (tab === 'sop') renderSOP();
+  if (tab === 'sop') initSOP();
   if (tab === 'checkin') renderCheckinPage();
   if (tab === 'record') renderRecord();
   if (tab === 'progress') renderProgress();
@@ -2186,45 +2202,24 @@ function showSleepTypeFeedback(idx, topic) {
 }
 
 // ===== SOP 自检 =====
-function renderSOP() {
-  const tabs = document.getElementById('sopCatTabs');
-  tabs.innerHTML = SOP_CATEGORIES.map((c, i) => `
-    <div class="sop-cat-tab ${i===sopCatIdx?'active':''}" onclick="switchSOPCat(${i})">${c.icon} ${c.name}</div>
-  `).join('');
-  renderSOPQuestion();
-}
-
-function switchSOPCat(i) {
-  sopCatIdx = i;
-  renderSOP();
-}
-
-function renderSOPQuestion() {
-  const cat = SOP_CATEGORIES[sopCatIdx];
-  const qIdx = sopSelected[sopCatIdx] || 0;
-  const q = cat.questions[qIdx];
-  document.getElementById('sopQuestion').innerText = `${cat.icon} ${cat.name} · 第 ${qIdx+1}/${cat.questions.length} 题：${q.q}`;
-  document.getElementById('sopOptions').innerHTML = q.options.map((opt, i) => `
-    <button class="sop-option" onclick="answerSOP(${i}, ${q.scores[i]})">${opt}</button>
-  `).join('');
-  updateSOPScore();
-  try{ updateSOPStd(); }catch(e){}
-}
-
-function answerSOP(optionIdx, score) {
-  sopSelected[sopCatIdx] = (sopSelected[sopCatIdx] || 0) + 1;
-  if (sopSelected[sopCatIdx] >= SOP_CATEGORIES[sopCatIdx].questions.length) {
-    sopSelected[sopCatIdx] = 0;
-  }
-  renderSOPQuestion();
-  showToast('已记录 · 继续下一题');
-}
-
-function updateSOPScore() {
-  const total = SOP_CATEGORIES.reduce((sum, c) => sum + c.questions.length, 0);
-  const answered = Object.values(sopSelected).reduce((sum, v) => sum + (v || 0), 0);
-  document.getElementById('sopScore').innerText = `已答 ${answered}/${total} 题 · 睡前准备度慢慢清晰中`;
-}
+// ===== SOP 自检（Format C · 与减肥/index.html 一致） =====
+let sopScore=0,sopDone=false,sopSubmittedCats=[];
+const SOP_ACC='#4a4ec0',SOP_KEY='睡眠_sop';
+function getSOPData(){try{let d=JSON.parse(localStorage.getItem(SOP_KEY));return d&&typeof d==='object'?d:{}}catch(e){return{}}}
+function saveSOPData(o){localStorage.setItem(SOP_KEY,JSON.stringify(o))}
+function getSOPStreaks(){try{return JSON.parse(localStorage.getItem(SOP_KEY+'_streaks')||'{}')}catch(e){return{}}}
+function updateSOPCatStreak(catId,yesCount){let s=getSOPStreaks();let o=s[catId]||{streak:0,last:''};if(yesCount>0){o.streak=(o.last===getToday())?o.streak:o.streak+1;o.last=getToday()}else{o.streak=0;o.last=getToday()}s[catId]=o;localStorage.setItem(SOP_KEY+'_streaks',JSON.stringify(s))}
+function initSOP(){let d=getSOPData(),t=getToday();if(d.date!==t){sopScore=0;sopSelected={};sopDone=false;sopSubmittedCats=[]}else{sopScore=d.score||0;sopSelected=d.selected||{};sopDone=d.done||false;sopSubmittedCats=d.submittedCats||[]}renderSOPTabs();renderSOPList();updateSOPHeader();let tip=document.getElementById('sopTipText');if(tip&&SOP_CATEGORIES[sopCatIdx])tip.textContent=SOP_CATEGORIES[sopCatIdx].tips}
+function renderSOPTabs(){let tabs=document.getElementById('sopCatTabs');if(!tabs)return;let st=getSOPStreaks();tabs.innerHTML=SOP_CATEGORIES.map((c,i)=>{let sel=sopSelected[c.id]||{};let done=Object.keys(sel).length>=c.items.length;let sk=st[c.id]?st[c.id].streak:0;return '<button class="sop-cat-tab '+(i===sopCatIdx?'active':'')+'" onclick="switchSOPCat('+i+')">'+c.icon+' '+(done?'✅':'')+c.name+(sk>0?' 🔥':'')+'</button>'}).join('')}
+function switchSOPCat(idx){sopCatIdx=idx;let tip=document.getElementById('sopTipText');if(tip)tip.textContent=SOP_CATEGORIES[idx].tips;renderSOPTabs();renderSOPList()}
+function updateSOPHeader(){let ty=0,tn=0,ti=0;SOP_CATEGORIES.forEach(c=>{let sel=sopSelected[c.id]||{};c.items.forEach((it,ix)=>{ti++;if(sel[ix]==='yes')ty++;else if(sel[ix]==='no')tn++})});let s=document.getElementById('sopScore');if(s)s.textContent=sopScore;let p=document.getElementById('sopPosCount');if(p)p.textContent=ty;let n=document.getElementById('sopNegCount');if(n)n.textContent=tn;let bar=document.getElementById('sopScoreBar');if(bar)bar.style.width=sopScore+'%';let pt=document.getElementById('sopProgressText');if(pt)pt.textContent=Math.round(ti>0?(ty/ti)*100:0)+' / 100'}
+function getCatSelected(id){return sopSelected[id]||{}}
+function renderSOPList(){let card=document.getElementById('sopGameCard');if(!card)return;let cat=SOP_CATEGORIES[sopCatIdx];if(!cat){card.innerHTML='';return}let sel=getCatSelected(cat.id),dc=Object.keys(sel).length,tc=cat.items.length,all=dc>=tc;if(sopDone){renderSOPDoneState();return}let items=cat.items.map((it,ix)=>{let st=sel[ix]||null;let yc=st==='yes'?'sop-item-yes':'',nc=st==='no'?'sop-item-no':'';let yb=st==='yes'?'yes-checked':'',nb=st==='no'?'no-checked':'';return '<div class="sop-item '+yc+' '+nc+'"><div class="sop-item-text">'+it.text+'</div><div class="sop-item-btns"><button class="sop-check-btn '+yb+'" onclick="toggleSOPItem('+ix+',\'yes\')">✅ 做到了</button><button class="sop-check-btn '+nb+'" onclick="toggleSOPItem('+ix+',\'no\')">❌ 没做到</button></div></div>'}).join('');let sum=all?'<div class="sop-cat-summary" style="margin-top:12px;"><div class="sop-cat-summary-icon">'+cat.icon+'</div><div class="sop-cat-summary-title">'+cat.name+' 今日小结</div><div class="sop-cat-summary-sub">已全部回答 ✅</div><button onclick="submitSOPCat()" style="margin-top:12px;padding:12px 24px;background:'+SOP_ACC+';color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;">📋 确认本维度 →</button></div>':'';card.innerHTML='<div class="sop-cat-progress"><span>'+cat.icon+' '+cat.name+'</span><div class="sop-cat-progress-bar"><div class="sop-cat-progress-fill" style="width:'+Math.round(dc/tc*100)+'%;background:'+(cat.color||SOP_ACC)+'"></div></div><span style="color:'+SOP_ACC+';font-weight:700;">'+dc+'/'+tc+'</span></div><div class="sop-list-container">'+items+'</div>'+sum}
+function toggleSOPItem(ix,state){let cat=SOP_CATEGORIES[sopCatIdx];if(!sopSelected[cat.id])sopSelected[cat.id]={};if(sopSelected[cat.id][ix]===state)delete sopSelected[cat.id][ix];else sopSelected[cat.id][ix]=state;renderSOPList();renderSOPTabs();updateSOPHeader()}
+function submitSOPCat(){let cat=SOP_CATEGORIES[sopCatIdx],sel=sopSelected[cat.id]||{},cy=0;cat.items.forEach((it,ix)=>{if(sel[ix]==='yes')cy++});if(!sopSubmittedCats.includes(cat.id))sopSubmittedCats.push(cat.id);updateSOPCatStreak(cat.id,cy);let ty=0,tia=0;SOP_CATEGORIES.forEach(c=>{let s=sopSelected[c.id]||{};c.items.forEach((it,ix)=>{tia++;if(s[ix]==='yes')ty++})});sopScore=Math.round((ty/tia)*100);saveSOPData({score:sopScore,selected:sopSelected,done:false,date:getToday(),submittedCats:sopSubmittedCats});updateSOPHeader();let all=SOP_CATEGORIES.every(c=>sopSubmittedCats.includes(c.id));if(all){sopDone=true;saveSOPData({score:sopScore,selected:sopSelected,done:true,date:getToday(),submittedCats:sopSubmittedCats});setTimeout(showSOPFinish,400)}else{let nx=SOP_CATEGORIES.findIndex(c=>!sopSubmittedCats.includes(c.id));if(nx>=0){sopCatIdx=nx;let tip=document.getElementById('sopTipText');if(tip)tip.textContent=SOP_CATEGORIES[sopCatIdx].tips}renderSOPTabs();renderSOPList()}}
+function renderSOPDoneState(){let card=document.getElementById('sopGameCard');if(!card)return;let st=getSOPStreaks(),ty=0,tn=0;SOP_CATEGORIES.forEach(c=>{let sel=sopSelected[c.id]||{};c.items.forEach((it,ix)=>{if(sel[ix]==='yes')ty++;else if(sel[ix]==='no')tn++})});let det=SOP_CATEGORIES.map(c=>{let sel=sopSelected[c.id]||{},cy=0;c.items.forEach((it,ix)=>{if(sel[ix]==='yes')cy++});let pct=Math.round((cy/c.items.length)*100);let sk=st[c.id]||{streak:0};return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;"><span style="font-size:13px;">'+c.icon+' '+c.name+'</span><span style="font-size:13px;font-weight:700;color:'+(c.color||SOP_ACC)+';">'+pct+'% '+(cy>0?'✅':'')+'</span></div>'}).join('');let em=sopScore>=80?'🏆':sopScore>=60?'💪':sopScore>=30?'🌱':'😊';let ti=sopScore>=80?'满分！完美复盘！':sopScore>=60?'做得很好！':sopScore>=30?'有收获，继续加油！':'明天会更好！';card.innerHTML='<div class="sop-all-done-card"><div class="sop-all-done-emoji">'+em+'</div><div class="sop-all-done-text">'+ti+'</div><div class="sop-all-done-sub">今日复盘已完成 · 明天0点自动重置</div><div style="display:flex;justify-content:center;gap:20px;margin:16px 0;"><div style="text-align:center;"><div style="font-size:26px;font-weight:800;color:'+SOP_ACC+';">'+sopScore+'%</div><div style="font-size:11px;color:#8f9eae;">今日得分</div></div><div style="text-align:center;"><div style="font-size:26px;font-weight:800;color:#43a047;">'+ty+'</div><div style="font-size:11px;color:#8f9eae;">做到了</div></div><div style="text-align:center;"><div style="font-size:26px;font-weight:800;color:#ef5350;">'+tn+'</div><div style="font-size:11px;color:#8f9eae;">需注意</div></div></div><div style="font-size:12px;font-weight:600;color:'+SOP_ACC+';padding:0 12px 6px;">📊 各维度总结</div><div style="padding:0 4px;">'+det+'</div><div style="text-align:center;font-size:11px;color:#b0bec5;margin-top:12px;">🌙 明天0点自动重置</div></div>';let tabs=document.getElementById('sopCatTabs');if(tabs)tabs.style.display='none'}
+function showSOPFinish(){let ov=document.getElementById('sopFinishOverlay');if(ov)ov.classList.add('show')}
+function closeSOPFinish(){let ov=document.getElementById('sopFinishOverlay');if(ov)ov.classList.remove('show')}
 
 // ===== 进展 =====
 function renderProgress() {
@@ -2849,7 +2844,22 @@ function chatSend() {
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
+      function fbDefault(t){
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    var t2 = t.replace(/^[0-9]{1,2}[、..\s]+/, '').replace(/^[\u2460-\u2473]\s*/, '').replace(/^[0-9]\uFE0F?\u20E3[、..\s]*/, '');
+    var m = t2.match(/^([^：:（(]{2,24})(（=([^）]+)）)?[:：]?\s*(.+)$/);
+    var quote = t2.length <= 30;
+    var name = quote ? t2 : (m && m[1] ? m[1] : t2.slice(0, 20) + '…');
+    var def = m && m[3] ? m[3] : '';
+    var body = m && m[4] ? m[4] : t2;
+    var short = body.length > 44 ? body.slice(0, 44) + '…' : body;
+    return [
+      ['🧠 认知 · 为什么记住它', def ? ('这条你自己给的定义是：' + def + '。把「' + name + '」记下来，就是把这个判断变成随时可调用的标准，下次遇到同类场景不用从零纠结。') : (quote ? ('这是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。') : ('「' + name + '」是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。'))],
+      ['🎯 行为 · 怎么做', '下次遇到对应场景，按这条执行一次最小版本：' + short + ' 先做一次，再对比老做法的结果。'],
+      ['⚠️ 易错点', '只收藏不执行——这条的价值要在一次次具体决策里兑现，而不是躺在卡片里。'],
+      ['🔧 怎么调整', '每周回看一次：最近的决策有没有真的用到它？没用上的场景，就是下周要练的场景。']
+    ];
+  }
   window.__CC_DB = {"固定入睡时间 ±30 分钟，节律比时长更优先": [["🧠 认知 · 为什么", "睡眠研究的新共识：入睡/起床时间的规律性（SRI指数）对健康的预测力超过时长——不规律本身就是独立风险因素，规律者死亡风险低20-48%。"], ["🎯 行为 · 怎么做", "定死入睡点并设「睡前1小时」的减速带提醒：灯光调暗→洗漱→拉伸，到点即上床，误差容忍±30分钟。"], ["⚠️ 易错点", "用「早睡」弥补「晚睡」而不是固定——今天10点明天1点的波动比天天12点伤害更大；先求稳再求早。"], ["✅ 确认", "本周入睡时间偏差≤30分钟的天数有几天；连续记录两周，节律曲线是否在走平。"]], "· 睡前 1 小时关屏（手机放客厅 / 卧室不放）": [["🧠 认知 · 为什么", "屏幕的两重伤害：蓝光直接抑制褪黑素分泌（效应可持续至入睡后），内容刺激维持大脑唤醒——「再看十分钟」的十次都是半小时。"], ["🎯 行为 · 怎么做", "设22:00的「关屏闹钟」，手机当场放到客厅充电；卧室只留纸质书和实体闹钟，替代方案提前备好。"], ["⚠️ 易错点", "「手机放床头但我不看」——触发距离太近意志力必败；物理隔离是唯一可靠版本。"], ["✅ 确认", "本周关屏执行≥6天；关屏那一小时的入睡速度，和不关屏的日子比呢。"]], "· 下午 2 点后不喝咖啡因": [["🧠 认知 · 为什么", "咖啡因半衰期约5-6小时：下午3点的一杯咖啡到午夜血液里还剩四分之一，它不阻止你睡着，但会偷走深睡——「喝了也能睡着」是错觉。"], ["🎯 行为 · 怎么做", "设14:00的咖啡因截止线（含咖啡/浓茶/可乐/奶茶），之后想提神换成冷水/快走/小睡20分钟。"], ["⚠️ 易错点", "只盯着咖啡——奶茶和「茶饮料」的咖啡因常被低估；学会看配料，每天上限也别超400mg。"], ["✅ 确认", "本周14点后零咖啡因的天数；手腕记录的深睡占比有没有变化。"]], "从\"够久\"转向\"够深\"：睡前放松仪式（拉伸 / 呼吸 / 写下心事）": [["🧠 认知 · 为什么", "深睡是身体的修复车间（生长激素分泌/记忆固化），而深睡的前提是「带着低唤醒入睡」：放松仪式把交感神经的挡位从D换到N。"], ["🎯 行为 · 怎么做", "固定三选一仪式（10分钟）：4-7-8呼吸×5轮/轻拉伸/把心事写在本子上（写下来的担忧会显著降低反刍），写完合本上床。"], ["⚠️ 易错点", "仪式变成任务焦虑（「怎么还没睡着」）——仪式的目标是放松不是助眠，做就对了，睡着是它的副产品。"], ["✅ 确认", "本周仪式≥5晚；能感知到「上床时脑子是安静的还是吵的」这个差别吗。"]], "· 起床时间固定（无论多晚都按固定时间起）": [["🧠 认知 · 为什么", "起床时间是节律的第一锚点：它决定当晚的睡眠压力积累和褪黑素分泌时刻；晚睡后赖床等于把节律整个后移，形成滚雪球的「社交时差」。"], ["🎯 行为 · 怎么做", "定死起床闹钟（含周末），晚睡的次日照常起，用20分钟午睡+当晚提前半小时补，不动起床时间。"], ["⚠️ 易错点", "「昨晚只睡5小时今天必须补」——补觉的正确姿势是早睡不赖床，赖床借的是明天的高利贷。"], ["✅ 确认", "本周7天起床时间都达标了吗；最后一次晚睡后的第二天，你是怎么处理的。"]], "· 醒来记录精神分 1-5，看节律是不是真的稳了": [["🧠 认知 · 为什么", "主观精神分是最被低估的睡眠质量指标：它综合了时长/深睡/节律的总效应，连续记录能发现「哪个入睡点最适合你」这个个体化答案。"], ["🎯 行为 · 怎么做", "起床后30分钟内打分（1-5）记进手机备忘录，同时记昨晚入睡/起床时间，两周后对照找规律。"], ["⚠️ 易错点", "起床瞬间打分（睡眠惯性期误差大）——固定在洗漱完、见到阳光后再打，才反映真实状态。"], ["✅ 确认", "连续记录≥10天；你的「4分以上」集中出现在几点入睡之后。"]], "能识别自己的睡眠预警（连续 3 天精神 ≤2 就触发动作）": [["🧠 认知 · 为什么", "睡眠负债有临界点：连续低精神分意味着代偿机制见底，此时小事故风险（开车/决策）显著上升；预警线把「扛一扛」变成「触发即行动」。"], ["🎯 行为 · 怎么做", "写下if-then：「连续3天精神≤2→当周执行修复包：22:30上床/取消晚间安排/午间20分钟小睡」，贴在床头。"], ["⚠️ 易错点", "触发后用咖啡硬顶——咖啡因掩盖困意不偿还债务，事故窗口继续开着。"], ["✅ 确认", "预警线已写好；最近一次触发时，你启动修复包了吗。"]], "· 备好 2-3 套节律修复方案（关屏 / 早睡 / 不补觉）": [["🧠 认知 · 为什么", "节律崩坏后的第一晚决定恢复速度：多数人用「报复性补觉」把一夜的错修成一周的乱；预制方案让修复不依赖临场判断力（那时判断力正好最低）。"], ["🎯 行为 · 怎么做", "写下三档方案：轻（晚睡1小时内→次日照常起）/中（晚睡2-3小时→照常起+午睡20分钟+当晚早睡1小时）/重（跨时区级→按目标时区作息硬调），存进备忘录。"], ["⚠️ 易错点", "修复期频繁看睡眠手环评分——数据焦虑本身伤睡眠，修复期只看主观精神分。"], ["✅ 确认", "三档方案已写好；最近一次节律崩坏你用的是哪档，几天回的正轨。"]], "· 偶尔失眠不再焦虑，能量回到正常节律的时间在缩短": [["🧠 认知 · 为什么", "对失眠的焦虑比失眠本身更伤：「努力入睡」激活的应激反应直接对抗睡眠——接受「偶尔一夜没睡好不影响大局」，反而缩短恢复时间（矛盾但已被失眠CBT验证）。"], ["🎯 行为 · 怎么做", "失眠夜的预案：不看时间不刷手机，做放松仪式的呼吸部分，告诉自己「闭眼躺着也是休息」，第二天照常起床不加补。"], ["⚠️ 易错点", "躺20分钟就起身「等困了再睡」要灵活——若越躺越烦躁就离开床做单调的事，有困意再回；烦躁硬躺才会建立「床=焦虑」的联结。"], ["✅ 确认", "最近一次失眠，你焦虑了吗、第二天几点起的；恢复用了几晚。"]]};
   function fbFor(txt){
     
@@ -3176,7 +3186,7 @@ function renderRecordWeekly(){
     var r;
     try{ r=__oldST.apply(this,arguments); }catch(e){ if(t&&document.getElementById('page-'+t))document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');}); document.getElementById('page-'+t).classList.add('active'); }
     if(t==='partner'){ pgFillCard(); pgObserve(); }
-    if(t==='sop'){ try{ if(typeof renderSOP==='function')renderSOP(); if(typeof updateSOPStd==='function')updateSOPStd(); }catch(e){} }
+    if(t==='sop'){ try{ if(typeof initSOP==='function')initSOP(); if(typeof updateSOPStd==='function')updateSOPStd(); }catch(e){} }
     if(t==='progress'){ try{ renderProgressStd(); }catch(e){} }
     if(t==='share'){ try{ renderShareStd(); }catch(e){} }
     if(t==='record'){ try{ renderRecordWeekly(); }catch(e){} }

@@ -461,7 +461,18 @@
     .fb-partner-label { font-size: 11px; color: #8f9eae; margin-bottom: 6px; font-style: normal; font-weight: 600; }
     .fb-btn { background: #5f8d6e; color: white; border: none; border-radius: 20px; padding: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
     .fb-btn:active { transform: scale(0.97); }
-  </style>
+  
+    /* fix35: 今日工作台（减肥基准） */
+    .today-checkin { width: 100%; max-width: 300px; margin: 0 auto 18px; background: linear-gradient(145deg, #3de882, #2ed573); border-radius: 60px; padding: 15px 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; cursor: pointer; box-shadow: 0 14px 24px -8px rgba(46,213,115,0.45); transition: transform .15s, opacity .2s; }
+    .today-checkin:active { transform: scale(0.97); }
+    .today-status { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: #f6f9fb; border-radius: 18px; padding: 12px 16px; }
+    .ts-days { display: flex; align-items: baseline; gap: 4px; flex-shrink: 0; }
+    .ts-num { font-size: 34px; font-weight: 800; color: #3a7ca5; }
+    .ts-label { font-size: 12px; color: #8f9eae; }
+    .ts-week { flex: 1; min-width: 0; }
+    .ts-week .week-dots { gap: 4px; }
+    .ts-week .dot { width: 26px; height: 26px; font-size: 12px; }
+</style>
 <style>/* uxp-z */ #fbOverlay{z-index:100200!important}#__uxpZ{}</style>
 <style>.qa-close-x { position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%; background:rgba(0,0,0,0.06); border:none; padding:0; font-size:14px; line-height:30px; color:#6b7280; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:all 0.18s; -webkit-tap-highlight-color:transparent; } .qa-close-x:hover { background:rgba(0,0,0,0.12); color:#374151; }</style>
 </head>
@@ -540,46 +551,19 @@
   <div id="dashboard" style="display:none;" data-page-node-id="vfVuMQwF3UeaHGW2orLVwx">
     <div class="card" data-page-node-id="gI3hNZcUZw72CR8YWSS3jB">
       <div id="currentPartnerBadge" class="partner-badge" data-page-node-id="SNIyjCea6spPzEne4n0Ft5">🌿 温柔抚触型</div>
-      <div class="question" data-page-node-id="wEsKAfr6GSIgeRSGYgBfj2">今天，你听见身体了吗？</div>
-      <div id="checkinBtn" class="checkin-btn" onclick="doCheckin()" data-page-node-id="wTTlRGFIFkGdUY9EwMKngh">
-        <div class="checkin-status" id="checkinStatusText" data-page-node-id="21ouhoXvil26CEMF6bq4XH">签到</div>
-        <div class="checkin-sub" data-page-node-id="X1CbQcxbv3N652HjR5onOd">点击打卡</div>
-      </div>
-      <div class="continuous" id="continuousDays" data-page-node-id="jpFCHusbFg0AaBowUsiMsw">0</div>
-      <div class="continuous-label" data-page-node-id="mLCDsaAvtYoLih8wGrvcck">连续打卡天数</div>
+      <div class="question" data-page-node-id="wEsKAfr6GSIgeRSGYgBfj2">今日份的小改变，准备就绪</div>
+      <div class="today-checkin" id="checkinBtn" onclick="doCheckin()"><span class="checkin-status" id="checkinStatusText" style="font-size:20px;">签到</span><span class="checkin-sub">愿意来，就已经在变好</span></div>
+      <div class="today-status"><div class="ts-days"><span class="ts-num" id="continuousDays">0</span><span class="ts-label">天连续</span></div><div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;"><span id="weekRange"></span> · 这一周</div><div class="week-dots" id="weekDots"></div></div></div>
     </div>
 
     <!-- 搭子消息区 -->
-    <div class="chat-area" id="chatArea" data-page-node-id="EtrERTHm90cCoHu4zzaToP"></div>
+    <button class="talk-btn" style="margin-top:14px;width:100%;" onclick="copyStats()">📋 分享战绩</button><div class="chat-area" id="chatArea" data-page-node-id="EtrERTHm90cCoHu4zzaToP"></div>
 
     <!-- 本周进度 -->
-    <div class="week-progress" data-page-node-id="3ZaueiZIuNLzv7IHjHCXsQ">
-      <div class="week-title" data-page-node-id="CeXcrsXcBdsG2qJ8ei0i1v"><span data-page-node-id="TpGojX3oUV8HcqI1QqMMfJ">📅 本周进度</span><span id="weekRange" data-page-node-id="zZTEnHhGTBm0yWpwB802la"></span></div>
-      <div class="week-dots" id="weekDots" data-page-node-id="Veunh6ZNmgA1jaGVR8f0Zw"></div>
-      <button class="talk-btn" style="margin-top:12px;width:100%;" onclick="copyStats()" data-page-node-id="e9J7Vbjse5NHxWHXwjC9sD">📋 复制战绩</button>
-    </div>
+    
 
     <!-- 搭子交互（仪表盘底部） -->
-    <div class="interaction-panel" data-page-node-id="C1MrpGyLfG7k0LTekRhlRd">
-      <div class="panel-label" data-page-node-id="Dq2Iu6gex8II6hTNvQ6H8Z">💬 和搭子说说话</div>
-      <div class="mood-row" data-page-node-id="YHvo0sfWHcPl3l3GypPlhm">
-        <div class="mood-btn" data-mood="happy" title="开心" data-page-node-id="PNavE7qCJWLJgMrpDeICFT">😄</div>
-        <div class="mood-btn" data-mood="neutral" title="平静" data-page-node-id="aJIl28dtOfQCggRPDCyjSF">😌</div>
-        <div class="mood-btn" data-mood="sad" title="低落" data-page-node-id="ON6ZIuCUuhZoviEF7wyrHm">😔</div>
-        <div class="mood-btn" data-mood="tired" title="累了" data-page-node-id="kjI6JC3BdxuxQ5iYEGvl16">😫</div>
-      </div>
-      <div class="talk-btn-row" data-page-node-id="ZVzbShUh46BBErg7hbMsAO">
-        <button class="talk-btn" data-type="progress" data-page-node-id="HvT81sJFQCfkJW97Dz5Umu">📈 进展</button>
-        <button class="talk-btn" data-type="struggle" data-page-node-id="FXHDMDXwTEqAnOXDGN3Htl">😣 困难</button>
-        <button class="talk-btn" data-type="idea" data-page-node-id="gUGNq5TURLeknyba27iXo2">💡 想法</button>
-        <button class="talk-btn" data-type="cheer" data-page-node-id="vNxloubEW5jZ1mp7dnPuXH">🎉 喜事</button>
-      </div>
-      <div class="talk-btn-row" style="margin-top:8px;" data-page-node-id="WEpG8Ub3GhdLFJfMd7wPHM">
-        <button class="talk-btn" data-type="report" data-page-node-id="rqvxCAxL64P54LdREmJCUk">📣 汇报进展</button>
-        <button class="talk-btn" data-type="question" data-page-node-id="5MHlCrCf6dtkLfMIu7vRim">🤔 有问题想问</button>
-      </div>
-    <button class="talk-btn" style="margin-top:10px;width:100%;" onclick="askPartner('today')">💭 今天发生了什么</button>
-    </div>
+    
     <script>
 (function(){
   var STORE='buddy_key3_health', ACC='#5f8d6e';
@@ -3844,7 +3828,22 @@ if(CFG.scenes&&CFG.scenes.length&&typeof window.stdScenePick==='function'){
     ['🔧 怎么调整','用日历打钩看连续记录，断线后规则只有一条：第二天必须回来。']]
   ];
   function fbGen(t){ for (var i = 0; i < __CC_RULES.length; i++) { try { if (new RegExp(__CC_RULES[i][0]).test(t)) return __CC_RULES[i].slice(1); } catch (e) {} } return null; }
-      function fbDefault(t){ return [['\u{1F9E0} \u8BA4\u77E5','\u8FD9\u6761\u89C4\u5219\u6233\u4E2D\u4E86\u4F60\u771F\u5B9E\u7684\u573A\u666F\u2014\u2014\u5B83\u7684\u4EF7\u503C\uFF0C\u8981\u5728\u4E00\u6B21\u6B21\u5177\u4F53\u51B3\u7B56\u91CC\u5151\u73B0\uFF0C\u800C\u4E0D\u662F\u8EBA\u5728\u5361\u7247\u91CC\u3002'], ['\u{1F3AF} \u600E\u4E48\u7528','\u4E0B\u6B21\u9047\u5230\u76F8\u5173\u573A\u666F\uFF0C\u5148\u6309\u5B83\u505A\u4E00\u6B21\uFF1B\u505A\u5B8C\u5BF9\u6BD4\u4E00\u4E0B\u8001\u4E60\u60EF\u4F1A\u600E\u4E48\u505A\uFF0C\u4E24\u8005\u7684\u5DEE\u8DDD\u5C31\u662F\u8FD9\u6761\u89C4\u5219\u7684\u6548\u679C\u3002']]; }
+      function fbDefault(t){
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    var t2 = t.replace(/^[0-9]{1,2}[、..\s]+/, '').replace(/^[\u2460-\u2473]\s*/, '').replace(/^[0-9]\uFE0F?\u20E3[、..\s]*/, '');
+    var m = t2.match(/^([^：:（(]{2,24})(（=([^）]+)）)?[:：]?\s*(.+)$/);
+    var quote = t2.length <= 30;
+    var name = quote ? t2 : (m && m[1] ? m[1] : t2.slice(0, 20) + '…');
+    var def = m && m[3] ? m[3] : '';
+    var body = m && m[4] ? m[4] : t2;
+    var short = body.length > 44 ? body.slice(0, 44) + '…' : body;
+    return [
+      ['🧠 认知 · 为什么记住它', def ? ('这条你自己给的定义是：' + def + '。把「' + name + '」记下来，就是把这个判断变成随时可调用的标准，下次遇到同类场景不用从零纠结。') : (quote ? ('这是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。') : ('「' + name + '」是你验证过的判断。记住它，下次同类场景出现时你需要的是调用它，而不是重新想一遍。'))],
+      ['🎯 行为 · 怎么做', '下次遇到对应场景，按这条执行一次最小版本：' + short + ' 先做一次，再对比老做法的结果。'],
+      ['⚠️ 易错点', '只收藏不执行——这条的价值要在一次次具体决策里兑现，而不是躺在卡片里。'],
+      ['🔧 怎么调整', '每周回看一次：最近的决策有没有真的用到它？没用上的场景，就是下周要练的场景。']
+    ];
+  }
   window.__CC_DB = {"每天一分钟全身扫描，紧绷先被看见": [["🧠 认知 · 为什么", "慢性紧绷（肩颈/下颌/眉心）是压力的「沉默存储」：未被觉察的紧绷会累积成疼痛和疲惫；一分钟身体扫描让「紧」从背景进入视野——看见即放松的开始。"], ["🎯 行为 · 怎么做", "锚定三个时刻（起床/午饭后/睡前）任选其一：闭眼从头顶扫到脚，发现紧的部位停两秒，呼气时想象它松开。"], ["⚠️ 易错点", "扫描变成找毛病（「又这么紧」）——扫描的态度是好奇不是批评，紧了就知道了，不用改。"], ["✅ 确认", "今天扫描了吗；你的「紧」最常住在哪个部位，它今天在吗。"]], "• 每坐1小时起身活动2-3分钟，用闹钟锚定": [["🧠 认知 · 为什么", "久坐是独立风险因素（即使规律锻炼也抵消不了整日久坐的代谢伤害）：每小时起身2-3分钟即可显著切断这条伤害链——频率比单次时长重要。"], ["🎯 行为 · 怎么做", "设每小时一次的循环闹钟（或用水杯策略：小杯水喝完必然起身接），起身做三件事：站直/走20步/看远处20秒。"], ["⚠️ 易错点", "「忙完这阵再起来」——以任务为界永远起不来，以时间为界才可靠；闹钟响了就当接水。"], ["✅ 确认", "今天起身的次数；昨天呢——连续记录三天，你会看见自己的真实久坐模式。"]], "• 记录身体信号（酸/胀/累），只记录不硬扛": [["🧠 认知 · 为什么", "身体的信号分「可自愈」和「需干预」两级，而硬扛会把一级拖成二级：记录让信号从「忍忍就过」变成「有数据的观察」，就医时也是医生最想要的资料。"], ["🎯 行为 · 怎么做", "出现酸/胀/累时花30秒记：部位/感觉/持续天数/可能的诱因，同一信号连续3天就升级处理（调整或就医）。"], ["⚠️ 易错点", "「老毛病了忍忍吧」——老毛病最值得记录：它的频率/诱因变化往往先于大问题被看见。"], ["✅ 确认", "本周记录了几条身体信号；有没有一条已经连续出现3天了。"]], "每周固定一次按摩/泡脚/拉伸的养护日": [["🧠 认知 · 为什么", "身体和车一样需要定期保养而非坏了再修：固定的养护日（被动放松）降低肌肉张力基线、改善睡眠，且「被照顾」的体验本身就是压力的对立面。"], ["🎯 行为 · 怎么做", "定死每周一个时段（如周日晚），三选一：泡脚15分钟/全身拉伸20分钟/专业按摩，写进日历当 appointments 对待。"], ["⚠️ 易错点", "忙起来第一个砍掉养护日——检验优先级的时刻；养护是为了可持续地忙，不是休闲的奢侈品。"], ["✅ 确认", "本周养护日执行了吗；当天晚上的睡眠质量和平日比如何。"]], "• 护肤从糊弄变认真：清洁保湿防晒三步到位": [["🧠 认知 · 为什么", "皮肤屏障的健康=清洁（去污不过度）+保湿（锁水）+防晒（防光老化）三步的稳定执行：护肤的有效变量是「坚持」而非「步骤多」或「产品贵」。"], ["🎯 行为 · 怎么做", "早晚各一套固定流程：早=清水洗+保湿+防晒，晚=洁面+保湿；把产品摆在洗手台正中，减少启动摩擦。"], ["⚠️ 易错点", "叠加太多功效品反而伤屏障——三步做扎实三个月，再考虑加减，皮肤的状态改善以「月」为单位。"], ["✅ 确认", "本周三步执行率；今天出门前防晒涂了吗。"]], "• 困了就睡，睡前1小时放下手机": [["🧠 认知 · 为什么", "「困了就睡」是对节律信号最健康的响应：硬撑过困意点（褪黑素窗口）后会迎来神经性的「二次清醒」，更难入睡；睡前刷屏则直接推迟困意的到来。"], ["🎯 行为 · 怎么做", "设「困意侦测」规则：打哈欠/眼皮沉时立即放下手上一切去睡（哪怕21:30）；睡前1小时手机出卧室，用纸质书降速。"], ["⚠️ 易错点", "「这集看完就睡」——内容平台的每一集结尾都设计成下一集的开头；信任节律，别信任算法。"], ["✅ 确认", "昨晚的困意出现在几点，你抓住了吗；今晚会注意吗。"]], "建立自己的放松清单，状态差时照着做": [["🧠 认知 · 为什么", "状态差时的决策力恰好最低（想不到怎么放松）：预制的放松清单把「自救」从临场发挥变成照单执行——行为预编程是压力管理的核心技巧。"], ["🎯 行为 · 怎么做", "写一份5项清单（按耗时排：1分钟深呼吸/5分钟楼下走/15分钟热水澡/给好友发消息/睡20分钟），贴在手机备忘录置顶，状态差时从第一项开始做。"], ["⚠️ 易错点", "清单里放「刷手机放松」——被动刷屏是伪放松（事后更累），清单里只能放真正充电的项。"], ["✅ 确认", "清单已写好置顶；最近一次状态差，你用了清单里的哪项，管用吗。"]], "• 信号三天不消就重视，必要时就医": [["🧠 认知 · 为什么", "「三天规则」是低成本的分诊智慧：多数小症状72小时内自愈，超过三天不消的信号值得被认真对待——既不过度焦虑，也不把小病拖成大病。"], ["🎯 行为 · 怎么做", "给身体信号计时：连续3天不缓解→做两件事：记录变化细节+预约挂号；学会描述「部位/性质/时长/诱因」。"], ["⚠️ 易错点", "「怕查出问题就不查」——回避检查不会让疾病消失，只会让它以更贵的方式被发现。"], ["✅ 确认", "本周有没有一条信号到了第三天；如果它是你的，你预约了吗。"]], "• 让「正确使用身体」成为默认姿势": [["🧠 认知 · 为什么", "身体劳损的大头不在意外而在「默认姿势」：低头/跷腿/单肩背包每天重复千次，伤害是复利的；把正确姿势变成默认值，等于每天自动做一千次保护。"], ["🎯 行为 · 怎么做", "选三个高频姿势各配一个「正确版」：手机举到视线高度/双脚落地的坐姿/双肩背包，用环境提示（手机贴纸/显示器便签）替代记忆。"], ["⚠️ 易错点", "靠「时刻提醒自己」——注意力撑不过10分钟，环境改造和工具（支架/腰靠）才是可持续方案。"], ["✅ 确认", "你的三个「正确默认」是什么；今天的手机是什么高度。"]]};
   function fbFor(txt){
     
