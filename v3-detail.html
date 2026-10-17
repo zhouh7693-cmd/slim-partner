@@ -41,7 +41,18 @@
   .task .tt{transition:opacity .2s;}
   .task-tip{font-size:12px;color:var(--brand);margin:-4px 0 10px;}
   .style-line{font-size:13px;color:var(--ink);opacity:.9;line-height:1.8;}
-  .style-line a{color:var(--brand);font-weight:700;text-decoration:none;}
+  .style-line a{color:var(--brand);font-weight:700;text-decoration:none;cursor:pointer;}
+  /* 陪伴风格选择面板（居中弹窗） */
+  .stylov{position:fixed;inset:0;background:rgba(30,36,28,.45);z-index:200;display:none;align-items:center;justify-content:center;padding:24px;}
+  .stylov.show{display:flex;}
+  .stylbox{background:#fff;border-radius:20px;max-width:380px;width:100%;padding:22px 20px;box-shadow:0 18px 50px rgba(30,40,30,.2);}
+  .stylbox h3{font-size:16px;font-weight:800;margin-bottom:4px;}
+  .stylbox .sd{font-size:12px;color:var(--sub);margin-bottom:14px;line-height:1.6;}
+  .stylbox .per{text-align:left;}
+  .stylbox .per .se{font-size:19px;margin-right:6px;}
+  .stylbox .per .schk{float:right;color:var(--brand);font-weight:800;font-size:13px;visibility:hidden;}
+  .stylbox .per.on .schk{visibility:visible;}
+  .stylbox .styclose{margin-top:14px;width:100%;border:none;background:#F1F3EC;border-radius:14px;padding:11px;font-size:13.5px;font-weight:700;color:#4A5248;cursor:pointer;font-family:inherit;}
   .pgrid{display:flex;flex-direction:column;gap:10px;}
   .per{border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;cursor:pointer;transition:all .15s;background:#fff;}
   .per.on{border-color:var(--brand);background:var(--brand-lt);}
@@ -118,20 +129,75 @@
     (p.safety ? '<div class="safety">' + p.safety + '</div>' : '') +
 
     '<div class="closing"><div class="t">' + (p.soon ? '还在发芽中 🌱' : '准备好了吗？') + '</div>' +
-      '<div class="s">' + (p.soon ? '这个搭子还在长，先预约一下，<br>长出来的第一天就来找你。' : '不需要一次改变很多。<br>我们先从今天的一件小事开始。') + '</div></div>';
+      '<div class="s" id="closeS">' + (p.soon ? '这个搭子还在长，先预约一下，<br>长出来的第一天就来找你。' : '不需要一次改变很多。<br>我们先从今天的一件小事开始。') + '</div></div>';
 
-  /* 陪伴风格：全局选择（在首页设置），这里只读展示 + 任务提示语气跟随 */
+  /* 陪伴风格：全局选择，页内「调整」直接弹出面板，鼓励内容跟随风格差异化 */
+  var STYLE_FB = {
+    gentle: {
+      tip: '不着急，先做一件就很好。',
+      done: '对，就是这样一件小事 ✓',
+      closing: '不需要一次改变很多。<br>我们先从今天的一件小事开始。',
+      hint: '语气温和松弛，陪你不慌不忙地开始'
+    },
+    push: {
+      tip: '别等状态，现在就做第一步。',
+      done: '第一步已落地 · 趁热再勾一件 ✓',
+      closing: '想全是问题，做才是答案。<br>今天的第一步，现在就走。',
+      hint: '语气直接干脆，推你立刻迈出第一步'
+    },
+    logic: {
+      tip: '先挑阻力最小的一件开始。',
+      done: '有效 ✓ 每记录一次，确定性就多一分',
+      closing: '不靠热情，靠机制。<br>挑最小阻力的一件，今天完成它。',
+      hint: '语气讲策略方法，帮你找到最优切入点'
+    }
+  };
   var mine = {};
   try { mine = JSON.parse(localStorage.getItem('v3_mine') || '{}'); } catch (e) {}
   var per = V.personalities.filter(function(x){ return x.key === (mine.style || 'gentle'); })[0] || V.personalities[0];
-  var STYLE_TIP = {
-    gentle: '不着急，先做一件就很好。',
-    push:   '别等状态，现在就做第一步。',
-    logic:  '先挑阻力最小的一件开始。'
-  };
-  document.getElementById('taskTip').textContent = STYLE_TIP[per.key] ? (' 💬 ' + STYLE_TIP[per.key]) : '';
-  document.getElementById('styleLine').innerHTML =
-    per.emoji + ' <b>' + per.name + '</b> ·「' + per.quote + '」&nbsp;<a href="v3-home.html#style">调整</a>';
+  function renderStyle(){
+    var fb = STYLE_FB[per.key] || STYLE_FB.gentle;
+    document.getElementById('taskTip').textContent = ' 💬 ' + fb.tip;
+    document.getElementById('styleLine').innerHTML =
+      per.emoji + ' <b>' + per.name + '</b> ·「' + per.quote + '」&nbsp;<a id="styleEdit">调整</a>';
+    if (!p.soon) document.getElementById('closeS').innerHTML = fb.closing;
+  }
+  renderStyle();
+
+  /* 页内风格选择弹窗 */
+  document.body.insertAdjacentHTML('beforeend',
+    '<div class="stylov" id="stylov"><div class="stylbox">' +
+    '<h3>陪伴风格</h3><div class="sd">选一个你吃这套的语气，搭子的鼓励方式会跟着变。</div>' +
+    '<div class="pgrid" id="stylList"></div>' +
+    '<button class="styclose" id="stylClose">完成</button></div></div>');
+  var stylov = document.getElementById('stylov');
+  function openStylov(){
+    document.getElementById('stylList').innerHTML = V.personalities.map(function(x){
+      return '<div class="per' + (x.key === per.key ? ' on' : '') + '" data-k="' + x.key + '">' +
+        '<span class="schk">✓ 当前</span><span class="se">' + x.emoji + '</span><span class="pn">' + x.name + '</span>' +
+        '<div class="pq">' + (STYLE_FB[x.key] ? STYLE_FB[x.key].hint : '') + '</div></div>';
+    }).join('');
+    stylov.classList.add('show');
+  }
+  document.getElementById('styleLine').addEventListener('click', function(e){
+    if (e.target.id === 'styleEdit') { openStylov(); }
+  });
+  document.getElementById('stylList').addEventListener('click', function(e){
+    var el = e.target.closest('[data-k]'); if (!el) return;
+    var k = el.getAttribute('data-k');
+    if (k !== per.key) {
+      per = V.personalities.filter(function(x){ return x.key === k; })[0] || per;
+      var m2 = {};
+      try { m2 = JSON.parse(localStorage.getItem('v3_mine') || '{}') || {}; } catch (err) {}
+      m2.style = k;
+      try { localStorage.setItem('v3_mine', JSON.stringify(m2)); } catch (err) {}
+      renderStyle();
+      toast('已切换 · 搭子的鼓励方式跟着变了');
+    }
+    document.getElementById('stylList').querySelectorAll('.per').forEach(function(x){ x.classList.toggle('on', x.getAttribute('data-k') === per.key); });
+  });
+  document.getElementById('stylClose').onclick = function(){ stylov.classList.remove('show'); };
+  stylov.addEventListener('click', function(e){ if (e.target === stylov) stylov.classList.remove('show'); });
 
   /* 「今天可能会这样」任务可勾选：先试一试小事的感觉 */
   var taskTipped = false;
@@ -140,7 +206,7 @@
     el.classList.toggle('done');
     if (el.classList.contains('done') && !taskTipped) {
       taskTipped = true;
-      toast('对，就是这样一件小事 ✓');
+      toast((STYLE_FB[per.key] || STYLE_FB.gentle).done);
     }
   });
 
