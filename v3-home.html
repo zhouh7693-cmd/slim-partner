@@ -3,128 +3,364 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>发芽搭子 · 有人陪你慢慢来</title>
+<title>搭子馆 · 给生活一个搭子</title>
 <style>
-  :root{--bg:#FAF9F6;--brand:#49745F;--brand-lt:#EEF5F0;--ink:#202521;--sub:#6F756F;--line:#E7E9E6;}
+  :root{
+    --bg:#F7F6F1; --panel:#EDF1E6; --panel-deep:#E4EBD9;
+    --ink:#23281F; --sub:#7A8078; --line:#E4E6DF;
+    --brand:#3E5C46; --brand-deep:#33513F; --brand-lt:#E7EFE4; --brand-ink:#2E4A38;
+    --serif:'Songti SC','STSong','Noto Serif SC','Source Han Serif SC','SimSun',serif;
+  }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:86px;}
-  .top{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 6px;}
-  .brand{font-weight:800;font-size:17px;letter-spacing:.3px;}
-  .brand i{font-style:normal;color:var(--brand);}
-  .hero{padding:26px 20px 22px;}
-  .hero h1{font-size:26px;line-height:1.4;font-weight:800;}
-  .hero h1 span{color:var(--brand);}
-  .hero p{margin-top:10px;font-size:14px;color:var(--sub);line-height:1.7;}
-  .cta{display:inline-flex;align-items:center;gap:6px;margin-top:16px;background:var(--brand);color:#fff;border:none;border-radius:24px;padding:13px 24px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .12s;}
-  .cta:active{transform:scale(.98);}
-  .sec{padding:0 20px;margin-top:8px;}
-  .sec-t{font-size:15px;font-weight:700;margin:20px 0 12px;}
-  .needs{display:flex;flex-wrap:wrap;gap:10px;}
-  .need{background:#fff;border:1px solid var(--line);border-radius:18px;padding:10px 15px;font-size:13.5px;font-weight:600;cursor:pointer;transition:transform .12s,border-color .2s;}
-  .need:active{transform:scale(.97);border-color:var(--brand);}
-  .how{display:flex;flex-direction:column;gap:10px;}
-  .how-i{display:flex;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px 15px;}
-  .hi2{width:36px;height:36px;border-radius:11px;background:var(--brand-lt);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-  .how-i b{display:block;font-size:13.5px;}
-  .how-i i{display:block;font-style:normal;font-size:12px;color:var(--sub);margin-top:2px;line-height:1.6;}
-  .pgrid{display:flex;flex-direction:column;gap:10px;}
-  .per{border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;cursor:pointer;transition:all .15s;background:#fff;}
-  .per.on{border-color:var(--brand);background:var(--brand-lt);}
-  .per:active{transform:scale(.98);}
-  .per .pn{font-size:13.5px;font-weight:800;}
-  .per .pq{font-size:12px;color:var(--sub);margin-top:4px;}
-  .pnote{font-size:11.5px;color:var(--sub);margin-top:10px;}
-  /* 继续我的搭子 */
-  .resume{display:none;margin-top:4px;background:var(--brand-lt);border-radius:20px;padding:18px 20px;}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;min-height:100vh;padding-bottom:86px;}
+  a{color:inherit;}
+  .caps{font-size:10.5px;letter-spacing:.22em;color:#8A9184;text-transform:uppercase;font-weight:600;}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 28px;}
+
+  /* ═══ 顶部导航 ═══ */
+  .hd{position:sticky;top:0;z-index:90;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .hd-in{max-width:1160px;margin:0 auto;padding:0 28px;height:68px;display:flex;align-items:center;gap:26px;}
+  .logo{display:flex;align-items:center;gap:10px;cursor:pointer;}
+  .logo-ic{width:38px;height:38px;border:1.5px solid var(--brand);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .logo-tx{line-height:1.15;}
+  .logo-tx b{font-size:17px;font-weight:800;letter-spacing:.05em;}
+  .logo-tx b sup{font-size:9px;color:var(--brand);font-weight:700;margin-left:2px;}
+  .logo-tx i{display:block;font-style:normal;font-size:8.5px;letter-spacing:.3em;color:#9AA096;font-weight:600;}
+  .hd-nav{display:flex;gap:30px;margin:0 auto;}
+  .hd-nav a{text-decoration:none;font-size:14px;font-weight:600;color:#5C635A;padding:24px 2px;position:relative;cursor:pointer;}
+  .hd-nav a.on{color:var(--ink);}
+  .hd-nav a.on::after{content:'';position:absolute;left:50%;transform:translateX(-50%);bottom:14px;width:22px;height:2.5px;border-radius:2px;background:var(--brand);}
+  .hd-act{display:flex;align-items:center;gap:16px;margin-left:auto;}
+  .act-fav{display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:#4A5248;cursor:pointer;background:none;border:none;font-family:inherit;}
+  .act-fav.on{color:var(--brand);}
+  .cart-btn{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:#fff;border-radius:22px;padding:8px 16px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink);transition:border-color .2s;}
+  .cart-btn:hover{border-color:var(--brand);}
+  .cart-n{background:var(--brand);color:#fff;font-size:11px;min-width:19px;height:19px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;padding:0 5px;font-weight:800;}
+  /* 体验车面板 */
+  .cart-panel{display:none;position:fixed;top:76px;right:max(28px,calc((100vw - 1160px)/2 + 28px));width:340px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 50px rgba(30,40,30,.14);padding:18px;z-index:95;}
+  .cart-panel.show{display:block;}
+  .cart-panel h4{font-size:14px;font-weight:800;margin-bottom:10px;}
+  .cart-empty{font-size:12.5px;color:var(--sub);line-height:1.8;padding:8px 0;}
+  .cart-it{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px dashed var(--line);}
+  .cart-it .ci{font-size:18px;}
+  .cart-it .cn{flex:1;font-size:13px;font-weight:700;cursor:pointer;}
+  .cart-it .cx{font-size:11.5px;color:#B4B9B0;cursor:pointer;border:none;background:none;font-family:inherit;}
+  .cart-it .cx:hover{color:#C96F5E;}
+
+  /* ═══ Hero ═══ */
+  .hero{padding:34px 0 10px;}
+  .hero-box{position:relative;background:linear-gradient(135deg,#EEF2E5 0%,#E7EDDB 60%,#E3EAD6 100%);border-radius:26px;padding:56px 60px;display:flex;align-items:center;gap:30px;overflow:hidden;}
+  .hero-l{flex:1.15;min-width:0;position:relative;z-index:2;}
+  .hero h1{font-family:var(--serif);font-size:46px;line-height:1.32;font-weight:700;letter-spacing:.02em;}
+  .hero p{margin-top:18px;font-size:15px;color:#5C635A;line-height:1.9;}
+  .hero-cta{display:inline-flex;align-items:center;gap:8px;margin-top:26px;background:var(--brand-deep);color:#fff;border:none;border-radius:26px;padding:14px 30px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .15s,background .2s;}
+  .hero-cta:hover{background:#2B4636;transform:translateY(-1px);}
+  .hero-r{flex:.85;position:relative;min-height:280px;z-index:1;}
+  .hero-art{position:absolute;right:30px;top:50%;transform:translateY(-52%);width:230px;}
+  .hero-note{position:absolute;right:242px;bottom:0;background:#FDFCF8;border-radius:10px;padding:12px 16px;box-shadow:0 8px 22px rgba(40,50,40,.12);transform:rotate(-5deg);}
+  .hero-note b{display:block;font-size:13px;font-weight:800;}
+  .hero-note i{display:block;font-style:normal;font-size:10.5px;color:var(--sub);margin-top:3px;}
+  .hero-c1{position:absolute;top:26px;right:34px;}
+  .hero-c2{position:absolute;bottom:22px;right:34px;}
+
+  /* ═══ 统计行 ═══ */
+  .statline{display:flex;justify-content:space-between;gap:14px;padding:26px 2px 8px;font-size:12.5px;color:var(--sub);}
+
+  /* ═══ 保留区：继续我的搭子 + 情绪入口 ═══ */
+  .mine{padding:6px 0 4px;}
+  .resume{display:none;background:var(--brand-lt);border-radius:20px;padding:20px 24px;}
   .resume.show{display:block;}
-  .resume .r-name{font-size:15px;font-weight:800;margin-top:8px;}
+  .resume .r-tag{font-size:12px;color:var(--brand);font-weight:700;}
+  .resume .r-name{font-size:16px;font-weight:800;margin-top:8px;}
   .resume .r-sub{font-size:12.5px;color:var(--sub);margin-top:4px;}
-  .resume .r-cta{margin-top:12px;display:inline-block;background:var(--brand);color:#fff;border-radius:18px;padding:9px 18px;font-size:13px;font-weight:700;cursor:pointer;border:none;}
-  /* 推荐卡 */
-  .cards{display:flex;flex-direction:column;gap:12px;}
-  .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px 20px;cursor:pointer;transition:transform .12s;}
-  .card:active{transform:scale(.985);}
-  .c-head{display:flex;align-items:center;gap:10px;}
-  .c-icon{width:44px;height:44px;border-radius:14px;background:var(--brand-lt);display:flex;align-items:center;justify-content:center;font-size:23px;flex-shrink:0;}
-  .c-name{font-size:15.5px;font-weight:800;}
-  .c-badge{font-size:10.5px;color:var(--brand);background:var(--brand-lt);border-radius:10px;padding:2px 8px;margin-left:8px;font-weight:700;}
-  .c-promise{font-size:13px;color:var(--sub);margin-top:8px;line-height:1.6;}
-  .c-meta{margin-top:10px;font-size:11.5px;color:var(--sub);}
-  .c-go{float:right;font-size:12.5px;color:var(--brand);font-weight:700;}
-  .all{display:block;text-align:center;margin:18px auto 8px;font-size:13.5px;color:var(--brand);font-weight:700;cursor:pointer;background:none;border:none;}
-  /* 发芽中 */
-  .sprow{display:flex;flex-direction:column;gap:10px;}
-  .sp{display:flex;align-items:center;gap:10px;background:#fff;border:1px dashed #CFE3D6;border-radius:16px;padding:12px 14px;cursor:pointer;transition:transform .12s;}
-  .sp:active{transform:scale(.985);}
-  .sp-i{width:36px;height:36px;border-radius:11px;background:var(--brand-lt);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-  .sp-b{flex:1;min-width:0;}
-  .sp-n{font-size:13.5px;font-weight:800;}
-  .sp-p{font-size:11.5px;color:var(--sub);margin-top:3px;line-height:1.5;}
-  .sp-btn{flex-shrink:0;font-size:11.5px;font-weight:700;color:var(--brand);border:1.5px solid var(--brand);border-radius:14px;padding:5px 11px;cursor:pointer;}
-  .sp-btn.on{background:var(--brand);color:#fff;}
-  footer{padding:10px 20px 20px;text-align:center;font-size:11.5px;color:var(--sub);}
-  /* 底部导航 */
-  .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(255,255,255,.96);border-top:1px solid var(--line);display:flex;padding:8px 0 calc(10px + env(safe-area-inset-bottom));z-index:50;}
-  .nav a{flex:1;text-align:center;text-decoration:none;color:var(--sub);font-size:10.5px;}
-  .nav a .ni{font-size:20px;display:block;margin-bottom:2px;}
-  .nav a.on{color:var(--brand);font-weight:700;}
-  .toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(32,37,33,.88);color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:99;}
+  .resume .r-cta{margin-top:14px;display:inline-block;background:var(--brand);color:#fff;border-radius:20px;padding:10px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:transform .12s;}
+  .resume .r-cta:active{transform:scale(.97);}
+  .mine-t{font-size:20px;font-weight:800;margin:26px 0 14px;font-family:var(--serif);letter-spacing:.02em;}
+  .needs{display:flex;flex-wrap:wrap;gap:12px;}
+  .need{background:#fff;border:1px solid var(--line);border-radius:20px;padding:11px 18px;font-size:14px;font-weight:600;cursor:pointer;transition:transform .12s,border-color .2s,box-shadow .2s;font-family:inherit;}
+  .need:hover{border-color:var(--brand);box-shadow:0 4px 14px rgba(50,70,55,.08);}
+  .need:active{transform:scale(.97);}
+  .pnote{font-size:12px;color:var(--sub);margin-top:14px;}
+
+  /* ═══ 找搭子区 ═══ */
+  .find{padding:36px 0 8px;}
+  .find-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+  .find-head h2{font-family:var(--serif);font-size:30px;font-weight:700;margin-top:8px;letter-spacing:.02em;}
+  .find-head .fh-sub{font-size:13px;color:var(--sub);margin-top:6px;}
+  .search{background:#fff;border:1px solid var(--line);border-radius:24px;padding:11px 18px;display:flex;align-items:center;gap:9px;width:320px;transition:border-color .2s;}
+  .search:focus-within{border-color:var(--brand);}
+  .search input{border:none;outline:none;flex:1;font-size:13.5px;background:transparent;color:var(--ink);font-family:inherit;}
+  .search input::placeholder{color:#B9BEB9;}
+  .cats{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 6px;}
+  .cat{border:1.5px solid var(--line);background:#fff;border-radius:22px;padding:9px 20px;font-size:13.5px;font-weight:700;color:#4A5248;cursor:pointer;font-family:inherit;transition:all .18s;}
+  .cat.on{background:var(--brand-deep);border-color:var(--brand-deep);color:#fff;}
+  .toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:16px 0 18px;flex-wrap:wrap;}
+  .sorts{display:flex;gap:8px;}
+  .sort{border:none;background:#ECEFE4;border-radius:18px;padding:7px 16px;font-size:12.5px;font-weight:700;color:#5C635A;cursor:pointer;font-family:inherit;}
+  .sort.on{background:#DCE7D2;color:var(--brand-ink);}
+  .gcount{font-size:12.5px;color:var(--sub);}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .pcard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 20px 16px;cursor:pointer;transition:transform .15s,box-shadow .2s,border-color .2s;position:relative;display:flex;flex-direction:column;}
+  .pcard:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(45,60,48,.09);border-color:#D5DACB;}
+  .pc-top{display:flex;align-items:flex-start;justify-content:space-between;}
+  .pic{width:46px;height:46px;border-radius:14px;background:#EFF2E8;display:flex;align-items:center;justify-content:center;font-size:23px;color:var(--brand);}
+  .pic svg{width:24px;height:24px;display:block;}
+  .fav{font-size:19px;color:#B9BFB2;cursor:pointer;line-height:1;transition:color .15s,transform .12s;background:none;border:none;font-family:inherit;}
+  .fav:hover{transform:scale(1.15);}
+  .fav.on{color:#C96F5E;}
+  .pname{font-size:15.5px;font-weight:800;margin-top:14px;}
+  .pname .bdg{font-size:10px;color:var(--brand);background:var(--brand-lt);border-radius:9px;padding:2px 8px;margin-left:7px;font-weight:700;vertical-align:2px;}
+  .ppromise{font-size:12.5px;color:var(--sub);margin-top:7px;line-height:1.7;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .prow{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:13px;border-top:1px dashed var(--line);}
+  .ptry{font-size:12px;font-weight:700;color:#4A5248;}
+  .ptry:hover{color:var(--brand);}
+  .pcart{font-size:11.5px;font-weight:700;border:1.5px solid var(--line);border-radius:16px;padding:6px 13px;color:#4A5248;cursor:pointer;transition:all .15s;background:#fff;font-family:inherit;white-space:nowrap;}
+  .pcart:hover{border-color:var(--brand);color:var(--brand);}
+  .pcart.on{background:var(--brand-lt);border-color:var(--brand);color:var(--brand-ink);}
+  .expand-row{text-align:center;margin:26px 0 4px;}
+  .expand{border:1.5px solid var(--line);background:#fff;border-radius:24px;padding:11px 26px;font-size:13.5px;font-weight:700;color:#4A5248;cursor:pointer;font-family:inherit;transition:all .18s;}
+  .expand:hover{border-color:var(--brand);color:var(--brand);}
+  .gnone{padding:40px 10px;text-align:center;font-size:13.5px;color:var(--sub);line-height:2;grid-column:1/-1;}
+
+  /* ═══ 五大财富 ═══ */
+  .wealth{padding:36px 0 8px;}
+  .wealth-box{background:linear-gradient(120deg,#EAF0DF,#E3EBD6);border-radius:26px;padding:44px 52px;display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;}
+  .wealth-box h2{font-family:var(--serif);font-size:30px;font-weight:700;margin-top:8px;letter-spacing:.02em;}
+  .wealth-box .w-sub{font-size:13px;color:#5C635A;margin-top:8px;}
+  .wealth-pills{display:flex;gap:10px;flex-wrap:wrap;}
+  .wpill{background:#FDFCF8;border:none;border-radius:20px;padding:10px 18px;font-size:13px;font-weight:700;color:var(--brand-ink);cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .2s;}
+  .wpill:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(50,70,50,.12);}
+
+  /* ═══ 即将见面 ═══ */
+  .soon{padding:38px 0 8px;}
+  .soon-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;}
+  .soon-head h2{font-family:var(--serif);font-size:30px;font-weight:700;margin-top:8px;letter-spacing:.02em;}
+  .soon-link{font-size:13px;font-weight:700;color:#4A5248;cursor:pointer;background:none;border:none;font-family:inherit;}
+  .soon-link:hover{color:var(--brand);}
+  .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px;}
+  .scard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;transition:transform .15s,box-shadow .2s;}
+  .scard:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(45,60,48,.09);}
+  .scard .s-caps{font-size:9.5px;letter-spacing:.2em;color:#9AA096;font-weight:700;}
+  .scard h3{font-family:var(--serif);font-size:22px;font-weight:700;margin-top:12px;}
+  .scard .s-d{font-size:12.5px;color:var(--sub);margin-top:8px;line-height:1.75;}
+  .sbtn{margin-top:20px;border:1.5px solid var(--line);background:#fff;border-radius:18px;padding:8px 18px;font-size:12.5px;font-weight:700;color:#4A5248;cursor:pointer;font-family:inherit;transition:all .15s;}
+  .sbtn:hover{border-color:var(--brand);color:var(--brand);}
+  .sbtn.on{background:var(--brand);border-color:var(--brand);color:#fff;}
+
+  /* ═══ 快捷入口 ═══ */
+  .quick{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:34px 0 10px;}
+  .qk{border-top:1px solid var(--line);padding-top:16px;cursor:pointer;transition:transform .15s;}
+  .qk:hover{transform:translateY(-1px);}
+  .qk b{font-size:14.5px;font-weight:800;}
+  .qk .qk-arrow{float:right;color:#9AA096;font-size:13px;}
+  .qk i{display:block;font-style:normal;font-size:12px;color:var(--sub);margin-top:5px;}
+
+  /* ═══ 页脚 ═══ */
+  footer{border-top:1px solid var(--line);margin-top:26px;}
+  .ft-in{max-width:1160px;margin:0 auto;padding:34px 28px 40px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+  .ft-l b{font-size:16px;font-weight:800;letter-spacing:.04em;}
+  .ft-l i{font-style:normal;font-size:8.5px;letter-spacing:.3em;color:#9AA096;font-weight:600;margin-left:8px;}
+  .ft-links{margin-top:14px;display:flex;gap:22px;font-size:12.5px;color:#5C635A;}
+  .ft-links span{cursor:pointer;}
+  .ft-links span:hover{color:var(--brand);}
+  .ft-r{text-align:right;font-size:12.5px;color:var(--sub);line-height:2;}
+
+  /* ═══ 移动端底部导航（桌面隐藏） ═══ */
+  .mnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(255,255,255,.97);border-top:1px solid var(--line);display:flex;padding:8px 0 calc(10px + env(safe-area-inset-bottom));z-index:50;}
+  .mnav a{flex:1;text-align:center;text-decoration:none;color:var(--sub);font-size:10.5px;}
+  .mnav a .ni{font-size:20px;display:block;margin-bottom:2px;}
+  .mnav a.on{color:var(--brand);font-weight:700;}
+  .toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(35,40,31,.9);color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:99;max-width:80vw;text-align:center;}
+
+  /* ═══ 响应式 ═══ */
+  @media (max-width:960px){
+    .grid,.sgrid{grid-template-columns:repeat(2,1fr);}
+    .quick{grid-template-columns:1fr;}
+    .hero-box{padding:38px 34px;}
+    .hero h1{font-size:34px;}
+    .hd-nav{display:none;}
+    .hero-art{width:170px;right:10px;}
+    .hero-note{right:150px;}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 18px;}
+    body{padding-bottom:86px;}
+    .hero-box{flex-direction:column;align-items:flex-start;padding:32px 24px;}
+    .hero h1{font-size:27px;}
+    .hero-r{width:100%;min-height:190px;}
+    .hero-art{width:130px;right:16px;top:46%;}
+    .hero-note{right:auto;left:8px;bottom:-4px;}
+    .hero-c1{top:16px;right:18px;}
+    .hero-c2{display:none;}
+    .search{width:100%;}
+    .grid,.sgrid{grid-template-columns:1fr;}
+    .hd-act .act-fav span{display:none;}
+    .cart-panel{right:12px;left:12px;width:auto;}
+    .statline{flex-direction:column;gap:4px;}
+    .wealth-box{padding:30px 24px;}
+    .wealth-box h2{font-size:24px;}
+    .soon-head h2,.find-head h2{font-size:24px;}
+    .mnav{display:flex;}
+  }
+  @media (min-width:641px){ .mnav{display:none;} body{padding-bottom:0;} }
 </style>
 </head>
 <body>
-  <div class="top"><div class="brand">🌱 发芽<i>搭子</i></div><div style="font-size:18px">🔍</div></div>
 
-  <div class="hero">
-    <h1>人生很复杂，<br>你不用<span>一个人扛</span>。</h1>
-    <p>找一个搭子，陪你发芽。<br>不要求你一次改变很多，做一件就很好。</p>
-    <button class="cta" onclick="location.href='v3-store.html'">找到我的搭子 →</button>
+  <!-- ═══ 顶部导航 ═══ -->
+  <header class="hd">
+    <div class="hd-in">
+      <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <div class="logo-ic">
+          <svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M10 17V9" stroke="#3E5C46" stroke-width="1.6" stroke-linecap="round"/><path d="M10 9C10 5.5 7.5 3.5 4 3.5C4 7 6.5 9 10 9Z" stroke="#3E5C46" stroke-width="1.5" fill="#DCE7D2"/><path d="M10 11.5C10 8.8 12 7 15 7C15 9.8 13 11.5 10 11.5Z" stroke="#3E5C46" stroke-width="1.5" fill="#DCE7D2"/></svg>
+        </div>
+        <div class="logo-tx"><b>搭子馆<sup>V2</sup></b><i>SLIM PARTNER</i></div>
+      </div>
+      <nav class="hd-nav">
+        <a class="on" id="nvFind">发现搭子</a>
+        <a id="nvMine">我的搭子</a>
+        <a id="nvSoon">预约上新</a>
+      </nav>
+      <div class="hd-act">
+        <button class="act-fav" id="favBtn">♡ <span>收藏</span></button>
+        <button class="cart-btn" id="cartBtn">🛍 体验车 <span class="cart-n" id="cartN">0</span></button>
+      </div>
+    </div>
+  </header>
+  <div class="cart-panel" id="cartPanel">
+    <h4>🛍 我的体验车</h4>
+    <div id="cartList"></div>
   </div>
 
-  <div class="sec">
-    <div class="resume" id="resume">
-      <div style="font-size:12px;color:var(--brand);font-weight:700">🌱 继续我的搭子</div>
-      <div class="r-name" id="rName"></div>
-      <div class="r-sub" id="rSub"></div>
-      <button class="r-cta" id="rGo">继续今天 →</button>
+  <!-- ═══ Hero ═══ -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-box">
+        <div class="hero-l">
+          <div class="caps">SLIM PARTNER · 给生活一个搭子</div>
+          <h1>想变好的事，<br>有个搭子陪着做。</h1>
+          <p>照顾身心、经营事业、走近关系、长成自己。<br>从今天的一小步，开始就好。</p>
+          <button class="hero-cta" onclick="location.href='v3-store.html'">找个搭子 ↗</button>
+        </div>
+        <div class="hero-r">
+          <div class="hero-c1 caps">A LITTLE, EVERY DAY / 01</div>
+          <svg class="hero-art" viewBox="0 0 230 240" fill="none">
+            <ellipse cx="115" cy="218" rx="72" ry="10" fill="#D8E2C8" opacity=".7"/>
+            <path d="M85 168 H145 L138 212 C137 217 133 220 128 220 H102 C97 220 93 217 92 212 Z" fill="#F4F2E9" stroke="#3E5C46" stroke-width="2"/>
+            <path d="M80 160 H150" stroke="#3E5C46" stroke-width="2" stroke-linecap="round"/>
+            <path d="M115 160 V96" stroke="#3E5C46" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M115 104 C115 70 88 52 55 52 C55 86 82 104 115 104 Z" fill="#DCE7D2" stroke="#3E5C46" stroke-width="2"/>
+            <path d="M115 88 C115 62 136 46 165 46 C165 74 144 88 115 88 Z" fill="#EAF0DF" stroke="#3E5C46" stroke-width="2"/>
+            <path d="M115 126 C100 126 90 118 86 106" stroke="#3E5C46" stroke-width="1.8" stroke-linecap="round" opacity=".55"/>
+            <circle cx="178" cy="30" r="3.5" fill="#B9C8A6"/>
+            <circle cx="42" cy="120" r="2.5" fill="#B9C8A6"/>
+            <circle cx="196" cy="96" r="2.5" fill="#CBD8B8"/>
+          </svg>
+          <div class="hero-note"><b>每天一小步</b><i>慢慢来，但已经在跑。</i></div>
+          <div class="hero-c2 caps">GROW AT YOUR OWN PACE</div>
+        </div>
+      </div>
+      <div class="statline">
+        <span id="statL"></span>
+        <span>不必很用力，只要往前一点。</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 保留区：继续我的搭子 + 情绪入口（原第 5 图内容） ═══ -->
+  <section class="mine" id="mine">
+    <div class="wrap">
+      <div class="resume" id="resume">
+        <div class="r-tag">🌱 继续我的搭子</div>
+        <div class="r-name" id="rName"></div>
+        <div class="r-sub" id="rSub"></div>
+        <button class="r-cta" id="rGo">继续今天 →</button>
+      </div>
+
+      <div class="mine-t">你现在更接近哪种状态？</div>
+      <div class="needs" id="needs"></div>
+      <div class="pnote">按你现在的感觉挑，不按分类挑 —— 同一个搭子可以在好几个分类里。</div>
+    </div>
+  </section>
+
+  <!-- ═══ 找搭子 ═══ -->
+  <section class="find" id="find">
+    <div class="wrap">
+      <div class="find-head">
+        <div>
+          <div class="caps">FIND YOUR PARTNER</div>
+          <h2>你想从哪里开始？</h2>
+          <div class="fh-sub">挑一个，最近此刻的你。</div>
+        </div>
+        <div class="search">🔍<input id="q" placeholder="搜搭子，或此刻的困扰"><span class="s-clear" id="qClear" style="display:none;cursor:pointer;color:#B9BEB9;font-size:14px;">✕</span></div>
+      </div>
+      <div class="cats" id="cats"></div>
+      <div class="toolbar">
+        <div class="sorts">
+          <button class="sort on" id="sortRec">为你推荐</button>
+          <button class="sort" id="sortCat">目录排序</button>
+        </div>
+        <div class="gcount" id="gCount"></div>
+      </div>
+      <div class="grid" id="grid"></div>
+      <div class="expand-row"><button class="expand" id="expandBtn"></button></div>
+    </div>
+  </section>
+
+  <!-- ═══ 五大财富 ═══ -->
+  <section class="wealth" id="wealth">
+    <div class="wrap">
+      <div class="wealth-box">
+        <div>
+          <div class="caps">THE FIVE WEALTHS</div>
+          <h2>好的人生，不止一种富足。</h2>
+          <div class="w-sub">把身体、财务、精神、关系和使命，一起照顾好。</div>
+        </div>
+        <div class="wealth-pills" id="wealthPills"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 即将见面 ═══ -->
+  <section class="soon" id="soon">
+    <div class="wrap">
+      <div class="soon-head">
+        <div>
+          <div class="caps">SOMETHING TO LOOK FORWARD TO</div>
+          <h2>下一位搭子，即将见面。</h2>
+        </div>
+        <button class="soon-link" id="waitLink">查看预约 ↗</button>
+      </div>
+      <div class="sgrid" id="sgrid"></div>
+    </div>
+  </section>
+
+  <!-- ═══ 快捷入口 ═══ -->
+  <div class="wrap">
+    <div class="quick">
+      <div class="qk" onclick="location.href='休息一下.html'"><span class="qk-arrow">↗</span><b>休息一下</b><i>把三分钟，留给自己。</i></div>
+      <div class="qk" onclick="toast('使用指南即将上线 · 先随便逛逛吧')"><span class="qk-arrow">↗</span><b>使用指南</b><i>找到适合自己的开始。</i></div>
+      <div class="qk" onclick="toast('成长卡片即将上线 · 敬请期待')"><span class="qk-arrow">↗</span><b>成长卡片</b><i>把每一小步，好好留下。</i></div>
     </div>
   </div>
 
-  <div class="sec">
-    <div class="sec-t">你现在更接近哪种状态？</div>
-    <div class="needs" id="needs"></div>
-    <div class="pnote">按你现在的感觉挑，不按分类挑 —— 同一个搭子可以在好几个分类里。</div>
-  </div>
-
-  <div class="sec" id="style">
-    <div class="sec-t">你希望搭子怎么陪你？</div>
-    <div class="pgrid" id="pgrid"></div>
-    <div class="pnote">选择会记住，对所有搭子生效。</div>
-  </div>
-
-  <div class="sec">
-    <div class="sec-t">每个搭子都会这样陪你</div>
-    <div class="how">
-      <div class="how-i"><span class="hi2">🌱</span><div><b>每天只给你几个小行动</b><i>不要求一次改变很多，做一件就很好。</i></div></div>
-      <div class="how-i"><span class="hi2">💬</span><div><b>卡住的时候陪你聊</b><i>不是催你，而是一起找到真正的阻力。</i></div></div>
-      <div class="how-i"><span class="hi2">📈</span><div><b>帮你看见自己的变化</b><i>把过去几天真实发生的改变告诉你。</i></div></div>
+  <!-- ═══ 页脚 ═══ -->
+  <footer>
+    <div class="ft-in">
+      <div class="ft-l">
+        <b>搭子馆</b><i>SLIM PARTNER</i>
+        <div class="ft-links"><span onclick="toast('使用指南即将上线')">使用指南</span><span onclick="toast('「我的记录」即将上线')">我的记录</span></div>
+      </div>
+      <div class="ft-r">不必一下变好，先有一个搭子。<br>每一小步，都算数。</div>
     </div>
-  </div>
+  </footer>
 
-  <div class="sec">
-    <div class="sec-t">为你精选</div>
-    <div class="cards" id="cards"></div>
-    <button class="all" onclick="location.href='v3-store.html'">查看全部搭子 →</button>
-  </div>
-
-  <div class="sec" id="sprout"></div>
-
-  <footer>慢慢来，比较快 · 发芽搭子</footer>
-
-  <div class="nav">
+  <!-- 移动端底部导航 -->
+  <div class="mnav">
     <a class="on" href="v3-home.html"><span class="ni">🏠</span>首页</a>
     <a href="v3-store.html"><span class="ni">✨</span>找搭子</a>
     <a href="index.html"><span class="ni">☀️</span>今日</a>
-    <a href="javascript:soon()"><span class="ni">👤</span>我的</a>
+    <a href="javascript:toast('「我的」即将上线')"><span class="ni">👤</span>我的</a>
   </div>
   <div class="toast" id="toast"></div>
 
@@ -132,31 +368,279 @@
 <script>
 (function(){
   var V = window.V3;
-  /* 情绪入口：按「你现在的状态」找搭子，而不是按品类 */
-  document.getElementById('needs').innerHTML = V.moods.map(function(n){
-    return '<div class="need" data-n="' + n.key + '">' + n.emoji + ' ' + n.label + '</div>';
+  var WEALTH_IDS = ['bodywealth', 'finance', 'spirit', 'relwealth', 'mission'];
+  var LIMIT = 8;
+  var state = { cat:'all', kw:'', sort:'rec', expanded:false, favOnly:false };
+
+  function lsGet(k, d){ try { var v = JSON.parse(localStorage.getItem(k) || 'null'); return v == null ? d : v; } catch(e){ return d; } }
+  function lsSet(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  var favs = lsGet('v3_fav', []);
+  var cart = lsGet('v3_cart', []);
+
+  var live = V.partners.filter(function(p){ return !p.soon; });
+  var soonList = V.partners.filter(function(p){ return p.soon; });
+
+  /* ── 极简线性图标（参考设计稿 duotone 风格）── */
+  var G_OPEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">';
+  var GLYPH = {
+    sleep: '<path d="M19.5 14A8 8 0 1 1 10 4.5 6.3 6.3 0 0 0 19.5 14Z"/>',
+    slim: '<path d="M12 20v-7"/><path d="M12 13C12 9.5 9.5 7.5 6 7.5c0 3.5 2.5 5.5 6 5.5Z"/><path d="M12 11c0-2.6 2-4.2 5-4.2 0 2.8-2 4.2-5 4.2Z"/>',
+    health: '<path d="M12 4l7 2.4V12c0 4.4-2.9 7.4-7 8.4-4.1-1-7-4-7-8.4V6.4Z"/>',
+    bodyfriend: '<circle cx="9" cy="12" r="4.2"/><circle cx="15" cy="12" r="4.2"/>',
+    muscle: '<path d="M7.5 8v8M5 9.8v4.4M16.5 8v8M19 9.8v4.4M7.5 12h9"/>',
+    bodywealth: '<path d="M12 19.5S5.5 15.3 5.5 10.4A3.7 3.7 0 0 1 12 8a3.7 3.7 0 0 1 6.5 2.4c0 4.9-6.5 9.1-6.5 9.1Z"/>',
+    state: '<circle cx="12" cy="12" r="3.6"/><path d="M12 3.5V6M12 18v2.5M3.5 12H6M18 12h2.5M6 6l1.7 1.7M16.3 16.3 18 18M18 6l-1.7 1.7M7.7 16.3 6 18"/>',
+    mindset: '<path d="M7 16.5h9.2a3.6 3.6 0 0 0 .7-7.1A5.2 5.2 0 0 0 6.7 9.3 3.3 3.3 0 0 0 7 16.5Z"/>',
+    morning: '<path d="M6.5 15.5a5.5 5.5 0 0 1 11 0"/><path d="M12 5.5V8M5 9.5 6.8 11M19 9.5 17.2 11M3.5 15.5H5M19 15.5h1.5M8 19h8"/>',
+    image: '<path d="M12 4.5 13.6 9l4.4 1.5-4.4 1.5L12 16.5l-1.6-4.5L6 10.5 10.4 9Z"/><path d="m18.5 15.5.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7Z"/>',
+    rest: '<path d="M5 9h10.5v5.5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4Z"/><path d="M15.5 10h1.8a2.2 2.2 0 0 1 0 4.4h-1.8"/>',
+    p78: '<path d="M4 20h5.5v-5H15v-5h5.5"/>',
+    owner: '<circle cx="12" cy="12" r="8"/><path d="m15 9-1.8 4.2L9 15l1.8-4.2Z"/>',
+    leader: '<path d="M6.5 20V5"/><path d="M6.5 5.5H17l-2.6 3.5L17 12.5H6.5"/>',
+    startup: '<path d="M12 3.5c2.8 1.6 4.2 4.3 4.2 7.7L13.6 14h-3.2L7.8 11.2c0-3.4 1.4-6.1 4.2-7.7Z"/><path d="m9 16.5-1.2 3.5 3-1.6M15 16.5l1.2 3.5-3-1.6"/><circle cx="12" cy="9" r="1.3"/>',
+    aiopc: '<path d="M4.5 7.5h15M4.5 12h15M4.5 16.5h15"/><circle cx="9" cy="7.5" r="1.5" fill="currentColor"/><circle cx="15" cy="12" r="1.5" fill="currentColor"/><circle cx="10.5" cy="16.5" r="1.5" fill="currentColor"/>',
+    silver: '<path d="M6.5 15.5a5.5 5.5 0 0 1 11 0"/><path d="M3.5 19h17M12 5V3.2M6.2 7.2 4.9 5.9M17.8 7.2l1.3-1.3"/>',
+    finance: '<circle cx="12" cy="12" r="8"/><path d="m9 7.5 3 4 3-4M12 11.5V17M9.5 13h5M9.5 15h5"/>',
+    breakup: '<path d="M12 4a8.5 8.5 0 0 1 8.5 8.5h-17A8.5 8.5 0 0 1 12 4Z"/><path d="M12 12.5V19a1.8 1.8 0 0 0 3.6 0"/>',
+    peidu: '<path d="M12 6.5C10.5 5 8.5 4.5 5 4.5v13c3.5 0 5.5.5 7 2 1.5-1.5 3.5-2 7-2v-13c-3.5 0-5.5.5-7 2Z"/><path d="M12 6.5v13"/>',
+    family: '<path d="m4.5 11 7.5-6.5L19.5 11"/><path d="M6.5 9.8V19h11V9.8"/><path d="M10 19v-4.5h4V19"/>',
+    fujiaoyu: '<path d="m4.5 9.5 7.5-5 7.5 5"/><path d="M5.5 10v8M10 10v8M14 10v8M18.5 10v8M3.5 18h17"/>',
+    happiness: '<circle cx="12" cy="12" r="2"/><path d="M12 10c0-2.4-1.2-3.8-3.2-4 .2 2 .9 3.4 3.2 4ZM14 12c2.4 0 3.8-1.2 4-3.2-2 .2-3.4.9-4 3.2ZM12 14c0 2.4 1.2 3.8 3.2 4-.2-2-.9-3.4-3.2-4ZM10 12c-2.4 0-3.8 1.2-4 3.2 2-.2 3.4-.9 4-3.2Z"/>',
+    guanxi: '<path d="M4 5.5h11v7.5H9l-5 3.5Z"/><path d="M15 9h5v7.5l-4-3h-1"/>',
+    relwealth: '<path d="M9 15.5s-4.5-3-4.5-6.2A2.6 2.6 0 0 1 9 7.6a2.6 2.6 0 0 1 4.5 1.7C13.5 12.5 9 15.5 9 15.5Z"/><path d="M15.5 18s-3.4-2.3-3.4-4.7a2 2 0 0 1 3.4-1.4 2 2 0 0 1 3.4 1.4c0 2.4-3.4 4.7-3.4 4.7Z"/>',
+    cognition: '<circle cx="6" cy="6.5" r="2"/><circle cx="18" cy="6.5" r="2"/><circle cx="12" cy="17.5" r="2"/><path d="M7.8 7.6 10.4 15.8M16.2 7.6 13.6 15.8M8 6.5h8"/>',
+    fuzhixing: '<path d="m12 4 8 4.5-8 4.5-8-4.5Z"/><path d="m4.5 13 7.5 4.2L19.5 13"/>',
+    ai: '<rect x="6.5" y="6.5" width="11" height="11" rx="2"/><rect x="10" y="10" width="4" height="4"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3M7 3.5v3M17 3.5v3M7 17.5v3M17 17.5v3"/>',
+    longterm: '<path d="M7 4.5h10M7 19.5h10M8.5 4.5c0 3.6 3 4.6 3.5 7.5-.5 2.9-3.5 3.9-3.5 7.5M15.5 4.5c0 3.6-3 4.6-3.5 7.5.5 2.9 3.5 3.9 3.5 7.5"/>',
+    spirit: '<path d="M18.5 6c-5.5-.5-9.5 2.5-10.5 8l-2.5 4"/><path d="M18.5 6c.8 4.5-1.8 8.5-7 9.5"/>',
+    discipline: '<path d="m3.5 19 6.5-12 3.5 6.2L16 9.5l4.5 9.5Z"/>',
+    subject: '<circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="3.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/>',
+    restart40: '<circle cx="12" cy="12" r="8"/><path d="M12 15.5v-7M8.8 11.7 12 8.5l3.2 3.2"/>',
+    mission: '<path d="m12 4 2 4.8 5.2.5-3.9 3.4 1.1 5.1L12 15.2 7.6 17.8l1.1-5.1L4.8 9.3 10 8.8Z"/>'
+  };
+  function glyph(id){ return GLYPH[id] ? G_OPEN + GLYPH[id] + '</svg>' : ''; }
+
+  /* ── 统计行 ── */
+  document.getElementById('statL').textContent =
+    live.length + ' 个搭子 · ' + soonList.length + ' 个正在发芽 · 按自己的节奏来';
+
+  /* ── 顶部导航锚点 ── */
+  document.getElementById('nvFind').onclick = function(){ document.getElementById('find').scrollIntoView({behavior:'smooth'}); };
+  document.getElementById('nvMine').onclick = function(){ document.getElementById('mine').scrollIntoView({behavior:'smooth'}); };
+  document.getElementById('nvSoon').onclick = function(){ document.getElementById('soon').scrollIntoView({behavior:'smooth'}); };
+
+  /* ── 收藏（筛选） ── */
+  var favBtn = document.getElementById('favBtn');
+  favBtn.onclick = function(){
+    state.favOnly = !state.favOnly;
+    favBtn.classList.toggle('on', state.favOnly);
+    favBtn.innerHTML = (state.favOnly ? '♥' : '♡') + ' <span>收藏' + (state.favOnly ? '中' : '') + '</span>';
+    render();
+    if (state.favOnly && favs.length === 0) toast('还没有收藏 · 点卡片右上角的 ♡ 就行');
+  };
+
+  /* ── 体验车 ── */
+  var cartPanel = document.getElementById('cartPanel');
+  function syncCart(){
+    document.getElementById('cartN').textContent = cart.length;
+    var list = document.getElementById('cartList');
+    if (!cart.length) { list.innerHTML = '<div class="cart-empty">体验车是空的。<br>挑几个搭子放进来，准备好了一起开始。</div>'; return; }
+    list.innerHTML = cart.map(function(id){
+      var p = V.partnerById(id); if (!p) return '';
+      return '<div class="cart-it"><span class="ci">' + p.icon + '</span><span class="cn" data-go="' + p.id + '">' + p.name + '</span><button class="cx" data-rm="' + p.id + '">移除</button></div>';
+    }).join('');
+  }
+  document.getElementById('cartBtn').onclick = function(e){
+    e.stopPropagation();
+    cartPanel.classList.toggle('show');
+    syncCart();
+  };
+  document.addEventListener('click', function(e){
+    if (cartPanel.classList.contains('show') && !cartPanel.contains(e.target)) cartPanel.classList.remove('show');
+  });
+  cartPanel.addEventListener('click', function(e){
+    var rm = e.target.getAttribute('data-rm');
+    if (rm) {
+      cart.splice(cart.indexOf(rm), 1); lsSet('v3_cart', cart); syncCart(); render();
+      toast('已移出体验车');
+      return;
+    }
+    var go = e.target.getAttribute('data-go');
+    if (go) location.href = 'v3-detail.html?id=' + go;
+  });
+  function toggleCart(id, btn){
+    var i = cart.indexOf(id);
+    if (i >= 0) { cart.splice(i, 1); toast('已移出体验车'); }
+    else { cart.push(id); toast('已加入体验车 · 准备好就开始'); }
+    lsSet('v3_cart', cart);
+    syncCart();
+    if (btn) {
+      var on = cart.indexOf(id) >= 0;
+      btn.classList.toggle('on', on);
+      btn.textContent = on ? '✓ 已在体验车' : '+ 加入体验车';
+    }
+  }
+
+  /* ── 分类 pills ── */
+  var catDefs = [
+    { key:'all', label:'全部搭子' }, { key:'bm', label:'身心' }, { key:'money', label:'搞钱' },
+    { key:'rel', label:'关系' }, { key:'self', label:'自我' }, { key:'wealth', label:'五大财富' }
+  ];
+  var catsEl = document.getElementById('cats');
+  catsEl.innerHTML = catDefs.map(function(c){
+    return '<button class="cat' + (c.key === 'all' ? ' on' : '') + '" data-c="' + c.key + '">' + c.label + '</button>';
   }).join('');
-  document.getElementById('needs').addEventListener('click', function(e){
+  catsEl.addEventListener('click', function(e){
+    var b = e.target.closest('[data-c]'); if (!b) return;
+    state.cat = b.getAttribute('data-c');
+    catsEl.querySelectorAll('.cat').forEach(function(x){ x.classList.toggle('on', x === b); });
+    render();
+  });
+
+  /* ── 排序 ── */
+  var sortRec = document.getElementById('sortRec'), sortCat = document.getElementById('sortCat');
+  sortRec.onclick = function(){ state.sort = 'rec'; sortRec.classList.add('on'); sortCat.classList.remove('on'); render(); };
+  sortCat.onclick = function(){ state.sort = 'cat'; sortCat.classList.add('on'); sortRec.classList.remove('on'); render(); };
+
+  /* ── 搜索 ── */
+  var qEl = document.getElementById('q'), qClear = document.getElementById('qClear');
+  var timer = null;
+  qEl.addEventListener('input', function(e){
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      state.kw = e.target.value.trim();
+      qClear.style.display = state.kw ? 'block' : 'none';
+      render();
+    }, 140);
+  });
+  qClear.onclick = function(){ qEl.value = ''; state.kw = ''; qClear.style.display = 'none'; render(); };
+
+  /* ── 卡片 ── */
+  function hay(p){
+    return (p.name + p.promise + p.short.join('') + p.problems.join('') +
+      (p.tags || []).join('') + (p.alias || '') +
+      V.catOf(p.cat).label + V.subLabel(p.cat, p.sub)).toLowerCase();
+  }
+  function inCat(p){
+    if (state.cat === 'all') return true;
+    if (state.cat === 'wealth') return WEALTH_IDS.indexOf(p.id) >= 0;
+    return p.cat === state.cat;
+  }
+  function pool(){
+    var arr = live.filter(function(p){
+      if (!inCat(p)) return false;
+      if (state.favOnly && favs.indexOf(p.id) < 0) return false;
+      if (state.kw) {
+        var ws = state.kw.toLowerCase().split(/\s+/);
+        var h = hay(p);
+        for (var i = 0; i < ws.length; i++) if (h.indexOf(ws[i]) < 0) return false;
+      }
+      return true;
+    });
+    if (state.sort === 'rec' && !state.kw) {
+      arr.sort(function(a, b){
+        var ia = V.featured.indexOf(a.id), ib = V.featured.indexOf(b.id);
+        return (ia >= 0 ? ia : 99) - (ib >= 0 ? ib : 99);
+      });
+    }
+    return arr;
+  }
+  function cardHTML(p){
+    var f = favs.indexOf(p.id) >= 0, c = cart.indexOf(p.id) >= 0;
+    return '<div class="pcard" data-id="' + p.id + '">' +
+      '<div class="pc-top"><div class="pic">' + (glyph(p.id) || p.icon) + '</div>' +
+      '<button class="fav' + (f ? ' on' : '') + '" data-fav="' + p.id + '">' + (f ? '♥' : '♡') + '</button></div>' +
+      '<div class="pname">' + p.name + (p.badge ? '<span class="bdg">' + p.badge + '</span>' : '') + '</div>' +
+      '<div class="ppromise">' + p.promise + '</div>' +
+      '<div class="prow"><span class="ptry">免费体验 3 分钟 ↗</span>' +
+      '<button class="pcart' + (c ? ' on' : '') + '" data-cart="' + p.id + '">' + (c ? '✓ 已在体验车' : '+ 加入体验车') + '</button></div></div>';
+  }
+  var gridEl = document.getElementById('grid'), expandBtn = document.getElementById('expandBtn');
+  function render(){
+    var arr = pool();
+    var limited = !state.kw && !state.favOnly && state.cat === 'all' && !state.expanded && arr.length > LIMIT;
+    var show = limited ? arr.slice(0, LIMIT) : arr;
+    gridEl.innerHTML = show.length
+      ? show.map(cardHTML).join('')
+      : '<div class="gnone">没有匹配的搭子。<br>换个词试试，或者去「你现在更接近哪种状态」按感觉挑。</div>';
+    document.getElementById('gCount').textContent =
+      state.kw ? ('找到 ' + arr.length + ' / ' + live.length + ' 个搭子')
+      : (limited ? ('精选 ' + LIMIT + ' / ' + arr.length + ' 个搭子') : (arr.length + ' / ' + live.length + ' 个搭子'));
+    expandBtn.style.display = (state.kw || state.cat !== 'all' || state.favOnly || arr.length <= LIMIT) ? 'none' : 'block';
+    expandBtn.textContent = state.expanded ? '收起 ↑' : ('展开全部 ' + arr.length + ' 个搭子 ↓');
+  }
+  expandBtn.onclick = function(){ state.expanded = !state.expanded; render(); };
+
+  gridEl.addEventListener('click', function(e){
+    var favEl = e.target.closest('[data-fav]');
+    if (favEl) {
+      var fid = favEl.getAttribute('data-fav');
+      var fi = favs.indexOf(fid);
+      if (fi >= 0) { favs.splice(fi, 1); favEl.textContent = '♡'; favEl.classList.remove('on'); toast('已取消收藏'); }
+      else { favs.push(fid); favEl.textContent = '♥'; favEl.classList.add('on'); toast('已收藏 · 点顶部「收藏」随时找到'); }
+      lsSet('v3_fav', favs);
+      e.stopPropagation();
+      return;
+    }
+    var cEl = e.target.closest('[data-cart]');
+    if (cEl) { toggleCart(cEl.getAttribute('data-cart'), cEl); e.stopPropagation(); return; }
+    var card = e.target.closest('.pcard');
+    if (card) location.href = 'v3-detail.html?id=' + card.getAttribute('data-id');
+  });
+
+  /* ── 五大财富 ── */
+  var WEALTH_LABEL = { bodywealth:'身体财富', finance:'财务财富', spirit:'精神财富', relwealth:'关系财富', mission:'使命财富' };
+  document.getElementById('wealthPills').innerHTML = WEALTH_IDS.map(function(id){
+    var p = V.partnerById(id); if (!p) return '';
+    return '<button class="wpill" data-w="' + id + '">' + WEALTH_LABEL[id] + ' ↗</button>';
+  }).join('');
+  document.getElementById('wealthPills').addEventListener('click', function(e){
+    var b = e.target.closest('[data-w]'); if (!b) return;
+    location.href = 'v3-detail.html?id=' + b.getAttribute('data-w');
+  });
+
+  /* ── 即将见面（预约 = v3_wait，与详情页互通） ── */
+  var wait = lsGet('v3_wait', []);
+  var sgrid = document.getElementById('sgrid');
+  function soonHTML(p){
+    var on = wait.indexOf(p.id) >= 0;
+    return '<div class="scard" data-id="' + p.id + '">' +
+      '<div class="s-caps">COMING SOON · ' + V.catOf(p.cat).label + ' · ' + V.subLabel(p.cat, p.sub) + '</div>' +
+      '<h3>' + p.name + '</h3><div class="s-d">' + p.promise + '</div>' +
+      '<button class="sbtn' + (on ? ' on' : '') + '" data-wait="' + p.id + '">' + (on ? '已预约 ✓' : '预约上新') + '</button></div>';
+  }
+  sgrid.innerHTML = soonList.map(soonHTML).join('');
+  sgrid.addEventListener('click', function(e){
+    var b = e.target.closest('[data-wait]');
+    if (b) {
+      var pid = b.getAttribute('data-wait');
+      var i = wait.indexOf(pid);
+      if (i >= 0) { wait.splice(i, 1); b.textContent = '预约上新'; b.classList.remove('on'); toast('已取消预约'); }
+      else { wait.push(pid); b.textContent = '已预约 ✓'; b.classList.add('on'); toast('记住了 · 发芽后第一个告诉你 🌱'); }
+      lsSet('v3_wait', wait);
+      e.stopPropagation();
+      return;
+    }
+    var card = e.target.closest('.scard');
+    if (card) location.href = 'v3-detail.html?id=' + card.getAttribute('data-id');
+  });
+  document.getElementById('waitLink').onclick = function(){
+    toast(wait.length ? ('已预约 ' + wait.length + ' 个搭子 · 发芽后第一个告诉你') : '还没有预约 · 看「下一位搭子」挑一个');
+  };
+
+  /* ── 保留区：情绪入口 ── */
+  var needsEl = document.getElementById('needs');
+  needsEl.innerHTML = V.moods.map(function(n){
+    return '<button class="need" data-n="' + n.key + '">' + n.emoji + ' ' + n.label + '</button>';
+  }).join('');
+  needsEl.addEventListener('click', function(e){
     var el = e.target.closest('.need'); if (!el) return;
     location.href = 'v3-store.html?mood=' + el.getAttribute('data-n');
   });
-  /* 精选 3 个 */
-  var feat = V.featured.slice(0, 3).map(V.partnerById).filter(Boolean);
-  document.getElementById('cards').innerHTML = feat.map(function(p){
-    return '<div class="card" data-id="' + p.id + '">' +
-      '<span class="c-go">了解一下 →</span>' +
-      '<div class="c-head"><div class="c-icon">' + p.icon + '</div>' +
-      '<div><span class="c-name">' + p.name + '</span>' + (p.badge ? '<span class="c-badge">' + p.badge + '</span>' : '') + '</div></div>' +
-      '<div class="c-promise">' + p.promise + '</div>' +
-      '<div class="c-meta">' + p.duration + ' · ' + p.dailyTime + '</div></div>';
-  }).join('');
-  document.getElementById('cards').addEventListener('click', function(e){
-    var el = e.target.closest('.card'); if (!el) return;
-    location.href = 'v3-detail.html?id=' + el.getAttribute('data-id');
-  });
-  /* 继续我的搭子（最近开启过的） */
+
+  /* ── 保留区：继续我的搭子 ── */
   try {
-    var last = JSON.parse(localStorage.getItem('v3_mine') || 'null');
+    var last = lsGet('v3_mine', null);
     if (last && last.id) {
       var p = V.partnerById(last.id);
       if (p) {
@@ -168,64 +652,15 @@
       }
     }
   } catch (e) {}
-  /* 🌱 发芽中：还没长出来的搭子，可以预约 */
-  var sprouts = V.partners.filter(function(p){ return p.soon; });
-  var spBox = document.getElementById('sprout');
-  if (sprouts.length) {
-    var wait = [];
-    try { wait = JSON.parse(localStorage.getItem('v3_wait') || '[]'); } catch (e) {}
-    spBox.innerHTML = '<div class="sec-t">🌱 正在发芽的搭子</div>' +
-      '<div class="sprow">' + sprouts.map(function(p){
-        var on = wait.indexOf(p.id) >= 0;
-        return '<div class="sp" data-id="' + p.id + '"><div class="sp-i">' + p.icon + '</div>' +
-          '<div class="sp-b"><div class="sp-n">' + p.name + '</div><div class="sp-p">' + p.promise + '</div></div>' +
-          '<div class="sp-btn' + (on ? ' on' : '') + '" data-w="' + p.id + '">' + (on ? '已预约 ✓' : '提醒我') + '</div></div>';
-      }).join('') + '</div>';
-    spBox.addEventListener('click', function(e){
-      var btn = e.target.closest('.sp-btn');
-      if (btn) {
-        var pid = btn.getAttribute('data-w');
-        var arr = [];
-        try { arr = JSON.parse(localStorage.getItem('v3_wait') || '[]'); } catch (err) {}
-        var i = arr.indexOf(pid);
-        if (i >= 0) { arr.splice(i, 1); btn.textContent = '提醒我'; btn.classList.remove('on'); toast('已取消提醒'); }
-        else { arr.push(pid); btn.textContent = '已预约 ✓'; btn.classList.add('on'); toast('记住了 · 发芽后第一个告诉你 🌱'); }
-        try { localStorage.setItem('v3_wait', JSON.stringify(arr)); } catch (err) {}
-        return;
-      }
-      var card = e.target.closest('.sp');
-      if (card) location.href = 'v3-detail.html?id=' + card.getAttribute('data-id');
-    });
-  }
-
-  /* 陪伴风格（全局，存 v3_mine.style，详情页/搭子页读取） */
-  var savedStyle = 'gentle';
-  try { var m0 = JSON.parse(localStorage.getItem('v3_mine') || '{}'); if (m0.style) savedStyle = m0.style; } catch (e) {}
-  var pg = document.getElementById('pgrid');
-  pg.innerHTML = V.personalities.map(function(x){
-    return '<div class="per' + (x.key === savedStyle ? ' on' : '') + '" data-k="' + x.key + '"><div class="pn">' + x.emoji + ' ' + x.name + '</div><div class="pq">“' + x.quote + '”</div></div>';
-  }).join('');
-  pg.addEventListener('click', function(e){
-    var el = e.target.closest('.per'); if (!el) return;
-    pg.querySelectorAll('.per').forEach(function(x){ x.classList.remove('on'); });
-    el.classList.add('on');
-    try {
-      var m = {};
-      try { m = JSON.parse(localStorage.getItem('v3_mine') || '{}') || {}; } catch (err) {}
-      m.style = el.getAttribute('data-k');
-      localStorage.setItem('v3_mine', JSON.stringify(m));
-    } catch (err) {}
-    toast('记住了 · 以后搭子都按这个风格陪你');
-  });
 
   function toast(msg){
     var t = document.getElementById('toast');
     t.textContent = msg; t.style.opacity = '1';
-    clearTimeout(t._m); t._m = setTimeout(function(){ t.style.opacity = '0'; }, 1500);
+    clearTimeout(t._m); t._m = setTimeout(function(){ t.style.opacity = '0'; }, 1600);
   }
-  window.soon = function(){
-    toast('「我的」即将上线 · 敬请期待');
-  };
+
+  render();
+  syncCart();
 })();
 </script>
 </body>
