@@ -16,6 +16,7 @@ button,input,textarea{font:inherit;color:inherit} button{cursor:pointer} .app{wi
 .search{height:54px;border:1px solid var(--line);background:var(--paper);border-radius:18px;display:flex;align-items:center;gap:10px;padding:0 15px;box-shadow:0 6px 18px rgba(31,58,47,.025)} .search input{flex:1;border:0;outline:0;background:transparent;font-size:12px;min-width:0} .search input::placeholder{color:#969d99} .glass{font-size:17px;color:#85908a}
 .hero-copy{padding:7px 0 8px} .hero-copy h1{font-size:31px;line-height:1.18;letter-spacing:-.055em;margin:0 0 10px;max-width:365px} .hero-copy p{font-size:11.5px;line-height:1.65;color:#65716b;margin:0}
 .need-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px} .need-card{border:1px solid var(--line);background:var(--paper);border-radius:18px;padding:13px 12px;text-align:left;min-height:72px;box-shadow:0 5px 16px rgba(31,58,47,.022)} .need-card strong{display:block;font-size:12px;letter-spacing:-.02em} .need-card span{display:block;font-size:8.8px;line-height:1.45;color:var(--muted);margin-top:4px} .need-card.active{border-color:#b9c8bf;background:var(--sage)}
+.mood-row{display:flex;flex-wrap:wrap;gap:7px} .mood{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:9px 13px;font-size:11px;font-weight:700;color:var(--ink2);box-shadow:0 5px 16px rgba(31,58,47,.022)} .mood.active{background:var(--deep);color:#fff;border-color:var(--deep)} .pnote{font-size:9.5px;color:var(--muted);margin-top:9px;line-height:1.5}
 .section{padding-top:28px} .sectionhead{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:12px} .sectiontitle{font-size:20px;font-weight:880;letter-spacing:-.04em} .sectiondesc{font-size:10px;color:var(--muted);margin-top:4px} .more{border:0;background:transparent;font-size:10px;font-weight:800;color:var(--deep)}
 .reco-list{display:grid;gap:10px} .reco-card{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:22px;padding:12px;display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:12px;text-align:left;align-items:start;box-shadow:0 8px 20px rgba(31,58,47,.025)} .reco-mark{width:72px;height:82px;border-radius:17px;background:linear-gradient(145deg,#f0ede6,#edf1ed);display:grid;place-items:center} .reco-main{min-width:0} .reco-benefit{font-size:15px;line-height:1.35;font-weight:880;letter-spacing:-.035em} .reco-name{font-size:10.5px;font-weight:820;color:var(--deep);margin-top:5px} .reco-fit{font-size:8.6px;line-height:1.5;color:var(--muted);margin-top:6px} .reco-effort{font-size:8px;color:#6f7b75;margin-top:7px} .mini-add{align-self:center;border:1px solid #cdd8d1;background:var(--sage);color:var(--deep);border-radius:999px;padding:7px 9px;font-size:8.5px;font-weight:820;white-space:nowrap} .mini-add.selected{background:var(--deep);color:white;border-color:var(--deep)}
 .recent-list{display:grid;gap:10px} .recent-card{border:1px solid var(--line);background:var(--paper);border-radius:20px;padding:12px;display:grid;grid-template-columns:50px minmax(0,1fr) 30px;gap:11px;align-items:center;text-align:left} .recent-icon{width:50px;height:50px;border-radius:15px;background:var(--sage);display:grid;place-items:center} .recent-card strong{font-size:13px} .recent-card p{font-size:9px;line-height:1.45;color:var(--muted);margin:4px 0 0} .arrow{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--sage);font-weight:900}
@@ -55,8 +56,9 @@ button,input,textarea{font:inherit;color:inherit} button{cursor:pointer} .app{wi
 <div class="hero-copy"><h1>今天，最想先改变哪件事？</h1><p>不用一次改变全部。我们只陪你走下一步。</p></div>
 <div class="search"><span class="glass">⌕</span><input id="homeSearch" placeholder="睡不好、想减肥、总拖延、想晋升、关系很累……"></div>
 <div class="need-grid" id="needGrid"></div>
-<section class="section"><div class="sectionhead"><div><div class="sectiontitle" id="recoTitle">今天，可以先从这里开始</div><div class="sectiondesc" id="recoDesc">挑一个最像你现在状态的。</div></div><button class="more" data-nav="store">更多 →</button></div><div class="reco-list" id="homeReco"></div></section>
+<section class="section" id="recoSection"><div class="sectionhead"><div><div class="sectiontitle" id="recoTitle">今天，可以先从这里开始</div><div class="sectiondesc" id="recoDesc">挑一个最像你现在状态的。</div></div><button class="more" data-nav="store">更多 →</button></div><div class="reco-list" id="homeReco"></div></section>
 <section class="section" id="recentSection"><div class="sectionhead"><div><div class="sectiontitle">继续</div><div class="sectiondesc">上次到这里，今天接着来。</div></div></div><div class="recent-list" id="homeRecent"></div></section>
+<section class="section"><div class="sectionhead"><div><div class="sectiontitle">你现在更接近哪种状态？</div><div class="sectiondesc">按你现在的感觉挑，不按分类挑。</div></div></div><div class="mood-row" id="moodRow"></div><div class="pnote">按此刻的感觉挑，不按分类挑 —— 同一个搭子可以出现在好几个状态里。</div></section>
 <section class="section"><div class="sectionhead"><div><div class="sectiontitle">想改变的事，这里慢慢找</div></div></div><div class="domain-grid" id="domainGrid"></div></section>
 <section class="section"><div class="sectionhead"><div><div class="sectiontitle">最近值得慢慢看的</div></div></div><div class="series-row" id="homeSeries"></div></section>
 <section class="section"><div class="sectionhead"><div><div class="sectiontitle">即将上新</div><div class="sectiondesc">想要的搭子，先预约。</div></div></div><div class="upcoming-grid" id="upcomingGrid"></div></section>
@@ -226,7 +228,15 @@ const needPicks={
   money:['财务财富','创业搭子','AI OPC创业搭子'],
   relation:['关系力修炼搭子','家人相处搭子','关系财富'],
   breakup:['关系力修炼搭子','状态搭子','幸福力搭子'],
-  restart:['40岁重启搭子','长期主义搭子','主体性搭子']
+  restart:['40岁重启搭子','长期主义搭子','主体性搭子'],
+  m_pain:['状态搭子','心态信念搭子','幸福力搭子'],
+  m_sleep:['睡眠搭子','健康底盘搭子','晨间启动搭子'],
+  m_burn:['心态信念搭子','主体性搭子','认知思维搭子'],
+  m_work:['P7→P8','业务 Owner','领导力管理搭子'],
+  m_rel:['关系力修炼搭子','家人相处搭子','关系财富'],
+  m_dir:['40岁重启搭子','长期主义搭子','自我定义搭子'],
+  m_money:['财务财富','创业搭子','AI OPC创业搭子'],
+  m_move:['肌肉搭子','减肥搭子','和身体做朋友搭子']
 };
 
 const coreSemanticVisuals={
@@ -366,5 +376,43 @@ document.addEventListener('click',function(e){
   var p=byId(b.getAttribute('data-openfull'));
   if(p&&p.href)window.location.href=p.href;
 });
+</script>
+<script>
+(function(){
+  var MOODS=[
+    {id:'m_pain',emoji:'😞',label:'最近很痛苦',headline:'先接住今天，再谈变好',desc:'不用急着振作，先让今天稳一点。'},
+    {id:'m_sleep',emoji:'😴',label:'睡不好',headline:'先把夜晚稳下来',desc:'身体很累、脑子却停不下来时，从睡眠先开始。'},
+    {id:'m_burn',emoji:'🌀',label:'很内耗',headline:'先让复杂感受变得可处理',desc:'不是逼自己想开，是重新拿回判断和下一步。'},
+    {id:'m_work',emoji:'💼',label:'工作卡住了',headline:'让努力开始产生更大影响',desc:'从晋升、业务经营到团队，先解决最关键的卡点。'},
+    {id:'m_rel',emoji:'💔',label:'关系很累',headline:'先让重要关系少一点消耗',desc:'理解、表达和边界，都能从一次更好的互动开始。'},
+    {id:'m_dir',emoji:'🧭',label:'找不到方向',headline:'允许自己重新选择',desc:'从长期价值和主体判断里，找到下一条路线。'},
+    {id:'m_money',emoji:'💰',label:'存不下钱',headline:'把「想赚钱」变成可经营的问题',desc:'从财务秩序到创业验证，先选最贴近你阶段的一件。'},
+    {id:'m_move',emoji:'🏃',label:'想动起来',headline:'先让身体动起来',desc:'不先追求强度，先找到能重复的最低行动量。'}
+  ];
+  function paint(){
+    var row=document.getElementById('moodRow'); if(!row||typeof state==='undefined') return;
+    row.innerHTML=MOODS.map(function(m){
+      return '<button class="mood'+(state.need===m.id?' active':'')+'" data-mood="'+m.id+'">'+m.emoji+' '+m.label+'</button>';
+    }).join('');
+  }
+  var row=document.getElementById('moodRow');
+  if(row) row.addEventListener('click',function(e){
+    var b=e.target.closest('[data-mood]'); if(!b) return;
+    var id=b.getAttribute('data-mood');
+    var m=MOODS.filter(function(x){return x.id===id})[0];
+    state.need=(state.need===id)?null:id;
+    renderNeeds(); renderHomeReco();
+    if(state.need&&m){
+      document.getElementById('recoTitle').textContent=m.headline;
+      document.getElementById('recoDesc').textContent=m.desc;
+      var sec=document.getElementById('recoSection');
+      if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+    paint();
+  });
+  var ng=document.getElementById('needGrid');
+  if(ng&&window.MutationObserver) new MutationObserver(paint).observe(ng,{childList:true});
+  paint();
+})();
 </script>
 </body></html>
