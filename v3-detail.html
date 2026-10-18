@@ -130,7 +130,7 @@
 
     '<div class="sec"><h2>今天可能会这样</h2>' +
       '<div class="task-tip" id="taskTip"></div>' +
-      p.tasks.map(function(t){ return '<div class="task"><span class="tk">✓</span><span class="tt">' + t + '</span></div>'; }).join('') +
+      p.tasks.map(function(t, i){ return '<div class="task" data-i="' + i + '"><span class="tk">✓</span><span class="tt">' + t + '</span></div>'; }).join('') +
     '</div>' +
 
     '<div class="sec"><h2>陪伴风格</h2><div class="style-line" id="styleLine"></div></div>' +
@@ -213,12 +213,13 @@
   document.getElementById('stylClose').onclick = function(){ stylov.classList.remove('show'); };
   stylov.addEventListener('click', function(e){ if (e.target === stylov) stylov.classList.remove('show'); });
 
-  /* 「今天可能会这样」任务可勾选：勾选即弹出陪伴反馈（按风格差异化） */
+  /* 「今天可能会这样」任务可勾选：勾选即弹出该行为专属反馈（V3_TFB 差异化内容，无则回退风格化文案） */
   var TASK_FB = {
     gentle: { done: '对，就是这样一件小事 ✓', body: '不需要一次改变很多。做到一件，今天就算数。' },
     push:   { done: '第一步已落地 · 趁热再勾一件 ✓', body: '想全是问题，做才是答案。趁这个劲头，再拿下一件。' },
     logic:  { done: '有效 ✓ 每记录一次，确定性就多一分', body: '不靠热情，靠机制。记下来的每一步，都是可复用的证据。' }
   };
+  var TFB = window.V3_TFB || {};
   var taskov = document.getElementById('taskov');
   function closeTaskov(){ taskov.classList.remove('show'); }
   document.getElementById('tfbClose').onclick = closeTaskov;
@@ -228,10 +229,12 @@
     var turningOn = !el.classList.contains('done');
     el.classList.toggle('done');
     if (turningOn) {
+      var i = parseInt(el.getAttribute('data-i'), 10) || 0;
+      var own = TFB[id] && TFB[id][i];
       var fb = TASK_FB[per.key] || TASK_FB.gentle;
-      document.getElementById('tfbTitle').textContent = fb.done;
+      document.getElementById('tfbTitle').textContent = own ? own[0] : fb.done;
       document.getElementById('tfbTask').textContent = '「' + el.querySelector('.tt').textContent + '」';
-      document.getElementById('tfbBody').textContent = fb.body;
+      document.getElementById('tfbBody').textContent = own ? own[1] : fb.body;
       taskov.classList.add('show');
     }
   });
