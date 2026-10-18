@@ -167,8 +167,9 @@
 
   /* ═══ 移动端底部导航（桌面隐藏） ═══ */
   .mnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(255,255,255,.97);border-top:1px solid var(--line);display:flex;padding:8px 0 calc(10px + env(safe-area-inset-bottom));z-index:50;}
-  .mnav a{flex:1;text-align:center;text-decoration:none;color:var(--sub);font-size:10.5px;}
-  .mnav a .ni{font-size:20px;display:block;margin-bottom:2px;}
+  .mnav a{flex:1;text-align:center;text-decoration:none;color:var(--sub);font-size:10.5px;cursor:pointer;}
+  .mnav a .ni{display:block;margin:0 auto 3px;width:22px;height:22px;}
+  .mnav a .ni svg{width:22px;height:22px;display:block;margin:0 auto;}
   .mnav a.on{color:var(--brand);font-weight:700;}
   .toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(35,40,31,.9);color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:99;max-width:80vw;text-align:center;}
 
@@ -355,12 +356,12 @@
     </div>
   </footer>
 
-  <!-- 移动端底部导航 -->
-  <div class="mnav">
-    <a class="on" href="v3-home.html"><span class="ni">🏠</span>首页</a>
-    <a href="v3-store.html"><span class="ni">✨</span>找搭子</a>
-    <a href="index.html"><span class="ni">☀️</span>今日</a>
-    <a href="javascript:toast('「我的」即将上线')"><span class="ni">👤</span>我的</a>
+  <!-- 移动端底部导航（极简线性图标版） -->
+  <div class="mnav" id="mnav">
+    <a class="on" data-act="top"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9"/><path d="M12 9C12 5.5 9.5 3 5.5 3 5.5 7 8 9 12 9z"/><path d="M12 13c0-3.5 2.5-6 6.5-6 0 4-2.5 6-6.5 6z"/><path d="M8 21h8"/></svg></span>搭子馆</a>
+    <a data-act="mine"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c1.2-3.6 3.8-5.4 7-5.4s5.8 1.8 7 5.4"/></svg></span>我的搭子</a>
+    <a data-act="fav"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5C7 16.5 3.5 13.3 3.5 9.6 3.5 7 5.5 5 8 5c1.6 0 3.1.8 4 2.1C12.9 5.8 14.4 5 16 5c2.5 0 4.5 2 4.5 4.6 0 3.7-3.5 6.9-8.5 10.9z"/></svg></span>收藏</a>
+    <a data-act="soon"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.2 2"/></svg></span>上新</a>
   </div>
   <div class="toast" id="toast"></div>
 
@@ -429,6 +430,20 @@
   document.getElementById('nvMine').onclick = function(){ document.getElementById('mine').scrollIntoView({behavior:'smooth'}); };
   document.getElementById('nvSoon').onclick = function(){ document.getElementById('soon').scrollIntoView({behavior:'smooth'}); };
 
+  /* ── 移动端底部导航（极简版） ── */
+  var mnav = document.getElementById('mnav');
+  mnav.addEventListener('click', function(e){
+    var el = e.target.closest('a'); if (!el) return;
+    var act = el.getAttribute('data-act');
+    if (act === 'top') { window.scrollTo({top:0, behavior:'smooth'}); }
+    else if (act === 'mine') { document.getElementById('mine').scrollIntoView({behavior:'smooth'}); }
+    else if (act === 'soon') { document.getElementById('soon').scrollIntoView({behavior:'smooth'}); }
+    else if (act === 'fav') {
+      document.getElementById('find').scrollIntoView({behavior:'smooth'});
+      if (!state.favOnly) favBtn.click();
+    }
+  });
+
   /* ── 收藏（筛选） ── */
   var favBtn = document.getElementById('favBtn');
   favBtn.onclick = function(){
@@ -438,6 +453,8 @@
     render();
     if (state.favOnly && favs.length === 0) toast('还没有收藏 · 点卡片右上角的 ♡ 就行');
   };
+  /* 从别的页面（如底部导航「收藏」）带 ?fav=1 过来：直达收藏筛选 */
+  try { if (location.search.indexOf('fav=1') >= 0) { state.favOnly = true; favBtn.classList.add('on'); favBtn.innerHTML = '♥ <span>收藏中</span>'; render(); setTimeout(function(){ document.getElementById('find').scrollIntoView({behavior:'smooth'}); }, 300); } } catch(e){}
 
   /* ── 体验车 ── */
   var cartPanel = document.getElementById('cartPanel');
