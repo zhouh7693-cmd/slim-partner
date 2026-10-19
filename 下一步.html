@@ -125,6 +125,8 @@ const partners=[
   {cat:'health',icon:'😴',name:'睡眠搭子',href:'搭子-睡眠.html',desc:'入睡 · 时长 · 节律',tags:['健康']},
   {cat:'health',icon:'🌈',name:'状态搭子',href:'搭子-状态.html',desc:'情绪 · 精力 · 状态管理',tags:['健康']},
   {cat:'health',icon:'✨',name:'形象搭子',href:'搭子-形象.html',desc:'护肤 · 发型 · 穿搭 · 仪态 · 表达',tags:['气质'],status:'new'},
+  {cat:'health',icon:'🎽',name:'运动搭子',href:'搭子-运动.html',desc:'启动 · 频率 · 强度 · 恢复',tags:['健康'],status:'new'},
+  {cat:'health',icon:'🚭',name:'戒烟搭子',href:'搭子-戒烟.html',desc:'触发 · 渴求 · 替代 · 复吸恢复',tags:['健康'],status:'new'},
 
   {cat:'mind',icon:'☀️',name:'晨间启动搭子',href:'搭子-晨间启动.html',desc:'起床 · 唤醒 · 要事 · 断联 · 身体 · 秩序',tags:['修炼'],status:'new'},
   {cat:'mind',icon:'🌸',name:'心态信念搭子',href:'搭子-心态信念.html',desc:'相信 · 期待 · 行动 · 内耗 · 静待 · 诚实',tags:['修炼'],status:'new'},
@@ -157,6 +159,7 @@ const partners=[
   {cat:'life',icon:'⛰️',name:'40岁重启搭子',href:'搭子-40岁重启.html',desc:'觉醒 · 盘点 · 学习 · 实验 · 收入 · 体能',tags:['修炼'],status:'new'},
   {cat:'life',icon:'⏳',name:'长期主义搭子',href:'搭子-长期主义.html',desc:'把本人时间从短视任务搬到长线价值，KEEP / DELEGATE / SKILL / AUTOMATE / STOP 五张清单',tags:['时间经营']},
   {cat:'life',icon:'🌸',name:'关系力修炼搭子',href:'搭子-关系力修复.html',desc:'倾听 · 表达 · 共情 · 边界 · 能量',tags:['软实力']},
+  {cat:'life',icon:'🌤️',name:'分手疗愈搭子',href:'搭子-分手疗愈.html',desc:'安顿 · 边界 · 重建 · 未发送的话',tags:['疗愈'],status:'new'},
 
   {cat:'tools',icon:'🛋️',name:'休息一下',href:'休息一下.html',desc:'累了就歇一歇 · 恢复区',tags:['放松']},
   {cat:'tools',icon:'🧭',name:'搭子馆（旧版）',href:'v3-home.html',desc:'发芽搭子 · 旧版入口',tags:['入口']}
@@ -170,6 +173,9 @@ const skuMeta={
 '搭子-睡眠.html':{benefit:'把晚睡、入睡难、醒来累，慢慢拉回稳定睡眠节律',fit:['睡不着','总是拖到很晚','醒来还是累'],firstWin:'今晚先找到一个能降低入睡阻力的小动作',effort:'7 天体验 · 每天约 5 分钟',needs:['sleep','body']},
 '搭子-状态.html':{benefit:'看懂情绪和精力起伏，减少被“状态不好”牵着走',fit:['容易疲惫','情绪起伏','工作一忙状态就乱'],firstWin:'先用一个词看见当前状态，再选择最合适的恢复动作',effort:'每天约 3 分钟',needs:['overthink','body']},
 '搭子-形象.html':{benefit:'把外在状态整理得更精神、更有气质，也更像自己',fit:['想提升气质','穿搭没方向','需要重新找状态'],firstWin:'先找出最影响整体形象的一处，做一次小幅但明显的调整',effort:'每周 2–3 次',needs:['body','action']},
+'搭子-运动.html':{benefit:'先把“开始”变容易，让运动慢慢变成日程里的一件小事',fit:['计划总坚持不过一周','一忙就把运动砍掉','想动但不知从哪开始'],firstWin:'今天出门走 10 分钟就算赢，先打破“做不到”的惯性',effort:'每天 3–15 分钟 · 14 天起步',needs:['body','action']},
+'搭子-戒烟.html':{benefit:'看见真正触发想抽的时刻，把每一次不同的选择记下来',fit:['戒过很多次又抽回来','一有压力就想来一根','不想被家人念叨'],firstWin:'今天把第一根往后延 30 分钟，先打断一次自动循环',effort:'每天约 3–5 分钟 · 28 天陪伴',needs:['action','body']},
+'搭子-分手疗愈.html':{benefit:'不劝你想开点，陪你把注意力一点点带回自己身上',fit:['分开很久还是突然难过','忍不住翻聊天记录','朋友劝多了反而更封闭'],firstWin:'今天做一件只为自己的小事，先把生活的主权拿回一点点',effort:'每天约 5 分钟 · 21 天陪伴',needs:['relation','overthink']},
 
 '搭子-晨间启动.html':{benefit:'把一天从“拖着开始”变成更快进入状态',fit:['起床拖延','醒来就刷手机','早上总是散乱'],firstWin:'明早先完成一个固定启动动作，减少起床后的空转',effort:'每天约 5 分钟',needs:['action']},
 '搭子-心态信念.html':{benefit:'让自我怀疑和负面循环少一点，行动多一点',fit:['容易怀疑自己','总预设失败','反复内耗'],firstWin:'把一个反复出现的“我做不到”改写成一句能行动的话',effort:'每天约 5 分钟',needs:['overthink','action']},
@@ -217,16 +223,16 @@ const domainDefs=[
 ];
 
 const domainMap={
-  '减肥搭子':'bodymind','健康底盘搭子':'bodymind','和身体做朋友搭子':'bodymind','肌肉搭子':'bodymind','睡眠搭子':'bodymind','状态搭子':'bodymind','身体财富':'bodymind','休息一下':'bodymind',
+  '减肥搭子':'bodymind','健康底盘搭子':'bodymind','和身体做朋友搭子':'bodymind','肌肉搭子':'bodymind','睡眠搭子':'bodymind','状态搭子':'bodymind','身体财富':'bodymind','休息一下':'bodymind','运动搭子':'bodymind','戒烟搭子':'bodymind',
   '领导力管理搭子':'career','P7→P8':'career','业务 Owner':'career','AI 能力搭子':'career','创业搭子':'career','AI OPC创业搭子':'career','银发经济创业搭子':'career','财务财富':'career',
-  '富教育搭子':'relation','陪读妈妈':'relation','家人相处搭子':'relation','关系财富':'relation','关系力修炼搭子':'relation',
+  '富教育搭子':'relation','陪读妈妈':'relation','家人相处搭子':'relation','关系财富':'relation','关系力修炼搭子':'relation','分手疗愈搭子':'relation',
   '形象搭子':'self','晨间启动搭子':'self','心态信念搭子':'self','坚持自律搭子':'self','认知思维搭子':'self','富知行搭子':'self','幸福力搭子':'self','主体性搭子':'self','精神财富':'self','使命财富':'self','40岁重启搭子':'self','长期主义搭子':'self','自我定义搭子':'self',
   '搭子馆（旧版）':'tool'
 };
 
 const toolNames=['休息一下','使用指南','分享卡片'];
 
-const recommendedNames=['减肥搭子','健康底盘搭子','睡眠搭子','状态搭子','坚持自律搭子','主体性搭子','陪读妈妈','P7→P8','业务 Owner','AI 能力搭子','40岁重启搭子','关系力修炼搭子'];
+const recommendedNames=['减肥搭子','健康底盘搭子','睡眠搭子','状态搭子','运动搭子','戒烟搭子','分手疗愈搭子','坚持自律搭子','主体性搭子','陪读妈妈','P7→P8','业务 Owner','AI 能力搭子','40岁重启搭子','关系力修炼搭子'];
 
 const seriesDefs=[
   {id:'wealth',name:'五大财富',desc:'身体 · 财务 · 精神 · 关系 · 使命',members:['身体财富','财务财富','精神财富','关系财富','使命财富']},
@@ -250,13 +256,13 @@ const needDefs=[
 
 const needPicks={
   sleep:['睡眠搭子','健康底盘搭子','状态搭子'],
-  move:['健康底盘搭子','肌肉搭子','和身体做朋友搭子'],
+  move:['运动搭子','健康底盘搭子','肌肉搭子'],
   overthink:['主体性搭子','状态搭子','心态信念搭子'],
-  dependency:['坚持自律搭子','状态搭子','和身体做朋友搭子'],
+  dependency:['戒烟搭子','坚持自律搭子','状态搭子'],
   career:['P7→P8','业务 Owner','AI 能力搭子'],
   money:['财务财富','创业搭子','AI OPC创业搭子'],
   relation:['关系力修炼搭子','家人相处搭子','关系财富'],
-  breakup:['关系力修炼搭子','状态搭子','幸福力搭子'],
+  breakup:['分手疗愈搭子','状态搭子','幸福力搭子'],
   restart:['40岁重启搭子','长期主义搭子','主体性搭子'],
   m_pain:['状态搭子','心态信念搭子','幸福力搭子'],
   m_sleep:['睡眠搭子','健康底盘搭子','晨间启动搭子'],
@@ -265,7 +271,7 @@ const needPicks={
   m_rel:['关系力修炼搭子','家人相处搭子','关系财富'],
   m_dir:['40岁重启搭子','长期主义搭子','自我定义搭子'],
   m_money:['财务财富','创业搭子','AI OPC创业搭子'],
-  m_move:['肌肉搭子','减肥搭子','和身体做朋友搭子']
+  m_move:['运动搭子','肌肉搭子','减肥搭子']
 };
 
 const coreSemanticVisuals={
@@ -310,7 +316,10 @@ const usageProfiles={
 '健康底盘搭子':{headline:'今天，先修一块底盘。',tasks:['从睡眠 / 运动 / 体检里选最需要的一项','给它一个当前状态判断','定一个今天能完成的最小动作'],coach:'健康底盘不是一次做到完美，而是把关键项重新管起来。'},
 '状态搭子':{headline:'今天，先看见自己的状态。',tasks:['用一个词描述现在的情绪','给精力打一个1–5分','选一个最适合现在的恢复动作'],coach:'状态不是你的全部。先看见它，再决定怎么回应。'},
 '陪读妈妈':{headline:'今天，先把拉扯变轻一点。',tasks:['作业开始前先稳定自己的情绪','用一个提问替代一次说教','具体肯定孩子一个已经做到的地方'],coach:'陪读不是把每件事都管好，而是让关系先稳下来。'},
-'关系力修炼搭子':{headline:'今天，让一次对话更舒服。',tasks:['先多听一个问题再回应','用“我感受到…”替代指责','清楚表达一条边界或需要'],coach:'好的关系力不是讨好，而是理解、表达和边界同时存在。'}
+'关系力修炼搭子':{headline:'今天，让一次对话更舒服。',tasks:['先多听一个问题再回应','用“我感受到…”替代指责','清楚表达一条边界或需要'],coach:'好的关系力不是讨好，而是理解、表达和边界同时存在。'},
+'运动搭子':{headline:'今天，先赢一个开始。',tasks:['出门走10分钟，不谈强度','选一个明天能做的最小动作','记一句动完后的身体感觉'],coach:'运动最难的从来不是强度，是开始。先把“做不到”的惯性推开一次。'},
+'戒烟搭子':{headline:'今天，先看清一次触发。',tasks:['把第一根往后延30分钟','想来一根时先喝一大口水','记一次：是什么触发了想抽'],coach:'戒烟不是靠硬扛。看清触发点，你才有机会在它出现时换个动作。'},
+'分手疗愈搭子':{headline:'今天，把自己接回来一点。',tasks:['做一件只为自己的小事','把想说的话写下来，不发出去','记一个今天状态好一点的瞬间'],coach:'疗愈不是一夜翻篇。你把注意力一点点挪回自己身上就够了。'}
 };
 const benefitLines={
 '减肥搭子':['每天一个真正做得到的小动作','饮食和体重变化有地方记录','做不到时一起把目标缩小','看见自己的长期变化'],
@@ -348,7 +357,7 @@ function renderHomeReco(){const list=state.need?picksForNeed(state.need):[byName
 function renderRecent(){const sec=document.getElementById('recentSection');const current=currentPartnerId();const ids=[current,...state.recent.filter(x=>x!==current&&started(x))].filter(Boolean).slice(0,3);if(!ids.length){sec.style.display='none';return}sec.style.display='block';document.getElementById('homeRecent').innerHTML=ids.map((id,i)=>{const p=byId(id),m=metaOf(p);return i===0?`<div class="current-card"><div class="recent-icon">${visualFor(p,'small')}</div><div><strong>${p.name}</strong><p>${companionStatus(id)} · ${m.benefit}</p></div><button data-use="${id}">继续</button></div>`:`<button class="recent-card" data-use="${id}"><div class="recent-icon">${visualFor(p,'small')}</div><div><strong>${p.name}</strong><p>${companionStatus(id)}</p></div><div class="arrow">→</div></button>`}).join('')}
 function renderDomains(){document.getElementById('domainGrid').innerHTML=Object.entries(domainLabels).map(([id,d])=>`<button class="domain-card" data-domain="${id}"><strong>${d.name}</strong><p>${d.copy}</p><div class="keywords">${d.keywords.map(k=>`<span>${k}</span>`).join('')}</div><div class="domain-link">看看${d.name}搭子 →</div></button>`).join('')}
 function renderSeries(){document.getElementById('homeSeries').innerHTML=seriesDefs.map(s=>`<button class="series-card" data-series="${s.id}"><strong>${s.name}</strong><span>${s.desc}</span></button>`).join('')}
-const upcomingDefs=[{name:'运动搭子',copy:'想动起来，却总开始不了。'},{name:'分手疗愈搭子',copy:'陪你熬过关系结束后最难的那一段。'},{name:'戒烟搭子',copy:'从看见触发开始，一点点松开依赖。'}];
+const upcomingDefs=[{name:'存钱搭子',copy:'不是记账，是把钱留在自己手里。'},{name:'专注搭子',copy:'把注意力还给真正重要的那件事。'},{name:'体检管理搭子',copy:'指标、报告和复查，一次打理清楚。'}];
 function renderUpcoming(){const el=document.getElementById('upcomingGrid');if(!el)return;el.innerHTML=upcomingDefs.map(x=>`<div class="upcoming-card"><div><strong>${x.name}</strong><p>${x.copy}</p></div><button class="reserve-btn ${state.reservations.includes(x.name)?'on':''}" data-reserve="${x.name}">${state.reservations.includes(x.name)?'已预约 ✓':'预约'}</button></div>`).join('')}
 function renderSide(){const defs=[{id:'all',name:'全部'},...Object.entries(domainLabels).map(([id,d])=>({id,name:d.name}))];document.getElementById('storeSide').innerHTML=defs.map(d=>`<button class="${state.domain===d.id?'active':''}" data-domain-filter="${d.id}">${d.name}</button>`).join('')}
 function renderModes(){const defs=[['recommended','精选'],['all','全部'],['series','主题'],['tools','轻工具']];const base=defs.map(([id,n])=>`<button class="mode-chip ${state.mode===id?'active':''}" data-mode="${id}">${n}</button>`).join('');const series=state.mode==='series'?seriesDefs.map(s=>`<button class="mode-chip ${state.series===s.id?'active':''}" data-series="${s.id}">${s.name}</button>`).join(''):'';document.getElementById('storeModes').innerHTML=base+series}
