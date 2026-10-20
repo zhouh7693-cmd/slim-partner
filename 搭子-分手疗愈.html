@@ -387,8 +387,8 @@
       <button class="talk-btn" data-type="cheer" data-page-node-id="5PAiHvFlaCG76ceQgmg5jW">🎉 撑住了</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
-      <button class="talk-btn" onclick="askPartner('report')">📣 汇报这周</button>
-      <button class="talk-btn" onclick="askPartner('question')">🤔 有问题想问</button>
+      <button class="talk-btn" data-type="report" onclick="askPartner('report')">📣 汇报这周</button>
+      <button class="talk-btn" data-type="question" onclick="askPartner('question')">🤔 有问题想问</button>
     </div>
     <div class="talk-btn-row" style="margin-top:8px;">
       <button class="talk-btn" onclick="stdSceneOpen()">💭 今天发生了什么</button>
@@ -707,7 +707,7 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
     <div class="today-status"><div class="ts-days"><span class="ts-num" id="continuousDays">0</span><span class="ts-label">天连续</span></div><div class="ts-week"><div style="font-size:11px;font-weight:600;color:#8f9eae;margin-bottom:8px;"><span id="weekRange"></span> · 这一周</div><div class="week-dots" id="weekDots"></div></div></div>
   </div>
 
-  <div id="key3Card" style="max-width:420px;margin:0 auto 14px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 16px rgba(0,0,0,0.06);"><div style="font-weight:700;font-size:14px;color:#333;margin-bottom:2px;">🎯 今日 3 个小动作</div><div style="font-size:11px;color:#999;margin-bottom:10px;">今天只需完成这 3 件小事，就赢了。</div><div class="famk3list"></div></div><div class="chat-area" id="chatArea" data-page-node-id="dV4kMnE2rfWe0jvzdnkLV3"></div>
+  <div class="chat-area" id="chatArea" data-page-node-id="dV4kMnE2rfWe0jvzdnkLV3"></div>
 
   
 
@@ -785,8 +785,15 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
   };
   window.stdScenePick=function(i){
     stdSceneClose();
-    toast(EMOJI+' '+SCENES[i][2]);
-    chat(SCENES[i][0]+' '+SCENES[i][1]+' —— 我在，一起拆。');
+    try{
+      if (typeof openStateSceneFB === 'function' && window.STATE_SCENES) {
+        var pos = STATE_SCENES.pos || [];
+        if (pos[i]) { openStateSceneFB(i, 'pos'); return; }
+        var neg = STATE_SCENES.neg || [];
+        var j = i - pos.length;
+        if (neg[j]) { openStateSceneFB(j, 'neg'); return; }
+      }
+    }catch(e){}
   };
   function ensureSceneBtn(){
     return;
@@ -967,7 +974,7 @@ function __ld(d){ d = d || new Date(); return d.getFullYear()+'-'+String(d.getMo
       <div style="font-size:15px;font-weight:800;color:#333;margin-bottom:12px;">🌱 分手疗愈搭子</div>
       <div style="background:linear-gradient(135deg,#f6f4fb,#efeaf9);border-radius:16px;padding:20px 16px;text-align:center;margin-bottom:16px;">
         <div style="font-size:48px;margin-bottom:8px;">🪷</div>
-        <div style="font-size:16px;font-weight:700;color:#333;margin-bottom:4px;">状态搭子</div>
+        <div style="font-size:16px;font-weight:700;color:#333;margin-bottom:4px;">分手疗愈搭子</div>
         <div style="font-size:13px;color:#555;line-height:1.6;margin-bottom:8px;">3 种风格陪你走过告别的日子<br>每天 5 分钟，把注意力带回自己</div>
         <div style="font-size:11px;color:#5e35b1;">安顿 · 边界 · 重建 · 自我</div>
       </div>
@@ -1632,7 +1639,7 @@ function sendMood(mood) {
       energetic: '🪶 萤火：把「被离开」和「我不值得」分开，它们不是一回事。'
     }
   };
-  const text = (replies[p.id] || replies.wave)[mood] || '🪞 看见你了。';
+  const text = (replies[p.id] || replies.beacon)[mood] || '🪞 看见你了。';
   appendChat('me', moodEmoji(mood));
   setTimeout(() => appendChat('partner', text), 350);
 }
@@ -1641,32 +1648,32 @@ function askPartner(topic) {
   const p = currentPartner || PARTNERS[0];
   const labels = { progress:'📈 有点好转', struggle:'😣 今天很难', idea:'💭 想聊聊', cheer:'🎉 撑住了' };
   const openers = {
-    wave: {
-      progress: '🌊 海浪：本周觉察到几次？看见它就是在改变它。',
-      struggle: '🌊 海浪：状态差就像退潮，先做最容易的 1 件小事。',
-      idea: '🌊 海浪：你想聊什么？状态搭子不评判。',
-      cheer: '🌊 海浪：好状态不是常态。看见它，已经很好。'
+    beacon: {
+      progress: '🗼 灯塔：稳的日子值得记下来，它们是真实的一部分。',
+      struggle: '🗼 灯塔：浪最大的时候，先做最容易的一件小事。',
+      idea: '🗼 灯塔：说说你的想法，我帮你把方向照亮一点。',
+      cheer: '🗼 灯塔：撑住的一天值得记录。今天最想谢自己什么？'
     },
-    mirror: {
-      progress: '🪞 镜子：本周你照见了自己几次变化？',
-      struggle: '🪞 镜子：映出来的是"难"。先放下评判，只观察。',
-      idea: '🪞 镜子：把你脑子里的画面说出来，我帮你照见它。',
-      cheer: '🪞 镜子：你映出来的是"亮"。记住这一刻的样子。'
+    hole: {
+      progress: '🌳 树洞：这一周，你想先说哪一段？不用有结论。',
+      struggle: '🌳 树洞：说出来就好，我先接着，不用整理好再说。',
+      idea: '🌳 树洞：把脑子里的画面说出来，我帮你保管。',
+      cheer: '🌳 树洞：这一刻的样子，记住它，它也是你。'
     },
-    lamp: {
-      progress: '🏮 灯笼：看见进展了。下一步最想做什么？',
-      struggle: '🏮 灯笼：状态差时，灯会暗。先走 1 步最亮的路。',
-      idea: '🏮 灯笼：说说你脑子里的想法，我帮你点一下方向。',
-      cheer: '🏮 灯笼：好状态是礼物。今天要不要给它一个仪式？'
+    firefly: {
+      progress: '🪶 萤火：好状态里也做一件小事，把势头接住。',
+      struggle: '🪶 萤火：先延迟 10 分钟，再喝水、走动，浪会退。',
+      idea: '🪶 萤火：把「被离开」和「我不值得」分开聊，它们不是一回事。',
+      cheer: '🪶 萤火：给这份坚持一个小仪式吧，就今天。'
     }
   };
   labels.report = '📣 汇报'; labels.question = '🤔 提问';
   const exOpen = {
-    report:   { wave:'🌊 海浪：汇报吧，这一周的状态我看得到。', mirror:'🪞 镜子：说吧，我帮你照见这一周。', lamp:'🏮 灯笼：汇报收到，我们只看趋势。' },
-    question: { wave:'🌊 海浪：问吧，状态的事没有傻问题。', mirror:'🪞 镜子：把问题说出来，它就清楚了一半。', lamp:'🏮 灯笼：问，我帮你照亮一点。' }
+    report:   { beacon:'🗼 灯塔：汇报吧，这一周我都看得到。', hole:'🌳 树洞：说吧，我帮你保管这一周。', firefly:'🪶 萤火：汇报收到，我们只看趋势，不判对错。' },
+    question: { beacon:'🗼 灯塔：问吧，疗愈的路上没有傻问题。', hole:'🌳 树洞：把问题说出来，它就清楚了一半。', firefly:'🪶 萤火：问，我帮你照亮一点。' }
   };
   const label = labels[topic] || topic;
-  const opener = (openers[p.id] || openers.wave)[topic] || (exOpen[topic] && exOpen[topic][p.id]) || '🪞 看见你了。';
+  const opener = (openers[p.id] || openers.beacon)[topic] || (exOpen[topic] && exOpen[topic][p.id]) || '🪞 看见你了。';
   appendChat('me', label);
   setTimeout(() => {
     appendChat('partner', opener);
@@ -1865,24 +1872,22 @@ function renderStateScenes() {
 }
 
 function openStateSceneFB(idx, type) {
-  const item = STATE_SCENES[type][idx];
+  const item = (STATE_SCENES[type] || [])[idx];
   if (!item) return;
+  const overlay = document.getElementById('fbOverlay');
   const card = document.getElementById('fbCard');
+  if (!overlay || !card) return;
   card.className = 'fb-card ' + type;
-  document.getElementById('fbEmoji').innerText = item.icon;
-  const tag = document.getElementById('fbTag');
-  tag.innerText = item.tag;
-  tag.className = 'fb-tag ' + type;
-  document.getElementById('fbTitle').innerText = item.title;
-  document.getElementById('fbText').innerText = item.text;
-  const fallback = {
-    wave:   '🌊 海浪：状态像海，看见它就不会被它淹没。',
-    mirror: '🪞 镜子：你看见的，就是真实的你。',
-    lamp:   '🏮 灯笼：看见状态后，下一步就清楚了。'
-  };
-  const pText = item.quote || fallback[currentPartner.id] || '';
-  document.getElementById('fbQuote').innerText = pText;
-  document.getElementById('fbOverlay').classList.add('show');
+  card.innerHTML = `
+    <div class="fb-emoji">${item.icon}</div>
+    <div class="fb-tag ${type}">${item.tag}</div>
+    <div class="fb-title">${item.title}</div>
+    <div class="fb-text">${item.text}</div>
+    <div class="fb-partner-quote">${item.quote || '🌿 看见你了，慢慢来。'}</div>
+    <button class="fb-close" onclick="closeFBBack()">知道了</button>
+  `;
+  card.onclick = (e) => e.stopPropagation();
+  overlay.classList.add('show');
 }
 
 function closeFBBack() {
