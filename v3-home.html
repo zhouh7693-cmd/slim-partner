@@ -5,297 +5,237 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>搭子馆 · 给生活一个搭子</title>
 <style>
-  :root{
-    --bg:#F7F6F1; --panel:#EDF1E6; --panel-deep:#E4EBD9;
-    --ink:#23281F; --sub:#7A8078; --line:#E4E6DF;
-    --brand:#3E5C46; --brand-deep:#33513F; --brand-lt:#E7EFE4; --brand-ink:#2E4A38;
-    --serif:'Songti SC','STSong','Noto Serif SC','Source Han Serif SC','SimSun',serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;min-height:100vh;padding-bottom:86px;}
-  a{color:inherit;}
-  .caps{font-size:10.5px;letter-spacing:.22em;color:#8A9184;text-transform:uppercase;font-weight:600;}
-  .wrap{max-width:1160px;margin:0 auto;padding:0 28px;}
+  :root{--outer:#edf0ec;--bg:#f7f4ee;--paper:#fffdf9;--ink:#15382e;--ink2:#355048;--muted:#7d8782;--line:#e4dfd6;--deep:#214c3d;--sage:#e9f0eb;--sage2:#f1f4f1;--stone:#f0ede6;--shadow:0 12px 32px rgba(27,55,44,.055);--phone:460px}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{background:var(--outer);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .app{width:min(100%,var(--phone));min-height:100dvh;margin:auto;background:var(--bg);box-shadow:0 0 48px rgba(0,0,0,.07);padding-bottom:96px;overflow-x:hidden;position:relative}
+  .inner{padding:0 20px 34px}
 
-  /* ═══ 顶部导航 ═══ */
-  .hd{position:sticky;top:0;z-index:90;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
-  .hd-in{max-width:1160px;margin:0 auto;padding:0 28px;height:68px;display:flex;align-items:center;gap:26px;}
-  .logo{display:flex;align-items:center;gap:10px;cursor:pointer;}
-  .logo-ic{width:38px;height:38px;border:1.5px solid var(--brand);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .logo-tx{line-height:1.15;}
-  .logo-tx b{font-size:17px;font-weight:800;letter-spacing:.05em;}
-  .logo-tx b sup{font-size:9px;color:var(--brand);font-weight:700;margin-left:2px;}
-  .logo-tx i{display:block;font-style:normal;font-size:8.5px;letter-spacing:.3em;color:#9AA096;font-weight:600;}
-  .hd-nav{display:flex;gap:30px;margin:0 auto;}
-  .hd-nav a{text-decoration:none;font-size:14px;font-weight:600;color:#5C635A;padding:24px 2px;position:relative;cursor:pointer;}
-  .hd-nav a.on{color:var(--ink);}
-  .hd-nav a.on::after{content:'';position:absolute;left:50%;transform:translateX(-50%);bottom:14px;width:22px;height:2.5px;border-radius:2px;background:var(--brand);}
-  .hd-act{display:flex;align-items:center;gap:16px;margin-left:auto;}
-  .act-fav{display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:#4A5248;cursor:pointer;background:none;border:none;font-family:inherit;}
-  .act-fav.on{color:var(--brand);}
-  .cart-btn{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:#fff;border-radius:22px;padding:8px 16px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink);transition:border-color .2s;}
-  .cart-btn:hover{border-color:var(--brand);}
-  .cart-n{background:var(--brand);color:#fff;font-size:11px;min-width:19px;height:19px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;padding:0 5px;font-weight:800;}
-  /* 体验车面板 */
-  .cart-panel{display:none;position:fixed;top:76px;right:max(28px,calc((100vw - 1160px)/2 + 28px));width:340px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 50px rgba(30,40,30,.14);padding:18px;z-index:95;}
-  .cart-panel.show{display:block;}
-  .cart-panel h4{font-size:14px;font-weight:800;margin-bottom:10px;}
-  .cart-empty{font-size:12.5px;color:var(--sub);line-height:1.8;padding:8px 0;}
-  .cart-it{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px dashed var(--line);}
-  .cart-it .ci{font-size:18px;}
-  .cart-it .cn{flex:1;font-size:13px;font-weight:700;cursor:pointer;}
-  .cart-it .cx{font-size:11.5px;color:#B4B9B0;cursor:pointer;border:none;background:none;font-family:inherit;}
-  .cart-it .cx:hover{color:#C96F5E;}
+  /* ═══ 顶部 ═══ */
+  .header{position:sticky;top:0;z-index:40;background:rgba(247,244,238,.95);backdrop-filter:blur(12px);padding:14px 20px 8px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brandrow{display:flex;align-items:center;gap:11px;cursor:pointer}
+  .logo{width:40px;height:40px;border-radius:14px;background:var(--deep);display:grid;place-items:center;color:#fff;flex:0 0 40px}
+  .logo svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .brand{font-size:20px;font-weight:880;letter-spacing:-.04em}
+  .brand sup{font-size:9px;font-weight:850;color:var(--muted);margin-left:2px}
+  .sub{font-size:10px;color:var(--muted);margin-top:2px}
+  .top-actions{display:flex;align-items:center;gap:6px}
+  .iconbtn{height:40px;min-width:40px;border:1px solid var(--line);background:rgba(255,253,249,.92);border-radius:13px;display:grid;place-items:center;padding:0 12px;font-size:10px;font-weight:780;color:var(--ink);font-family:inherit;cursor:pointer}
+  .heart-btn{font-size:19px;line-height:1;color:var(--deep)}
+  .heart-btn.on{background:var(--sage);border-color:#b9cbc0}
+  .bag{display:flex;align-items:center;gap:6px}
+  .bag svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7}
+  .bag-count{min-width:18px;height:18px;border-radius:999px;background:var(--deep);color:#fff;display:grid;place-items:center;font-size:9px;padding:0 5px;font-style:normal}
+  .topnav{display:flex;gap:16px;padding:2px 20px 0;font-size:11px;color:var(--muted)}
+  .topnav a{cursor:pointer;font-weight:700}
+  .topnav a.on{color:var(--deep);font-weight:850}
 
-  /* ═══ Hero ═══ */
-  .hero{padding:34px 0 10px;}
-  .hero-box{position:relative;background:linear-gradient(135deg,#EEF2E5 0%,#E7EDDB 60%,#E3EAD6 100%);border-radius:26px;padding:56px 60px;display:flex;align-items:center;gap:30px;overflow:hidden;}
-  .hero-l{flex:1.15;min-width:0;position:relative;z-index:2;}
-  .hero h1{font-family:var(--serif);font-size:46px;line-height:1.32;font-weight:700;letter-spacing:.02em;}
-  .hero p{margin-top:18px;font-size:15px;color:#5C635A;line-height:1.9;}
-  .hero-cta{display:inline-flex;align-items:center;gap:8px;margin-top:26px;background:var(--brand-deep);color:#fff;border:none;border-radius:26px;padding:14px 30px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .15s,background .2s;}
-  .hero-cta:hover{background:#2B4636;transform:translateY(-1px);}
-  .hero-r{flex:.85;position:relative;min-height:280px;z-index:1;}
-  .hero-art{position:absolute;right:30px;top:50%;transform:translateY(-52%);width:230px;}
-  .hero-note{position:absolute;right:242px;bottom:0;background:#FDFCF8;border-radius:10px;padding:12px 16px;box-shadow:0 8px 22px rgba(40,50,40,.12);transform:rotate(-5deg);}
-  .hero-note b{display:block;font-size:13px;font-weight:800;}
-  .hero-note i{display:block;font-style:normal;font-size:10.5px;color:var(--sub);margin-top:3px;}
-  .hero-c1{position:absolute;top:26px;right:34px;}
-  .hero-c2{position:absolute;bottom:22px;right:34px;}
+  /* ═══ 体验车下拉 ═══ */
+  .cart-panel{display:none;position:fixed;top:70px;left:50%;transform:translateX(-50%);width:min(calc(100% - 36px),424px);background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 40px rgba(25,52,42,.16);padding:16px;z-index:70}
+  .cart-panel.show{display:block}
+  .cart-panel h4{font-size:14px;font-weight:850;margin-bottom:10px;letter-spacing:-.02em}
+  .cart-empty{font-size:10px;color:var(--muted);line-height:1.7;padding:6px 0}
+  .cart-it{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px dashed var(--line)}
+  .cart-it .ci{font-size:17px}
+  .cart-it .cn{flex:1;font-size:11.5px;font-weight:800;cursor:pointer}
+  .cart-it .cx{font-size:9px;color:#8b948f;cursor:pointer;border:1px solid var(--line);background:transparent;border-radius:999px;padding:5px 8px;font-family:inherit}
 
-  /* ═══ 统计行 ═══ */
-  .statline{display:flex;justify-content:space-between;gap:14px;padding:26px 2px 8px;font-size:12.5px;color:var(--sub);}
+  /* ═══  Hero ═══ */
+  .hero-copy{padding:12px 0 0}
+  .hero-copy h1{font-size:31px;line-height:1.18;letter-spacing:-.055em;margin:0 0 10px;max-width:365px}
+  .hero-copy p{font-size:11.5px;line-height:1.65;color:#65716b;margin:0}
+  .search{height:54px;border:1px solid var(--line);background:var(--paper);border-radius:18px;display:flex;align-items:center;gap:10px;padding:0 15px;box-shadow:0 6px 18px rgba(31,58,47,.025);margin-top:16px}
+  .search input{flex:1;border:0;outline:0;background:transparent;font-size:12px;min-width:0;color:inherit;font-family:inherit}
+  .search input::placeholder{color:#969d99}
+  .glass{font-size:17px;color:#85908a}
+  .statline{padding:12px 2px 0;font-size:10px;color:var(--muted)}
 
-  /* ═══ 保留区：继续我的搭子 + 情绪入口 ═══ */
-  .mine{padding:6px 0 4px;}
-  .resume{display:none;background:var(--brand-lt);border-radius:20px;padding:20px 24px;}
-  .resume.show{display:block;}
-  .resume .r-tag{font-size:12px;color:var(--brand);font-weight:700;}
-  .resume .r-name{font-size:16px;font-weight:800;margin-top:8px;}
-  .resume .r-sub{font-size:12.5px;color:var(--sub);margin-top:4px;}
-  .resume .r-cta{margin-top:14px;display:inline-block;background:var(--brand);color:#fff;border-radius:20px;padding:10px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:transform .12s;}
-  .resume .r-cta:active{transform:scale(.97);}
-  .mine-t{font-size:20px;font-weight:800;margin:26px 0 14px;font-family:var(--serif);letter-spacing:.02em;}
-  .needs{display:flex;flex-wrap:wrap;gap:12px;}
-  .need{background:#fff;border:1px solid var(--line);border-radius:20px;padding:11px 18px;font-size:14px;font-weight:600;cursor:pointer;transition:transform .12s,border-color .2s,box-shadow .2s;font-family:inherit;}
-  .need:hover{border-color:var(--brand);box-shadow:0 4px 14px rgba(50,70,55,.08);}
-  .need:active{transform:scale(.97);}
-  .pnote{font-size:12px;color:var(--sub);margin-top:14px;}
+  /* ═══ 继续我的搭子 ═══ */
+  .resume{display:none;border:1px solid #bdcec3;background:linear-gradient(145deg,#edf4ef,#fffdf9);border-radius:22px;padding:14px;display:none;grid-template-columns:52px minmax(0,1fr) auto;gap:11px;align-items:center;margin-top:18px}
+  .resume.show{display:grid}
+  .resume .r-tag{grid-column:1/-1;font-size:9px;font-weight:850;letter-spacing:.06em;color:#6d8178}
+  .resume .r-icon{width:52px;height:52px;border-radius:16px;background:var(--sage);display:grid;place-items:center;font-size:22px}
+  .resume .r-name{font-size:14px;font-weight:850}
+  .resume .r-sub{font-size:9px;color:var(--muted);margin-top:4px;line-height:1.5}
+  .resume .r-cta{border:0;background:var(--deep);color:#fff;border-radius:999px;padding:9px 11px;font-size:8.5px;font-weight:850;white-space:nowrap;font-family:inherit;cursor:pointer}
 
-  /* ═══ 找搭子区 ═══ */
-  .find{padding:36px 0 8px;}
-  .find-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;}
-  .find-head h2{font-family:var(--serif);font-size:30px;font-weight:700;margin-top:8px;letter-spacing:.02em;}
-  .find-head .fh-sub{font-size:13px;color:var(--sub);margin-top:6px;}
-  .search{background:#fff;border:1px solid var(--line);border-radius:24px;padding:11px 18px;display:flex;align-items:center;gap:9px;width:320px;transition:border-color .2s;}
-  .search:focus-within{border-color:var(--brand);}
-  .search input{border:none;outline:none;flex:1;font-size:13.5px;background:transparent;color:var(--ink);font-family:inherit;}
-  .search input::placeholder{color:#B9BEB9;}
-  .cats{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 6px;}
-  .cat{border:1.5px solid var(--line);background:#fff;border-radius:22px;padding:9px 20px;font-size:13.5px;font-weight:700;color:#4A5248;cursor:pointer;font-family:inherit;transition:all .18s;}
-  .cat.on{background:var(--brand-deep);border-color:var(--brand-deep);color:#fff;}
-  .toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:16px 0 18px;flex-wrap:wrap;}
-  .sorts{display:flex;gap:8px;}
-  .sort{border:none;background:#ECEFE4;border-radius:18px;padding:7px 16px;font-size:12.5px;font-weight:700;color:#5C635A;cursor:pointer;font-family:inherit;}
-  .sort.on{background:#DCE7D2;color:var(--brand-ink);}
-  .gcount{font-size:12.5px;color:var(--sub);}
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-  .pcard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 20px 16px;cursor:pointer;transition:transform .15s,box-shadow .2s,border-color .2s;position:relative;display:flex;flex-direction:column;}
-  .pcard:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(45,60,48,.09);border-color:#D5DACB;}
-  .pc-top{display:flex;align-items:flex-start;justify-content:space-between;}
-  .pic{width:46px;height:46px;border-radius:14px;background:#EFF2E8;display:flex;align-items:center;justify-content:center;font-size:23px;color:var(--brand);}
-  .pic svg{width:24px;height:24px;display:block;}
-  .fav{font-size:19px;color:#B9BFB2;cursor:pointer;line-height:1;transition:color .15s,transform .12s;background:none;border:none;font-family:inherit;}
-  .fav:hover{transform:scale(1.15);}
-  .fav.on{color:#C96F5E;}
-  .pname{font-size:15.5px;font-weight:800;margin-top:14px;}
-  .pname .bdg{font-size:10px;color:var(--brand);background:var(--brand-lt);border-radius:9px;padding:2px 8px;margin-left:7px;font-weight:700;vertical-align:2px;}
-  .ppromise{font-size:12.5px;color:var(--sub);margin-top:7px;line-height:1.7;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-  .prow{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:13px;border-top:1px dashed var(--line);}
-  .ptry{font-size:12px;font-weight:700;color:#4A5248;}
-  .ptry:hover{color:var(--brand);}
-  .pcart{font-size:11.5px;font-weight:700;border:1.5px solid var(--line);border-radius:16px;padding:6px 13px;color:#4A5248;cursor:pointer;transition:all .15s;background:#fff;font-family:inherit;white-space:nowrap;}
-  .pcart:hover{border-color:var(--brand);color:var(--brand);}
-  .pcart.on{background:var(--brand-lt);border-color:var(--brand);color:var(--brand-ink);}
-  .expand-row{text-align:center;margin:26px 0 4px;}
-  .expand{border:1.5px solid var(--line);background:#fff;border-radius:24px;padding:11px 26px;font-size:13.5px;font-weight:700;color:#4A5248;cursor:pointer;font-family:inherit;transition:all .18s;}
-  .expand:hover{border-color:var(--brand);color:var(--brand);}
-  .gnone{padding:40px 10px;text-align:center;font-size:13.5px;color:var(--sub);line-height:2;grid-column:1/-1;}
+  /* ═══ 分区 ═══ */
+  .section{padding-top:28px}
+  .sectionhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .sectiontitle{font-size:20px;font-weight:880;letter-spacing:-.04em}
+  .sectiondesc{font-size:10px;color:var(--muted);margin-top:4px}
+  .more{border:0;background:transparent;font-size:10px;font-weight:800;color:var(--deep);font-family:inherit;cursor:pointer}
+
+  /* ═══ 情绪入口 ═══ */
+  .need-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
+  .need{border:1px solid var(--line);background:var(--paper);border-radius:18px;padding:13px 12px;text-align:left;min-height:72px;box-shadow:0 5px 16px rgba(31,58,47,.022);font-size:12px;font-weight:800;letter-spacing:-.02em;cursor:pointer;font-family:inherit;color:inherit;line-height:1.35}
+  .need:hover{border-color:#b9c8bf;background:var(--sage)}
+  .need i{font-style:normal;display:block;font-size:8.8px;line-height:1.45;color:var(--muted);margin-top:4px;font-weight:500}
+  .pnote{font-size:9px;color:var(--muted);margin-top:10px;line-height:1.6}
+
+  /* ═══ 筛选 chips ═══ */
+  .chiprow{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding:2px 0 2px}
+  .chiprow::-webkit-scrollbar{display:none}
+  .cat{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:8px 11px;font-size:10px;white-space:nowrap;font-family:inherit;color:var(--ink);cursor:pointer}
+  .cat.on{background:var(--deep);color:#fff;border-color:var(--deep);font-weight:820}
+  .toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0 0}
+  .sorts{display:flex;gap:7px}
+  .sort{border:1px solid var(--line);background:transparent;border-radius:999px;padding:7px 12px;font-size:9px;font-weight:800;color:var(--muted);cursor:pointer;font-family:inherit}
+  .sort.on{background:var(--sage);color:var(--deep);border-color:#cdd8d1}
+  .gcount{font-size:9px;color:var(--muted)}
+
+  /* ═══ 搭子卡片（V2.2 reco-card 行式） ═══ */
+  .grid{display:grid;gap:10px;margin-top:12px}
+  .pcard{border:1px solid var(--line);background:var(--paper);border-radius:22px;padding:12px;display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:12px;text-align:left;align-items:start;box-shadow:0 8px 20px rgba(31,58,47,.025);position:relative;cursor:pointer;transition:transform .15s,box-shadow .2s}
+  .pcard:hover{transform:translateY(-1px);box-shadow:0 12px 26px rgba(31,58,47,.07)}
+  .pic{width:72px;height:82px;border-radius:17px;background:linear-gradient(145deg,#f0ede6,#edf1ed);display:grid;place-items:center;overflow:hidden}
+  .pic svg{width:34px;height:34px;stroke:var(--deep);fill:none;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round}
+  .pic span{font-size:30px}
+  .reco-main{min-width:0}
+  .reco-benefit{font-size:15px;line-height:1.35;font-weight:880;letter-spacing:-.035em;padding-right:26px}
+  .reco-name{font-size:10.5px;font-weight:820;color:var(--deep);margin-top:5px}
+  .reco-name .bdg{font-size:8px;background:var(--sage2);color:#557066;border-radius:999px;padding:3px 6px;margin-left:5px;font-weight:820}
+  .reco-fit{font-size:8.6px;line-height:1.5;color:var(--muted);margin-top:6px}
+  .fav{position:absolute;right:10px;top:9px;font-size:15px;line-height:1;color:#a8b6ad;background:none;border:0;font-family:inherit;cursor:pointer}
+  .fav.on{color:var(--deep)}
+  .mini-add{align-self:center;border:1px solid #cdd8d1;background:var(--sage);color:var(--deep);border-radius:999px;padding:7px 9px;font-size:8.5px;font-weight:820;white-space:nowrap;font-family:inherit;cursor:pointer}
+  .mini-add.on{background:var(--deep);color:#fff;border-color:var(--deep)}
+  .expand{border:1px solid var(--line);background:var(--paper);border-radius:16px;min-height:46px;width:100%;margin-top:14px;color:var(--deep);font-size:10px;font-weight:850;font-family:inherit;cursor:pointer}
+  .gnone{border:1px solid var(--line);background:var(--paper);border-radius:18px;padding:22px 14px;text-align:center;font-size:10px;line-height:1.65;color:var(--muted)}
 
   /* ═══ 五大财富 ═══ */
-  .wealth{padding:36px 0 8px;}
-  .wealth-box{background:linear-gradient(120deg,#EAF0DF,#E3EBD6);border-radius:26px;padding:44px 52px;display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;}
-  .wealth-box h2{font-family:var(--serif);font-size:30px;font-weight:700;margin-top:8px;letter-spacing:.02em;}
-  .wealth-box .w-sub{font-size:13px;color:#5C635A;margin-top:8px;}
-  .wealth-pills{display:flex;gap:10px;flex-wrap:wrap;}
-  .wpill{background:#FDFCF8;border:none;border-radius:20px;padding:10px 18px;font-size:13px;font-weight:700;color:var(--brand-ink);cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .2s;}
-  .wpill:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(50,70,50,.12);}
+  .all-entry{border-radius:25px;background:var(--deep);color:#fff;padding:23px 20px;box-shadow:0 14px 32px rgba(31,58,47,.12)}
+  .all-entry .w-caps{font-size:8.5px;font-weight:850;letter-spacing:.1em;color:#a9c2b7}
+  .all-entry h2{font-size:20px;line-height:1.34;letter-spacing:-.035em;margin:8px 0 7px;font-weight:880}
+  .all-entry p{font-size:10px;line-height:1.6;color:#d7e0db;margin:0 0 14px}
+  .wealth-pills{display:flex;flex-wrap:wrap;gap:8px}
+  .wpill{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:#fff;border-radius:999px;padding:8px 12px;font-size:9px;font-weight:820;font-family:inherit;cursor:pointer}
+  .wpill:hover{background:#fff;color:var(--deep)}
 
-  /* ═══ 即将见面 ═══ */
-  .soon{padding:38px 0 8px;}
-  .soon-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;}
-  .soon-head h2{font-family:var(--serif);font-size:30px;font-weight:700;margin-top:8px;letter-spacing:.02em;}
-  .soon-link{font-size:13px;font-weight:700;color:#4A5248;cursor:pointer;background:none;border:none;font-family:inherit;}
-  .soon-link:hover{color:var(--brand);}
-  .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px;}
-  .scard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;transition:transform .15s,box-shadow .2s;}
-  .scard:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(45,60,48,.09);}
-  .scard .s-caps{font-size:9.5px;letter-spacing:.2em;color:#9AA096;font-weight:700;}
-  .scard h3{font-family:var(--serif);font-size:22px;font-weight:700;margin-top:12px;}
-  .scard .s-d{font-size:12.5px;color:var(--sub);margin-top:8px;line-height:1.75;}
-  .sbtn{margin-top:20px;border:1.5px solid var(--line);background:#fff;border-radius:18px;padding:8px 18px;font-size:12.5px;font-weight:700;color:#4A5248;cursor:pointer;font-family:inherit;transition:all .15s;}
-  .sbtn:hover{border-color:var(--brand);color:var(--brand);}
-  .sbtn.on{background:var(--brand);border-color:var(--brand);color:#fff;}
+  /* ═══ 即将上新 ═══ */
+  .upcoming-grid{display:grid;gap:9px}
+  .scard{border:1px dashed #cfd8d2;background:rgba(255,253,249,.72);border-radius:19px;padding:13px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;cursor:pointer}
+  .scard .s-caps{font-size:7.5px;letter-spacing:.08em;color:#8b968f;font-weight:820}
+  .scard h3{font-size:14px;margin-top:6px;font-weight:850;letter-spacing:-.03em}
+  .scard .s-d{font-size:8.7px;color:var(--muted);line-height:1.5;margin-top:4px}
+  .sbtn{border:1px solid #c7d5cd;background:var(--sage);border-radius:999px;padding:8px 10px;font-size:8.5px;font-weight:820;color:var(--deep);font-family:inherit;cursor:pointer;white-space:nowrap}
+  .sbtn.on{background:var(--deep);color:#fff;border-color:var(--deep)}
 
   /* ═══ 快捷入口 ═══ */
-  .quick{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:34px 0 10px;}
-  .qk{border-top:1px solid var(--line);padding-top:16px;cursor:pointer;transition:transform .15s;}
-  .qk:hover{transform:translateY(-1px);}
-  .qk b{font-size:14.5px;font-weight:800;}
-  .qk .qk-arrow{float:right;color:#9AA096;font-size:13px;}
-  .qk i{display:block;font-style:normal;font-size:12px;color:var(--sub);margin-top:5px;}
+  .quick-list{display:grid;gap:9px;margin-top:6px}
+  .qk{border:1px solid var(--line);background:var(--paper);border-radius:20px;padding:12px;display:grid;grid-template-columns:50px minmax(0,1fr) 30px;gap:11px;align-items:center;text-align:left;cursor:pointer;box-shadow:0 7px 20px rgba(31,58,47,.02)}
+  .qk .qk-ic{width:50px;height:50px;border-radius:15px;background:var(--sage);display:grid;place-items:center;font-size:20px}
+  .qk b{font-size:13px;font-weight:850;letter-spacing:-.02em}
+  .qk i{display:block;font-style:normal;font-size:9px;line-height:1.5;color:var(--muted);margin-top:4px}
+  .qk .arrow{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--sage);font-weight:900;font-size:12px;color:var(--deep)}
 
   /* ═══ 页脚 ═══ */
-  footer{border-top:1px solid var(--line);margin-top:26px;}
-  .ft-in{max-width:1160px;margin:0 auto;padding:34px 28px 40px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;}
-  .ft-l b{font-size:16px;font-weight:800;letter-spacing:.04em;}
-  .ft-l i{font-style:normal;font-size:8.5px;letter-spacing:.3em;color:#9AA096;font-weight:600;margin-left:8px;}
-  .ft-links{margin-top:14px;display:flex;gap:22px;font-size:12.5px;color:#5C635A;}
-  .ft-links span{cursor:pointer;}
-  .ft-links span:hover{color:var(--brand);}
-  .ft-r{text-align:right;font-size:12.5px;color:var(--sub);line-height:2;}
+  footer{border-top:1px solid var(--line);margin-top:26px;padding:18px 20px 24px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  .ft-l b{font-size:14px;font-weight:850;letter-spacing:-.03em}
+  .ft-l i{font-style:normal;font-size:8px;letter-spacing:.16em;color:var(--muted);font-weight:700;margin-left:6px}
+  .ft-links{margin-top:10px;display:flex;gap:16px;font-size:9px;color:var(--muted)}
+  .ft-links span{cursor:pointer}
+  .ft-r{text-align:right;font-size:9px;color:var(--muted);line-height:1.7}
 
-  /* ═══ 移动端底部导航（桌面隐藏） ═══ */
-  .mnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(255,255,255,.97);border-top:1px solid var(--line);display:flex;padding:8px 0 calc(10px + env(safe-area-inset-bottom));z-index:50;}
-  .mnav a{flex:1;text-align:center;text-decoration:none;color:var(--sub);font-size:10.5px;cursor:pointer;}
-  .mnav a .ni{display:block;margin:0 auto 3px;width:22px;height:22px;}
-  .mnav a .ni svg{width:22px;height:22px;display:block;margin:0 auto;}
-  .mnav a.on{color:var(--brand);font-weight:700;}
-  .toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(35,40,31,.9);color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:99;max-width:80vw;text-align:center;}
+  /* ═══ 底部导航（V2.2） ═══ */
+  .nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,var(--phone));height:76px;background:rgba(250,248,243,.97);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:60;padding:7px 8px;backdrop-filter:blur(12px)}
+  .nav a{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;color:#8d9491;border-radius:14px;cursor:pointer;font-family:inherit;text-decoration:none}
+  .nav a .ni{display:block;width:22px;height:22px}
+  .nav a .ni svg{width:22px;height:22px;display:block;stroke:currentColor;fill:none}
+  .nav a.on{color:var(--deep);font-weight:820;background:var(--sage)}
+  .toast{position:fixed;left:50%;bottom:94px;transform:translate(-50%,14px);background:var(--deep);color:#fff;border-radius:14px;padding:10px 14px;font-size:10px;opacity:0;pointer-events:none;transition:.22s;z-index:300;max-width:84vw;text-align:center}
 
-  /* ═══ 响应式 ═══ */
-  @media (max-width:960px){
-    .grid,.sgrid{grid-template-columns:repeat(2,1fr);}
-    .quick{grid-template-columns:1fr;}
-    .hero-box{padding:38px 34px;}
-    .hero h1{font-size:34px;}
-    .hd-nav{display:none;}
-    .hero-art{width:170px;right:10px;}
-    .hero-note{right:150px;}
+  @media(max-width:370px){
+    .inner{padding:0 15px 30px}
+    .hero-copy h1{font-size:28px}
+    .pcard{grid-template-columns:64px minmax(0,1fr) auto}
+    .pic{width:64px;height:76px}
+    .need-grid{grid-template-columns:1fr 1fr;gap:7px}
   }
-  @media (max-width:640px){
-    .wrap{padding:0 18px;}
-    body{padding-bottom:86px;}
-    .hero-box{flex-direction:column;align-items:flex-start;padding:32px 24px;}
-    .hero h1{font-size:27px;}
-    .hero-r{width:100%;min-height:190px;}
-    .hero-art{width:130px;right:16px;top:46%;}
-    .hero-note{right:auto;left:8px;bottom:-4px;}
-    .hero-c1{top:16px;right:18px;}
-    .hero-c2{display:none;}
-    .search{width:100%;}
-    .grid,.sgrid{grid-template-columns:1fr;}
-    .hd-act .act-fav span{display:none;}
-    .cart-panel{right:12px;left:12px;width:auto;}
-    .statline{flex-direction:column;gap:4px;}
-    .wealth-box{padding:30px 24px;}
-    .wealth-box h2{font-size:24px;}
-    .soon-head h2,.find-head h2{font-size:24px;}
-    .mnav{display:flex;}
-  }
-  @media (min-width:641px){ .mnav{display:none;} body{padding-bottom:0;} }
 </style>
 </head>
 <body>
+<div class="app">
 
-  <!-- ═══ 顶部导航 ═══ -->
-  <header class="hd">
-    <div class="hd-in">
-      <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-        <div class="logo-ic">
-          <svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M10 17V9" stroke="#3E5C46" stroke-width="1.6" stroke-linecap="round"/><path d="M10 9C10 5.5 7.5 3.5 4 3.5C4 7 6.5 9 10 9Z" stroke="#3E5C46" stroke-width="1.5" fill="#DCE7D2"/><path d="M10 11.5C10 8.8 12 7 15 7C15 9.8 13 11.5 10 11.5Z" stroke="#3E5C46" stroke-width="1.5" fill="#DCE7D2"/></svg>
-        </div>
-        <div class="logo-tx"><b>搭子馆<sup>V2</sup></b><i>SLIM PARTNER</i></div>
+  <!-- ═══ 顶部 ═══ -->
+  <header class="header">
+    <div class="brandrow" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M12 10C12 6.5 9.5 4.5 6 4.5c0 3.5 2.5 5.5 6 5.5Z" fill="#2f5b49" stroke="currentColor"/><path d="M12 12.5C12 9.6 14 7.8 17 7.8c0 3.1-2 4.7-5 4.7Z" fill="#4a7a63" stroke="currentColor"/></svg>
       </div>
-      <nav class="hd-nav">
-        <a class="on" id="nvFind">发现搭子</a>
-        <a id="nvMine">我的搭子</a>
-        <a id="nvSoon">预约上新</a>
-      </nav>
-      <div class="hd-act">
-        <button class="act-fav" id="favBtn">♡ <span>收藏</span></button>
-        <button class="cart-btn" id="cartBtn">🛍 体验车 <span class="cart-n" id="cartN">0</span></button>
+      <div>
+        <div class="brand">搭子馆<sup>V2</sup></div>
+        <div class="sub">给生活一个搭子 · 人生很复杂，你不用一个人扛。</div>
       </div>
     </div>
+    <div class="top-actions">
+      <button class="iconbtn heart-btn" id="favBtn" title="收藏">♡</button>
+      <button class="iconbtn bag" id="cartBtn">
+        <svg viewBox="0 0 24 24"><path d="M6 8h12l1 12H5z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+        <span>体验车</span><i class="bag-count" id="cartN">0</i>
+      </button>
+    </div>
   </header>
+  <div class="topnav">
+    <a class="on" id="nvFind">发现搭子</a>
+    <a id="nvMine">我的搭子</a>
+    <a id="nvSoon">预约上新</a>
+  </div>
+
   <div class="cart-panel" id="cartPanel">
-    <h4>🛍 我的体验车</h4>
+    <h4>我的体验车</h4>
     <div id="cartList"></div>
   </div>
 
-  <!-- ═══ Hero ═══ -->
-  <section class="hero">
-    <div class="wrap">
-      <div class="hero-box">
-        <div class="hero-l">
-          <div class="caps">SLIM PARTNER · 给生活一个搭子</div>
-          <h1>想变好的事，<br>有个搭子陪着做。</h1>
-          <p>照顾身心、经营事业、走近关系、长成自己。<br>从今天的一小步，开始就好。</p>
-          <button class="hero-cta" onclick="location.href='v3-store.html'">找个搭子 ↗</button>
-        </div>
-        <div class="hero-r">
-          <div class="hero-c1 caps">A LITTLE, EVERY DAY / 01</div>
-          <svg class="hero-art" viewBox="0 0 230 240" fill="none">
-            <ellipse cx="115" cy="218" rx="72" ry="10" fill="#D8E2C8" opacity=".7"/>
-            <path d="M85 168 H145 L138 212 C137 217 133 220 128 220 H102 C97 220 93 217 92 212 Z" fill="#F4F2E9" stroke="#3E5C46" stroke-width="2"/>
-            <path d="M80 160 H150" stroke="#3E5C46" stroke-width="2" stroke-linecap="round"/>
-            <path d="M115 160 V96" stroke="#3E5C46" stroke-width="2.2" stroke-linecap="round"/>
-            <path d="M115 104 C115 70 88 52 55 52 C55 86 82 104 115 104 Z" fill="#DCE7D2" stroke="#3E5C46" stroke-width="2"/>
-            <path d="M115 88 C115 62 136 46 165 46 C165 74 144 88 115 88 Z" fill="#EAF0DF" stroke="#3E5C46" stroke-width="2"/>
-            <path d="M115 126 C100 126 90 118 86 106" stroke="#3E5C46" stroke-width="1.8" stroke-linecap="round" opacity=".55"/>
-            <circle cx="178" cy="30" r="3.5" fill="#B9C8A6"/>
-            <circle cx="42" cy="120" r="2.5" fill="#B9C8A6"/>
-            <circle cx="196" cy="96" r="2.5" fill="#CBD8B8"/>
-          </svg>
-          <div class="hero-note"><b>每天一小步</b><i>今天先做一点，就很好。</i></div>
-          <div class="hero-c2 caps">GROW AT YOUR OWN PACE</div>
-        </div>
-      </div>
-      <div class="statline">
-        <span id="statL"></span>
-        <span>不必很用力，只要往前一点。</span>
-      </div>
-    </div>
-  </section>
+  <div class="inner">
 
-  <!-- ═══ 保留区：继续我的搭子 + 情绪入口（原第 5 图内容） ═══ -->
-  <section class="mine" id="mine">
-    <div class="wrap">
-      <div class="resume" id="resume">
-        <div class="r-tag">🌱 继续我的搭子</div>
+    <!-- ═══ Hero ═══ -->
+    <div class="hero-copy">
+      <h1>想变好的事，<br>有个搭子陪着做。</h1>
+      <p>照顾身心、经营事业、走近关系、长成自己。<br>从今天的一小步，开始就好。</p>
+    </div>
+    <div class="search">
+      <span class="glass">⌕</span>
+      <input id="q" placeholder="搜搭子，或此刻的困扰：睡不好、总拖延、刚分手…">
+      <span class="s-clear" id="qClear" style="display:none;cursor:pointer;color:#a9b1ac;font-size:14px;">✕</span>
+    </div>
+    <div class="statline" id="statL"></div>
+
+    <!-- ═══ 继续我的搭子 ═══ -->
+    <div class="resume" id="resume">
+      <div class="r-tag">继续我的搭子</div>
+      <div class="r-icon">🌱</div>
+      <div>
         <div class="r-name" id="rName"></div>
         <div class="r-sub" id="rSub"></div>
-        <button class="r-cta" id="rGo">继续今天 →</button>
       </div>
-
-      <div class="mine-t">你现在更接近哪种状态？</div>
-      <div class="needs" id="needs"></div>
-      <div class="pnote">按你现在的感觉挑，不按分类挑 —— 同一个搭子可以在好几个分类里。</div>
+      <button class="r-cta" id="rGo">继续 →</button>
     </div>
-  </section>
 
-  <!-- ═══ 找搭子 ═══ -->
-  <section class="find" id="find">
-    <div class="wrap">
-      <div class="find-head">
+    <!-- ═══ 情绪入口 ═══ -->
+    <section class="section" id="mine">
+      <div class="sectionhead">
         <div>
-          <div class="caps">FIND YOUR PARTNER</div>
-          <h2>你想从哪里开始？</h2>
-          <div class="fh-sub">挑一个，最近此刻的你。</div>
+          <div class="sectiontitle">你现在更接近哪种状态？</div>
+          <div class="sectiondesc">按你现在的感觉挑，不按分类挑。</div>
         </div>
-        <div class="search">🔍<input id="q" placeholder="搜搭子，或此刻的困扰"><span class="s-clear" id="qClear" style="display:none;cursor:pointer;color:#B9BEB9;font-size:14px;">✕</span></div>
       </div>
-      <div class="cats" id="cats"></div>
+      <div class="need-grid" id="needs"></div>
+      <div class="pnote">同一个搭子可以在好几个分类里，先跟着感觉走就好。</div>
+    </section>
+
+    <!-- ═══ 找搭子 ═══ -->
+    <section class="section" id="find">
+      <div class="sectionhead">
+        <div>
+          <div class="sectiontitle">你想从哪里开始？</div>
+          <div class="sectiondesc">挑一个，最近此刻的你。</div>
+        </div>
+        <button class="more" id="toStore" onclick="location.href='v3-store.html'">全部搭子 →</button>
+      </div>
+      <div class="chiprow" id="cats"></div>
       <div class="toolbar">
         <div class="sorts">
           <button class="sort on" id="sortRec">为你推荐</button>
@@ -304,66 +244,76 @@
         <div class="gcount" id="gCount"></div>
       </div>
       <div class="grid" id="grid"></div>
-      <div class="expand-row"><button class="expand" id="expandBtn"></button></div>
-    </div>
-  </section>
+      <button class="expand" id="expandBtn"></button>
+    </section>
 
-  <!-- ═══ 五大财富 ═══ -->
-  <section class="wealth" id="wealth">
-    <div class="wrap">
-      <div class="wealth-box">
-        <div>
-          <div class="caps">THE FIVE WEALTHS</div>
-          <h2>好的人生，不止一种富足。</h2>
-          <div class="w-sub">把身体、财务、精神、关系和使命，一起照顾好。</div>
-        </div>
+    <!-- ═══ 五大财富 ═══ -->
+    <section class="section" id="wealth">
+      <div class="all-entry">
+        <div class="w-caps">THE FIVE WEALTHS</div>
+        <h2>好的人生，不止一种富足。</h2>
+        <p>把身体、财务、精神、关系和使命，一起照顾好。</p>
         <div class="wealth-pills" id="wealthPills"></div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ═══ 即将见面 ═══ -->
-  <section class="soon" id="soon">
-    <div class="wrap">
-      <div class="soon-head">
+    <!-- ═══ 即将上新 ═══ -->
+    <section class="section" id="soon">
+      <div class="sectionhead">
         <div>
-          <div class="caps">SOMETHING TO LOOK FORWARD TO</div>
-          <h2>下一位搭子，即将见面。</h2>
+          <div class="sectiontitle">下一位搭子，即将见面。</div>
+          <div class="sectiondesc">想要的搭子，先预约。</div>
         </div>
-        <button class="soon-link" id="waitLink">查看预约 ↗</button>
+        <button class="more" id="waitLink">查看预约 →</button>
       </div>
-      <div class="sgrid" id="sgrid"></div>
-    </div>
-  </section>
+      <div class="upcoming-grid" id="sgrid"></div>
+    </section>
 
-  <!-- ═══ 快捷入口 ═══ -->
-  <div class="wrap">
-    <div class="quick">
-      <div class="qk" onclick="location.href='休息一下.html'"><span class="qk-arrow">↗</span><b>休息一下</b><i>把三分钟，留给自己。</i></div>
-      <div class="qk" onclick="toast('使用指南即将上线 · 先随便逛逛吧')"><span class="qk-arrow">↗</span><b>使用指南</b><i>找到适合自己的开始。</i></div>
-      <div class="qk" onclick="toast('成长卡片即将上线 · 敬请期待')"><span class="qk-arrow">↗</span><b>成长卡片</b><i>把每一小步，好好留下。</i></div>
-    </div>
+    <!-- ═══ 快捷入口 ═══ -->
+    <section class="section">
+      <div class="sectionhead">
+        <div><div class="sectiontitle">也可以从这里开始</div></div>
+      </div>
+      <div class="quick-list">
+        <div class="qk" onclick="location.href='休息一下.html'">
+          <div class="qk-ic">🛋️</div>
+          <div><b>休息一下</b><i>把三分钟，留给自己。</i></div>
+          <div class="arrow">›</div>
+        </div>
+        <div class="qk" onclick="toast('使用指南即将上线 · 先随便逛逛吧')">
+          <div class="qk-ic">📖</div>
+          <div><b>使用指南</b><i>找到适合自己的开始。</i></div>
+          <div class="arrow">›</div>
+        </div>
+        <div class="qk" onclick="toast('成长卡片即将上线 · 敬请期待')">
+          <div class="qk-ic">🌿</div>
+          <div><b>成长卡片</b><i>把每一小步，好好留下。</i></div>
+          <div class="arrow">›</div>
+        </div>
+      </div>
+    </section>
+
   </div>
 
   <!-- ═══ 页脚 ═══ -->
   <footer>
-    <div class="ft-in">
-      <div class="ft-l">
-        <b>搭子馆</b><i>SLIM PARTNER</i>
-        <div class="ft-links"><span onclick="toast('使用指南即将上线')">使用指南</span><span onclick="toast('「我的记录」即将上线')">我的记录</span></div>
-      </div>
-      <div class="ft-r">不必一下变好，先有一个搭子。<br>每一小步，都算数。</div>
+    <div class="ft-l">
+      <b>搭子馆</b><i>SLIM PARTNER</i>
+      <div class="ft-links"><span onclick="toast('使用指南即将上线')">使用指南</span><span onclick="toast('「我的记录」即将上线')">我的记录</span></div>
     </div>
+    <div class="ft-r">不必一下变好，先有一个搭子。<br>每一小步，都算数。</div>
   </footer>
 
-  <!-- 移动端底部导航（极简线性图标版） -->
-  <div class="mnav" id="mnav">
-    <a class="on" data-act="top"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9"/><path d="M12 9C12 5.5 9.5 3 5.5 3 5.5 7 8 9 12 9z"/><path d="M12 13c0-3.5 2.5-6 6.5-6 0 4-2.5 6-6.5 6z"/><path d="M8 21h8"/></svg></span>搭子馆</a>
-    <a data-act="mine"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c1.2-3.6 3.8-5.4 7-5.4s5.8 1.8 7 5.4"/></svg></span>我的搭子</a>
-    <a data-act="fav"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5C7 16.5 3.5 13.3 3.5 9.6 3.5 7 5.5 5 8 5c1.6 0 3.1.8 4 2.1C12.9 5.8 14.4 5 16 5c2.5 0 4.5 2 4.5 4.6 0 3.7-3.5 6.9-8.5 10.9z"/></svg></span>收藏</a>
-    <a data-act="soon"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.2 2"/></svg></span>上新</a>
+  <!-- ═══ 底部导航（V2.2 版式） ═══ -->
+  <div class="nav" id="mnav">
+    <a class="on" data-act="top"><span class="ni"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9"/><path d="M12 9C12 5.5 9.5 3 5.5 3 5.5 7 8 9 12 9z"/><path d="M12 13c0-3.5 2.5-6 6.5-6 0 4-2.5 6-6.5 6z"/><path d="M8 21h8"/></svg></span>搭子馆</a>
+    <a data-act="mine"><span class="ni"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c1.2-3.6 3.8-5.4 7-5.4s5.8 1.8 7 5.4"/></svg></span>我的搭子</a>
+    <a data-act="fav"><span class="ni"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5C7 16.5 3.5 13.3 3.5 9.6 3.5 7 5.5 5 8 5c1.6 0 3.1.8 4 2.1C12.9 5.8 14.4 5 16 5c2.5 0 4.5 2 4.5 4.6 0 3.7-3.5 6.9-8.5 10.9z"/></svg></span>收藏</a>
+    <a data-act="soon"><span class="ni"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.2 2"/></svg></span>上新</a>
   </div>
   <div class="toast" id="toast"></div>
+
+</div>
 
 <script src="v3-data.js"></script>
 <script>
@@ -494,7 +444,7 @@
     if (btn) {
       var on = cart.indexOf(id) >= 0;
       btn.classList.toggle('on', on);
-      btn.textContent = on ? '✓ 已在体验车' : '+ 加入体验车';
+      btn.textContent = on ? '已加入' : '+ 加入';
     }
   }
 
@@ -564,13 +514,17 @@
   }
   function cardHTML(p){
     var f = favs.indexOf(p.id) >= 0, c = cart.indexOf(p.id) >= 0;
+    var mk = glyph(p.id);
     return '<div class="pcard" data-id="' + p.id + '">' +
-      '<div class="pc-top"><div class="pic">' + (glyph(p.id) || p.icon) + '</div>' +
-      '<button class="fav' + (f ? ' on' : '') + '" data-fav="' + p.id + '">' + (f ? '♥' : '♡') + '</button></div>' +
-      '<div class="pname">' + p.name + (p.badge ? '<span class="bdg">' + p.badge + '</span>' : '') + '</div>' +
-      '<div class="ppromise">' + p.promise + '</div>' +
-      '<div class="prow"><span class="ptry">免费体验 3 分钟 ↗</span>' +
-      '<button class="pcart' + (c ? ' on' : '') + '" data-cart="' + p.id + '">' + (c ? '✓ 已在体验车' : '+ 加入体验车') + '</button></div></div>';
+      '<div class="pic">' + (mk ? mk : '<span>' + p.icon + '</span>') + '</div>' +
+      '<div class="reco-main">' +
+      '<div class="reco-benefit">' + p.promise + '</div>' +
+      '<div class="reco-name">' + p.name + (p.badge ? '<span class="bdg">' + p.badge + '</span>' : '') + '</div>' +
+      '<div class="reco-fit">' + p.short.slice(0, 3).join(' · ') + ' · ' + p.duration + '</div>' +
+      '</div>' +
+      '<button class="mini-add' + (c ? ' on' : '') + '" data-cart="' + p.id + '">' + (c ? '已加入' : '+ 加入') + '</button>' +
+      '<button class="fav' + (f ? ' on' : '') + '" data-fav="' + p.id + '">' + (f ? '♥' : '♡') + '</button>' +
+      '</div>';
   }
   var gridEl = document.getElementById('grid'), expandBtn = document.getElementById('expandBtn');
   function render(){
