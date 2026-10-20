@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta http-equiv="refresh" content="0;url=v3-home.html">
 <title>发芽搭子 · 有人陪你慢慢来</title>
 <style>
   body{background:#FAF9F6;color:#202521;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 30px;}
@@ -20,6 +19,13 @@
   <p>新版已经上线：找搭子像逛店一样简单。</p>
   <a class="enter" href="v3-home.html">点此立即进入 →</a>
   <a class="old" href="nav-legacy.html">访问旧版「每日搭子中心」</a>
-  <script>location.replace('v3-home.html');</script>
+  <script>
+  (function () {
+    var url = 'v3-home.html?v=' + Date.now();
+    var a = document.querySelector('a.enter');
+    if (a) a.href = url;
+    location.replace(url);
+  })();
+  </script>
 </body>
 </html>
